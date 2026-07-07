@@ -4,8 +4,7 @@ namespace Frankie.Control.PlayerStates
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
+            // Ignore - go to immunity post-combat, so cannot queue
         }
 
         public void EnterCutScene(IPlayerStateContext playerStateContext)
