@@ -7,11 +7,16 @@ namespace Frankie.Utils.Editor
 {
     public class StandardNodeDragManipulator : MouseManipulator
     {
+        // Const Tunables
+        private const float _moveThreshold = 0.25f;
+        
+        // State
         private readonly VisualElement nodeElement;
         private readonly IStandardGraphNode activeNode;
         private readonly Action onPositionChanged;
         private readonly Func<float> zoomProvider;
         private bool isDragging;
+        private Vector2 initialPosition;
 
         public StandardNodeDragManipulator(VisualElement nodeElement, IStandardGraphNode activeNode, Action onPositionChanged, Func<float> zoomProvider)
         {
@@ -41,8 +46,7 @@ namespace Frankie.Utils.Editor
             if (isDragging || !CanStartManipulation(mouseDownEvent)) { return; }
 
             isDragging = true;
-            Selection.activeObject = activeNode.scriptableObject;
-
+            initialPosition = mouseDownEvent.mousePosition;
             target.CaptureMouse();
             mouseDownEvent.StopPropagation();
         }
@@ -68,6 +72,8 @@ namespace Frankie.Utils.Editor
             isDragging = false;
             target.ReleaseMouse();
             mouseUpEvent.StopPropagation();
+            
+            if (Vector2.Distance(initialPosition, mouseUpEvent.mousePosition) < _moveThreshold) { Selection.activeObject = activeNode.scriptableObject; }
         }
     }
 }
