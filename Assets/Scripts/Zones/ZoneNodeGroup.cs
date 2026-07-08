@@ -11,7 +11,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] private Rect rect;
         [SerializeField] private List<string> containedNodeIDs = new();
         [HideInInspector][SerializeField] private string zoneName;
-
+        
         // Const
         private const string _defaultZoneGroupName = "--Zone Group--";
         private const float _zoneNodeGroupPadding = 20f;
@@ -26,6 +26,7 @@ namespace Frankie.ZoneManagement
             this.zoneName = zoneName;
         }
         
+#if UNITY_EDITOR
         #region Getters
         public string GetZoneNodeGroupName() => zoneNodeGroupName ?? _defaultZoneGroupName;
         public Rect GetRect() => rect;
@@ -74,5 +75,6 @@ namespace Frankie.ZoneManagement
             return new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
         }
         #endregion
+#endif
     }
 }

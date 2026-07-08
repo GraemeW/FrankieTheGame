@@ -6,7 +6,7 @@ namespace Frankie.ZoneManagement.Editor
     public class ZoneBackgroundLayer : VisualElement
     {
         // Tunables
-        private const float _backgroundExtents = 3000f;
+        private const float _backgroundExtents = 6000f;
         private const float _cellSize = 50f;
         private const float _lineWidth = 1f;
         private static readonly Color _lineColour = new(1f, 1f, 1f, 0.08f);

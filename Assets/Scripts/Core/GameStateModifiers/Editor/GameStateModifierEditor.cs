@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using Frankie.ZoneManagement;
@@ -126,32 +125,6 @@ namespace Frankie.Core.GameStateModifiers
         #endregion
         
         #region CoreFunctionality
-        private static void OpenSceneAndSelect(string zoneName, string handlerGameObjectName, string handlerGUID)
-        {
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
-
-            Zone zone = Zone.GetFromName(zoneName);
-            bool didZoneOpen = OpenZone(zone);
-            if (!didZoneOpen) { return; }
-
-            SelectGameObject(handlerGUID, handlerGameObjectName);
-        }
-
-        private static bool OpenZone(Zone zone)
-        {
-            if (zone == null) { return false; }
-
-            string scenePath = zone.GetSceneReference().GetScenePath();
-            if (string.IsNullOrEmpty(scenePath))
-            {
-                EditorUtility.DisplayDialog("Scene Not Found", $"Could not locate {zone.name} in the project.", "OK");
-                return false;
-            }
-            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
-            Debug.Log($"{zone.name} opened successfully.");
-            return true;
-        }
-
         private static void SelectGameObject(string handlerGUID, string handlerGameObjectName)
         {
             GameObject foundGameObject = (
@@ -177,7 +150,7 @@ namespace Frankie.Core.GameStateModifiers
             if (sceneView != null) { sceneView.FrameSelected(); }
             Debug.Log($"{handlerGameObjectName} found and selected.");
         }
-
+        
         private void RemoveInvalidEntries(ClickEvent clickEvent)
         {
             if (gameStateModifierHandlerDataProperty == null) { return; }
@@ -338,7 +311,7 @@ namespace Frankie.Core.GameStateModifiers
             Button openButton = MakeStandardButton(_buttonOpenSceneText);
             openButton.RegisterCallback<ClickEvent>(_ =>
             {
-                EditorApplication.delayCall += () => OpenSceneAndSelect(zoneName, handlerGameObjectName, handlerGUID);
+                EditorApplication.delayCall += () => ZoneTools.OpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName));
             });
             openButton.SetEnabled(viableSceneLoad);
             return openButton;

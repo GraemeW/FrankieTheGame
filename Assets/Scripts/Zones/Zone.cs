@@ -45,7 +45,7 @@ namespace Frankie.ZoneManagement
         private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
         private static Dictionary<string, Zone> _zoneLookupCache;
         private static Dictionary<string, Zone> _sceneReferenceCache;
-
+        
         #region AddressablesCaching
         public static Zone GetFromName(string zoneName)
         {

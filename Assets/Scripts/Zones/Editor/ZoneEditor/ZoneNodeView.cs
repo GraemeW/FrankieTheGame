@@ -1,12 +1,16 @@
-using Frankie.Utils.Editor;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Frankie.Utils.Editor;
 
 namespace Frankie.ZoneManagement.Editor
 {
     public class ZoneNodeView : VisualElement
     {
         // Tunables
+        private const float _standardButtonSize = 100f;
+        private const float _smallButtonSize = 50f;
         private const float _headerHeight = 28f;
         private const float _borderWidth = 1f;
         private static readonly Color _headerColour = Color.gray1;
@@ -15,14 +19,16 @@ namespace Frankie.ZoneManagement.Editor
 
         // State
         private readonly ZoneNode zoneNode;
+        private readonly Zone zone;
         private readonly ZoneGraphView zoneGraphView;
         private readonly Button linkButton;
 
-        public ZoneNodeView(ZoneNode zoneNode, ZoneGraphView zoneGraphView)
+        public ZoneNodeView(ZoneNode zoneNode, Zone zone, ZoneGraphView zoneGraphView)
         {
             this.zoneNode = zoneNode;
+            this.zone = zone;
             this.zoneGraphView = zoneGraphView;
-            if (zoneNode == null || zoneGraphView == null) { return; }
+            if (zoneNode == null || zone == null || zoneGraphView == null) { return; }
             
             InitializeNodeStyle();
 
@@ -49,14 +55,18 @@ namespace Frankie.ZoneManagement.Editor
             });
             Add(overrideIDField);
 
+            var selectReferenceButton = new Button { text = "select ref", style = { width = _standardButtonSize } };
+            selectReferenceButton.RegisterCallback<ClickEvent>(TryOpenSceneSelectReference);
+            Add(selectReferenceButton);
+            
             var cardSpacer = new VisualElement { style = { flexGrow = 1 } };
             Add(cardSpacer);
-
+            
             var buttonRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             Add(buttonRow);
 
             linkButton = MakeLinkButton();
-            linkButton.RegisterCallback<ClickEvent>(_ => OnLinkButtonClicked());
+            linkButton.RegisterCallback<ClickEvent>(OnLinkButtonClicked);
             buttonRow.Add(linkButton);
             RefreshLinkButton();
             
@@ -107,6 +117,33 @@ namespace Frankie.ZoneManagement.Editor
         }
         
         #region EventHandling
+
+        private void TryOpenSceneSelectReference(ClickEvent clickEvent)
+        {
+            ZoneTools.OpenSceneAndAct(zone, TrySelectReference);
+            return;
+
+            // Local Functions
+            void TrySelectReference()
+            {
+                GameObject foundGameObject = (
+                    from zoneHandler in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<ZoneHandler>()
+                    where zoneHandler.GetZoneNode() != null && zoneHandler.GetZoneNode().GetNodeID() == zoneNode.GetNodeID()
+                    select zoneHandler.gameObject).FirstOrDefault();
+
+                if (foundGameObject == null)
+                {
+                    Debug.LogWarning("Warning: ZoneNode GUID not found.  Zone Node not hooked up!");
+                    return;
+                }
+
+                Selection.activeGameObject = foundGameObject;
+                var sceneView = SceneView.lastActiveSceneView;
+                if (sceneView != null) { sceneView.FrameSelected(); }
+                Debug.Log($"{foundGameObject.name} found and selected.");
+            }
+        }
+
         private void OnPositionChangedLive()
         {
             zoneGraphView.NotifyNodeMoved();
@@ -118,7 +155,7 @@ namespace Frankie.ZoneManagement.Editor
             zoneGraphView.UpdateGroupsForNode(zoneNode, true);
         }
 
-        private void OnLinkButtonClicked()
+        private void OnLinkButtonClicked(ClickEvent clickEvent)
         {
             if (!zoneGraphView.isLinking)
             {
@@ -172,7 +209,7 @@ namespace Frankie.ZoneManagement.Editor
                 text = "link",
                 style =
                 {
-                    width = 100
+                    width = _standardButtonSize
                 }
             };
         }
@@ -184,7 +221,7 @@ namespace Frankie.ZoneManagement.Editor
                 text = add ? "+" : "-",
                 style =
                 {
-                    width = 50
+                    width = _smallButtonSize
                 }
             };
         }

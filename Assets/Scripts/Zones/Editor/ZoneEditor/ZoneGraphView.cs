@@ -64,6 +64,7 @@ namespace Frankie.ZoneManagement.Editor
         
         public void RequestNodeIDChange(ZoneNode zoneNode, string newID)
         {
+            if (zone == null) { return; }
             if (string.IsNullOrWhiteSpace(newID)) { return; }
             if (zone.GetNodeFromID(newID) != null) { return; } // ID already taken
 
@@ -77,12 +78,14 @@ namespace Frankie.ZoneManagement.Editor
         
         public void RequestCreateChild(ZoneNode parentNode)
         {
+            if (zone == null) { return; }
             zone.CreateChildNode(parentNode);
             RebuildNodes();
         }
 
         public void RequestDelete(ZoneNode nodeToDelete)
         {
+            if (zone == null) { return; }
             zone.DeleteNode(nodeToDelete);
             RebuildNodes();
             RefreshGroupViews();
@@ -94,6 +97,7 @@ namespace Frankie.ZoneManagement.Editor
 
         public void UpdateGroupsForNode(ZoneNode movedNode, bool forceRecalculation = false)
         {
+            if (zone == null) { return; }
             zone.UpdateGroupsForNodeMove(movedNode);
             RefreshGroupViews(forceRecalculation);
         }
@@ -106,12 +110,14 @@ namespace Frankie.ZoneManagement.Editor
 
         public void RequestDeleteGroup(ZoneNodeGroup group)
         {
+            if (zone == null) { return; }
             zone.DeleteGroup(group);
             RebuildGroups();
         }
 
         public void SetGroupRect(ZoneNodeGroup group, Rect rect)
         {
+            if (zone == null) { return; }
             zone.SetGroupRect(group, rect);
         }
 
@@ -129,6 +135,7 @@ namespace Frankie.ZoneManagement.Editor
 
         public void CompleteLinking(ZoneNode targetNode)
         {
+            if (zone == null) { return; }
             if (linkingParentNode == null) { return; }
             zone.ToggleRelation(linkingParentNode, targetNode);
             linkingParentNode = null;
@@ -156,7 +163,7 @@ namespace Frankie.ZoneManagement.Editor
 
             foreach (ZoneNode zoneNode in zone.GetAllNodes())
             {
-                var nodeView = new ZoneNodeView(zoneNode, this);
+                var nodeView = new ZoneNodeView(zoneNode, zone, this);
                 nodeViewLookup[zoneNode.GetNodeID()] = nodeView;
                 nodeLayer.Add(nodeView);
             }
@@ -193,7 +200,6 @@ namespace Frankie.ZoneManagement.Editor
             groupLayer.Clear();
             groupViewLookup.Clear();
             
-
             if (zone == null) { return; }
 
             foreach (ZoneNodeGroup zoneNodeGroup in zone.GetAllGroups())
@@ -215,6 +221,7 @@ namespace Frankie.ZoneManagement.Editor
 
         private void OnPossibleGroupPlacementClick(MouseDownEvent mouseDownEvent)
         {
+            if (zone == null) { return; }
             if (!isPlacingGroup) { return; }
             if (mouseDownEvent.button != (int)MouseButton.LeftMouse) { return; }
 
