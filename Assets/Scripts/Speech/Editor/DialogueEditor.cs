@@ -13,10 +13,6 @@ namespace Frankie.Speech.Editor
     {
         // Const Tunables
         const string _defaultSpeakerName = "DefaultSpeaker";
-        private const float _backgroundExtent = 3000f;
-        private const float _backgroundGridSpacing = 50f;
-        private const float _backgroundDotRadius = 1.5f;
-        private static readonly Color _backgroundDotColour = new(1f, 1f, 1f, 0.15f);
 
         // Model
         private Dialogue selectedDialogue;
@@ -94,8 +90,7 @@ namespace Frankie.Speech.Editor
             zoomManipulator.zoomChanged += zoom => connectionsLayer.SetZoomFactor(zoom);
             viewport.AddManipulator(zoomManipulator);
             
-            backgroundLayer = MakeBackgroundLayer();
-            backgroundLayer.generateVisualContent += DrawBackgroundGrid;
+            backgroundLayer = new StandardBackgroundLayer(StandardBackgroundType.Dots);
             canvasContent.Add(backgroundLayer);
 
             connectionsLayer = new DialogueConnectionsLayer();
@@ -115,13 +110,12 @@ namespace Frankie.Speech.Editor
             linkingParentNode = null;
 
             bool hasDialogue = selectedDialogue != null;
-            noDialogueLabel.style.display = hasDialogue ? DisplayStyle.None : DisplayStyle.Flex;
-            viewport.style.display = hasDialogue ? DisplayStyle.Flex : DisplayStyle.None;
-            dialogueNameLabel.text = hasDialogue ? selectedDialogue.name : string.Empty;
-
-            connectionsLayer.SetDialogue(selectedDialogue);
+            if (noDialogueLabel != null) { noDialogueLabel.style.display = hasDialogue ? DisplayStyle.None : DisplayStyle.Flex; }
+            if (viewport != null) { viewport.style.display = hasDialogue ? DisplayStyle.Flex : DisplayStyle.None; }
+            if (dialogueNameLabel != null) { dialogueNameLabel.text = hasDialogue ? selectedDialogue.name : string.Empty; }
+            
             if (!hasDialogue) { return; }
-
+            connectionsLayer.SetDialogue(selectedDialogue);
             foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
             {
                 if (dialogueNode == null) { continue; }
@@ -159,26 +153,6 @@ namespace Frankie.Speech.Editor
             foreach (DialogueNodeView view in nodeViews.Values)
             {
                 view.RefreshVisualStyle();
-            }
-        }
-        
-        private static void DrawBackgroundGrid(MeshGenerationContext context)
-        {
-            Painter2D painter = context.painter2D;
-            painter.fillColor = _backgroundDotColour;
-            
-            for (float x = 0; x <= _backgroundExtent; x += _backgroundGridSpacing)
-            {
-                for (float y = 0; y <= _backgroundExtent; y += _backgroundGridSpacing)
-                {
-                    painter.BeginPath();
-                    painter.MoveTo(new Vector2(x - _backgroundDotRadius, y - _backgroundDotRadius));
-                    painter.LineTo(new Vector2(x + _backgroundDotRadius, y - _backgroundDotRadius));
-                    painter.LineTo(new Vector2(x + _backgroundDotRadius, y + _backgroundDotRadius));
-                    painter.LineTo(new Vector2(x - _backgroundDotRadius, y + _backgroundDotRadius));
-                    painter.ClosePath();
-                    painter.Fill();
-                }
             }
         }
         #endregion
@@ -286,22 +260,6 @@ namespace Frankie.Speech.Editor
                     position = Position.Absolute,
                     left = 0,
                     top = 0
-                }
-            };
-        }
-
-        private static VisualElement MakeBackgroundLayer()
-        {
-            return new VisualElement
-            {
-                name = "background-layer", pickingMode = PickingMode.Ignore,
-                style =
-                {
-                    position = Position.Absolute,
-                    left = -_backgroundExtent / 2f,
-                    top = -_backgroundExtent / 2f,
-                    width = _backgroundExtent,
-                    height = _backgroundExtent
                 }
             };
         }

@@ -26,7 +26,7 @@ namespace Frankie.ZoneManagement.Editor
             canvasContent = MakeCanvas();
             Add(canvasContent);
 
-            var backgroundLayer = new ZoneBackgroundLayer();
+            var backgroundLayer = new StandardBackgroundLayer(StandardBackgroundType.Lines);
             canvasContent.Add(backgroundLayer);
 
             groupLayer = MakeGroupLayer();
