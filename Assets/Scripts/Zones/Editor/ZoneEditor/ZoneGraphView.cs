@@ -87,6 +87,8 @@ namespace Frankie.ZoneManagement.Editor
             RebuildNodes();
             RefreshGroupViews();
         }
+
+        public bool TryGetZoneNodeView(string nodeID, out ZoneNodeView nodeView) => nodeViewLookup.TryGetValue(nodeID, out nodeView);
         
         public void NotifyNodeMoved() => RefreshEdges();
 
@@ -190,6 +192,7 @@ namespace Frankie.ZoneManagement.Editor
         {
             groupLayer.Clear();
             groupViewLookup.Clear();
+            
 
             if (zone == null) { return; }
 

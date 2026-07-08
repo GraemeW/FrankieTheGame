@@ -6,15 +6,13 @@ namespace Frankie.ZoneManagement.Editor
 {
     public class ZoneNodeGroupDragManipulator : MouseManipulator
     {
-        private readonly Func<Vector2> getPosition;
-        private readonly Action<Vector2> setPosition;
+        private readonly Action<Vector2> shiftPosition;
         private readonly Func<float> zoomProvider;
         private bool isDragging;
 
-        public ZoneNodeGroupDragManipulator(Func<Vector2> getPosition, Action<Vector2> setPosition, Func<float> zoomProvider)
+        public ZoneNodeGroupDragManipulator(Action<Vector2> shiftPosition, Func<float> zoomProvider)
         {
-            this.getPosition = getPosition;
-            this.setPosition = setPosition;
+            this.shiftPosition = shiftPosition;
             this.zoomProvider = zoomProvider;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
@@ -47,8 +45,8 @@ namespace Frankie.ZoneManagement.Editor
             if (!isDragging || !target.HasMouseCapture()) { return; }
 
             float zoom = Mathf.Max(zoomProvider?.Invoke() ?? 1f, 0.01f);
-            Vector2 newPosition = getPosition() + mouseMoveEvent.mouseDelta / zoom;
-            setPosition(newPosition);
+            Vector2 delta = mouseMoveEvent.mouseDelta / zoom;
+            shiftPosition(delta);
             mouseMoveEvent.StopPropagation();
         }
 

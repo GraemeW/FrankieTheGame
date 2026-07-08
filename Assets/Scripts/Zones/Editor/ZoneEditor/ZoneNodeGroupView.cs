@@ -26,12 +26,13 @@ namespace Frankie.ZoneManagement.Editor
         {
             this.zoneNodeGroup = zoneNodeGroup;
             this.zoneGraphView = zoneGraphView;
+            if (zoneNodeGroup == null || zoneGraphView == null) { return; }
 
             InitializeStyles();
             ApplyRectFromData();
 
             VisualElement header = MakeHeader();
-            header.AddManipulator(new ZoneNodeGroupDragManipulator(() => zoneNodeGroup.GetRect().position, OnHeaderDragged, () => zoneGraphView.zoomFactor));
+            header.AddManipulator(new ZoneNodeGroupDragManipulator(OnHeaderDragged, () => zoneGraphView.zoomFactor));
             header.RegisterCallback<MouseDownEvent>(OnHeaderMouseDown, TrickleDown.TrickleDown);
             Add(header);
             
@@ -55,11 +56,17 @@ namespace Frankie.ZoneManagement.Editor
             style.height = rect.height;
         }
         
-        private void OnHeaderDragged(Vector2 newPosition)
+        private void OnHeaderDragged(Vector2 delta)
         {
-            Rect rect = zoneNodeGroup.GetRect();
-            rect.position = newPosition;
-            zoneGraphView.SetGroupRect(zoneNodeGroup, rect);
+            Rect newPosition = zoneNodeGroup.GetRect();
+            newPosition.position += delta;
+            zoneGraphView.SetGroupRect(zoneNodeGroup, newPosition);
+            foreach (string nodeID in zoneNodeGroup.GetContainedNodeIDs())
+            {
+                if (!zoneGraphView.TryGetZoneNodeView(nodeID, out ZoneNodeView zoneNodeView)) { continue; }
+                zoneNodeView.ManualMoveZoneNode(delta);
+            }
+            zoneGraphView.NotifyNodeMoved();
             ApplyRectFromData();
         }
 

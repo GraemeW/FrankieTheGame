@@ -22,6 +22,7 @@ namespace Frankie.ZoneManagement.Editor
         {
             this.zoneNode = zoneNode;
             this.zoneGraphView = zoneGraphView;
+            if (zoneNode == null || zoneGraphView == null) { return; }
             
             InitializeNodeStyle();
 
@@ -79,6 +80,8 @@ namespace Frankie.ZoneManagement.Editor
 
         public void RefreshLinkButton()
         {
+            if (zoneNode == null) { return; }
+            
             if (!zoneGraphView.isLinking)
             {
                 linkButton.text = "link";
@@ -91,6 +94,16 @@ namespace Frankie.ZoneManagement.Editor
             {
                 linkButton.text = Zone.IsRelated(zoneGraphView.GetLinkingParentNode(), zoneNode) ? "unlink" : "child";
             }
+        }
+
+        public void ManualMoveZoneNode(Vector2 delta)
+        {
+            if (zoneNode == null) { return; }
+            
+            Vector2 newPosition = zoneNode.GetPosition() + delta;
+            zoneNode.SetPosition(newPosition);
+            style.left = newPosition.x;
+            style.top = newPosition.y;
         }
         
         #region EventHandling
