@@ -80,26 +80,14 @@ namespace Frankie.ZoneManagement.Editor
 
         private void EnableNameFieldEditing()
         {
-            zoneNodeGroupNameField.pickingMode = PickingMode.Position;
-            zoneNodeGroupNameField.isReadOnly = false;
-            if (zoneNodeGroupNameInput != null)
-            {
-                zoneNodeGroupNameInput.pickingMode = PickingMode.Position;
-                zoneNodeGroupNameInput.focusable = true;
-            }
+            zoneNodeGroupNameField.SetEnabled(true);
             zoneNodeGroupNameField.Focus();
             zoneNodeGroupNameField.SelectAll();
         }
 
         private void DisableNameFieldEditing()
         {
-            zoneNodeGroupNameField.pickingMode = PickingMode.Ignore;
-            zoneNodeGroupNameField.isReadOnly = true;
-            if (zoneNodeGroupNameInput != null)
-            {
-                zoneNodeGroupNameInput.pickingMode = PickingMode.Ignore;
-                zoneNodeGroupNameInput.focusable = false;
-            }
+            zoneNodeGroupNameField.SetEnabled(false);
         }
         
         private void InitializeStyles()

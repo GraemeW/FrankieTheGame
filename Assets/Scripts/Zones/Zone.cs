@@ -28,7 +28,7 @@ namespace Frankie.ZoneManagement
         private static readonly Vector2 _defaultNodeOffset = new(100f, 25f);
         private const int _defaultNodeWidth = 350;
         private const int _defaultNodeHeight = 125;
-        private const float _defaultZoneNodeGroupWidth = 220f;
+        private const float _defaultZoneNodeGroupWidth = 250f;
         private const float _defaultZoneNodeGroupHeight = 100f;
         private const float _zoneGroupRectCheckRatio = 0.5f;
 #endif
