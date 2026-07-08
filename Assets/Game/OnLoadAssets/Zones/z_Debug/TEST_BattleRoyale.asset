@@ -137,8 +137,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: -310.8762
-    y: 30.229088
+    x: -354.70007
+    y: 25.326588
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -237,14 +237,15 @@ MonoBehaviour:
   nodeWidth: 350
   nodeHeight: 125
   zoneNodeGroupDefaultSize: 100
+  rectCheckRatio: 0.5
   zoneNodeGroups:
-  - zoneNodeGroupPadding: 20
+  - zoneNodeGroupName: Hello Moto
     rect:
       serializedVersion: 2
-      x: -330.8762
-      y: 10.229088
-      width: 665.9337
-      height: 308.59116
+      x: -374.70007
+      y: -19.673412
+      width: 709.7576
+      height: 338.49365
     containedNodeIDs:
     - MusicSwitchDoor_DebugToForestDemo
     - MusicSwitcher_Elevator

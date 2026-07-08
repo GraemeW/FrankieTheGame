@@ -2905,14 +2905,6 @@ MonoBehaviour:
     m_Localized: Here we go again
     m_Metadata:
       m_Items: []
-  - m_Id: 29784933290467328
-    m_Localized: Hans
-    m_Metadata:
-      m_Items: []
-  - m_Id: 29784933600845824
-    m_Localized: Yes
-    m_Metadata:
-      m_Items: []
   references:
     version: 2
     RefIds: []

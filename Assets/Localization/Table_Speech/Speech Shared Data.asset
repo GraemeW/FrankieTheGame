@@ -2819,14 +2819,6 @@ MonoBehaviour:
     m_Key: DebugSpeech.3.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 29784933290467328
-    m_Key: DebugSpeech.4.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 29784933600845824
-    m_Key: DebugSpeech.4.0.Text
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
