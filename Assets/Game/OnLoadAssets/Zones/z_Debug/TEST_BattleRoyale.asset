@@ -28,8 +28,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: -844.79266
-    y: -262.56775
+    x: -715.9399
+    y: -285.044
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -64,8 +64,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 948.8086
-    y: -235.37106
+    x: 790.0908
+    y: -273.46902
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -211,8 +211,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 565.0165
-    y: -240.08176
+    x: 400.908
+    y: -279.9766
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -273,8 +273,8 @@ MonoBehaviour:
   - zoneNodeGroupName: Debug Room
     rect:
       serializedVersion: 2
-      x: -864.79266
-      y: -307.56775
+      x: -735.9399
+      y: -330.04404
       width: 390
       height: 190
     containedNodeIDs:
@@ -283,10 +283,10 @@ MonoBehaviour:
   - zoneNodeGroupName: Level 1 to 6 Room
     rect:
       serializedVersion: 2
-      x: 545.0165
-      y: -285.08176
-      width: 773.7921
-      height: 194.7107
+      x: 380.908
+      y: -324.9766
+      width: 779.18274
+      height: 196.50757
     containedNodeIDs:
     - Level1to6_Elevator
     - Level1to6_RightDoor

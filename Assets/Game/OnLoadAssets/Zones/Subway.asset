@@ -25,8 +25,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -8137509927413381033, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
     serializedVersion: 2
-    x: 346.90698
-    y: 207.22325
+    x: 387.69455
+    y: 217.79779
     width: 350
     height: 125
   zoneName: Subway
@@ -47,9 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: Subway
   m_EditorClassIdentifier: 
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -72,6 +69,29 @@ MonoBehaviour:
   - {fileID: 2324849428199590013}
   - {fileID: 5121720584565814803}
   - {fileID: -3197550637124935898}
+  zoneNodeGroups:
+  - zoneNodeGroupName: Office Platform
+    rect:
+      serializedVersion: 2
+      x: 361.87347
+      y: -42.72802
+      width: 771.50323
+      height: 192.89536
+    containedNodeIDs:
+    - UpStairsOffice
+    - PlatformOffice
+    zoneName: Subway
+  - zoneNodeGroupName: Apartment Platform
+    rect:
+      serializedVersion: 2
+      x: 367.69455
+      y: 169.70236
+      width: 762.74207
+      height: 193.09543
+    containedNodeIDs:
+    - UpStairsApartment
+    - PlatformApartment
+    zoneName: Subway
   references:
     version: 2
     RefIds: []
@@ -101,8 +121,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 822.2925
-    y: 45.954964
+    x: 763.3768
+    y: 5.1673346
     width: 350
     height: 125
   zoneName: Subway
@@ -137,8 +157,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 822.3748
-    y: 204.1278
+    x: 760.43677
+    y: 214.70236
     width: 350
     height: 125
   zoneName: Subway
@@ -172,8 +192,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -4912669020652922926, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
     serializedVersion: 2
-    x: 345.61786
-    y: 15.867862
+    x: 381.87347
+    y: 2.2719822
     width: 350
     height: 125
   zoneName: Subway

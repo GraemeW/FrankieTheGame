@@ -26,8 +26,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 560
-    y: 1321.0592
+    x: 523.7034
+    y: 1302.1217
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -62,8 +62,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 4280.7188
-    y: 679.0021
+    x: 3938.0461
+    y: 398.77927
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -97,8 +97,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 3692616267215445445, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 28
-    y: 1131
+    x: 153.06946
+    y: 906.7261
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -132,8 +132,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -4464991975633921603, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 32
-    y: 185
+    x: 289.8052
+    y: 135.36055
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -167,8 +167,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -1178070971427517867, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
+    x: -178.27884
+    y: 245.91772
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -203,8 +203,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2096.8892
-    y: 518.11084
+    x: 2177.0618
+    y: 415.7495
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -239,8 +239,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1089.7336
-    y: 918.9046
+    x: 1725.4407
+    y: 758.77673
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -275,8 +275,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 650.2039
-    y: 722.56964
+    x: 1085.7502
+    y: 640.90497
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -311,8 +311,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2158.939
-    y: 893.4109
+    x: 1510.4235
+    y: 1311.3429
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -347,8 +347,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1519.3105
-    y: -31.98977
+    x: 1211.8064
+    y: -134.41223
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -384,8 +384,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2098.1108
-    y: 365.8313
+    x: 1934.0011
+    y: 123.796844
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -420,8 +420,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 3178.8027
-    y: 757.293
+    x: 3039.491
+    y: 838.9585
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -456,8 +456,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1519.9716
-    y: 537.69653
+    x: 1795.39
+    y: 414.39862
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -491,8 +491,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 5873364169936408652, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 558
-    y: 1133.0592
+    x: 534.32825
+    y: 910.5443
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -527,8 +527,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 4094.0234
-    y: 487.2526
+    x: 3568.8074
+    y: 280.68808
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -566,8 +566,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1714.8729
-    y: 754.436
+    x: 1921.4362
+    y: 1154.7551
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -602,8 +602,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2155.2332
-    y: 719.4109
+    x: 2483.494
+    y: 988.4251
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -639,8 +639,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 987.0403
-    y: 1399.309
+    x: 988.6184
+    y: 1372.4808
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -674,8 +674,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -5366454506092742757, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 31
-    y: 368
+    x: -177.70146
+    y: 0.0724709
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -710,8 +710,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1089.2063
-    y: 332.88904
+    x: 1093.9514
+    y: 344.7514
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -732,9 +732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: Demo_Forest1to20-Interior
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.Zone
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 350
-  nodeHeight: 125
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -789,6 +786,167 @@ MonoBehaviour:
   - {fileID: -1297888478512941826}
   - {fileID: 7169649769695471439}
   - {fileID: 7114888023509078925}
+  zoneNodeGroups:
+  - zoneNodeGroupName: LV - Basement 1
+    rect:
+      serializedVersion: 2
+      x: 1065.7502
+      y: 157.04242
+      width: 399.80798
+      height: 628.86255
+    containedNodeIDs:
+    - LV_B1-to-1f
+    - LV_B1-to-B1_SR
+    - LV_B1-to-B1_SR2
+    - LV_B1-to-B2
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'LV - Basement 1:  Side Room 1'
+    rect:
+      serializedVersion: 2
+      x: 1547.1923
+      y: 78.796844
+      width: 756.8087
+      height: 198.668
+    containedNodeIDs:
+    - LV_B1_SR-to-B1
+    - LV_B1_SR-to-B1_SR2
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'LV - First Floor:  Side Room'
+    rect:
+      serializedVersion: 2
+      x: 1191.8064
+      y: -179.41223
+      width: 770.0924
+      height: 192.02542
+    containedNodeIDs:
+    - LV_1f_SR-to-1f
+    - LV_1f_SR-to-B4
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'Lacklustre Video:  1F'
+    rect:
+      serializedVersion: 2
+      x: 269.8052
+      y: 12.862007
+      width: 779.46436
+      height: 365.94
+    containedNodeIDs:
+    - LacklustreVideoToForest
+    - LV_1f-to-B1
+    - LV_1f-to-1f_SR
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'LV - Basement 1:  Side Room 2'
+    rect:
+      serializedVersion: 2
+      x: 1775.39
+      y: 369.39862
+      width: 771.67175
+      height: 323.58063
+    containedNodeIDs:
+    - LV_B1_SR2-to-B1
+    - LV_B1_SR2-to-B1_SR
+    - LV_B1_SR2-to-B2_SR
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'LV - Basement 2:  Side Room'
+    rect:
+      serializedVersion: 2
+      x: 1702.8928
+      y: 713.77673
+      width: 392.54785
+      height: 331.8258
+    containedNodeIDs:
+    - LV_B2_SR-to-B1_SR2
+    - LV_B2_SR-to-B2
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: LV - Basement 2
+    rect:
+      serializedVersion: 2
+      x: 1490.4235
+      y: 1099.5273
+      width: 801.0126
+      height: 356.81555
+    containedNodeIDs:
+    - LV_B2-to-B1
+    - LV_B2-to-B2_SR
+    - LV_B2-to-B2_SR2
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'LV - Basement 2:  Side Room 2'
+    rect:
+      serializedVersion: 2
+      x: 2457.7166
+      y: 798.5671
+      width: 395.77734
+      height: 334.85797
+    containedNodeIDs:
+    - LV_B2_SR2-to-B3
+    - LV_B2_SR2-to-B2
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: LV - Basement 3
+    rect:
+      serializedVersion: 2
+      x: 3019.491
+      y: 793.9585
+      width: 402.27637
+      height: 353.7964
+    containedNodeIDs:
+    - LV_B3-to-B2_SR2
+    - LV_B3-to-B3_SR
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: 'LV - Basement 3:  Side Room'
+    rect:
+      serializedVersion: 2
+      x: 3625.9614
+      y: 861.35144
+      width: 769.65283
+      height: 192.46387
+    containedNodeIDs:
+    - LV_B3_SR-to-B3
+    - LV_B3_SR-to-B4
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: LV - Basement 4
+    rect:
+      serializedVersion: 2
+      x: 3548.8074
+      y: 235.68808
+      width: 759.2385
+      height: 308.09122
+    containedNodeIDs:
+    - LV_B4-to-1f_SR
+    - LV_B4-to-B3_SR
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: Orange Tunnel
+    rect:
+      serializedVersion: 2
+      x: 133.06946
+      y: 861.7261
+      width: 771.2588
+      height: 193.81824
+    containedNodeIDs:
+    - TunnelWestToForest
+    - TunnelEastToForest
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: Church Lobby
+    rect:
+      serializedVersion: 2
+      x: 20.639717
+      y: 1199.1086
+      width: 880.31696
+      height: 505.48218
+    containedNodeIDs:
+    - ChurchLobbyToForest
+    - ChurchLobby1ToChurch
+    - ChurchLobbyToPortaE
+    - ChurchLobby2ToChurch
+    zoneName: Demo_Forest1to20-Interior
+  - zoneNodeGroupName: Church
+    rect:
+      serializedVersion: 2
+      x: 968.6184
+      y: 1327.4808
+      width: 390
+      height: 190
+    containedNodeIDs:
+    - ChurchToChurchLobby
+    zoneName: Demo_Forest1to20-Interior
   references:
     version: 2
     RefIds: []
@@ -818,8 +976,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2775.555
-    y: 715.46497
+    x: 2477.7166
+    y: 843.5671
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -854,8 +1012,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1090.2063
-    y: 502.26996
+    x: 1092.5784
+    y: 493.96628
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -890,8 +1048,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1091.9996
-    y: 165.26996
+    x: 1095.5582
+    y: 202.04242
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -925,8 +1083,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -5194966613431474290, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 44.804626
-    y: 1349.843
+    x: 62.163986
+    y: 1244.1086
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -961,8 +1119,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1714.8876
-    y: 913.4135
+    x: 1722.8928
+    y: 900.6025
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -997,8 +1155,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 4142.508
-    y: 844.7645
+    x: 4025.614
+    y: 908.8153
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1033,8 +1191,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 3657.1707
-    y: 837.49677
+    x: 3645.9614
+    y: 906.35144
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1068,8 +1226,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 152.68594
-    y: 1502.7783
+    x: 40.639717
+    y: 1559.5908
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1104,8 +1262,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 3200.687
-    y: 897.07007
+    x: 3051.7673
+    y: 1002.75494
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1140,8 +1298,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 560.9408
-    y: 1488
+    x: 530.95667
+    y: 1467.4844
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1176,8 +1334,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1518.9724
-    y: 372.1269
+    x: 1567.1923
+    y: 132.46483
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1212,8 +1370,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 658.62177
-    y: 879.4429
+    x: 1942.8435
+    y: 547.97925
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1248,8 +1406,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1950.4092
-    y: -34.709183
+    x: 1591.8988
+    y: -132.38681
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1287,8 +1445,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1082.4427
-    y: 670.5508
+    x: 1519.5911
+    y: 1144.5273
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1323,8 +1481,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 676.13635
-    y: 190.56763
+    x: 676.1363
+    y: 233.80199
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior
@@ -1359,8 +1517,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1094
-    y: 0.21618962
+    x: 679.26953
+    y: 57.862007
     width: 350
     height: 125
   zoneName: Demo_Forest1to20-Interior

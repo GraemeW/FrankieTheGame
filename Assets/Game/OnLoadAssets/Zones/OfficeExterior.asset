@@ -25,8 +25,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -3574389237603949618, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
     serializedVersion: 2
-    x: 34
-    y: 211
+    x: 147.38763
+    y: 174.60397
     width: 350
     height: 125
   zoneName: OfficeExterior
@@ -60,8 +60,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -3197550637124935898, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
     serializedVersion: 2
-    x: 46
-    y: 560
+    x: 675.93256
+    y: 459.21097
     width: 350
     height: 125
   zoneName: OfficeExterior
@@ -95,8 +95,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
     serializedVersion: 2
-    x: 45.99997
-    y: 375
+    x: 614.33905
+    y: 118.82735
     width: 350
     height: 125
   zoneName: OfficeExterior
@@ -117,9 +117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: OfficeExterior
   m_EditorClassIdentifier: 
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -143,6 +140,30 @@ MonoBehaviour:
   - {fileID: -4912669020652922926}
   - {fileID: -8137509927413381033}
   - {fileID: 7420601607016574253}
+  zoneNodeGroups:
+  - zoneNodeGroupName: Near Office
+    rect:
+      serializedVersion: 2
+      x: 127.387634
+      y: -52.79594
+      width: 856.9514
+      height: 372.3999
+    containedNodeIDs:
+    - OfficeDoor
+    - OfficePortaBankDoor
+    - SubwayOfficeDownStairs
+    zoneName: OfficeExterior
+  - zoneNodeGroupName: Near Apartments
+    rect:
+      serializedVersion: 2
+      x: 655.93256
+      y: 414.21082
+      width: 797.55554
+      height: 298.82867
+    containedNodeIDs:
+    - SubwayApartmentDownstairs
+    - ApartmentDoor
+    zoneName: OfficeExterior
   references:
     version: 2
     RefIds: []
@@ -171,8 +192,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   rect:
     serializedVersion: 2
-    x: 41.99997
-    y: 741.6205
+    x: 1083.4878
+    y: 568.0398
     width: 350
     height: 125
   zoneName: OfficeExterior
@@ -206,8 +227,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -581003641315174118, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
+    x: 203.58148
+    y: -7.79594
     width: 350
     height: 125
   zoneName: OfficeExterior
