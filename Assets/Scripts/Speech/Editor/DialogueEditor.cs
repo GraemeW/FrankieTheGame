@@ -16,7 +16,7 @@ namespace Frankie.Speech.Editor
         private const float _backgroundExtent = 3000f;
         private const float _backgroundGridSpacing = 50f;
         private const float _backgroundDotRadius = 1.5f;
-        private static readonly Color _backgroundDotColor = new(1f, 1f, 1f, 0.15f);
+        private static readonly Color _backgroundDotColour = new(1f, 1f, 1f, 0.15f);
 
         // Model
         private Dialogue selectedDialogue;
@@ -110,8 +110,8 @@ namespace Frankie.Speech.Editor
 
         private void RebuildCanvas()
         {
-            nodesLayer.Clear();
-            nodeViews.Clear();
+            nodesLayer?.Clear();
+            nodeViews?.Clear();
             linkingParentNode = null;
 
             bool hasDialogue = selectedDialogue != null;
@@ -165,7 +165,7 @@ namespace Frankie.Speech.Editor
         private static void DrawBackgroundGrid(MeshGenerationContext context)
         {
             Painter2D painter = context.painter2D;
-            painter.fillColor = _backgroundDotColor;
+            painter.fillColor = _backgroundDotColour;
             
             for (float x = 0; x <= _backgroundExtent; x += _backgroundGridSpacing)
             {

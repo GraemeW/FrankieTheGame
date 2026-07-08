@@ -47,9 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: Demo_Forest1to20-Portabank
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.Zone
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -71,6 +68,7 @@ MonoBehaviour:
   - {fileID: 5741578906310247025}
   - {fileID: -6787401506896633538}
   - {fileID: 8123045737310385565}
+  zoneNodeGroups: []
   references:
     version: 2
     RefIds: []

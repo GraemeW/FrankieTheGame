@@ -26,8 +26,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 96.820366
-    y: 127.827644
+    x: 485.76004
+    y: 177.09326
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -62,8 +62,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 161
-    y: 939
+    x: 160.99994
+    y: 959.74365
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -98,8 +98,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 179
-    y: 1134
+    x: 166.03542
+    y: 1170.301
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -134,8 +134,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 157
-    y: 779
+    x: 302.20428
+    y: 753.0707
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -170,8 +170,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 658
-    y: 1360
+    x: 165.343
+    y: 1585.5859
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -206,8 +206,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 494.18195
-    y: -9.259819
+    x: 864.9714
+    y: -4.0739536
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -228,9 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: PrimInterior
   m_EditorClassIdentifier: 
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -262,6 +259,83 @@ MonoBehaviour:
   - {fileID: 5135494956085885973}
   - {fileID: 6970873215068010641}
   - {fileID: -3171499022531737784}
+  zoneNodeGroups:
+  - zoneNodeGroupName: 'Prim South:  Yellow House'
+    rect:
+      serializedVersion: 2
+      x: 387.29486
+      y: -49.07395
+      width: 847.6766
+      height: 371.1672
+    containedNodeIDs:
+    - PS_YellowHouse_Interior
+    - PS_YellowHouse_1F
+    - PS_YellowHouse_2F
+    zoneName: PrimInterior
+  - zoneNodeGroupName: 'Prim South:  Red House'
+    rect:
+      serializedVersion: 2
+      x: -148.72643
+      y: 285.2474
+      width: 390
+      height: 190
+    containedNodeIDs:
+    - PS_RedHouse_Interior
+    zoneName: PrimInterior
+  - zoneNodeGroupName: 'Prim South:  Tallest Building, 1F'
+    rect:
+      serializedVersion: 2
+      x: 140.32191
+      y: 576.20013
+      width: 531.8824
+      height: 321.87054
+    containedNodeIDs:
+    - PS_TallestBuilding_Interior
+    - PS_TallestBuilding_1f
+    zoneName: PrimInterior
+  - zoneNodeGroupName: 'Prim South:  Tallest Building, 2F'
+    rect:
+      serializedVersion: 2
+      x: 140.99994
+      y: 914.01904
+      width: 800.73474
+      height: 190.72461
+    containedNodeIDs:
+    - PS_TallestBuilding_2f-up
+    - PS_TallestBuilding_2f-down
+    zoneName: PrimInterior
+  - zoneNodeGroupName: 'Prim South:  Tallest Building, 3F'
+    rect:
+      serializedVersion: 2
+      x: 146.03542
+      y: 1117.5404
+      width: 795.32745
+      height: 197.76062
+    containedNodeIDs:
+    - PS_TallestBuilding_3f-up
+    - PS_TallestBuilding_3f-down
+    zoneName: PrimInterior
+  - zoneNodeGroupName: 'Prim South:  Tallest Building, 4F'
+    rect:
+      serializedVersion: 2
+      x: 144.84949
+      y: 1319.9108
+      width: 799.54803
+      height: 202.72693
+    containedNodeIDs:
+    - PS_TallestBuilding_4f-up
+    - PS_TallestBuilding_4f-down
+    zoneName: PrimInterior
+  - zoneNodeGroupName: 'Prim South:  Tallest Building, 5F'
+    rect:
+      serializedVersion: 2
+      x: 145.34303
+      y: 1540.5859
+      width: 390
+      height: 190
+    containedNodeIDs:
+    - PS_TallestBuilding_5f
+    zoneName: PrimInterior
   references:
     version: 2
     RefIds: []
@@ -290,8 +364,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
-    x: 46.233
-    y: 592.6777
+    x: 160.32191
+    y: 621.20013
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -326,8 +400,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
-    x: -111.291275
-    y: -18.405354
+    x: 407.29486
+    y: 38.639126
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -362,8 +436,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 631
-    y: 994
+    x: 571.36285
+    y: 1162.5404
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -398,8 +472,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 647
-    y: 1186
+    x: 574.3975
+    y: 1364.9108
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -434,8 +508,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 621
-    y: 819
+    x: 571.7347
+    y: 959.01904
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -470,8 +544,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 183
-    y: 1318
+    x: 164.84949
+    y: 1377.6377
     width: 350
     height: 125
   zoneName: PrimInterior
@@ -505,8 +579,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -665902458594080065, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
-    x: 45
-    y: 421
+    x: -128.72643
+    y: 330.2474
     width: 350
     height: 125
   zoneName: PrimInterior

@@ -6,10 +6,10 @@ namespace Frankie.ZoneManagement.Editor
     public class ZoneBackgroundLayer : VisualElement
     {
         // Tunables
-        private const float _backgroundExtents = 3000f;
+        private const float _backgroundExtents = 6000f;
         private const float _cellSize = 50f;
         private const float _lineWidth = 1f;
-        private static readonly Color _lineColor = new(1f, 1f, 1f, 0.08f);
+        private static readonly Color _lineColour = new(1f, 1f, 1f, 0.08f);
 
         public ZoneBackgroundLayer()
         {
@@ -28,7 +28,7 @@ namespace Frankie.ZoneManagement.Editor
             const float size = _backgroundExtents * 2f;
 
             Painter2D painter = context.painter2D;
-            painter.strokeColor = _lineColor;
+            painter.strokeColor = _lineColour;
             painter.lineWidth = _lineWidth;
 
             painter.BeginPath();

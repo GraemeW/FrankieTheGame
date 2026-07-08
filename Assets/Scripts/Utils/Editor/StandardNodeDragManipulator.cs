@@ -13,16 +13,18 @@ namespace Frankie.Utils.Editor
         // State
         private readonly VisualElement nodeElement;
         private readonly IStandardGraphNode activeNode;
-        private readonly Action onPositionChanged;
+        private readonly Action onPositionChangedLive;
+        private readonly Action onPositionChangedComplete;
         private readonly Func<float> zoomProvider;
         private bool isDragging;
         private Vector2 initialPosition;
 
-        public StandardNodeDragManipulator(VisualElement nodeElement, IStandardGraphNode activeNode, Action onPositionChanged, Func<float> zoomProvider)
+        public StandardNodeDragManipulator(VisualElement nodeElement, IStandardGraphNode activeNode, Action onPositionChangedLive, Action onPositionChangedComplete, Func<float> zoomProvider)
         {
             this.nodeElement = nodeElement;
             this.activeNode = activeNode;
-            this.onPositionChanged = onPositionChanged;
+            this.onPositionChangedLive = onPositionChangedLive;
+            this.onPositionChangedComplete = onPositionChangedComplete;
             this.zoomProvider = zoomProvider;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
@@ -61,7 +63,7 @@ namespace Frankie.Utils.Editor
             nodeElement.style.left = newPosition.x;
             nodeElement.style.top = newPosition.y;
 
-            onPositionChanged?.Invoke();
+            onPositionChangedLive?.Invoke();
             mouseMoveEvent.StopPropagation();
         }
 
@@ -72,8 +74,15 @@ namespace Frankie.Utils.Editor
             isDragging = false;
             target.ReleaseMouse();
             mouseUpEvent.StopPropagation();
-            
-            if (Vector2.Distance(initialPosition, mouseUpEvent.mousePosition) < _moveThreshold) { Selection.activeObject = activeNode.scriptableObject; }
+
+            if (Vector2.Distance(initialPosition, mouseUpEvent.mousePosition) < _moveThreshold)
+            {
+                Selection.activeObject = activeNode.scriptableObject;
+            }
+            else
+            {
+                onPositionChangedComplete?.Invoke();
+            }
         }
     }
 }

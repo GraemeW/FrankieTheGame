@@ -15,10 +15,10 @@ namespace Frankie.Speech.Editor
         private const float _nodePaddingHorizontal = 20f;
         private const float _nodePaddingVertical = 16f;
         private const float _cornerRadius = 6f;
-        private static readonly Color _headerColor = new(0f, 0f, 0f, 0.5f);
-        private static readonly Color _playerSpeakerColor = Color.darkOliveGreen;
-        private static readonly Color _defaultColor = Color.gray2;
-        private static readonly Color[] _aiSpeakerColors = { Color.darkOrange * 0.85f, Color.softYellow * 0.75f, Color.lightPink * 0.75f, Color.mediumPurple * 0.85f };
+        private static readonly Color _headerColour = new(0f, 0f, 0f, 0.5f);
+        private static readonly Color _playerSpeakerColour = Color.darkOliveGreen;
+        private static readonly Color _defaultColour = Color.gray2;
+        private static readonly Color[] _aiSpeakerColours = { Color.darkOrange * 0.85f, Color.softYellow * 0.75f, Color.lightPink * 0.75f, Color.mediumPurple * 0.85f };
 
         // State
         private readonly Dialogue dialogue;
@@ -45,7 +45,7 @@ namespace Frankie.Speech.Editor
             InitializeNodeStyle();
 
             VisualElement nodeHeader = MakeNodeHeader();
-            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, dialogueNode, onPositionChanged, zoomProvider));
+            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, dialogueNode, onPositionChanged, null, zoomProvider));
             Add(nodeHeader);
 
             idLabel = new Label();
@@ -112,7 +112,7 @@ namespace Frankie.Speech.Editor
             style.height = rect.height;
 
             idLabel.text = $"--Unique ID: {dialogueNode.name}--";
-            style.backgroundColor = ResolveBackgroundColor(dialogueNode, dialogue);
+            style.backgroundColor = ResolveBackgroundColour(dialogueNode, dialogue);
             deleteButton.style.display = dialogueNode == dialogue.GetRootNode() ? DisplayStyle.None : DisplayStyle.Flex;
         }
         #endregion
@@ -149,7 +149,7 @@ namespace Frankie.Speech.Editor
                     marginLeft = -_nodePaddingHorizontal,
                     marginRight = -_nodePaddingHorizontal / 2f,
                     marginTop = -_nodePaddingVertical / 2f,
-                    backgroundColor = _headerColor,
+                    backgroundColor = _headerColour,
                     justifyContent = Justify.Center
                 }
             };
@@ -202,30 +202,30 @@ namespace Frankie.Speech.Editor
             };
         }
 
-        private static Color ResolveBackgroundColor(DialogueNode dialogueNode, Dialogue dialogue)
+        private static Color ResolveBackgroundColour(DialogueNode dialogueNode, Dialogue dialogue)
         {
             switch (dialogueNode.GetSpeakerType())
             {
                 case SpeakerType.PlayerSpeaker:
-                    return _playerSpeakerColor;
+                    return _playerSpeakerColour;
                 case SpeakerType.AISpeaker:
-                    return ResolveAISpeakerColor(dialogueNode, dialogue);
+                    return ResolveAISpeakerColour(dialogueNode, dialogue);
                 case SpeakerType.NarratorDirection:
                 default:
-                    return _defaultColor;
+                    return _defaultColour;
             }
         }
 
-        private static Color ResolveAISpeakerColor(DialogueNode dialogueNode, Dialogue dialogue)
+        private static Color ResolveAISpeakerColour(DialogueNode dialogueNode, Dialogue dialogue)
         {
             List<CharacterProperties> activeSpeakers = dialogue.GetActiveCharacters();
             for (int i = 0; i < activeSpeakers.Count; i++)
             {
                 if (activeSpeakers[i] != dialogueNode.GetCharacterProperties()) { continue; }
-                if (i < _aiSpeakerColors.Length) { return _aiSpeakerColors[i]; }
+                if (i < _aiSpeakerColours.Length) { return _aiSpeakerColours[i]; }
                 break;
             }
-            return _defaultColor;
+            return _defaultColour;
         }
         #endregion
     }

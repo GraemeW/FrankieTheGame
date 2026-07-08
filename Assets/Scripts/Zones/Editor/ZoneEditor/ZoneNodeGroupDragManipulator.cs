@@ -1,0 +1,62 @@
+using System;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace Frankie.ZoneManagement.Editor
+{
+    public class ZoneNodeGroupDragManipulator : MouseManipulator
+    {
+        private readonly Action<Vector2> shiftPosition;
+        private readonly Func<float> zoomProvider;
+        private bool isDragging;
+
+        public ZoneNodeGroupDragManipulator(Action<Vector2> shiftPosition, Func<float> zoomProvider)
+        {
+            this.shiftPosition = shiftPosition;
+            this.zoomProvider = zoomProvider;
+            activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
+        }
+
+        protected override void RegisterCallbacksOnTarget()
+        {
+            target.RegisterCallback<MouseDownEvent>(OnMouseDown);
+            target.RegisterCallback<MouseMoveEvent>(OnMouseMove);
+            target.RegisterCallback<MouseUpEvent>(OnMouseUp);
+        }
+
+        protected override void UnregisterCallbacksFromTarget()
+        {
+            target.UnregisterCallback<MouseDownEvent>(OnMouseDown);
+            target.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
+            target.UnregisterCallback<MouseUpEvent>(OnMouseUp);
+        }
+
+        private void OnMouseDown(MouseDownEvent mouseDownEvent)
+        {
+            if (isDragging || !CanStartManipulation(mouseDownEvent)) { return; }
+
+            isDragging = true;
+            target.CaptureMouse();
+            mouseDownEvent.StopPropagation();
+        }
+
+        private void OnMouseMove(MouseMoveEvent mouseMoveEvent)
+        {
+            if (!isDragging || !target.HasMouseCapture()) { return; }
+
+            float zoom = Mathf.Max(zoomProvider?.Invoke() ?? 1f, 0.01f);
+            Vector2 delta = mouseMoveEvent.mouseDelta / zoom;
+            shiftPosition(delta);
+            mouseMoveEvent.StopPropagation();
+        }
+
+        private void OnMouseUp(MouseUpEvent mouseUpEvent)
+        {
+            if (!isDragging || !CanStopManipulation(mouseUpEvent)) { return; }
+
+            isDragging = false;
+            target.ReleaseMouse();
+            mouseUpEvent.StopPropagation();
+        }
+    }
+}

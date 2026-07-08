@@ -16,12 +16,6 @@ namespace Frankie.ZoneManagement
     public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
     {
         // Tunables
-#if UNITY_EDITOR
-        [Header("Editor Settings")]
-        [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
-        [SerializeField] private int nodeWidth = 350;
-        [SerializeField] private int nodeHeight = 125;
-#endif
         [Header("Zone Properties")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private SceneReference sceneReference;
@@ -29,10 +23,21 @@ namespace Frankie.ZoneManagement
         [SerializeField] private AudioClip zoneAudio;
         [SerializeField] private bool isZoneAudioLooping = true;
 
+        // Const / Static UI Tunables
+#if UNITY_EDITOR
+        private static readonly Vector2 _defaultNodeOffset = new(100f, 25f);
+        private const int _defaultNodeWidth = 350;
+        private const int _defaultNodeHeight = 125;
+        private const float _defaultZoneNodeGroupWidth = 250f;
+        private const float _defaultZoneNodeGroupHeight = 100f;
+        private const float _zoneGroupRectCheckRatio = 0.5f;
+#endif
+        
         // State
         [HideInInspector][SerializeField] private string cachedName = "";
         public string iCachedName { get => cachedName; set => cachedName = value; }
         [HideInInspector][SerializeField] private List<ZoneNode> zoneNodes = new();
+        [HideInInspector][SerializeField] private List<ZoneNodeGroup> zoneNodeGroups = new();
 #if UNITY_EDITOR
         private Dictionary<string, ZoneNode> nodeEditorLookup = new();
 #endif
@@ -40,7 +45,7 @@ namespace Frankie.ZoneManagement
         private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
         private static Dictionary<string, Zone> _zoneLookupCache;
         private static Dictionary<string, Zone> _sceneReferenceCache;
-
+        
         #region AddressablesCaching
         public static Zone GetFromName(string zoneName)
         {
@@ -143,7 +148,7 @@ namespace Frankie.ZoneManagement
         #endregion
         
 #if UNITY_EDITOR
-        #region EditorMethods
+        #region StandardEditorMethods
         [ContextMenu("Match Zone Name to Scene")]
         public void ForceUpdateZoneNameToMatchScene()
         {
@@ -166,7 +171,7 @@ namespace Frankie.ZoneManagement
         {
             var zoneNode = CreateInstance<ZoneNode>();
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
-            zoneNode.Initialize(nodeWidth, nodeHeight);
+            zoneNode.Initialize(_defaultNodeWidth, _defaultNodeHeight);
             zoneNode.SetZoneName(name);
             zoneNode.SetNodeID(System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture));
 
@@ -183,8 +188,8 @@ namespace Frankie.ZoneManagement
             ZoneNode childNode = CreateNode();
             parentNode.AddChild(childNode.name);
 
-            var offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
-                parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
+            var offsetPosition = new Vector2(parentNode.GetRect().xMax + _defaultNodeOffset.x,
+                parentNode.GetRect().yMin + (parentNode.GetRect().height + _defaultNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
             childNode.SetPosition(offsetPosition);
 
             OnValidate();
@@ -205,6 +210,7 @@ namespace Frankie.ZoneManagement
             nodeToDelete.DeleteLocalizationEntries();
             zoneNodes.Remove(nodeToDelete);
             CleanDanglingChildren(nodeToDelete);
+            RemoveNodeFromAllGroups(nodeToDelete.GetNodeID());
             OnValidate();
 
             Undo.DestroyObjectImmediate(nodeToDelete);
@@ -214,6 +220,11 @@ namespace Frankie.ZoneManagement
             foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode.GetChildren() != null))
             {
                 zoneNode.UpdateChildNodeID(oldNodeID, newNodeID);
+            }
+            foreach (ZoneNodeGroup group in zoneNodeGroups.Where(group => group.ContainsNodeID(oldNodeID)))
+            {
+                group.RemoveNodeID(oldNodeID);
+                group.AddNodeID(newNodeID);
             }
             OnValidate();
         }
@@ -244,6 +255,76 @@ namespace Frankie.ZoneManagement
             foreach (ZoneNode zoneNode in zoneNodes)
             {
                 zoneNode.SetZoneName(name);
+            }
+        }
+        #endregion
+        
+        #region NodeGroupMethods
+        public IEnumerable<ZoneNodeGroup> GetAllGroups() => zoneNodeGroups;
+
+        public ZoneNodeGroup CreateZoneNodeGroup(Vector2 position)
+        {
+            Undo.RecordObject(this, "Create Zone Node Group");
+            var group = new ZoneNodeGroup(name);
+            group.SetRect(new Rect(position, new Vector2(_defaultZoneNodeGroupWidth, _defaultZoneNodeGroupHeight)));
+            zoneNodeGroups.Add(group);
+            EditorUtility.SetDirty(this);
+            return group;
+        }
+
+        public void DeleteGroup(ZoneNodeGroup zoneNodeGroup)
+        {
+            Undo.RecordObject(this, "Delete Zone Node Group");
+            zoneNodeGroups.Remove(zoneNodeGroup);
+            EditorUtility.SetDirty(this);
+        }
+
+        public void SetGroupRect(ZoneNodeGroup zoneNodeGroup, Rect rect)
+        {
+            Undo.RecordObject(this, "Move Zone Node Group");
+            zoneNodeGroup.SetRect(rect);
+            EditorUtility.SetDirty(this);
+        }
+        
+        public void UpdateGroupsForNodeMove(ZoneNode movedNode)
+        {
+            Rect nodeRect = movedNode.GetRect();
+            var checkRect = new Rect(0f, 0f, nodeRect.width * _zoneGroupRectCheckRatio, nodeRect.height * _zoneGroupRectCheckRatio) { center = nodeRect.center };
+            bool changed = false;
+
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (!zoneNodeGroup.ContainsNodeID(movedNode.GetNodeID())) { continue; }
+                if (zoneNodeGroup.GetRect().Overlaps(checkRect)) { continue; }
+
+                if (!changed) { Undo.RecordObject(this, "Update Zone Node Group"); }
+                changed = true;
+                zoneNodeGroup.RemoveNodeID(movedNode.GetNodeID());
+                zoneNodeGroup.RecomputeGroupRect();
+            }
+            
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (zoneNodeGroup.ContainsNodeID(movedNode.GetNodeID())) { continue; }
+                if (!zoneNodeGroup.GetRect().Overlaps(checkRect)) { continue; }
+
+                if (!changed) { Undo.RecordObject(this, "Update Zone Node Group"); }
+                changed = true;
+                zoneNodeGroup.AddNodeID(movedNode.GetNodeID());
+                zoneNodeGroup.RecomputeGroupRect();
+                break;
+            }
+
+            if (changed) { EditorUtility.SetDirty(this); }
+        }
+
+        private void RemoveNodeFromAllGroups(string nodeID)
+        {
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (!zoneNodeGroup.ContainsNodeID(nodeID)) { continue; }
+                zoneNodeGroup.RemoveNodeID(nodeID);
+                zoneNodeGroup.RecomputeGroupRect();
             }
         }
         #endregion
