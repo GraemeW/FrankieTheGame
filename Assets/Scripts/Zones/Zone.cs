@@ -16,15 +16,6 @@ namespace Frankie.ZoneManagement
     public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
     {
         // Tunables
-#if UNITY_EDITOR
-        [Header("Editor Settings")]
-        [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
-        [SerializeField] private int nodeWidth = 350;
-        [SerializeField] private int nodeHeight = 125;
-        [SerializeField] private float zoneNodeGroupDefaultSize = 100f;
-        [SerializeField] [Range(0.5f, 1.5f)] private float rectCheckRatio = 0.5f;
-        [SerializeField] private List<ZoneNodeGroup> zoneNodeGroups = new();
-#endif
         [Header("Zone Properties")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private SceneReference sceneReference;
@@ -32,10 +23,21 @@ namespace Frankie.ZoneManagement
         [SerializeField] private AudioClip zoneAudio;
         [SerializeField] private bool isZoneAudioLooping = true;
 
+        // Const / Static UI Tunables
+#if UNITY_EDITOR
+        private static readonly Vector2 _defaultNodeOffset = new(100f, 25f);
+        private const int _defaultNodeWidth = 350;
+        private const int _defaultNodeHeight = 125;
+        private const float _defaultZoneNodeGroupWidth = 220f;
+        private const float _defaultZoneNodeGroupHeight = 100f;
+        private const float _zoneGroupRectCheckRatio = 0.5f;
+#endif
+        
         // State
         [HideInInspector][SerializeField] private string cachedName = "";
         public string iCachedName { get => cachedName; set => cachedName = value; }
         [HideInInspector][SerializeField] private List<ZoneNode> zoneNodes = new();
+        [HideInInspector][SerializeField] private List<ZoneNodeGroup> zoneNodeGroups = new();
 #if UNITY_EDITOR
         private Dictionary<string, ZoneNode> nodeEditorLookup = new();
 #endif
@@ -169,7 +171,7 @@ namespace Frankie.ZoneManagement
         {
             var zoneNode = CreateInstance<ZoneNode>();
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
-            zoneNode.Initialize(nodeWidth, nodeHeight);
+            zoneNode.Initialize(_defaultNodeWidth, _defaultNodeHeight);
             zoneNode.SetZoneName(name);
             zoneNode.SetNodeID(System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture));
 
@@ -186,8 +188,8 @@ namespace Frankie.ZoneManagement
             ZoneNode childNode = CreateNode();
             parentNode.AddChild(childNode.name);
 
-            var offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
-                parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
+            var offsetPosition = new Vector2(parentNode.GetRect().xMax + _defaultNodeOffset.x,
+                parentNode.GetRect().yMin + (parentNode.GetRect().height + _defaultNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
             childNode.SetPosition(offsetPosition);
 
             OnValidate();
@@ -260,11 +262,11 @@ namespace Frankie.ZoneManagement
         #region NodeGroupMethods
         public IEnumerable<ZoneNodeGroup> GetAllGroups() => zoneNodeGroups;
 
-        public ZoneNodeGroup CreateGroup(Vector2 position)
+        public ZoneNodeGroup CreateZoneNodeGroup(Vector2 position)
         {
             Undo.RecordObject(this, "Create Zone Node Group");
             var group = new ZoneNodeGroup(name);
-            group.SetRect(new Rect(position, new Vector2(zoneNodeGroupDefaultSize, zoneNodeGroupDefaultSize)));
+            group.SetRect(new Rect(position, new Vector2(_defaultZoneNodeGroupWidth, _defaultZoneNodeGroupHeight)));
             zoneNodeGroups.Add(group);
             EditorUtility.SetDirty(this);
             return group;
@@ -287,7 +289,7 @@ namespace Frankie.ZoneManagement
         public void UpdateGroupsForNodeMove(ZoneNode movedNode)
         {
             Rect nodeRect = movedNode.GetRect();
-            var checkRect = new Rect(0f, 0f, nodeRect.width * rectCheckRatio, nodeRect.height * rectCheckRatio) { center = nodeRect.center };
+            var checkRect = new Rect(0f, 0f, nodeRect.width * _zoneGroupRectCheckRatio, nodeRect.height * _zoneGroupRectCheckRatio) { center = nodeRect.center };
             bool changed = false;
 
             foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)

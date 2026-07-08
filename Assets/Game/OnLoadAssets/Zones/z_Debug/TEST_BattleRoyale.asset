@@ -28,8 +28,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: -239.25537
-    y: -254.45331
+    x: -844.79266
+    y: -262.56775
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -64,8 +64,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1107.3469
-    y: -27.346695
+    x: 948.8086
+    y: -235.37106
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -173,8 +173,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1538.7234
-    y: 43.021408
+    x: 948.5113
+    y: -10.230208
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -211,8 +211,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 569.9985
-    y: -238.83636
+    x: 565.0165
+    y: -240.08176
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -233,23 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: TEST_BattleRoyale
   m_EditorClassIdentifier: 
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 350
-  nodeHeight: 125
-  zoneNodeGroupDefaultSize: 100
-  rectCheckRatio: 0.5
-  zoneNodeGroups:
-  - zoneNodeGroupName: Hello Moto
-    rect:
-      serializedVersion: 2
-      x: -374.70007
-      y: -19.673412
-      width: 709.7576
-      height: 338.49365
-    containedNodeIDs:
-    - MusicSwitchDoor_DebugToForestDemo
-    - MusicSwitcher_Elevator
-    zoneName: TEST_BattleRoyale
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -275,6 +258,50 @@ MonoBehaviour:
   - {fileID: -1654263137458809270}
   - {fileID: -2016518618887370586}
   - {fileID: -4745577074611816395}
+  zoneNodeGroups:
+  - zoneNodeGroupName: Music Switch Room
+    rect:
+      serializedVersion: 2
+      x: -374.70007
+      y: -19.673412
+      width: 709.7576
+      height: 338.49365
+    containedNodeIDs:
+    - MusicSwitchDoor_DebugToForestDemo
+    - MusicSwitcher_Elevator
+    zoneName: TEST_BattleRoyale
+  - zoneNodeGroupName: Debug Room
+    rect:
+      serializedVersion: 2
+      x: -864.79266
+      y: -307.56775
+      width: 390
+      height: 190
+    containedNodeIDs:
+    - MiscDebugRoom_Elevator
+    zoneName: TEST_BattleRoyale
+  - zoneNodeGroupName: Level 1 to 6 Room
+    rect:
+      serializedVersion: 2
+      x: 545.0165
+      y: -285.08176
+      width: 773.7921
+      height: 194.7107
+    containedNodeIDs:
+    - Level1to6_Elevator
+    - Level1to6_RightDoor
+    zoneName: TEST_BattleRoyale
+  - zoneNodeGroupName: Level 7 to 15 Room
+    rect:
+      serializedVersion: 2
+      x: 543.49426
+      y: -55.23021
+      width: 775.01697
+      height: 192.29599
+    containedNodeIDs:
+    - Level7to15_Elevator
+    - Level7to15LeftDoor
+    zoneName: TEST_BattleRoyale
   references:
     version: 2
     RefIds: []
@@ -306,8 +333,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 509.95694
-    y: -6.4841194
+    x: 563.49426
+    y: -7.9342203
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale

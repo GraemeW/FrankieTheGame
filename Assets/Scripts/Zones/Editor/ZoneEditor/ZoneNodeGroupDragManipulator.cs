@@ -4,14 +4,14 @@ using UnityEngine.UIElements;
 
 namespace Frankie.ZoneManagement.Editor
 {
-    public class ZoneGroupDragManipulator : MouseManipulator
+    public class ZoneNodeGroupDragManipulator : MouseManipulator
     {
         private readonly Func<Vector2> getPosition;
         private readonly Action<Vector2> setPosition;
         private readonly Func<float> zoomProvider;
         private bool isDragging;
 
-        public ZoneGroupDragManipulator(Func<Vector2> getPosition, Action<Vector2> setPosition, Func<float> zoomProvider)
+        public ZoneNodeGroupDragManipulator(Func<Vector2> getPosition, Action<Vector2> setPosition, Func<float> zoomProvider)
         {
             this.getPosition = getPosition;
             this.setPosition = setPosition;

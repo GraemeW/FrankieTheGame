@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace Frankie.ZoneManagement.Editor
 {
-    public class ZoneGroupView : VisualElement
+    public class ZoneNodeGroupView : VisualElement
     {
         // Tunables
         private const float _borderWidth = 2f;
@@ -19,8 +19,10 @@ namespace Frankie.ZoneManagement.Editor
         // State
         public ZoneNodeGroup zoneNodeGroup { get; }
         private readonly ZoneGraphView zoneGraphView;
+        private readonly TextField zoneNodeGroupNameField;
+        private readonly VisualElement zoneNodeGroupNameInput;
 
-        public ZoneGroupView(ZoneNodeGroup zoneNodeGroup, ZoneGraphView zoneGraphView)
+        public ZoneNodeGroupView(ZoneNodeGroup zoneNodeGroup, ZoneGraphView zoneGraphView)
         {
             this.zoneNodeGroup = zoneNodeGroup;
             this.zoneGraphView = zoneGraphView;
@@ -29,11 +31,14 @@ namespace Frankie.ZoneManagement.Editor
             ApplyRectFromData();
 
             VisualElement header = MakeHeader();
-            header.AddManipulator(new ZoneGroupDragManipulator(() => zoneNodeGroup.GetRect().position, OnHeaderDragged, () => zoneGraphView.zoomFactor));
+            header.AddManipulator(new ZoneNodeGroupDragManipulator(() => zoneNodeGroup.GetRect().position, OnHeaderDragged, () => zoneGraphView.zoomFactor));
+            header.RegisterCallback<MouseDownEvent>(OnHeaderMouseDown, TrickleDown.TrickleDown);
             Add(header);
             
-            TextField zoneNodeGroupNameField = MakeHeaderNameField(zoneNodeGroup.GetZoneNodeGroupName());
+            zoneNodeGroupNameField = MakeHeaderNameField(zoneNodeGroup.GetZoneNodeGroupName(), out zoneNodeGroupNameInput);
             zoneNodeGroupNameField.RegisterValueChangedCallback(changeEvent => { zoneNodeGroup.SetZoneNodeGroupName(changeEvent.newValue); });
+            zoneNodeGroupNameField.RegisterCallback<FocusOutEvent>(_ => DisableNameFieldEditing());
+            DisableNameFieldEditing();
             header.Add(zoneNodeGroupNameField);
 
             Button deleteButton = MakeDeleteButton();
@@ -56,6 +61,38 @@ namespace Frankie.ZoneManagement.Editor
             rect.position = newPosition;
             zoneGraphView.SetGroupRect(zoneNodeGroup, rect);
             ApplyRectFromData();
+        }
+
+        private void OnHeaderMouseDown(MouseDownEvent mouseDownEvent)
+        {
+            if (mouseDownEvent.clickCount != 2) { return; }
+
+            EnableNameFieldEditing();
+            mouseDownEvent.StopPropagation();
+        }
+
+        private void EnableNameFieldEditing()
+        {
+            zoneNodeGroupNameField.pickingMode = PickingMode.Position;
+            zoneNodeGroupNameField.isReadOnly = false;
+            if (zoneNodeGroupNameInput != null)
+            {
+                zoneNodeGroupNameInput.pickingMode = PickingMode.Position;
+                zoneNodeGroupNameInput.focusable = true;
+            }
+            zoneNodeGroupNameField.Focus();
+            zoneNodeGroupNameField.SelectAll();
+        }
+
+        private void DisableNameFieldEditing()
+        {
+            zoneNodeGroupNameField.pickingMode = PickingMode.Ignore;
+            zoneNodeGroupNameField.isReadOnly = true;
+            if (zoneNodeGroupNameInput != null)
+            {
+                zoneNodeGroupNameInput.pickingMode = PickingMode.Ignore;
+                zoneNodeGroupNameInput.focusable = false;
+            }
         }
         
         private void InitializeStyles()
@@ -107,7 +144,7 @@ namespace Frankie.ZoneManagement.Editor
             };
         }
 
-        private static TextField MakeHeaderNameField(string label)
+        private static TextField MakeHeaderNameField(string label, out VisualElement zoneNodeGroupNameInput)
         {
             var headerNameField = new TextField
             {
@@ -123,19 +160,19 @@ namespace Frankie.ZoneManagement.Editor
                     borderRightColor = Color.clear,
                 }
             };
-            
-            var textInput = headerNameField.Q<VisualElement>(className: TextField.inputUssClassName);
-            if (textInput != null)
+
+            zoneNodeGroupNameInput = headerNameField.Q<VisualElement>(className: TextField.inputUssClassName);
+            if (zoneNodeGroupNameInput != null)
             {
-                textInput.style.backgroundColor = Color.clear;
-                textInput.style.borderTopColor = Color.clear;
-                textInput.style.borderBottomColor = Color.clear;
-                textInput.style.borderLeftColor = Color.clear;
-                textInput.style.borderRightColor = Color.clear;
-                textInput.style.borderTopWidth = 0;
-                textInput.style.borderBottomWidth = 0;
-                textInput.style.borderLeftWidth = 0;
-                textInput.style.borderRightWidth = 0;
+                zoneNodeGroupNameInput.style.backgroundColor = Color.clear;
+                zoneNodeGroupNameInput.style.borderTopColor = Color.clear;
+                zoneNodeGroupNameInput.style.borderBottomColor = Color.clear;
+                zoneNodeGroupNameInput.style.borderLeftColor = Color.clear;
+                zoneNodeGroupNameInput.style.borderRightColor = Color.clear;
+                zoneNodeGroupNameInput.style.borderTopWidth = 0;
+                zoneNodeGroupNameInput.style.borderBottomWidth = 0;
+                zoneNodeGroupNameInput.style.borderLeftWidth = 0;
+                zoneNodeGroupNameInput.style.borderRightWidth = 0;
             }
             return headerNameField;
         }

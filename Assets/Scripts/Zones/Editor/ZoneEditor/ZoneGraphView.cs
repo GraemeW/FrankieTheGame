@@ -17,7 +17,7 @@ namespace Frankie.ZoneManagement.Editor
         private readonly StandardCanvasPanManipulator panManipulator;
         private readonly StandardCanvasZoomManipulator zoomManipulator;
         private readonly Dictionary<string, ZoneNodeView> nodeViewLookup = new();
-        private readonly Dictionary<ZoneNodeGroup, ZoneGroupView> groupViewLookup = new();
+        private readonly Dictionary<ZoneNodeGroup, ZoneNodeGroupView> groupViewLookup = new();
         private ZoneNode linkingParentNode;
         private bool isPlacingGroup;
 
@@ -195,15 +195,15 @@ namespace Frankie.ZoneManagement.Editor
 
             foreach (ZoneNodeGroup zoneNodeGroup in zone.GetAllGroups())
             {
-                var groupView = new ZoneGroupView(zoneNodeGroup, this);
-                groupViewLookup[zoneNodeGroup] = groupView;
-                groupLayer.Add(groupView);
+                var zoneNodeGroupView = new ZoneNodeGroupView(zoneNodeGroup, this);
+                groupViewLookup[zoneNodeGroup] = zoneNodeGroupView;
+                groupLayer.Add(zoneNodeGroupView);
             }
         }
 
         private void RefreshGroupViews(bool forceRecalculation = false)
         {
-            foreach (ZoneGroupView zoneGroupView in groupViewLookup.Values.Where(zoneGroupView => zoneGroupView?.zoneNodeGroup != null))
+            foreach (ZoneNodeGroupView zoneGroupView in groupViewLookup.Values.Where(zoneGroupView => zoneGroupView?.zoneNodeGroup != null))
             {
                 if (forceRecalculation) { zoneGroupView.zoneNodeGroup.RecomputeGroupRect(); }
                 zoneGroupView.ApplyRectFromData();
@@ -219,7 +219,7 @@ namespace Frankie.ZoneManagement.Editor
             
             Vector2 contentPosition = canvasContent.WorldToLocal(mouseDownEvent.mousePosition);
 
-            zone.CreateGroup(contentPosition);
+            zone.CreateZoneNodeGroup(contentPosition);
             RebuildGroups();
             mouseDownEvent.StopImmediatePropagation();
         }
