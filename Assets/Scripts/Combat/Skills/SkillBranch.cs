@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using Frankie.Utils;
 
 namespace Frankie.Combat
 {
     [Serializable]
-    public class SkillBranch : ScriptableObject
+    public class SkillBranch : ScriptableObject, IStandardGraphNode
     {
         [Header("Skill Properties")]
         [SerializeField] private string upSkillReference;
@@ -23,6 +26,20 @@ namespace Frankie.Combat
         [SerializeField] private Rect rect = new(30, 30, 250, 155);
         [HideInInspector] [SerializeField] private Rect draggingRect = new(0, 0, 250, 45);
 
+        #region NodeInterface
+        // Note:  Must be outside pragma for compilation
+        public ScriptableObject scriptableObject => this;
+        public Vector2 GetPosition() => rect.position;
+        public void SetPosition(Vector2 position)
+        {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Move Skill Branch");
+            rect.position = position;
+            EditorUtility.SetDirty(this);
+#endif
+        }
+        #endregion
+        
         #region SkillGetters
         public bool HasSkill(SkillBranchMapping skillBranchMapping) => GetSkill(skillBranchMapping) != null;
         public Skill GetSkill(SkillBranchMapping skillBranchMapping)
@@ -87,7 +104,6 @@ namespace Frankie.Combat
         #endregion
         
         #region EditorMethods
-        public Vector2 GetPosition() => rect.position;
         public Rect GetRect() => rect;
         public Rect GetDraggingRect() => draggingRect;
 #if UNITY_EDITOR
@@ -142,13 +158,6 @@ namespace Frankie.Combat
             {
                 SetBranch(skillBranchMapping, null);
             }
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Undo.RecordObject(this, "Move Skill Branch");
-            rect.position = position;
             EditorUtility.SetDirty(this);
         }
 

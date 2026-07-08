@@ -23,8 +23,8 @@ MonoBehaviour:
   mappedFromBranch: 0
   rect:
     serializedVersion: 2
-    x: 375
-    y: 65
+    x: 354
+    y: -7
     width: 250
     height: 155
   draggingRect:
@@ -109,8 +109,8 @@ MonoBehaviour:
   mappedFromBranch: 2
   rect:
     serializedVersion: 2
-    x: 775
-    y: 65
+    x: 754
+    y: 32
     width: 250
     height: 155
   draggingRect:
@@ -142,8 +142,8 @@ MonoBehaviour:
   mappedFromBranch: 1
   rect:
     serializedVersion: 2
-    x: 0
-    y: 65
+    x: -12
+    y: 26
     width: 250
     height: 155
   draggingRect:
