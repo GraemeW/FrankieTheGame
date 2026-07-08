@@ -9,9 +9,9 @@ namespace Frankie.ZoneManagement.Editor
         // Tunables
         private const float _headerHeight = 28f;
         private const float _borderWidth = 1f;
-        private static readonly Color _headerColor = Color.gray1;
-        private static readonly Color _bodyColor = Color.gray2;
-        private static readonly Color _externalZoneBodyColor = Color.cornflowerBlue * 0.75f;
+        private static readonly Color _headerColour = Color.gray1;
+        private static readonly Color _bodyColour = Color.gray2;
+        private static readonly Color _externalZoneBodyColour = Color.cornflowerBlue * 0.75f;
 
         // State
         private readonly ZoneNode zoneNode;
@@ -132,7 +132,7 @@ namespace Frankie.ZoneManagement.Editor
             style.top = rect.y;
             style.width = rect.width;
             style.height = rect.height;
-            style.backgroundColor = zoneNode.HasLinkedSceneReference() ? _externalZoneBodyColor : _bodyColor;
+            style.backgroundColor = zoneNode.HasLinkedSceneReference() ? _externalZoneBodyColour : _bodyColour;
             style.borderTopWidth = style.borderBottomWidth = style.borderLeftWidth = style.borderRightWidth = _borderWidth;
             style.borderTopColor = style.borderBottomColor = style.borderLeftColor = style.borderRightColor = Color.black;
             style.backgroundSize = new BackgroundSize(Length.Percent(100), Length.Percent(100));
@@ -146,7 +146,7 @@ namespace Frankie.ZoneManagement.Editor
                 style =
                 {
                     height = _headerHeight,
-                    backgroundColor = _headerColor,
+                    backgroundColor = _headerColour,
                     justifyContent = Justify.Center
                 }
             };

@@ -6,27 +6,35 @@ namespace Frankie.ZoneManagement
     [System.Serializable]
     public class ZoneNodeGroup
     {
-        // Tunables
-        [SerializeField] private float zoneNodeGroupPadding = 20f; 
+        [Header("Saved State")]
+        [SerializeField] private string zoneNodeGroupName;
         [SerializeField] private Rect rect;
         [SerializeField] private List<string> containedNodeIDs = new();
         [HideInInspector][SerializeField] private string zoneName;
 
+        // Const
+        private const string _defaultZoneGroupName = "--Zone Group--";
+        private const float _zoneNodeGroupPadding = 20f;
+        private const float _headerOffset = 25f;
+        
         // Cached State
         private Zone cachedZone;
         
         public ZoneNodeGroup(string zoneName)
         {
+            zoneNodeGroupName = _defaultZoneGroupName;
             this.zoneName = zoneName;
         }
         
         #region Getters
+        public string GetZoneNodeGroupName() => zoneNodeGroupName ?? _defaultZoneGroupName;
         public Rect GetRect() => rect;
         public IReadOnlyList<string> GetContainedNodeIDs() => containedNodeIDs;
         public bool ContainsNodeID(string nodeID) => containedNodeIDs.Contains(nodeID);
         #endregion
 
         #region Setters
+        public void SetZoneNodeGroupName(string setZoneNodeGroupName) => zoneNodeGroupName = setZoneNodeGroupName; 
         public void SetRect(Rect newRect) => rect = newRect;
         public void AddNodeID(string nodeID)
         {
@@ -51,7 +59,7 @@ namespace Frankie.ZoneManagement
             }
             if (bounds == null) { return; }
 
-            var paddedBounds = new Rect(bounds.Value.x - zoneNodeGroupPadding, bounds.Value.y - zoneNodeGroupPadding, bounds.Value.width + zoneNodeGroupPadding * 2f, bounds.Value.height + zoneNodeGroupPadding * 2f);
+            var paddedBounds = new Rect(bounds.Value.x - _zoneNodeGroupPadding, bounds.Value.y - _zoneNodeGroupPadding - _headerOffset, bounds.Value.width + _zoneNodeGroupPadding * 2f, bounds.Value.height + _zoneNodeGroupPadding * 2f + _headerOffset);
             SetRect(paddedBounds);
         }
         #endregion
