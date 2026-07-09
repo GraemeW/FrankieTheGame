@@ -165,7 +165,7 @@ namespace Frankie.Inventory
         private static Dictionary<EquipLocation, EquipableItemBase> UnpackSaveData(SaveState saveState)
         {
             Dictionary<EquipLocation, EquipableItemBase> saveData = new Dictionary<EquipLocation, EquipableItemBase>();
-            if (saveState?.GetState(typeof(Dictionary<EquipLocation, string>)) is not Dictionary<EquipLocation, string> equippedItemsForSerialization) { return saveData; }
+            if (saveState == null || !saveState.TryGetState(out Dictionary<EquipLocation, string> equippedItemsForSerialization)) { return saveData; }
 
             foreach (KeyValuePair<EquipLocation, string> pair in equippedItemsForSerialization)
             {

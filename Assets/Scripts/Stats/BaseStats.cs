@@ -210,7 +210,7 @@ namespace Frankie.Stats
         public void RestoreState(SaveState saveState)
         {
             if (!saveBaseStats) { return; }
-            if (saveState.GetState(typeof(BaseStatsSaveData)) is not BaseStatsSaveData baseStatsSaveData) { return; }
+            if (saveState == null || !saveState.TryGetState(out BaseStatsSaveData baseStatsSaveData)) { return; }
 
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
             currentLevel.value = baseStatsSaveData.level;
@@ -221,9 +221,9 @@ namespace Frankie.Stats
         
         public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState?.GetState(typeof(BaseStatsSaveData)) is BaseStatsSaveData baseStatsSaveData) { return baseStatsSaveData; }
             if (!saveBaseStats) { return null; }
             if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return null; }
+            if (saveState != null && saveState.TryGetState(out BaseStatsSaveData baseStatsSaveData)) { return baseStatsSaveData; }
             
             Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
             int initialLevel = statSheet.TryGetValue(Stat.InitialLevel, out var value) ? (int)value : 1;

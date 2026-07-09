@@ -160,8 +160,8 @@ namespace Frankie.World
 
         public int ManualGetDataFromState(SaveState saveState)
         {
-            int data = saveState != null ? (int)saveState.GetState(typeof(int)) : GetMaxItemQuantity();
-            return data >= 0 ? data : GetMaxItemQuantity();
+            if (saveState == null || !saveState.TryGetState(out int value)) { return GetMaxItemQuantity(); }
+            return value >= 0 ? value : GetMaxItemQuantity();
         }
         #endregion
     }

@@ -145,8 +145,8 @@ namespace Frankie.World
 
         public int ManualGetDataFromState(SaveState saveState)
         {
-            int data = saveState != null ? (int)saveState.GetState(typeof(int)) : GetInitialTransactionCount();
-            return data >= 0 ? data : GetInitialTransactionCount();
+            if (saveState == null || !saveState.TryGetState(out int value)) { return GetInitialTransactionCount(); }
+            return value >= 0 ? value : GetInitialTransactionCount();
         }
     }
 }

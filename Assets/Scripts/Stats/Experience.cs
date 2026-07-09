@@ -102,8 +102,8 @@ namespace Frankie.Stats
 
         public float ManualGetDataFromState(SaveState saveState)
         {
-            float points = saveState != null ? (float)saveState.GetState(typeof(float)) : initialPoints;
-            return points >= 0 ? points : initialPoints;
+            if (saveState == null || !saveState.TryGetState(out float value)) { return initialPoints; }
+            return value >= 0 ? value : initialPoints;
         }
         #endregion
     }

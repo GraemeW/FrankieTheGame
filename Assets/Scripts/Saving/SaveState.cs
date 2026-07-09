@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using System;
+using Frankie.Utils;
 
 namespace Frankie.Saving
 {
@@ -18,7 +19,7 @@ namespace Frankie.Saving
             this.state = JToken.FromObject(state);
         }
 
-        public object GetState(Type type) => state.ToObject(type); 
+        public bool TryGetState<T>(out T value) => state.TryToObject(out value); 
         public LoadPriority GetLoadPriority() => loadPriority;
     }
 }

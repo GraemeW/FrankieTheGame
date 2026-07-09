@@ -540,7 +540,7 @@ namespace Frankie.Combat
         
         public void RestoreState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(CombatParticipantSaveData)) is not CombatParticipantSaveData combatParticipantSaveData) { return; }
+            if (!saveState.TryGetState(out CombatParticipantSaveData combatParticipantSaveData)) { return; }
 
             SetupLazyState();
             isDead.value = combatParticipantSaveData.isDead;
@@ -562,8 +562,7 @@ namespace Frankie.Combat
 
         public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState?.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData combatParticipantSaveData) { return combatParticipantSaveData; }
-            
+            if (saveState != null && saveState.TryGetState(out CombatParticipantSaveData combatParticipantSaveData)) { return combatParticipantSaveData; }
             combatParticipantSaveData = usesAP
                 ? new CombatParticipantSaveData(false, 1.0f, 1.0f)
                 : new CombatParticipantSaveData(false, 1.0f, Mathf.Infinity);

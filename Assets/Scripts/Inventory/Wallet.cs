@@ -79,7 +79,7 @@ namespace Frankie.Inventory
 
         public void RestoreState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(WalletSaveData)) is not WalletSaveData walletSaveData) { return; }
+            if (saveState == null || !saveState.TryGetState(out WalletSaveData walletSaveData)) { return; }
             cash.value = walletSaveData.cash;
             pendingCash = walletSaveData.pendingCash;
         }
@@ -88,7 +88,7 @@ namespace Frankie.Inventory
 
         public WalletSaveData ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState?.GetState(typeof(WalletSaveData)) is WalletSaveData walletSaveData) { return walletSaveData; }
+            if (saveState != null && saveState.TryGetState(out WalletSaveData walletSaveData)) { return walletSaveData; }
             return new WalletSaveData(initialCash, 0);
         }
         #endregion

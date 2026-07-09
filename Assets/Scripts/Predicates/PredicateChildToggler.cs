@@ -60,8 +60,8 @@ namespace Frankie.Core.Predicates
         
         public bool ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState == null) { return childrenEnabled; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState == null || !saveState.TryGetState(out bool value)) { return childrenEnabled; }
+            return value;
         }
         #endregion
     }

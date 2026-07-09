@@ -62,8 +62,8 @@ namespace Frankie.Control
 
         public bool ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState == null) { return activeCheck; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState == null || !saveState.TryGetState(out bool value)) { return activeCheck; }
+            return value;
         }
     }
 }

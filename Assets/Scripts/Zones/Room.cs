@@ -78,8 +78,8 @@ namespace Frankie.ZoneManagement
         
         public bool ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState == null) { return isRoomActive; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState == null || !saveState.TryGetState(out bool value)) { return isRoomActive; }
+            return value;
         }
         #endregion
     }

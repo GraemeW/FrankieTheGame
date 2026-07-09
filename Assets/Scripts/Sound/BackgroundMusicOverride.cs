@@ -124,8 +124,8 @@ namespace Frankie.Sound
         
         public bool ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState == null) { return isOverrideActive; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState == null || !saveState.TryGetState(out bool value)) { return isOverrideActive; }
+            return value;
         }
         #endregion
     }
