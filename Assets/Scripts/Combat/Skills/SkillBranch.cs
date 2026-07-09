@@ -24,7 +24,6 @@ namespace Frankie.Combat
         [HideInInspector] [SerializeField] private SkillBranchMapping mappedFromBranch;
         [Header("Editor Properties")]
         [SerializeField] private Rect rect = new(30, 30, 250, 155);
-        [HideInInspector] [SerializeField] private Rect draggingRect = new(0, 0, 250, 45);
 
         #region NodeInterface
         // Note:  Must be outside pragma for compilation
@@ -105,7 +104,6 @@ namespace Frankie.Combat
         
         #region EditorMethods
         public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
 #if UNITY_EDITOR
         public void Initialize(int width, int height, SkillBranchMapping setMappedFromBranch)
         {
@@ -158,13 +156,6 @@ namespace Frankie.Combat
             {
                 SetBranch(skillBranchMapping, null);
             }
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetDraggingRect(Rect setDraggingRect)
-        {
-            if (setDraggingRect == draggingRect) { return; }
-            draggingRect = setDraggingRect;
             EditorUtility.SetDirty(this);
         }
 #endif
