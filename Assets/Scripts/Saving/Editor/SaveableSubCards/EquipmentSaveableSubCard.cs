@@ -20,7 +20,7 @@ namespace Frankie.Saving.Editor
 
             if (!equipment.TryManualGetDataFromState(saveState, out Dictionary<EquipLocation, EquipableItemBase> equippedItems))
             {
-                subCardView.Add(new Label("No Equipment save data found"));
+                subCardView.Add(new Label("No Equipment save data available"));
                 return;
             }
             

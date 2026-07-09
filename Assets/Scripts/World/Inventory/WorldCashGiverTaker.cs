@@ -151,7 +151,7 @@ namespace Frankie.World
                 return true;
             }
             value = GetInitialTransactionCount();
-            return false;
+            return true;
         }
     }
 }

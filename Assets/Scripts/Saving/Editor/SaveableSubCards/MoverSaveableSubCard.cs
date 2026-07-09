@@ -35,7 +35,7 @@ namespace Frankie.Saving.Editor
 
             if (!mover.TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition))
             {
-                subCardView.Add(new Label("No position currently saved"));
+                subCardView.Add(new Label("No position currently available"));
                 return;
             }
             

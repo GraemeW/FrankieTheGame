@@ -47,7 +47,7 @@ namespace Frankie.Saving.Editor
 
             if (questStatuses.Count == 0)
             {
-                listContainer.Add(new Label("No questList save data found"));
+                listContainer.Add(new Label("No questList save data available"));
                 return;
             }
 

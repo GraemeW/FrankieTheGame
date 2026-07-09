@@ -17,7 +17,7 @@ namespace Frankie.Saving.Editor
             if (saveable is not Wallet wallet) { return; }
             if (!wallet.TryManualGetDataFromState(saveState, out WalletSaveData saveData))
             {
-                subCardView.Add(new Label("No Wallet save data found"));
+                subCardView.Add(new Label("No Wallet save data available"));
                 return;
             }
 

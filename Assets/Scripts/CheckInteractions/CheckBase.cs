@@ -50,7 +50,7 @@ namespace Frankie.Control
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState() => ManualGetStateFromData(activeCheck);
+        public virtual SaveState CaptureState() => ManualGetStateFromData(activeCheck);
 
         public virtual void RestoreState(SaveState saveState)
         {
@@ -65,7 +65,7 @@ namespace Frankie.Control
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = activeCheck;
-            return false;
+            return true;
         }
     }
 }

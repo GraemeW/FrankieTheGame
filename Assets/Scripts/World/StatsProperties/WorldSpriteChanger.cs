@@ -68,7 +68,7 @@ namespace Frankie.World
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = isAlternateSprite;
-            return false;
+            return true;
         }
         #endregion
     }

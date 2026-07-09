@@ -62,7 +62,7 @@ namespace Frankie.Core.Predicates
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = childrenEnabled;
-            return false;
+            return true;
         }
         #endregion
     }

@@ -9,6 +9,7 @@ using Frankie.Stats;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Quests;
+using Frankie.Speech;
 using Frankie.World;
 using Frankie.ZoneManagement;
 
@@ -54,6 +55,7 @@ namespace Frankie.Saving.Editor
                 Equipment => new EquipmentSaveableSubCard(saveable, saveState),
                 Wallet => new WalletSaveableSubCard(saveable, saveState),
                 QuestList => new QuestListSubCard(saveable, saveState),
+                AIConversant => new SimpleIntSaveableSubCard(saveable, saveState), // Child of CheckBase -> above in switch
                 CheckBase => new SimpleBoolSaveableSubCard(saveable, saveState),
                 PredicateChildToggler => new SimpleBoolSaveableSubCard(saveable, saveState),
                 CinematicTrigger => new SimpleBoolSaveableSubCard(saveable, saveState),

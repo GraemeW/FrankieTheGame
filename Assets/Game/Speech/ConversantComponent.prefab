@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6564381309038757641}
   - component: {fileID: 6564381309038757639}
   - component: {fileID: 548448797238944362}
+  - component: {fileID: 7371511343337835833}
   m_Layer: 12
   m_Name: ConversantComponent
   m_TagString: Untagged
@@ -100,3 +101,17 @@ MonoBehaviour:
   onExitDialogue:
     m_PersistentCalls:
       m_Calls: []
+  saveDialogueCount: 1
+--- !u!114 &7371511343337835833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564381309038757640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  uniqueIdentifier: 

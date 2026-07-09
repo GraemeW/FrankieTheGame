@@ -19,7 +19,7 @@ namespace Frankie.Saving.Editor
             
             if (!knapsack.TryManualGetDataFromState(saveState, out ActiveInventoryItem[] itemsInKnapsack))
             {
-                subCardView.Add(new Label("No Knapsack save data found"));
+                subCardView.Add(new Label("No Knapsack save data available"));
                 return;
             }
             

@@ -166,7 +166,7 @@ namespace Frankie.World
                 return true;
             }
             value = GetMaxItemQuantity();
-            return false;
+            return true;
         }
         #endregion
     }

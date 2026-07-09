@@ -19,7 +19,7 @@ namespace Frankie.Saving.Editor
             
             if (!partyAssist.TryManualGetDataFromState(saveState, out HashSet<CharacterProperties> partyAssistSaveData))
             {
-                subCardView.Add(new Label("No PartyAssist save data found"));
+                subCardView.Add(new Label("No PartyAssist save data available"));
                 return;
             }
 

@@ -66,7 +66,7 @@ namespace Frankie.Core
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = isTriggered;
-            return false;
+            return true;
         }
     }
 }

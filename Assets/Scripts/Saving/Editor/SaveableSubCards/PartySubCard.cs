@@ -22,7 +22,7 @@ namespace Frankie.Saving.Editor
             
             if (!party.TryManualGetDataFromState(saveState, out PartySaveData partySaveData))
             {
-                subCardView.Add(new Label("No Party save data found"));
+                subCardView.Add(new Label("No Party save data available"));
                 return;
             }
 

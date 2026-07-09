@@ -17,7 +17,7 @@ namespace Frankie.Saving.Editor
             if (saveable is not CombatParticipant combatParticipant) { return; }
             if (!combatParticipant.TryManualGetDataFromState(saveState, out CombatParticipantSaveData saveData))
             {
-                subCardView.Add(new Label("No CombatParticipant save data found"));
+                subCardView.Add(new Label("No CombatParticipant save data available"));
                 return;
             }
             

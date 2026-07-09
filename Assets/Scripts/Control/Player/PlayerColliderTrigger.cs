@@ -52,7 +52,7 @@ namespace Frankie.Control
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = triggered;
-            return false;
+            return true;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace Frankie.ZoneManagement
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = isRoomActive;
-            return false;
+            return true;
         }
         #endregion
     }

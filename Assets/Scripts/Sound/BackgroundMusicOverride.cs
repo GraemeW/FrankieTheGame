@@ -126,7 +126,7 @@ namespace Frankie.Sound
         {
             if (saveState != null && saveState.TryGetState(out value)) { return true; }
             value = isOverrideActive;
-            return false;
+            return true;
         }
         #endregion
     }
