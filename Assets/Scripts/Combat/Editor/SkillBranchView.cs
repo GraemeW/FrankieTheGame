@@ -93,9 +93,9 @@ namespace Frankie.Combat.Editor
 
             style.paddingBottom = _nodePadding;
         }
-
+        
+        private bool UpdateSkillField(string newSkillName, SkillBranchMapping skillBranchMapping) => skillBranch.SetSkill(newSkillName, skillBranchMapping);
         private bool ShouldShowAddButton(SkillBranchMapping skillBranchMapping) => skillBranch.HasSkill(skillBranchMapping) && !skillBranch.HasBranch(skillBranchMapping);
-        private void UpdateSkillField(string newSkillName, SkillBranchMapping skillBranchMapping) => skillBranch.SetSkill(newSkillName, skillBranchMapping);
         private void CreateChildSkillBranch(SkillBranch parentSkillBranch, SkillBranchMapping skillBranchMapping) => skillTree.CreateChildSkillBranch(parentSkillBranch, skillBranchMapping);
         
         private void RefreshSkillBranchMapping()
@@ -108,7 +108,10 @@ namespace Frankie.Combat.Editor
                 VisualElement detailRow = MakeDetailRow(skillBranchMapping.ToString(), skillBranch.GetSkill(skillBranchMapping), ShouldShowAddButton(skillBranchMapping), out TextField skillField, out Button addButton);
                 skillField?.RegisterValueChangedCallback(changeEvent =>
                 {
-                    UpdateSkillField(changeEvent.newValue, skillBranchMapping);
+                    if (!UpdateSkillField(changeEvent.newValue, skillBranchMapping))
+                    {
+                        skillField.SetValueWithoutNotify(string.Empty);
+                    }
                     addButton.style.display = ShouldShowAddButton(skillBranchMapping) ? DisplayStyle.Flex : DisplayStyle.None;
                 });
                 addButton?.RegisterCallback<ClickEvent>(_ =>

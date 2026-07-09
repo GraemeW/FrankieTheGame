@@ -113,33 +113,35 @@ namespace Frankie.Combat
             EditorUtility.SetDirty(this);
         }
 
-        public void SetSkill(string skillName, SkillBranchMapping skillBranchMapping)
+        public bool SetSkill(string skillName, SkillBranchMapping skillBranchMapping)
         {
-            if (Skill.GetSkillFromName(skillName) == null) // Skill does not exist
+            bool wasSkillFound = true;
+            if (Skill.GetSkillFromName(skillName) == null)
             {
-                skillName = ""; // override to whitespace, parses as null
+                skillName = string.Empty;
+                wasSkillFound = false;
             }
+
+            if (GetSkill(skillBranchMapping) != null && GetSkill(skillBranchMapping).name == skillName) { return wasSkillFound; }
             
-            if (GetSkill(skillBranchMapping) == null || GetSkill(skillBranchMapping).name != skillName)
+            Undo.RecordObject(this, "Update Skill");
+            switch (skillBranchMapping)
             {
-                Undo.RecordObject(this, "Update Skill");
-                switch (skillBranchMapping)
-                {
-                    case SkillBranchMapping.Up:
-                        upSkillReference = skillName;
-                        break;
-                    case SkillBranchMapping.Left:
-                        leftSkillReference = skillName;
-                        break;
-                    case SkillBranchMapping.Right:
-                        rightSkillReference = skillName;
-                        break;
-                    case SkillBranchMapping.Down:
-                        downSkillReference = skillName;
-                        break;
-                }
-                EditorUtility.SetDirty(this);
+                case SkillBranchMapping.Up:
+                    upSkillReference = skillName;
+                    break;
+                case SkillBranchMapping.Left:
+                    leftSkillReference = skillName;
+                    break;
+                case SkillBranchMapping.Right:
+                    rightSkillReference = skillName;
+                    break;
+                case SkillBranchMapping.Down:
+                    downSkillReference = skillName;
+                    break;
             }
+            EditorUtility.SetDirty(this);
+            return wasSkillFound;
         }
 
         public void AddChild(string childID, SkillBranchMapping skillBranchMapping)
