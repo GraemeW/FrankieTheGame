@@ -14,7 +14,7 @@ namespace Frankie.Saving.Editor
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not ISaveable<float> floatSaveable) { return; }
-            float value = floatSaveable.ManualGetDataFromState(saveState);
+            floatSaveable.TryManualGetDataFromState(saveState, out float value);
             
             var floatRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(floatRow);

@@ -127,8 +127,10 @@ namespace Frankie.Stats
         public bool TryManualGetDataFromState(SaveState saveState, out HashSet<CharacterProperties> data)
         {
             data = new HashSet<CharacterProperties>();
-            if (saveState == null || !saveState.TryGetState(out List<string> partyNames)) { return false; }
+            // Default Pass Back
+            if (saveState == null || !saveState.TryGetState(out List<string> partyNames)) { return true; }
             
+            // Save Found Pass Back
             data = partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
             return true;
         }

@@ -89,8 +89,10 @@ namespace Frankie.Inventory
         public bool TryManualGetDataFromState(SaveState saveState, out WalletSaveData walletSaveData)
         {
             if (saveState != null && saveState.TryGetState(out walletSaveData)) { return true; }
+            
+            // Default Pass Back
             walletSaveData = new WalletSaveData(initialCash, 0);
-            return false;
+            return true;
         }
         #endregion
     }

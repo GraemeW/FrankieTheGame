@@ -563,10 +563,12 @@ namespace Frankie.Combat
         public bool TryManualGetDataFromState(SaveState saveState, out CombatParticipantSaveData combatParticipantSaveData)
         {
             if (saveState != null && saveState.TryGetState(out combatParticipantSaveData)) { return true; }
+            
+            // Default Pass Back
             combatParticipantSaveData = usesAP
                 ? new CombatParticipantSaveData(false, 1.0f, 1.0f)
                 : new CombatParticipantSaveData(false, 1.0f, Mathf.Infinity);
-            return false;
+            return true;
         }
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)

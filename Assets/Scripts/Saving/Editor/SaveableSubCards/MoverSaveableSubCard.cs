@@ -32,9 +32,8 @@ namespace Frankie.Saving.Editor
         {
             CancelPickingIfActive();
             if (saveable is not Mover mover) { return; }
-            
-            SerializableVector2 savedPosition = mover.ManualGetDataFromState(saveState);
-            if (savedPosition == null)
+
+            if (!mover.TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition))
             {
                 subCardView.Add(new Label("No position currently saved"));
                 return;

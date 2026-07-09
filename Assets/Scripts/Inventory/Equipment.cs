@@ -138,13 +138,16 @@ namespace Frankie.Inventory
         public bool TryManualGetDataFromState(SaveState saveState, out Dictionary<EquipLocation, EquipableItemBase> dataSet)
         {
             dataSet = new Dictionary<EquipLocation, EquipableItemBase>();
+            
+            // Default Pass Back
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
                 if (equipLocation == EquipLocation.None) { continue; }
                 dataSet[equipLocation] = null;
             }
-            if (saveState == null) { return false; }
+            if (saveState == null) { return true; }
             
+            // Save Found Pass Back
             foreach (KeyValuePair<EquipLocation, EquipableItemBase> pair in UnpackSaveData(saveState))
             {
                 dataSet[pair.Key] = pair.Value;

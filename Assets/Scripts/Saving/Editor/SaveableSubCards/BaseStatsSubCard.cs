@@ -20,9 +20,7 @@ namespace Frankie.Saving.Editor
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not BaseStats baseStats) { return; }
-            
-            BaseStatsSaveData baseStatsSaveData = baseStats.ManualGetDataFromState(saveState);
-            if (baseStatsSaveData?.statSheet == null)
+            if (!baseStats.TryManualGetDataFromState(saveState, out BaseStatsSaveData baseStatsSaveData))
             {
                 subCardView.Add(new Label("No BaseStats save data found"));
                 return;

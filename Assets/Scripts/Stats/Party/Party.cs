@@ -334,8 +334,10 @@ namespace Frankie.Stats
         public bool TryManualGetDataFromState(SaveState saveState, out PartySaveData data)
         {
             data = new PartySaveData();
-            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return false; }
+            // Default Pass Back
+            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return true; }
             
+            // Save Found Pass Back
             data = UnpackPartySerializableSaveData(partySerializableSaveData);
             return true;
         }

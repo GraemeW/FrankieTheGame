@@ -109,8 +109,10 @@ namespace Frankie.Quests
         public bool TryManualGetDataFromState(SaveState saveState, out List<QuestStatus> data)
         {
             data = new List<QuestStatus>();
-            if (saveState == null || !saveState.TryGetState(out List<SerializableQuestStatus> serializableQuestStatuses)) { return false; }
+            // Default Pass Back
+            if (saveState == null || !saveState.TryGetState(out List<SerializableQuestStatus> serializableQuestStatuses)) { return true; }
             
+            // Save Found Pass Back
             data = serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)).ToList();
             return true;
         }

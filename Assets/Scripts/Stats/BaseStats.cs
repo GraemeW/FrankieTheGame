@@ -225,14 +225,14 @@ namespace Frankie.Stats
             if (!saveBaseStats) { return false; }
             if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return false; }
             
-            // Success Pass Back
-            if (saveState != null && saveState.TryGetState(out baseStatsSaveData)) { return true; }
+            // Save Found Pass Back
+            if (saveState != null && saveState.TryGetState(out baseStatsSaveData) &&  baseStatsSaveData.statSheet != null) { return true; }
             
             // Default Pass Back
             Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
             int initialLevel = statSheet.TryGetValue(Stat.InitialLevel, out var value) ? (int)value : 1;
             baseStatsSaveData = new BaseStatsSaveData(initialLevel, statSheet);
-            return false;
+            return true;
         }
         #endregion
     }

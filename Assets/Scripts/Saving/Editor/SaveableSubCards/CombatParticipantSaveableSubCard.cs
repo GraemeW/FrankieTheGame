@@ -15,8 +15,7 @@ namespace Frankie.Saving.Editor
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         { 
             if (saveable is not CombatParticipant combatParticipant) { return; }
-            CombatParticipantSaveData saveData = combatParticipant.ManualGetDataFromState(saveState);
-            if (saveData == null)
+            if (!combatParticipant.TryManualGetDataFromState(saveState, out CombatParticipantSaveData saveData))
             {
                 subCardView.Add(new Label("No CombatParticipant save data found"));
                 return;

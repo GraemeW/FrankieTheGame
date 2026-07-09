@@ -14,7 +14,7 @@ namespace Frankie.Saving.Editor
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not ISaveable<bool> boolSaveable) { return; }
-            bool setEnabled = boolSaveable.ManualGetDataFromState(saveState);
+           boolSaveable.TryManualGetDataFromState(saveState, out bool setEnabled);
 
             var boolRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(boolRow);

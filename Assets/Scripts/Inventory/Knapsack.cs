@@ -336,8 +336,10 @@ namespace Frankie.Inventory
         public bool TryManualGetDataFromState(SaveState saveState, out ActiveInventoryItem[] data)
         {
             data = new ActiveInventoryItem[inventorySize];
-            if (saveState == null || !saveState.TryGetState(out SaveableActiveItem[] slotsActiveItemStrings)) { return false; }
+            // Default Pass Back
+            if (saveState == null || !saveState.TryGetState(out SaveableActiveItem[] slotsActiveItemStrings)) { return true; }
             
+            // Save Found Pass Back
             if (slotsActiveItemStrings.Length != inventorySize) { Array.Resize(ref slotsActiveItemStrings, inventorySize); }
             for (int i = 0; i < inventorySize; i++)
             {
