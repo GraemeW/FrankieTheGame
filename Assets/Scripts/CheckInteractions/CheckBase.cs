@@ -54,16 +54,18 @@ namespace Frankie.Control
 
         public virtual void RestoreState(SaveState saveState)
         {
-            SetActiveCheck(ManualGetDataFromState(saveState));
+            TryManualGetDataFromState(saveState, out bool value);
+            SetActiveCheck(value);
         }
         #endregion
 
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
 
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null || !saveState.TryGetState(out bool value)) { return activeCheck; }
-            return value;
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = activeCheck;
+            return false;
         }
     }
 }

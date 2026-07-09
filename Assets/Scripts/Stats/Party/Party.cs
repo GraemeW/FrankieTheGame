@@ -331,10 +331,13 @@ namespace Frankie.Stats
             return new SaveState(GetLoadPriority(), partySerializableSaveData);
         }
 
-        public PartySaveData ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out PartySaveData data)
         {
-            if (saveState != null && saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return UnpackPartySerializableSaveData(partySerializableSaveData); }
-            return new PartySaveData();
+            data = new PartySaveData();
+            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return false; }
+            
+            data = UnpackPartySerializableSaveData(partySerializableSaveData);
+            return true;
         }
         
         private static PartySaveData UnpackPartySerializableSaveData(PartySerializableSaveData partySerializableSaveData)

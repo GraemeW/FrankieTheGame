@@ -286,10 +286,11 @@ namespace Frankie.Control
 
         public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
 
-        public SerializableVector2 ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out SerializableVector2 serializableVector2)
         {
-            if (saveState == null || !saveState.TryGetState(out SerializableVector2 serializableVector2)) { return null; }
-            return serializableVector2;
+            if (saveState != null && saveState.TryGetState(out serializableVector2)) { return true; }
+            serializableVector2 = null;
+            return false;
         }
         #endregion
     }

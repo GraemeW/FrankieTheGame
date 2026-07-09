@@ -135,21 +135,21 @@ namespace Frankie.Inventory
             return PackSaveData(GetLoadPriority(), filteredSaveData);
         }
 
-        public Dictionary<EquipLocation, EquipableItemBase> ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out Dictionary<EquipLocation, EquipableItemBase> dataSet)
         {
-            Dictionary<EquipLocation, EquipableItemBase> dataSet = new Dictionary<EquipLocation, EquipableItemBase>();
+            dataSet = new Dictionary<EquipLocation, EquipableItemBase>();
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
                 if (equipLocation == EquipLocation.None) { continue; }
                 dataSet[equipLocation] = null;
             }
-            if (saveState == null) { return dataSet; }
+            if (saveState == null) { return false; }
             
             foreach (KeyValuePair<EquipLocation, EquipableItemBase> pair in UnpackSaveData(saveState))
             {
                 dataSet[pair.Key] = pair.Value;
             }
-            return dataSet;
+            return true;
         }
         
         private static SaveState PackSaveData(LoadPriority loadPriority, Dictionary<EquipLocation, EquipableItemBase> saveData)

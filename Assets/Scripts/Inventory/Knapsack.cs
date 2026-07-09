@@ -309,7 +309,7 @@ namespace Frankie.Inventory
         
         public void RestoreState(SaveState saveState)
         {
-            slots = ManualGetDataFromState(saveState);
+            TryManualGetDataFromState(saveState, out slots);
             knapsackUpdated?.Invoke();
         }
 
@@ -333,10 +333,10 @@ namespace Frankie.Inventory
             return new SaveState(GetLoadPriority(), slotsActiveItemStrings);
         }
 
-        public ActiveInventoryItem[] ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out ActiveInventoryItem[] data)
         {
-            var data = new ActiveInventoryItem[inventorySize];
-            if (saveState == null || !saveState.TryGetState(out SaveableActiveItem[] slotsActiveItemStrings)) { return data; }
+            data = new ActiveInventoryItem[inventorySize];
+            if (saveState == null || !saveState.TryGetState(out SaveableActiveItem[] slotsActiveItemStrings)) { return false; }
             
             if (slotsActiveItemStrings.Length != inventorySize) { Array.Resize(ref slotsActiveItemStrings, inventorySize); }
             for (int i = 0; i < inventorySize; i++)
@@ -350,11 +350,8 @@ namespace Frankie.Inventory
 
                 data[i] = activeInventoryItem;
             }
-
-            return data;
+            return true;
         }
         #endregion
-
-
     }
 }

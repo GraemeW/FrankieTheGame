@@ -116,16 +116,17 @@ namespace Frankie.Sound
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty; 
         public SaveState CaptureState() => ManualGetStateFromData(isOverrideActive);
         public void RestoreState(SaveState saveState)
-        {
-            queueTriggerInStart = ManualGetDataFromState(saveState);
+        { 
+            TryManualGetDataFromState(saveState, out queueTriggerInStart);
         }
         
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
         
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null || !saveState.TryGetState(out bool value)) { return isOverrideActive; }
-            return value;
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = isOverrideActive;
+            return false;
         }
         #endregion
     }

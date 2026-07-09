@@ -68,7 +68,7 @@ namespace Frankie.ZoneManagement
         public void RestoreState(SaveState saveState)
         {
             if (saveState == null) { return; }
-            bool roomEnabled = ManualGetDataFromState(saveState);
+            TryManualGetDataFromState(saveState, out bool roomEnabled);
             
             InitializeRoom();
             ToggleRoom(roomEnabled, true);
@@ -76,10 +76,11 @@ namespace Frankie.ZoneManagement
         
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
         
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null || !saveState.TryGetState(out bool value)) { return isRoomActive; }
-            return value;
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = isRoomActive;
+            return false;
         }
         #endregion
     }

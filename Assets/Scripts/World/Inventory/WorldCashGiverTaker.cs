@@ -133,7 +133,7 @@ namespace Frankie.World
         public void RestoreState(SaveState saveState)
         {
             numberTransactionsLeft ??= new LazyValue<int>(GetInitialTransactionCount);
-            numberTransactionsLeft.value = ManualGetDataFromState(saveState);
+            if (TryManualGetDataFromState(saveState, out int value)) { numberTransactionsLeft.value = value; }
         }
         #endregion
 
@@ -143,10 +143,15 @@ namespace Frankie.World
             return new SaveState(GetLoadPriority(), data);
         }
 
-        public int ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out int value)
         {
-            if (saveState == null || !saveState.TryGetState(out int value)) { return GetInitialTransactionCount(); }
-            return value >= 0 ? value : GetInitialTransactionCount();
+            if (saveState != null && saveState.TryGetState(out value))
+            {
+                value = value >= 0 ? value : GetInitialTransactionCount();
+                return true;
+            }
+            value = GetInitialTransactionCount();
+            return false;
         }
     }
 }

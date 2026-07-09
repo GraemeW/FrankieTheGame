@@ -219,15 +219,20 @@ namespace Frankie.Stats
         
         public SaveState ManualGetStateFromData(BaseStatsSaveData data) => new(GetLoadPriority(), data);
         
-        public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out BaseStatsSaveData baseStatsSaveData)
         {
-            if (!saveBaseStats) { return null; }
-            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return null; }
-            if (saveState != null && saveState.TryGetState(out BaseStatsSaveData baseStatsSaveData)) { return baseStatsSaveData; }
+            baseStatsSaveData = null;
+            if (!saveBaseStats) { return false; }
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return false; }
             
+            // Success Pass Back
+            if (saveState != null && saveState.TryGetState(out baseStatsSaveData)) { return true; }
+            
+            // Default Pass Back
             Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
             int initialLevel = statSheet.TryGetValue(Stat.InitialLevel, out var value) ? (int)value : 1;
-            return new BaseStatsSaveData(initialLevel, statSheet);
+            baseStatsSaveData = new BaseStatsSaveData(initialLevel, statSheet);
+            return false;
         }
         #endregion
     }

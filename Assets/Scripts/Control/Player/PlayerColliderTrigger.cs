@@ -42,16 +42,17 @@ namespace Frankie.Control
 
         public void RestoreState(SaveState saveState)
         {
-            triggered = ManualGetDataFromState(saveState);
+            TryManualGetDataFromState(saveState, out triggered);
             ReconcileState();
         }
 
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
 
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null || !saveState.TryGetState(out bool value)) { return triggered; }
-            return value;
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = triggered;
+            return false;
         }
     }
 }

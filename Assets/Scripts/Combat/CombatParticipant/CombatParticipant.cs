@@ -560,13 +560,13 @@ namespace Frankie.Combat
         
         public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
 
-        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out CombatParticipantSaveData combatParticipantSaveData)
         {
-            if (saveState != null && saveState.TryGetState(out CombatParticipantSaveData combatParticipantSaveData)) { return combatParticipantSaveData; }
+            if (saveState != null && saveState.TryGetState(out combatParticipantSaveData)) { return true; }
             combatParticipantSaveData = usesAP
                 ? new CombatParticipantSaveData(false, 1.0f, 1.0f)
                 : new CombatParticipantSaveData(false, 1.0f, Mathf.Infinity);
-            return combatParticipantSaveData;
+            return false;
         }
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)

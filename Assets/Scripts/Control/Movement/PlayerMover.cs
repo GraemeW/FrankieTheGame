@@ -202,8 +202,7 @@ namespace Frankie.Control
 
         public override void RestoreState(SaveState saveState)
         {
-            SerializableVector2 savedPosition = ManualGetDataFromState(saveState);
-            if (savedPosition == null) { return; }
+            if (!TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition)) { return; }
 
             // Force initialization for objects set to disable
             SelfInitializeRigidBody();

@@ -91,7 +91,9 @@ namespace Frankie.Quests
         public void RestoreState(SaveState saveState)
         {
             questStatuses.Clear();
-            foreach (QuestStatus questStatus in ManualGetDataFromState(saveState))
+            if (!TryManualGetDataFromState(saveState, out List<QuestStatus> data)) { return; }
+            
+            foreach (QuestStatus questStatus in data)
             {
                 questStatuses.Add(questStatus);
             }
@@ -104,10 +106,13 @@ namespace Frankie.Quests
             return new SaveState(GetLoadPriority(), serializableQuestStatuses);
         }
 
-        public List<QuestStatus> ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out List<QuestStatus> data)
         {
-            if (saveState == null || !saveState.TryGetState(out List<SerializableQuestStatus> serializableQuestStatuses)) { return new List<QuestStatus>(); }
-            return serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)).ToList();
+            data = new List<QuestStatus>();
+            if (saveState == null || !saveState.TryGetState(out List<SerializableQuestStatus> serializableQuestStatuses)) { return false; }
+            
+            data = serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)).ToList();
+            return true;
         }
         #endregion
     }

@@ -58,16 +58,17 @@ namespace Frankie.World
 
         public void RestoreState(SaveState saveState)
         {
-            isAlternateSprite = ManualGetDataFromState(saveState);
+            TryManualGetDataFromState(saveState, out isAlternateSprite);
             UpdateSprite();
         }
         
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
 
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null || !saveState.TryGetState(out bool value)) { return isAlternateSprite; }
-            return value;
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = isAlternateSprite;
+            return false;
         }
         #endregion
     }

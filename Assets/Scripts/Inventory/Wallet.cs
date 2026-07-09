@@ -86,10 +86,11 @@ namespace Frankie.Inventory
         
         public SaveState ManualGetStateFromData(WalletSaveData data) => new(GetLoadPriority(), data);
 
-        public WalletSaveData ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out WalletSaveData walletSaveData)
         {
-            if (saveState != null && saveState.TryGetState(out WalletSaveData walletSaveData)) { return walletSaveData; }
-            return new WalletSaveData(initialCash, 0);
+            if (saveState != null && saveState.TryGetState(out walletSaveData)) { return true; }
+            walletSaveData = new WalletSaveData(initialCash, 0);
+            return false;
         }
         #endregion
     }

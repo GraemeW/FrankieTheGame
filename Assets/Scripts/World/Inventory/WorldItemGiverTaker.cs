@@ -149,7 +149,7 @@ namespace Frankie.World
         public void RestoreState(SaveState state)
         {
             currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
-            currentItemQuantity.value = ManualGetDataFromState(state);
+            if (TryManualGetDataFromState(state, out int value)) { currentItemQuantity.value = value; }
         }
         
         public SaveState ManualGetStateFromData(int data)
@@ -158,10 +158,15 @@ namespace Frankie.World
             return new SaveState(GetLoadPriority(), data);
         }
 
-        public int ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out int value)
         {
-            if (saveState == null || !saveState.TryGetState(out int value)) { return GetMaxItemQuantity(); }
-            return value >= 0 ? value : GetMaxItemQuantity();
+            if (saveState != null && saveState.TryGetState(out value))
+            {
+                value = value >= 0 ? value : GetMaxItemQuantity();
+                return true;
+            }
+            value = GetMaxItemQuantity();
+            return false;
         }
         #endregion
     }
