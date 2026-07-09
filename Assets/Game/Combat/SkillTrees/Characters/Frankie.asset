@@ -27,12 +27,6 @@ MonoBehaviour:
     y: -7
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,12 +74,6 @@ MonoBehaviour:
     y: 370
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &2417977989957955819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,12 +101,6 @@ MonoBehaviour:
     y: 32
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &7585638719868435716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,9 +128,3 @@ MonoBehaviour:
     y: 26
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45

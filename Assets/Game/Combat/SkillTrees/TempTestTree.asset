@@ -27,12 +27,6 @@ MonoBehaviour:
     y: 646
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &-9056755904045281000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,12 +54,6 @@ MonoBehaviour:
     y: 646
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &-4615079321139129808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,12 +81,6 @@ MonoBehaviour:
     y: 476
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &-4480384712336328033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,12 +108,6 @@ MonoBehaviour:
     y: 479
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,12 +161,6 @@ MonoBehaviour:
     y: 646
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &144419427195672160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,12 +188,6 @@ MonoBehaviour:
     y: 120
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &4022898975218183734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,12 +215,6 @@ MonoBehaviour:
     y: 476
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &5768682653990731831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,12 +242,6 @@ MonoBehaviour:
     y: 300
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &5921272211179918813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,12 +269,6 @@ MonoBehaviour:
     y: 300
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &8885085004548582250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,9 +296,3 @@ MonoBehaviour:
     y: 833
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
