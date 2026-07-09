@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using Frankie.Utils;
 
 namespace Frankie.Combat
 {
     [Serializable]
-    public class SkillBranch : ScriptableObject
+    public class SkillBranch : ScriptableObject, IStandardGraphNode
     {
         [Header("Skill Properties")]
         [SerializeField] private string upSkillReference;
@@ -21,8 +24,21 @@ namespace Frankie.Combat
         [HideInInspector] [SerializeField] private SkillBranchMapping mappedFromBranch;
         [Header("Editor Properties")]
         [SerializeField] private Rect rect = new(30, 30, 250, 155);
-        [HideInInspector] [SerializeField] private Rect draggingRect = new(0, 0, 250, 45);
 
+        #region NodeInterface
+        // Note:  Must be outside pragma for compilation
+        public ScriptableObject scriptableObject => this;
+        public Vector2 GetPosition() => rect.position;
+        public void SetPosition(Vector2 position)
+        {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Move Skill Branch");
+            rect.position = position;
+            EditorUtility.SetDirty(this);
+#endif
+        }
+        #endregion
+        
         #region SkillGetters
         public bool HasSkill(SkillBranchMapping skillBranchMapping) => GetSkill(skillBranchMapping) != null;
         public Skill GetSkill(SkillBranchMapping skillBranchMapping)
@@ -87,9 +103,7 @@ namespace Frankie.Combat
         #endregion
         
         #region EditorMethods
-        public Vector2 GetPosition() => rect.position;
         public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
 #if UNITY_EDITOR
         public void Initialize(int width, int height, SkillBranchMapping setMappedFromBranch)
         {
@@ -99,33 +113,35 @@ namespace Frankie.Combat
             EditorUtility.SetDirty(this);
         }
 
-        public void SetSkill(string skillName, SkillBranchMapping skillBranchMapping)
+        public bool SetSkill(string skillName, SkillBranchMapping skillBranchMapping)
         {
-            if (Skill.GetSkillFromName(skillName) == null) // Skill does not exist
+            bool wasSkillFound = true;
+            if (Skill.GetSkillFromName(skillName) == null)
             {
-                skillName = ""; // override to whitespace, parses as null
+                skillName = string.Empty;
+                wasSkillFound = false;
             }
+
+            if (GetSkill(skillBranchMapping) != null && GetSkill(skillBranchMapping).name == skillName) { return wasSkillFound; }
             
-            if (GetSkill(skillBranchMapping) == null || GetSkill(skillBranchMapping).name != skillName)
+            Undo.RecordObject(this, "Update Skill");
+            switch (skillBranchMapping)
             {
-                Undo.RecordObject(this, "Update Skill");
-                switch (skillBranchMapping)
-                {
-                    case SkillBranchMapping.Up:
-                        upSkillReference = skillName;
-                        break;
-                    case SkillBranchMapping.Left:
-                        leftSkillReference = skillName;
-                        break;
-                    case SkillBranchMapping.Right:
-                        rightSkillReference = skillName;
-                        break;
-                    case SkillBranchMapping.Down:
-                        downSkillReference = skillName;
-                        break;
-                }
-                EditorUtility.SetDirty(this);
+                case SkillBranchMapping.Up:
+                    upSkillReference = skillName;
+                    break;
+                case SkillBranchMapping.Left:
+                    leftSkillReference = skillName;
+                    break;
+                case SkillBranchMapping.Right:
+                    rightSkillReference = skillName;
+                    break;
+                case SkillBranchMapping.Down:
+                    downSkillReference = skillName;
+                    break;
             }
+            EditorUtility.SetDirty(this);
+            return wasSkillFound;
         }
 
         public void AddChild(string childID, SkillBranchMapping skillBranchMapping)
@@ -142,20 +158,6 @@ namespace Frankie.Combat
             {
                 SetBranch(skillBranchMapping, null);
             }
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Undo.RecordObject(this, "Move Skill Branch");
-            rect.position = position;
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetDraggingRect(Rect setDraggingRect)
-        {
-            if (setDraggingRect == draggingRect) { return; }
-            draggingRect = setDraggingRect;
             EditorUtility.SetDirty(this);
         }
 #endif

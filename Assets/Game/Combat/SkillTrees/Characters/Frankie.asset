@@ -23,16 +23,10 @@ MonoBehaviour:
   mappedFromBranch: 0
   rect:
     serializedVersion: 2
-    x: 375
-    y: 65
+    x: 354
+    y: -7
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,12 +74,6 @@ MonoBehaviour:
     y: 370
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &2417977989957955819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,16 +97,10 @@ MonoBehaviour:
   mappedFromBranch: 2
   rect:
     serializedVersion: 2
-    x: 775
-    y: 65
+    x: 754
+    y: 32
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &7585638719868435716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,13 +124,7 @@ MonoBehaviour:
   mappedFromBranch: 1
   rect:
     serializedVersion: 2
-    x: 0
-    y: 65
+    x: -12
+    y: 26
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45

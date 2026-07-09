@@ -8,9 +8,6 @@ using UnityEngine.Localization.Tables;
 using Frankie.Stats;
 using Frankie.Utils.Addressables;
 using Frankie.Utils.Localization;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Frankie.Combat
 {
@@ -29,6 +26,10 @@ namespace Frankie.Combat
         private static AsyncOperationHandle<IList<Skill>> _addressablesLoadHandle;
         private static Dictionary<string, Skill> _skillLookupCache;
 
+        // NOTE:
+        // Skill necessarily uses name as id -- i.e. use .name for lookups
+        // GetName() method, in contrast, provides a localized name for UI
+        
         #region Getters
         public string GetName() => localizedDisplayName.GetSafeLocalizedString();
         public Stat GetStat() => skillStat;

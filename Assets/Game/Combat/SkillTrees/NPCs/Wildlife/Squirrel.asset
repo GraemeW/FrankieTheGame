@@ -27,12 +27,6 @@ MonoBehaviour:
     y: 30
     width: 250
     height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
