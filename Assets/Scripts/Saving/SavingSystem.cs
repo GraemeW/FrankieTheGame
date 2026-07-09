@@ -178,17 +178,7 @@ namespace Frankie.Saving
             {
                 return new JObject();
             }
-
-            // Binary Formatter Method -- Deprecated
-            /*
-            using (FileStream stream = File.Open(path, FileMode.Open))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (Dictionary<string, object>)formatter.Deserialize(stream);
-            }
-            */
-
-            // JSON Method
+            
             using (StreamReader textReader = File.OpenText(path))
             {
                 using (var reader = new JsonTextReader(textReader))
@@ -214,17 +204,7 @@ namespace Frankie.Saving
         {
             string path = GetPathFromSaveFile(saveFile);
             Debug.Log($"Saving to {path}");
-
-            // Binary Formatter Method
-            /*
-            using (FileStream stream = File.Open(path, FileMode.Create))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, state);
-            }
-            */
-
-            // JSON Method
+            
             using (StreamWriter textWriter = File.CreateText(path))
             {
                 // Note - When using standard SerializeObject() methods, default setting for JsonSerializationSettings is:  InvariantCulture
