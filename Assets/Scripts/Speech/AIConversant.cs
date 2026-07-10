@@ -12,7 +12,7 @@ namespace Frankie.Speech
         [SerializeField] private Dialogue dialogue;
         [SerializeField] protected InteractionEvent checkInteraction;
         [SerializeField] private UnityEvent onExitDialogue;
-        [SerializeField] private bool saveDialogueCount = true;
+        [SerializeField] private bool saveDialogueCount = false;
 
         // State
         private int dialogueCount = 0;

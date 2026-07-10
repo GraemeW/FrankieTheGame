@@ -101,7 +101,7 @@ MonoBehaviour:
   onExitDialogue:
     m_PersistentCalls:
       m_Calls: []
-  saveDialogueCount: 1
+  saveDialogueCount: 0
 --- !u!114 &7371511343337835833
 MonoBehaviour:
   m_ObjectHideFlags: 0
