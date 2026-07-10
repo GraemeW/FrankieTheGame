@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
+using Frankie.Saving;
 using Frankie.Utils;
 using Frankie.ZoneManagement;
 
@@ -61,6 +62,8 @@ namespace Frankie.Combat.Spawner
                 if (enemyPrefab == null) { continue; }
 
                 GameObject spawnedEnemy = Instantiate(enemyPrefab, transform);
+                PreventSpawnedEnemySave(spawnedEnemy);
+                
                 float xJitter = UnityEngine.Random.Range(-xJitterDistance, xJitterDistance);
                 float yJitter = UnityEngine.Random.Range(-yJitterDistance, yJitterDistance);
                 var jitterVector = new Vector3(xJitter, yJitter, 0f);
@@ -87,6 +90,15 @@ namespace Frankie.Combat.Spawner
         {
             SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
             return spawnConfiguration;
+        }
+
+        private static void PreventSpawnedEnemySave(GameObject spawnedEnemy)
+        {
+            if (spawnedEnemy == null) { return; }
+            foreach (SaveableEntity saveableEntity in spawnedEnemy.GetComponentsInChildren<SaveableEntity>(true))
+            {
+                saveableEntity.ForcePreventSave();
+            }
         }
         #endregion
 

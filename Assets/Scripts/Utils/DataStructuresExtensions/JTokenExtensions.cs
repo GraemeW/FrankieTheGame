@@ -49,5 +49,25 @@ namespace Frankie.Utils
                 return false;
             }
         }
+        
+        public static bool IsNullOrEmpty(this JToken token)
+        {
+            if (token == null)
+                return true;
+
+            switch (token.Type)
+            {
+                case JTokenType.Null:
+                case JTokenType.Undefined:
+                    return true;
+                case JTokenType.Array:
+                case JTokenType.Object:
+                    return !token.HasValues;
+                case JTokenType.String:
+                    return string.IsNullOrEmpty(token.ToString());
+                default:
+                    return false;
+            }
+        }
     }
 }

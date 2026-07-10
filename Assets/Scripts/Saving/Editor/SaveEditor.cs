@@ -470,7 +470,7 @@ namespace Frankie.Saving.Editor
             
             cachedSaveableEntityCardData.Clear();
             saveableEntityGUIDs.Clear();
-            foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(SaveableEntityCardData.GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.name).ToList())
+            foreach (SaveableEntity saveableEntity in SavingSystem.GetValidSaveableEntities().OrderBy(SaveableEntityCardData.GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.name).ToList())
             {
                 if (saveableEntity == null) { continue; }
                 if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container

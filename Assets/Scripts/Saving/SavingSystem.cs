@@ -46,9 +46,9 @@ namespace Frankie.Saving
             }
         }
         
-        public static List<SaveableEntity> GetAllSaveableEntities()
+        public static List<SaveableEntity> GetValidSaveableEntities()
         {
-            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).ToList();
+            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).Where(saveableEntity => !saveableEntity.IsSaveRestricted()).ToList();
             foreach (SaveableEntity saveableEntity in saveableEntities.Where(saveableEntity => !saveableEntity.gameObject.activeSelf))
             {
                 // Manually toggle enable/disable to ensure base properties set
@@ -226,11 +226,11 @@ namespace Frankie.Saving
 
         private static void CaptureState(JObject state, bool onlyCorePlayerState = false)
         {
-            List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
-            foreach (SaveableEntity saveable in saveableEntities)
+            foreach (SaveableEntity saveable in GetValidSaveableEntities())
             {
                 if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
-                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState, onlyCorePlayerState);
+                if (!saveable.TryCaptureState(existingTokenState, out JToken updatedTokenState, onlyCorePlayerState)) { continue; }
+                state[saveable.GetUniqueIdentifier()] = updatedTokenState;
             }
 
             if (!onlyCorePlayerState) { state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name; }
@@ -239,15 +239,17 @@ namespace Frankie.Saving
         private static void CaptureIndividualState(JObject state, SaveableEntity saveable)
         {
             if (saveable == null) { return; }
+            if (saveable.IsSaveRestricted()) { return; }
             
             if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
-            state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState);
+            if (!saveable.TryCaptureState(existingTokenState, out JToken updatedTokenState)) { return; }
+            state[saveable.GetUniqueIdentifier()] = updatedTokenState;
         }
 
         private static void RestoreState(JObject state)
         {
             // First Pass -- Object instantiation
-            List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
+            List<SaveableEntity> saveableEntities = GetValidSaveableEntities();
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
@@ -258,7 +260,7 @@ namespace Frankie.Saving
             }
 
             // Second Pass -- Property loading
-            saveableEntities = GetAllSaveableEntities();
+            saveableEntities = GetValidSaveableEntities();
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
