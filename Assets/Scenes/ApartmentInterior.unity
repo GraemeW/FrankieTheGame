@@ -26763,6 +26763,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 731387636}
     m_Modifications:
+    - target: {fileID: 2144923914519015686, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 6cca9dd7-f71e-4d5f-80a1-b9cb49ef83f0
+      objectReference: {fileID: 0}
     - target: {fileID: 5369551632885524120, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -27614,7 +27618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  backingListHashCheck: 1194781633
+  backingListHashCheck: 1669328355
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - b3f7fb4a-3295-4b70-95ac-59a716a281b2
@@ -27928,6 +27932,10 @@ PrefabInstance:
     - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7371511343337835833, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: uniqueIdentifier
+      value: d4932c5c-ec0a-4a6c-afcb-8044c3b00957
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28316,6 +28324,10 @@ PrefabInstance:
     - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7371511343337835833, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 21b0535c-27b9-4e10-8c38-586849f82120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

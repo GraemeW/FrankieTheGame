@@ -689,6 +689,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1614018449}
     m_Modifications:
+    - target: {fileID: 886243705027859069, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 68b0206a-6e6b-45cb-8bf2-4153283f2f7f
+      objectReference: {fileID: 0}
     - target: {fileID: 3386044621720643084, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: m_Name
       value: HelpfulVole (1)
@@ -4236,6 +4240,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7988917558390847417, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: uniqueIdentifier
+      value: fd1e943c-d1c3-466b-9dc4-523df3a0ef8f
+      objectReference: {fileID: 0}
     - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingHandlerGUID
       value: 96aae745-c9e9-4ff4-9362-a9108256566c
@@ -6423,6 +6431,10 @@ PrefabInstance:
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
       value: a879aa96-6518-4c0c-a6b3-3c68ab82b9cd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4918713745143814974, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 33f06de1-c5b9-4f93-88e6-bbadc13980f5
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: backingHandlerGUID
@@ -10677,6 +10689,10 @@ PrefabInstance:
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: backingListHashCheck
       value: -1964433073
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135419693849823282, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 20435852-7d80-4949-8fe7-cc12187d1dfc
       objectReference: {fileID: 0}
     - target: {fileID: 7525764789776728579, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: m_IsActive
@@ -15867,6 +15883,10 @@ PrefabInstance:
       propertyPath: backingListHashCheck
       value: 1508308105
       objectReference: {fileID: 0}
+    - target: {fileID: 3604880868275781410, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: uniqueIdentifier
+      value: cce59876-4f00-4a15-9610-b30523d16913
+      objectReference: {fileID: 0}
     - target: {fileID: 4613052352910209963, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: patrolPath
       value: 
@@ -17213,6 +17233,10 @@ PrefabInstance:
       propertyPath: lootEntries.Array.data[0].inventoryItem
       value: 
       objectReference: {fileID: 11400000, guid: d4605b3b7a5ce394180efaf721695e04, type: 2}
+    - target: {fileID: 3712612268587877196, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 97b2b1ab-f862-45de-ae0a-d6e7fb4045a4
+      objectReference: {fileID: 0}
     - target: {fileID: 5829753337919008090, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: uniqueIdentifier
       value: b3f18071-90fd-4e0e-a8be-2c9484b459fb
@@ -18218,6 +18242,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1584137188}
     m_Modifications:
+    - target: {fileID: 886243705027859069, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 24527847-c223-498c-bec3-ee00d6efb095
+      objectReference: {fileID: 0}
     - target: {fileID: 3386044621720643084, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: m_Name
       value: HelpfulVole
@@ -59036,6 +59064,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 2}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a75ef5a4-5056-4d27-b614-49aeaba473e7
+      objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
       value: a0569edf-4c1c-4c1f-87c5-f562d85531f9

@@ -19233,6 +19233,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 951111758}
     m_Modifications:
+    - target: {fileID: 887123758075453905, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 2abea6e6-e06f-4023-a92b-e141eb97a3be
+      objectReference: {fileID: 0}
     - target: {fileID: 1340039601518036884, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -19420,7 +19424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: e64e1b07-16e7-4f29-bad3-1f327b64370a
-  backingListHashCheck: 1933447273
+  backingListHashCheck: 2133449097
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 9cabe581-e4e8-4e07-9148-8190abc5e8e6
@@ -19753,6 +19757,10 @@ PrefabInstance:
     - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: <handlerGUID>k__BackingField
       value: a76c7d83-8230-41e7-b9d1-e303336d6213
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604880868275781410, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 098b2cf4-fe72-45c5-926d-ad810a0be974
       objectReference: {fileID: 0}
     - target: {fileID: 4613052352910209963, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: patrolPath
@@ -41435,7 +41443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c90051c8-6375-4741-a956-7d60c667db5d
-  backingListHashCheck: -175100052
+  backingListHashCheck: 1277730758
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - fd9ed298-c9f2-4c72-a440-4f02b469c9d7
@@ -41631,6 +41639,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1124876882}
     m_Modifications:
+    - target: {fileID: 887123758075453905, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 08430615-1fbd-445d-a962-8fe6875c86a4
+      objectReference: {fileID: 0}
     - target: {fileID: 1340039601518036884, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -58544,7 +58556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: 2eaac1ac-4ad8-4a08-b529-89406a48f682
-  backingListHashCheck: 1950962437
+  backingListHashCheck: -22284854
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 9cabe581-e4e8-4e07-9148-8190abc5e8e6
@@ -59288,6 +59300,10 @@ PrefabInstance:
       propertyPath: <handlerGUID>k__BackingField
       value: 851b4afc-ef25-471f-a9ae-0b24d99b1eb4
       objectReference: {fileID: 0}
+    - target: {fileID: 8283798206989294276, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 78709b36-17cf-4fed-9b43-591ece456cef
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -59550,6 +59566,10 @@ PrefabInstance:
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: <handlerGUID>k__BackingField
       value: beb705e5-14be-410a-8cf9-38c99107db8a
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135419693849823282, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 8ed2ad6d-ce27-4142-ad77-9416103f1617
       objectReference: {fileID: 0}
     - target: {fileID: 7525764789776728579, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: m_IsActive
@@ -59915,6 +59935,10 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 50796131}
+    - target: {fileID: 4918713745143814974, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 54d3eb7b-f8c2-4c2a-b81f-9d6f1305f3ba
+      objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: backingHandlerGUID
       value: c2934bc4-d12a-406f-a69b-9bb1be4d9a69
@@ -60141,6 +60165,10 @@ PrefabInstance:
     - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7371511343337835833, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 5b5d9b70-cc8c-4541-b181-4db8eea7f7bf
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
@@ -67807,6 +67835,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7371511343337835833, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: uniqueIdentifier
+      value: aa07525a-ea04-4854-b846-a1c29a7a7656
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -68011,7 +68043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 2b6d94f5-ccce-434d-bd75-51ce1e4d7c8d
-  backingListHashCheck: -2053256031
+  backingListHashCheck: -1139278371
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 61c08901-2fd9-403b-833e-f22949c8d448
@@ -69343,6 +69375,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7988917558390847417, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: uniqueIdentifier
+      value: d8d6a048-cc67-4205-bf54-994939aa4f77
+      objectReference: {fileID: 0}
     - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingHandlerGUID
       value: c76acf0d-30a8-48af-aa8f-17fe6a3a8938
@@ -69461,6 +69497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1245758512}
     m_Modifications:
+    - target: {fileID: 886243705027859069, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 3456a24f-84b1-4b0b-b177-3bf479890b71
+      objectReference: {fileID: 0}
     - target: {fileID: 3386044621720643084, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: m_Name
       value: HelpfulVole (1)
@@ -70301,7 +70341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 151435e9-c7b7-478f-a9cf-7aaad03e4487
-  backingListHashCheck: 675078681
+  backingListHashCheck: -1742113896
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - a5a603ce-7ce9-41e5-982f-f3a64f2594e7
@@ -87974,6 +88014,10 @@ PrefabInstance:
       propertyPath: <handlerGUID>k__BackingField
       value: 13e74046-3620-47ed-8070-ef5daa41ad36
       objectReference: {fileID: 0}
+    - target: {fileID: 6662974831736673085, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 94e18bea-fc20-4a41-bca2-a4b459104e60
+      objectReference: {fileID: 0}
     - target: {fileID: 6999197217183127820, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -88230,6 +88274,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 4fc9c2cb1cbf0ae419935bd0f91f81b2, type: 2}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 4621c135-67f7-4492-93de-06f1f3aa41d0
+      objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
       value: 20c88ea3-46b1-4c12-9688-cab8e4d4f1b6
@@ -89347,6 +89395,10 @@ PrefabInstance:
       propertyPath: <handlerGUID>k__BackingField
       value: 2546de7c-99dd-440f-b6fe-de64b958732a
       objectReference: {fileID: 0}
+    - target: {fileID: 8283798206989294276, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 86c3b1e0-d14f-4fa1-857b-718313a3d2ce
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -89710,7 +89762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 34f6cd88-0481-4d84-b034-4d8db70384ad
-  backingListHashCheck: -427690554
+  backingListHashCheck: 1731453381
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - fd9ed298-c9f2-4c72-a440-4f02b469c9d7
@@ -131014,6 +131066,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: f0bc019e72b5e8145a2949e6c12be816, type: 2}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: f1687c03-1d2e-46c2-bf72-812ff4399dfd
+      objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
       value: d371a645-a394-4708-941d-54d65d49fd4b
@@ -131449,6 +131505,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 212b55d8-264e-433f-ad91-b5a7e74907b2
       objectReference: {fileID: 0}
+    - target: {fileID: 4918713745143814974, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 14ed4b43-5e75-4ecf-a9ff-ac606cba4365
+      objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: backingHandlerGUID
       value: 0e52423c-13da-4be8-bb0f-aad49ffba4aa
@@ -131562,7 +131622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: b12df4e9-c53d-47d3-9dfb-ddd969459176
-  backingListHashCheck: -733533660
+  backingListHashCheck: 32394272
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 9cabe581-e4e8-4e07-9148-8190abc5e8e6
@@ -143176,7 +143236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c2a3aed0-a937-43f5-b032-5871ed446b2a
-  backingListHashCheck: -1860656614
+  backingListHashCheck: -1623574136
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - fd9ed298-c9f2-4c72-a440-4f02b469c9d7

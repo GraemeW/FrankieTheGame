@@ -443,6 +443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lexi (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7265634569038392830, guid: 4d87ee9942258394096a0e9a40993801, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 2c642ed2-47a9-4f68-8f8b-f290aec7a919
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11611,6 +11615,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 487be0659bd7544538fdebe784f7fc25, type: 2}
+    - target: {fileID: 6801303911162038568, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
+      propertyPath: uniqueIdentifier
+      value: f2e80620-79c9-4456-989f-046eab02ebec
+      objectReference: {fileID: 0}
     - target: {fileID: 8994288306620644697, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: m_Name
       value: Ron (1)
@@ -30622,6 +30630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Estelle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8675942148148766946, guid: 6355dd8a17e27464598b4200738afc8c, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 907495b9-3d63-4df9-8e40-c6eee5944bd5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40504,6 +40516,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 3b30ce2e0dcca4b8ba4018ed51351e58, type: 2}
+    - target: {fileID: 5640729318857076631, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+      propertyPath: uniqueIdentifier
+      value: ec297c98-b063-4d13-891f-8d9e4e064cb9
+      objectReference: {fileID: 0}
     - target: {fileID: 7851693060512553957, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.9424696

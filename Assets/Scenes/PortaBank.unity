@@ -143,6 +143,10 @@ PrefabInstance:
       propertyPath: overrideDefaultInteractionDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 7740ca2b-25e1-46c0-ad01-f0129e716896
+      objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
       value: 13b5e116-b0ce-4f94-835c-b411d8a44d86
