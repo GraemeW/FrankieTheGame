@@ -17,7 +17,7 @@ namespace Frankie.Saving
         // Constants
         private const string _saveFileExtension = ".sav";
         private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
-        private const bool _encryptionEnabled = true;
+        private const bool _encryptionEnabled = false;
 
         #region DataStructures
         [System.Serializable]
@@ -46,9 +46,9 @@ namespace Frankie.Saving
             }
         }
         
-        public static List<SaveableEntity> GetAllSaveableEntities()
+        public static List<SaveableEntity> GetValidSaveableEntities()
         {
-            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).ToList();
+            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).Where(saveableEntity => !saveableEntity.IsSaveRestricted()).ToList();
             foreach (SaveableEntity saveableEntity in saveableEntities.Where(saveableEntity => !saveableEntity.gameObject.activeSelf))
             {
                 // Manually toggle enable/disable to ensure base properties set
@@ -178,17 +178,7 @@ namespace Frankie.Saving
             {
                 return new JObject();
             }
-
-            // Binary Formatter Method -- Deprecated
-            /*
-            using (FileStream stream = File.Open(path, FileMode.Open))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (Dictionary<string, object>)formatter.Deserialize(stream);
-            }
-            */
-
-            // JSON Method
+            
             using (StreamReader textReader = File.OpenText(path))
             {
                 using (var reader = new JsonTextReader(textReader))
@@ -214,17 +204,7 @@ namespace Frankie.Saving
         {
             string path = GetPathFromSaveFile(saveFile);
             Debug.Log($"Saving to {path}");
-
-            // Binary Formatter Method
-            /*
-            using (FileStream stream = File.Open(path, FileMode.Create))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, state);
-            }
-            */
-
-            // JSON Method
+            
             using (StreamWriter textWriter = File.CreateText(path))
             {
                 // Note - When using standard SerializeObject() methods, default setting for JsonSerializationSettings is:  InvariantCulture
@@ -246,11 +226,11 @@ namespace Frankie.Saving
 
         private static void CaptureState(JObject state, bool onlyCorePlayerState = false)
         {
-            List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
-            foreach (SaveableEntity saveable in saveableEntities)
+            foreach (SaveableEntity saveable in GetValidSaveableEntities())
             {
                 if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
-                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState, onlyCorePlayerState);
+                if (!saveable.TryCaptureState(existingTokenState, out JToken updatedTokenState, onlyCorePlayerState)) { continue; }
+                state[saveable.GetUniqueIdentifier()] = updatedTokenState;
             }
 
             if (!onlyCorePlayerState) { state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name; }
@@ -259,15 +239,17 @@ namespace Frankie.Saving
         private static void CaptureIndividualState(JObject state, SaveableEntity saveable)
         {
             if (saveable == null) { return; }
+            if (saveable.IsSaveRestricted()) { return; }
             
             if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
-            state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState);
+            if (!saveable.TryCaptureState(existingTokenState, out JToken updatedTokenState)) { return; }
+            state[saveable.GetUniqueIdentifier()] = updatedTokenState;
         }
 
         private static void RestoreState(JObject state)
         {
             // First Pass -- Object instantiation
-            List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
+            List<SaveableEntity> saveableEntities = GetValidSaveableEntities();
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
@@ -278,7 +260,7 @@ namespace Frankie.Saving
             }
 
             // Second Pass -- Property loading
-            saveableEntities = GetAllSaveableEntities();
+            saveableEntities = GetValidSaveableEntities();
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();

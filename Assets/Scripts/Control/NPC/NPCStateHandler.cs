@@ -200,11 +200,7 @@ namespace Frankie.Control
             PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
             if (playerStateMachine == null) { return; }
 
-            Dialogue dialogue = aiConversant.GetDialogue();
-            if (dialogue == null) { return; }
-
-            playerStateMachine.EnterDialogue(aiConversant, dialogue);
-            SetNPCState(NPCStateType.Occupied);
+            aiConversant.ForceInteractionEvent(playerStateMachine);
         }
         
         private void CheckForNPCAfraid(IPlayerStateContext playerStateContext, bool overrideStateCheck = false)

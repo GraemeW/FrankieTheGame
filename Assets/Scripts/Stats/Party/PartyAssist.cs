@@ -113,7 +113,7 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
-            HashSet<CharacterProperties> partyCharacters = ManualGetDataFromState(saveState);
+            if (!TryManualGetDataFromState(saveState, out HashSet<CharacterProperties> partyCharacters)) { return; }
             RestorePartyMembers(partyCharacters);
         }
         
@@ -124,10 +124,15 @@ namespace Frankie.Stats
             return new SaveState(GetLoadPriority(), partyNames);
         }
 
-        public HashSet<CharacterProperties> ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out HashSet<CharacterProperties> data)
         {
-            if (saveState?.GetState(typeof(List<string>)) is not List<string> partyNames) { return new HashSet<CharacterProperties>(); }
-            return partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
+            data = new HashSet<CharacterProperties>();
+            // Default Pass Back
+            if (saveState == null || !saveState.TryGetState(out List<string> partyNames)) { return true; }
+            
+            // Save Found Pass Back
+            data = partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
+            return true;
         }
         
         private void RestorePartyMembers(HashSet<CharacterProperties> partyCharacters)

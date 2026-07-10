@@ -35,7 +35,7 @@ namespace Frankie.Sound
             _backgroundMusicOverrides.Remove(backgroundMusicOverride);
         }
 
-        private static bool GetHighestPriorityActiveOverride(out BackgroundMusicOverride highestPriorityOverride)
+        public static bool TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride highestPriorityOverride)
         {
             highestPriorityOverride = null;
             foreach (BackgroundMusicOverride backgroundMusicOverride in _backgroundMusicOverrides.Where(backgroundMusicOverride => backgroundMusicOverride.isOverrideActive))
@@ -55,18 +55,24 @@ namespace Frankie.Sound
 
         private void Start()
         {
-            if (!queueTriggerInStart) return;
-            
-            TriggerOverride(true, true);
+            if (!queueTriggerInStart) { return; }
             queueTriggerInStart = false;
+            
+            BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
+            if (backgroundMusic == null) { return; }
+            
+            TriggerOverride(true, backgroundMusic);
         }
         #endregion
 
         #region UtilityMethods
         public bool HasAudioOverride() => audioClip != null;
+        public AudioClip GetAudioClip() => audioClip;
         public void TriggerOverride(bool enable) // Callable via Unity Events
         {
-            TriggerOverride(enable, false);
+            BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
+            if (backgroundMusic == null) { return; }
+            TriggerOverride(enable, backgroundMusic);
         }
 
         public void ToggleOverride() // Callable via Unity Events
@@ -75,20 +81,17 @@ namespace Frankie.Sound
         }
 
         private int GetPriority() => priority;
-        private void TriggerOverride(bool enable, bool calledInRestore)
+        private void TriggerOverride(bool enable, BackgroundMusic backgroundMusic)
         {
-            if (audioClip == null) { return; }
+            if (backgroundMusic == null || audioClip == null) { return; }
             if (enable && _currentBackgroundMusicOverride == this) { return; }
-
-            BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
-            if (backgroundMusic == null) { return; }
 
             if (enable)
             {
                 isOverrideActive = true;
                 if (_currentBackgroundMusicOverride != null && priority < _currentBackgroundMusicOverride.GetPriority()) { return; }
                 
-                if (backgroundMusic.OverrideMusic(audioClip, calledInRestore))
+                if (backgroundMusic.OverrideMusic(audioClip))
                 {
                     _currentBackgroundMusicOverride = this;
                 }
@@ -96,11 +99,10 @@ namespace Frankie.Sound
             else
             {
                 isOverrideActive = false;
-                
                 if (_currentBackgroundMusicOverride != this) { return; }
                 
                 _currentBackgroundMusicOverride = null;
-                if (GetHighestPriorityActiveOverride(out BackgroundMusicOverride nextUpMusicOverride))
+                if (TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride nextUpMusicOverride))
                 {
                     nextUpMusicOverride.TriggerOverride(true);
                 }
@@ -116,16 +118,17 @@ namespace Frankie.Sound
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty; 
         public SaveState CaptureState() => ManualGetStateFromData(isOverrideActive);
         public void RestoreState(SaveState saveState)
-        {
-            queueTriggerInStart = ManualGetDataFromState(saveState);
+        { 
+            TryManualGetDataFromState(saveState, out queueTriggerInStart);
         }
         
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
         
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null) { return isOverrideActive; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = isOverrideActive;
+            return true;
         }
         #endregion
     }

@@ -16,11 +16,10 @@ namespace Frankie.Saving.Editor
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not InactiveParty inactiveParty) { return; }
-            
-            HashSet<CharacterProperties> inactivePartyData = inactiveParty.ManualGetDataFromState(saveState);
-            if (inactivePartyData == null)
+
+            if (!inactiveParty.TryManualGetDataFromState(saveState, out HashSet<CharacterProperties> inactivePartyData))
             {
-                subCardView.Add(new Label("No InactiveParty save data found"));
+                subCardView.Add(new Label("No InactiveParty save data available"));
                 return;
             }
 

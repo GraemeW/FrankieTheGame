@@ -310,7 +310,7 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(PartySerializableSaveData)) is not PartySerializableSaveData partySerializableSaveData) { return; }
+            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return; }
             PartySaveData partySaveData = UnpackPartySerializableSaveData(partySerializableSaveData);
 
             RestorePartyMembers(partySaveData.partyCharacters);
@@ -331,9 +331,15 @@ namespace Frankie.Stats
             return new SaveState(GetLoadPriority(), partySerializableSaveData);
         }
 
-        public PartySaveData ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out PartySaveData data)
         {
-            return saveState?.GetState(typeof(PartySerializableSaveData)) is PartySerializableSaveData partySerializableSaveData ? UnpackPartySerializableSaveData(partySerializableSaveData) : new PartySaveData();
+            data = new PartySaveData();
+            // Default Pass Back
+            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return true; }
+            
+            // Save Found Pass Back
+            data = UnpackPartySerializableSaveData(partySerializableSaveData);
+            return true;
         }
         
         private static PartySaveData UnpackPartySerializableSaveData(PartySerializableSaveData partySerializableSaveData)

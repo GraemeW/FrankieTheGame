@@ -540,7 +540,7 @@ namespace Frankie.Combat
         
         public void RestoreState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(CombatParticipantSaveData)) is not CombatParticipantSaveData combatParticipantSaveData) { return; }
+            if (!saveState.TryGetState(out CombatParticipantSaveData combatParticipantSaveData)) { return; }
 
             SetupLazyState();
             isDead.value = combatParticipantSaveData.isDead;
@@ -560,14 +560,15 @@ namespace Frankie.Combat
         
         public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
 
-        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out CombatParticipantSaveData combatParticipantSaveData)
         {
-            if (saveState?.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData combatParticipantSaveData) { return combatParticipantSaveData; }
+            if (saveState != null && saveState.TryGetState(out combatParticipantSaveData)) { return true; }
             
+            // Default Pass Back
             combatParticipantSaveData = usesAP
                 ? new CombatParticipantSaveData(false, 1.0f, 1.0f)
                 : new CombatParticipantSaveData(false, 1.0f, Mathf.Infinity);
-            return combatParticipantSaveData;
+            return true;
         }
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)

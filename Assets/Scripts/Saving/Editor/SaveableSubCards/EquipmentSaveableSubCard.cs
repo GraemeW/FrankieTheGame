@@ -17,11 +17,10 @@ namespace Frankie.Saving.Editor
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not Equipment equipment) { return; }
-            
-            Dictionary<EquipLocation, EquipableItemBase> equippedItems = equipment.ManualGetDataFromState(saveState);
-            if (equippedItems == null || equippedItems.Count == 0)
+
+            if (!equipment.TryManualGetDataFromState(saveState, out Dictionary<EquipLocation, EquipableItemBase> equippedItems))
             {
-                subCardView.Add(new Label("No Equipment save data found"));
+                subCardView.Add(new Label("No Equipment save data available"));
                 return;
             }
             
@@ -56,7 +55,7 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not Equipment equipment) { return; }
             
-            Dictionary<EquipLocation, EquipableItemBase> equippedItems = equipment.ManualGetDataFromState(saveState);
+            if (!equipment.TryManualGetDataFromState(saveState, out Dictionary<EquipLocation, EquipableItemBase> equippedItems)) { return; }
             equippedItems[equipLocation] = null;
             
             saveState = equipment.ManualGetStateFromData(equippedItems);

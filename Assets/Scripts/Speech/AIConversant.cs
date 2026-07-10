@@ -2,21 +2,23 @@ using UnityEngine;
 using UnityEngine.Events;
 using Frankie.Control;
 using Frankie.Core.Predicates;
+using Frankie.Saving;
 
 namespace Frankie.Speech
 {
-    public class AIConversant : CheckBase, IPredicateEvaluator
+    public class AIConversant : CheckBase, IPredicateEvaluator, ISaveable<int>
     {
         // Tunables
         [SerializeField] private Dialogue dialogue;
         [SerializeField] protected InteractionEvent checkInteraction;
         [SerializeField] private UnityEvent onExitDialogue;
+        [SerializeField] private bool saveDialogueCount = false;
 
         // State
         private int dialogueCount = 0;
         
         // Cached References
-        PlayerStateMachine playerStateMachine;
+        private PlayerStateMachine playerStateMachine;
 
         #region UnityMethods
         private void Start()
@@ -26,7 +28,6 @@ namespace Frankie.Speech
         #endregion
 
         #region PublicPrivateMethods
-        public Dialogue GetDialogue() => dialogue;
         public int GetDialogueCount() => dialogueCount;
         public void ResetDialogueCount() => dialogueCount = 0;
 
@@ -74,6 +75,39 @@ namespace Frankie.Speech
         {
             var predicateAIConversant = predicate as PredicateAIConversant;
             return predicateAIConversant != null ? predicateAIConversant.Evaluate(this) : null;
+        }
+        
+        // Save Interface (overrides CheckBase)
+        public override SaveState CaptureState() => ManualGetStateFromData(dialogueCount);
+
+        public override void RestoreState(SaveState saveState)
+        {
+            if (!saveDialogueCount) { return; }
+            if (TryManualGetDataFromState(saveState, out int value)) { dialogueCount = value; }
+        }
+
+        public SaveState ManualGetStateFromData(int data)
+        {
+            if (!saveDialogueCount) { return null; }
+            
+            if (data < 0) { data = dialogueCount; }
+            return new SaveState(GetLoadPriority(), data);
+        }
+
+        public bool TryManualGetDataFromState(SaveState saveState, out int value)
+        {
+            if (!saveDialogueCount) { value = 0; return false; }
+            
+            // Save Found Pass Back
+            if (saveState != null && saveState.TryGetState(out value))
+            {
+                value = value >= 0 ? value : dialogueCount;
+                return true;
+            }
+            
+            // Default Pass Back
+            value = dialogueCount;
+            return saveDialogueCount;
         }
         #endregion
     }

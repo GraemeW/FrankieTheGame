@@ -91,7 +91,7 @@ namespace Frankie.Stats
         public void RestoreState(SaveState saveState)
         {
             currentPoints ??= new LazyValue<float>(GetInitialPoints);
-            currentPoints.value = ManualGetDataFromState(saveState);
+            if (TryManualGetDataFromState(saveState, out float value)) { currentPoints.value = value; }
         }
         
         public SaveState ManualGetStateFromData(float data)
@@ -100,10 +100,16 @@ namespace Frankie.Stats
             return new SaveState(GetLoadPriority(), data);
         }
 
-        public float ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out float value)
         {
-            float points = saveState != null ? (float)saveState.GetState(typeof(float)) : initialPoints;
-            return points >= 0 ? points : initialPoints;
+            if (saveState != null && saveState.TryGetState(out value))
+            {
+                value = value >= 0 ? value : initialPoints;
+                return true;
+            }
+            
+            value = initialPoints;
+            return false;
         }
         #endregion
     }

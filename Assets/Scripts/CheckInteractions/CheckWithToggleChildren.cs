@@ -108,11 +108,11 @@ namespace Frankie.Control
         #endregion
         
         #region SaveInterface
-        public override void RestoreState(SaveState state)
+        public override void RestoreState(SaveState saveState)
         {
-            if (state == null) { return; }
+            if (saveState == null) { return; }
 
-            if (!(bool)state.GetState(typeof(bool)))
+            if (saveState.TryGetState(out bool isActive) && !isActive)
             {
                 // Reset children, as condition was met on prior save
                 if (parentTransformForToggling == null) { parentTransformForToggling = transform; }
@@ -122,7 +122,7 @@ namespace Frankie.Control
                 }
                 childrenStateSetBySave = true;
             }
-            base.RestoreState(state);
+            base.RestoreState(saveState);
         }
         #endregion
     }

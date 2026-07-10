@@ -18,7 +18,7 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not QuestList questList) { return; }
             
-            List<QuestStatus> questStatuses = questList.ManualGetDataFromState(saveState);
+            if (!questList.TryManualGetDataFromState(saveState, out List<QuestStatus> questStatuses)) { return; }
             questStatuses ??= new List<QuestStatus>();
 
             var listContainer = new VisualElement();
@@ -47,7 +47,7 @@ namespace Frankie.Saving.Editor
 
             if (questStatuses.Count == 0)
             {
-                listContainer.Add(new Label("No questList save data found"));
+                listContainer.Add(new Label("No questList save data available"));
                 return;
             }
 

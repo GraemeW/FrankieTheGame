@@ -4,10 +4,11 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using UnityEditor;
 #if UNITY_EDITOR
+using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
+using Frankie.Utils;
 
 namespace Frankie.Saving
 {
@@ -18,14 +19,20 @@ namespace Frankie.Saving
         [SerializeField] private string uniqueIdentifier = "";
         private static readonly Dictionary<string, SaveableEntity> _globalLookupForEditorDebug = new();
         
+        // State
+        private bool forcePreventSave = false;
+        
         // Constants
         private const string _uniquePropertyRef = "uniqueIdentifier";
-
+        
+        #region PublicPropertyMethods
         public string GetUniqueIdentifier()
         {
             if (string.IsNullOrWhiteSpace(uniqueIdentifier)) { uniqueIdentifier = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
             return uniqueIdentifier;
         }
+        public void ForcePreventSave() => forcePreventSave = true;
+        public bool IsSaveRestricted() => forcePreventSave;
         
         public List<ISaveableBase> GetSaveableComponents() => GetComponents<ISaveableBase>().ToList();
         
@@ -38,10 +45,14 @@ namespace Frankie.Saving
             if (stateDictionary == null) { Debug.LogError("Malformed data in save file"); return false; }
             return true;
         }
+        #endregion
         
-        public JToken CaptureState(JToken existingTokenState, bool onlyCorePlayerState = false)
+        #region CaptureRestoreMethods
+        public bool TryCaptureState(JToken existingTokenState, out JToken updatedTokenState, bool onlyCorePlayerState = false)
         {
-            JToken updatedTokenState = existingTokenState ?? new JObject();
+            updatedTokenState = existingTokenState ?? new JObject();
+            if (IsSaveRestricted()) { return false; }
+            
             foreach (ISaveableBase saveable in GetComponents<ISaveableBase>())
             {
                 // Core Player State captures, e.g. for GameOver saves (skip saving position, etc.)
@@ -51,7 +62,8 @@ namespace Frankie.Saving
                 if (saveState == null) { continue; }
                 updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState); // Type ToString does not require CultureInvariant
             }
-            return updatedTokenState;
+
+            return !updatedTokenState.IsNullOrEmpty();
         }
 
         public void RestoreState(JToken state, LoadPriority loadPriority)
@@ -74,7 +86,9 @@ namespace Frankie.Saving
                 saveable.ApplyFinishingTouches();
             }
         }
+        #endregion
 
+        #region PrivateMethods
         private static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
         {
             foreach (ISaveableBase saveable in saveableEntries)
@@ -94,7 +108,9 @@ namespace Frankie.Saving
             updatedStateDictionary[typeString] = JToken.FromObject(updatedSaveState);
             return updatedStateDictionary;
         }
+        #endregion
         
+        #region EditorMethods
 #if UNITY_EDITOR
         private void Update()
         {
@@ -127,5 +143,6 @@ namespace Frankie.Saving
             return false;
         }
 #endif
+        #endregion
     }
 }

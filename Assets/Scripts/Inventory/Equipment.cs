@@ -135,21 +135,24 @@ namespace Frankie.Inventory
             return PackSaveData(GetLoadPriority(), filteredSaveData);
         }
 
-        public Dictionary<EquipLocation, EquipableItemBase> ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out Dictionary<EquipLocation, EquipableItemBase> dataSet)
         {
-            Dictionary<EquipLocation, EquipableItemBase> dataSet = new Dictionary<EquipLocation, EquipableItemBase>();
+            dataSet = new Dictionary<EquipLocation, EquipableItemBase>();
+            
+            // Default Pass Back
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
                 if (equipLocation == EquipLocation.None) { continue; }
                 dataSet[equipLocation] = null;
             }
-            if (saveState == null) { return dataSet; }
+            if (saveState == null) { return true; }
             
+            // Save Found Pass Back
             foreach (KeyValuePair<EquipLocation, EquipableItemBase> pair in UnpackSaveData(saveState))
             {
                 dataSet[pair.Key] = pair.Value;
             }
-            return dataSet;
+            return true;
         }
         
         private static SaveState PackSaveData(LoadPriority loadPriority, Dictionary<EquipLocation, EquipableItemBase> saveData)
@@ -165,7 +168,7 @@ namespace Frankie.Inventory
         private static Dictionary<EquipLocation, EquipableItemBase> UnpackSaveData(SaveState saveState)
         {
             Dictionary<EquipLocation, EquipableItemBase> saveData = new Dictionary<EquipLocation, EquipableItemBase>();
-            if (saveState?.GetState(typeof(Dictionary<EquipLocation, string>)) is not Dictionary<EquipLocation, string> equippedItemsForSerialization) { return saveData; }
+            if (saveState == null || !saveState.TryGetState(out Dictionary<EquipLocation, string> equippedItemsForSerialization)) { return saveData; }
 
             foreach (KeyValuePair<EquipLocation, string> pair in equippedItemsForSerialization)
             {

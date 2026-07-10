@@ -57,15 +57,16 @@ namespace Frankie.Core
 
         public void RestoreState(SaveState saveState)
         {
-            isTriggered = ManualGetDataFromState(saveState);
+            TryManualGetDataFromState(saveState, out isTriggered);
         }
 
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
 
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null) { return isTriggered; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = isTriggered;
+            return true;
         }
     }
 }

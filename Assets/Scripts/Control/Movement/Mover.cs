@@ -285,7 +285,13 @@ namespace Frankie.Control
         public abstract void RestoreState(SaveState saveState);
 
         public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
-        public SerializableVector2 ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(SerializableVector2)) as SerializableVector2;
+
+        public bool TryManualGetDataFromState(SaveState saveState, out SerializableVector2 serializableVector2)
+        {
+            if (saveState != null && saveState.TryGetState(out serializableVector2)) { return true; }
+            serializableVector2 = null;
+            return false;
+        }
         #endregion
     }
 }

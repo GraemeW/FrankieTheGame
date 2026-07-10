@@ -17,10 +17,9 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not Knapsack knapsack) { return; }
             
-            ActiveInventoryItem[] itemsInKnapsack = knapsack.ManualGetDataFromState(saveState);
-            if (itemsInKnapsack == null || itemsInKnapsack.Length == 0)
+            if (!knapsack.TryManualGetDataFromState(saveState, out ActiveInventoryItem[] itemsInKnapsack))
             {
-                subCardView.Add(new Label("No Knapsack save data found"));
+                subCardView.Add(new Label("No Knapsack save data available"));
                 return;
             }
             
@@ -90,7 +89,7 @@ namespace Frankie.Saving.Editor
             if (equipableItem == null) { return; }
             
             if (saveable is not Knapsack knapsack) { return; }
-            ActiveInventoryItem[] itemsInKnapsack = knapsack.ManualGetDataFromState(saveState);
+            if (!knapsack.TryManualGetDataFromState(saveState, out ActiveInventoryItem[] itemsInKnapsack)) { return; }
             
             foreach (ActiveInventoryItem testItem in itemsInKnapsack)
             {
@@ -110,7 +109,7 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not Knapsack knapsack) { return false; }
             
-            ActiveInventoryItem[] itemsInKnapsack = knapsack.ManualGetDataFromState(saveState);
+            if (!knapsack.TryManualGetDataFromState(saveState, out ActiveInventoryItem[] itemsInKnapsack)) { return false; }
             int matchSlot = -1;
             int emptySlot = -1;
             for (int i = 0; i < itemsInKnapsack.Length; i++)

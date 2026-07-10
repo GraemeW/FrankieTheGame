@@ -52,16 +52,17 @@ namespace Frankie.Core.Predicates
 
         public void RestoreState(SaveState saveState)
         {
-            childrenEnabled = ManualGetDataFromState(saveState);
+            TryManualGetDataFromState(saveState, out childrenEnabled);
             foreach (Transform child in transform) { child.gameObject.SetActive(childrenEnabled); }
         }
         
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
         
-        public bool ManualGetDataFromState(SaveState saveState)
+        public bool TryManualGetDataFromState(SaveState saveState, out bool value)
         {
-            if (saveState == null) { return childrenEnabled; }
-            return (bool)saveState.GetState(typeof(bool));
+            if (saveState != null && saveState.TryGetState(out value)) { return true; }
+            value = childrenEnabled;
+            return true;
         }
         #endregion
     }

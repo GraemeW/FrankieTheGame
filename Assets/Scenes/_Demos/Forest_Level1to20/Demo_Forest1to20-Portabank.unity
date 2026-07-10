@@ -209,6 +209,10 @@ PrefabInstance:
       propertyPath: overrideDefaultInteractionDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 7ce11d22-d2c8-4b27-831b-fab81587daca
+      objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
       value: e58467b4-9a7b-4a74-b8d5-b87db8f7e2af
@@ -2524,6 +2528,10 @@ PrefabInstance:
       propertyPath: overrideDefaultInteractionDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 902c7cec-7d50-4e71-a11b-a03cb69f9f79
+      objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
       value: d240f7e7-56d5-48a6-b7a1-6d07bd36fe0f
@@ -3425,6 +3433,10 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: overrideDefaultInteractionDistance
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 193ba495-eccf-41ab-b90c-1f30f244b446
       objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingHandlerGUID
