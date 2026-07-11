@@ -3,14 +3,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Frankie.Saving;
-using Frankie.Core.Predicates;
 using Frankie.Combat;
 using Frankie.Control;
 
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(InactiveParty))]
-    public class Party : PartyBehaviour, ISaveable<PartySaveData>, IPredicateEvaluator
+    public class Party : PartyBehaviour, ISaveable<PartySaveData>
     {
         // State
         private readonly HashSet<CharacterProperties> unlockedCharacters = new();
@@ -68,15 +67,6 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
-        public BaseStats GetPartyLeader() => members?[0];
-        public GameObject GetPartyLeaderObject()
-        {
-            BaseStats partyLeader = members[0];
-            return partyLeader != null ? partyLeader.gameObject : null;
-        }
-        public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
-        public int GetPartySize() => members.Count;
         public IList<CharacterProperties> GetAvailableCharactersToAdd()
         {
             List<CharacterProperties> charactersInParty = members.Select(character => character.GetCharacterProperties()).ToList();
@@ -280,14 +270,6 @@ namespace Frankie.Stats
                 members.AddRange(deadMembers);
             }
             return stateModified;
-        }
-        #endregion
-
-        #region PredicateInterface
-        public bool? Evaluate(Predicate predicate)
-        {
-            var predicateParty = predicate as PredicateParty;
-            return predicateParty != null ? predicateParty.Evaluate(this) : null;
         }
         #endregion
         
