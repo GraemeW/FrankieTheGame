@@ -36,10 +36,12 @@ namespace Frankie.Combat
             bool levelUpTriggered = false;
             foreach (BattleEntity character in activePlayerCharacters)
             {
+                if (character.combatParticipant.IsDead()) { continue; } // No experience for dead characters
+                
                 var experience = character.combatParticipant.GetComponent<Experience>();
                 if (experience == null) { continue; } // Handling if characters do not level
+                
                 float scaledExperienceReward = 0f;
-
                 foreach (BattleEntity enemy in enemies)
                 {
                     float rawExperienceReward = enemy.combatParticipant.GetExperienceReward();
