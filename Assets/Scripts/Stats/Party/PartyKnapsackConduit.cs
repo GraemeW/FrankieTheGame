@@ -19,7 +19,7 @@ namespace Frankie.Inventory
             if (TryGetComponent(out Party party))
             {
                 party.SubscribeToMembersAlteredUpdates(true , RefreshCache);
-                RefreshCache(new PartyAlteredData(party.GetMembers()));
+                RefreshCache(new PartyAlteredData(PartyBehaviourType.Party, party.GetMembers()));
             }
         }
 

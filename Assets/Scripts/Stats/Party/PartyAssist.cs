@@ -20,6 +20,7 @@ namespace Frankie.Stats
         #endregion
 
         #region AbstractImplementations
+        protected override PartyAlteredData PackPartyAlteredData() => new(PartyBehaviourType.PartyAssist, members);
         protected override int GetInitialPartyOffset() => party.GetLastMemberOffsetIndex() + partyOffset;
         protected override bool ShouldSkipFirstEntryOffset() => false;
 

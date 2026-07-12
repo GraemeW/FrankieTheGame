@@ -48,7 +48,7 @@ namespace Frankie.Stats
         #endregion
         
         #region EventHandling
-        protected override PartyAlteredData PackPartyAlteredData() => new(members, GetPartyLeaderName(), GetLeadCharacterAnimator());
+        protected override PartyAlteredData PackPartyAlteredData() => new(PartyBehaviourType.Party, members, GetPartyLeaderName(), GetLeadCharacterAnimator());
 
         private void HandlePlayerStateUpdates(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
         {

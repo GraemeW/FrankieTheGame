@@ -33,7 +33,7 @@ namespace Frankie.Stats
         protected PlayerStateMachine playerStateMachine;
         
         // Events
-        public event Action<PartyAlteredData> membersAltered;
+        private event Action<PartyAlteredData> membersAltered;
         
         #region StaticMethods
         public static bool IsPartyBehaviourType(PartyBehaviour partyBehaviour, PartyBehaviourType partyBehaviourType)
@@ -93,7 +93,7 @@ namespace Frankie.Stats
         }
 
         protected void TriggerMembersAltered() => membersAltered?.Invoke(PackPartyAlteredData());
-        protected virtual PartyAlteredData PackPartyAlteredData() => new(members);
+        protected abstract PartyAlteredData PackPartyAlteredData();
         
         protected void RefreshLookups()
         {
