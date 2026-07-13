@@ -4,13 +4,14 @@ using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Combat;
+using Frankie.Core.Predicates;
 using Frankie.Utils;
 
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(PlayerMover))]
     [RequireComponent(typeof(PlayerStateMachine))]
-    public abstract class PartyBehaviour : MonoBehaviour
+    public abstract class PartyBehaviour : MonoBehaviour, IPredicateEvaluator
     {
         // Tunables
         [SerializeField][Range(1, 8)] protected int partyLimit = 4;
@@ -32,7 +33,21 @@ namespace Frankie.Stats
         protected PlayerStateMachine playerStateMachine;
         
         // Events
-        public event Action<PartyAlteredData> membersAltered;
+        private event Action<PartyAlteredData> membersAltered;
+        
+        #region StaticMethods
+        public static bool IsPartyBehaviourType(PartyBehaviour partyBehaviour, PartyBehaviourType partyBehaviourType)
+        {
+            switch (partyBehaviour)
+            {
+                case Party when partyBehaviourType == PartyBehaviourType.Party:
+                case PartyAssist when partyBehaviourType == PartyBehaviourType.PartyAssist:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        #endregion
         
         #region UnityMethods
         protected virtual void Awake()
@@ -78,7 +93,7 @@ namespace Frankie.Stats
         }
 
         protected void TriggerMembersAltered() => membersAltered?.Invoke(PackPartyAlteredData());
-        protected virtual PartyAlteredData PackPartyAlteredData() => new(members);
+        protected abstract PartyAlteredData PackPartyAlteredData();
         
         protected void RefreshLookups()
         {
@@ -116,9 +131,18 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethods
+        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
+        public BaseStats GetPartyLeader() => members?[0];
+        public GameObject GetPartyLeaderObject()
+        {
+            BaseStats partyLeader = members[0];
+            return partyLeader != null ? partyLeader.gameObject : null;
+        }
+        public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
+        
         public List<BaseStats> GetMembers() => members;
+        public int GetPartySize() => members.Count;
         public int GetLastMemberOffsetIndex() => lastMemberOffsetIndex;
-
         public BaseStats GetMember(CharacterProperties matchCharacterProperties)
         {
             return members.FirstOrDefault(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
@@ -190,6 +214,14 @@ namespace Frankie.Stats
                 characterSpriteLink.SetInteractionProbeLayer(probeLayer);
                 characterSpriteLink.SetIsFlashing(isPlayerImmune);
             }
+        }
+        #endregion
+        
+        #region PredicateInterface
+        public bool? Evaluate(Predicate predicate)
+        {
+            var predicateParty = predicate as PredicateParty;
+            return predicateParty != null ? predicateParty.Evaluate(this) : null;
         }
         #endregion
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
@@ -17,20 +18,20 @@ namespace Frankie.Stats
         {
             if (TryGetComponent(out Party party))
             {
-                party.SubscribeToMembersAlteredUpdates(true, RefreshCombatParticipantCache);
-                RefreshCombatParticipantCache(new PartyAlteredData(party.GetMembers()));
+                party.SubscribeToMembersAlteredUpdates(true, RefreshMembersCache);
+                RefreshMembersCache(new PartyAlteredData(PartyBehaviourType.Party, party.GetMembers()));
             }
             if (TryGetComponent(out PartyAssist partyAssist))
             {
-                partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshCombatAssistCache);
-                RefreshCombatAssistCache(new PartyAlteredData(partyAssist.GetMembers()));
+                partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshMembersCache);
+                RefreshMembersCache(new PartyAlteredData(PartyBehaviourType.PartyAssist, partyAssist.GetMembers()));
             }
         }
 
         private void OnDisable()
         {
-            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, RefreshCombatParticipantCache); }
-            if (TryGetComponent(out PartyAssist partyAssist)) { partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshCombatAssistCache); }
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, RefreshMembersCache); }
+            if (TryGetComponent(out PartyAssist partyAssist)) { partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshMembersCache); }
         }
         #endregion
 
@@ -93,6 +94,39 @@ namespace Frankie.Stats
             }
         }
 
+        private void RefreshMembersCache(PartyAlteredData partyAlteredData)
+        {
+            Action<CombatParticipant> refreshAction = null;
+            switch (partyAlteredData.partyBehaviourType)
+            {
+                case PartyBehaviourType.Party:
+                {
+                    SubscribeToLeaderStatusUpdates(false);
+                    combatParticipantCache.Clear();
+                    refreshAction = combatParticipant => combatParticipantCache.Add(combatParticipant);
+            
+                    if (partyAlteredData.isPartyLeaderDataSet) { cachedPartyLeaderName = partyAlteredData.partyLeaderName;}
+                    SubscribeToLeaderStatusUpdates(true);
+                    break;
+                }
+                case PartyBehaviourType.PartyAssist:
+                {
+                    combatAssistCache.Clear();
+                    refreshAction = combatParticipant => combatAssistCache.Add(combatParticipant);
+                    break;
+                }
+            }
+            
+            if (refreshAction == null) { return; }
+            foreach (BaseStats character in partyAlteredData.GetMembers())
+            {
+                if (character.TryGetComponent(out CombatParticipant combatParticipant))
+                {
+                    refreshAction(combatParticipant);
+                }
+            }
+        }
+        
         private void SubscribeToLeaderStatusUpdates(bool enable)
         {
             if (combatParticipantCache.Count == 0) { return; }
@@ -106,34 +140,6 @@ namespace Frankie.Stats
             else
             {
                 partyLeader.UnsubscribeToStateUpdates(HandleLeaderStatusUpdate);
-            }
-        }
-
-        private void RefreshCombatParticipantCache(PartyAlteredData partyAlteredData)
-        {
-            SubscribeToLeaderStatusUpdates(false);
-            combatParticipantCache.Clear();
-            foreach (BaseStats character in partyAlteredData.GetMembers())
-            {
-                if (character.TryGetComponent(out CombatParticipant combatParticipant))
-                {
-                    combatParticipantCache.Add(combatParticipant);
-                }
-            }
-            
-            if (partyAlteredData.isPartyLeaderDataSet) { cachedPartyLeaderName = partyAlteredData.partyLeaderName;}
-            SubscribeToLeaderStatusUpdates(true);
-        }
-
-        private void RefreshCombatAssistCache(PartyAlteredData partyAlteredData)
-        {
-            combatAssistCache.Clear();
-            foreach (BaseStats character in partyAlteredData.GetMembers())
-            {
-                if (character.TryGetComponent(out CombatParticipant combatParticipant))
-                {
-                    combatAssistCache.Add(combatParticipant);
-                }
             }
         }
         #endregion

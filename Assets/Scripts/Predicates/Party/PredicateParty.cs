@@ -4,6 +4,6 @@ namespace Frankie.Core.Predicates
 {
     public abstract class PredicateParty : Predicate
     {
-        public abstract bool? Evaluate(Party party);
+        public abstract bool? Evaluate(PartyBehaviour partyBehaviour);
     }
 }

@@ -77,21 +77,14 @@ namespace Frankie.Control
         {
             playerInput.Player.Enable();
             playerStateMachine.playerStateChanged += ParsePlayerStateChange;
-            SubscribeToPartyUpdates(true);
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(true, HandlePartyUpdate); }
         }
 
         private void OnDisable()
         {
             playerInput.Player.Disable();
             playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
-            SubscribeToPartyUpdates(false);
-        }
-        
-        private void SubscribeToPartyUpdates(bool enable)
-        {
-            if (!TryGetComponent(out Party party)) { return; }
-            party.membersAltered -= HandlePartyUpdate;
-            if (enable) { party.membersAltered += HandlePartyUpdate; }
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, HandlePartyUpdate); }
         }
         #endregion
         

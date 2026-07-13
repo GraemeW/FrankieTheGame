@@ -35,7 +35,7 @@ namespace Frankie.Sound
             _backgroundMusicOverrides.Remove(backgroundMusicOverride);
         }
 
-        public static bool TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride highestPriorityOverride)
+        private static bool TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride highestPriorityOverride)
         {
             highestPriorityOverride = null;
             foreach (BackgroundMusicOverride backgroundMusicOverride in _backgroundMusicOverrides.Where(backgroundMusicOverride => backgroundMusicOverride.isOverrideActive))
@@ -46,6 +46,25 @@ namespace Frankie.Sound
                 }
             }
             return highestPriorityOverride != null;
+        }
+
+        public static bool TryGetOverrideAudio(out AudioClip audioClip)
+        {
+            audioClip = null;
+            for (int i =  0; i < _backgroundMusicOverrides.Count; i++)
+            {
+                if (!TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride backgroundMusicOverride)) { return false; }
+
+                if (backgroundMusicOverride.HasAudioOverride())
+                {
+                    audioClip = backgroundMusicOverride.GetAudioClip();
+                    return true;
+                }
+                
+                // Invalid Configuration -- Disable and iterate until we get something
+                backgroundMusicOverride.TriggerOverride(false);
+            }
+            return false;
         }
         #endregion
         
@@ -65,9 +84,8 @@ namespace Frankie.Sound
         }
         #endregion
 
-        #region UtilityMethods
+        #region PublicMethods
         public bool HasAudioOverride() => audioClip != null;
-        public AudioClip GetAudioClip() => audioClip;
         public void TriggerOverride(bool enable) // Callable via Unity Events
         {
             BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
@@ -79,7 +97,10 @@ namespace Frankie.Sound
         {
             TriggerOverride(!isOverrideActive);
         }
+        #endregion
 
+        #region PrivateMethods
+        private AudioClip GetAudioClip() => audioClip;
         private int GetPriority() => priority;
         private void TriggerOverride(bool enable, BackgroundMusic backgroundMusic)
         {

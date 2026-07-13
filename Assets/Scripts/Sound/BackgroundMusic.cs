@@ -169,9 +169,9 @@ namespace Frankie.Sound
             currentWorldMusic = audioClip;
             isWorldMusicLooping = isLooping;
             
-            if (BackgroundMusicOverride.TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride backgroundMusicOverride) && backgroundMusicOverride.HasAudioOverride())
+            if (BackgroundMusicOverride.TryGetOverrideAudio(out AudioClip overrideAudio))
             {
-                OverrideMusic(backgroundMusicOverride.GetAudioClip());
+                OverrideMusic(overrideAudio);
                 return;
             }
             

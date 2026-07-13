@@ -49,14 +49,14 @@ namespace Frankie.Control
         {
             base.OnEnable();
             playerStateMachine.playerStateChanged += ParsePlayerStateChange;
-            SubscribeToPartyUpdates(true);
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(true, HandlePartyUpdate); }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
-            SubscribeToPartyUpdates(false);
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, HandlePartyUpdate); }
         }
         
         protected override void FixedUpdate()
@@ -75,13 +75,6 @@ namespace Frankie.Control
             inWorld = (playerStateType == PlayerStateType.InWorld);
             if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
             RefreshMoverSpeed();
-        }
-
-        private void SubscribeToPartyUpdates(bool enable)
-        {
-            if (!TryGetComponent(out Party party)) { return; }
-            party.membersAltered -= HandlePartyUpdate;
-            if (enable) { party.membersAltered += HandlePartyUpdate; }
         }
 
         private void HandlePartyUpdate(PartyAlteredData partyAlteredData)

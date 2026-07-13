@@ -7,19 +7,22 @@ namespace Frankie.Stats
 {
     public class PartyAlteredData
     {
+        public PartyBehaviourType partyBehaviourType { get; private set; }
         private readonly List<BaseStats> members;
         public bool isPartyLeaderDataSet { get; private set; } = false;
         public string partyLeaderName { get; private set; } = string.Empty;
         public Animator partyLeaderAnimator { get; private set; }
         
-        public PartyAlteredData(List<BaseStats> members)
+        public PartyAlteredData(PartyBehaviourType partyBehaviourType, List<BaseStats> members)
         {
+            this.partyBehaviourType = partyBehaviourType;
             this.members = members != null ? members.ToList() : new List<BaseStats>();
             isPartyLeaderDataSet = false;
         }
 
-        public PartyAlteredData(List<BaseStats> members, string partyLeaderName, Animator partyLeaderAnimator)
+        public PartyAlteredData(PartyBehaviourType partyBehaviourType, List<BaseStats> members, string partyLeaderName, Animator partyLeaderAnimator)
         {
+            this.partyBehaviourType = partyBehaviourType;
             this.members = members != null ? members.ToList() : new List<BaseStats>();
             isPartyLeaderDataSet = true;
             this.partyLeaderName = partyLeaderName;
