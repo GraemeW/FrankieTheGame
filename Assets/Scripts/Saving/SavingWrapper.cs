@@ -197,7 +197,7 @@ namespace Frankie.Saving
             
             var party = player.GetComponent<Party>();
             string characterName = party.GetPartyLeaderName();
-            int level = party.GetPartyLeader().GetLevel();
+            int level = party.TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.GetLevel() : 1;
 
             SetSavePrefs(saveName, characterName, level);
         }

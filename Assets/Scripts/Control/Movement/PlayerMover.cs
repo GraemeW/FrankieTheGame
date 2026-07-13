@@ -107,7 +107,7 @@ namespace Frankie.Control
         protected override void SelfInitializeRigidBody()
         {
             if (!TryGetComponent(out Party party)) { return; }
-            SetMoverToNewLeader(party.GetPartyLeader());
+            if (party.TryGetPartyLeader(out BaseStats newPartyLeader)) { SetMoverToNewLeader(newPartyLeader); }
             InitializeRigidBody();
         }
         

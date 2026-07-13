@@ -131,14 +131,28 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethods
-        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
-        public BaseStats GetPartyLeader() => members?[0];
-        public GameObject GetPartyLeaderObject()
+        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && members is { Count: > 1 } && members[0] == checkMember;
+        public bool TryGetPartyLeader(out BaseStats partyLeader)
         {
-            BaseStats partyLeader = members[0];
-            return partyLeader != null ? partyLeader.gameObject : null;
+            partyLeader = members is { Count: > 1 } ? members[0] : null;
+            return partyLeader != null;
         }
-        public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
+        public GameObject GetPartyLeaderObject() => TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.gameObject : null;
+
+        public string GetPartyLeaderName()
+        {
+            if (!TryGetPartyLeader(out BaseStats partyLeader)) { return ""; }
+            CharacterProperties partyLeaderProperties = partyLeader.GetCharacterProperties();
+            return partyLeaderProperties != null ? partyLeaderProperties.GetCharacterDisplayName() ?? "" : "";
+        }
+
+        public bool TryGetPartyLeaderPosition(out Vector2 position)
+        {
+            position = Vector2.zero;
+            if (!TryGetPartyLeader(out BaseStats partyLeader)) { return false; }
+            position = partyLeader.transform.position;
+            return true;
+        }
         
         public List<BaseStats> GetMembers() => members;
         public int GetPartySize() => members.Count;

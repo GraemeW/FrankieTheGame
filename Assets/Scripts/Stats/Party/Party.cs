@@ -104,7 +104,7 @@ namespace Frankie.Stats
             ReconcileTheDead();
             RefreshLookups();
             RefreshColliders();
-            if (GetPartyLeader() != null) { characterBaseStats.transform.position = GetPartyLeader().transform.position; } // Overlap position on Add
+            if (TryGetPartyLeader(out BaseStats partyLeader)) { characterBaseStats.transform.position = partyLeader.transform.position; } // Overlap position on Add
             
             TriggerMembersAltered();
             return true;

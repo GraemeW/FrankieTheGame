@@ -7,7 +7,6 @@ namespace Frankie.Core
 {
     [RequireComponent(typeof(PlayerStateMachine))]
     [RequireComponent(typeof(PartyCombatConduit))]
-
     public class Player : MonoBehaviour
     {
         // Cached References
