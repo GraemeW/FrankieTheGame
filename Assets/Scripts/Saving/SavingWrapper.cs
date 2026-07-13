@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Frankie.Core;
 using UnityEngine;
-using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Saving
 {
     public static class SavingWrapper
     {
