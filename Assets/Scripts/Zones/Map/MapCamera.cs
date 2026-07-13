@@ -1,5 +1,6 @@
 using UnityEngine;
 using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.ZoneManagement
 {
@@ -66,10 +67,12 @@ namespace Frankie.ZoneManagement
         {
             GameObject playerObject = Player.FindPlayerObject();
             if (playerObject == null) { return; }
+            if (!playerObject.TryGetComponent(out Party party)) { return; }
 
-            Transform playerTransform = playerObject.transform;
-            var newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
-            subCamera.transform.position = newCameraPosition;
+            if (party.TryGetPartyLeaderPosition(out Vector2 newCameraPosition))
+            {
+                subCamera.transform.position = newCameraPosition;
+            }
         }
         #endregion
     }
