@@ -115,7 +115,8 @@ namespace Frankie.Speech.Editor
             if (dialogueNameLabel != null) { dialogueNameLabel.text = hasDialogue ? selectedDialogue.name : string.Empty; }
             
             if (!hasDialogue) { return; }
-            connectionsLayer.SetDialogue(selectedDialogue);
+
+            connectionsLayer?.SetDialogue(selectedDialogue);
             foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
             {
                 if (dialogueNode == null) { continue; }
@@ -126,6 +127,7 @@ namespace Frankie.Speech.Editor
 
         private void AddNodeView(DialogueNode dialogueNode)
         {
+            if (nodeViews == null) { return; }
             var view = new DialogueNodeView(dialogueNode, selectedDialogue, MarkConnectionsDirty, () => zoomManipulator.zoomFactor);
             view.speakerNameChanged += HandleSpeakerNameChanged;
             view.speakerTypeChanged += HandleSpeakerTypeChanged;
@@ -237,6 +239,7 @@ namespace Frankie.Speech.Editor
 
         private void RefreshLinkButtons()
         {
+            if (nodeViews == null) { return; }
             foreach (DialogueNodeView view in nodeViews.Values)
             {
                 DialogueNode node = view.dialogueNode;

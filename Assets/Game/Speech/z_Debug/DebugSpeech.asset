@@ -1,0 +1,383 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-439491334927249621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: cc511da4-4c83-4a78-b373-1b48adc39b29
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: DebugSpeech
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29385017456058368
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29385017690939392
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 1
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1069
+    y: 257
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 0371ffefc940963478cb27ead3e1e75b, type: 2}
+        negate: 1
+  cachedSpeakerName: Echo2
+  cachedText: Good Job There
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: DebugSpeech
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
+  skipRootNode: 0
+  cachedName: DebugSpeech
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs: []
+  dialogueNodes:
+  - {fileID: 831103004782998081}
+  - {fileID: 1327171722743843887}
+  - {fileID: 7042545445421715153}
+  - {fileID: 3972614220069180872}
+  - {fileID: -439491334927249621}
+  - {fileID: 4102048742459345007}
+--- !u!114 &831103004782998081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3e3c78f4-598f-41e1-b85d-04bd70f74972
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: DebugSpeech
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29385112645787648
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29263639864139776
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
+  children:
+  - 68fbc89f-9516-48b7-9484-a12b0b96109d
+  - 511af9c4-d35f-4251-a13f-274f5d91aa68
+  rect:
+    serializedVersion: 2
+    x: 22
+    y: 22
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Jones
+  cachedText: 'This is a test if \n newline characters will work \n or how they
+
+    should
+    be
+
+    formatted?'
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &1327171722743843887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 68fbc89f-9516-48b7-9484-a12b0b96109d
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: DebugSpeech
+  speakerType: 0
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29263053001318400
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29263053328474112
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
+  children:
+  - 7c6b845f-867c-497b-a0c6-b3301000100b
+  rect:
+    serializedVersion: 2
+    x: 505
+    y: 4
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 3254953458e7313408e640d321e10285, type: 2}
+        negate: 0
+  cachedSpeakerName: DefaultSpeaker
+  cachedText: OK, thanks \n bud
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &3972614220069180872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 511af9c4-d35f-4251-a13f-274f5d91aa68
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: DebugSpeech
+  speakerType: 0
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29384982865633280
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29384983293452288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
+  children:
+  - cc511da4-4c83-4a78-b373-1b48adc39b29
+  - 7c6b845f-867c-497b-a0c6-b3301000100b
+  rect:
+    serializedVersion: 2
+    x: 488.38687
+    y: 302.1435
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+        negate: 0
+  cachedSpeakerName: DefaultSpeaker
+  cachedText: "Hello Moto\t"
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &4102048742459345007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: fa51ca51-ba23-41e4-a42e-75b1c8e1b034
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: DebugSpeech
+  speakerType: 0
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29784862041825280
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29784862696136704
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 0
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: a8eed3b6a86bb41cbbcaa4e7f78633d8, type: 2}
+        negate: 0
+  cachedSpeakerName: DefaultSpeaker
+  cachedText: Here we go again
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &7042545445421715153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 7c6b845f-867c-497b-a0c6-b3301000100b
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: DebugSpeech
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29279002790191104
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 29279003046043648
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
+  children:
+  - fa51ca51-ba23-41e4-a42e-75b1c8e1b034
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 0371ffefc940963478cb27ead3e1e75b, type: 2}
+        negate: 0
+  cachedSpeakerName: Jones
+  cachedText: Temp123
+  references:
+    version: 2
+    RefIds: []
