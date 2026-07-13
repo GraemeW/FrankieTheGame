@@ -304,7 +304,14 @@ namespace Frankie.Control
         private void CycleWaypoint()
         {
             if (patrolPath == null) { return; }
-            if (patrolPath.IsFinalWaypoint(currentWaypointIndex)) { arrivedAtFinalWaypoint?.Invoke(); }
+
+            if (patrolPath.IsFinalWaypoint(currentWaypointIndex))
+            {
+                currentSpeed = 0f;
+                SetLookDirection(lookDirectionOnDwell);
+                UpdateAnimatorParameters();
+                arrivedAtFinalWaypoint?.Invoke();
+            }
 
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
         }

@@ -49,6 +49,7 @@ namespace Frankie.Rendering
             {
                 party.SubscribeToMembersAlteredUpdates(true, HandlePartyLeaderAnnouncements);
                 SetupPartyLeaderState(party.GetPartyLeaderObject());
+                if (partyLeaderStateInitialized) { RefreshDefaultCameras(); }
             }
             DisplayResolutions.resolutionUpdated += UpdateCameraOrthoSizes;
         }
@@ -95,9 +96,10 @@ namespace Frankie.Rendering
         private void SetupPartyLeaderState(GameObject partyLeaderObject)
         {
             if (partyLeaderObject == null) { return; }
+            
             partyLeaderStateInitialized = true;
-            SetUpVirtualCameraFollowers(partyLeaderObject);
-            SetUpStateDrivenCamera(partyLeaderObject.GetComponent<Animator>());
+            partyLeader = partyLeaderObject;
+            partyLeaderAnimator = partyLeaderObject.GetComponent<Animator>();
         }
         
         private void SetUpStateDrivenCamera(Animator animator)
@@ -147,8 +149,7 @@ namespace Frankie.Rendering
             if (partyLeaderObject == null) { return; }
             
             SetupPartyLeaderState(partyLeaderObject);
-            SetUpVirtualCameraFollowers(partyLeaderObject);
-            SetUpStateDrivenCamera(partyAlteredData.partyLeaderAnimator);
+            RefreshDefaultCameras();
         }
         #endregion
     }
