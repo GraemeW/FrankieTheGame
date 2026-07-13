@@ -51,7 +51,7 @@ namespace Frankie.ZoneManagement
 
             subCamera.targetTexture = mapRenderTexture; // Enable/disable target texture otherwise Camera's OnDisable will force a final black frame
             subCamera.gameObject.SetActive(true);
-            SetupPlayerFollow();
+            TrackToPartyLeaderPosition();
             subCamera.Render();
             subCamera.targetTexture = null;
             subCamera.gameObject.SetActive(false);
@@ -63,16 +63,14 @@ namespace Frankie.ZoneManagement
             UpdateMap(zone);
         }
 
-        private void SetupPlayerFollow()
+        private void TrackToPartyLeaderPosition()
         {
             GameObject playerObject = Player.FindPlayerObject();
-            if (playerObject == null) { return; }
-            if (!playerObject.TryGetComponent(out Party party)) { return; }
-
-            if (party.TryGetPartyLeaderPosition(out Vector2 newCameraPosition))
-            {
-                subCamera.transform.position = newCameraPosition;
-            }
+            if (playerObject == null || !playerObject.TryGetComponent(out Party party)) { return; }
+            if (!party.TryGetPartyLeaderPosition(out Vector2 partyLeaderPosition)) { return; }
+            
+            var newCameraPosition = new Vector3(partyLeaderPosition.x, partyLeaderPosition.y, subCamera.transform.position.z);
+            subCamera.transform.position = newCameraPosition;
         }
         #endregion
     }

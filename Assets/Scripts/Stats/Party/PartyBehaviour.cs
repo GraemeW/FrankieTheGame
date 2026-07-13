@@ -131,10 +131,10 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethods
-        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && members is { Count: > 1 } && members[0] == checkMember;
+        public bool IsPartyLeader(BaseStats checkMember) => TryGetPartyLeader(out BaseStats partyLeader) && partyLeader == checkMember;
         public bool TryGetPartyLeader(out BaseStats partyLeader)
         {
-            partyLeader = members is { Count: > 1 } ? members[0] : null;
+            partyLeader = members is { Count: > 0 } ? members[0] : null;
             return partyLeader != null;
         }
         public GameObject GetPartyLeaderObject() => TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.gameObject : null;
