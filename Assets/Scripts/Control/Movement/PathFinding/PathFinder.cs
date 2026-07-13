@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,7 +21,8 @@ namespace Frankie.Control
 
         // State
         private float entitySize = 0.13f;
-        
+
+        private bool isEntitySizeInitialized = false;
         private bool isCacheInitialized = false;
         private bool hasPathed = false;
         private float timeSinceLastPath;
@@ -79,7 +79,7 @@ namespace Frankie.Control
         #region UnityMethods
         private void Awake()
         {
-            SetupEntitySize();
+            InitializeEntitySize();
         }
 
         private void OnEnable()
@@ -110,9 +110,10 @@ namespace Frankie.Control
         #region PublicMethods
         public bool IsValidPathFinder() => isCacheInitialized;
         
-        public void InitialisePathfindingCache()
+        public void InitializePathfindingCache()
         {
             if (cachedMoveMesh == null && !TryFindMoveMesh()) { return; }
+            if (!isEntitySizeInitialized) { InitializeEntitySize();}
 
             WalkabilityGrid grid = cachedMoveMesh.walkabilityGrid;
             cachedColumns = grid.columns;
@@ -125,7 +126,7 @@ namespace Frankie.Control
             nodeMap = new AStarNode[cellCount];
             openHeap = new List<AStarNode>(cellCount / initialHeapSizeDivider);
             
-            erodedCells = MoveMesh.BakeErodedGrid(grid, entitySize);
+            erodedCells = cachedMoveMesh.GetErodedGrid(grid, entitySize);
             isCacheInitialized = true;
         }
 
@@ -138,7 +139,7 @@ namespace Frankie.Control
         
         public bool FindPath(Vector2 currentPosition, Vector2 targetPosition, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
         {
-            if (!isCacheInitialized) { return false; }
+            if (!IsCacheValid()) { return false; }
             
             bool forcePathing = pathFindingCheckType == PathFindingCheckType.ForceCheck;
             if (!forcePathing && hasPathed && timeSinceLastPath < pathPollingSeconds) { return true; }
@@ -150,7 +151,6 @@ namespace Frankie.Control
             List<Vector2> path = new List<Vector2> { currentPosition };
             currentPath.AddRange(path);
             
-            if (!IsCacheValid()) { return false; }
             bool isStartCellValid = cachedMoveMesh.WorldToCell(currentPosition, out int startColumn, out int startRow);
             if (!isStartCellValid || !IsWalkableEroded(startColumn, startRow))  { return false; }
             bool isTargetCellValid = cachedMoveMesh.WorldToCell(targetPosition, out int targetColumn, out int targetRow);
@@ -398,15 +398,15 @@ namespace Frankie.Control
         #region HelperMethods
         private bool IsCacheValid()
         {
-            if (cachedMoveMesh == null || !isCacheInitialized) { InitialisePathfindingCache(); }
-            if (cachedMoveMesh == null) { return false; }
+            if (!isCacheInitialized || cachedMoveMesh == null) { return false; }
             WalkabilityGrid walkabilityGrid = cachedMoveMesh.walkabilityGrid;
             if (walkabilityGrid == null || walkabilityGrid.IsEmpty()) { return false; }
             return cachedColumns == walkabilityGrid.columns && cachedRows == walkabilityGrid.rows;
         }
         
-        private void SetupEntitySize()
+        private void InitializeEntitySize()
         {
+            isEntitySizeInitialized = true;
             if (TryGetComponent(out CircleCollider2D circleCollider2D))
             {
                 entitySize = circleCollider2D.radius;

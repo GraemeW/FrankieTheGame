@@ -185,7 +185,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 505
-    y: 4
+    y: 3
     width: 400
     height: 225
   draggingRect:
