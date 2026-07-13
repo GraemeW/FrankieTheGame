@@ -15,12 +15,14 @@ namespace Frankie.Stats
         
         public PartyAlteredData(PartyBehaviourType partyBehaviourType, List<BaseStats> members)
         {
+            this.partyBehaviourType = partyBehaviourType;
             this.members = members != null ? members.ToList() : new List<BaseStats>();
             isPartyLeaderDataSet = false;
         }
 
         public PartyAlteredData(PartyBehaviourType partyBehaviourType, List<BaseStats> members, string partyLeaderName, Animator partyLeaderAnimator)
         {
+            this.partyBehaviourType = partyBehaviourType;
             this.members = members != null ? members.ToList() : new List<BaseStats>();
             isPartyLeaderDataSet = true;
             this.partyLeaderName = partyLeaderName;

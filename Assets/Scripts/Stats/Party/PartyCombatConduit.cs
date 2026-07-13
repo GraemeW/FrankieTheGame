@@ -94,22 +94,6 @@ namespace Frankie.Stats
             }
         }
 
-        private void SubscribeToLeaderStatusUpdates(bool enable)
-        {
-            if (combatParticipantCache.Count == 0) { return; }
-            CombatParticipant partyLeader = combatParticipantCache[0];
-            if (partyLeader == null) { return; }
-
-            if (enable)
-            {
-                partyLeader.SubscribeToStateUpdates(HandleLeaderStatusUpdate);
-            }
-            else
-            {
-                partyLeader.UnsubscribeToStateUpdates(HandleLeaderStatusUpdate);
-            }
-        }
-
         private void RefreshMembersCache(PartyAlteredData partyAlteredData)
         {
             Action<CombatParticipant> refreshAction = null;
@@ -140,6 +124,22 @@ namespace Frankie.Stats
                 {
                     refreshAction(combatParticipant);
                 }
+            }
+        }
+        
+        private void SubscribeToLeaderStatusUpdates(bool enable)
+        {
+            if (combatParticipantCache.Count == 0) { return; }
+            CombatParticipant partyLeader = combatParticipantCache[0];
+            if (partyLeader == null) { return; }
+
+            if (enable)
+            {
+                partyLeader.SubscribeToStateUpdates(HandleLeaderStatusUpdate);
+            }
+            else
+            {
+                partyLeader.UnsubscribeToStateUpdates(HandleLeaderStatusUpdate);
             }
         }
         #endregion
