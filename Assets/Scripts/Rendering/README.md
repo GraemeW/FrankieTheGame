@@ -2,7 +2,7 @@
 
 ## Camera + World View
 
-### [Camera Controller](./CameraCinematics/CameraController.cs)
+### [Camera Controller](./Camera/CameraController.cs)
 
 This controller makes use of the [Unity Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/index.html), keeping track of existing virtual cameras and allowing camera swapping/override.
 
@@ -53,7 +53,7 @@ This approach was and is still implemented for the 'recommended' display resolut
 This approach is, however, extremely fragile and thus not considered a complete solution for the reasons described below:
 1. By limiting the orthographic size to ensure whole pixels, we effectively limit the zoom levels we may use in the game
    * *alternative zooms are technically feasible by scaling display resolution and orthographic size in concert, but in an extremely limited fashion*
-   * *this is done in [DisplayResolutions.cs](./DisplayResolutions.cs) in concert with [CameraController.cs](../Core/CameraCinematics/CameraController.cs) via the `resolutionUpdated` event*
+   * *this is done in [DisplayResolutions.cs](./DisplayResolutions.cs) in concert with [CameraController.cs](./Camera/CameraController.cs) via the `resolutionUpdated` event*
 2. Fixed window sizes is a considerable limitation in usability and accessibility (Frankie's build setting configuration should **not** lock window size)
 3. The entire premise breaks if **any** scaling occurs in the display pipe
    * *e.g. for non-standard display resolutions, video sources will often scale content -- e.g. 1920x1080 content upscaled onto a 1920x1200 display*
