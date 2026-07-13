@@ -51,7 +51,6 @@ namespace Frankie.Control
             
             pathFinder = GetComponent<PathFinder>();
             if (!CheckForConfiguration()) { return; }
-            if (movementConfiguration.usingPathFinding) { pathFinder.InitialisePathfindingCache(); }
             SetupInitialState();
         }
 
@@ -61,6 +60,7 @@ namespace Frankie.Control
         {
             SelfInitializeRigidBody(); // Call in start to allow SaveState instantiation to run during Awake
             SetLookDirection(defaultLookDirection); // Initialize look direction to avoid wonky
+            if (movementConfiguration.usingPathFinding) { pathFinder.InitializePathfindingCache(); }
             
             // N.B. Deliberately NOT calling clear move targets here to avoid order of operations issues
             // In some edge cases Start() can be called after Update(), which can cause shouts to fail
@@ -236,7 +236,7 @@ namespace Frankie.Control
                     return pathFinder.FindBestReachablePosition(GetCurrentPosition(), reckonedTarget, movementConfiguration.warpPathfindingTravelDistance);
                 case MovementStyle.Walk:
                 default:
-                    return !pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType) ? reckonedTarget : pathFinder.GetNextPathTarget();
+                    return pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType) ? pathFinder.GetNextPathTarget() : reckonedTarget;
             }
         }
         #endregion

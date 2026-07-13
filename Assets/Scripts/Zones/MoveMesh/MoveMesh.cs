@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
@@ -28,15 +29,17 @@ namespace Frankie.ZoneManagement
         [NonSerialized] private readonly List<SerializablePolygon> additionalColliderPolygons = new();
         [NonSerialized] private Mesh walkabilityMesh;
         
+        // Static = Const
+        private const float _erodedEntitySizeQuantization = 0.0057f;
+        private const string _moveMeshLayer = "MoveMesh";
+        private const string _gizmoMeshName = "EnclosedRegionGizmoMesh";
+        
         // Capture State
         private float currentProgress;
         
         // Cached References
+        private readonly Dictionary<float, bool[]> erodedGridCache = new(new ApproximateFloatComparer(_erodedEntitySizeQuantization));
         private BoxCollider2D meshOutline;
-        
-        // Static
-        private const string _moveMeshLayer = "MoveMesh";
-        private const string _gizmoMeshName = "EnclosedRegionGizmoMesh";
         
         #region UnityMethods
         private void Awake()
@@ -168,6 +171,15 @@ namespace Frankie.ZoneManagement
             walkabilityGrid = new WalkabilityGrid();
             if (walkabilityMesh != null) { DestroyImmediate(walkabilityMesh); }
             isMeshOutlineInitialized = false;
+        }
+
+        public bool[] GetErodedGrid(WalkabilityGrid grid, float entitySize)
+        {
+            if (erodedGridCache.TryGetValue(entitySize, out var erodedGrid)) { return erodedGrid; }
+            
+            erodedGrid = BakeErodedGrid(grid, entitySize);
+            erodedGridCache[entitySize] = erodedGrid;
+            return erodedGrid;
         }
         #endregion
         
@@ -592,7 +604,7 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region StaticMethods
-        public static bool[] BakeErodedGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
+        private static bool[] BakeErodedGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
         {
             bool[] cells = walkabilityGrid.cells.ToArray();
             if (erosionRadius <= 0f) { return cells; }
