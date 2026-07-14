@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edca8e3104345164fb529398740edfe1, type: 3}
   m_Name: ContainsFrankie
   m_EditorClassIdentifier: 
+  partyBehaviourType: 0
   charactersToMatch:
   - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
