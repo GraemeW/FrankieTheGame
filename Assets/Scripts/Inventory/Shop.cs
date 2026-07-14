@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Control;
+using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
 using Frankie.Utils.Localization;
 

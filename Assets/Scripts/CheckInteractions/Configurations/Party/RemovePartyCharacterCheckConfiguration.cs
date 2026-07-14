@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
@@ -19,15 +20,15 @@ namespace Frankie.Control
 
         public override string GetMessage() => localizedMessageRemoveFromParty.GetSafeLocalizedString();
         
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine, CheckWithConfiguration callingCheck)
         {
-            Party party = playerStateHandler.GetParty();
+            Party party = playerStateMachine.GetParty();
 
             var interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
             interactActions.AddRange(party.GetMembers().Select(character => 
-                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterDisplayName(), () => RemoveFromPartyWithErrorHandling(playerStateHandler, party, character))));
+                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterDisplayName(), () => RemoveFromPartyWithErrorHandling(playerStateMachine, party, character))));
             return interactActions;
         }
         
@@ -41,21 +42,21 @@ namespace Frankie.Control
             };
         }
 
-        private void RemoveFromPartyWithErrorHandling(PlayerStateMachine playerStateHandler, Party party, BaseStats character)
+        private void RemoveFromPartyWithErrorHandling(PlayerStateMachine playerStateMachine, Party party, BaseStats character)
         {
             if (unremovableCharacters != null)
             {
                 CharacterProperties selectedCharacter = character.GetCharacterProperties();
                 if (unremovableCharacters.Any(unremovableCharacter => CharacterProperties.AreCharacterPropertiesMatched(selectedCharacter, unremovableCharacter)))
                 {
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageCannotRemove.GetSafeLocalizedString(), selectedCharacter.GetCharacterID()));
+                    playerStateMachine.EnterDialogue(string.Format(localizedMessageCannotRemove.GetSafeLocalizedString(), selectedCharacter.GetCharacterID()));
                     return;
                 }
             }
 
             if (!party.RemoveFromParty(character))
             {
-                playerStateHandler.EnterDialogue(localizedMessageMinimumParty.GetSafeLocalizedString());
+                playerStateMachine.EnterDialogue(localizedMessageMinimumParty.GetSafeLocalizedString());
             }
         }
     }

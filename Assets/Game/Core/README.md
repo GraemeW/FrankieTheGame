@@ -30,7 +30,7 @@ The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefa
 * [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Transitions/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)
 * [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Zones/Map/MapCamera.cs) to generate the mini-map
-* [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Core/FrankieDebugger.cs) for debug functionality (not for release)
+* [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Utils/FrankieDebugger.cs) for debug functionality (not for release)
 
 ### Addressables Loader (Singleton)
 
@@ -48,51 +48,18 @@ Thus, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) creates the cach
 
 ## Cameras Prefab
 
-[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Core/CameraCinematics/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply contains the main Unity [Camera](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
+[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Rendering/Camera/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply contains the main Unity [Camera](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
 
 The State Driven Camera child object employs a [Cinemachine State-Driven Camera](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineStateDrivenCamera.html), which allows us to:
 * follow the player as they move around the map
 * modify the camera zoom as a function of the player's lead character's animator state
   * *so we can add a neat zoom out effect when the player is idle*
 
-The latter functionality is established using two separate virtual cameras (`VCam Active` and `VCam Idle`), which are childed to the State Driven Camera.  The [CameraController](../../Scripts/Core/CameraCinematics/CameraController.cs) script then ensures that the state-driven camera is correctly following the player's lead party member.
+The latter functionality is established using two separate virtual cameras (`VCam Active` and `VCam Idle`), which are childed to the State Driven Camera.  The [CameraController](../../Scripts/Rendering/Camera/CameraController.cs) script then ensures that the state-driven camera is correctly following the player's lead party member.
 
 ### On Pixel-Perfect Rendering
 
-Pixel perfect rendering is accomplished by aligning the camera's PPU to the pixel art PPU settings.  
-
-This can be done automatically with Unity's [Pixel Perfect Camera](https://docs.unity3d.com/Packages/com.unity.2d.pixel-perfect@1.0/manual/index.html); however, you'll find that using any sort of character follower scripts (such as those used in [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.2/manual/CinemachineVirtualCamera.html)) in combination with the pixel perfect camera results in an unacceptable amount of character jitter.  Unity notes that the Cinemachine [pixel perfect extension](https://docs.unity3d.com/6000.4/Documentation/Manual/urp/2d-pixelperfect-ref.html) can help to minimize fighting between the follower script and the pixel perfect camera, but this does not appear to be true -- or its effect is so minimal as to appear to do nothing to improve the jitter.
-
-In any case, skipping the maths, one way to find the settings to achieve pixel perfect rendering is:
-* enable the perfect-pixel camera
-* note the camera lens' orthographic size when enabled
-* disable the perfect-pixel camera
-* manually adjust the camera lens' orthographic size
-
-#### Frankie Standard Camera Ortho Sizes
-
-For Frankie, the following camera lens `Ortho Size` values are used:
-* **Zoom-In:**  1.8
-* **Zoom-Out:**  3.6
-
-Do **not** alter these values, or pixels will appear distorted (i.e. displays will render partial pixel widths, etc. instead of aligning at art pixel-to-display pixel).
-
-#### Remaining Gripes on Pixel-Perfect Co-Ex with Follower Cameras
-
-The cinemachine camera follows targets with a certain `Damping` factor such that it will smoothly center itself, slowing as it approaches its final position.  For pixel art, this can lead to some noticeable artifacts.  
-
-Notably:
-* as the camera movement slows, it will eventually move at a rate smaller than a rendered pixel 
-  * resulting in no change in the objects rendered on the scene
-* when the camera passes a certain threshold > 1px, features on the scene will suddenly pop to their new position
-
-This makes the final damping of the camera tracking feel choppy.  This is currently mitigated by using a relatively small damping factor (`=0.5`).  In the future, it would be desirable to implement a better pixel-perfect camera follower algorithm.
-
-### On Cinemachine Versions
-
-N.B.  This project currently uses CM2.  
-
-Upgrade to CM3 is pending/TODO/WIP (see [here](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineUpgradeFrom2.html)).
+See [here](../../Scripts/Rendering/README.md#pixel-perfect-rendering) for more discussion on this topic.
 
 ## Player Prefab (Singleton)
 
@@ -106,18 +73,20 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs):  primary game state machine for different [IPlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs)
   * e.g. including hand-off from the [PlayerController](../../Scripts/Control/Player/PlayerController.cs) to alternate [Controllers](../Controllers/)
 * [PlayerMover](../../Scripts/Control/Movement/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Player/PlayerController.cs))
+  * [PathFinder](../../Scripts/Control/Movement/PathFinding/PathFinder.cs):  interfaces with PlayerMover to allow for A* pathfinding (as-needed for cutscenes, where player control is handled by the game engine instead of player input)
 * [Party](../../Scripts/Stats/Party/Party.cs):  add/remove characters to active party & queries for associated party state
   * [InactiveParty](../../Scripts/Stats/Party/InactiveParty.cs):  manages save state for characters not currently in party
   * [PartyAssist](../../Scripts/Stats/Party/PartyAssist.cs):  handles add/remove for 'assisting' characters (i.e. not official party members)
+  * [PartyKnapsackConduit](../../Scripts/Stats/Party/PartyKnapsackConduit.cs):  single entry point for caching and accessing party knapsack data
+  * [PartyCombatConduit](../../Scripts/Stats/Party/PartyCombatConduit.cs):  single entry point for caching and accessing party combat data
 * [Wallet](../../Scripts/Inventory/Wallet.cs):  add/remove funds to the player & queries for associated wallet state
 * [Shopper](../../Scripts/Inventory/Shopper.cs):  interfacing with [Shops](../../Scripts/Inventory/Shop.cs) to purchase/sell [items](../OnLoadAssets/Inventory/)
 * [QuestList](../../Scripts/Quests/QuestList.cs):  add/remove quests, complete quest objectives/disburse rewards & queries for associated quest state
 * [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
-* [RigidBody2D](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Rigidbody2D.html):  interfacing with Unity's physics system
-  * note that colliders are on individual characters in the party container (as below in [Key Children](#key-children))
 
-Note:
-Further detail on input/control and interfacing with the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) is provided in [Controllers](../Controllers/)
+Notes:
+1. Further detail on input/control and interfacing with the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) is provided in [Controllers](../Controllers/)
+2. Rigidbodies and collider physics are handled on the individual character objects present in the party / party assist
 
 ### Key Children
 

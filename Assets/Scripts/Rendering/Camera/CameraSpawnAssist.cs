@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.Core
+namespace Frankie.Rendering
 {
     [RequireComponent(typeof(Camera))]
     public class CameraSpawnAssist : MonoBehaviour

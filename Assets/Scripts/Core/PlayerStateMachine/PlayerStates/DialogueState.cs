@@ -1,6 +1,6 @@
-namespace Frankie.Control.PlayerStates
+namespace Frankie.Core.PlayerStates
 {
-    public class TradeState : IPlayerState
+    public class DialogueState : IPlayerState
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
@@ -24,8 +24,10 @@ namespace Frankie.Control.PlayerStates
         {
         }
 
-        public void EnterTrade(IPlayerStateContext playerStateContext) // Ignore
+        public void EnterTrade(IPlayerStateContext playerStateContext)
         {
+            // No state change (will dequeue next time in world)
+            playerStateContext.QueueActionUnderConsideration();
         }
 
         public void EnterTransition(IPlayerStateContext playerStateContext)

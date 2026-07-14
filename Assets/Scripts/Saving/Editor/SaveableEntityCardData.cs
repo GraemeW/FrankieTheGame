@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
+using Frankie.Rendering;
 using Frankie.Stats;
 
 namespace Frankie.Saving.Editor

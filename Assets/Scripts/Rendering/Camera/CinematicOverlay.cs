@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 
-namespace Frankie.Core
+namespace Frankie.Rendering
 {
     [ExecuteInEditMode]
     public class CinematicOverlay : MonoBehaviour, ILocalizable

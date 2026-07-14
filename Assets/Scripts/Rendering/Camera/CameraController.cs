@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
+using Frankie.Core;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Unity.Cinemachine;
 using Frankie.Stats;
-using Frankie.Rendering;
 
-namespace Frankie.Core
+namespace Frankie.Rendering
 {
     public class CameraController : MonoBehaviour
     {
@@ -26,6 +25,7 @@ namespace Frankie.Core
         private Animator partyLeaderAnimator;
 
         // State
+        private bool partyLeaderStateInitialized = false;
         private float currentActiveOrthoSize = 3.6f;
         private float currentIdleOrthoSize = 1.8f;
         
@@ -45,43 +45,40 @@ namespace Frankie.Core
         #region UnityMethods
         private void OnEnable()
         {
-            if (SubscribeToParty(true, out Party party))
+            if (TryGetParty(out Party party))
             {
-                GameObject partyLeaderObject = party.GetPartyLeaderObject();
-                SetUpVirtualCameraFollowers(partyLeaderObject);
-                SetUpStateDrivenCamera(partyLeaderObject.GetComponent<Animator>());
+                party.SubscribeToMembersAlteredUpdates(true, HandlePartyLeaderAnnouncements);
+                SetupPartyLeaderState(party.GetPartyLeaderObject());
+                if (partyLeaderStateInitialized) { RefreshDefaultCameras(); }
             }
             DisplayResolutions.resolutionUpdated += UpdateCameraOrthoSizes;
         }
 
         private void OnDisable()
         {
-            SubscribeToParty(false, out Party _);
+            if (TryGetParty(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, HandlePartyLeaderAnnouncements); }
             DisplayResolutions.resolutionUpdated -= UpdateCameraOrthoSizes;
-        }
-
-        private bool SubscribeToParty(bool enable, out Party party)
-        {
-            party = null;
-            GameObject playerObject = Player.FindPlayerObject();
-            if (playerObject == null) { return false; }
-            
-            if (!playerObject.TryGetComponent(out party)) { return false; }
-            party.SubscribeToMembersAlteredUpdates(enable, HandlePartyLeaderAnnouncements);
-            return true;
         }
 
         private void Start()
         {
+            if (!partyLeaderStateInitialized && TryGetParty(out Party party)) { SetupPartyLeaderState(party.GetPartyLeaderObject()); }
             RefreshDefaultCameras();
             SetupOverlayCameras();
+        }
+
+        private static bool TryGetParty(out Party party)
+        {
+            party = null;
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject != null && playerObject.TryGetComponent(out party);
         }
         #endregion
 
         #region PublicMethods
         public float GetActiveOrthoSize() => currentActiveOrthoSize;
         
-        public void RefreshDefaultCameras(List<BaseStats> _ = null)
+        public void RefreshDefaultCameras()
         {
             SetUpVirtualCameraFollowers(partyLeader);
             SetUpStateDrivenCamera(partyLeaderAnimator);
@@ -95,6 +92,16 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
+
+        private void SetupPartyLeaderState(GameObject partyLeaderObject)
+        {
+            if (partyLeaderObject == null) { return; }
+            
+            partyLeaderStateInitialized = true;
+            partyLeader = partyLeaderObject;
+            partyLeaderAnimator = partyLeaderObject.GetComponent<Animator>();
+        }
+        
         private void SetUpStateDrivenCamera(Animator animator)
         {
             if (animator == null) { return; }
@@ -138,8 +145,11 @@ namespace Frankie.Core
         private void HandlePartyLeaderAnnouncements(PartyAlteredData partyAlteredData)
         {
             if (!partyAlteredData.isPartyLeaderDataSet) { return; }
-            SetUpVirtualCameraFollowers(partyAlteredData.GetPartyLeaderObject());
-            SetUpStateDrivenCamera(partyAlteredData.partyLeaderAnimator);
+            GameObject partyLeaderObject = partyAlteredData.GetPartyLeaderObject();
+            if (partyLeaderObject == null) { return; }
+            
+            SetupPartyLeaderState(partyLeaderObject);
+            RefreshDefaultCameras();
         }
         #endregion
     }

@@ -15,8 +15,7 @@ namespace Frankie.Core.Predicates
         {
             if (!PartyBehaviour.IsPartyBehaviourType(partyBehaviour, partyBehaviourType)) { return null; }
             if (charactersToMatch.Count == 0) { return false; }
-            BaseStats leader = partyBehaviour.GetPartyLeader();
-            return leader != null && charactersToMatch.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, leader.GetCharacterProperties()));
+            return partyBehaviour.TryGetPartyLeader(out BaseStats partyLeader) && charactersToMatch.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, partyLeader.GetCharacterProperties()));
         }
     }
 }

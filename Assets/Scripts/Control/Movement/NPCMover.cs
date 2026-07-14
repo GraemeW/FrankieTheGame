@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Utils;
 
@@ -69,21 +70,23 @@ namespace Frankie.Control
         {
             base.OnEnable();
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
+            if (npcChaser != null) { npcChaser.SubscribeToChaseTargetUpdates(true, OnChaseTargetUpdated); }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             npcStateHandler.npcStateChanged -= HandleNPCStateChange;
+            if (npcChaser != null) { npcChaser.SubscribeToChaseTargetUpdates(false, OnChaseTargetUpdated); }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(Collision2D _)
         {
             if (npcMoveFocus is not (NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
             SetMoveTarget(transform.position);
         }
 
-        private void OnCollisionStay2D(Collision2D collision)
+        private void OnCollisionStay2D(Collision2D _)
         {
             if (npcMoveFocus is not (NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
             if (timeSinceNewLocomotionTarget > locomotionCollisionStayTime) { SetupNextLocomotionTarget(); }
@@ -120,7 +123,7 @@ namespace Frankie.Control
         }
         #endregion
         
-        #region NPCStateHandling
+        #region EventHandling
         private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
             ClearMoveTargets();
@@ -141,7 +144,7 @@ namespace Frankie.Control
                 {
                     timeSinceLastMove = 0f;
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
-                    SetMoveTarget(npcChaser.GetChaseObject());
+                    if (npcChaser != null) { SetMoveTarget(npcChaser.GetChaseObject()); }
                     
                     if (!npcStateHandler.WillForceCombat())
                     {
@@ -164,15 +167,21 @@ namespace Frankie.Control
                 }
             }
         }
+
+        private void OnChaseTargetUpdated(GameObject _)
+        {
+            // Retransmit the NPC State to re-trigger any related move actions
+            npcStateHandler.RetransmitState();
+        }
         #endregion
 
         #region PublicMethods
         public Vector3 GetInteractionCenterPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : transform.position;
         public void SetLookDirectionDown() => SetLookDirection(Vector2.down); // Called via Unity Events
         public void SetLookDirectionUp() => SetLookDirection(Vector2.up); // Called via Unity Events
-        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // Called via Unity Events
+        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
-            var callingController = playerStateHandler.GetComponent<PlayerController>();
+            var callingController = playerStateMachine.GetComponent<PlayerController>();
             SetLookDirection(callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position);
         }
 
@@ -211,7 +220,7 @@ namespace Frankie.Control
             Vector2 target = base.ReckonTarget(withHistoryOffsetting, addToHistory, pathFindingCheckType);
             if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
 
-            Vector2 currentPosition = GetCurrentPosition();
+            TryGetCurrentPosition(out Vector2 currentPosition);
             float offset = Vector2.Dot(currentPosition, target);
             Vector2 direction = (currentPosition - target).normalized;
             return offset * direction; // Run toward equally distant position away from target
@@ -304,7 +313,14 @@ namespace Frankie.Control
         private void CycleWaypoint()
         {
             if (patrolPath == null) { return; }
-            if (patrolPath.IsFinalWaypoint(currentWaypointIndex)) { arrivedAtFinalWaypoint?.Invoke(); }
+
+            if (patrolPath.IsFinalWaypoint(currentWaypointIndex))
+            {
+                currentSpeed = 0f;
+                SetLookDirection(lookDirectionOnDwell);
+                UpdateAnimatorParameters();
+                arrivedAtFinalWaypoint?.Invoke();
+            }
 
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
         }

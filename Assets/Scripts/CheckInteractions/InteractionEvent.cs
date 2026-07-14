@@ -1,4 +1,5 @@
 using UnityEngine.Events;
+using Frankie.Core;
 
 namespace Frankie.Control
 {

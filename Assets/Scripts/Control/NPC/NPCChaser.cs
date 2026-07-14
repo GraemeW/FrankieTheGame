@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace Frankie.Control
 
         private void Start()
         {
-            npcChaseProbe.SetChaseRadius(chaseDistance);
+            npcChaseProbe.OverrideDefaultChaseRadius(chaseDistance);
             npcContactFilter = new ContactFilter2D
             {
                 useLayerMask = true,
@@ -76,17 +77,17 @@ namespace Frankie.Control
 
         #region PublicMethods
         public GameObject GetChaseObject() => npcChaseProbe.GetChaseObject();
-        public void SetChaseDisposition(bool enable) // Called via Unity Methods
+
+        public void SubscribeToChaseTargetUpdates(bool enable, Action<GameObject> onChaseTargetUpdated)
+        {
+            npcChaseProbe.chaseTargetUpdated -= onChaseTargetUpdated;
+            if (enable) {  npcChaseProbe.chaseTargetUpdated += onChaseTargetUpdated; }
+        }
+        public void SetChaseDisposition(bool enable) // Called via Unity Events
         {
             chasingActive = enable;
             skipAggressionUntilEnable = !enable;
             npcStateHandler.SetNPCIdle();
-        }
-
-        public void SetFrenziedWithoutShout() // Called via Unity Methods
-        {
-            shoutingActive = false;
-            npcStateHandler.SetNPCFrenzied();
         }
         #endregion
 
@@ -119,6 +120,7 @@ namespace Frankie.Control
                 case NPCStateType.Idle:
                     chasingActive = willChasePlayer;
                     shoutingActive = willShout;
+                    npcChaseProbe.ResetChaseRadius();
                     break;
                 case NPCStateType.Suspicious:
                 case NPCStateType.Aggravated:
@@ -135,9 +137,22 @@ namespace Frankie.Control
                     break;
             }
         }
+        
+        private void ShoutedAt(float chaseRadiusIncrement)
+        {
+            shoutingActive = false; // Prevent recursive propagation
+            
+            // Note:  It takes one physics frame from radius growth to player found
+            npcChaseProbe.GrowChaseRadius(chaseRadiusIncrement);
+            
+            // So reset time and trigger to frenzied -- PlayerMover will catch the target update and retransmit the frenzied state
+            timeSinceLastSawPlayer = 0f;
+            npcStateHandler.SetNPCFrenzied();
+        }
 
         private void ShoutToNearbyNPCs()
         {
+            shoutingActive = false;
             nearbyNPCs.Clear();
             int npcCount = Physics2D.OverlapCircle(npcMover.GetInteractionCenterPosition(), shoutDistance, npcContactFilter, nearbyNPCs);
             if (npcCount == 0) { return; }
@@ -147,14 +162,13 @@ namespace Frankie.Control
                 if (!nearbyNPC.TryGetComponent(out NPCChaser npcInRange)) { continue; }
                 if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
                 
-                // Default behaviour, not set, aggro everything shoutable
-                if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange)) 
+                if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
                 {
-                    npcInRange.SetFrenziedWithoutShout();
+                    // Increase detection radius by shoutDistance (worst-case scenario, perfectly aligned but opposite positions w.r.t. shouter)
+                    npcInRange.ShoutedAt(shoutDistance); 
                 }
             }
         }
-
         #endregion
 
 #if UNITY_EDITOR

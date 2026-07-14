@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Frankie.Saving;
-using Frankie.Combat;
+using Frankie.Core;
 using Frankie.Control;
+using Frankie.Combat;
+using Frankie.Saving;
 
 namespace Frankie.Stats
 {
@@ -61,7 +62,7 @@ namespace Frankie.Stats
             if (members.Count == 0) { return; }
             
             BaseStats character = members[0];
-            characterSpriteLinkLookup[character].UpdateCharacterAnimation(movementAnimationParameters);
+            characterMoveLinkLookup[character].UpdateCharacterAnimation(movementAnimationParameters);
             UpdatePartySpeedAndOffsets(movementAnimationParameters.speed, movementAnimationParameters.pixelPerfectOffset);
         }
         #endregion
@@ -104,7 +105,7 @@ namespace Frankie.Stats
             ReconcileTheDead();
             RefreshLookups();
             RefreshColliders();
-            if (GetPartyLeader() != null) { characterBaseStats.transform.position = GetPartyLeader().transform.position; } // Overlap position on Add
+            if (TryGetPartyLeader(out BaseStats partyLeader)) { characterBaseStats.transform.position = partyLeader.transform.position; } // Overlap position on Add
             
             TriggerMembersAltered();
             return true;
@@ -219,7 +220,7 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
-        private Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
+        private Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterMoveLinkLookup[members[0]].GetAnimator() : null;
         
         private void InitializeUnlockedCharacters()
         {

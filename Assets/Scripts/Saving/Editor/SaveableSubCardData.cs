@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Control;
 using Frankie.Sound;
@@ -9,6 +8,7 @@ using Frankie.Stats;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Quests;
+using Frankie.Rendering;
 using Frankie.Speech;
 using Frankie.World;
 using Frankie.ZoneManagement;

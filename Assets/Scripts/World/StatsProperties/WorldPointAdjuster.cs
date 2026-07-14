@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Control;
+using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
 
@@ -48,9 +48,9 @@ namespace Frankie.World
             }
         }
 
-        public void ReviveAndHealParty(PlayerStateMachine playerStateHandler) // Called via Unity events
+        public void ReviveAndHealParty(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            var partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 if (combatParticipant.IsDead()) { combatParticipant.Revive(combatParticipant.GetMaxHP()); }
@@ -58,16 +58,16 @@ namespace Frankie.World
             }
         }
 
-        public void RestorePartyAP(PlayerStateMachine playerStateHandler) // Called via Unity Events
+        public void RestorePartyAP(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
-            var partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 combatParticipant.AdjustAP(combatParticipant.GetMaxAP());
             }
         }
 
-        public void ReviveAndHealAttachedCharacter(PlayerStateMachine playerStateHandler) // Called via Unity Events
+        public void ReviveAndHealAttachedCharacter(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
             if (!gameObject.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
 

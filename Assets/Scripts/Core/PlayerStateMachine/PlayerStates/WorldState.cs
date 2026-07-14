@@ -1,4 +1,4 @@
-namespace Frankie.Control.PlayerStates
+namespace Frankie.Core.PlayerStates
 {
     public class WorldState : IPlayerState
     {

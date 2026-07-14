@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Inventory;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
@@ -21,17 +22,17 @@ namespace Frankie.Control
         // Implementation
         public override string GetMessage() => localizedMessageBankOptions.GetSafeLocalizedString();
         
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine, CheckWithConfiguration callingCheck)
         {
             var interactActions = new List<ChoiceActionPair>();
             if (toggleWithdraw)
             {
-                var withdrawAction = new ChoiceActionPair(localizedOptionWithdraw.GetSafeLocalizedString(), () => playerStateHandler.EnterBank(BankType.Withdraw));
+                var withdrawAction = new ChoiceActionPair(localizedOptionWithdraw.GetSafeLocalizedString(), () => playerStateMachine.EnterBank(BankType.Withdraw));
                 interactActions.Add(withdrawAction);
             }
             if (toggleDeposit)
             {
-                var depositAction = new ChoiceActionPair(localizedOptionDeposit.GetSafeLocalizedString(), () => playerStateHandler.EnterBank(BankType.Deposit));
+                var depositAction = new ChoiceActionPair(localizedOptionDeposit.GetSafeLocalizedString(), () => playerStateMachine.EnterBank(BankType.Deposit));
                 interactActions.Add(depositAction);
             }
             return interactActions;

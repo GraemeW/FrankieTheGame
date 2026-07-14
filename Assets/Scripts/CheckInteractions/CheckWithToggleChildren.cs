@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Saving;
 using Frankie.Stats;
@@ -44,13 +45,13 @@ namespace Frankie.Control
         #endregion
 
         #region OtherInterfaces
-        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
 
             if (inputType == matchType)
             {
-                ToggleChildren(playerStateHandler);
+                ToggleChildren(playerStateMachine);
             }
             return true;
         }
@@ -66,13 +67,13 @@ namespace Frankie.Control
         #endregion
         
         #region PublicMethods
-        public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
+        public void BypassCheckCondition(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
             BypassCheckConditionWithNoInteractionEvents();
-            checkInteraction?.Invoke(playerStateHandler);
+            checkInteraction?.Invoke(playerStateMachine);
         }
 
-        public void BypassCheckConditionWithNoInteractionEvents() // Also called via Unity Events
+        public void BypassCheckConditionWithNoInteractionEvents() // Called via Unity Events
         {
             foreach (Transform child in parentTransformForToggling)
             {
@@ -83,26 +84,26 @@ namespace Frankie.Control
         #endregion
         
         #region PrivateMethods
-        private bool CheckCondition(PlayerStateMachine playerStateHandler) => condition != null && condition.Check(GetEvaluators(playerStateHandler)); 
-        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateHandler) => playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>();
+        private bool CheckCondition(PlayerStateMachine playerStateMachine) => condition != null && condition.Check(GetEvaluators(playerStateMachine)); 
+        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateMachine) => playerStateMachine.GetComponentsInChildren<IPredicateEvaluator>();
         
-        private void ToggleChildren(PlayerStateMachine playerStateHandler)
+        private void ToggleChildren(PlayerStateMachine playerStateMachine)
         {
             if (transform.childCount == 0) { return; }
             
             if (parentTransformForToggling == null) { parentTransformForToggling = transform; }
 
-            string partyLeaderName = playerStateHandler.GetComponent<Party>()?.GetPartyLeaderName();
+            string partyLeaderName = playerStateMachine.GetComponent<Party>()?.GetPartyLeaderName();
             partyLeaderName ??= defaultPartyLeaderName;
-            if (CheckCondition(playerStateHandler))
+            if (CheckCondition(playerStateMachine))
             {
-                BypassCheckCondition(playerStateHandler);
-                playerStateHandler.EnterDialogue(string.Format(localizedMessageOnToggle.GetSafeLocalizedString(), partyLeaderName));
+                BypassCheckCondition(playerStateMachine);
+                playerStateMachine.EnterDialogue(string.Format(localizedMessageOnToggle.GetSafeLocalizedString(), partyLeaderName));
             }
             else
             {
-                checkInteractionOnConditionNotMet?.Invoke(playerStateHandler);
-                playerStateHandler.EnterDialogue(string.Format(localizedMessageOnConditionNotMet.GetSafeLocalizedString(), partyLeaderName));
+                checkInteractionOnConditionNotMet?.Invoke(playerStateMachine);
+                playerStateMachine.EnterDialogue(string.Format(localizedMessageOnConditionNotMet.GetSafeLocalizedString(), partyLeaderName));
             }
         }
         #endregion

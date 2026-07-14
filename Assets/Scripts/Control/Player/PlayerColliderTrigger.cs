@@ -1,4 +1,5 @@
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Saving;
 
 namespace Frankie.Control

@@ -1,8 +1,7 @@
 using UnityEngine;
-using Frankie.Core;
 using Frankie.Utils;
 
-namespace Frankie.Control
+namespace Frankie.Core
 {
     public class PlayerStateOverrideToCutscene : MonoBehaviour
     {

@@ -33,7 +33,7 @@ namespace Frankie.Stats
             members.Add(characterBaseStats);
             RefreshLookups();
             characterBaseStats.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
-            if (party.GetPartyLeader() != null) { characterBaseStats.transform.position = party.GetPartyLeader().transform.position; } // Overlap position on Add
+            if (party.TryGetPartyLeader(out BaseStats partyLeader)) { characterBaseStats.transform.position = partyLeader.transform.position; } // Overlap position on Add
             
             TriggerMembersAltered();
             return true;

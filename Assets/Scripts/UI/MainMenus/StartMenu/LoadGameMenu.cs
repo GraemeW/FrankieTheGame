@@ -1,14 +1,14 @@
-using UnityEngine;
 using System.Collections.Generic;
-using TMPro;
-using Frankie.Core;
-using Frankie.Utils;
-using Frankie.Utils.UI;
-using Frankie.Speech.UI;
-using Frankie.Utils.Localization;
-using Frankie.ZoneManagement;
+using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using TMPro;
+using Frankie.Saving;
+using Frankie.ZoneManagement;
+using Frankie.Utils;
+using Frankie.Utils.Localization;
+using Frankie.Speech.UI;
+using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {

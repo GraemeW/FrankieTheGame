@@ -16,6 +16,16 @@ namespace Frankie.Utils
 
         public bool Equals(float a, float b) => Quantize(a) == Quantize(b);
         public int GetHashCode(float value) => Quantize(value).GetHashCode();
-        private long Quantize(float value) => (long)Math.Round(value / tolerance, MidpointRounding.AwayFromZero);
+        private long Quantize(float value)
+        {
+            if (float.IsNaN(value)) { return 0; }
+            if (float.IsPositiveInfinity(value)) { return long.MaxValue; }
+            if (float.IsNegativeInfinity(value)) { return long.MinValue; }
+            
+            double scaled = Math.Round((double)value / tolerance, MidpointRounding.AwayFromZero);
+            scaled = Math.Clamp(scaled, long.MinValue, long.MaxValue);
+
+            return (long)scaled;
+        }
     }
 }

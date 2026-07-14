@@ -1,7 +1,9 @@
+using Frankie.Control;
 using UnityEngine;
 using Frankie.Core;
+using Frankie.ZoneManagement;
 
-namespace Frankie.ZoneManagement
+namespace Frankie.Rendering
 {
     public class MapCamera : MonoBehaviour
     {
@@ -50,7 +52,7 @@ namespace Frankie.ZoneManagement
 
             subCamera.targetTexture = mapRenderTexture; // Enable/disable target texture otherwise Camera's OnDisable will force a final black frame
             subCamera.gameObject.SetActive(true);
-            SetupPlayerFollow();
+            TrackToPlayerMoverPosition();
             subCamera.Render();
             subCamera.targetTexture = null;
             subCamera.gameObject.SetActive(false);
@@ -62,13 +64,13 @@ namespace Frankie.ZoneManagement
             UpdateMap(zone);
         }
 
-        private void SetupPlayerFollow()
+        private void TrackToPlayerMoverPosition()
         {
             GameObject playerObject = Player.FindPlayerObject();
-            if (playerObject == null) { return; }
-
-            Transform playerTransform = playerObject.transform;
-            var newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
+            if (playerObject == null || !playerObject.TryGetComponent(out PlayerMover playerMover)) { return; }
+            if (!playerMover.TryGetCurrentPosition(out Vector2 currentPosition)) { return; }
+            
+            var newCameraPosition = new Vector3(currentPosition.x, currentPosition.y, subCamera.transform.position.z);
             subCamera.transform.position = newCameraPosition;
         }
         #endregion

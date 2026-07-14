@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Core.Predicates;
 using Frankie.Control;
 using Frankie.Combat;
-using Frankie.Core.Predicates;
 using Frankie.Utils;
 
 namespace Frankie.Stats
@@ -24,7 +25,7 @@ namespace Frankie.Stats
 
         // State
         private readonly Dictionary<BaseStats, Rigidbody2D> rigidBody2DLookup = new();
-        protected readonly Dictionary<BaseStats, CharacterMoveLink> characterSpriteLinkLookup = new();
+        protected readonly Dictionary<BaseStats, CharacterMoveLink> characterMoveLinkLookup = new();
         protected readonly Dictionary<BaseStats, CombatParticipant> combatParticipantLookup = new();
         private int lastMemberOffsetIndex = 0;
 
@@ -98,11 +99,11 @@ namespace Frankie.Stats
         protected void RefreshLookups()
         {
             rigidBody2DLookup.Clear();
-            characterSpriteLinkLookup.Clear();
+            characterMoveLinkLookup.Clear();
             foreach (BaseStats character in members.Where(character => character != null))
             {
                 if (character.TryGetComponent(out Rigidbody2D characterRigidBody)) { rigidBody2DLookup[character] = characterRigidBody; }
-                if (character.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
+                if (character.TryGetComponent(out CharacterMoveLink characterMoveLink)) { characterMoveLinkLookup[character] = characterMoveLink; }
                 if (character.TryGetComponent(out CombatParticipant combatParticipant)) { combatParticipantLookup[character] = combatParticipant; }
             }
         }
@@ -123,22 +124,28 @@ namespace Frankie.Stats
             foreach (BaseStats character in members)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
-                characterSpriteLinkLookup[character].UpdateCharacterSpeed(speed);
-                characterSpriteLinkLookup[character].UpdateSpriteOffset(pixelPerfectOffset);
+                characterMoveLinkLookup[character].UpdateCharacterSpeed(speed);
+                characterMoveLinkLookup[character].UpdateSpriteOffset(pixelPerfectOffset);
                 characterIndex++;
             }
         }
         #endregion
 
         #region PublicMethods
-        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
-        public BaseStats GetPartyLeader() => members?[0];
-        public GameObject GetPartyLeaderObject()
+        public bool IsPartyLeader(BaseStats checkMember) => TryGetPartyLeader(out BaseStats partyLeader) && partyLeader == checkMember;
+        public bool TryGetPartyLeader(out BaseStats partyLeader)
         {
-            BaseStats partyLeader = members[0];
-            return partyLeader != null ? partyLeader.gameObject : null;
+            partyLeader = members is { Count: > 0 } ? members[0] : null;
+            return partyLeader != null;
         }
-        public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
+        public GameObject GetPartyLeaderObject() => TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.gameObject : null;
+
+        public string GetPartyLeaderName()
+        {
+            if (!TryGetPartyLeader(out BaseStats partyLeader)) { return ""; }
+            CharacterProperties partyLeaderProperties = partyLeader.GetCharacterProperties();
+            return partyLeaderProperties != null ? partyLeaderProperties.GetCharacterDisplayName() ?? "" : "";
+        }
         
         public List<BaseStats> GetMembers() => members;
         public int GetPartySize() => members.Count;
@@ -152,8 +159,8 @@ namespace Frankie.Stats
         {
             foreach (BaseStats member in members)
             {
-                if (!member.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { continue; }
-                SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
+                if (!member.TryGetComponent(out CharacterMoveLink characterMoveLink)) { continue; }
+                SpriteRenderer spriteRenderer = characterMoveLink.GetSpriteRenderer();
                 if (spriteRenderer == null) { continue; }
                 
                 spriteRenderer.enabled = enable;
@@ -189,7 +196,7 @@ namespace Frankie.Stats
                     lookDirection = movementHistory.GetEntryAtPosition(bufferIndex).Item2;
                 }
                 if (rigidBody2DLookup.TryGetValue(character, out Rigidbody2D characterRigidBody)) { characterRigidBody.MovePosition(position); }
-                if (characterSpriteLinkLookup.TryGetValue(character, out CharacterMoveLink characterSpriteLink)) { characterSpriteLink.UpdateCharacterLook(lookDirection); }
+                if (characterMoveLinkLookup.TryGetValue(character, out CharacterMoveLink characterMoveLink)) { characterMoveLink.UpdateCharacterLook(lookDirection); }
 
                 characterIndex++;
             }
@@ -208,11 +215,12 @@ namespace Frankie.Stats
         {
             foreach (BaseStats character in members.Where(character => character != null))
             {
-                character.gameObject.layer = playerLayer;
-                
-                if (!characterSpriteLinkLookup.TryGetValue(character, out CharacterMoveLink characterSpriteLink)) { continue; }
-                characterSpriteLink.SetInteractionProbeLayer(probeLayer);
-                characterSpriteLink.SetIsFlashing(isPlayerImmune);
+                if (!characterMoveLinkLookup.TryGetValue(character, out CharacterMoveLink characterMoveLink)) { continue; }
+
+                // Note:  Must use the CharacterMoveLink functions to change layer (can be extremely costly otherwise)
+                characterMoveLink.SetCharacterLayer(playerLayer);
+                characterMoveLink.SetInteractionProbeLayer(probeLayer);
+                characterMoveLink.SetIsFlashing(isPlayerImmune);
             }
         }
         #endregion

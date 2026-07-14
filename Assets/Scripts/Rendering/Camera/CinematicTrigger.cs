@@ -3,7 +3,7 @@ using UnityEngine.Playables;
 using Frankie.Saving;
 using Frankie.Utils;
 
-namespace Frankie.Core
+namespace Frankie.Rendering
 {
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicTrigger : MonoBehaviour, ISaveable<bool>

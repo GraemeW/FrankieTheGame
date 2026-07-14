@@ -1,8 +1,7 @@
 using UnityEngine;
 using Frankie.Saving;
-using Frankie.Utils.Localization;
 
-namespace Frankie.Core
+namespace Frankie.Utils.Localization
 {
     public class LocalizationMonitor : MonoBehaviour
     {

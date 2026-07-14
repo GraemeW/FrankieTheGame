@@ -1,5 +1,21 @@
 # Assets - Scripts : Rendering
 
+## Camera + World View
+
+### [Camera Controller](./Camera/CameraController.cs)
+
+This controller makes use of the [Unity Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/index.html), keeping track of existing virtual cameras and allowing camera swapping/override.
+
+The camera follows the player object, which is obtained in Awake+Start and cached via lazy initialization.  The cinemachine state machine / virtual camera follows the 'lead character' in the party.  This allows the virtual camera to **always** reflect the animation of the lead character, even if Frankie is swapped out of the party or he's placed in an alternate position (e.g. 2nd, 3rd, 4th).
+
+Camera control can be overriden via `OverrideCameraFollower(Animator animator, Transform target)` to enable following alternate objects.
+
+#### Notable State / Cached References:
+
+* virtualCamera:  list of existing CinemachineVirtualCameras, of which there are 2 (handled via [IdleActiveBlend](../../Game/Core/Camera-IdleActiveBlend.asset)):
+    * VCam Active -- tighter zoom on the player while there is player input
+    * VCam Idle -- zooms out from the player when no player input detected
+
 ## Pixel-Perfect Rendering
 
 Rendering pixel art accurately on arbitrary displays at arbitrary resolutions is a wildly non-trivial exercise.  
@@ -37,7 +53,7 @@ This approach was and is still implemented for the 'recommended' display resolut
 This approach is, however, extremely fragile and thus not considered a complete solution for the reasons described below:
 1. By limiting the orthographic size to ensure whole pixels, we effectively limit the zoom levels we may use in the game
    * *alternative zooms are technically feasible by scaling display resolution and orthographic size in concert, but in an extremely limited fashion*
-   * *this is done in [DisplayResolutions.cs](./DisplayResolutions.cs) in concert with [CameraController.cs](../Core/CameraCinematics/CameraController.cs) via the `resolutionUpdated` event*
+   * *this is done in [DisplayResolutions.cs](./DisplayResolutions.cs) in concert with [CameraController.cs](./Camera/CameraController.cs) via the `resolutionUpdated` event*
 2. Fixed window sizes is a considerable limitation in usability and accessibility (Frankie's build setting configuration should **not** lock window size)
 3. The entire premise breaks if **any** scaling occurs in the display pipe
    * *e.g. for non-standard display resolutions, video sources will often scale content -- e.g. 1920x1080 content upscaled onto a 1920x1200 display*

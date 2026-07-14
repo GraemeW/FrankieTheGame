@@ -1,4 +1,5 @@
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Utils;
 
 namespace Frankie.Control
@@ -6,7 +7,7 @@ namespace Frankie.Control
     public interface IRaycastable
     {
         CursorType GetCursorType();
-        bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+        bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
 
         public static bool CheckDistance(GameObject gameObject, Vector2 position, PlayerController callingController, bool overrideDefaultInteractionDistance, float interactionDistance)
         {

@@ -899,6 +899,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "WinBattle",
+                    "type": "Button",
+                    "id": "1e81b8d7-d37f-4be4-92a6-d9609ec2fe5d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -987,6 +996,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "NewGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30fe8258-7eee-42c4-b306-ef0fb3beee6f",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WinBattle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

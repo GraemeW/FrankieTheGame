@@ -1,11 +1,10 @@
-namespace Frankie.Control.PlayerStates
+namespace Frankie.Core.PlayerStates
 {
-    public class DialogueState : IPlayerState
+    public class CombatState : IPlayerState
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
+            // Ignore - go to immunity post-combat, so cannot queue
         }
 
         public void EnterCutScene(IPlayerStateContext playerStateContext)
@@ -24,21 +23,27 @@ namespace Frankie.Control.PlayerStates
         {
         }
 
-        public void EnterTrade(IPlayerStateContext playerStateContext)
+        public void EnterTrade(IPlayerStateContext playerStateContext) // Ignore
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
         }
 
         public void EnterTransition(IPlayerStateContext playerStateContext)
         {
-            if (playerStateContext.InZoneTransition())
+            if (playerStateContext.InBattleExitTransition())
+            {
+                playerStateContext.SetPlayerState(new TransitionState());
+                if (!playerStateContext.EndBattleSequence())  // State change from Transition to World handled by coroutine
+                {
+                    EnterWorld(playerStateContext); // Protection to default back to world on fail to exit battle
+                }
+            }
+            else if (playerStateContext.InZoneTransition())
             {
                 playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
             }
         }
 
-        public void EnterWorld(IPlayerStateContext playerStateContext)
+        public void EnterWorld(IPlayerStateContext playerStateContext) // Kill rogue controllers for safety, unexpected to call this route
         {
             playerStateContext.ClearPlayerStateMemory();
             playerStateContext.SetPlayerState(new WorldState());

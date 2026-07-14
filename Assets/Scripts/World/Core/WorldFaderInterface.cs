@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Control;
+using Frankie.Core;
 using Frankie.ZoneManagement;
 
 namespace Frankie.World

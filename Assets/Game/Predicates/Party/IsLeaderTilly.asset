@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbd4f41c700f8a479cf5f168b651a66, type: 3}
   m_Name: IsLeaderTilly
   m_EditorClassIdentifier: 
+  partyBehaviourType: 0
   charactersToMatch:
   - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}

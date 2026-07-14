@@ -242,7 +242,7 @@ If the NPC in question should move more intelligently toward the player, enable 
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/NPCMoverSettings.png" width="700">
 
-Enabling `usingPathFinding` will allow the NPC to use A* pathfinding to periodically generate an optimal path toward its target, based on the parameters in the [PathFinder](../../Scripts/Control/Movement/PathFinder.cs):
+Enabling `usingPathFinding` will allow the NPC to use A* pathfinding to periodically generate an optimal path toward its target, based on the parameters in the [PathFinder](../../Scripts/Control/Movement/PathFinding/PathFinder.cs):
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/PathFinderSettings.png" width="400">
 
@@ -253,8 +253,8 @@ Note that the PathFinder will check if the NPC is sitting on a configured [MoveM
 A brief summary of the configurable components on the character prefabs noted above is provided below:
 
 |                                    Component                                     |  PC   | PC-NPC |  NPC  | NPC-CR |       |                                                   Detail                                                    |
-|:--------------------------------------------------------------------------------:| :---: | :----: | :---: | :----: | :---: | :---------------------------------------------------------------------------------------------------------: |
-|        [CharacterSpriteLink](../../Scripts/Stats/CharacterSpriteLink.cs)         |   X   |   X    |   X   |   X    |       |        Root-level link to sprite/animator, for cached reference & announcing animation state updates        |
+|:--------------------------------------------------------------------------------:| :---: | :----: | :---: | :----: | :---: |:-----------------------------------------------------------------------------------------------------------:|
+|    [CharacterMoveLink](../../Scripts/Control/Movement/CharacterMoveLink.cs)    |   X   |   X    |   X   |   X    |       |       Root-level link to movement state, for cached reference & announcing movement-animation updates       |
 |                  [BaseStats](../../Scripts/Stats/BaseStats.cs)                   |   X   |   X    |   X   |   X    |       |                Link to character properties, progression & interface to all character stats                 |
 | [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) |   X   |   X    |       |   X    |       |                          Combat behaviour/methods & interface to the battle system                          |
 |           [SkillHandler](../../Scripts/Combat/Skills/SkillHandler.cs)            |   X   |   X    |       |   X    |       |                               Link to skill tree & interface to skill system                                |

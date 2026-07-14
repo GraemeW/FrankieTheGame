@@ -30,7 +30,7 @@ namespace Frankie.ZoneManagement
         [NonSerialized] private Mesh walkabilityMesh;
         
         // Static = Const
-        private const float _erodedEntitySizeQuantization = 0.0057f;
+        private const float _erodedEntitySizeQuantization = 0.0077f;
         private const string _moveMeshLayer = "MoveMesh";
         private const string _gizmoMeshName = "EnclosedRegionGizmoMesh";
         

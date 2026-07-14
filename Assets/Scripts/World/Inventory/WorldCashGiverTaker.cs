@@ -3,6 +3,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Inventory;
@@ -56,50 +57,50 @@ namespace Frankie.World
         #endregion
 
         #region PublicMethods
-        public void ConductTransaction(PlayerStateMachine playerStateHandler) // Called by Unity Events
+        public void ConductTransaction(PlayerStateMachine playerStateMachine) // Called by Unity Events
         {
-            if (IsNothingLeft(playerStateHandler)) { return; }
+            if (IsNothingLeft(playerStateMachine)) { return; }
 
-            var wallet = playerStateHandler.GetComponent<Wallet>();
-            var party = playerStateHandler.GetComponent<Party>();
+            var wallet = playerStateMachine.GetComponent<Wallet>();
+            var party = playerStateMachine.GetComponent<Party>();
             string partyLeaderName = party.GetPartyLeaderName();
 
-            if (IsWalletFullOrEmpty(playerStateHandler, wallet, partyLeaderName)) { return; }
+            if (IsWalletFullOrEmpty(playerStateMachine, wallet, partyLeaderName)) { return; }
 
             switch (transactionCash)
             {
                 case > 0:
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionPositive.GetSafeLocalizedString(), partyLeaderName, transactionCash.ToString(CultureInfo.InvariantCulture)));
+                    playerStateMachine.EnterDialogue(string.Format(localizedMessageTransactionPositive.GetSafeLocalizedString(), partyLeaderName, transactionCash.ToString(CultureInfo.InvariantCulture)));
                     break;
                 case < 0:
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionNegative.GetSafeLocalizedString(), partyLeaderName, Mathf.Abs(transactionCash).ToString(CultureInfo.InvariantCulture)));
+                    playerStateMachine.EnterDialogue(string.Format(localizedMessageTransactionNegative.GetSafeLocalizedString(), partyLeaderName, Mathf.Abs(transactionCash).ToString(CultureInfo.InvariantCulture)));
                     break;
             }
             wallet.UpdateCash(transactionCash);
             if (!infiniteTransactions) { numberTransactionsLeft.value--; }
-            transactionSuccessful?.Invoke(playerStateHandler);
+            transactionSuccessful?.Invoke(playerStateMachine);
         }
         #endregion
 
         #region PrivateMethods
-        private bool IsNothingLeft(PlayerStateMachine playerStateHandler)
+        private bool IsNothingLeft(PlayerStateMachine playerStateMachine)
         {
             if (transactionCash == 0) { return true; }
             if (infiniteTransactions || numberTransactionsLeft.value > 0) { return false; }
             
-            if (announceNothing) { playerStateHandler.EnterDialogue(localizedMessageNothing.GetSafeLocalizedString()); }
+            if (announceNothing) { playerStateMachine.EnterDialogue(localizedMessageNothing.GetSafeLocalizedString()); }
             return true;
         }
 
-        private bool IsWalletFullOrEmpty(PlayerStateMachine playerStateHandler, Wallet wallet, string recipient)
+        private bool IsWalletFullOrEmpty(PlayerStateMachine playerStateMachine, Wallet wallet, string recipient)
         {
             switch (transactionCash)
             {
                 case > 0 when wallet.IsWalletFull():
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageWalletFull.GetSafeLocalizedString(), recipient));
+                    playerStateMachine.EnterDialogue(string.Format(localizedMessageWalletFull.GetSafeLocalizedString(), recipient));
                     return true;
                 case < 0 when wallet.IsWalletEmpty():
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageWalletFull.GetSafeLocalizedString(), recipient));
+                    playerStateMachine.EnterDialogue(string.Format(localizedMessageWalletFull.GetSafeLocalizedString(), recipient));
                     return true;
                 default:
                     return false;

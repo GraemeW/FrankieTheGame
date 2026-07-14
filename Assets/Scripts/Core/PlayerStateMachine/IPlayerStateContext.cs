@@ -1,6 +1,6 @@
 using Frankie.Combat;
 
-namespace Frankie.Control
+namespace Frankie.Core
 {
     public interface IPlayerStateContext
     {

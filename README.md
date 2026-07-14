@@ -36,7 +36,7 @@ Each major city/area exterior & interior are allocated to their own scenes.  For
 
 Unity game assets are located in: [Game](./Assets/Game/)
 
-The addressables that contain key game data (zone properties, character properties, actions/skills, quests, items, etc.) are located in [OnLoadAssets](./Assets/Game/OnLoadAssets/), which are loaded via the aforementioned [Addressables Loading System](./Assets/Scripts/Core/AddressablesHandling/) in the Core namespace.
+The addressables that contain key game data (zone properties, character properties, actions/skills, quests, items, etc.) are located in [OnLoadAssets](./Assets/Game/OnLoadAssets/), which are loaded via the aforementioned [Addressables Loading System](./Assets/Scripts/Utils/Addressables/).
 
 N.B. Artwork and music associated with these assets are not, by default, pushed to GIT.  They are backed up separately.
 

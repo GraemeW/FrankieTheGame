@@ -1,23 +1,36 @@
-namespace Frankie.Control.PlayerStates
+namespace Frankie.Core.PlayerStates
 {
-    public class OptionState : IPlayerState
+    public class TransitionState : IPlayerState
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
+            if (playerStateContext.IsCombatFadeComplete())
+            {
+                playerStateContext.SetPlayerState(new CombatState());
+            }
+            else
+            {
+                if (playerStateContext.InBattleEntryTransition() && playerStateContext.AreCombatParticipantsValid()) // Swarm mechanic
+                {
+                    playerStateContext.AddEnemiesUnderConsideration();
+                }
+            }
         }
 
         public void EnterCutScene(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
+            if (playerStateContext.InBattleEntryTransition())
+            {
+                playerStateContext.QueueActionUnderConsideration();
+            }
         }
 
         public void EnterDialogue(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
+            if (playerStateContext.InBattleEntryTransition())
+            {
+                playerStateContext.QueueActionUnderConsideration();
+            }
         }
 
         public void EnterOptions(IPlayerStateContext playerStateContext) // Ignore
@@ -38,6 +51,8 @@ namespace Frankie.Control.PlayerStates
 
         public void EnterWorld(IPlayerStateContext playerStateContext)
         {
+            if (playerStateContext.InZoneTransition() && !playerStateContext.IsZoneTransitionComplete()) { return; } // Hold in transition if still ongoing
+
             playerStateContext.ClearPlayerStateMemory();
             playerStateContext.SetPlayerState(new WorldState());
         }

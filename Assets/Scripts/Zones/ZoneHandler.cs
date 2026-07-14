@@ -92,13 +92,13 @@ namespace Frankie.ZoneManagement
             return GetFilteredZoneNodes(passPlayerStateMachine).Count == 1 || randomizeChoice;
         }
 
-        private void AttemptToWarpPlayer(PlayerStateMachine setPlayerStateHandler, PlayerController setPlayerController)
+        private void AttemptToWarpPlayer(PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController)
         {
-            if (setPlayerStateHandler == null || setPlayerController == null) { return; }
-            SetUpPlayerReferences(setPlayerStateHandler, setPlayerController);
+            if (setPlayerStateMachine == null || setPlayerController == null) { return; }
+            SetUpPlayerReferences(setPlayerStateMachine, setPlayerController);
             StartViableSceneTransition(zoneNode); // If scene setup on entry node, immediately kick off next scene load
 
-            bool? isSimpleWarp = IsSimpleWarp(setPlayerStateHandler);
+            bool? isSimpleWarp = IsSimpleWarp(setPlayerStateMachine);
             switch (isSimpleWarp)
             {
                 case null:
@@ -111,16 +111,16 @@ namespace Frankie.ZoneManagement
                 }
                 case false:
                 {
-                    setPlayerStateHandler.EnterDialogue(localizedChoiceMessage.GetSafeLocalizedString(), GetZoneNameZoneNodePairs(setPlayerStateHandler));
+                    setPlayerStateMachine.EnterDialogue(localizedChoiceMessage.GetSafeLocalizedString(), GetZoneNameZoneNodePairs(setPlayerStateMachine));
                     break;
                 }
             }
         }
 
-        private List<ChoiceActionPair> GetZoneNameZoneNodePairs(PlayerStateMachine playerStateHandler)
+        private List<ChoiceActionPair> GetZoneNameZoneNodePairs(PlayerStateMachine playerStateMachine)
         {
             var choiceActionPairs = new List<ChoiceActionPair>();
-            foreach ((string childNodeID, ZoneNode childNode) in GetFilteredZoneNodes(playerStateHandler))
+            foreach ((string childNodeID, ZoneNode childNode) in GetFilteredZoneNodes(playerStateMachine))
             {
                 if (childNodeID == null || string.IsNullOrEmpty(childNodeID) || childNode == null) { continue; }
                 var choiceActionPair = new ChoiceActionPair(childNode.GetDisplayName(), () => WarpPlayerToSpecificNode(childNodeID));
@@ -294,7 +294,7 @@ namespace Frankie.ZoneManagement
         #region Interfaces
         public CursorType GetCursorType() => CursorType.Zone;
 
-        public bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance))
             {
@@ -303,7 +303,7 @@ namespace Frankie.ZoneManagement
 
             if (inputType == matchType)
             {
-                AttemptToWarpPlayer(playerStateHandler, playerController);
+                AttemptToWarpPlayer(playerStateMachine, playerController);
             }
             return true;
         }

@@ -1,10 +1,11 @@
-namespace Frankie.Control.PlayerStates
+namespace Frankie.Core.PlayerStates
 {
-    public class CombatState : IPlayerState
+    public class OptionState : IPlayerState
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
-            // Ignore - go to immunity post-combat, so cannot queue
+            // No state change (will dequeue next time in world)
+            playerStateContext.QueueActionUnderConsideration();
         }
 
         public void EnterCutScene(IPlayerStateContext playerStateContext)
@@ -29,21 +30,13 @@ namespace Frankie.Control.PlayerStates
 
         public void EnterTransition(IPlayerStateContext playerStateContext)
         {
-            if (playerStateContext.InBattleExitTransition())
-            {
-                playerStateContext.SetPlayerState(new TransitionState());
-                if (!playerStateContext.EndBattleSequence())  // State change from Transition to World handled by coroutine
-                {
-                    EnterWorld(playerStateContext); // Protection to default back to world on fail to exit battle
-                }
-            }
-            else if (playerStateContext.InZoneTransition())
+            if (playerStateContext.InZoneTransition())
             {
                 playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
             }
         }
 
-        public void EnterWorld(IPlayerStateContext playerStateContext) // Kill rogue controllers for safety, unexpected to call this route
+        public void EnterWorld(IPlayerStateContext playerStateContext)
         {
             playerStateContext.ClearPlayerStateMemory();
             playerStateContext.SetPlayerState(new WorldState());

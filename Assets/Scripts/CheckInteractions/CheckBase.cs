@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Utils.Localization;
 
@@ -44,7 +45,7 @@ namespace Frankie.Control
         #region RaycastableInterface
         public virtual CursorType GetCursorType() => CursorType.Check;
 
-        public abstract bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+        public abstract bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
         #endregion
 
         #region SaveInterface

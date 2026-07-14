@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
 
@@ -23,20 +24,20 @@ namespace Frankie.Control
 
         public override string GetMessage() => localizedMessagePartyOptions.GetSafeLocalizedString();
         
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine, CheckWithConfiguration callingCheck)
         {
             var interactActions = new List<ChoiceActionPair>();
             if (toggleLeaderAdjust)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, localizedOptionLeaderAdjust.GetSafeLocalizedString(), partyLeaderConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateMachine, callingCheck, localizedOptionLeaderAdjust.GetSafeLocalizedString(), partyLeaderConfiguration);
             }
             if (toggleAddToParty)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, localizedOptionAddToParty.GetSafeLocalizedString(), addToPartyConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateMachine, callingCheck, localizedOptionAddToParty.GetSafeLocalizedString(), addToPartyConfiguration);
             }
             if (toggleRemoveFromParty)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, localizedOptionRemoveFromParty.GetSafeLocalizedString(), removeFromPartyConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateMachine, callingCheck, localizedOptionRemoveFromParty.GetSafeLocalizedString(), removeFromPartyConfiguration);
             }
             return interactActions;
         }

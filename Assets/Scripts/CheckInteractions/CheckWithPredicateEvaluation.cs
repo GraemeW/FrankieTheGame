@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Utils.Localization;
 
@@ -19,19 +20,19 @@ namespace Frankie.Control
         [SerializeField] private protected InteractionEvent checkInteractionConditionFailed;
         
         #region Interfaces
-        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
 
             if (inputType == matchType)
             {
-                if (condition.Check(playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>()))
+                if (condition.Check(playerStateMachine.GetComponentsInChildren<IPredicateEvaluator>()))
                 {
-                    HandleConditionMet(playerStateHandler);
+                    HandleConditionMet(playerStateMachine);
                 }
                 else
                 {
-                    HandleConditionFailed(playerStateHandler);
+                    HandleConditionFailed(playerStateMachine);
                 }
             }
             return true;
@@ -48,34 +49,34 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
-        private void HandleConditionMet(PlayerStateMachine playerStateHandler)
+        private void HandleConditionMet(PlayerStateMachine playerStateMachine)
         {
             if (useMessageOnConditionMet)
             {
-                string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
+                string partyLeaderName = playerStateMachine.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(localizedMessageForConditionMet.GetSafeLocalizedString(), partyLeaderName));
-                playerStateHandler.SetPostDialogueCallbackActions(checkInteractionConditionMet);
+                playerStateMachine.EnterDialogue(string.Format(localizedMessageForConditionMet.GetSafeLocalizedString(), partyLeaderName));
+                playerStateMachine.SetPostDialogueCallbackActions(checkInteractionConditionMet);
             }
             else
             {
-                checkInteractionConditionMet?.Invoke(playerStateHandler);
+                checkInteractionConditionMet?.Invoke(playerStateMachine);
             }
         }
-        private void HandleConditionFailed(PlayerStateMachine playerStateHandler)
+        private void HandleConditionFailed(PlayerStateMachine playerStateMachine)
         {
             if (useMessageOnConditionFailed)
             {
-                string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
+                string partyLeaderName = playerStateMachine.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(localizedMessageForConditionFailed.GetSafeLocalizedString(), partyLeaderName));
-                playerStateHandler.SetPostDialogueCallbackActions(checkInteractionConditionFailed);
+                playerStateMachine.EnterDialogue(string.Format(localizedMessageForConditionFailed.GetSafeLocalizedString(), partyLeaderName));
+                playerStateMachine.SetPostDialogueCallbackActions(checkInteractionConditionFailed);
             }
             else
             {
-                checkInteractionConditionMet?.Invoke(playerStateHandler);
+                checkInteractionConditionMet?.Invoke(playerStateMachine);
             }
         }
         #endregion

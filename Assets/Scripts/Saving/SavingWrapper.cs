@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Frankie.Core;
 using UnityEngine;
-using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Saving
 {
     public static class SavingWrapper
     {
@@ -197,7 +197,7 @@ namespace Frankie.Core
             
             var party = player.GetComponent<Party>();
             string characterName = party.GetPartyLeaderName();
-            int level = party.GetPartyLeader().GetLevel();
+            int level = party.TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.GetLevel() : 1;
 
             SetSavePrefs(saveName, characterName, level);
         }
