@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-using Frankie.Control;
+using Frankie.Core;
 
 namespace Frankie.Speech
 {
@@ -16,7 +16,7 @@ namespace Frankie.Speech
 
         // Cached References
         private DialogueController dialogueController;
-        private PlayerStateMachine playerStateHandler;
+        private PlayerStateMachine playerStateMachine;
 
         // Data Structures
         [System.Serializable]
@@ -31,9 +31,9 @@ namespace Frankie.Speech
         {
         }
 
-        public void Setup(DialogueController setDialogueController, PlayerStateMachine setPlayerStateHandler)
+        public void Setup(DialogueController setDialogueController, PlayerStateMachine setPlayerStateMachine)
         {
-            playerStateHandler = setPlayerStateHandler;
+            playerStateMachine = setPlayerStateMachine;
             dialogueController = setDialogueController;
             queuedTrigger = false; // Reset state on new conversation (avoids triggering on unrelated nodes on subsequent conversations)
             setDialogueController.dialogueUpdated += Trigger;
@@ -44,7 +44,7 @@ namespace Frankie.Speech
             if (triggerDialogueUpdateType == DialogueUpdateType.DialogueComplete)
             {
                 dialogueController.dialogueUpdated -= Trigger;
-                if (queuedTrigger) { dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler); }
+                if (queuedTrigger) { dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateMachine); }
             }
 
             if (dialogueUpdateType != triggerDialogueUpdateType) { return; }
@@ -58,7 +58,7 @@ namespace Frankie.Speech
             
             if (dialogueTriggeredEvent.triggerImmediate)
             {
-                dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
+                dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateMachine);
             }
             else
             {
@@ -71,7 +71,7 @@ namespace Frankie.Speech
         {
             if (checkDialogueUpdateType is not (DialogueUpdateType.DialogueInitiated or DialogueUpdateType.DialogueComplete)) { return false; }
             
-            dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
+            dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateMachine);
             return true;
         }
     }

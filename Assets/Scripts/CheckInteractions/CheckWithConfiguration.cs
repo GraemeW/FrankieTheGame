@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Utils;
 
 namespace Frankie.Control
@@ -8,7 +9,7 @@ namespace Frankie.Control
     {
         [SerializeField] private CheckConfiguration checkConfiguration;
 
-        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
 
@@ -16,7 +17,7 @@ namespace Frankie.Control
             {
                 string message = checkConfiguration.GetMessage();
                 message ??= "";
-                List<ChoiceActionPair> interactActions = checkConfiguration.GetChoiceActionPairs(playerStateHandler, this);
+                List<ChoiceActionPair> interactActions = checkConfiguration.GetChoiceActionPairs(playerStateMachine, this);
                 if (interactActions == null) { return false; }
                 switch (interactActions.Count)
                 {
@@ -26,7 +27,7 @@ namespace Frankie.Control
                         interactActions[0].action?.Invoke();
                         break;
                     default:
-                        playerStateHandler.EnterDialogue(message, interactActions);
+                        playerStateMachine.EnterDialogue(message, interactActions);
                         break;
                 }
             }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
 using Frankie.Control;
 using Frankie.Saving;
@@ -94,21 +95,21 @@ namespace Frankie.World
             itemFound?.Invoke(playerStateMachine);
         }
 
-        public void TakeItem(PlayerStateMachine playerStateHandler) // Called via Unity events
+        public void TakeItem(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
             if (inventoryItem == null) { return; }
 
-            if (playerStateHandler.TryGetComponent(out PartyKnapsackConduit partyKnapsackConduit))
+            if (playerStateMachine.TryGetComponent(out PartyKnapsackConduit partyKnapsackConduit))
             {
                 partyKnapsackConduit.RemoveSingleItem(inventoryItem);
             }
         }
 
-        public void TakeAllItems(PlayerStateMachine playerStateHandler) // Called via Unity events
+        public void TakeAllItems(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
             if (inventoryItem == null) { return; }
 
-            if (playerStateHandler.TryGetComponent(out PartyKnapsackConduit partyKnapsackConduit))
+            if (playerStateMachine.TryGetComponent(out PartyKnapsackConduit partyKnapsackConduit))
             {
                 partyKnapsackConduit.RemoveAllItems(inventoryItem);
             }

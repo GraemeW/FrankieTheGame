@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using TMPro;
-using Frankie.Utils.UI;
+using Frankie.Core;
 using Frankie.Control;
 using Frankie.Stats;
 using Frankie.World;
-using Frankie.Speech.UI;
 using Frankie.Utils.Localization;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Tables;
+using Frankie.Utils.UI;
+using Frankie.Speech.UI;
 
 namespace Frankie.Inventory.UI
 {

@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Core;
-using Frankie.Control.PlayerStates;
+using Frankie.Core.PlayerStates;
+using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Speech;
 using Frankie.Stats;
@@ -17,7 +17,7 @@ using Frankie.ZoneManagement;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
 
-namespace Frankie.Control
+namespace Frankie.Core
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Party))]

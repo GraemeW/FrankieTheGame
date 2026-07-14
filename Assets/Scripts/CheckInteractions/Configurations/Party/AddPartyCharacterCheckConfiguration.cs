@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
@@ -17,11 +18,11 @@ namespace Frankie.Control
 
         public override string GetMessage() => localizedMessageAddToParty.GetSafeLocalizedString();
         
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine, CheckWithConfiguration callingCheck)
         {
-            Party party = playerStateHandler.GetParty();
+            Party party = playerStateMachine.GetParty();
             return party.GetAvailableCharactersToAdd().Select(character => 
-                new ChoiceActionPair(character.GetCharacterDisplayName(), () => AddToPartyWithErrorHandling(playerStateHandler, party, character))).ToList();
+                new ChoiceActionPair(character.GetCharacterDisplayName(), () => AddToPartyWithErrorHandling(playerStateMachine, party, character))).ToList();
         }
 
         public override List<TableEntryReference> GetLocalizationEntries()
@@ -33,11 +34,11 @@ namespace Frankie.Control
             };
         }
         
-        private void AddToPartyWithErrorHandling(PlayerStateMachine playerStateHandler, Party party, CharacterProperties characterProperties)
+        private void AddToPartyWithErrorHandling(PlayerStateMachine playerStateMachine, Party party, CharacterProperties characterProperties)
         {
             if (!party.AddToParty(characterProperties))
             {
-                playerStateHandler.EnterDialogue(localizedMessagePartyFull.GetSafeLocalizedString());
+                playerStateMachine.EnterDialogue(localizedMessagePartyFull.GetSafeLocalizedString());
             }
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Control;
 using Frankie.Rendering;
 using Frankie.Utils;

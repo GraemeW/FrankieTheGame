@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
@@ -16,9 +17,9 @@ namespace Frankie.Control
 
         public override string GetMessage() => localizedMessageAdjustLeader.GetSafeLocalizedString();
         
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine, CheckWithConfiguration callingCheck)
         {
-            Party party = playerStateHandler.GetParty();
+            Party party = playerStateMachine.GetParty();
             var interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 

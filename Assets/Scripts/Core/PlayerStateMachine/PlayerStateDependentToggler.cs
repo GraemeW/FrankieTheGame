@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Core;
 using Frankie.Utils;
 
-namespace Frankie.Control
+namespace Frankie.Core
 {
     public class PlayerStateDependentToggler : MonoBehaviour
     {

@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Frankie.Saving;
-using Frankie.Combat;
+using Frankie.Core;
 using Frankie.Control;
+using Frankie.Combat;
+using Frankie.Saving;
 
 namespace Frankie.Stats
 {

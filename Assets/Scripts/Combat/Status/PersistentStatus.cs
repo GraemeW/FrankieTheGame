@@ -93,7 +93,7 @@ namespace Frankie.Combat
             duration = setDuration;
             persistAfterBattle = setPersistAfterBattle;
 
-            SyncToPlayerStateHandler();
+            SyncToPlayerStateMachine();
             SyncToBattle();
         }
         
@@ -104,7 +104,7 @@ namespace Frankie.Combat
             duration = Mathf.Max(duration, amount);
         }
 
-        private void SyncToPlayerStateHandler()
+        private void SyncToPlayerStateMachine()
         {
             playerStateMachine = Player.FindPlayerStateMachine();
             playerStateMachine.playerStateChanged += HandlePlayerState;

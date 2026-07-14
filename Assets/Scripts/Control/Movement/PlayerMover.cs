@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Utils;

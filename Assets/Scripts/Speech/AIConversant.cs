@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
-using Frankie.Control;
+using Frankie.Core;
 using Frankie.Core.Predicates;
+using Frankie.Control;
 using Frankie.Saving;
 
 namespace Frankie.Speech
@@ -53,14 +54,14 @@ namespace Frankie.Speech
 
         #region Interfaces
         // Check Interface
-        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (dialogue == null) { return false; }
             if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance)) { return false; }
 
             if (inputType == matchType)
             {
-                ForceInteractionEvent(playerStateHandler);
+                ForceInteractionEvent(playerStateMachine);
             }
             return true;
         }

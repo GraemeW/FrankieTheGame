@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Stats;
-using Frankie.Control;
 using Frankie.World;
 using Frankie.Utils;
 
@@ -36,7 +37,7 @@ namespace Frankie.Speech
         // Cached References
         private PlayerInput playerInput;
         private WorldCanvas worldCanvas;
-        private PlayerStateMachine playerStateHandler;
+        private PlayerStateMachine playerStateMachine;
         private Party party;
 
         // Events
@@ -89,7 +90,7 @@ namespace Frankie.Speech
 
         private void OnDestroy()
         {
-            onDestroyCallbackActions?.Invoke(playerStateHandler);
+            onDestroyCallbackActions?.Invoke(playerStateMachine);
         }
 
         private void Update()
@@ -103,7 +104,7 @@ namespace Frankie.Speech
             
             // Special handling for case of controller existence, no listeners, but dialogue not complete
             // Force exit into world in this case
-            if (!dialogueComplete) { playerStateHandler.EnterWorld(); }
+            if (!dialogueComplete) { playerStateMachine.EnterWorld(); }
             Destroy(gameObject);
         }
         #endregion
@@ -136,11 +137,11 @@ namespace Frankie.Speech
             onDestroyCallbackActions = interactionEvent;
         }
 
-        public void Setup(WorldCanvas setupWorldCanvas, PlayerStateMachine setupPlayerStateHandler, Party setupParty)
+        public void Setup(WorldCanvas setupWorldCanvas, PlayerStateMachine setupPlayerStateMachine, Party setupParty)
         {
             dialogueComplete = false;
             worldCanvas = setupWorldCanvas;
-            playerStateHandler = setupPlayerStateHandler;
+            playerStateMachine = setupPlayerStateMachine;
             party = setupParty;
         }
 
@@ -151,7 +152,7 @@ namespace Frankie.Speech
             // N.B.  Dialogue triggers need to live on same game object as conversant component
             foreach (DialogueTrigger dialogueTrigger in currentConversant.GetComponents<DialogueTrigger>())
             {
-                dialogueTrigger.Setup(this, playerStateHandler);
+                dialogueTrigger.Setup(this, playerStateMachine);
             }
         }
         #endregion
@@ -200,7 +201,7 @@ namespace Frankie.Speech
             currentDialogue = null;
             SetCurrentNode(null);
             triggerUIUpdates?.Invoke();
-            playerStateHandler.EnterWorld();
+            playerStateMachine.EnterWorld();
             currentConversant = null;
             dialogueComplete = true;
 
@@ -390,7 +391,7 @@ namespace Frankie.Speech
             //     2.  Party (childed to player controller)
             // B. AI conversant -- childed to character;  Grab Parent & GetComponentsInChildren traverses both the parent & children
 
-            var predicateEvaluators = playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>().Concat( // A
+            var predicateEvaluators = playerStateMachine.GetComponentsInChildren<IPredicateEvaluator>().Concat( // A
                 currentConversant.transform.parent.gameObject.GetComponentsInChildren<IPredicateEvaluator>()); // B
 
             return predicateEvaluators;

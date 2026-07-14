@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.ZoneManagement;
+using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Speech;
-using Frankie.Core;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Control
 {
@@ -103,12 +103,12 @@ namespace Frankie.Control
             InitiateCombat(TransitionType.BattleNeutral);
         }
 
-        public void InitiateCombatAdvantaged(PlayerStateMachine playerStateHandler)  // called via Unity Event
+        public void InitiateCombatAdvantaged(PlayerStateMachine playerStateMachine)  // called via Unity Event
         {
             InitiateCombat(TransitionType.BattleGood);
         }
 
-        public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateHandler)  // called via Unity Event
+        public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateMachine)  // called via Unity Event
         {
             InitiateCombat(TransitionType.BattleBad);
         }

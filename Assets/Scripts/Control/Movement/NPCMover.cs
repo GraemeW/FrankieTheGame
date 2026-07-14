@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Utils;
 
@@ -170,9 +171,9 @@ namespace Frankie.Control
         public Vector3 GetInteractionCenterPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : transform.position;
         public void SetLookDirectionDown() => SetLookDirection(Vector2.down); // Called via Unity Events
         public void SetLookDirectionUp() => SetLookDirection(Vector2.up); // Called via Unity Events
-        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // Called via Unity Events
+        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
-            var callingController = playerStateHandler.GetComponent<PlayerController>();
+            var callingController = playerStateMachine.GetComponent<PlayerController>();
             SetLookDirection(callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position);
         }
 

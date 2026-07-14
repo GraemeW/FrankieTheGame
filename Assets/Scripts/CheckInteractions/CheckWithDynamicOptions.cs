@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Utils;
 
 namespace Frankie.Control
@@ -9,7 +10,7 @@ namespace Frankie.Control
         [SerializeField][Tooltip("Must implement ICheckDynamic")] private GameObject dynamicCheckObject;
         [SerializeField] private InteractionEvent checkInteraction;
 
-        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (dynamicCheckObject == null) { return false; }
             if (!dynamicCheckObject.TryGetComponent(out ICheckDynamic checkDynamic)) { return false; }
@@ -18,15 +19,15 @@ namespace Frankie.Control
 
             if (inputType == matchType)
             {
-                List<ChoiceActionPair> interactActions = checkDynamic.GetChoiceActionPairs(playerStateHandler);
+                List<ChoiceActionPair> interactActions = checkDynamic.GetChoiceActionPairs(playerStateMachine);
                 if (interactActions == null) { return false; }
                 if (interactActions.Count == 0) { return false; }
 
-                checkInteraction?.Invoke(playerStateHandler);
+                checkInteraction?.Invoke(playerStateMachine);
                 string message = checkDynamic.GetMessage();
                 message ??= "";
 
-                playerStateHandler.EnterDialogue(message, interactActions);
+                playerStateMachine.EnterDialogue(message, interactActions);
             }
             return true;
         }
