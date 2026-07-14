@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Frankie.Core;
+using Frankie.Combat;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
@@ -85,6 +86,7 @@ namespace Frankie.Utils
             playerInput.Admin.Delete.performed += _ => Delete();
             playerInput.Admin.NewGame.performed += _ => NewSave();
             playerInput.Admin.ClearPlayerPrefs.performed += _ => ClearPlayerPrefs();
+            playerInput.Admin.WinBattle.performed += _ => AutoWinBattle();
             playerInput.Admin.QuestLog.performed += _ => PrintQuests();
             playerInput.Admin.LevelUpParty.performed += _ => LevelUpParty();
             playerInput.Admin.AddFundsToWallet.performed += _ => AddFundsToWallet();
@@ -151,6 +153,16 @@ namespace Frankie.Utils
         }
         #endregion
 
+        #region CombatDebug
+
+        private void AutoWinBattle()
+        {
+            BattleController battleController = BattleController.FindBattleController();
+            if (battleController == null) { return; }
+            battleController.DefeatAllEnemies();
+        }
+        #endregion
+        
         #region QuestListDebug
         private void ResetReferences(Scene scene, LoadSceneMode loadSceneMode)
         {

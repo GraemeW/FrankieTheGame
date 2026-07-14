@@ -230,6 +230,15 @@ namespace Frankie.Combat
 
             BattleEventBus<BattleActionArmedEvent>.Raise(new BattleActionArmedEvent(selectedBattleActionSuper));
         }
+
+        public void DefeatAllEnemies()
+        {
+            foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
+            {
+                if (enemy == null || enemy.combatParticipant == null) { continue; }
+                enemy.combatParticipant.SelfImplode();
+            }
+        }
         #endregion
 
         #region PublicGetters
