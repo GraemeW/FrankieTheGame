@@ -139,6 +139,7 @@ namespace Frankie.Control
 
         private void ShoutToNearbyNPCs()
         {
+            shoutingActive = false;
             nearbyNPCs.Clear();
             int npcCount = Physics2D.OverlapCircle(npcMover.GetInteractionCenterPosition(), shoutDistance, npcContactFilter, nearbyNPCs);
             if (npcCount == 0) { return; }

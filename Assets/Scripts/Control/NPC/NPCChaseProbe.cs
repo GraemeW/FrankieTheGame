@@ -6,7 +6,7 @@ namespace Frankie.Control
     public class NPCChaseProbe : MonoBehaviour
     {
         // Tunables
-        [SerializeField] LayerMask playerProbeLayerMask;
+        [SerializeField] private LayerMask playerProbeLayerMask;
         
         // State
         private bool isPlayerInRange;
