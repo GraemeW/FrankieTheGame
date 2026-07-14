@@ -85,6 +85,7 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
+        public override float GetCurrentSpeed() => cachedSpeed;
         public void ParseMovement(Vector2 directionalInput)
         {
             inputHorizontal = Vector2.Dot(directionalInput, Vector2.right);
@@ -99,8 +100,6 @@ namespace Frankie.Control
 
             historyResetThisFrame = true;
         }
-
-        public override float GetCurrentSpeed() => cachedSpeed;
         #endregion
         
         #region ProtectedPrivateMethods
@@ -190,7 +189,7 @@ namespace Frankie.Control
         #region SaveInterface
         public override SaveState CaptureState()
         {
-            return partyLeader == null ? null : ManualGetStateFromData(new SerializableVector2(partyLeader.transform.position));
+            return partyLeader != null ? ManualGetStateFromData(new SerializableVector2(partyLeader.transform.position)) : null;
         }
 
         public override void RestoreState(SaveState saveState)

@@ -145,14 +145,6 @@ namespace Frankie.Stats
             CharacterProperties partyLeaderProperties = partyLeader.GetCharacterProperties();
             return partyLeaderProperties != null ? partyLeaderProperties.GetCharacterDisplayName() ?? "" : "";
         }
-
-        public bool TryGetPartyLeaderPosition(out Vector2 position)
-        {
-            position = Vector2.zero;
-            if (!TryGetPartyLeader(out BaseStats partyLeader)) { return false; }
-            position = partyLeader.transform.position;
-            return true;
-        }
         
         public List<BaseStats> GetMembers() => members;
         public int GetPartySize() => members.Count;

@@ -17,13 +17,11 @@ namespace Frankie.Control
         // Call for no target (e.g. input movement)
         public bool MoveToTarget(Mover mover, float deltaTime, out Vector2 newPosition)
         {
-            if (mover == null)
-            {
-                newPosition = Vector2.zero;
-                return false; 
-            }
+            newPosition = Vector2.zero;
+            if (mover == null) { return false; }
+            if (!mover.TryGetCurrentPosition(out Vector2 currentPosition)) { return false; }
             
-            newPosition = GetNewPosition(mover.GetCurrentPosition(), mover.GetCurrentSpeed(), mover.GetLookDirection(), deltaTime);
+            newPosition = GetNewPosition(currentPosition, mover.GetCurrentSpeed(), mover.GetLookDirection(), deltaTime);
             switch (movementStyle)
             {
                 case MovementStyle.Warp:
@@ -42,12 +40,14 @@ namespace Frankie.Control
         // Call for explicit target
         public bool MoveToTarget(Mover mover, Vector2 target, float deltaTime, out Vector2 newPosition)
         {
-            if (mover == null) { newPosition = Vector2.zero; return false; }
-
+            newPosition = Vector2.zero;
+            if (mover == null) { return false; }
+            if (!mover.TryGetCurrentPosition(out Vector2 currentPosition)) { return false; }
+            
             newPosition = movementStyle switch
             {
                 MovementStyle.Warp => target,
-                _ => GetNewPosition(mover.GetCurrentPosition(), mover.GetCurrentSpeed(), mover.GetLookDirection(), deltaTime)
+                _ => GetNewPosition(currentPosition, mover.GetCurrentSpeed(), mover.GetLookDirection(), deltaTime)
             };
 
             if (movementStyle == MovementStyle.Warp)

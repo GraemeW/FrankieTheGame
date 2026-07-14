@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using Frankie.Rendering;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 

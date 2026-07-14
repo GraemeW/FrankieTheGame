@@ -106,8 +106,13 @@ namespace Frankie.Control
 
         #region PublicMethods
         public abstract float GetCurrentSpeed();
+        public bool TryGetCurrentPosition(out Vector2 currentPosition)
+        {
+            currentPosition = isRigidBodyInitialized ? rigidBody2D.position : transform.position;
+            return isRigidBodyInitialized;
+        }
+
         public Vector2 GetLookDirection() => lookDirection;
-        public Vector2 GetCurrentPosition() => isRigidBodyInitialized ? rigidBody2D.position : Vector2.zero;
         public float GetTimeSinceLastMove() => timeSinceLastMove;
         public void ResetTimeSinceLastMove() => timeSinceLastMove = 0;
         
@@ -196,19 +201,19 @@ namespace Frankie.Control
             // false:  the Mover stopped moving - i.e. due to arriving at target or an inability to move
             // null:  no attempts were made to move this call
             if (SetStaticForNoTarget() || isQueuedCoroutineActive) { return null; }
+            if (!TryGetCurrentPosition(out Vector2 currentPosition)) { return null; }
             
-            Vector2 position = GetCurrentPosition();
             Vector2 target = ReckonTarget(false, true, PathFindingCheckType.Check);
             if (HasArrivedAtTarget(target, out float squareMagnitudeDelta))
             {
                 if (!movementConfiguration.usingPathFinding) { return false; }
                 
                 Vector2 finalTarget = ReckonTarget(false, false, PathFindingCheckType.Skip);
-                if (HasArrivedAtTarget(finalTarget, out float finalSquareMagnitudeDelta)) { return false;}
+                if (HasArrivedAtTarget(finalTarget, out _)) { return false;}
             }
             target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false, PathFindingCheckType.ForceCheck);
             
-            Vector2 direction = target - position;
+            Vector2 direction = target - currentPosition;
             SetLookDirection(direction, false);
             
             currentSpeed = GetCurrentSpeed();
@@ -230,20 +235,28 @@ namespace Frankie.Control
             if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withHistoryOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             
             if (!movementConfiguration.usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
+            if (!TryGetCurrentPosition(out Vector2 currentPosition)) { return reckonedTarget; }
+            
             switch (movementConfiguration.movementStyle)
             {
                 case MovementStyle.Warp:
-                    return pathFinder.FindBestReachablePosition(GetCurrentPosition(), reckonedTarget, movementConfiguration.warpPathfindingTravelDistance);
+                    return pathFinder.FindBestReachablePosition(currentPosition, reckonedTarget, movementConfiguration.warpPathfindingTravelDistance);
                 case MovementStyle.Walk:
                 default:
-                    return pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType) ? pathFinder.GetNextPathTarget() : reckonedTarget;
+                    return pathFinder.FindPath(currentPosition, reckonedTarget, pathFindingCheckType) ? pathFinder.GetNextPathTarget() : reckonedTarget;
             }
         }
         #endregion
 
         #region  PrivateMethods
         private bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
-        private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta) => SmartVector2.CheckDistance(GetCurrentPosition(), target, targetDistanceTolerance, out squareMagnitudeDelta);
+
+        private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta)
+        {
+            squareMagnitudeDelta = 0f;
+            if (!TryGetCurrentPosition(out Vector2 currentPosition)) { return true; } // No valid current position, stop moving
+            return SmartVector2.CheckDistance(currentPosition, target, targetDistanceTolerance, out squareMagnitudeDelta);   
+        }
         
         private bool SetStaticForNoTarget()
         {

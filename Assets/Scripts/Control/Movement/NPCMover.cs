@@ -211,7 +211,7 @@ namespace Frankie.Control
             Vector2 target = base.ReckonTarget(withHistoryOffsetting, addToHistory, pathFindingCheckType);
             if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
 
-            Vector2 currentPosition = GetCurrentPosition();
+            TryGetCurrentPosition(out Vector2 currentPosition);
             float offset = Vector2.Dot(currentPosition, target);
             Vector2 direction = (currentPosition - target).normalized;
             return offset * direction; // Run toward equally distant position away from target
