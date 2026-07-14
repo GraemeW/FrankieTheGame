@@ -77,6 +77,7 @@ namespace Frankie.Control
         #region PublicMethods
         public bool WillForceCombat() => willForceCombat;
         public void ForceNPCOccupied() => npcOccupied = true;
+        public void RetransmitState() => SetNPCState(npcState, true);
         
         // Callable via Unity Events
         public void SetNPCIdle() => SetNPCState(NPCStateType.Idle);

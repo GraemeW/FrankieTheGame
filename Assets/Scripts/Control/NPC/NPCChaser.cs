@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -76,6 +77,12 @@ namespace Frankie.Control
 
         #region PublicMethods
         public GameObject GetChaseObject() => npcChaseProbe.GetChaseObject();
+
+        public void SubscribeToChaseTargetUpdates(bool enable, Action<GameObject> onChaseTargetUpdated)
+        {
+            npcChaseProbe.chaseTargetUpdated -= onChaseTargetUpdated;
+            if (enable) {  npcChaseProbe.chaseTargetUpdated += onChaseTargetUpdated; }
+        }
         public void SetChaseDisposition(bool enable) // Called via Unity Events
         {
             chasingActive = enable;
@@ -134,8 +141,13 @@ namespace Frankie.Control
         private void ShoutedAt(float chaseRadiusIncrement)
         {
             shoutingActive = false; // Prevent recursive propagation
-            chasingActive = true;
+            
+            // Note:  It takes one physics frame from radius growth to player found
             npcChaseProbe.GrowChaseRadius(chaseRadiusIncrement);
+            
+            // So reset time and trigger to frenzied -- PlayerMover will catch the target update and retransmit the frenzied state
+            timeSinceLastSawPlayer = 0f;
+            npcStateHandler.SetNPCFrenzied();
         }
 
         private void ShoutToNearbyNPCs()

@@ -70,21 +70,23 @@ namespace Frankie.Control
         {
             base.OnEnable();
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
+            if (npcChaser != null) { npcChaser.SubscribeToChaseTargetUpdates(true, OnChaseTargetUpdated); }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             npcStateHandler.npcStateChanged -= HandleNPCStateChange;
+            if (npcChaser != null) { npcChaser.SubscribeToChaseTargetUpdates(false, OnChaseTargetUpdated); }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(Collision2D _)
         {
             if (npcMoveFocus is not (NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
             SetMoveTarget(transform.position);
         }
 
-        private void OnCollisionStay2D(Collision2D collision)
+        private void OnCollisionStay2D(Collision2D _)
         {
             if (npcMoveFocus is not (NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
             if (timeSinceNewLocomotionTarget > locomotionCollisionStayTime) { SetupNextLocomotionTarget(); }
@@ -121,7 +123,7 @@ namespace Frankie.Control
         }
         #endregion
         
-        #region NPCStateHandling
+        #region EventHandling
         private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
             ClearMoveTargets();
@@ -142,7 +144,7 @@ namespace Frankie.Control
                 {
                     timeSinceLastMove = 0f;
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
-                    SetMoveTarget(npcChaser.GetChaseObject());
+                    if (npcChaser != null) { SetMoveTarget(npcChaser.GetChaseObject()); }
                     
                     if (!npcStateHandler.WillForceCombat())
                     {
@@ -164,6 +166,12 @@ namespace Frankie.Control
                     break;
                 }
             }
+        }
+
+        private void OnChaseTargetUpdated(GameObject _)
+        {
+            // Retransmit the NPC State to re-trigger any related move actions
+            npcStateHandler.RetransmitState();
         }
         #endregion
 
