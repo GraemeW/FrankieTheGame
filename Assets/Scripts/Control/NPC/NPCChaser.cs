@@ -134,6 +134,7 @@ namespace Frankie.Control
         private void ShoutedAt(float chaseRadiusIncrement)
         {
             shoutingActive = false; // Prevent recursive propagation
+            chasingActive = true;
             npcChaseProbe.GrowChaseRadius(chaseRadiusIncrement);
         }
 
@@ -149,7 +150,6 @@ namespace Frankie.Control
                 if (!nearbyNPC.TryGetComponent(out NPCChaser npcInRange)) { continue; }
                 if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
                 
-                // Default behaviour, not set, aggro everything shoutable
                 if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
                 {
                     // Increase detection radius by shoutDistance (worst-case scenario, perfectly aligned but opposite positions w.r.t. shouter)

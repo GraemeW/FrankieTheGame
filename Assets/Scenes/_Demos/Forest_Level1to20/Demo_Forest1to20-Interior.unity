@@ -209,18 +209,6 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3469291900945260292, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
-      propertyPath: shoutGroup.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3469291900945260292, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
-      propertyPath: 'shoutGroup.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1178495564}
-    - target: {fileID: 3469291900945260292, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
-      propertyPath: 'shoutGroup.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1867745991}
     - target: {fileID: 5422106216457613327, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -315,7 +303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6966841689018701608, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: backingListHashCheck
-      value: 53867758
+      value: 347868594
       objectReference: {fileID: 0}
     - target: {fileID: 8532826403865279038, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: uniqueIdentifier
@@ -140957,17 +140945,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5186630281406051281, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
   m_PrefabInstance: {fileID: 1178495554}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1178495564 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2523280709597749913, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
-  m_PrefabInstance: {fileID: 1178495554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c526a6d8c65f5584cb392e578f029378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1184047880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207025,7 +207002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
-  backingListHashCheck: -1801782471
+  backingListHashCheck: -565076750
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 5e78e614-19df-4719-8a5e-bc16139e86ee
@@ -233366,17 +233343,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7420083716795560881, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
   m_PrefabInstance: {fileID: 1867745981}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1867745991 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 146239989247959801, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
-  m_PrefabInstance: {fileID: 1867745981}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c526a6d8c65f5584cb392e578f029378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1869995776
 PrefabInstance:
   m_ObjectHideFlags: 0
