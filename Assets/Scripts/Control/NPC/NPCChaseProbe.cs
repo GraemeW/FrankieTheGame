@@ -10,6 +10,7 @@ namespace Frankie.Control
         
         // State
         private bool isPlayerInRange;
+        private float defaultShoutDistance;
         private GameObject chaseObject;
         
         // Cached References
@@ -19,6 +20,7 @@ namespace Frankie.Control
         private void Awake()
         {
             circleCollider2D = GetComponent<CircleCollider2D>();
+            defaultShoutDistance = circleCollider2D.radius;
         }
         
         // Note:
@@ -48,9 +50,18 @@ namespace Frankie.Control
         #region PublicMethods
         public bool IsPlayerInRange() => isPlayerInRange;
         public GameObject GetChaseObject() => chaseObject;
-        public void SetChaseRadius(float setChaseRadius)
+        public void ResetChaseRadius() => circleCollider2D.radius = defaultShoutDistance;
+        
+        public void OverrideDefaultChaseRadius(float setChaseRadius)
         {
-            circleCollider2D.radius = setChaseRadius;
+            defaultShoutDistance = setChaseRadius;
+            ResetChaseRadius();
+        }
+
+        public void GrowChaseRadius(float increment)
+        {
+            float newChaseRadius = Mathf.Max(circleCollider2D.radius, defaultShoutDistance + increment);
+            circleCollider2D.radius = newChaseRadius;
         }
         #endregion
         

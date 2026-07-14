@@ -76,57 +76,19 @@ namespace Frankie.Control
 
         #region PublicMethods
         public bool WillForceCombat() => willForceCombat;
-
-        public void SetNPCIdle() // Callable via Unity Event
-        {
-            SetNPCState(NPCStateType.Idle); 
-        }
-        public void SetNPCSuspicious() // Callable via Unity Event
-        {
-            SetNPCState(NPCStateType.Suspicious);
-        }
-        public void SetNPCAggravated() // Callable via Unity Event
-        {
-            SetNPCState(NPCStateType.Aggravated);
-        }
-        public void SetNPCFrenzied() // Callable via Unity Event
-        {
-            SetNPCState(NPCStateType.Frenzied);
-        }
-        public void ForceNPCOccupied()
-        {
-            npcOccupied = true;
-        }
-
-        public void InitiateCombat(PlayerStateMachine playerStateMachine)  // called via Unity Event
-        {
-            InitiateCombat(TransitionType.BattleNeutral);
-        }
-
-        public void InitiateCombatAdvantaged(PlayerStateMachine playerStateMachine)  // called via Unity Event
-        {
-            InitiateCombat(TransitionType.BattleGood);
-        }
-
-        public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateMachine)  // called via Unity Event
-        {
-            InitiateCombat(TransitionType.BattleBad);
-        }
-
-        public void InitiateCombat(TransitionType transitionType) // called via Unity Event
-        {
-            InitiateCombat(transitionType, new List<NPCStateHandler>());
-        }
-
-        public void InitiateDialogue(TransitionType transitionType) // called via Unity Event
-        {
-            InitiateDialogue();
-        }
+        public void ForceNPCOccupied() => npcOccupied = true;
         
-        public void SelfDestruct() // called via Unity Event
-        {
-            Destroy(gameObject);
-        }
+        // Callable via Unity Events
+        public void SetNPCIdle() => SetNPCState(NPCStateType.Idle);
+        public void SetNPCSuspicious() => SetNPCState(NPCStateType.Suspicious);
+        public void SetNPCAggravated() => SetNPCState(NPCStateType.Aggravated);
+        public void SetNPCFrenzied() => SetNPCState(NPCStateType.Frenzied);
+        public void InitiateCombat(PlayerStateMachine playerStateMachine) => InitiateCombat(TransitionType.BattleNeutral);
+        public void InitiateCombatAdvantaged(PlayerStateMachine playerStateMachine) => InitiateCombat(TransitionType.BattleGood);
+        public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateMachine) => InitiateCombat(TransitionType.BattleBad);
+        public void InitiateCombat(TransitionType transitionType) => InitiateCombat(transitionType, new List<NPCStateHandler>());
+        public void InitiateDialogue(TransitionType transitionType) => InitiateDialogue();
+        public void SelfDestruct() => Destroy(gameObject);
         #endregion
 
         #region PrivateMethods
@@ -155,8 +117,6 @@ namespace Frankie.Control
             else
             {
                 npcOccupied = false;
-
-                // Set State
                 npcState = setNPCState;
             }
             

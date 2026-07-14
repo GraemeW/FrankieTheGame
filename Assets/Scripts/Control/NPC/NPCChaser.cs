@@ -43,7 +43,7 @@ namespace Frankie.Control
 
         private void Start()
         {
-            npcChaseProbe.SetChaseRadius(chaseDistance);
+            npcChaseProbe.OverrideDefaultChaseRadius(chaseDistance);
             npcContactFilter = new ContactFilter2D
             {
                 useLayerMask = true,
@@ -76,17 +76,11 @@ namespace Frankie.Control
 
         #region PublicMethods
         public GameObject GetChaseObject() => npcChaseProbe.GetChaseObject();
-        public void SetChaseDisposition(bool enable) // Called via Unity Methods
+        public void SetChaseDisposition(bool enable) // Called via Unity Events
         {
             chasingActive = enable;
             skipAggressionUntilEnable = !enable;
             npcStateHandler.SetNPCIdle();
-        }
-
-        public void SetFrenziedWithoutShout() // Called via Unity Methods
-        {
-            shoutingActive = false;
-            npcStateHandler.SetNPCFrenzied();
         }
         #endregion
 
@@ -119,6 +113,7 @@ namespace Frankie.Control
                 case NPCStateType.Idle:
                     chasingActive = willChasePlayer;
                     shoutingActive = willShout;
+                    npcChaseProbe.ResetChaseRadius();
                     break;
                 case NPCStateType.Suspicious:
                 case NPCStateType.Aggravated:
@@ -135,6 +130,12 @@ namespace Frankie.Control
                     break;
             }
         }
+        
+        private void ShoutedAt(float chaseRadiusIncrement)
+        {
+            shoutingActive = false; // Prevent recursive propagation
+            npcChaseProbe.GrowChaseRadius(chaseRadiusIncrement);
+        }
 
         private void ShoutToNearbyNPCs()
         {
@@ -148,13 +149,13 @@ namespace Frankie.Control
                 if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
                 
                 // Default behaviour, not set, aggro everything shoutable
-                if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange)) 
+                if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
                 {
-                    npcInRange.SetFrenziedWithoutShout();
+                    // Increase detection radius by shoutDistance (worst-case scenario, perfectly aligned but opposite positions w.r.t. shouter)
+                    npcInRange.ShoutedAt(shoutDistance); 
                 }
             }
         }
-
         #endregion
 
 #if UNITY_EDITOR
