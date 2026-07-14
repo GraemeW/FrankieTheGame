@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Utils;
 using Frankie.Stats;

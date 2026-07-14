@@ -22,6 +22,8 @@ namespace Frankie.Control
         private float currentImmunityFlashPeriod;
         
         // Cached
+        private Collider2D characterCollider;
+        private Collider2D interactionCollider;
         private Vector2 lookDirection;
         
         // Events
@@ -33,6 +35,9 @@ namespace Frankie.Control
         private void Awake()
         {
             if (spriteRenderer != null) { standardAlpha = spriteRenderer.color.a; }
+            
+            characterCollider = GetComponent<Collider2D>();
+            if (interactionCentrePoint != null) { interactionCollider = interactionCentrePoint.GetComponent<Collider2D>(); }
         }
 
         private void Update()
@@ -76,11 +81,26 @@ namespace Frankie.Control
             Mover.SetAnimatorSpeed(animator, speed);
             characterSpeedUpdated?.Invoke(speed);
         }
+        
+        public void SetCharacterLayer(int characterLayer)
+        {
+            if (characterCollider == null) { return; }
+            
+            // Toggle collider off first to avoid the find->invalidate contact pairs operation (lengthy)
+            characterCollider.enabled = false;
+            characterCollider.gameObject.layer = characterLayer;
+            characterCollider.enabled = true;
+        }
 
         public void SetInteractionProbeLayer(int probeLayer)
         {
             if (interactionCentrePoint == null) { return; }
+            if (interactionCollider == null) { return; }
+            
+            // Toggle collider off first to avoid the find->invalidate contact pairs operation (lengthy)
+            interactionCollider.enabled = false;
             interactionCentrePoint.gameObject.layer = probeLayer;
+            interactionCollider.enabled = true;
         }
 
         public void SetIsFlashing(bool isFlashing)

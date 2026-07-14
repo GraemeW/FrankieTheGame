@@ -62,7 +62,7 @@ namespace Frankie.Stats
             if (members.Count == 0) { return; }
             
             BaseStats character = members[0];
-            characterSpriteLinkLookup[character].UpdateCharacterAnimation(movementAnimationParameters);
+            characterMoveLinkLookup[character].UpdateCharacterAnimation(movementAnimationParameters);
             UpdatePartySpeedAndOffsets(movementAnimationParameters.speed, movementAnimationParameters.pixelPerfectOffset);
         }
         #endregion
@@ -220,7 +220,7 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
-        private Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
+        private Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterMoveLinkLookup[members[0]].GetAnimator() : null;
         
         private void InitializeUnlockedCharacters()
         {
