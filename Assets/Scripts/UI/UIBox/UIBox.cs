@@ -114,6 +114,7 @@ namespace Frankie.Utils.UI
         {
             if (controller != null && handleGlobalInput)
             {
+                controller.globalInput -= HandleGlobalInputWrapper;
                 controller.globalInput += HandleGlobalInputWrapper;
             }
             SetUpChoiceOptions();
@@ -380,6 +381,7 @@ namespace Frankie.Utils.UI
 
             if (gameObject.activeSelf)
             {
+                globalInputHandler.globalInput -= HandleGlobalInputWrapper;
                 globalInputHandler.globalInput += HandleGlobalInputWrapper; // Unsubscribed on OnDisable
             }
             // No behaviour if disabled, will subscribe by OnEnable
