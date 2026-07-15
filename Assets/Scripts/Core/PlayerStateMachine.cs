@@ -13,7 +13,6 @@ using Frankie.Inventory;
 using Frankie.World;
 using Frankie.ZoneManagement;
 using Frankie.Utils;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Core
 {
@@ -49,7 +48,6 @@ namespace Frankie.Core
         private TransitionType transitionTypeUnderConsideration = TransitionType.None;
         private TransitionType currentTransitionType = TransitionType.None;
         private bool zoneTransitionComplete = true;
-
         // CutScene
         private bool visibleDuringCutscene = true;
         private bool canMoveInCutscene = false;
@@ -63,6 +61,9 @@ namespace Frankie.Core
         private TradeData tradeData;
         // Option
         private OptionStateType optionStateType;
+        
+        // Coroutines
+        private Coroutine immunityCoroutine;
 
         // Cached References -- Persistent
         private Party party;
@@ -129,6 +130,11 @@ namespace Frankie.Core
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= UpdateReferencesForNewScene;
+        }
+
+        private void OnDestroy()
+        {
+            if (immunityCoroutine != null) { StopCoroutine(immunityCoroutine); }
         }
 
         private void Update()
@@ -371,7 +377,8 @@ namespace Frankie.Core
         private void OnBattleExitPeak()
         {
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitPeak));
-            StartCoroutine(TimedCollisionDisable());
+            if (immunityCoroutine != null) { StopCoroutine(immunityCoroutine); }
+            immunityCoroutine = StartCoroutine(TimedCollisionDisable());
         }
 
         private void OnBattleExitComplete()
@@ -475,6 +482,7 @@ namespace Frankie.Core
             SetPlayerImmunity(true);
             yield return new WaitForSeconds(immunityTimePostCombat);
             SetPlayerImmunity(false);
+            immunityCoroutine = null;
         }
         
         public void QueueActionUnderConsideration()
@@ -527,9 +535,12 @@ namespace Frankie.Core
 
             dialogueData = null;
 
-            shopper?.SetShop(null);
-            shopper?.SetBankType(BankType.None);
             tradeData = null;
+            if (shopper != null)
+            {
+                shopper.SetShop(null);
+                shopper.SetBankType(BankType.None);
+            }
 
             optionStateType = OptionStateType.None;
         }
