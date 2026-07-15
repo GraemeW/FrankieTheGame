@@ -11,6 +11,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     public class NPCStateHandler : MonoBehaviour, ILocalizable
     {
         // Tunables
