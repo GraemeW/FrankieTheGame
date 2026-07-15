@@ -6,7 +6,7 @@ namespace Frankie.Core.PlayerStates
         {
             if (playerStateContext.IsCombatFadeComplete())
             {
-                playerStateContext.SetPlayerState(new CombatState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.CombatState);
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Frankie.Core.PlayerStates
         {
             if (playerStateContext.InZoneTransition())
             {
-                playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
+                playerStateContext.SetPlayerState(PlayerStateMachine.TransitionState); // Force state to transition, going to get pulled to a new scene
             }
         }
 
@@ -54,7 +54,7 @@ namespace Frankie.Core.PlayerStates
             if (playerStateContext.InZoneTransition() && !playerStateContext.IsZoneTransitionComplete()) { return; } // Hold in transition if still ongoing
 
             playerStateContext.ClearPlayerStateMemory();
-            playerStateContext.SetPlayerState(new WorldState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.WorldState);
         }
     }
 }

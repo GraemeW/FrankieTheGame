@@ -24,7 +24,7 @@ namespace Frankie.Core
         #region Combat
         public bool IsAnyPartyMemberAlive();
         public bool IsPlayerFearsome(CombatParticipant combatParticipant);
-        public bool AreCombatParticipantsValid(bool announceCannotFight = false);
+        public bool AreCombatParticipantsValid();
         public void AddEnemiesUnderConsideration();
         public void SetupBattleController();
         public bool StartBattleSequence();

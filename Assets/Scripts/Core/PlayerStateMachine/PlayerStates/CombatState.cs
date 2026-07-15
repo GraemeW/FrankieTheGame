@@ -31,7 +31,7 @@ namespace Frankie.Core.PlayerStates
         {
             if (playerStateContext.InBattleExitTransition())
             {
-                playerStateContext.SetPlayerState(new TransitionState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.TransitionState);
                 if (!playerStateContext.EndBattleSequence())  // State change from Transition to World handled by coroutine
                 {
                     EnterWorld(playerStateContext); // Protection to default back to world on fail to exit battle
@@ -39,14 +39,14 @@ namespace Frankie.Core.PlayerStates
             }
             else if (playerStateContext.InZoneTransition())
             {
-                playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
+                playerStateContext.SetPlayerState(PlayerStateMachine.TransitionState); // Force state to transition, going to get pulled to a new scene
             }
         }
 
         public void EnterWorld(IPlayerStateContext playerStateContext) // Kill rogue controllers for safety, unexpected to call this route
         {
             playerStateContext.ClearPlayerStateMemory();
-            playerStateContext.SetPlayerState(new WorldState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.WorldState);
         }
     }
 }

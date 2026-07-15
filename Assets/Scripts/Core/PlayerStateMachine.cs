@@ -4,8 +4,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Tables;
 using Frankie.Core.PlayerStates;
 using Frankie.Control;
 using Frankie.Combat;
@@ -24,7 +22,7 @@ namespace Frankie.Core
     [RequireComponent(typeof(PartyAssist))]
     [RequireComponent(typeof(PartyCombatConduit))]
     [RequireComponent(typeof(Shopper))]
-    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext, ILocalizable
+    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
     {
         // Tunables
         [Header("Other Controller Prefabs")]
@@ -36,21 +34,9 @@ namespace Frankie.Core
         [SerializeField] private GameObject cashTransferPrefab;
         [SerializeField] private GameObject worldOptionsPrefab;
         [SerializeField] private GameObject escapeMenuPrefab;
-        [Header("Messages : {0} for character name")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedMessageCannotFight;
         [Header("Parameters")]
         [SerializeField] private int maxEnemiesPerCombat = 12;
         [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
-
-        // Localization Properties
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            return new List<TableEntryReference>
-            {
-                localizedMessageCannotFight.TableEntryReference
-            };
-        }
         
         // State Information
         // Player
@@ -105,7 +91,7 @@ namespace Frankie.Core
             public Action action { get; }
         }
 
-        #region StaticMethods
+        #region Static
         private static PlayerStateType TranslatePlayerState(IPlayerState playerState)
         {
             Type playerStateType = playerState.GetType();
@@ -116,6 +102,14 @@ namespace Frankie.Core
             if (playerStateType == typeof(CutSceneState)) { return PlayerStateType.InCutScene; }
             return PlayerStateType.InWorld; // Default:  typeof(WorldState)
         }
+        
+        public static TransitionState TransitionState = new();
+        public static CombatState CombatState = new();
+        public static DialogueState DialogueState = new();
+        public static TradeState TradeState = new();
+        public static OptionState OptionState = new();
+        public static CutSceneState CutSceneState = new();
+        public static WorldState WorldState = new();
         #endregion
 
         #region UnityStandardMethods
@@ -144,11 +138,6 @@ namespace Frankie.Core
             readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
             PopQueuedAction();
         }
-        
-        private void OnDestroy()
-        {
-            ILocalizable.TriggerOnDestroy(this);
-        }
         #endregion
 
         #region SettersGetters
@@ -158,16 +147,14 @@ namespace Frankie.Core
             Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
 
             currentPlayerState = playerState;
-            
-            
             playerStateChanged?.Invoke(playerStateType, this);
 
             readyToPopQueue = playerStateType == PlayerStateType.InWorld;
             // Pop on update to prevent same-frame multi-state change
             // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
 
+            // Allow swarm / multi-battle entry on same-frame
             if (playerStateType == PlayerStateType.InTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
-            // Required to allow swarm / multi-battle entry on same-frame
         }
         
         public Party GetParty() => party;
@@ -310,28 +297,14 @@ namespace Frankie.Core
         #region UtilityCombat
         public bool IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
         public bool IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
-
-        public bool AreCombatParticipantsValid(bool announceCannotFight = false)
-        {
-            if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { SetupCannotFightPrompt(partyCombatConduit.GetPartyLeaderName()); } return false; }
-            return !enemiesUnderConsideration.All(x => x.IsDead());
-        }
-
-        public void SetupCannotFightPrompt(string entityName)
-        {
-            EnterDialogue(string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), entityName));
-        }
-
+        public bool AreCombatParticipantsValid() => !enemiesUnderConsideration.All(x => x.IsDead());
+ 
         public void AddEnemiesUnderConsideration()
         {
             foreach (CombatParticipant enemy in enemiesUnderConsideration)
             {
                 if (enemiesInTransition.Count > maxEnemiesPerCombat) { return; }
-
-                if (!enemiesInTransition.Contains(enemy))
-                {
-                    enemiesInTransition.Add(enemy);
-                }
+                if (!enemiesInTransition.Contains(enemy)) { enemiesInTransition.Add(enemy); }
             }
         }
 

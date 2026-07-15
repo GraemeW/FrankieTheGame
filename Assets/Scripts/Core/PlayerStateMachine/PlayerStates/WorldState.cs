@@ -9,7 +9,7 @@ namespace Frankie.Core.PlayerStates
             playerStateContext.SetupBattleController();
             playerStateContext.AddEnemiesUnderConsideration();
             playerStateContext.ConfirmTransitionType();
-            playerStateContext.SetPlayerState(new TransitionState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.TransitionState);
             if (!playerStateContext.StartBattleSequence())  // State change from Transition to Combat handled by coroutine
             {
                 EnterWorld(playerStateContext); // Protection to default back to world on fail to enter battle
@@ -19,7 +19,7 @@ namespace Frankie.Core.PlayerStates
         public void EnterCutScene(IPlayerStateContext playerStateContext)
         {
             playerStateContext.TogglePlayerVisibility();
-            playerStateContext.SetPlayerState(new CutSceneState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.CutSceneState);
         }
 
         public void EnterDialogue(IPlayerStateContext playerStateContext)
@@ -27,7 +27,7 @@ namespace Frankie.Core.PlayerStates
             playerStateContext.SetupDialogueController();
             if (playerStateContext.StartDialogueSequence())
             {
-                playerStateContext.SetPlayerState(new DialogueState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.DialogueState);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Frankie.Core.PlayerStates
         {
             if (playerStateContext.StartOptionSequence())
             {
-                playerStateContext.SetPlayerState(new OptionState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.OptionState);
             }
         }
 
@@ -43,19 +43,19 @@ namespace Frankie.Core.PlayerStates
         {
             if (playerStateContext.StartTradeSequence())
             {
-                playerStateContext.SetPlayerState(new TradeState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.TradeState);
             }
         }
 
         public void EnterTransition(IPlayerStateContext playerStateContext)
         {
-            playerStateContext.SetPlayerState(new TransitionState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.TransitionState);
         }
 
         public void EnterWorld(IPlayerStateContext playerStateContext)
         {
             playerStateContext.ClearPlayerStateMemory();
-            playerStateContext.SetPlayerState(new WorldState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.WorldState);
         }
     }
 }
