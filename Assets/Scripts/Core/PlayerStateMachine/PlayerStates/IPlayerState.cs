@@ -2,6 +2,7 @@ namespace Frankie.Core
 {
     public interface IPlayerState
     {
+        PlayerStateType playerStateType { get; }
         void EnterWorld(IPlayerStateContext playerStateContext);
         void EnterTransition(IPlayerStateContext playerStateContext);
         void EnterCombat(IPlayerStateContext playerStateContext);

@@ -1,48 +1,30 @@
 namespace Frankie.Core.PlayerStates
 {
-    public class CutSceneState : IPlayerState
+    public class CutSceneState : PlayerStateBase
     {
-        public void EnterCombat(IPlayerStateContext playerStateContext)
-        {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
-        }
-
-        public void EnterCutScene(IPlayerStateContext playerStateContext)
+        public override PlayerStateType playerStateType => PlayerStateType.InCutScene;
+        
+        public override void EnterCutScene(IPlayerStateContext playerStateContext)
         {
             // Queue then kick to world to bump next cutscene immediately
             playerStateContext.QueueActionUnderConsideration();
             EnterWorld(playerStateContext);
         }
 
-        public void EnterDialogue(IPlayerStateContext playerStateContext)
+        public override void EnterTransition(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
+            if (!playerStateContext.InZoneTransition()) { return; }
+            
+            // Force state to transition, going to get pulled to a new scene
+            playerStateContext.TogglePlayerVisibility(true);
+            playerStateContext.SetPlayerState(PlayerStateMachine.transitionState); 
         }
 
-        public void EnterOptions(IPlayerStateContext playerStateContext)
-        {
-        }
-
-        public void EnterTrade(IPlayerStateContext playerStateContext)
-        {
-        }
-
-        public void EnterTransition(IPlayerStateContext playerStateContext)
-        {
-            if (playerStateContext.InZoneTransition())
-            {
-                playerStateContext.TogglePlayerVisibility(true);
-                playerStateContext.SetPlayerState(PlayerStateMachine.TransitionState); // Force state to transition, going to get pulled to a new scene
-            }
-        }
-
-        public void EnterWorld(IPlayerStateContext playerStateContext)
+        public override void EnterWorld(IPlayerStateContext playerStateContext)
         {
             playerStateContext.TogglePlayerVisibility(true);
             playerStateContext.ClearPlayerStateMemory();
-            playerStateContext.SetPlayerState(PlayerStateMachine.WorldState);
+            playerStateContext.SetPlayerState(PlayerStateMachine.worldState);
         }
     }
 }

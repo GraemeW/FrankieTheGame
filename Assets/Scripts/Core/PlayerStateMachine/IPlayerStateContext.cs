@@ -2,47 +2,49 @@ using Frankie.Combat;
 
 namespace Frankie.Core
 {
-    public interface IPlayerStateContext
+    public interface IPlayerStateContext : ITransitionStateContext, ICombatStateContext, IDialogueStateContext, ITradeStateContext, IOptionStateContext
     {
         void SetPlayerState(IPlayerState playerState);
+        void TogglePlayerVisibility(bool? enable = null);
+        void QueueActionUnderConsideration();
+        bool CanMoveInCutscene();
+        void ClearPlayerStateMemory();
+    }
 
-        #region Utility
-        public void TogglePlayerVisibility(bool? enable = null);
-        public void QueueActionUnderConsideration();
-        public bool CanMoveInCutscene();
-        public void ClearPlayerStateMemory();
-        #endregion
+    public interface ITransitionStateContext
+    {
+        void ConfirmTransitionType();
+        bool InZoneTransition();
+        bool IsZoneTransitionComplete();
+        bool InBattleEntryTransition();
+        bool InBattleExitTransition();
+    }
 
-        #region Transition
-        public void ConfirmTransitionType();
-        public bool InZoneTransition();
-        public bool IsZoneTransitionComplete();
-        public bool InBattleEntryTransition();
-        public bool InBattleExitTransition();
-        #endregion
+    public interface ICombatStateContext
+    {
+        bool IsAnyPartyMemberAlive();
+        bool IsPlayerFearsome(CombatParticipant combatParticipant);
+        bool AreCombatParticipantsValid();
+        void ConfirmEnemiesUnderConsideration();
+        void SetupBattleController();
+        bool StartBattleSequence();
+        bool IsCombatFadeComplete();
+        bool EndBattleSequence();
+    }
 
-        #region Combat
-        public bool IsAnyPartyMemberAlive();
-        public bool IsPlayerFearsome(CombatParticipant combatParticipant);
-        public bool AreCombatParticipantsValid();
-        public void AddEnemiesUnderConsideration();
-        public void SetupBattleController();
-        public bool StartBattleSequence();
-        public bool IsCombatFadeComplete();
-        public bool EndBattleSequence();
-        #endregion
-        
-        #region Dialogue
-        public void SetupDialogueController();
-        public bool StartDialogueSequence();
-        #endregion
+    public interface IDialogueStateContext
+    {
+        void SetupDialogueController();
+        bool StartDialogueSequence();
+    }
 
-        #region Trade
-        public bool StartTradeSequence();
-        #endregion
+    public interface ITradeStateContext
+    {
+        bool StartTradeSequence();
+    }
 
-        #region Option
-        public bool StartOptionSequence();
-        #endregion
+    public interface IOptionStateContext
+    {
+        bool StartOptionSequence();
     }
 }
