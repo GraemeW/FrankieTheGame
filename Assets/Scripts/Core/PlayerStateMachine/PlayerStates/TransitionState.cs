@@ -1,60 +1,39 @@
 namespace Frankie.Core.PlayerStates
 {
-    public class TransitionState : IPlayerState
+    public class TransitionState : PlayerStateBase
     {
-        public void EnterCombat(IPlayerStateContext playerStateContext)
+        public override PlayerStateType playerStateType => PlayerStateType.InTransition;
+        
+        public override void EnterCombat(IPlayerStateContext playerStateContext)
         {
             if (playerStateContext.IsCombatFadeComplete())
             {
-                playerStateContext.SetPlayerState(new CombatState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.combatState);
             }
             else
             {
-                if (playerStateContext.InBattleEntryTransition() && playerStateContext.AreCombatParticipantsValid()) // Swarm mechanic
-                {
-                    playerStateContext.AddEnemiesUnderConsideration();
-                }
+                // Swarm mechanic
+                if (playerStateContext.InBattleEntryTransition() && playerStateContext.AreCombatParticipantsValid()) { playerStateContext.ConfirmEnemiesUnderConsideration(); }
             }
         }
 
-        public void EnterCutScene(IPlayerStateContext playerStateContext)
+        public override void EnterCutScene(IPlayerStateContext playerStateContext)
         {
-            if (playerStateContext.InBattleEntryTransition())
-            {
-                playerStateContext.QueueActionUnderConsideration();
-            }
+            if (playerStateContext.InBattleEntryTransition()) { playerStateContext.QueueActionUnderConsideration(); }
         }
 
-        public void EnterDialogue(IPlayerStateContext playerStateContext)
+        public override void EnterDialogue(IPlayerStateContext playerStateContext)
         {
-            if (playerStateContext.InBattleEntryTransition())
-            {
-                playerStateContext.QueueActionUnderConsideration();
-            }
+            if (playerStateContext.InBattleEntryTransition()) { playerStateContext.QueueActionUnderConsideration(); }
         }
 
-        public void EnterOptions(IPlayerStateContext playerStateContext) // Ignore
+        public override void EnterWorld(IPlayerStateContext playerStateContext)
         {
-        }
-
-        public void EnterTrade(IPlayerStateContext playerStateContext) // Ignore
-        {
-        }
-
-        public void EnterTransition(IPlayerStateContext playerStateContext)
-        {
-            if (playerStateContext.InZoneTransition())
-            {
-                playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
-            }
-        }
-
-        public void EnterWorld(IPlayerStateContext playerStateContext)
-        {
-            if (playerStateContext.InZoneTransition() && !playerStateContext.IsZoneTransitionComplete()) { return; } // Hold in transition if still ongoing
+            // Hold in transition if still ongoing
+            if (playerStateContext.InZoneTransition() && !playerStateContext.IsZoneTransitionComplete()) { return; }
 
             playerStateContext.ClearPlayerStateMemory();
-            playerStateContext.SetPlayerState(new WorldState());
+            playerStateContext.SetPlayerState(PlayerStateMachine.worldState);
         }
     }
 }

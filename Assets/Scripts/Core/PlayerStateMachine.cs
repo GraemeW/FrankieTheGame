@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Tables;
 using Frankie.Core.PlayerStates;
+using Frankie.Core.PlayerStateMemory;
 using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Speech;
@@ -15,16 +13,14 @@ using Frankie.Inventory;
 using Frankie.World;
 using Frankie.ZoneManagement;
 using Frankie.Utils;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Core
 {
-    [ExecuteInEditMode]
     [RequireComponent(typeof(Party))]
     [RequireComponent(typeof(PartyAssist))]
     [RequireComponent(typeof(PartyCombatConduit))]
     [RequireComponent(typeof(Shopper))]
-    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext, ILocalizable
+    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
     {
         // Tunables
         [Header("Other Controller Prefabs")]
@@ -36,47 +32,24 @@ namespace Frankie.Core
         [SerializeField] private GameObject cashTransferPrefab;
         [SerializeField] private GameObject worldOptionsPrefab;
         [SerializeField] private GameObject escapeMenuPrefab;
-        [Header("Messages : {0} for character name")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedMessageCannotFight;
         [Header("Parameters")]
         [SerializeField] private int maxEnemiesPerCombat = 12;
         [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
-
-        // Localization Properties
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            return new List<TableEntryReference>
-            {
-                localizedMessageCannotFight.TableEntryReference
-            };
-        }
         
         // State Information
         // Player
         private IPlayerState currentPlayerState = new WorldState();
-        // Queue
-        private PlayerStateTypeActionPair actionUnderConsideration;
-        private readonly Stack<PlayerStateTypeActionPair> queuedActions = new();
-        private bool readyToPopQueue = false;
-        // Transition
-        private TransitionType transitionTypeUnderConsideration = TransitionType.None;
-        private TransitionType currentTransitionType = TransitionType.None;
-        private bool zoneTransitionComplete = true;
-
-        // CutScene
-        private bool visibleDuringCutscene = true;
-        private bool canMoveInCutscene = false;
-        // Combat
-        private bool combatFadeComplete = false;
-        private readonly List<CombatParticipant> enemiesUnderConsideration = new();
-        private readonly List<CombatParticipant> enemiesInTransition = new();
-        // Dialogue
-        private DialogueData dialogueData;
-        // Trade
-        private TradeData tradeData;
-        // Option
-        private OptionStateType optionStateType;
+        private readonly ActionMemory actionMemory = new();
+        
+        private TransitionMemory transitionMemory = new();
+        private CutsceneMemory cutsceneMemory = new();
+        private CombatMemory combatMemory = new();
+        private DialogueMemory dialogueMemory = new();
+        private TradeMemory tradeMemory = new();
+        private OptionMemory optionMemory = new();
+        
+        // Coroutines
+        private Coroutine immunityCoroutine;
 
         // Cached References -- Persistent
         private Party party;
@@ -93,29 +66,16 @@ namespace Frankie.Core
         public event Action<int, int, bool> playerLayerChanged;
 
         // Data Structures
-        private class PlayerStateTypeActionPair
-        {
-            public PlayerStateTypeActionPair(PlayerStateType playerStateType, Action action)
-            {
-                this.playerStateType = playerStateType;
-                this.action = action;
-            }
 
-            public PlayerStateType playerStateType { get; }
-            public Action action { get; }
-        }
 
-        #region StaticMethods
-        private static PlayerStateType TranslatePlayerState(IPlayerState playerState)
-        {
-            Type playerStateType = playerState.GetType();
-            if (playerStateType == typeof(TransitionState)) { return PlayerStateType.InTransition; }
-            if (playerStateType == typeof(CombatState)) { return PlayerStateType.InBattle; }
-            if (playerStateType == typeof(DialogueState)) { return PlayerStateType.InDialogue; }
-            if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState)) { return PlayerStateType.InMenus; }
-            if (playerStateType == typeof(CutSceneState)) { return PlayerStateType.InCutScene; }
-            return PlayerStateType.InWorld; // Default:  typeof(WorldState)
-        }
+        #region Static
+        public static readonly TransitionState transitionState = new();
+        public static readonly CombatState combatState = new();
+        public static readonly DialogueState dialogueState = new();
+        public static readonly TradeState tradeState = new();
+        public static readonly OptionState optionState = new();
+        public static readonly CutSceneState cutSceneState = new();
+        public static readonly WorldState worldState = new();
         #endregion
 
         #region UnityStandardMethods
@@ -137,41 +97,36 @@ namespace Frankie.Core
             SceneManager.sceneLoaded -= UpdateReferencesForNewScene;
         }
 
-        private void Update()
-        {
-            if (!readyToPopQueue) { return; }
-            
-            readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
-            PopQueuedAction();
-        }
-        
         private void OnDestroy()
         {
-            ILocalizable.TriggerOnDestroy(this);
+            if (immunityCoroutine != null) { StopCoroutine(immunityCoroutine); }
+        }
+
+        private void Update()
+        {
+            actionMemory.TryPopQueue();
         }
         #endregion
 
         #region SettersGetters
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
         {
-            PlayerStateType playerStateType = TranslatePlayerState(playerState);
+            PlayerStateType playerStateType = playerState.playerStateType;
             Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
 
             currentPlayerState = playerState;
-            
-            
             playerStateChanged?.Invoke(playerStateType, this);
-
-            readyToPopQueue = playerStateType == PlayerStateType.InWorld;
+            actionMemory.SetReadyToPop(playerStateType);
+            
             // Pop on update to prevent same-frame multi-state change
             // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
 
-            if (playerStateType == PlayerStateType.InTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
-            // Required to allow swarm / multi-battle entry on same-frame
+            // Allow swarm / multi-battle entry on same-frame
+            if (playerStateType == PlayerStateType.InTransition && InBattleEntryTransition()) { actionMemory.ChainQueuedCombatAction(); }
         }
         
         public Party GetParty() => party;
-        public bool CanMoveInCutscene() => canMoveInCutscene;
+        public bool CanMoveInCutscene() => cutsceneMemory.canMoveInCutscene;
         
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
         {
@@ -203,21 +158,23 @@ namespace Frankie.Core
 
         public void EnterZoneTransition()
         {
-            queuedActions.Clear(); // Do not carry queued actions across zones
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InTransition, EnterZoneTransition);
-            currentTransitionType = TransitionType.Zone;
-            zoneTransitionComplete = false;
+            // Do not carry queued actions across zones
+            actionMemory.ClearQueuedActions();
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InTransition, EnterZoneTransition);
+            transitionMemory.currentTransitionType = TransitionType.Zone;
+            transitionMemory.zoneTransitionComplete = false;
+            
             currentPlayerState.EnterTransition(this);
         }
 
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            if (enemies == null || enemies.Count == 0 || !IsBattleTransition(transitionType)) { return; }
+            if (enemies == null || enemies.Count == 0 || !TransitionMemory.IsBattleTransition(transitionType)) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InBattle, () => EnterCombat(enemies, transitionType));
-            enemiesUnderConsideration.Clear();
-            enemiesUnderConsideration.AddRange(enemies);
-            transitionTypeUnderConsideration = transitionType;
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InBattle, () => EnterCombat(enemies, transitionType));
+            combatMemory.enemiesUnderConsideration.Clear();
+            combatMemory.enemiesUnderConsideration.AddRange(enemies);
+            transitionMemory.transitionTypeUnderConsideration = transitionType;
 
             currentPlayerState.EnterCombat(this);
         }
@@ -226,8 +183,8 @@ namespace Frankie.Core
         {
             if (newConversant == null || newDialogue == null) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InDialogue, () => EnterDialogue(newConversant, newDialogue));
-            dialogueData = new DialogueData(newConversant, newDialogue);
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InDialogue, () => EnterDialogue(newConversant, newDialogue));
+            dialogueMemory.dialogueData = new DialogueData(newConversant, newDialogue);
             currentPlayerState.EnterDialogue(this);
         }
 
@@ -235,8 +192,8 @@ namespace Frankie.Core
         {
             if (string.IsNullOrWhiteSpace(message)) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InDialogue, () => EnterDialogue(message));
-            dialogueData = new DialogueData(message);
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InDialogue, () => EnterDialogue(message));
+            dialogueMemory.dialogueData = new DialogueData(message);
             currentPlayerState.EnterDialogue(this);
         }
 
@@ -244,8 +201,8 @@ namespace Frankie.Core
         {
             if (choiceActionPairs == null || choiceActionPairs.Count == 0) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InDialogue, () => EnterDialogue(message, choiceActionPairs));
-            dialogueData = new DialogueData(message, choiceActionPairs);
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InDialogue, () => EnterDialogue(message, choiceActionPairs));
+            dialogueMemory.dialogueData = new DialogueData(message, choiceActionPairs);
             currentPlayerState.EnterDialogue(this);
         }
 
@@ -253,9 +210,9 @@ namespace Frankie.Core
         {
             if (shopper == null || shop == null) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InMenus, () => EnterShop(shop));
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InMenus, () => EnterShop(shop));
             shopper.SetShop(shop);
-            tradeData = new TradeData(shop.GetShopType());
+            tradeMemory.tradeData = new TradeData(shop.GetShopType());
             currentPlayerState.EnterTrade(this);
         }
 
@@ -263,78 +220,49 @@ namespace Frankie.Core
         {
             if (bankType == BankType.None) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InMenus, () => EnterBank(bankType));
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InMenus, () => EnterBank(bankType));
             shopper.SetBankType(bankType);
-            tradeData = new TradeData(bankType);
+            tradeMemory.tradeData = new TradeData(bankType);
             currentPlayerState.EnterTrade(this);
         }
 
         public void EnterWorldOptions()
         {
-            optionStateType = OptionStateType.WorldOptions;
+            optionMemory.optionStateType = OptionStateType.WorldOptions;
             currentPlayerState.EnterOptions(this);
         }
 
         public void EnterEscapeMenu()
         {
-            optionStateType = OptionStateType.EscapeMenu;
+            optionMemory.optionStateType = OptionStateType.EscapeMenu;
             currentPlayerState.EnterOptions(this);
         }
 
         public void EnterCutscene(bool playerVisible = true, bool canMove = false)
         {
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InCutScene, () => EnterCutscene(playerVisible));
-            visibleDuringCutscene = playerVisible;
-            canMoveInCutscene = canMove && playerVisible;
+            actionMemory.SetActionUnderConsideration(PlayerStateType.InCutScene, () => EnterCutscene(playerVisible));
+            cutsceneMemory.visibleDuringCutscene = playerVisible;
+            cutsceneMemory.canMoveInCutscene = canMove && playerVisible;
             currentPlayerState.EnterCutScene(this);
         }
         #endregion
 
         #region UtilityTransition
-        public bool InZoneTransition() => currentTransitionType == TransitionType.Zone;
-        public bool IsZoneTransitionComplete() => zoneTransitionComplete;
-        public void SetZoneTransitionStatus(bool complete)
-        {
-            zoneTransitionComplete = complete;
-        }
-        public void ConfirmTransitionType()
-        {
-            currentTransitionType = transitionTypeUnderConsideration;
-        }
-
-        private static bool IsBattleTransition(TransitionType transitionType) => transitionType is TransitionType.BattleNeutral or TransitionType.BattleGood or TransitionType.BattleBad;
-        public bool InBattleEntryTransition() => IsBattleTransition(currentTransitionType);
-        public bool InBattleExitTransition() => currentTransitionType == TransitionType.BattleComplete;
+        
+        public bool InZoneTransition() => transitionMemory.currentTransitionType == TransitionType.Zone;
+        public bool IsZoneTransitionComplete() => transitionMemory.zoneTransitionComplete;
+        public void SetZoneTransitionStatus(bool complete) => transitionMemory.zoneTransitionComplete = complete;
+        public void ConfirmTransitionType() => transitionMemory.ConfirmTransitionType();
+        public bool InBattleEntryTransition() => transitionMemory.InBattleEntryTransition();
+        public bool InBattleExitTransition() => transitionMemory.InBattleExitTransition();
         #endregion
 
         #region UtilityCombat
+        public bool IsCombatFadeComplete() => combatMemory.combatFadeComplete;
         public bool IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
         public bool IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
-
-        public bool AreCombatParticipantsValid(bool announceCannotFight = false)
-        {
-            if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { SetupCannotFightPrompt(partyCombatConduit.GetPartyLeaderName()); } return false; }
-            return !enemiesUnderConsideration.All(x => x.IsDead());
-        }
-
-        public void SetupCannotFightPrompt(string entityName)
-        {
-            EnterDialogue(string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), entityName));
-        }
-
-        public void AddEnemiesUnderConsideration()
-        {
-            foreach (CombatParticipant enemy in enemiesUnderConsideration)
-            {
-                if (enemiesInTransition.Count > maxEnemiesPerCombat) { return; }
-
-                if (!enemiesInTransition.Contains(enemy))
-                {
-                    enemiesInTransition.Add(enemy);
-                }
-            }
-        }
-
+        public bool AreCombatParticipantsValid() => combatMemory.AreCombatParticipantsValid();
+        public void ConfirmEnemiesUnderConsideration() => combatMemory.ShiftEnemiesFromConsiderationToTransition(maxEnemiesPerCombat);
         public void SetupBattleController()
         {
             if (battleController == null)
@@ -349,56 +277,50 @@ namespace Frankie.Core
         {
             // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
             if (this == null || gameObject == null) { return false; }
-
-            combatFadeComplete = false;
+            
+            TransitionType currentTransitionType = transitionMemory.currentTransitionType;
             var faderEventTriggers = new FaderEventTriggers(null, () => OnBattleEntryPeak(currentTransitionType), null, () => OnBattleEntryComplete(currentTransitionType));
-            bool faderInitiated = Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
-
-            if (!faderInitiated) { combatFadeComplete = true; }
-            return faderInitiated;
+            return combatMemory.BeginFade(currentTransitionType, faderEventTriggers);
         }
-
-        public bool IsCombatFadeComplete() => combatFadeComplete;
 
         public bool EndBattleSequence()
         {
             // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
             if (this == null || gameObject == null) { return false; }
 
-            currentTransitionType = TransitionType.BattleComplete;
+            transitionMemory.currentTransitionType = TransitionType.BattleComplete;
             var faderEventTriggers = new FaderEventTriggers(null, OnBattleExitPeak, null, OnBattleExitComplete);
-            
-            return Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
+            return combatMemory.ConcludeFade(TransitionType.BattleComplete, faderEventTriggers);
         }
 
         private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)
         {
             BattleState battleState = battleStateChangedEvent.battleState;
-
             if (battleState != BattleState.Complete) { return; }
+            
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleCombatMessages);
-
-            currentTransitionType = TransitionType.BattleComplete;
+            transitionMemory.currentTransitionType = TransitionType.BattleComplete;
             currentPlayerState.EnterTransition(this);
         }
         
         private void OnBattleEntryPeak(TransitionType transitionType)
         {
             if (battleUIPrefab != null) { Instantiate(battleUIPrefab); }
-            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryPeak, enemiesInTransition, transitionType));
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryPeak, combatMemory.enemiesInTransition, transitionType));
         }
 
         private void OnBattleEntryComplete(TransitionType transitionType)
         {
-            combatFadeComplete = true;
+            combatMemory.combatFadeComplete = true;
             currentPlayerState.EnterCombat(this);
-            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete, enemiesInTransition, transitionType));
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete, combatMemory.enemiesInTransition, transitionType));
         }
 
         private void OnBattleExitPeak()
         {
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitPeak));
-            StartCoroutine(TimedCollisionDisable());
+            if (immunityCoroutine != null) { StopCoroutine(immunityCoroutine); }
+            immunityCoroutine = StartCoroutine(TimedCollisionDisable());
         }
 
         private void OnBattleExitComplete()
@@ -416,85 +338,36 @@ namespace Frankie.Core
                 DialogueController existingDialogueController = DialogueController.FindDialogueController();
                 dialogueController = existingDialogueController == null ? Instantiate(dialogueControllerPrefab) : existingDialogueController;
             }
-
             dialogueController.Setup(worldCanvas, this, party);
         }
 
-        public bool StartDialogueSequence()
-        {
-            if (dialogueData == null) { return false; }
-
-            DialogueDataType dialogueDataType = dialogueData.dialogueDataType;
-            switch (dialogueDataType)
-            {
-                case DialogueDataType.StandardDialogue:
-                    dialogueController?.InitiateConversation(dialogueData.aiConversant, dialogueData.dialogue);
-                    break;
-                case DialogueDataType.SimpleText:
-                    dialogueController?.InitiateSimpleMessage(dialogueData.message);
-                    break;
-                case DialogueDataType.SimpleChoice:
-                    dialogueController?.InitiateSimpleOption(dialogueData.message, dialogueData.choiceActionPairs);
-                    break;
-                default:
-                    return false;
-            }
-            return true;
-        }
+        public bool StartDialogueSequence() => dialogueMemory.InitiateDialogue(dialogueController);
         #endregion
 
         #region UtilityTrade
         public bool StartTradeSequence()
         {
-            if (tradeData == null) { return false; }
-            switch (tradeData.tradeDataType)
-            {
-                case TradeDataType.Shop:
-                    Instantiate(shopSelectPrefab, worldCanvas.gameObject.transform);
-                    break;
-                case TradeDataType.Bank:
-                    Instantiate(cashTransferPrefab, worldCanvas.gameObject.transform);
-                    break;
-                case TradeDataType.None:
-                    return false;
-            }
-            return true;
+            return tradeMemory.InitiateTrade(
+                () => Instantiate(shopSelectPrefab, worldCanvas.gameObject.transform),
+                () => Instantiate(cashTransferPrefab, worldCanvas.gameObject.transform));
         }
         #endregion
 
         #region UtilityOption
         public bool StartOptionSequence()
         {
-            switch (optionStateType)
-            {
-                case OptionStateType.WorldOptions:
-                    Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
-                    break;
-                case OptionStateType.EscapeMenu:
-                    Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform);
-                    break;
-                case OptionStateType.None:
-                default:
-                    return false;
-            }
-            return true;
+            return optionMemory.InitiateOptions(
+                () => Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform), 
+                () => Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform));
         }
-
         #endregion
 
         #region UtilityGeneral
         public void TogglePlayerVisibility(bool? enable = null)
         {
-            bool visible = enable ?? visibleDuringCutscene;
-
-            if (party != null)
-            {
-                party.TogglePartyVisible(visible);
-            }
-            if (partyAssist != null)
-            {
-                partyAssist.TogglePartyVisible(visible);
-            }
+            bool visible = enable ?? cutsceneMemory.visibleDuringCutscene;
+            if (party != null) { party.TogglePartyVisible(visible); }
+            if (partyAssist != null) { partyAssist.TogglePartyVisible(visible); }
         }
         
         private IEnumerator TimedCollisionDisable()
@@ -502,63 +375,30 @@ namespace Frankie.Core
             SetPlayerImmunity(true);
             yield return new WaitForSeconds(immunityTimePostCombat);
             SetPlayerImmunity(false);
-        }
-        
-        public void QueueActionUnderConsideration()
-        {
-            if (actionUnderConsideration?.action == null) { return; }
-            queuedActions.Push(actionUnderConsideration);
+            immunityCoroutine = null;
         }
 
-        private void PopQueuedAction()
-        {
-            if (queuedActions.Count == 0) { return; }
-            
-            PlayerStateTypeActionPair nextQueuedAction = queuedActions.Pop();
-            nextQueuedAction.action?.Invoke();
-
-            if (nextQueuedAction.playerStateType == PlayerStateType.InBattle)
-            {
-                // On combat allow chained queues (e.g. multiple combat instantiation while in dialogue)
-                ChainQueuedCombatAction();
-            }
-        }
-
-        private void ChainQueuedCombatAction()
-        {
-            if (queuedActions.Count > 0 && queuedActions.Peek().playerStateType == PlayerStateType.InBattle)
-            {
-                PopQueuedAction();
-            }
-        }
+        public void QueueActionUnderConsideration() => actionMemory.QueueActionUnderConsideration();
 
         public void ClearPlayerStateMemory()
         {
-            // Kill controllers
             battleController = null;
             dialogueController = null;
-
-            // Clear State
-            actionUnderConsideration = null;
-
-            transitionTypeUnderConsideration = TransitionType.None;
-            currentTransitionType = TransitionType.None;
-            zoneTransitionComplete = true;
-
-            canMoveInCutscene = false;
-            visibleDuringCutscene = true;
-
-            combatFadeComplete = false;
-            enemiesUnderConsideration.Clear();
-            enemiesInTransition.Clear();
-
-            dialogueData = null;
-
-            shopper?.SetShop(null);
-            shopper?.SetBankType(BankType.None);
-            tradeData = null;
-
-            optionStateType = OptionStateType.None;
+            if (shopper != null)
+            {
+                shopper.SetShop(null);
+                shopper.SetBankType(BankType.None);
+            }
+            
+            // Note:  We do NOT call a new ActionMemory here, as QueuedActions must persist
+            actionMemory.ResetActionUnderConsideration();
+            
+            transitionMemory = new TransitionMemory();
+            cutsceneMemory = new CutsceneMemory();
+            combatMemory = new CombatMemory();
+            dialogueMemory = new DialogueMemory();
+            tradeMemory = new TradeMemory();
+            optionMemory = new OptionMemory();
         }
         #endregion
     }

@@ -1,37 +1,17 @@
 namespace Frankie.Core.PlayerStates
 {
-    public class CombatState : IPlayerState
+    public class CombatState : PlayerStateBase
     {
-        public void EnterCombat(IPlayerStateContext playerStateContext)
-        {
-            // Ignore - go to immunity post-combat, so cannot queue
-        }
+        public override PlayerStateType playerStateType => PlayerStateType.InBattle;
 
-        public void EnterCutScene(IPlayerStateContext playerStateContext)
-        {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
-        }
+        // Ignore - go to immunity post-combat, so cannot queue
+        public override void EnterCombat(IPlayerStateContext playerStateContext) { }
 
-        public void EnterDialogue(IPlayerStateContext playerStateContext)
-        {
-            // No state change (will dequeue next time in world)
-            playerStateContext.QueueActionUnderConsideration();
-        }
-
-        public void EnterOptions(IPlayerStateContext playerStateContext) // Ignore
-        {
-        }
-
-        public void EnterTrade(IPlayerStateContext playerStateContext) // Ignore
-        {
-        }
-
-        public void EnterTransition(IPlayerStateContext playerStateContext)
+        public override void EnterTransition(IPlayerStateContext playerStateContext)
         {
             if (playerStateContext.InBattleExitTransition())
             {
-                playerStateContext.SetPlayerState(new TransitionState());
+                playerStateContext.SetPlayerState(PlayerStateMachine.transitionState);
                 if (!playerStateContext.EndBattleSequence())  // State change from Transition to World handled by coroutine
                 {
                     EnterWorld(playerStateContext); // Protection to default back to world on fail to exit battle
@@ -39,14 +19,8 @@ namespace Frankie.Core.PlayerStates
             }
             else if (playerStateContext.InZoneTransition())
             {
-                playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
+                playerStateContext.SetPlayerState(PlayerStateMachine.transitionState); // Force state to transition, going to get pulled to a new scene
             }
-        }
-
-        public void EnterWorld(IPlayerStateContext playerStateContext) // Kill rogue controllers for safety, unexpected to call this route
-        {
-            playerStateContext.ClearPlayerStateMemory();
-            playerStateContext.SetPlayerState(new WorldState());
         }
     }
 }
