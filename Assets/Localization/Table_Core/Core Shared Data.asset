@@ -115,10 +115,6 @@ MonoBehaviour:
     m_Key: CharacterProperties.Lucy
     m_Metadata:
       m_Items: []
-  - m_Id: 5452253379944448
-    m_Key: PlayerStateMachine.Prefab.Player.MessageCannotFight
-    m_Metadata:
-      m_Items: []
   - m_Id: 5481021502906368
     m_Key: Stat.HP
     m_Metadata:
@@ -237,6 +233,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 7990100041392128
     m_Key: StatusEffect.Debuff.Stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32539111364485120
+    m_Key: NPCStateHandler.Prefab.NonPlayableCharacter.MessageCannotFight.5aad22a6
     m_Metadata:
       m_Items: []
   m_Metadata:
