@@ -47,7 +47,7 @@ namespace Frankie.Speech
         public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
         
         // Lifecycle Overrides
-        protected override bool HasListeners() => base.HasListeners() || dialogueInput != null || dialogueUpdated != null;
+        protected override bool HasListeners() => base.HasListeners() || dialogueInput != null;
         protected override bool HasBeenActivated() => base.HasBeenActivated() || dialogueInputActivated;
 
         #region Static
@@ -194,7 +194,14 @@ namespace Frankie.Speech
             simpleChoices = choiceActionPairs;
         }
 
-        public void EndConversation()
+        public bool TryEndConversation()
+        {
+            if (HasListeners()) { return false; }
+            EndConversation();
+            return true;
+        }
+        
+        private void EndConversation()
         {
             currentDialogue = null;
             SetCurrentNode(null);

@@ -95,7 +95,6 @@ namespace Frankie.Speech.UI
             // Note:  Start() is called after instantiating script finishes its method
             // If no dialogueController is present, the instantiating script must TakeControl()
             if (!HasController()) { Destroy(gameObject); return;}
-            
             Setup(null);
         }
         #endregion
@@ -152,9 +151,13 @@ namespace Frankie.Speech.UI
 
         private void OnDestroy()
         {
-            // This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
-            // Otherwise end-of-dialogue and choice-select options will not trigger properly
-            if (dialogueController != null) { dialogueController.EndConversation(); }
+            if (dialogueController == null) { return; }
+            
+            // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
+            //          Otherwise end-of-dialogue and choice-select options will not trigger
+            // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed
+            //          We try to end conversation, but if another box is subscribed to the controller, conversation continues
+            dialogueController.TryEndConversation();
         }
         #endregion
 
