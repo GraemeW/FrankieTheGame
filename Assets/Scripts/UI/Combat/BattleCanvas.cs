@@ -106,7 +106,8 @@ namespace Frankie.Combat.UI
         #region UnityMethods
         private void Awake()
         {
-            partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
+            GameObject playerObject = Player.FindPlayerObject();
+            if (playerObject != null) { partyCombatConduit =  playerObject.GetComponent<PartyCombatConduit>(); }
             battleController = BattleController.FindBattleController();
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 

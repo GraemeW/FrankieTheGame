@@ -39,23 +39,18 @@ namespace Frankie.Inventory.UI
         private void SetupWallet()
         {
             GameObject playerObject = Player.FindPlayerObject();
-            if (playerObject == null) { return; }
-            
-            wallet = playerObject.GetComponent<Wallet>();
-            if (wallet != null)
+            if (playerObject == null || !playerObject.TryGetComponent(out wallet))
             {
-                wallet.walletUpdated += RefreshUI;
-            }
-            else
-            { 
                 Destroy(gameObject);
+                return;
             }
+            
+            wallet.walletUpdated += RefreshUI;
         }
 
         private void RefreshUI()
         {
             if (wallet == null) { return; }
-
             walletField.text = $"${wallet.GetCash():N0}";
         }
     }

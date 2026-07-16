@@ -40,13 +40,8 @@ namespace Frankie.Inventory.UI
         #region UnityMethods
         private void Start()
         {
-            SetupWalletUI();
-            if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
-        }
-
-        private void SetupWalletUI()
-        {
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
+            if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
         }
 
         private void OnDestroy()

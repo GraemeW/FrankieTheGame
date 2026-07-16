@@ -41,8 +41,7 @@ namespace Frankie.Menu.UI
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
             if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
-
-            controller = playerStateMachine?.GetComponent<PlayerController>();
+            if (playerStateMachine != null) { controller = playerStateMachine.GetComponent<PlayerController>(); }
         }
 
         private void Start()

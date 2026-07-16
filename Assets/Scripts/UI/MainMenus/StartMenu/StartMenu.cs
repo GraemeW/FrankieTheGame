@@ -33,7 +33,6 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region PublicMethods
-
         public void ResetAllTextElements()
         {
             if (headerField != null) { headerField.SetText(localizedHeaderText.GetSafeLocalizedString()); }
