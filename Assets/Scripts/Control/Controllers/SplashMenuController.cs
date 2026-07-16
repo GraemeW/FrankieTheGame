@@ -1,17 +1,16 @@
-using System;
 using UnityEngine;
 using Frankie.ZoneManagement;
 
 namespace Frankie.Control
 {
-    public class SplashMenuController : MonoBehaviour, IStandardPlayerInputCaller
+    public class SplashMenuController : BaseController
     {
         // Tunables
         [Header("Scene Parameters")]
         [SerializeField] private float splashDelayTime = 3.0f;
         [SerializeField] private float splashRampTime = 0.7f;
         [SerializeField] private CanvasGroup[] splashObjects;
-
+        
         // State
         private int currentSplashIndex = -1;
         private float timeSinceSplashLoaded;
@@ -21,27 +20,20 @@ namespace Frankie.Control
 
         // Cached References
         private PlayerInput playerInput;
-
-        public event Action<PlayerInputType> globalInput;
+        
+        // Lifecycle Overrides -- Prevent Polling to Self-Destruct
+        protected override bool HasListeners() => true;
+        protected override bool HasBeenActivated() => true;
 
         #region UnityMethods
         private void Awake()
         {
             playerInput = new PlayerInput();
-
-            VerifyUnique();
-
+            
+            if (!VerifyUnique()) { return; }
+            
             playerInput.Menu.Execute.performed += _ => SkipSplash();
             playerInput.Menu.Cancel.performed += _ => SkipSplash();
-        }
-
-        public void VerifyUnique()
-        {
-            var splashMenuControllers = FindObjectsByType<SplashMenuController>();
-            if (splashMenuControllers.Length > 1)
-            {
-                Destroy(gameObject);
-            }
         }
 
         private void OnEnable()
@@ -68,7 +60,6 @@ namespace Frankie.Control
                 currentSplashIndex++;
                 if (!kickedOffNextScene) { LoadNextSplash(currentSplashIndex); }
             }
-            
             RampSplashAlphas();
         }
         #endregion
@@ -131,13 +122,10 @@ namespace Frankie.Control
         {
             currentSplashIndex++;
             LoadNextSplash(currentSplashIndex);
-            HandleUserInput(PlayerInputType.Execute);
+            HandleUserInput(ControllerInputType.Execute);
         }
 
-        private void HandleUserInput(PlayerInputType playerInputType)
-        {
-            globalInput?.Invoke(playerInputType);
-        }
+        private void HandleUserInput(ControllerInputType controllerInputType) => TriggerGlobalInput(controllerInputType);
         #endregion
     }
 }

@@ -380,11 +380,11 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region InputHandling
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
             
-            if (playerInputType is PlayerInputType.Cancel or PlayerInputType.Option or PlayerInputType.Escape)
+            if (controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape)
             {
                 if (wasChangeMade)
                 {
@@ -392,7 +392,7 @@ namespace Frankie.Menu.UI
                     return true;
                 }
             }
-            return StandardHandleGlobalInput(playerInputType);
+            return StandardHandleGlobalInput(controllerInputType);
         }
         #endregion
     }

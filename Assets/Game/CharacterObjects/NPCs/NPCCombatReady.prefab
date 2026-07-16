@@ -267,6 +267,18 @@ MonoBehaviour:
   cooldownBattleAdvantageAdder: -4
   cooldownBattleDisadvantageAdder: 4
   cooldownRunFailAdder: 5
+  localizedMessageCannotFight:
+    m_TableReference:
+      m_TableCollectionName: GUID:bb484015a3d7647bfba6919a6815d5b0
+    m_TableEntryReference:
+      m_KeyId: 32974150610968576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6346925829285501531
 MonoBehaviour:
   m_ObjectHideFlags: 0

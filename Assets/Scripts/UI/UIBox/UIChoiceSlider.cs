@@ -26,14 +26,14 @@ namespace Frankie.Utils.UI
             // No implementation needed for slider
         }   
         
-        public bool TryMove(PlayerInputType playerInputType)
+        public bool TryMove(ControllerInputType controllerInputType)
         {
-            switch (playerInputType)
+            switch (controllerInputType)
             {
-                case PlayerInputType.NavigateLeft:
+                case ControllerInputType.NavigateLeft:
                     AdjustValue(-sliderAdjustmentStep);
                     return true;
-                case PlayerInputType.NavigateRight:
+                case ControllerInputType.NavigateRight:
                     AdjustValue(sliderAdjustmentStep);
                     return true;
                 default:

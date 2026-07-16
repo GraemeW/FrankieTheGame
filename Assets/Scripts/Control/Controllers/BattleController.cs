@@ -12,7 +12,7 @@ namespace Frankie.Combat
 {
     [RequireComponent(typeof(BattleRewards))]
     [RequireComponent(typeof(BattleMat))]
-    public class BattleController : MonoBehaviour, IStandardPlayerInputCaller
+    public class BattleController : BaseController
     {
         // Tunables
         [Header("Controller Properties")]
@@ -21,7 +21,8 @@ namespace Frankie.Combat
         [SerializeField] private float battlePostQueueDelay = 0.7f;
         
         // State
-        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
+        private bool battleInputActivated = false;
+        private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
         
         private BattleState battleState;
         private bool canAttemptEarlyRun = true;
@@ -46,8 +47,11 @@ namespace Frankie.Combat
         private BattleRewards battleRewards;
 
         // Events
-        public event Action<PlayerInputType> battleInput;
-        public event Action<PlayerInputType> globalInput;
+        private event Action<ControllerInputType> battleInput;
+        
+        // Lifecycle Overrides
+        protected override bool HasListeners() => base.HasListeners() || battleInput != null || battleState != BattleState.Inactive;
+        protected override bool HasBeenActivated() => base.HasBeenActivated() || battleInputActivated;
 
         #region StaticMethods
         private const string _battleControllerTag = "BattleController";
@@ -81,16 +85,16 @@ namespace Frankie.Combat
             partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
             battleMat = GetComponent<BattleMat>();
             battleRewards = GetComponent<BattleRewards>();
-
-            VerifyUnique();
+            
+            if (!VerifyUnique()) { return; }
 
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
             
-            playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
-            playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
-            playerInput.Menu.Escape.performed += _ => HandleUserInput(PlayerInputType.Escape);
+            playerInput.Menu.Execute.performed += _ => HandleUserInput(ControllerInputType.Execute);
+            playerInput.Menu.Cancel.performed += _ => HandleUserInput(ControllerInputType.Cancel);
+            playerInput.Menu.Option.performed += _ => HandleUserInput(ControllerInputType.Option);
+            playerInput.Menu.Escape.performed += _ => HandleUserInput(ControllerInputType.Escape);
             playerInput.Menu.Select1.performed += _ => InteractWithCharacterSelect(0);
             playerInput.Menu.Select2.performed += _ => InteractWithCharacterSelect(1);
             playerInput.Menu.Select3.performed += _ => InteractWithCharacterSelect(2);
@@ -153,14 +157,23 @@ namespace Frankie.Combat
             }
         }
 
-        private void LateUpdate()
+        protected override void LateUpdate()
         {
             if (battleState == BattleState.Combat) { AutoSelectCharacter(); }
+            base.LateUpdate();
         }
         #endregion
 
         #region PublicSetters
-        // Setters
+
+        public void SubscribeToBattleInput(bool enable, Action<ControllerInputType> action)
+        {
+            if (enable) { battleInputActivated = true; }
+            
+            battleInput -= action;
+            if (enable) { battleInput += action; }
+        }
+        
         public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
             battleState = state;
@@ -248,11 +261,6 @@ namespace Frankie.Combat
         public bool IsEnemyPositionAvailable() => battleMat.IsEnemyPositionAvailable();
 
         // State Selections
-        public CombatParticipant GetSelectedCharacter()
-        {
-            AutoSelectCharacter();
-            return selectedCharacter;
-        }
         public IBattleActionSuper GetActiveBattleAction() => selectedBattleActionSuper;
         public bool IsBattleActionArmed() => battleActionArmed;
         #endregion
@@ -357,36 +365,40 @@ namespace Frankie.Combat
         #region Interaction
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
-            currentDirectionalInput = newPlayerInputType;
-            HandleUserInput(newPlayerInputType);
+            if (!BaseController.ParseDirectionalInput(directionalInput, currentDirectionalInput, out ControllerInputType newControllerInputType)) { return; }
+            currentDirectionalInput = newControllerInputType;
+            HandleUserInput(newControllerInputType);
         }
 
-        private void HandleUserInput(PlayerInputType playerInputType)
+        private void TriggerBattleInput(ControllerInputType controllerInputType)
+        {
+            if (battleInput == null) { return; }
+            timeSinceLastPolled = 0f;
+            battleInput.Invoke(controllerInputType);
+        }
+
+        private void HandleUserInput(ControllerInputType controllerInputType)
         {
             if (battleState == BattleState.Combat)
             {
-                if (InteractWithInterrupts(playerInputType)) { return; }
-                if (InteractWithSkillSelect(playerInputType)) { return; }
-                if (InteractWithBattleActionExecute(playerInputType)) { return; }
+                if (InteractWithInterrupts(controllerInputType)) { return; }
+                if (InteractWithSkillSelect(controllerInputType)) { return; }
+                if (InteractWithBattleActionExecute(controllerInputType)) { return; }
             }
-
-            // Final call to globals, avoid short circuit
-            // ReSharper disable once RedundantJumpStatement
-            if (InteractWithGlobals(playerInputType)) { return; }
+            if (InteractWithGlobals(controllerInputType)) { return; }
         }
 
-        private bool InteractWithInterrupts(PlayerInputType playerInputType)
+        private bool InteractWithInterrupts(ControllerInputType controllerInputType)
         {
-            switch (playerInputType)
+            switch (controllerInputType)
             {
-                case PlayerInputType.Cancel when selectedBattleActionSuper == null || selectedCharacter == null:
+                case ControllerInputType.Cancel when selectedBattleActionSuper == null || selectedCharacter == null:
                 {
                     ClearSelectedCharacter();
                     SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined);
                     return true;
                 }
-                case PlayerInputType.Cancel:
+                case ControllerInputType.Cancel:
                 {
                     if (selectedBattleActionSuper != null || selectedCharacter != null)
                     {
@@ -396,8 +408,8 @@ namespace Frankie.Combat
                     }
                     return true;
                 }
-                case PlayerInputType.Option:
-                case PlayerInputType.Escape:
+                case ControllerInputType.Option:
+                case ControllerInputType.Escape:
                 {
                     ClearSelectedCharacter();
                     SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined);
@@ -416,30 +428,30 @@ namespace Frankie.Combat
             SetSelectedCharacter(partyCombatConduit.GetPartyCombatParticipants()[partyMemberSelect]);
         }
 
-        private bool InteractWithSkillSelect(PlayerInputType playerInputType)
+        private bool InteractWithSkillSelect(ControllerInputType controllerInputType)
         {
-            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (controllerInputType == ControllerInputType.DefaultNone) { return false; }
             if (battleState != BattleState.Combat) { return false; }
             if (IsBattleActionArmed()) { return false; }
             if (selectedCharacter == null || selectedCharacter.IsDead()) { return false; }
             
-            if (playerInputType == PlayerInputType.Execute && selectedBattleActionSuper != null)
+            if (controllerInputType == ControllerInputType.Execute && selectedBattleActionSuper != null)
             {
                 SetBattleActionArmed(true);
                 return true;
             }
 
-            battleInput?.Invoke(playerInputType);
+            TriggerBattleInput(controllerInputType);
             return false;
         }
 
-        private bool InteractWithBattleActionExecute(PlayerInputType playerInputType)
+        private bool InteractWithBattleActionExecute(ControllerInputType controllerInputType)
         {
-            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (controllerInputType == ControllerInputType.DefaultNone) { return false; }
             if (battleState != BattleState.Combat) { return false; }
             if (!IsBattleActionArmed() || selectedCharacter == null || selectedBattleActionSuper == null) { return false; }
             
-            if (playerInputType == PlayerInputType.Execute)
+            if (controllerInputType == ControllerInputType.Execute)
             {
                 if (!battleActionData.HasTargets()) { return false; }
                     
@@ -448,19 +460,17 @@ namespace Frankie.Combat
             }
             else
             {
-                TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
+                TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
                 SetSelectedTarget(selectedBattleActionSuper, targetingNavigationType);
             }
-            
-            battleInput?.Invoke(playerInputType);
+            TriggerBattleInput(controllerInputType);
             return true;
         }
 
-        private bool InteractWithGlobals(PlayerInputType playerInputType)
+        private bool InteractWithGlobals(ControllerInputType controllerInputType)
         {
-            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
-            
-            globalInput?.Invoke(playerInputType);
+            if (controllerInputType == ControllerInputType.DefaultNone) { return false; }
+            TriggerGlobalInput(controllerInputType);
             return true;
         }
         #endregion
@@ -654,17 +664,6 @@ namespace Frankie.Combat
         {
             battleMat.ClearBattleEntities();
             ClearSelectedCharacter();
-        }
-        #endregion
-
-        #region Interfaces
-        public void VerifyUnique()
-        {
-            var battleControllers = FindObjectsByType<BattleController>();
-            if (battleControllers.Length > 1)
-            {
-                Destroy(gameObject);
-            }
         }
         #endregion
     }

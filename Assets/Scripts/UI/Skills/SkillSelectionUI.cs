@@ -6,7 +6,6 @@ using Frankie.Control;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
-using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI
@@ -60,7 +59,7 @@ namespace Frankie.Combat.UI
             else
             {
                 BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
-                battleController.battleInput += HandleInput;
+                battleController.SubscribeToBattleInput(true, HandleInput);
             }
         }
 
@@ -70,7 +69,7 @@ namespace Frankie.Combat.UI
             else
             {
                 BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
-                battleController.battleInput -= HandleInput;
+                battleController.SubscribeToBattleInput(false, HandleInput);
             }
         }
         #endregion
@@ -81,7 +80,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region InputHandlers
-        protected virtual void HandleInput(PlayerInputType input)
+        protected virtual void HandleInput(ControllerInputType input)
         {
             if (currentCombatParticipant == null) {return; }
             if (battleController.IsBattleActionArmed()) { return; } // Need to manually check because can be armed while UI element disabled (InventoryBox-based)
@@ -91,7 +90,7 @@ namespace Frankie.Combat.UI
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
             // Because Unity hates handling enums
-            var battleInputType = (PlayerInputType)input;
+            var battleInputType = (ControllerInputType)input;
             HandleInput(battleInputType);
         }
         #endregion
@@ -147,7 +146,7 @@ namespace Frankie.Combat.UI
             UpdateSkills(skillHandler);
         }
         
-        protected bool SetBranchOrSkill(CombatParticipant combatParticipant, PlayerInputType input)
+        protected bool SetBranchOrSkill(CombatParticipant combatParticipant, ControllerInputType input)
         {
             if (combatParticipant == null) { return false; }
 
@@ -155,16 +154,16 @@ namespace Frankie.Combat.UI
             SkillBranchMapping skillBranchMapping = default;
             switch (input)
             {
-                case PlayerInputType.NavigateUp:
+                case ControllerInputType.NavigateUp:
                     skillBranchMapping = SkillBranchMapping.Up; validInput = true;
                     break;
-                case PlayerInputType.NavigateLeft:
+                case ControllerInputType.NavigateLeft:
                     skillBranchMapping = SkillBranchMapping.Left; validInput = true;
                     break;
-                case PlayerInputType.NavigateRight:
+                case ControllerInputType.NavigateRight:
                     skillBranchMapping = SkillBranchMapping.Right; validInput = true;
                     break;
-                case PlayerInputType.NavigateDown:
+                case ControllerInputType.NavigateDown:
                     skillBranchMapping = SkillBranchMapping.Down; validInput = true;
                     break;
             }
@@ -213,7 +212,7 @@ namespace Frankie.Combat.UI
                 skillField.color = selectedSkillColor;
                 skillField.SetText(activeSkill.GetName());
                 if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
-                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             }
             else
             {

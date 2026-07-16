@@ -41,7 +41,7 @@ namespace Frankie.Inventory.UI
         #region UnityMethods
         private void Awake()
         {
-            GetPlayerReference();
+            if (!GetPlayerReference()) { Destroy(gameObject); }
         }
         
         private void Start()
@@ -77,15 +77,16 @@ namespace Frankie.Inventory.UI
             }
         }
         
-        private void GetPlayerReference()
+        private bool GetPlayerReference()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
 
             partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
+            return true;
         }
         #endregion
         

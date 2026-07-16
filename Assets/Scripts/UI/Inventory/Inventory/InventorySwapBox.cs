@@ -36,11 +36,11 @@ namespace Frankie.Inventory.UI
         #endregion
         
         #region PublicMethods
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, InventoryItem setSwapItem, Action setSwapSuccessAction)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, InventoryItem setSwapItem, Action setSwapSuccessAction)
         {
             swapItem = setSwapItem;
             swapSuccessAction = setSwapSuccessAction;
-            Setup(standardPlayerInputCaller, partyCombatConduit, null);
+            Setup(baseController, partyCombatConduit, null);
         }
         #endregion
 

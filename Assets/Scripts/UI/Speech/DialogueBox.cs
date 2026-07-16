@@ -51,7 +51,7 @@ namespace Frankie.Speech.UI
         protected virtual void Awake()
         {
             dialogueController = DialogueController.FindDialogueController();
-            controller = dialogueController;
+            if (dialogueController != null) { controller = dialogueController; }
             StoreOptionPanelConfigurables();
         }
 
@@ -74,7 +74,7 @@ namespace Frankie.Speech.UI
             base.OnEnable();
             if (dialogueController != null)
             {
-                dialogueController.dialogueInput += HandleDialogueInput;
+                dialogueController.SubscribeToDialogueInput(true, HandleDialogueInput);
                 dialogueController.triggerUIUpdates += UpdateUI;
             }
         }
@@ -83,7 +83,7 @@ namespace Frankie.Speech.UI
         {
             if (dialogueController != null)
             {
-                dialogueController.dialogueInput -= HandleDialogueInput;
+                dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
                 dialogueController.triggerUIUpdates -= UpdateUI;
             }
             if (activeTextScan != null) { StopCoroutine(activeTextScan); }
@@ -92,16 +92,10 @@ namespace Frankie.Speech.UI
 
         private void Start()
         {
+            // Note:  Start() is called after instantiating script finishes its method
+            // If no dialogueController is present, the instantiating script must TakeControl()
+            if (!HasController()) { Destroy(gameObject); return;}
             Setup(null);
-        }
-
-        private void OnDestroy()
-        {
-            // Called after disable unsubscribes, safety behaviour for dialogue box killed without controller knowing
-            if (dialogueController != null && dialogueController.HasDialogue())
-            {
-                dialogueController.EndConversation();
-            }
         }
         #endregion
 
@@ -115,7 +109,6 @@ namespace Frankie.Speech.UI
             else
             {
                 if (string.IsNullOrEmpty(optionText)) { return; }
-
                 AddText(optionText);
             }
         }
@@ -123,7 +116,6 @@ namespace Frankie.Speech.UI
         protected virtual void Update()
         {
             if (destroyQueued) { return; }
-
             if (!isWriting && printQueue.Count != 0)
             {
                 activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
@@ -132,8 +124,8 @@ namespace Frankie.Speech.UI
 
         protected virtual void UpdateUI()
         {
-            KillDialogueForNoControllers();
-            if (!dialogueController.IsActive()) { QueueDialogueCompletion(); return; }
+            if (!HasController()) { destroyQueued = true; }
+            if (!dialogueController.IsActive()) { destroyQueued = true; }
 
             ClearOldDialogue();
             SetText();
@@ -142,19 +134,8 @@ namespace Frankie.Speech.UI
                 SetChoiceList();
             }
         }
-
-        private void KillDialogueForNoControllers()
-        {
-            if (dialogueController == null && controller == null)
-            {
-                QueueDialogueCompletion();
-            }
-        }
-
-        private void QueueDialogueCompletion()
-        {
-            destroyQueued = true;
-        }
+        
+        private bool HasController() => controller != null || dialogueController != null;
 
         private void SkipToEndOfPage()
         {
@@ -166,6 +147,17 @@ namespace Frankie.Speech.UI
                 interruptWriting = false;
                 queuePageClear = false;
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (dialogueController == null) { return; }
+            
+            // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
+            //          Otherwise end-of-dialogue and choice-select options will not trigger
+            // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed
+            //          We try to end conversation, but if another box is subscribed to the controller, conversation continues
+            dialogueController.TryEndConversation();
         }
         #endregion
 
@@ -182,7 +174,7 @@ namespace Frankie.Speech.UI
             }
             isWriting = enable;
 
-            OnUIBoxModified(UIBoxModifiedType.WritingStateChanged, enable);
+            TriggerUIBoxModified(UIBoxModifiedType.WritingStateChanged, enable);
         }
 
         private void SetText()
@@ -261,7 +253,7 @@ namespace Frankie.Speech.UI
         private IEnumerator PrintPageBreak()
         {
             SetBusyWriting(true);
-            OnUIBoxModified(UIBoxModifiedType.WritingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
+            TriggerUIBoxModified(UIBoxModifiedType.WritingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
 
             queuePageClear = true;
             yield break;
@@ -393,18 +385,18 @@ namespace Frankie.Speech.UI
 
         protected override bool Choose(string nodeID)
         {
-            bool choose = PrepareChooseAction(PlayerInputType.Execute);
+            bool choose = PrepareChooseAction(ControllerInputType.Execute);
             if (choose)
             {
-                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
                 dialogueController.NextWithID(nodeID);
             }
             return choose;
         }
 
-        protected override bool PrepareChooseAction(PlayerInputType playerInputType)
+        protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
         {
-            if (playerInputType == PlayerInputType.Execute)
+            if (controllerInputType == ControllerInputType.Execute)
             {
                 if (!isWriting) { return true; }
                 
@@ -505,11 +497,11 @@ namespace Frankie.Speech.UI
         #endregion
 
         #region InputHandling
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
-            if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
+            if (HandleGlobalInputSpoofAndExit(controllerInputType)) { return true; }
 
-            if (playerInputType == PlayerInputType.Execute)
+            if (controllerInputType == ControllerInputType.Execute)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }
                 if (dialogueController != null && !dialogueController.IsSimpleMessage())
@@ -519,16 +511,16 @@ namespace Frankie.Speech.UI
 
                 if (!IsChoiceAvailable())
                 {
-                    QueueDialogueCompletion(); // otherwise queue for deletion on click through
+                    destroyQueued = true; // otherwise queue for deletion on click through
                     return true;
                 }
             }
             return false;
         }
 
-        private void HandleDialogueInput(PlayerInputType playerInputType)
+        private void HandleDialogueInput(ControllerInputType controllerInputType)
         {
-            PrepareChooseAction(playerInputType);
+            PrepareChooseAction(controllerInputType);
         }
         #endregion
     }

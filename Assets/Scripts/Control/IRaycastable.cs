@@ -7,7 +7,7 @@ namespace Frankie.Control
     public interface IRaycastable
     {
         CursorType GetCursorType();
-        bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+        bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, ControllerInputType inputType, ControllerInputType matchType);
 
         public static bool CheckDistance(GameObject gameObject, Vector2 position, PlayerController callingController, bool overrideDefaultInteractionDistance, float interactionDistance)
         {

@@ -24,7 +24,6 @@ namespace Frankie.ZoneManagement.UI
         private MapCamera mapCamera;
 
         #region UnityMethods
-
         private void Start()
         {
             if (flavourTopField != null) { flavourTopField.SetText(localizedFlavourTopText.GetSafeLocalizedString()); }

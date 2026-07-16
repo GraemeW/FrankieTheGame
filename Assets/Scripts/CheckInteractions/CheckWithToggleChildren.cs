@@ -45,7 +45,7 @@ namespace Frankie.Control
         #endregion
 
         #region OtherInterfaces
-        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, ControllerInputType inputType, ControllerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
 

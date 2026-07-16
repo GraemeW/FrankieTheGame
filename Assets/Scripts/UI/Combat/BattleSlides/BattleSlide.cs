@@ -71,7 +71,7 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            if (battleEntity != null) { battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState); }
+            battleEntity?.combatParticipant.SubscribeToStateUpdates(ParseState);
             SetupBattleListeners(true);
         }
 

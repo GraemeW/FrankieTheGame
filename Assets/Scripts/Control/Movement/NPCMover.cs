@@ -38,7 +38,7 @@ namespace Frankie.Control
         private NPCChaser npcChaser;
 
         // State
-        private PlayerInputType cardinalLookDirection = PlayerInputType.DefaultNone;
+        private ControllerInputType cardinalLookDirection = ControllerInputType.DefaultNone;
         private float timeSinceCardinalLookDirectionChange = 0f;
         
         private NPCMoveFocus npcMoveFocus = NPCMoveFocus.Pending;
@@ -228,7 +228,7 @@ namespace Frankie.Control
 
         protected override void OnLookDirectionUpdate()
         {
-            PlayerInputType checkCardinalLookDirection = GetCardinalLookDirection();
+            ControllerInputType checkCardinalLookDirection = GetCardinalLookDirection();
             if (cardinalLookDirection == checkCardinalLookDirection) { return; }
             cardinalLookDirection = checkCardinalLookDirection;
             timeSinceCardinalLookDirectionChange = 0f;
@@ -236,15 +236,15 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
-        private PlayerInputType GetCardinalLookDirection()
+        private ControllerInputType GetCardinalLookDirection()
         {
-            if (Mathf.Approximately(lookDirection.x, 0) && Mathf.Approximately(lookDirection.y, 0)) { return PlayerInputType.DefaultNone; }
+            if (Mathf.Approximately(lookDirection.x, 0) && Mathf.Approximately(lookDirection.y, 0)) { return ControllerInputType.DefaultNone; }
             
             if (Mathf.Abs(lookDirection.x) > Mathf.Abs(lookDirection.y))
             {
-                return lookDirection.x > 0 ? PlayerInputType.NavigateRight : PlayerInputType.NavigateLeft;
+                return lookDirection.x > 0 ? ControllerInputType.NavigateRight : ControllerInputType.NavigateLeft;
             }
-            return lookDirection.y > 0 ? PlayerInputType.NavigateUp : PlayerInputType.NavigateDown;
+            return lookDirection.y > 0 ? ControllerInputType.NavigateUp : ControllerInputType.NavigateDown;
         }
         
         private bool CanLocomote() => patrolPath != null || canRandomWalk;

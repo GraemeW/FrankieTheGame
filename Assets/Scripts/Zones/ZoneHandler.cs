@@ -294,7 +294,7 @@ namespace Frankie.ZoneManagement
         #region Interfaces
         public CursorType GetCursorType() => CursorType.Zone;
 
-        public bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, ControllerInputType inputType, ControllerInputType matchType)
         {
             if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance))
             {

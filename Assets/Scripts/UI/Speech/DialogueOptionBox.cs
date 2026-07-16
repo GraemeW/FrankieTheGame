@@ -26,13 +26,13 @@ namespace Frankie.Speech.UI
             return StandardChoose(nodeID);
         }
 
-        protected override bool PrepareChooseAction(PlayerInputType playerInputType)
+        protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
         {
-            return StandardPrepareChooseAction(playerInputType);
+            return StandardPrepareChooseAction(controllerInputType);
         }
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
-            return StandardHandleGlobalInput(playerInputType);
+            return StandardHandleGlobalInput(controllerInputType);
         }
     }
 }

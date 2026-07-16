@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc1adfafedad7847ba30bc422c3098d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listenerPollingInterval: 0.1
   splashDelayTime: 3
   splashRampTime: 0.7
   splashObjects:

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Frankie.Core.PlayerStateMemory
@@ -36,11 +37,20 @@ namespace Frankie.Core.PlayerStateMemory
             if (actionUnderConsideration?.action == null) { return; }
             queuedActions.Push(actionUnderConsideration);
         }
-        
-        public void TryPopQueue()
+
+        public bool ReadyToPopQueue()
         {
-            if (!readyToPopQueue) { return; }
+            if (!readyToPopQueue) { return false; }
             readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
+            return true;
+        }
+        
+        public IEnumerator TryPopQueue(int skipFrames = 1)
+        {
+            for (; skipFrames > 0; skipFrames--)
+            {
+                yield return null;
+            }
             PopQueuedAction();
         }
         

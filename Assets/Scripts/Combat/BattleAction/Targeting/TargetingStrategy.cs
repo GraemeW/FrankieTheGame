@@ -50,15 +50,15 @@ namespace Frankie.Combat
         #endregion
         
         #region StaticMethods
-        public static TargetingNavigationType ConvertPlayerInputToTargeting(PlayerInputType playerInputType)
+        public static TargetingNavigationType ConvertPlayerInputToTargeting(ControllerInputType controllerInputType)
         {
-            return playerInputType switch
+            return controllerInputType switch
             {
-                PlayerInputType.DefaultNone => TargetingNavigationType.Hold,
-                PlayerInputType.NavigateUp => TargetingNavigationType.Up,
-                PlayerInputType.NavigateLeft => TargetingNavigationType.Left,
-                PlayerInputType.NavigateRight => TargetingNavigationType.Right,
-                PlayerInputType.NavigateDown => TargetingNavigationType.Down,
+                ControllerInputType.DefaultNone => TargetingNavigationType.Hold,
+                ControllerInputType.NavigateUp => TargetingNavigationType.Up,
+                ControllerInputType.NavigateLeft => TargetingNavigationType.Left,
+                ControllerInputType.NavigateRight => TargetingNavigationType.Right,
+                ControllerInputType.NavigateDown => TargetingNavigationType.Down,
                 _ => TargetingNavigationType.Hold
             };
         }

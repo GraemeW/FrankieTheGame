@@ -162,16 +162,16 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region UIBoxStandardInterface
-        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
+        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             if (cashTransferState == CashTransferState.CashSelection)
             {
-                if (playerInputType is PlayerInputType.NavigateDown or PlayerInputType.NavigateUp)
+                if (controllerInputType is ControllerInputType.NavigateDown or ControllerInputType.NavigateUp)
                 {
-                    return AdjustNumber(playerInputType);
+                    return AdjustNumber(controllerInputType);
                 }
             }
-            return base.MoveCursor(playerInputType, cursorMovementStyle);
+            return base.MoveCursor(controllerInputType, cursorMovementStyle);
         }
 
         protected override bool Choose(string nodeID)
@@ -216,7 +216,7 @@ namespace Frankie.Inventory.UI
                     break;
                 }
             }
-            ShowCursorOnAnyInteraction(PlayerInputType.NavigateRight);
+            ShowCursorOnAnyInteraction(ControllerInputType.NavigateRight);
         }
 
         private void SelectField(UIChoiceButton choiceOption)
@@ -226,9 +226,9 @@ namespace Frankie.Inventory.UI
             highlightedChoiceOption = choiceOption;
         }
 
-        private bool AdjustNumber(PlayerInputType playerInputType)
+        private bool AdjustNumber(ControllerInputType controllerInputType)
         {
-            if (playerInputType is not (PlayerInputType.NavigateDown or PlayerInputType.NavigateUp)) { return false; }
+            if (controllerInputType is not (ControllerInputType.NavigateDown or ControllerInputType.NavigateUp)) { return false; }
             
             var cashTransferField = highlightedChoiceOption as CashTransferField;
             if (cashTransferField == null) { return false; }
@@ -236,7 +236,7 @@ namespace Frankie.Inventory.UI
 
             // Calculate adjusted value
             int modifier = 1;
-            if (playerInputType == PlayerInputType.NavigateDown) { modifier = -1; }
+            if (controllerInputType == ControllerInputType.NavigateDown) { modifier = -1; }
             modifier *= cashTransferFieldType switch
             {
                 CashTransferFieldType.One => 1,
@@ -282,16 +282,16 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel && cashTransferState == CashTransferState.CashConfirmation)
+            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel && cashTransferState == CashTransferState.CashConfirmation)
             {
                 SetCashTransferState(CashTransferState.CashSelection);
                 return true;
             }
-            return base.HandleGlobalInput(playerInputType);
+            return base.HandleGlobalInput(controllerInputType);
         }
         #endregion
     }
