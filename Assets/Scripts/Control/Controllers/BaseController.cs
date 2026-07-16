@@ -57,8 +57,6 @@ namespace Frankie.Control
         #endregion
         
         #region ProtectedMethods
-
-
         protected virtual bool HasListeners() => globalInput != null;
         protected virtual bool HasBeenActivated() => globalInputActivated;
         

@@ -36,6 +36,9 @@ namespace Frankie.Core
         [SerializeField] private int maxEnemiesPerCombat = 12;
         [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
         
+        // Const
+        private int queuePopFrameSkips = 1;
+        
         // State Information
         // Player
         private IPlayerState currentPlayerState = new WorldState();
@@ -49,6 +52,7 @@ namespace Frankie.Core
         private OptionMemory optionMemory = new();
         
         // Coroutines
+        private Coroutine queuePopCoroutine;
         private Coroutine immunityCoroutine;
 
         // Cached References -- Persistent
@@ -64,9 +68,6 @@ namespace Frankie.Core
         // Events
         public event Action<PlayerStateType, IPlayerStateContext> playerStateChanged;
         public event Action<int, int, bool> playerLayerChanged;
-
-        // Data Structures
-
 
         #region Static
         public static readonly TransitionState transitionState = new();
@@ -99,12 +100,16 @@ namespace Frankie.Core
 
         private void OnDestroy()
         {
+            if (queuePopCoroutine != null) { StopCoroutine(queuePopCoroutine); }
             if (immunityCoroutine != null) { StopCoroutine(immunityCoroutine); }
         }
 
         private void Update()
         {
-            actionMemory.TryPopQueue();
+            if (!actionMemory.ReadyToPopQueue()) { return; }
+            
+            if (queuePopCoroutine != null) { StopCoroutine(queuePopCoroutine); }
+            queuePopCoroutine = StartCoroutine(actionMemory.TryPopQueue(queuePopFrameSkips));
         }
         #endregion
 
