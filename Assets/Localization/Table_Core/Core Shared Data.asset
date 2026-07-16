@@ -235,8 +235,8 @@ MonoBehaviour:
     m_Key: StatusEffect.Debuff.Stoic
     m_Metadata:
       m_Items: []
-  - m_Id: 32539111364485120
-    m_Key: NPCStateHandler.Prefab.NonPlayableCharacter.MessageCannotFight.5aad22a6
+  - m_Id: 32974150610968576
+    m_Key: Character.MessageCannotFight
     m_Metadata:
       m_Items: []
   m_Metadata:

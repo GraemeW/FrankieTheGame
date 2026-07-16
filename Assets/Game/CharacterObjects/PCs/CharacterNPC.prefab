@@ -346,6 +346,18 @@ MonoBehaviour:
   willForceCombat: 0
   willDestroyIfInvisible: 0
   delayToDestroyAfterInvisible: 2
+  localizedMessageCannotFight:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8799100898494828469
 MonoBehaviour:
   m_ObjectHideFlags: 0

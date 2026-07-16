@@ -109,20 +109,8 @@ MonoBehaviour:
   cashTransferPrefab: {fileID: 6413694501190794285, guid: 28e6cb6ef5c9cf149b31602989d2844c, type: 3}
   worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
   escapeMenuPrefab: {fileID: 6413694501190794285, guid: d40dace2943729145967e187c1801093, type: 3}
-  localizedMessageCannotFight:
-    m_TableReference:
-      m_TableCollectionName: GUID:bb484015a3d7647bfba6919a6815d5b0
-    m_TableEntryReference:
-      m_KeyId: 5452253379944448
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
   maxEnemiesPerCombat: 12
   immunityTimePostCombat: 2.75
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &9140000498525693429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf60f211944627448699ea1fcd66c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listenerPollingInterval: 0.1
   cursorMappings:
   - type: 0
     texture: {fileID: 2800000, guid: 5913706450b54364e81fb38732a95c0c, type: 3}

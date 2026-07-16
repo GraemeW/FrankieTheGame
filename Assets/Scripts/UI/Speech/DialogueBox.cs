@@ -92,7 +92,10 @@ namespace Frankie.Speech.UI
 
         private void Start()
         {
+            // Note:  Start() is called after instantiating script finishes its method
+            // If no dialogueController is present, the instantiating script must TakeControl()
             if (!HasController()) { Destroy(gameObject); return;}
+            
             Setup(null);
         }
         #endregion
@@ -122,7 +125,7 @@ namespace Frankie.Speech.UI
 
         protected virtual void UpdateUI()
         {
-            if (dialogueController == null && controller == null) { destroyQueued = true; }
+            if (!HasController()) { destroyQueued = true; }
             if (!dialogueController.IsActive()) { destroyQueued = true; }
 
             ClearOldDialogue();

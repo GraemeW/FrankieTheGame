@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core.Predicates;
 using Frankie.Utils;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat
 {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(BaseStats))]
-    public class CombatParticipant : MonoBehaviour, ISaveable<CombatParticipantSaveData>, IPredicateEvaluator
+    public class CombatParticipant : MonoBehaviour, ISaveable<CombatParticipantSaveData>, IPredicateEvaluator, ILocalizable
     {
         // Tunables
         [Header("Behavior, Hookups")]
@@ -45,6 +49,10 @@ namespace Frankie.Combat
         [SerializeField] private float cooldownBattleDisadvantageAdder = 4.0f;
         [SerializeField] private float cooldownRunFailAdder = 5.0f;
 
+        [Header("Localization")]
+        [Header("Messages : {0} for character name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedMessageCannotFight;
+        
         // Cached References
         private BaseStats baseStats;
         private Equipment equipment;
@@ -72,6 +80,16 @@ namespace Frankie.Combat
         public event Action enteredBattle;
         public delegate void StateEvent(StateAlteredInfo stateAlteredInfo);
         public event StateEvent stateAltered;
+        
+        // Localization Methods
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageCannotFight.TableEntryReference
+            };
+        }
 
         #region StaticMethods
         public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<BattleEntity> battleEntities)
@@ -141,6 +159,11 @@ namespace Frankie.Combat
         {
             UpdateDamageDelayedHealth();
         }
+        
+        private void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
         #endregion
 
         #region SimpleGetters
@@ -204,10 +227,11 @@ namespace Frankie.Combat
         public void SetupSelfDestroyOnBattleComplete()
         {
             if (!shouldDestroySelfOnDeath) { return; }
-
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(SelfDestroyOnBattleComplete);
         }
 
+        public string GetCannotFightMessage() => string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), GetCombatName());
+        
         public bool CheckIfDead() // Called via Unity Events
         {
             if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && !isDead.value)

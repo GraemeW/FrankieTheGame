@@ -1,26 +1,19 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Speech;
 using Frankie.ZoneManagement;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [ExecuteInEditMode]
-    public class NPCStateHandler : MonoBehaviour, ILocalizable
+    public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
-        [Header("Standard Properties")]
         [SerializeField] private bool willForceCombat = false;
         [SerializeField] private bool willDestroyIfInvisible = false;
         [Min(0)][Tooltip("in seconds")][SerializeField] private float delayToDestroyAfterInvisible = 2f;
-        [Header("Messages : {0} for character name")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedMessageCannotFight;
 
         // State
         private NPCStateType npcState = NPCStateType.Idle;
@@ -36,16 +29,6 @@ namespace Frankie.Control
 
         // Events
         public event Action<NPCStateType, bool> npcStateChanged;
-
-        // Localization Methods
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            return new List<TableEntryReference>
-            {
-                localizedMessageCannotFight.TableEntryReference
-            };
-        }
         
         #region UnityMethods
         private void Awake()
@@ -88,11 +71,6 @@ namespace Frankie.Control
         private void Update()
         {
             UpdateSpriteInvisibilityTimerToDestroy();
-        }
-        
-        private void OnDestroy()
-        {
-            ILocalizable.TriggerOnDestroy(this);
         }
         #endregion
 
@@ -155,7 +133,7 @@ namespace Frankie.Control
 
             if (combatParticipant.IsDead())
             {
-                playerStateMachine.EnterDialogue(string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), combatParticipant.GetCombatName()));
+                playerStateMachine.EnterDialogue(combatParticipant.GetCannotFightMessage());
                 SetNPCState(NPCStateType.Occupied);
             }
             else

@@ -27,6 +27,7 @@ namespace Frankie.Stats
         private static readonly Stat[] _nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
         
         // State
+        private bool isCharacterPropertiesConfigured = false;
         private LazyValue<int> currentLevel;
         private Dictionary<Stat, float> activeStatSheet;
 
@@ -48,6 +49,7 @@ namespace Frankie.Stats
         #region UnityMethods
         private void Awake()
         {
+            if (characterProperties != null) { isCharacterPropertiesConfigured = true; }
             currentLevel = new LazyValue<int>(GetInitialLevel);
         }
 
@@ -61,7 +63,12 @@ namespace Frankie.Stats
         public CharacterProperties GetCharacterProperties() => characterProperties;
         public int GetLevel() => currentLevel.value;
         public bool CanLevelUp() => GetLevel() <= Progression.GetMaxLevel();
-        public float GetStat(Stat stat) => GetBaseStat(stat) + GetAdditiveModifiers(stat);
+
+        public float GetStat(Stat stat)
+        {
+            if (!isCharacterPropertiesConfigured) { return 0f; }
+            return GetBaseStat(stat) + GetAdditiveModifiers(stat);   
+        }
         private float GetBaseStat(Stat stat)
         {
             BuildActiveStatSheetIfNull();
@@ -70,6 +77,7 @@ namespace Frankie.Stats
         
         public float GetCalculatedStat(CalculatedStat calculatedStat)
         {
+            if (!isCharacterPropertiesConfigured) { return 1f; }
             if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 1f;
             
             float stat = GetStat(statModifier);
