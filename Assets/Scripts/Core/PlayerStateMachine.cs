@@ -310,7 +310,7 @@ namespace Frankie.Core
         
         private void OnBattleEntryPeak(TransitionType transitionType)
         {
-            if (battleUIPrefab != null) { Instantiate(battleUIPrefab); }
+            if (battleUIPrefab != null) { combatMemory.battleUIInstance = Instantiate(battleUIPrefab); }
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryPeak, combatMemory.enemiesInTransition, transitionType));
         }
 
@@ -331,6 +331,7 @@ namespace Frankie.Core
         private void OnBattleExitComplete()
         {
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitComplete));
+            if (combatMemory.battleUIInstance != null) { Destroy(combatMemory.battleUIInstance); }
             currentPlayerState.EnterWorld(this);
         }
         #endregion

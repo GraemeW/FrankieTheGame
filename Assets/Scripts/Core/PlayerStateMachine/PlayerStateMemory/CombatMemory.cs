@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Frankie.Combat;
 using Frankie.ZoneManagement;
 
@@ -10,6 +11,7 @@ namespace Frankie.Core.PlayerStateMemory
         public bool combatFadeComplete = false;
         public readonly List<CombatParticipant> enemiesUnderConsideration = new();
         public readonly List<CombatParticipant> enemiesInTransition = new();
+        public GameObject battleUIInstance;
         
         public bool AreCombatParticipantsValid() => !enemiesUnderConsideration.All(x => x.IsDead());
 
