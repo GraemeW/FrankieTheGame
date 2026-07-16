@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b075075066953fc449ca91e8f3c4e2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listenerPollingInterval: 0.1
   startCanvas: {fileID: 0}
   launcher: {fileID: 0}
 --- !u!114 &7791871072140480130
