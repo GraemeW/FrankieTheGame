@@ -1,6 +1,6 @@
 namespace Frankie.Control
 {
-    public enum PlayerInputType
+    public enum ControllerInputType
     {
         DefaultNone,
         NavigateUp,

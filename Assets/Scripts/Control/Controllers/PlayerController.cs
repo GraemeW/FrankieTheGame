@@ -10,7 +10,7 @@ namespace Frankie.Control
     [RequireComponent(typeof(PlayerStateMachine))]
     [RequireComponent(typeof(PlayerMover))]
     [RequireComponent(typeof(Party))]
-    public class PlayerController : MonoBehaviour, IStandardPlayerInputCaller
+    public class PlayerController : BaseController
     {
         // Data Types
         [Serializable]
@@ -30,7 +30,7 @@ namespace Frankie.Control
         [SerializeField] private float interactionDistance = 0.5f;
         
         // State
-        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
+        private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
         private bool allowComponentInteraction = true;
         private bool inTransition = false;
 
@@ -39,9 +39,10 @@ namespace Frankie.Control
         private PlayerStateMachine playerStateMachine;
         private PlayerMover playerMover;
         private Transform interactionCentrePoint;
-
-        // Events
-        public event Action<PlayerInputType> globalInput;
+        
+        // Lifecycle Overrides -- Prevent Polling to Self-Destruct
+        protected override bool HasListeners() => true;
+        protected override bool HasBeenActivated() => true;
         
         #region Static
         private static Vector2 GetMouseRay()
@@ -53,25 +54,22 @@ namespace Frankie.Control
         #region UnityMethods
         private void Awake()
         {
+            playerInput = new PlayerInput();
             interactionCentrePoint = transform; // Initialize for safety, but overridden by Party updates
             playerMover = GetComponent<PlayerMover>();
             playerStateMachine = GetComponent<PlayerStateMachine>();
-            playerInput = new PlayerInput();
-
-            VerifyUnique();
+            
+            if (!VerifyUnique()) { return; }
 
             playerInput.Player.Navigate.performed += context => playerMover.ParseMovement(context.ReadValue<Vector2>());
             playerInput.Player.Navigate.canceled += _ => playerMover.ParseMovement(Vector2.zero);
-
             playerInput.Player.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Player.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
-            
-            playerInput.Player.Pointer.performed += _ => InteractWithComponentManual(PlayerInputType.DefaultNone);
-            playerInput.Player.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
-            playerInput.Player.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Player.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
-            
-            playerInput.Player.Escape.performed += _  => HandleUserInput(PlayerInputType.Escape); 
+            playerInput.Player.Pointer.performed += _ => InteractWithComponentManual(ControllerInputType.DefaultNone);
+            playerInput.Player.Execute.performed += _ => HandleUserInput(ControllerInputType.Execute);
+            playerInput.Player.Cancel.performed += _ => HandleUserInput(ControllerInputType.Cancel);
+            playerInput.Player.Option.performed += _ => HandleUserInput(ControllerInputType.Option);
+            playerInput.Player.Escape.performed += _  => HandleUserInput(ControllerInputType.Escape);
         }
         
         private void OnEnable()
@@ -103,15 +101,6 @@ namespace Frankie.Control
         }
 
         public Vector2 GetInteractionPosition() => interactionCentrePoint != null ? interactionCentrePoint.position : Vector2.zero;
-
-        public void VerifyUnique()
-        {
-            var playerControllers = FindObjectsByType<PlayerController>();
-            if (playerControllers.Length > 1)
-            {
-                Destroy(gameObject);
-            }
-        }
         
         private void SetCursor(CursorType type)
         {
@@ -162,63 +151,63 @@ namespace Frankie.Control
 
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
-            currentDirectionalInput = newPlayerInputType;
-            HandleUserInput(newPlayerInputType);
+            if (!BaseController.ParseDirectionalInput(directionalInput, currentDirectionalInput, out ControllerInputType newControllerInputType)) { return; }
+            currentDirectionalInput = newControllerInputType;
+            HandleUserInput(newControllerInputType);
         }
 
-        private void HandleUserInput(PlayerInputType playerInputType)
+        private void HandleUserInput(ControllerInputType controllerInputType)
         {
             if (inTransition) { return; }
-            if (InteractWithGlobals(playerInputType)) { return; }
+            if (InteractWithGlobals(controllerInputType)) { return; }
             
             if (allowComponentInteraction)
             {
-                if (InteractWithComponent(playerInputType)) { return; }
-                if (InteractWithComponentManual(playerInputType)) { return; }
+                if (InteractWithComponent(controllerInputType)) { return; }
+                if (InteractWithComponentManual(controllerInputType)) { return; }
             }
-            if (InteractWithMenusOptions(playerInputType)) { return; }
+            if (InteractWithMenusOptions(controllerInputType)) { return; }
             SetCursor(CursorType.None);
         }
 
-        private bool InteractWithGlobals(PlayerInputType playerInputType)
+        private bool InteractWithGlobals(ControllerInputType controllerInputType)
         {
-            if (globalInput == null) { return false; }
-            globalInput.Invoke(playerInputType);
+            if (!HasGlobalInput()) { return false; }
+            TriggerGlobalInput(controllerInputType);
             return true;
         }
 
-        private bool InteractWithComponent(PlayerInputType playerInputType)
+        private bool InteractWithComponent(ControllerInputType controllerInputType)
         {
             RaycastHit2D hitInfo = RaycastToMouseLocation();
             if (hitInfo.collider == null) { return false; }
             
             foreach (IRaycastable raycastable in hitInfo.transform.GetComponentsInChildren<IRaycastable>())
             {
-                if (!raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute)) { continue; }
+                if (!raycastable.HandleRaycast(playerStateMachine, this, controllerInputType, ControllerInputType.Execute)) { continue; }
                 SetCursor(raycastable.GetCursorType());
                 return true;
             }
             return false;
         }
 
-        private bool InteractWithComponentManual(PlayerInputType playerInputType)
+        private bool InteractWithComponentManual(ControllerInputType controllerInputType)
         {
-            if (playerInputType != PlayerInputType.Execute) { return false; }
+            if (controllerInputType != ControllerInputType.Execute) { return false; }
             
             RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
             return hitInfo.collider != null 
-                   && hitInfo.transform.GetComponentsInChildren<IRaycastable>().Any(raycastable => raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute));
+                   && hitInfo.transform.GetComponentsInChildren<IRaycastable>().Any(raycastable => raycastable.HandleRaycast(playerStateMachine, this, controllerInputType, ControllerInputType.Execute));
         }
 
-        private bool InteractWithMenusOptions(PlayerInputType playerInputType)
+        private bool InteractWithMenusOptions(ControllerInputType controllerInputType)
         {
-            switch (playerInputType)
+            switch (controllerInputType)
             {
-                case PlayerInputType.Option:
+                case ControllerInputType.Option:
                     playerStateMachine.EnterWorldOptions();
                     return true;
-                case PlayerInputType.Escape:
+                case ControllerInputType.Escape:
                     playerStateMachine.EnterEscapeMenu();
                     return true;
                 default:

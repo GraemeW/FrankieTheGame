@@ -51,11 +51,11 @@ namespace Frankie.Inventory.UI
         
         #region Initialization
         // Buy-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper setShopper, ShopBox setShopBox, InventoryItem setBuyItem, string setMessageNoSpace)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, Shopper setShopper, ShopBox setShopBox, InventoryItem setBuyItem, string setMessageNoSpace)
         {
             transactionType = ShopType.Buy;
             
-            base.Setup(standardPlayerInputCaller, partyCombatConduit, null, false);
+            base.Setup(baseController, partyCombatConduit, null, false);
             shopper = setShopper;
             shopBox = setShopBox;
             buyItem = setBuyItem;
@@ -63,18 +63,18 @@ namespace Frankie.Inventory.UI
         }
 
         // Sell-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateMachine setPlayerStateMachine, PartyCombatConduit partyCombatConduit, Shopper setShopper, string setMessageForSale, string setMessageCannotSell)
+        public void Setup(BaseController baseController, PlayerStateMachine setPlayerStateMachine, PartyCombatConduit partyCombatConduit, Shopper setShopper, string setMessageForSale, string setMessageCannotSell)
         {
             transactionType = ShopType.Sell;
 
-            base.Setup(standardPlayerInputCaller, partyCombatConduit, null, false);
+            base.Setup(baseController, partyCombatConduit, null, false);
             playerStateMachine = setPlayerStateMachine;
             shopper = setShopper;
             messageForSale = setMessageForSale;
             messageCannotSell = setMessageCannotSell;
 
             SetupWalletUI();
-            TakeControl(standardPlayerInputCaller, this, null); // input handled via player controller, immediate override
+            TakeControl(baseController, this, null); // input handled via player controller, immediate override
             HandleClientEntry();
         }
 

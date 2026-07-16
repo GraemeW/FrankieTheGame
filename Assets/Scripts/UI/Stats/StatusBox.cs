@@ -76,7 +76,7 @@ namespace Frankie.Stats.UI
         {
             if (character == selectedCharacter) return;
             
-            OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+            TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             selectedCharacter = character;
             CleanUpOldStats();
 

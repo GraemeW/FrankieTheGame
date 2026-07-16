@@ -82883,11 +82883,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 57.514374
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.449206
+      value: -0.49
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.z
@@ -207002,7 +207002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
-  backingListHashCheck: -565076750
+  backingListHashCheck: -537543092
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 5e78e614-19df-4719-8a5e-bc16139e86ee

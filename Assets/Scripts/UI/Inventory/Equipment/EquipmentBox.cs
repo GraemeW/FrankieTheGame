@@ -101,11 +101,11 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
         {
-            if (standardPlayerInputCaller == null || partyCombatConduit == null) { destroyQueued = true;  return; }
+            if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
             
-            controller = standardPlayerInputCaller;
+            controller = baseController;
             isPartySolo = partyCombatConduit.IsPartySolo();
             
             SetupPartySelection(partyCombatConduit);
@@ -114,7 +114,7 @@ namespace Frankie.Inventory.UI
             foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
             
             SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
-            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+            ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
 
@@ -159,7 +159,7 @@ namespace Frankie.Inventory.UI
             selectedItem = equipableItem;
             GenerateStatConfirmationMenu();
             SetEquipmentBoxState(EquipmentBoxState.InStatConfirmation);
-            MoveCursor(PlayerInputType.NavigateRight, CursorMovementStyle.Combined);
+            MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined);
         }
 
         private void HandleEquipmentUpdated(EquipableItemBase equipableItem)
@@ -235,16 +235,16 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
+        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (equipmentBoxState)
             {
                 case EquipmentBoxState.InCharacterSelection:
-                    return base.MoveCursor(playerInputType, CursorMovementStyle.Horizontal);
+                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
                 case EquipmentBoxState.InStatConfirmation:
-                    return base.MoveCursor(playerInputType, cursorMovementStyle);
+                    return base.MoveCursor(controllerInputType, cursorMovementStyle);
                 case EquipmentBoxState.InEquipmentSelection:
-                    MoveCursor2D(playerInputType);
+                    MoveCursor2D(controllerInputType);
                     break;
             }
             return false;
@@ -263,7 +263,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter || forceChoose)
             {
-                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -271,7 +271,7 @@ namespace Frankie.Inventory.UI
             }
             SetEquipmentBoxState(EquipmentBoxState.InEquipmentSelection);
 
-            if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight, CursorMovementStyle.Combined); }
+            if (initializeCursor) { MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined); }
         }
 
         private void SoftChooseCharacter(CombatParticipant character)
@@ -432,11 +432,11 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interfaces
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
+            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
             {
                 switch (equipmentBoxState)
                 {
@@ -450,7 +450,7 @@ namespace Frankie.Inventory.UI
                 // inKnapsack handled by the EquipmentInventoryBox
             }
             
-            return base.HandleGlobalInput(playerInputType);
+            return base.HandleGlobalInput(controllerInputType);
         }
 
         public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)

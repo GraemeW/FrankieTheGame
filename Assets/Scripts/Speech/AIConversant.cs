@@ -54,7 +54,7 @@ namespace Frankie.Speech
 
         #region Interfaces
         // Check Interface
-        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, ControllerInputType inputType, ControllerInputType matchType)
         {
             if (dialogue == null) { return false; }
             if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance)) { return false; }

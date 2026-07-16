@@ -10,7 +10,7 @@ namespace Frankie.Control
         [SerializeField][Tooltip("Must implement ICheckDynamic")] private GameObject dynamicCheckObject;
         [SerializeField] private InteractionEvent checkInteraction;
 
-        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, ControllerInputType inputType, ControllerInputType matchType)
         {
             if (dynamicCheckObject == null) { return false; }
             if (!dynamicCheckObject.TryGetComponent(out ICheckDynamic checkDynamic)) { return false; }

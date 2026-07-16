@@ -45,7 +45,7 @@ namespace Frankie.Control
         #region RaycastableInterface
         public virtual CursorType GetCursorType() => CursorType.Check;
 
-        public abstract bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+        public abstract bool HandleRaycast(PlayerStateMachine playerStateMachine, PlayerController playerController, ControllerInputType inputType, ControllerInputType matchType);
         #endregion
 
         #region SaveInterface

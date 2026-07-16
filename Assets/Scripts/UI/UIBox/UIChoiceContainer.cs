@@ -22,20 +22,20 @@ namespace Frankie.Utils.UI
 
         public IList<UIChoice> GetSubOptions() => uiChoices.ToList();
         
-        public bool TryMove(PlayerInputType playerInputType)
+        public bool TryMove(ControllerInputType controllerInputType)
         {
             if (uiChoices.Count == 0) { return false; }
             
-            switch (playerInputType)
+            switch (controllerInputType)
             {
-                case PlayerInputType.NavigateLeft when isMoveHorizontal:
-                case PlayerInputType.NavigateUp when !isMoveHorizontal:
+                case ControllerInputType.NavigateLeft when isMoveHorizontal:
+                case ControllerInputType.NavigateUp when !isMoveHorizontal:
                     highlightedChoiceOption.Highlight(false);
                     highlightedChoiceOption = GetNextChoice(false);
                     highlightedChoiceOption.Highlight(true);
                     return true;
-                case PlayerInputType.NavigateRight when isMoveHorizontal:
-                case PlayerInputType.NavigateDown when !isMoveHorizontal:
+                case ControllerInputType.NavigateRight when isMoveHorizontal:
+                case ControllerInputType.NavigateDown when !isMoveHorizontal:
                     highlightedChoiceOption.Highlight(false);
                     highlightedChoiceOption = GetNextChoice(true);
                     highlightedChoiceOption.Highlight(true);

@@ -11,7 +11,7 @@ using Frankie.Utils;
 
 namespace Frankie.Speech
 {
-    public class DialogueController : MonoBehaviour, IStandardPlayerInputCaller
+    public class DialogueController : BaseController
     {
         // Tunables
         [Header("Controller Properties")]
@@ -20,7 +20,8 @@ namespace Frankie.Speech
         [SerializeField] private GameObject dialogueOptionBoxVertical;
 
         // State
-        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
+        private bool dialogueInputActivated = false;
+        private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
         
         private Dialogue currentDialogue;
         private DialogueNode currentNode;
@@ -31,7 +32,6 @@ namespace Frankie.Speech
         private string simpleMessage = "";
         private List<ChoiceActionPair> simpleChoices = new();
         private InteractionEvent onDestroyCallbackActions;
-
         private bool dialogueComplete = false;
 
         // Cached References
@@ -41,11 +41,14 @@ namespace Frankie.Speech
         private Party party;
 
         // Events
-        public event Action<PlayerInputType> globalInput;
-        public event Action<PlayerInputType> dialogueInput;
+        private event Action<ControllerInputType> dialogueInput;
         public event Action<DialogueNode> highlightedNodeChanged;
         public event Action triggerUIUpdates;
         public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
+        
+        // Lifecycle Overrides
+        protected override bool HasListeners() => base.HasListeners() || dialogueInput != null || dialogueUpdated != null;
+        protected override bool HasBeenActivated() => base.HasBeenActivated() || dialogueInputActivated;
 
         #region Static
         private const string _dialogueControllerTag = "DialogueController";
@@ -66,16 +69,15 @@ namespace Frankie.Speech
         private void Awake()
         {
             playerInput = new PlayerInput();
-
-            VerifyUnique();
-
+            
+            if (!VerifyUnique()) { return; }
+            
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
-            
-            playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
-            playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
-            playerInput.Menu.Escape.performed += _ => HandleUserInput(PlayerInputType.Escape);
+            playerInput.Menu.Execute.performed += _ => HandleUserInput(ControllerInputType.Execute);
+            playerInput.Menu.Cancel.performed += _ => HandleUserInput(ControllerInputType.Cancel);
+            playerInput.Menu.Option.performed += _ => HandleUserInput(ControllerInputType.Option);
+            playerInput.Menu.Escape.performed += _ => HandleUserInput(ControllerInputType.Escape);
         }
 
         private void OnEnable()
@@ -93,31 +95,21 @@ namespace Frankie.Speech
             onDestroyCallbackActions?.Invoke(playerStateMachine);
         }
 
-        private void Update()
+        protected override void LateUpdate()
         {
-            KillControllerForNoReceivers();
-        }
-
-        private void KillControllerForNoReceivers()
-        {
-            if (globalInput != null || dialogueInput != null || dialogueUpdated != null) { return; }
-            
-            // Special handling for case of controller existence, no listeners, but dialogue not complete
-            // Force exit into world in this case
-            if (!dialogueComplete) { playerStateMachine.EnterWorld(); }
-            Destroy(gameObject);
+            if (destroyQueued && !dialogueComplete) { playerStateMachine.EnterWorld(); }
+            base.LateUpdate();
         }
         #endregion
 
         #region PublicGetters
-        public bool HasDialogue() => currentDialogue != null;
         public bool IsSimpleMessage() => isSimpleMessage;
         public string GetSimpleMessage() => simpleMessage;
         public List<ChoiceActionPair> GetSimpleChoices() => simpleChoices;
         public bool IsActive() => (currentDialogue != null && currentNode != null);
-        public SpeakerType GetCurrentSpeakerType() => currentNode.GetSpeakerType();
-        public string GetCurrentSpeakerName() => currentNode.GetSpeakerName();
-        public string GetText() => currentNode.GetText();
+        public SpeakerType GetCurrentSpeakerType() => currentNode != null ? currentNode.GetSpeakerType() : SpeakerType.NarratorDirection;
+        public string GetCurrentSpeakerName() => currentNode != null ? currentNode.GetSpeakerName() : "";
+        public string GetText() => currentNode != null ? currentNode.GetText() : "";
 
         public IEnumerable<DialogueNode> GetChoices()
         {
@@ -132,10 +124,16 @@ namespace Frankie.Speech
         #endregion
 
         #region PublicSetters
-        public void SetDestroyCallbackActions(InteractionEvent interactionEvent)
+
+        public void SubscribeToDialogueInput(bool enable, Action<ControllerInputType> action)
         {
-            onDestroyCallbackActions = interactionEvent;
+            if (enable) { dialogueInputActivated = true; }
+            
+            dialogueInput -= action;
+            if (enable) { dialogueInput += action; }
         }
+        
+        public void SetDestroyCallbackActions(InteractionEvent interactionEvent) => onDestroyCallbackActions = interactionEvent;
 
         public void Setup(WorldCanvas setupWorldCanvas, PlayerStateMachine setupPlayerStateMachine, Party setupParty)
         {
@@ -206,95 +204,98 @@ namespace Frankie.Speech
             dialogueComplete = true;
 
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueComplete, null);
+            destroyQueued = true;
         }
 
         public void NextWithID(string nodeID)
         {
-            if (HasNext())
-            {
-                SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
-            }
+            if (!HasNext()) { return; }
+            SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
         }
         #endregion
         
         #region InteractionMethods
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
-            currentDirectionalInput = newPlayerInputType;
-            HandleUserInput(newPlayerInputType);
+            if (!BaseController.ParseDirectionalInput(directionalInput, currentDirectionalInput, out ControllerInputType newControllerInputType)) { return; }
+            currentDirectionalInput = newControllerInputType;
+            HandleUserInput(newControllerInputType);
+        }
+        
+        private void TriggerDialogueInput(ControllerInputType controllerInputType)
+        {
+            if (dialogueInput == null) { return; }
+            timeSinceLastPolled = 0f;
+            dialogueInput.Invoke(controllerInputType);
         }
 
-        private void HandleUserInput(PlayerInputType playerInputType)
+        private void HandleUserInput(ControllerInputType controllerInputType)
         {
             if (!isSimpleMessage)
             {
-                if (InteractWithChoices(playerInputType)) { return; }
-                if (InteractWithNext(playerInputType)) { return; }
+                if (InteractWithChoices(controllerInputType)) { return; }
+                if (InteractWithNext(controllerInputType)) { return; }
             }
-            // ReSharper disable once RedundantJumpStatement
-            if (InteractWithGlobals(playerInputType)) { return; }
+            if (InteractWithGlobals(controllerInputType)) { return; }
         }
 
-        private bool InteractWithGlobals(PlayerInputType playerInputType)
+        private bool InteractWithGlobals(ControllerInputType controllerInputType)
         {
-            if (globalInput == null) { return false; }
+            if (!HasGlobalInput()) { return false; }
             
-            globalInput.Invoke(playerInputType); // handle text skip on dialogue box
+            // handle text skip on dialogue box
+            TriggerGlobalInput(controllerInputType);
             return true;
         }
 
-        private bool InteractWithNext(PlayerInputType playerInputType)
+        private bool InteractWithNext(ControllerInputType controllerInputType)
         {
-            if (IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (IsChoosing() || controllerInputType == ControllerInputType.DefaultNone) { return false; }
             if (triggerUIUpdates == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
-            if (playerInputType != PlayerInputType.Execute) { return false; }
+            if (controllerInputType != ControllerInputType.Execute) { return false; }
 
             if (HasNext())
             {
                 Next();
             }
-            else
-            {
-                EndConversation();
-            }
+            else { EndConversation(); }
             return true;
         }
 
-        private bool InteractWithChoices(PlayerInputType playerInputType)
+        private bool InteractWithChoices(ControllerInputType controllerInputType)
         {
-            if (!IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (!IsChoosing() || controllerInputType == ControllerInputType.DefaultNone) { return false; }
             if (triggerUIUpdates == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
 
             if (highlightedNode == null)
             {
-                SetHighlightedNodeToDefault(playerInputType);
+                SetHighlightedNodeToDefault(controllerInputType);
                 return true;
             }
 
-            switch (playerInputType)
+            switch (controllerInputType)
             {
-                case PlayerInputType.Execute:
+                case ControllerInputType.Execute:
                 {
-                    dialogueInput?.Invoke(playerInputType);
+                    TriggerDialogueInput(controllerInputType);
                     NextWithID(highlightedNode.name);
                     highlightedNode = null;
                     return true;
                 }
-                case PlayerInputType.NavigateUp:
-                case PlayerInputType.NavigateLeft:
-                case PlayerInputType.NavigateRight:
-                case PlayerInputType.NavigateDown:
+                case ControllerInputType.NavigateUp:
+                case ControllerInputType.NavigateLeft:
+                case ControllerInputType.NavigateRight:
+                case ControllerInputType.NavigateDown:
                 {
                     List<DialogueNode> currentOptions = GetChoices().ToList();
 
                     if (!currentOptions.Contains(highlightedNode))
                     {
-                        SetHighlightedNodeToDefault(playerInputType);
+                        SetHighlightedNodeToDefault(controllerInputType);
                     }
                     else
                     {
-                        HighlightNextNode(currentOptions, playerInputType);
+                        HighlightNextNode(currentOptions, controllerInputType);
                     }
                     return true;
                 }
@@ -324,29 +325,29 @@ namespace Frankie.Speech
             return choiceActionPairs.Any(choiceActionPair => choiceActionPair.choice.Length >= GetChoiceLengthThresholdToReconfigureVertical()) ? dialogueOptionBoxVertical : dialogueOptionBox;
         }
 
-        private void SetHighlightedNodeToDefault(PlayerInputType playerInputType)
+        private void SetHighlightedNodeToDefault(ControllerInputType controllerInputType)
         {
-            if (playerInputType != PlayerInputType.Execute) { return; }
+            if (controllerInputType != ControllerInputType.Execute) { return; }
             
             highlightedNode = GetChoices().FirstOrDefault();
             highlightedNodeChanged?.Invoke(highlightedNode);
         }
 
-        private void HighlightNextNode(List<DialogueNode> currentOptions, PlayerInputType playerInputType)
+        private void HighlightNextNode(List<DialogueNode> currentOptions, ControllerInputType controllerInputType)
         {
             int choiceIndex = currentOptions.IndexOf(highlightedNode);
-            switch (playerInputType)
+            switch (controllerInputType)
             {
-                case PlayerInputType.NavigateRight:
-                case PlayerInputType.NavigateDown:
+                case ControllerInputType.NavigateRight:
+                case ControllerInputType.NavigateDown:
                 {
                     if (choiceIndex + 1 >= currentOptions.Count) { choiceIndex = 0; }
                     else { choiceIndex++; }
 
                     break;
                 }
-                case PlayerInputType.NavigateUp:
-                case PlayerInputType.NavigateLeft:
+                case ControllerInputType.NavigateUp:
+                case ControllerInputType.NavigateLeft:
                 {
                     if (choiceIndex <= 0) { choiceIndex = currentOptions.Count - 1; }
                     else { choiceIndex--; }
@@ -365,6 +366,8 @@ namespace Frankie.Speech
 
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeExit, currentNode); }
             currentNode = dialogueNode;
+            if (currentNode == null) { return; }
+            
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode); }
             triggerUIUpdates?.Invoke();
         }
@@ -395,17 +398,6 @@ namespace Frankie.Speech
                 currentConversant.transform.parent.gameObject.GetComponentsInChildren<IPredicateEvaluator>()); // B
 
             return predicateEvaluators;
-        }
-        #endregion
-
-        #region Interfaces
-        public void VerifyUnique()
-        {
-            var dialogueControllers = FindObjectsByType<DialogueController>();
-            if (dialogueControllers.Length > 1)
-            {
-                Destroy(gameObject);
-            }
         }
         #endregion
     }

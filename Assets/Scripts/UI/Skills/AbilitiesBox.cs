@@ -72,11 +72,11 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
         {
-            if (standardPlayerInputCaller == null || partyCombatConduit == null) { destroyQueued = true;  return; }
+            if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
             
-            controller = standardPlayerInputCaller;
+            controller = baseController;
             isPartySolo = partyCombatConduit.IsPartySolo();
 
             SetupPartySelection(partyCombatConduit);
@@ -86,7 +86,7 @@ namespace Frankie.Combat.UI
             SubscribeCharacterSlides(true);
 
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true);
-            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+            ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
 
@@ -186,7 +186,7 @@ namespace Frankie.Combat.UI
 
             if (combatParticipant != currentCombatParticipant)
             {
-                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
                 currentCombatParticipant = combatParticipant;
             }
             
@@ -195,7 +195,7 @@ namespace Frankie.Combat.UI
 
             if (IsChoiceAvailable() && initializeCursor)
             {
-                MoveCursor(PlayerInputType.DefaultNone, CursorMovementStyle.Combined);
+                MoveCursor(ControllerInputType.DefaultNone, CursorMovementStyle.Combined);
             }
         }
 
@@ -236,17 +236,17 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
+        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
-                    return base.MoveCursor(playerInputType, CursorMovementStyle.Horizontal);
+                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
                 case AbilitiesBoxState.InAbilitiesSelection:
-                    return HandleInputWithReturn(playerInputType);
+                    return HandleInputWithReturn(controllerInputType);
                 case AbilitiesBoxState.InCharacterTargeting:
                 {
-                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
+                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
                     if (GetNextTarget(targetingNavigationType)) { return true; }
                     
                     SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
@@ -257,12 +257,12 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private bool HandleInputWithReturn(PlayerInputType input)
+        private bool HandleInputWithReturn(ControllerInputType input)
         {
             return currentCombatParticipant != null && SetBranchOrSkill(currentCombatParticipant, input);
         }
 
-        protected override void HandleInput(PlayerInputType input)
+        protected override void HandleInput(ControllerInputType input)
         {
             // Note:  Function re-use since standard implementation for SkillSelectionUI
             // Used explicitly w/ select skill && extended with Unity Events for mouse clicks
@@ -340,7 +340,7 @@ namespace Frankie.Combat.UI
             }
             SetUpChoiceOptions();
 
-            OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+            TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
         }
 
         protected override void ResetUI()
@@ -350,11 +350,11 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region Interfaces
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType != PlayerInputType.Option && playerInputType != PlayerInputType.Cancel) { return base.HandleGlobalInput(playerInputType); }
+            if (controllerInputType != ControllerInputType.Option && controllerInputType != ControllerInputType.Cancel) { return base.HandleGlobalInput(controllerInputType); }
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterTargeting:
@@ -370,7 +370,7 @@ namespace Frankie.Combat.UI
                     SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
                     return true;
                 default:
-                    return base.HandleGlobalInput(playerInputType);
+                    return base.HandleGlobalInput(controllerInputType);
             }
         }
         #endregion

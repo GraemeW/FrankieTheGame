@@ -110,19 +110,19 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region InterfaceMethods
-        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
+        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
-            return MoveCursor2D(playerInputType);
+            return MoveCursor2D(controllerInputType);
         }
 
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
-            if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
-            if (PrepareChooseAction(playerInputType)) { return true; }
-            if (MoveCursor(playerInputType, CursorMovementStyle.Combined)) { return true; }
+            if (ShowCursorOnAnyInteraction(controllerInputType)) { return true; }
+            if (PrepareChooseAction(controllerInputType)) { return true; }
+            if (MoveCursor(controllerInputType, CursorMovementStyle.Combined)) { return true; }
 
             return false;
         }

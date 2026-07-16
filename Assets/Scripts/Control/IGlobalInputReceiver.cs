@@ -2,6 +2,6 @@ namespace Frankie.Control
 {
     public interface IGlobalInputReceiver
     {
-        bool HandleGlobalInput(PlayerInputType playerInputType);
+        bool HandleGlobalInput(ControllerInputType controllerInputType);
     }
 }

@@ -103,18 +103,18 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides, bool useSoloAutoSelect = true)
+        public void Setup(BaseController baseController, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides, bool useSoloAutoSelect = true)
         {
-            if (standardPlayerInputCaller == null || setPartyCombatConduit == null) { destroyQueued = true;  return; }
+            if (baseController == null || setPartyCombatConduit == null) { destroyQueued = true;  return; }
             
-            controller = standardPlayerInputCaller;
+            controller = baseController;
             partyCombatConduit = setPartyCombatConduit;
             isPartySolo = partyCombatConduit.IsPartySolo();
             setCharacterSlides ??= new List<CharacterSlide>();
 
-            if (standardPlayerInputCaller.GetType() == typeof(BattleController))
+            if (baseController.GetType() == typeof(BattleController))
             {
-                battleController = standardPlayerInputCaller as BattleController;
+                battleController = baseController as BattleController;
             }
             else
             {
@@ -131,7 +131,7 @@ namespace Frankie.Inventory.UI
 
             SetupPartySelection();
             SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true);
-            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+            ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (useSoloAutoSelect && isPartySolo) { Choose(null); }
         }
 
@@ -217,7 +217,7 @@ namespace Frankie.Inventory.UI
         {
             ClearAllChoices();
             ChooseCharacter(null);
-            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+            ShowCursorOnAnyInteraction(ControllerInputType.Execute);
         }
 
         private void ClearAllChoices()
@@ -252,19 +252,19 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
+        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (inventoryBoxState)
             {
                 case InventoryBoxState.InCharacterSelection:
-                    return base.MoveCursor(playerInputType, CursorMovementStyle.Horizontal);
+                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
                 case InventoryBoxState.InKnapsack:
                     // Support for 2-D movement across the inventory items
-                    MoveCursor2D(playerInputType);
+                    MoveCursor2D(controllerInputType);
                     break;
                 case InventoryBoxState.InCharacterTargeting:
                 {
-                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
+                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
                     bool gotNextTarget = GetNextTarget(targetingNavigationType);
                     if (!gotNextTarget) { SetInventoryBoxState(InventoryBoxState.InKnapsack); }
                     break;
@@ -305,7 +305,7 @@ namespace Frankie.Inventory.UI
             battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.InKnapsack);
 
-            if (initializeCursor && IsChoiceAvailable()) { MoveCursor(PlayerInputType.NavigateRight, CursorMovementStyle.Combined); }
+            if (initializeCursor && IsChoiceAvailable()) { MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined); }
             if (!IsChoiceAvailable()) { SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true); }
         }
 
@@ -325,7 +325,7 @@ namespace Frankie.Inventory.UI
             }
             if (character == selectedCharacter) return;
             
-            OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+            TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             selectedCharacter = character;
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
             RefreshKnapsackContents();
@@ -580,11 +580,11 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
+            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
             {
                 if (inventoryBoxState == InventoryBoxState.InKnapsack)
                 {
@@ -593,7 +593,7 @@ namespace Frankie.Inventory.UI
                     return true;
                 }
             }
-            return base.HandleGlobalInput(playerInputType);
+            return base.HandleGlobalInput(controllerInputType);
         }
 
         protected override void EnableInput(bool enable)
