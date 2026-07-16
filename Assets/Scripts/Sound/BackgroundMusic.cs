@@ -81,6 +81,11 @@ namespace Frankie.Sound
             SceneLoader.zoneUpdated -= ParseZoneUpdate;
             BattleEventBus<BattleStagingEvent>.UnsubscribeFromEvent(HandleBattleStagingEvent);
         }
+
+        private void OnDestroy()
+        {
+            if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+        }
         #endregion
 
         #region PublicMethods
@@ -147,8 +152,6 @@ namespace Frankie.Sound
                     break;
                 }
             }
-            
-
         }
 
         private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
@@ -194,6 +197,7 @@ namespace Frankie.Sound
             if (audioClip == null) { return; }
             
             worldMusicTimeIndex = audioSource.time;
+            
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
             musicFadeCoroutine = StartCoroutine(TransitionToAudio(audioClip, true));
         }
@@ -201,7 +205,15 @@ namespace Frankie.Sound
         private void StopBattleMusic()
         {
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
-            StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
+            
+            if (BackgroundMusicOverride.TryGetOverrideAudio(out AudioClip overrideAudio))
+            {
+                OverrideMusic(overrideAudio);
+                return;
+            }
+            
+            if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+            musicFadeCoroutine = StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
         }
         #endregion
 
@@ -210,6 +222,7 @@ namespace Frankie.Sound
         {
             if (audioClip == null) { return false; }
             worldMusicTimeIndex = audioSource.time;
+            
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
             musicFadeCoroutine = StartCoroutine(TransitionToAudio(audioClip, true));
             return true;
