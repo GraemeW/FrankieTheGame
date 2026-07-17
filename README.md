@@ -57,7 +57,6 @@ Scripts are located in: [Scripts](./Assets/Scripts/)
         * *[BattleController](./Assets/Scripts/Control/Controllers/BattleController.cs) -- included in [Combat](./Assets/Scripts/Combat/) namespace*
         * *[DialogueController](./Assets/Scripts/Control/Controllers/DialogueController.cs) -- included in [Speech](./Assets/Scripts/Speech/) namespace*
 * [Zones](./Assets/Scripts/Zones/):  Scene (room/worldspace) properties/references and scene-to-scene transitions
-    * *incl. [Map/World Camera](./Assets/Scripts/Zones/Map/)*
 * [Stats](./Assets/Scripts/Stats/):  Character, enemy and NPC game stats, party tracker/behaviors
 * [Combat](./Assets/Scripts/Combat/):  Battle logistics, combat participant, enemy combat AI, actions/skills, status effects, enemy spawners
 * [Speech](./Assets/Scripts/Speech/):  Dialogue nodes/trees, triggers (via predicates), NPC conversant AI

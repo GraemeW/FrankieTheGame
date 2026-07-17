@@ -70,7 +70,7 @@
 * Player Input Events:
   * [PlayerInput](../../Assets/UnityConfigurables/InputProfiles/PlayerInput.inputactions) events must only be subscribed to via pre-defined controllers / debug tools, as defined below
   * Standard Controllers:
-    * [PlayerController](../../Assets/Scripts/Control/Player/PlayerController.cs):  game/world input
+    * [PlayerController](../../Assets/Scripts/Control/Controllers/PlayerController.cs):  game/world input
     * [BattleController](../../Assets/Scripts/Control/Controllers/BattleController.cs):  battle input
     * [DialogueController](../../Assets/Scripts/Control/Controllers/DialogueController.cs):  dialogue input
   * Menus and Debuggers:

@@ -29,7 +29,7 @@ The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefa
 * [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/Transitions/SceneLoader.cs) script to transition across scenes (zones)
 * [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Transitions/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)
-* [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Zones/Map/MapCamera.cs) to generate the mini-map
+* [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Rendering/Camera/MapCamera.cs) to generate the mini-map
 * [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Utils/FrankieDebugger.cs) for debug functionality (not for release)
 
 ### Addressables Loader (Singleton)
@@ -69,10 +69,10 @@ See [here](../../Scripts/Rendering/README.md#pixel-perfect-rendering) for more d
 
 The [Player](./Player.prefab) includes a number of important game/control components:
 * [Player](../../Scripts/Core/Player.cs):  ensure singleton and handle game loss criteria
-* [PlayerController](../../Scripts/Control/Player/PlayerController.cs):  standard user input translation script (i.e. for [PlayerStateType](../../Scripts/Control/Player/PlayerStateMachine/PlayerStateType.cs) : inWorld)
-* [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs):  primary game state machine for different [IPlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs)
-  * e.g. including hand-off from the [PlayerController](../../Scripts/Control/Player/PlayerController.cs) to alternate [Controllers](../Controllers/)
-* [PlayerMover](../../Scripts/Control/Movement/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Player/PlayerController.cs))
+* [PlayerController](../../Scripts/Control/Controllers/PlayerController.cs):  standard user input translation script (i.e. for [PlayerStateType](../../Scripts/Core/PlayerStateMachine/PlayerStateType.cs) : inWorld)
+* [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs):  primary game state machine for different [IPlayerState](../../Scripts/Core/PlayerStateMachine/PlayerStates/IPlayerState.cs)
+  * e.g. including hand-off from the [PlayerController](../../Scripts/Control/Controllers/PlayerController.cs) to alternate [Controllers](../Controllers/)
+* [PlayerMover](../../Scripts/Control/Movement/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Controllers/PlayerController.cs))
   * [PathFinder](../../Scripts/Control/Movement/PathFinding/PathFinder.cs):  interfaces with PlayerMover to allow for A* pathfinding (as-needed for cutscenes, where player control is handled by the game engine instead of player input)
 * [Party](../../Scripts/Stats/Party/Party.cs):  add/remove characters to active party & queries for associated party state
   * [InactiveParty](../../Scripts/Stats/Party/InactiveParty.cs):  manages save state for characters not currently in party
@@ -85,13 +85,13 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
 
 Notes:
-1. Further detail on input/control and interfacing with the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) is provided in [Controllers](../Controllers/)
+1. Further detail on input/control and interfacing with the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) is provided in [Controllers](../Controllers/)
 2. Rigidbodies and collider physics are handled on the individual character objects present in the party / party assist
 
 ### Key Children
 
 The [Player](./Player.prefab) also has several child game objects for interfacing with above components, including:
-* `InteractionCenterPoint`:  used by the [PlayerController](../../Scripts/Control/Player/PlayerController.cs) as the source point for raycasting
+* `InteractionCenterPoint`:  used by the [PlayerController](../../Scripts/Control/Controllers/PlayerController.cs) as the source point for raycasting
 * `PartyContainer`:  used by the [Party](../../Scripts/Stats/Party/Party.cs) as the parent object for placing [character](../CharacterObjects/PCs/) prefabs
   * by default [Frankie](../CharacterObjects/PCs/Frankie/Frankie.prefab) is placed in the party and is default the `PartyLeader`
   * , but in gameplay he can be removed/replaced with other characters

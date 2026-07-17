@@ -2,9 +2,9 @@
 
 Controllers are used to translate player input into relevant on-screen actions in Frankie.  They each interface with Unity's New Input System via their corresponding [PlayerInput.inputactions](../../UnityConfigurables/InputProfiles/PlayerInput.inputactions) file and associated [PlayerInput.cs](../../UnityConfigurables/InputProfiles/PlayerInput.cs) script by listening to `.performed` events.
 
-Since there are several interaction mechanisms that vary as a function of [PlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs), there are, accordingly, several types of controllers:
+Since there are several interaction mechanisms that vary as a function of [PlayerState](../../Scripts/Core/PlayerStateMachine/PlayerStates/IPlayerState.cs), there are, accordingly, several types of controllers:
 * [PlayerController](../Core/README.md#player-prefab-singleton):  existing on the [Player](../Core/Player.prefab) prefab, for handling in-world input
-  * *via [PlayerController Script](../../Scripts/Control/Player/PlayerController.cs)*
+  * *via [PlayerController Script](../../Scripts/Control/Controllers/PlayerController.cs)*
 * [BattleController](./Battle%20Controller.prefab):  for handling input while the player is in combat
   * *via [BattleController Script](../../Scripts/Control/Controllers/BattleController.cs)*
 * [DialogueController](./DialogueController.prefab):  for handling input while the player is in dialogue
@@ -20,16 +20,16 @@ The configuration of each controller is not covered in detail here as the parame
 
 ### Controller Instantiation via PlayerStateMachine
 
-The [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) on the [Player](../Core/Player.prefab) has public methods to transition across different [PlayerStates](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs).  
+The [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) on the [Player](../Core/Player.prefab) has public methods to transition across different [PlayerStates](../../Scripts/Core/PlayerStateMachine/PlayerStates/IPlayerState.cs).  
 
-Starting from the [WorldState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/WorldState.cs), for example, the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) may receive a cue to:
+Starting from the [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs), for example, the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) may receive a cue to:
 * `EnterCombat()` -- e.g. from an [NPCStateHandler](../../Scripts/Control/NPC/NPCStateHandler.cs)'s `InitiateCombat()`
 
 or
 
 * `EnterDialogue()` -- e.g. from an [NPCStateHandler](../../Scripts/Control/NPC/NPCStateHandler.cs)'s `InitiateDialogue()`
 
-As part of this transition, the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) instantiates and sets up the corresponding [BattleController](./Battle%20Controller.prefab) or [DialogueController](./DialogueController.prefab).  The [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) also announces the state change via the `Action<PlayerStateType> playerStateChanged` event, which temporarily pauses input from the [PlayerController](../Core/README.md#player-prefab-singleton) that may cause issues.  
+As part of this transition, the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) instantiates and sets up the corresponding [BattleController](./Battle%20Controller.prefab) or [DialogueController](./DialogueController.prefab).  The [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) also announces the state change via the `Action<PlayerStateType> playerStateChanged` event, which temporarily pauses input from the [PlayerController](../Core/README.md#player-prefab-singleton) that may cause issues.  
 
 ### Controller Behaviour
 
@@ -39,17 +39,17 @@ Once a new controller is instantiated, it will monitor for player input and upda
 
 #### BattleController
 
-As part of the `SetupBattleController()`, the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) subscribes to [BattleState](../../Scripts/Combat/DataStructuresInterfaces/BattleState.cs) events.  
+As part of the `SetupBattleController()`, the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) subscribes to [BattleState](../../Scripts/Combat/DataStructuresInterfaces/BattleState.cs) events.  
 
-When the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) hears `BattleState.Complete`, it will transition out of the battle:
-* initially from [CombatState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/CombatState.cs) to [TransitionState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/TransitionState.cs)
+When the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) hears `BattleState.Complete`, it will transition out of the battle:
+* initially from [CombatState](../../Scripts/Core/PlayerStateMachine/PlayerStates/CombatState.cs) to [TransitionState](../../Scripts/Core/PlayerStateMachine/PlayerStates/TransitionState.cs)
   * *this allows us to paint a battle transition screen via [Fader](../Core/CoreDep/Fader.prefab)*
-* then from [TransitionState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/TransitionState.cs) to [WorldState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/WorldState.cs)
+* then from [TransitionState](../../Scripts/Core/PlayerStateMachine/PlayerStates/TransitionState.cs) to [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs)
 
 , and trigger `QueueExitCombat()` in kind, which destroys the current BattleController.
 
 #### DialogueController
 
-When dialogue has completed or the player has exited out of the dialogue box, the DialogueController will call `EndConversation()`.  This triggers the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) to transition from [DialogueState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/DialogueState.cs) to [WorldState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/WorldState.cs).
+When dialogue has completed or the player has exited out of the dialogue box, the DialogueController will call `EndConversation()`.  This triggers the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) to transition from [DialogueState](../../Scripts/Core/PlayerStateMachine/PlayerStates/DialogueState.cs) to [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs).
 
 The DialogueController will subsequently kill itself via its `KillControllerForNoReceivers()` method.
