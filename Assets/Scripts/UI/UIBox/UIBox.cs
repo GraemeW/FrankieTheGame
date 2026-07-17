@@ -115,7 +115,6 @@ namespace Frankie.Utils.UI
 
         protected virtual void OnDisable()
         {
-            Debug.Log("Disabling UIBox");
             TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
             ClearChoiceSelections();
         }

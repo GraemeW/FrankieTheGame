@@ -117,7 +117,6 @@ namespace Frankie.Control
         
         private void OnReceiverModified(ReceiverModifiedType receiverModifiedType, ReceiverModifiedData receiverModifiedData)
         {
-            Debug.Log($"Modified receiver modified type: {receiverModifiedType}");
             if (receiverModifiedData?.inputReceiver == null) { return; }
 
             switch (receiverModifiedType)
@@ -152,7 +151,6 @@ namespace Frankie.Control
             activeInputReceiver.isGameObjectEnabled = true;
             SubscribeToGlobalInput(true, activeInputReceiver.inputHandler);
             activeInputReceiver.EnableInput(true);
-            Debug.Log($"Re-Enabled input on {inputReceiver.gameObject.name}");
         }
         
         private void HandleReceiverDisable(IInputReceiver inputReceiver)
