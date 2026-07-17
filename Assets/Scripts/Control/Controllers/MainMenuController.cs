@@ -16,10 +16,6 @@ namespace Frankie.Control
         
         // Cached References
         private PlayerInput playerInput;
-        
-        // Lifecycle Overrides -- Prevent Polling to Self-Destruct
-        protected override bool HasListeners() => true;
-        protected override bool HasBeenActivated() => true;
 
         private void Awake()
         {
@@ -36,8 +32,10 @@ namespace Frankie.Control
 
         private void Start()
         {
+            if (launcher == null) { return; }
+            
             launcher.Setup(startCanvas);
-            launcher.TakeControl(this, launcher, null);
+            AddInputReceiver(launcher, null);
         }
 
         private void OnEnable()

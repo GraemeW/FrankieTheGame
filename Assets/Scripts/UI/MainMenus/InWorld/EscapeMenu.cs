@@ -44,14 +44,15 @@ namespace Frankie.Menu.UI
             if (playerStateMachine != null) { controller = playerStateMachine.GetComponent<PlayerController>(); }
         }
 
-        private void Start()
+        protected override void Start()
         {
             ResetAllTextElements();
-            HandleClientEntry();
+            base.Start();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -85,7 +86,7 @@ namespace Frankie.Menu.UI
 
             OptionsMenu optionsMenu = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             optionsMenu.Setup(this);
-            PassControl(optionsMenu);
+            controller.AddInputReceiver(optionsMenu, null);
         }
 
         public void QuitGame() // Called via Unity Events

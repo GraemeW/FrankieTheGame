@@ -24,8 +24,9 @@ namespace Frankie.ZoneManagement.UI
         private MapCamera mapCamera;
 
         #region UnityMethods
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             if (flavourTopField != null) { flavourTopField.SetText(localizedFlavourTopText.GetSafeLocalizedString()); }
             if (flavourBottomField != null) { flavourBottomField.SetText(localizedFlavourBottomText.GetSafeLocalizedString()); }
         }
@@ -39,9 +40,10 @@ namespace Frankie.ZoneManagement.UI
             mapCamera.UpdateMap();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (mapCamera != null) { Destroy(mapCamera.gameObject); }
+            base.OnDestroy();
         }
         #endregion
 

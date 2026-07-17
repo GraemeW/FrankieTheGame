@@ -263,7 +263,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter || forceChoose)
             {
-                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -360,7 +360,8 @@ namespace Frankie.Inventory.UI
                 equipmentOptionMenu.Setup(localizedOptionText.GetSafeLocalizedString());
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
 
-                PassControl(this, new Action[] { () => ResetEquipmentBox(false), () => EnableInput(true) }, equipmentOptionMenu, controller);
+                
+                controller.AddInputReceiver(equipmentOptionMenu, () => ResetEquipmentBox(false));
                 equipmentOptionMenu.ClearDisableCallbacksOnChoose(true);
                 SetEquipmentBoxState(EquipmentBoxState.InEquipmentOptionMenu);
             }
@@ -403,7 +404,7 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(message);
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
 
         private void SpawnInventoryBox()
@@ -414,7 +415,7 @@ namespace Frankie.Inventory.UI
             EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
-            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
+            controller.AddInputReceiver(inventoryBox, () => SetVisible(true));
         }
 
         private void ConfirmEquipmentChange(bool confirm)

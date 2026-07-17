@@ -12,12 +12,11 @@ using Frankie.Inventory;
 using Frankie.Utils;
 using Frankie.Speech.UI;
 using Frankie.Inventory.UI;
-using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class BattleCanvas : MonoBehaviour, IUIBoxCallbackReceiver, ILocalizable
+    public class BattleCanvas : MonoBehaviour, ILocalizable
     {
         // Tunables
         [Header("Parents")]
@@ -110,11 +109,11 @@ namespace Frankie.Combat.UI
             if (playerObject != null) { partyCombatConduit =  playerObject.GetComponent<PartyCombatConduit>(); }
             battleController = BattleController.FindBattleController();
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
-
+            
             battleRewards = battleController.GetBattleRewards();
             skillSelection.SetupBattleController(battleController);
             combatOptions.Setup(battleController, this, partyCombatConduit);
-            combatOptions.TakeControl(battleController, this, null);
+            battleController.AddInputReceiver(combatOptions, null);
 
             ClearBattleCanvas();
         }
@@ -151,11 +150,11 @@ namespace Frankie.Combat.UI
         #region PublicMethods
         public Canvas GetCanvas() => canvas;
         public EnemySlide GetEnemySlide(BattleEntity combatParticipant) => enemySlideLookup.GetValueOrDefault(combatParticipant);
-        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver)
+        public void SetupRunFailureMessage(Action disableCallback)
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(localizedMessageFailedToRun.GetSafeLocalizedString());
-            return dialogueBox;
+            battleController.AddInputReceiver(dialogueBox, disableCallback);
         }
 
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
@@ -383,7 +382,7 @@ namespace Frankie.Combat.UI
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(localizedMessageEncounterPreHype.GetSafeLocalizedString());
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined) });
+            battleController.AddInputReceiver(dialogueBox, () => battleController.SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined));
         }
 
         private void SetupExperienceMessage(BattleOutcome battleOutcome)
@@ -418,7 +417,7 @@ namespace Frankie.Combat.UI
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
 
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
+            battleController.AddInputReceiver(dialogueBox, () => busyWithSerialAction = false);
         }
 
         private void SetupAllLootMessages(BattleOutcome battleOutcome)
@@ -438,7 +437,7 @@ namespace Frankie.Combat.UI
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(string.Format(localizedMessageGainedLoot.GetSafeLocalizedString(), partyCombatConduit.GetPartyLeaderName()));
 
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
+            battleController.AddInputReceiver(dialogueBox, () => busyWithSerialAction = false);
         }
 
         private void SetupAllocatedLootMessage(BattleOutcome battleOutcome)
@@ -455,7 +454,7 @@ namespace Frankie.Combat.UI
                 dialogueBox.AddPageBreak();
             }
 
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
+            battleController.AddInputReceiver(dialogueBox, () => busyWithSerialAction = false);
         }
 
         private void SetupUnallocatedLootMessage(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
@@ -472,22 +471,37 @@ namespace Frankie.Combat.UI
 
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new(localizedOptionChuckItemAffirmative.GetSafeLocalizedString(), () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ),
-                new(localizedOptionChuckItemNegative.GetSafeLocalizedString(), () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } )
+                new(localizedOptionChuckItemAffirmative.GetSafeLocalizedString(), () =>
+                {
+                    SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); 
+                    Destroy(dialogueOptionBox.gameObject);
+                } ),
+                new(localizedOptionChuckItemNegative.GetSafeLocalizedString(), () =>
+                {
+                    SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); 
+                    Destroy(dialogueOptionBox.gameObject);
+                } )
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
-            dialogueOptionBox.ClearDisableCallbacksOnChoose(true); // Clear window re-spawn (see below) on successful choice selection
-            dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) }); // If user tabs out of this window, re-spawn it (avoid lost loot)
+            // Clear window re-spawn (see below) on successful choice selection
+            dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
+            // If user tabs out of this window, re-spawn it (avoid lost loot)
+            battleController.AddInputReceiver(dialogueOptionBox, () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome));
         }
 
         private void SetupInventorySwapBox(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
         {
             InventorySwapBox inventorySwapBox = Instantiate(inventorySwapBoxPrefab, infoChooseParent);
-            inventorySwapBox.Setup(battleController, partyCombatConduit, inventoryItem, () => { inventorySwapBox.ClearDisableCallbacks(); busyWithSerialAction = false; });
-                // Inventory box destruction handled by swap box on successful swap
-
-            inventorySwapBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) });
+            
+            // Inventory box destruction handled by swap box on successful swap
+            inventorySwapBox.Setup(battleController, partyCombatConduit, inventoryItem, () =>
+            {
+                inventorySwapBox.ClearDisableCallbacks(); 
+                busyWithSerialAction = false;
+            });
+            
+            battleController.AddInputReceiver(inventorySwapBox, () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome));
             // If user tabs out of this window, re-spawn it (avoid lost loot)
         }
 
@@ -498,12 +512,17 @@ namespace Frankie.Combat.UI
 
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new(localizedOptionChuckItemAffirmative.GetSafeLocalizedString(), () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); }), // Exit and close out serial action
-                new(localizedOptionChuckItemNegative.GetSafeLocalizedString(), () => { Destroy(dialogueOptionBox); }) // Otherwise loop back & re-spawn
+                new(localizedOptionChuckItemAffirmative.GetSafeLocalizedString(), () =>
+                {
+                    // Exit and close out serial action
+                    dialogueOptionBox.ClearDisableCallbacks(); 
+                    busyWithSerialAction = false; 
+                    Destroy(dialogueOptionBox);
+                }), 
+                new(localizedOptionChuckItemNegative.GetSafeLocalizedString(), () => Destroy(dialogueOptionBox)) // Otherwise loop back & re-spawn
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-
-            dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) });
+            battleController.AddInputReceiver(dialogueOptionBox, () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome));
         }
 
         private void SetupExitMessage(BattleOutcome battleOutcome)
@@ -518,16 +537,12 @@ namespace Frankie.Combat.UI
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(exitMessage);
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete, battleOutcome); } });
-
+            battleController.AddInputReceiver(dialogueBox, () =>
+            {
+                busyWithSerialAction = false;
+                battleController.SetBattleState(BattleState.Complete, battleOutcome);
+            });
             battleController.SetBattleState(BattleState.Outro, battleOutcome);
-        }
-        #endregion
-
-        #region Interfaces
-        public void HandleDisableCallback(IUIBoxCallbackReceiver callbackReceiver, Action action)
-        {
-            action?.Invoke();
         }
         #endregion
     }

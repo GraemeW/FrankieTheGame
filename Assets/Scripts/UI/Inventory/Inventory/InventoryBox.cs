@@ -289,9 +289,8 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets()))
             {
                 DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-
                 dialogueBox.AddText(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
-                PassControl(dialogueBox);
+                controller.AddInputReceiver(dialogueBox, null);
 
                 return true;
             }
@@ -325,7 +324,7 @@ namespace Frankie.Inventory.UI
             }
             if (character == selectedCharacter) return;
             
-            TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             selectedCharacter = character;
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
             RefreshKnapsackContents();
@@ -347,7 +346,7 @@ namespace Frankie.Inventory.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(localizedOptionText.GetSafeLocalizedString());
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
         #endregion
@@ -474,7 +473,7 @@ namespace Frankie.Inventory.UI
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
 
         private void Move(int inventorySlot)
@@ -485,7 +484,7 @@ namespace Frankie.Inventory.UI
             var inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
             inventoryMoveBox.Setup(controller, partyCombatConduit, selectedKnapsack, inventorySlot, characterSlides);
             canvasGroup.alpha = 0.0f;
-            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryMoveBox, controller);
+            controller.AddInputReceiver(inventoryMoveBox, () => SetVisible(true));
 
             SetInventoryBoxState(InventoryBoxState.InItemMoving);
         }
@@ -505,7 +504,7 @@ namespace Frankie.Inventory.UI
 
             dialogueOptionBox.Setup(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
         }
 
         private void ExecuteDrop(int inventorySlot)
@@ -527,7 +526,9 @@ namespace Frankie.Inventory.UI
                     battleController.SetActiveBattleAction(selectedKnapsack.GetItemInSlot(inventorySlot) as ActionItem);
                     battleController.SetBattleActionArmed(true);
                     battleController.SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
-                    ClearDisableCallbacks(); // Prevent combat options from triggering -> proceed directly to target selection
+                    
+                    // Prevent combat options from triggering -> proceed directly to target selection
+                    ClearDisableCallbacks();
                     Destroy(gameObject);
                 }
                 else
@@ -575,7 +576,7 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
         #endregion
 

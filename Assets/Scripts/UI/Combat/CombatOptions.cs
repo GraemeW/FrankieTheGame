@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -8,7 +7,6 @@ using Frankie.Stats;
 using Frankie.Utils.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
-using Frankie.Speech.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
@@ -35,8 +33,9 @@ namespace Frankie.Combat.UI
         private PartyCombatConduit partyCombatConduit;
 
         #region UnityMethods
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             if (fightChoiceOption != null) { fightChoiceOption.SetText(localizedFightText.GetSafeLocalizedString()); }
             if (itemChoiceOption != null) { itemChoiceOption.SetText(localizedItemText.GetSafeLocalizedString()); }
             if (statsChoiceOption != null) { statsChoiceOption.SetText(localizedStatsText.GetSafeLocalizedString()); }
@@ -62,14 +61,15 @@ namespace Frankie.Combat.UI
         {
             StatusBox statusBox = Instantiate(statusBoxPrefab, battleCanvas.transform);
             statusBox.Setup(partyCombatConduit);
-            PassControl(this, new Action[] { EnableCombatOptions }, statusBox, battleController);
+            battleController.AddInputReceiver(statusBox, EnableCombatOptions);
+            gameObject.SetActive(false);
         }
 
         public void OpenKnapsack() // Called via unity events
         {
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, battleCanvas.transform);
             inventoryBox.Setup(battleController, partyCombatConduit, null);
-            PassControl(this, new Action[] { EnableCombatOptions }, inventoryBox, battleController);
+            battleController.AddInputReceiver(inventoryBox, EnableCombatOptions);
             gameObject.SetActive(false);
         }
 
@@ -82,8 +82,7 @@ namespace Frankie.Combat.UI
             }
             else
             {
-                DialogueBox runFailureDialogue = battleCanvas.SetupRunFailureMessage(this);
-                PassControl(this, new Action[] { InitiateCombat }, runFailureDialogue, battleController);
+                battleCanvas.SetupRunFailureMessage(InitiateCombat);
                 gameObject.SetActive(false);
             }
         }

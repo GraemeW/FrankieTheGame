@@ -44,14 +44,14 @@ namespace Frankie.Inventory.UI
             if (!GetPlayerReference()) { Destroy(gameObject); }
         }
         
-        private void Start()
+        protected override void Start()
         {
-            // Input handled via player controller, immediate override
-            TakeControl(playerController, this, null); 
-            HandleClientEntry();
+            if (playerController == null) { Destroy(gameObject); return; }
+            playerController.AddInputReceiver(this, null);
+            base.Start();
 
             shop = shopper.GetCurrentShop();
-            if (shop == null || !shop.HasInventory()) { Destroy(gameObject); }
+            if (shop == null || !shop.HasInventory()) { Destroy(gameObject); return; }
             
             if (introTextField != null) { introTextField.SetText(localizedMessageIntro.GetSafeLocalizedString()); }
             if (choiceBuy != null) { choiceBuy.SetText(localizedOptionBuy.GetLocalizedString()); }
@@ -69,12 +69,10 @@ namespace Frankie.Inventory.UI
             }
         }
         
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (exitShopOnDestroy)
-            {
-                playerStateMachine?.EnterWorld();
-            }
+            base.OnDestroy();
+            if (exitShopOnDestroy && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         
         private bool GetPlayerReference()

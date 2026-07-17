@@ -34,8 +34,9 @@ namespace Frankie.Menu.UI
         private Zone newGameZoneOverride;
         
         #region UnityMethods
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             if (loadHeaderField != null) { loadHeaderField.SetText(localizedLoadHeaderText.GetSafeLocalizedString());}
         }
         
@@ -72,7 +73,6 @@ namespace Frankie.Menu.UI
         
         public void Cancel()
         {
-            HandleClientExit();
             Destroy(gameObject);
         }
         #endregion
@@ -132,7 +132,7 @@ namespace Frankie.Menu.UI
             };
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
 
@@ -152,7 +152,7 @@ namespace Frankie.Menu.UI
             };
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
         }
         #endregion
     }

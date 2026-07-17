@@ -165,7 +165,7 @@ namespace Frankie.Combat.UI
                         SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
                         DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
                         dialogueBox.AddText(localizedMessageNoValidTarget.GetSafeLocalizedString());
-                        PassControl(dialogueBox);
+                        controller.AddInputReceiver(dialogueBox, null);
                         return false;
                     }
                 case AbilitiesBoxState.InCharacterTargeting:
@@ -186,7 +186,7 @@ namespace Frankie.Combat.UI
 
             if (combatParticipant != currentCombatParticipant)
             {
-                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
                 currentCombatParticipant = combatParticipant;
             }
             
@@ -225,13 +225,13 @@ namespace Frankie.Combat.UI
             if (skillUsedSuccessfully)
             {
                 dialogueBox.AddText(string.Format(localizedMessageUseSkillInWorld.GetSafeLocalizedString(), senderName, skillName, targetCharacterNames));
-                PassControl(dialogueBox);
+                controller.AddInputReceiver(dialogueBox, null);
                 return true;
             }
             else
             {
                 dialogueBox.AddText(string.Format(localizedMessageNotEnoughAP.GetSafeLocalizedString(), senderName, skillName, targetCharacterNames));
-                PassControl(dialogueBox);
+                controller.AddInputReceiver(dialogueBox, null);
                 return false;
             }
         }
@@ -340,7 +340,7 @@ namespace Frankie.Combat.UI
             }
             SetUpChoiceOptions();
 
-            TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
         }
 
         protected override void ResetUI()

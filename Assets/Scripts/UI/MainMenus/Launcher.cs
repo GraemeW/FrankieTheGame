@@ -37,7 +37,7 @@ namespace Frankie.Menu.UI
             loadGameMenu.Setup(newGameZoneOverride);
             
             EnableInput(false);
-            PassControl(loadGameMenu);
+            controller.AddInputReceiver(loadGameMenu, null);
         }
 
         public void Continue() // Called via Unity Events -- Standard Continue
@@ -56,7 +56,7 @@ namespace Frankie.Menu.UI
         public void LoadOptions() // Called via Unity Events
         {
             OptionsMenu menuOptions = Instantiate(optionsPrefab, startCanvas.transform);
-            PassControl(menuOptions);
+            controller.AddInputReceiver(menuOptions, null);
         }
 
         public void ExitGame() // Called via Unity Events
