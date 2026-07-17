@@ -132,7 +132,7 @@ namespace Frankie.Control
                     HandleReceiverDisable(receiverModifiedData.inputReceiver);
                     break;
                 case ReceiverModifiedType.ClientExit:
-                    HandleUIBoxDestroyed(receiverModifiedData.inputReceiver);
+                    HandleReceiverDestroyed(receiverModifiedData.inputReceiver);
                     break;
             }
         }
@@ -167,7 +167,7 @@ namespace Frankie.Control
             if (TryGetLastActiveInputReceiver(out ActiveInputReceiver lastActiveInputReceiver)) { lastActiveInputReceiver.EnableInput(true); }
         }
         
-        private void HandleUIBoxDestroyed(IInputReceiver inputReceiver)
+        private void HandleReceiverDestroyed(IInputReceiver inputReceiver)
         {
             if (!TryGetActiveInputReceiver(inputReceiver, out ActiveInputReceiver activeInputReceiver)) { return; }
             activeInputReceiver.inputReceiver.SubscribeToReceiverUpdates(false, OnReceiverModified);
