@@ -18,9 +18,9 @@ namespace Frankie.Utils.UI
         [SerializeField] protected Transform optionParent;
         [SerializeField] protected GameObject optionButtonPrefab;
         [SerializeField] protected GameObject optionSliderPrefab;
-
+        
         // State -- Standard
-        protected bool destroyQueued = false;
+        public bool destroyQueued { get; set; } = false;
         protected BaseController controller;
 
         // State -- Choices
@@ -29,8 +29,9 @@ namespace Frankie.Utils.UI
         protected readonly List<UIChoice> choiceOptions = new();
         protected UIChoice highlightedChoiceOption;
 
-        // Events
+        // Event Handles
         private event Action<ReceiverModifiedType, ReceiverModifiedData> receiverModified;
+        public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
 
         #region StaticMethods
         private static bool MoveCursor(ControllerInputType controllerInputType, ref int currentSelectionIndex, int optionsCount, CursorMovementStyle cursorMovementStyle)
@@ -132,7 +133,7 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region UtilityMethods
-        protected virtual void EnableInput(bool enable) => handleGlobalInput = enable;
+        public void SetActiveInput(bool enable) => handleGlobalInput = enable;
         protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
@@ -304,8 +305,6 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region Input Handling
-        public void SetActiveInput(bool enable) => handleGlobalInput = enable;
-        
         public virtual bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             // NOTE:  When overriding, ensure to handle the bool:  handleGlobalInput
@@ -316,14 +315,12 @@ namespace Frankie.Utils.UI
         // Match HandleGlobalInput with no return
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
 
-        public bool TrySetController(BaseController setController, out Action<ControllerInputType> inputHandler)
+        public bool TrySetController(BaseController setController)
         {
-            inputHandler = null;
             if (setController == null) { return false; }
 
             handleGlobalInput = true;
             controller = setController;
-            inputHandler = HandleInputWrapper;
             return true;
         }
         #endregion

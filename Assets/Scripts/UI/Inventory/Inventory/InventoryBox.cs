@@ -290,11 +290,9 @@ namespace Frankie.Inventory.UI
             {
                 DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
                 dialogueBox.AddText(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
-                controller.AddInputReceiver(dialogueBox, null);
-
+                controller.AddInputReceiver(dialogueBox, ResetSelectState);
                 return true;
             }
-
             return false;
         }
 
@@ -346,8 +344,23 @@ namespace Frankie.Inventory.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(localizedOptionText.GetSafeLocalizedString());
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            controller.AddInputReceiver(dialogueOptionBox, null);
+            controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
+        }
+        
+        private void ResetSelectState()
+        {
+            selectedItemSlot = -1;
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+
+            if (selectedCharacter == null || selectedKnapsack == null || selectedKnapsack.IsEmpty())
+            {
+                ReInitializeToCharacterSelection();
+            }
+            else
+            {
+                SetInventoryBoxState(InventoryBoxState.InKnapsack);
+            }
         }
         #endregion
 
@@ -473,7 +486,7 @@ namespace Frankie.Inventory.UI
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
-            controller.AddInputReceiver(dialogueBox, null);
+            controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }
 
         private void Move(int inventorySlot)
@@ -484,7 +497,11 @@ namespace Frankie.Inventory.UI
             var inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
             inventoryMoveBox.Setup(controller, partyCombatConduit, selectedKnapsack, inventorySlot, characterSlides);
             canvasGroup.alpha = 0.0f;
-            controller.AddInputReceiver(inventoryMoveBox, () => SetVisible(true));
+            controller.AddInputReceiver(inventoryMoveBox, () =>
+            {
+                ResetSelectState();
+                SetVisible(true);
+            });
 
             SetInventoryBoxState(InventoryBoxState.InItemMoving);
         }
@@ -504,7 +521,7 @@ namespace Frankie.Inventory.UI
 
             dialogueOptionBox.Setup(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            controller.AddInputReceiver(dialogueOptionBox, null);
+            controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
         }
 
         private void ExecuteDrop(int inventorySlot)
@@ -576,7 +593,7 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
-            controller.AddInputReceiver(dialogueBox, null);
+            controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }
         #endregion
 
@@ -595,24 +612,6 @@ namespace Frankie.Inventory.UI
                 }
             }
             return base.HandleGlobalInput(controllerInputType);
-        }
-
-        protected override void EnableInput(bool enable)
-        {
-            if (!enable) { handleGlobalInput = false; return; }
-
-            selectedItemSlot = -1;
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
-
-            if (selectedCharacter == null || selectedKnapsack == null || selectedKnapsack.IsEmpty())
-            {
-                ReInitializeToCharacterSelection();
-            }
-            else
-            {
-                SetInventoryBoxState(InventoryBoxState.InKnapsack);
-            }
-            handleGlobalInput = true;
         }
         #endregion
     }

@@ -75,7 +75,7 @@ namespace Frankie.Combat.UI
 
         public void AttemptToRun() // Called via unity events
         {
-            EnableInput(false);
+            SetActiveInput(false);
             if (battleController.AttemptToRun())
             {
                 gameObject.SetActive(false);
@@ -90,7 +90,7 @@ namespace Frankie.Combat.UI
         public void EnableCombatOptions()
         {
             gameObject.SetActive(true);
-            EnableInput(true);
+            SetActiveInput(true);
         }
         #endregion
 

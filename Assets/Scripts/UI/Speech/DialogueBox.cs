@@ -85,13 +85,13 @@ namespace Frankie.Speech.UI
 
         protected override void OnDisable()
         {
+            base.OnDisable();
             if (dialogueController != null)
             {
                 dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
                 dialogueController.triggerUIUpdates -= UpdateUI;
             }
             if (activeTextScan != null) { StopCoroutine(activeTextScan); }
-            base.OnDisable();
         }
 
         protected override void Start()

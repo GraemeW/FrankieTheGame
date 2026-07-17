@@ -59,10 +59,10 @@ namespace Frankie.Control
         #region GlobalInput
         protected virtual bool HasAlternateReceiversActive() => false;
         protected bool HasGlobalInput() => globalInput != null;
-        private void SubscribeToGlobalInput(bool enable, Action<ControllerInputType> action)
+        private void SubscribeToGlobalInput(bool enable, IInputReceiver inputReceiver)
         {
-            globalInput -= action;
-            if (enable) { globalInput += action; }
+            globalInput -= inputReceiver.GetInputHandler();
+            if (enable) { globalInput += inputReceiver.GetInputHandler(); }
         }
         protected void TriggerGlobalInput(ControllerInputType controllerInputType)
         {
@@ -92,17 +92,21 @@ namespace Frankie.Control
             activeInputReceiver = activeInputReceivers.FirstOrDefault(activeInputReceiver => activeInputReceiver.inputReceiver == inputReceiver);
             return activeInputReceiver != null;
         }
-        
+
         private bool TryGetLastActiveInputReceiver(out ActiveInputReceiver lastActiveInputReceiver)
         {
-            lastActiveInputReceiver = activeInputReceivers.LastOrDefault(receiver => receiver.isGameObjectEnabled);
-            return lastActiveInputReceiver != null;
+            while (true)
+            {
+                lastActiveInputReceiver = activeInputReceivers.LastOrDefault(receiver => receiver.isGameObjectEnabled);
+                if (lastActiveInputReceiver is not { inputReceiver: null }) { return lastActiveInputReceiver != null; }
+                activeInputReceivers.Remove(lastActiveInputReceiver);
+            }
         }
 
         private void HandleInputReceiverAdded(IInputReceiver inputReceiver, Action disableCallbacks)
         {
-            if (!inputReceiver.TrySetController(this, out Action<ControllerInputType> inputHandler)) { return; }
-            SubscribeToGlobalInput(true, inputHandler);
+            if (!inputReceiver.TrySetController(this)) { return; }
+            SubscribeToGlobalInput(true, inputReceiver);
             inputReceiver.SubscribeToReceiverUpdates(true, OnReceiverModified);
             
             if (TryGetLastActiveInputReceiver(out ActiveInputReceiver lastActiveInputReceiver))
@@ -110,7 +114,7 @@ namespace Frankie.Control
                 lastActiveInputReceiver.EnableInput(false);
             }
             
-            var newActiveInputReceiver = new ActiveInputReceiver(inputReceiver, inputHandler, disableCallbacks); 
+            var newActiveInputReceiver = new ActiveInputReceiver(inputReceiver, disableCallbacks); 
             activeInputReceivers.Add(newActiveInputReceiver);
             newActiveInputReceiver.EnableInput(true);
         }
@@ -149,15 +153,14 @@ namespace Frankie.Control
             if (TryGetLastActiveInputReceiver(out ActiveInputReceiver lastActiveInputReceiver)) { lastActiveInputReceiver.EnableInput(false);}
             
             activeInputReceiver.isGameObjectEnabled = true;
-            SubscribeToGlobalInput(true, activeInputReceiver.inputHandler);
+            SubscribeToGlobalInput(true, activeInputReceiver.inputReceiver);
             activeInputReceiver.EnableInput(true);
         }
         
         private void HandleReceiverDisable(IInputReceiver inputReceiver)
         {
+            SubscribeToGlobalInput(false, inputReceiver);
             if (!TryGetActiveInputReceiver(inputReceiver, out ActiveInputReceiver activeInputReceiver)) { return; }
-            
-            SubscribeToGlobalInput(false, activeInputReceiver.inputHandler);
             
             activeInputReceiver.disableCallbacks?.Invoke();
             activeInputReceiver.isGameObjectEnabled = false;

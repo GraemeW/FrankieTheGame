@@ -101,7 +101,7 @@ namespace Frankie.Menu.UI
                 {
                     loadGameEntry.Setup(index, localizedOptionNewGameText.GetSafeLocalizedString(), 0, () =>
                     {
-                        EnableInput(false);
+                        SetActiveInput(false);
                         SavingWrapper.NewGame(saveName, newGameZoneOverride);
                     });
                 }
@@ -121,7 +121,7 @@ namespace Frankie.Menu.UI
             {
                 new(localizedOptionLoadGameText.GetSafeLocalizedString(), () =>
                 {
-                    EnableInput(false);
+                    SetActiveInput(false);
                     SavingWrapper.LoadGame(saveName);
                 }),
                 new(localizedOptionDeleteGameText.GetSafeLocalizedString(), () =>

@@ -6,9 +6,11 @@ namespace Frankie.Control
     public interface IInputReceiver
     {
         public GameObject gameObject { get; }
-        public void SetActiveInput(bool active);
-        public bool TrySetController(BaseController controller, out Action<ControllerInputType> inputHandler);
+        public bool destroyQueued { get; set; }
+        public Action<ControllerInputType> GetInputHandler();
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action);
+        public void SetActiveInput(bool active);
+        public bool TrySetController(BaseController controller);
         bool HandleGlobalInput(ControllerInputType controllerInputType);
     }
 }
