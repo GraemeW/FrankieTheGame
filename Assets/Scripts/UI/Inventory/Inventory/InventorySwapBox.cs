@@ -75,7 +75,7 @@ namespace Frankie.Inventory.UI
             choiceActionPairs.Add(new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => { SwapItem(dialogueOptionBox, false, inventorySlot); }));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
         }
         
         protected override void ListenToKnapsack(bool enable)

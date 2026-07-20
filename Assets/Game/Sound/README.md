@@ -25,7 +25,7 @@ In order to load the correct zone music, [BackgroundMusic](./BackgroundMusic.pre
 
 As described in [CharacterObjects->Combat Setup](../CharacterObjects/README.md#combat-setup), each enemy has a specific `combatAudio` (AKA battle music) to play during combat.  
 
-In order to load the correct battle music, [BackgroundMusic](./BackgroundMusic.prefab) listens for `playerStateChanged` events from the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) that lives on the [Player](../Core/README.md#player-prefab-singleton) singleton.  [BackgroundMusic](./BackgroundMusic.prefab) will then find the [BattleController](../Controllers/README.md#battlecontroller) and identify the correct music to play from the enemies currently in combat.
+In order to load the correct battle music, [BackgroundMusic](./BackgroundMusic.prefab) listens for `playerStateChanged` events from the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) that lives on the [Player](../Core/README.md#player-prefab-singleton) singleton.  [BackgroundMusic](./BackgroundMusic.prefab) will then find the [BattleController](../Controllers/README.md#battlecontroller) and identify the correct music to play from the enemies currently in combat.
 
 While setting up the combat music, [BackgroundMusic](./BackgroundMusic.prefab) subscribes to the [BattleController](../Controllers/README.md#battlecontroller)'s `battleStateChanged` event in order to listen for specific battle-related prompts for music updates (e.g. characters leveling up).
 

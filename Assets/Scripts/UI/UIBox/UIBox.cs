@@ -6,7 +6,7 @@ using Frankie.Control;
 
 namespace Frankie.Utils.UI
 {
-    public abstract class UIBox : MonoBehaviour, IGlobalInputReceiver, IUIBoxCallbackReceiver
+    public abstract class UIBox : MonoBehaviour, IInputReceiver
     {
         // Tunables
         [Header("UI Box Parameters")]
@@ -18,10 +18,9 @@ namespace Frankie.Utils.UI
         [SerializeField] protected Transform optionParent;
         [SerializeField] protected GameObject optionButtonPrefab;
         [SerializeField] protected GameObject optionSliderPrefab;
-
+        
         // State -- Standard
-        protected bool destroyQueued = false;
-        private readonly List<CallbackMessagePair> disableCallbacks = new();
+        public bool destroyQueued { get; set; } = false;
         protected BaseController controller;
 
         // State -- Choices
@@ -30,15 +29,9 @@ namespace Frankie.Utils.UI
         protected readonly List<UIChoice> choiceOptions = new();
         protected UIChoice highlightedChoiceOption;
 
-        // Data Structures
-        private struct CallbackMessagePair
-        {
-            public IUIBoxCallbackReceiver callbackReceiver;
-            public Action action;
-        }
-
-        // Events
-        public event Action<UIBoxModifiedType, bool> uiBoxModified;
+        // Event Handles
+        private event Action<ReceiverModifiedType, ReceiverModifiedData> receiverModified;
+        public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
 
         #region StaticMethods
         private static bool MoveCursor(ControllerInputType controllerInputType, ref int currentSelectionIndex, int optionsCount, CursorMovementStyle cursorMovementStyle)
@@ -112,19 +105,19 @@ namespace Frankie.Utils.UI
         #region UnityMethods
         protected virtual void OnEnable()
         {
-            if (controller != null && handleGlobalInput) { controller.SubscribeToGlobalInput(true, HandleGlobalInputWrapper); }
+            TriggerUIBoxModified(ReceiverModifiedType.ClientEnable, new ReceiverModifiedData(this));
             SetUpChoiceOptions();
+        }
+        
+        protected virtual void Start()
+        {
+            TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
         }
 
         protected virtual void OnDisable()
         {
-            if (controller != null && handleGlobalInput) { controller.SubscribeToGlobalInput(false, HandleGlobalInputWrapper);  }
+            TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
             ClearChoiceSelections();
-
-            foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
-            {
-                callbackMessagePair.callbackReceiver.HandleDisableCallback(this, callbackMessagePair.action);
-            }
         }
 
         private void LateUpdate()
@@ -132,28 +125,33 @@ namespace Frankie.Utils.UI
             if (!destroyQueued) { return; }
             Destroy(gameObject);
         }
+
+        protected virtual void OnDestroy()
+        {
+            TriggerUIBoxModified(ReceiverModifiedType.ClientExit, new ReceiverModifiedData(this));
+        }
         #endregion
 
         #region UtilityMethods
-        protected virtual void EnableInput(bool enable) => handleGlobalInput = enable;
-        protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f; 
+        public void SetActiveInput(bool enable)
+        {
+            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            handleGlobalInput = enable;
+        }
+        protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
+        public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
+        {
+            receiverModified -= action;
+            if (enable) { receiverModified += action; }
+        }
         
-        protected void TriggerUIBoxModified(UIBoxModifiedType dialogueBoxModifiedType, bool enable) => uiBoxModified?.Invoke(dialogueBoxModifiedType, enable);
-        protected void HandleClientEntry() => TriggerUIBoxModified(UIBoxModifiedType.ClientEnter, true);
-        protected void HandleClientExit() => TriggerUIBoxModified(UIBoxModifiedType.ClientExit, true);
+        protected void TriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType, ReceiverModifiedData uiBoxModifiedData) => receiverModified?.Invoke(dialogueBoxModifiedType, uiBoxModifiedData);
         #endregion
 
         #region ChoiceBehavior
-        protected bool IsChoiceAvailable()
-        {
-            // Use state variable instead of counting for co-ex with dialogue system
-            return isChoiceAvailable; 
-        }
-
-        protected void SetChoiceAvailable(bool enable)
-        {
-            isChoiceAvailable = enable;
-        }
+        // Use state variable instead of counting for co-ex with dialogue system
+        protected bool IsChoiceAvailable() => isChoiceAvailable;
+        protected void SetChoiceAvailable(bool enable) => isChoiceAvailable = enable;
 
         protected virtual void SetUpChoiceOptions()
         {
@@ -175,7 +173,7 @@ namespace Frankie.Utils.UI
             {
                 AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
             }
-            isChoiceAvailable = true;
+            isChoiceAvailable = choiceOptions.Count > 0;
         }
 
         private void AddChoiceOption(string choiceText, Action action)
@@ -211,10 +209,10 @@ namespace Frankie.Utils.UI
             return filteredUIChoices;
         }
 
-        protected virtual void ClearChoiceSelections()
+        protected void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoice choiceOption in choiceOptions)
+            foreach (UIChoice choiceOption in choiceOptions.Where(choiceOption => choiceOption != null))
             {
                 choiceOption.Highlight(false);
             }
@@ -240,7 +238,7 @@ namespace Frankie.Utils.UI
 
         private void StandardChoiceExecution(Action action)
         {
-            if (clearDisableCallbacksOnChoose) { ClearDisableCallbacks(); }
+            if (clearDisableCallbacksOnChoose) { TriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks, new ReceiverModifiedData(this)); }
             action?.Invoke();
             Destroy(gameObject);
         }
@@ -304,15 +302,6 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region Input Handling
-        public void TakeControl(BaseController baseController, IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> onDisableActions)
-        {
-            // Only use for passing from non-UI box to UI box
-            SetGlobalInputHandler(baseController);
-            SetDisableCallback(callbackReceiver, onDisableActions);
-        }
-        
-        public void SetGlobalInput(bool enable) => handleGlobalInput = enable;
-        
         public virtual bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             // NOTE:  When overriding, ensure to handle the bool:  handleGlobalInput
@@ -321,56 +310,21 @@ namespace Frankie.Utils.UI
         }
         
         // Match HandleGlobalInput with no return
-        private void HandleGlobalInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
+        private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
 
-        protected void PassControl(UIBox delegateUIBox)
+        public bool TrySetController(BaseController setController)
         {
-            PassControl(this, new Action[] { () => EnableInput(true) }, delegateUIBox, controller);
-        }
-        
-        protected void PassControlToClose(UIBox delegateUIBox)
-        {
-            PassControl(this, new Action[] { () => EnableInput(true), () => destroyQueued = true }, delegateUIBox, controller);
-        }
-
-        protected void PassControl(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions, UIBox delegateUIBox, BaseController baseController)
-        {
-            // Disable callback MUST include a re-enable
-            EnableInput(false);
-            delegateUIBox.SetGlobalInputHandler(baseController);
-            delegateUIBox.SetDisableCallback(callbackReceiver, actions);
-        }
-
-        private void SetGlobalInputHandler(BaseController globalInputHandler)
-        {
-            if (globalInputHandler == null) { return; }
+            if (setController == null) { return false; }
 
             handleGlobalInput = true;
-            controller = globalInputHandler;
-
-            if (gameObject.activeSelf) { controller.SubscribeToGlobalInput(true, HandleGlobalInputWrapper); }
-            // No behaviour if disabled, will subscribe by OnEnable
+            controller = setController;
+            return true;
         }
         #endregion
 
         #region CallbackHandling
-        private void SetDisableCallback(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions)
-        {
-            if (actions == null) { return; }
-            foreach (Action action in actions)
-            {
-                CallbackMessagePair callbackMessagePair = new CallbackMessagePair
-                {
-                    callbackReceiver = callbackReceiver,
-                    action = action
-                };
-                disableCallbacks.Add(callbackMessagePair);
-            }
-        }
-
-        public void ClearDisableCallbacks() => disableCallbacks.Clear();
         public void ClearDisableCallbacksOnChoose(bool enable) => clearDisableCallbacksOnChoose = enable;
-        public void HandleDisableCallback(IUIBoxCallbackReceiver callbackReceiver, Action action) => action?.Invoke();
+        public void ClearDisableCallbacks() => TriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks, new ReceiverModifiedData(this));
         #endregion
 
         #region PassThrough
@@ -393,7 +347,6 @@ namespace Frankie.Utils.UI
             if (preventEscapeOptionExit) { return false; } // Used for main menus that cannot be bypassed -- e.g. start menu
             if (controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape)
             {
-                HandleClientExit();
                 destroyQueued = true;
                 return true;
             }

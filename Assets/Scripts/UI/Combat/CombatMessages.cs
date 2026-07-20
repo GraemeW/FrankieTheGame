@@ -49,7 +49,7 @@ public class CombatMessages : MonoBehaviour, ILocalizable
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, messageParent);
             dialogueBox.AddText(string.Format(localizedMessageItemToBeUsed.GetSafeLocalizedString(), battleActionSuper.GetName()));
-            dialogueBox.SetGlobalInput(false);
+            dialogueBox.SetActiveInput(false);
         }
         else
         {

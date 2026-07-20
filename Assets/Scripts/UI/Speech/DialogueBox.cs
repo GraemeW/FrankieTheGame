@@ -51,7 +51,11 @@ namespace Frankie.Speech.UI
         protected virtual void Awake()
         {
             dialogueController = DialogueController.FindDialogueController();
-            if (dialogueController != null) { controller = dialogueController; }
+            if (dialogueController != null)
+            {
+                controller = dialogueController;
+                controller.AddInputReceiver(this, null);
+            }
             StoreOptionPanelConfigurables();
         }
 
@@ -81,20 +85,21 @@ namespace Frankie.Speech.UI
 
         protected override void OnDisable()
         {
+            base.OnDisable();
             if (dialogueController != null)
             {
                 dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
                 dialogueController.triggerUIUpdates -= UpdateUI;
             }
             if (activeTextScan != null) { StopCoroutine(activeTextScan); }
-            base.OnDisable();
         }
 
-        private void Start()
+        protected override void Start()
         {
-            // Note:  Start() is called after instantiating script finishes its method
-            // If no dialogueController is present, the instantiating script must TakeControl()
-            if (!HasController()) { Destroy(gameObject); return;}
+            // Note:  After instantiating, controller must be setup and configured before frame end
+            if (!HasController()) { Destroy(gameObject); return; }
+            
+            base.Start();
             Setup(null);
         }
         #endregion
@@ -149,15 +154,16 @@ namespace Frankie.Speech.UI
             }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (dialogueController == null) { return; }
+            base.OnDestroy();
             
             // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
             //          Otherwise end-of-dialogue and choice-select options will not trigger
             // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed
             //          We try to end conversation, but if another box is subscribed to the controller, conversation continues
-            dialogueController.TryEndConversation();
+            if (dialogueController == null) { return; }
+            dialogueController.EndConversation();
         }
         #endregion
 
@@ -174,7 +180,7 @@ namespace Frankie.Speech.UI
             }
             isWriting = enable;
 
-            TriggerUIBoxModified(UIBoxModifiedType.WritingStateChanged, enable);
+            TriggerUIBoxModified(ReceiverModifiedType.WritingStateChanged, new ReceiverModifiedData(this, enable));
         }
 
         private void SetText()
@@ -253,7 +259,7 @@ namespace Frankie.Speech.UI
         private IEnumerator PrintPageBreak()
         {
             SetBusyWriting(true);
-            TriggerUIBoxModified(UIBoxModifiedType.WritingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
+            TriggerUIBoxModified(ReceiverModifiedType.WritingStateChanged, new ReceiverModifiedData(this, false)); // override printing to false, since not really printing -- wait for user input for next step
 
             queuePageClear = true;
             yield break;
@@ -318,11 +324,7 @@ namespace Frankie.Speech.UI
 
             if (choiceCount > DialogueController.GetChoiceNumberThresholdToReconfigureVertical() || maxChoiceLength > DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
             {
-                if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
-                {
-                    DestroyImmediate(horizontalLayoutGroup);
-                }
-
+                if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup)) { DestroyImmediate(horizontalLayoutGroup); }
                 if (!optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup))
                 {
                     verticalLayoutGroup = optionParent.gameObject.AddComponent(typeof(VerticalLayoutGroup)) as VerticalLayoutGroup;
@@ -341,11 +343,7 @@ namespace Frankie.Speech.UI
             }
             else
             {
-                if (optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup))
-                {
-                    DestroyImmediate(verticalLayoutGroup);
-                }
-
+                if (optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup)) { DestroyImmediate(verticalLayoutGroup); }
                 if (!optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
                 {
                     horizontalLayoutGroup = optionParent.gameObject.AddComponent(typeof(HorizontalLayoutGroup)) as HorizontalLayoutGroup;
@@ -367,7 +365,7 @@ namespace Frankie.Speech.UI
         public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
         {
             GameObject dialogueChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-            DialogueChoiceOption dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
+            var dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
             dialogueChoiceOption.Setup(dialogueController, choiceNode);
             dialogueChoiceOption.SetChoiceOrder(choiceIndex);
             dialogueChoiceOption.SetText(choiceNode.GetText());
@@ -388,7 +386,7 @@ namespace Frankie.Speech.UI
             bool choose = PrepareChooseAction(ControllerInputType.Execute);
             if (choose)
             {
-                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
                 dialogueController.NextWithID(nodeID);
             }
             return choose;

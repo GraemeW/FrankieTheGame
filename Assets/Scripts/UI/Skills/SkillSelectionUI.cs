@@ -44,8 +44,9 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region UnityMethods
-        protected virtual void Start()
+        protected override void Start()
         {
+            base.Start();
             if (skillField != null)
             {
                 skillField.color = noSkillColor;
@@ -212,7 +213,7 @@ namespace Frankie.Combat.UI
                 skillField.color = selectedSkillColor;
                 skillField.SetText(activeSkill.GetName());
                 if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
-                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             }
             else
             {

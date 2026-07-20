@@ -3,6 +3,7 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Frankie.Combat;
+using Frankie.Control;
 using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
 using UnityEngine.Localization;
@@ -28,8 +29,9 @@ namespace Frankie.Stats.UI
         
         #region UnityMethods
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             if (experienceFlavourField != null) { experienceFlavourField.SetText(localizedExperienceFlavourText.GetSafeLocalizedString()); }
         }
         #endregion
@@ -76,7 +78,7 @@ namespace Frankie.Stats.UI
         {
             if (character == selectedCharacter) return;
             
-            TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             selectedCharacter = character;
             CleanUpOldStats();
 

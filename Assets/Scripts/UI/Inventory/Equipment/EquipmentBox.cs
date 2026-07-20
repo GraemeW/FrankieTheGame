@@ -244,8 +244,7 @@ namespace Frankie.Inventory.UI
                 case EquipmentBoxState.InStatConfirmation:
                     return base.MoveCursor(controllerInputType, cursorMovementStyle);
                 case EquipmentBoxState.InEquipmentSelection:
-                    MoveCursor2D(controllerInputType);
-                    break;
+                    return MoveCursor2D(controllerInputType);
             }
             return false;
         }
@@ -263,7 +262,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter || forceChoose)
             {
-                TriggerUIBoxModified(UIBoxModifiedType.ItemSelected, true);
+                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -359,8 +358,8 @@ namespace Frankie.Inventory.UI
                 DialogueOptionBox equipmentOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 equipmentOptionMenu.Setup(localizedOptionText.GetSafeLocalizedString());
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
-
-                PassControl(this, new Action[] { () => ResetEquipmentBox(false), () => EnableInput(true) }, equipmentOptionMenu, controller);
+                
+                controller.AddInputReceiver(equipmentOptionMenu, () => ResetEquipmentBox(false));
                 equipmentOptionMenu.ClearDisableCallbacksOnChoose(true);
                 SetEquipmentBoxState(EquipmentBoxState.InEquipmentOptionMenu);
             }
@@ -373,7 +372,6 @@ namespace Frankie.Inventory.UI
         private void ExecuteChooseEquipLocation(int selector)
         {
             EquipLocation equipLocation = (EquipLocation)selector;
-
             if (!selectedCharacter.TryGetComponent(out Knapsack knapsack)) { return; }
 
             if (knapsack.HasAnyEquipableItem(equipLocation))
@@ -403,7 +401,7 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(message);
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
 
         private void SpawnInventoryBox()
@@ -414,7 +412,7 @@ namespace Frankie.Inventory.UI
             EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
-            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
+            controller.AddInputReceiver(inventoryBox, () => SetVisible(true));
         }
 
         private void ConfirmEquipmentChange(bool confirm)

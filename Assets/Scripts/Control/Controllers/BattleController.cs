@@ -21,7 +21,6 @@ namespace Frankie.Combat
         [SerializeField] private float battlePostQueueDelay = 0.7f;
         
         // State
-        private bool battleInputActivated = false;
         private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
         
         private BattleState battleState;
@@ -48,10 +47,6 @@ namespace Frankie.Combat
 
         // Events
         private event Action<ControllerInputType> battleInput;
-        
-        // Lifecycle Overrides
-        protected override bool HasListeners() => base.HasListeners() || battleInput != null || battleState != BattleState.Inactive;
-        protected override bool HasBeenActivated() => base.HasBeenActivated() || battleInputActivated;
 
         #region StaticMethods
         private const string _battleControllerTag = "BattleController";
@@ -78,6 +73,10 @@ namespace Frankie.Combat
         }
         #endregion
 
+        #region ProtectedLifeCycle
+        protected override bool HasAlternateReceiversActive() => battleInput != null || battleState != BattleState.Inactive;
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {
@@ -168,8 +167,6 @@ namespace Frankie.Combat
 
         public void SubscribeToBattleInput(bool enable, Action<ControllerInputType> action)
         {
-            if (enable) { battleInputActivated = true; }
-            
             battleInput -= action;
             if (enable) { battleInput += action; }
         }

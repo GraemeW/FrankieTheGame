@@ -20,10 +20,6 @@ namespace Frankie.Control
 
         // Cached References
         private PlayerInput playerInput;
-        
-        // Lifecycle Overrides -- Prevent Polling to Self-Destruct
-        protected override bool HasListeners() => true;
-        protected override bool HasBeenActivated() => true;
 
         #region UnityMethods
         private void Awake()

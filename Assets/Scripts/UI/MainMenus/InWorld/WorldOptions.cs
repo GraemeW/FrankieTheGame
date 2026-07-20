@@ -63,23 +63,21 @@ namespace Frankie.Menu.UI
                 Destroy(gameObject);
                 return;
             }
-
             playerController = playerStateMachine.GetComponent<PlayerController>();
             partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
         }
 
-        private void Start()
+        protected override void Start()
         {
-            TakeControl(playerController, this, null); // input handled via player controller, immediate override
-
+            playerController.AddInputReceiver(this, null);
+            base.Start();
             InitializeLocalization();
             SetupBattleEntities();
             SetupCharacterSlides();
             SetupWallet();
-            HandleClientEntry();
         }
         
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (childOption != null) { Destroy(childOption); }
             foreach (Transform childCharacterPanel in characterPanelTransform)
@@ -87,6 +85,8 @@ namespace Frankie.Menu.UI
                 Destroy(childCharacterPanel.gameObject);
             }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
+            
+            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -123,7 +123,7 @@ namespace Frankie.Menu.UI
             StatusBox statusBox = Instantiate(statusBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = statusBox.gameObject;
             statusBox.Setup(partyCombatConduit);
-            PassControl(statusBox);
+            controller.AddInputReceiver(statusBox, null);
         }
 
         public void OpenKnapsack() // Called via Unity Events
@@ -132,7 +132,7 @@ namespace Frankie.Menu.UI
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = inventoryBox.gameObject;
             inventoryBox.Setup(playerController, partyCombatConduit, characterSlides);
-            PassControl(inventoryBox);
+            controller.AddInputReceiver(inventoryBox, null);
         }
 
         public void OpenEquipment() // Called via Unity Events
@@ -141,7 +141,7 @@ namespace Frankie.Menu.UI
             EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = equipmentBox.gameObject;
             equipmentBox.Setup(playerController, partyCombatConduit, characterSlides);
-            PassControl(equipmentBox);
+            controller.AddInputReceiver(equipmentBox, null);
         }
 
         public void OpenMap() // Called via Unity Events
@@ -149,7 +149,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             MapSuper mapSuper = Instantiate(mapSuperPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = mapSuper.gameObject;
-            PassControl(mapSuper);
+            controller.AddInputReceiver(mapSuper, null);
         }
 
         public void OpenAbilities() // Called via Unity Events
@@ -158,7 +158,7 @@ namespace Frankie.Menu.UI
             AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = abilitiesBox.gameObject;
             abilitiesBox.Setup(playerController, partyCombatConduit, characterSlides);
-            PassControl(abilitiesBox);
+            controller.AddInputReceiver(abilitiesBox, null);
         }
         #endregion
 

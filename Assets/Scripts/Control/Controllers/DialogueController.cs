@@ -20,7 +20,6 @@ namespace Frankie.Speech
         [SerializeField] private GameObject dialogueOptionBoxVertical;
 
         // State
-        private bool dialogueInputActivated = false;
         private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
         
         private Dialogue currentDialogue;
@@ -45,10 +44,6 @@ namespace Frankie.Speech
         public event Action<DialogueNode> highlightedNodeChanged;
         public event Action triggerUIUpdates;
         public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
-        
-        // Lifecycle Overrides
-        protected override bool HasListeners() => base.HasListeners() || dialogueInput != null;
-        protected override bool HasBeenActivated() => base.HasBeenActivated() || dialogueInputActivated;
 
         #region Static
         private const string _dialogueControllerTag = "DialogueController";
@@ -65,6 +60,11 @@ namespace Frankie.Speech
         public static int GetChoiceLengthThresholdToReconfigureVertical() => _choiceLengthThresholdToReconfigureVertical;
         #endregion
 
+        #region ProtectedLifeCycle
+        protected override bool HasAlternateReceiversActive() => dialogueUpdated != null;
+        protected override bool ShouldDestroyForNoReceivers() => true;
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {
@@ -127,8 +127,6 @@ namespace Frankie.Speech
 
         public void SubscribeToDialogueInput(bool enable, Action<ControllerInputType> action)
         {
-            if (enable) { dialogueInputActivated = true; }
-            
             dialogueInput -= action;
             if (enable) { dialogueInput += action; }
         }
@@ -193,15 +191,8 @@ namespace Frankie.Speech
             simpleMessage = message;
             simpleChoices = choiceActionPairs;
         }
-
-        public bool TryEndConversation()
-        {
-            if (HasListeners()) { return false; }
-            EndConversation();
-            return true;
-        }
         
-        private void EndConversation()
+        public void EndConversation()
         {
             currentDialogue = null;
             SetCurrentNode(null);

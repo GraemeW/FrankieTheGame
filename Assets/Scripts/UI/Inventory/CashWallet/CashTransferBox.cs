@@ -65,17 +65,19 @@ namespace Frankie.Inventory.UI
             playerStateMachine = Player.FindPlayerStateMachine();
             if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            playerController = playerStateMachine?.GetComponent<PlayerController>();
-            shopper = playerStateMachine?.GetComponent<Shopper>();
-            wallet = playerStateMachine?.GetComponent<Wallet>();
+            if (playerStateMachine == null) { Destroy(gameObject); return; }
+            
+            playerController = playerStateMachine.GetComponent<PlayerController>();
+            shopper = playerStateMachine.GetComponent<Shopper>();
+            wallet = playerStateMachine.GetComponent<Wallet>();
         }
 
-        private void Start()
+        protected override void Start()
         {
-            // Input handled via player controller, immediate override
-            TakeControl(playerController, this, null);
-            HandleClientEntry();
-
+            if (playerController == null) { Destroy(gameObject); return; }
+            playerController.AddInputReceiver(this, null);
+            
+            base.Start();
             SetupWalletUI();
             SetupCashTransferBoxUI();
         }
@@ -85,11 +87,11 @@ namespace Frankie.Inventory.UI
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
-            HandleClientExit();
+            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion

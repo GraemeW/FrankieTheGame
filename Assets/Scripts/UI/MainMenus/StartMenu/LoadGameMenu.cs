@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using Frankie.Control;
 using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Utils;
@@ -34,8 +35,9 @@ namespace Frankie.Menu.UI
         private Zone newGameZoneOverride;
         
         #region UnityMethods
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             if (loadHeaderField != null) { loadHeaderField.SetText(localizedLoadHeaderText.GetSafeLocalizedString());}
         }
         
@@ -72,7 +74,6 @@ namespace Frankie.Menu.UI
         
         public void Cancel()
         {
-            HandleClientExit();
             Destroy(gameObject);
         }
         #endregion
@@ -101,7 +102,7 @@ namespace Frankie.Menu.UI
                 {
                     loadGameEntry.Setup(index, localizedOptionNewGameText.GetSafeLocalizedString(), 0, () =>
                     {
-                        EnableInput(false);
+                        SetActiveInput(false);
                         SavingWrapper.NewGame(saveName, newGameZoneOverride);
                     });
                 }
@@ -121,7 +122,9 @@ namespace Frankie.Menu.UI
             {
                 new(localizedOptionLoadGameText.GetSafeLocalizedString(), () =>
                 {
-                    EnableInput(false);
+                    SetActiveInput(false);
+                    // Prevent LoadGameMenu from re-enablement after dialogueOptionBox disappears
+                    TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
                     SavingWrapper.LoadGame(saveName);
                 }),
                 new(localizedOptionDeleteGameText.GetSafeLocalizedString(), () =>
@@ -130,10 +133,8 @@ namespace Frankie.Menu.UI
                     Destroy(dialogueOptionBox.gameObject);
                 })
             };
-
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
-            dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
+            controller.AddInputReceiver(dialogueOptionBox, null);
         }
 
         private void SpawnConfirmDeletionOptions(string saveName)
@@ -152,7 +153,7 @@ namespace Frankie.Menu.UI
             };
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
         }
         #endregion
     }

@@ -73,8 +73,9 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region UnityMethods
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             backgroundMusic = BackgroundMusic.FindBackgroundMusic(); // find in Start since persistent object, spawned during Awake
             cachedStartMenu = UnityEngine.Object.FindAnyObjectByType<StartMenu>();
 
@@ -154,7 +155,6 @@ namespace Frankie.Menu.UI
         private IEnumerator CancelRoutine()
         {
             yield return ResetOptions(); 
-            HandleClientExit();
             destroyQueued = true;
         }
         #endregion
@@ -375,7 +375,7 @@ namespace Frankie.Menu.UI
             confirmChoiceOptionMenu.Setup(localizedConfirmChangesText.GetSafeLocalizedString());
             confirmChoiceOptionMenu.OverrideChoiceOptions(choiceActionPairs);
 
-            PassControlToClose(confirmChoiceOptionMenu);
+            controller.AddInputReceiver(confirmChoiceOptionMenu, () => destroyQueued = true);
         }
         #endregion
         

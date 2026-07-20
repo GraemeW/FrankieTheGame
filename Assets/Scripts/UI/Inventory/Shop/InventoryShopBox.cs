@@ -74,8 +74,7 @@ namespace Frankie.Inventory.UI
             messageCannotSell = setMessageCannotSell;
 
             SetupWalletUI();
-            TakeControl(baseController, this, null); // input handled via player controller, immediate override
-            HandleClientEntry();
+            baseController.AddInputReceiver(this, null);
         }
 
         private void SetupWalletUI()
@@ -83,13 +82,13 @@ namespace Frankie.Inventory.UI
             walletUI = Instantiate(walletUIPrefab, transform.parent);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (shopBox != null) { shopBox.UpdateShopMessageToSuccess(); }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
-            HandleClientExit();
-            if (transactionType == ShopType.Sell) { playerStateMachine?.EnterWorld(); }
+            base.OnDestroy();
+            if (transactionType == ShopType.Sell && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         #endregion
 
@@ -208,7 +207,7 @@ namespace Frankie.Inventory.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(saleMessage);
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            PassControl(dialogueOptionBox);
+            controller.AddInputReceiver(dialogueOptionBox, null);
         }
         #endregion
 
@@ -217,7 +216,7 @@ namespace Frankie.Inventory.UI
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(message);
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
         #endregion
     }

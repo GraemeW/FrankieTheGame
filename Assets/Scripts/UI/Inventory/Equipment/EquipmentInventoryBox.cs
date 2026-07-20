@@ -78,7 +78,7 @@ namespace Frankie.Inventory.UI
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(localizedMessageCannotEquip.GetSafeLocalizedString());
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
 
         private void Equip(int inventorySlot)

@@ -40,10 +40,6 @@ namespace Frankie.Control
         private PlayerMover playerMover;
         private Transform interactionCentrePoint;
         
-        // Lifecycle Overrides -- Prevent Polling to Self-Destruct
-        protected override bool HasListeners() => true;
-        protected override bool HasBeenActivated() => true;
-        
         #region Static
         private static Vector2 GetMouseRay()
         {

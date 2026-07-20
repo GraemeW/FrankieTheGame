@@ -38,17 +38,18 @@ namespace Frankie.Inventory.UI
         private Shop shop;
 
         #region UnityMethods
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
             if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
-            HandleClientExit();
+            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -76,9 +77,7 @@ namespace Frankie.Inventory.UI
             partyKnapsackConduit = setPartyKnapsackConduit;
             wallet = setShopper.GetWallet();
 
-            // Input handled via player controller, immediate override
-            TakeControl(setPlayerController, this, null);
-            HandleClientEntry();
+            playerController.AddInputReceiver(this, null);
         }
 
         public void UpdateShopMessage(string message) // Callable via Unity Events
@@ -125,14 +124,14 @@ namespace Frankie.Inventory.UI
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, worldCanvas.transform);
             dialogueBox.AddText(message);
-            PassControl(dialogueBox);
+            controller.AddInputReceiver(dialogueBox, null);
         }
 
         private void SpawnInventoryShopBox(InventoryItem inventoryItem)
         {
             InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
             inventoryShopBox.Setup(playerController, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, this, inventoryItem, shop.GetMessageNoSpace());
-            PassControl(inventoryShopBox);
+            controller.AddInputReceiver(inventoryShopBox, null);
         }
         #endregion
     }
