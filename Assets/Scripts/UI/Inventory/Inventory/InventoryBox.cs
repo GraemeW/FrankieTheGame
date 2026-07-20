@@ -586,20 +586,13 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
-            {
-                if (inventoryBoxState == InventoryBoxState.InKnapsack)
-                {
-                    ClearAllChoices();
-                    SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
-                    return true;
-                }
-            }
-            return base.HandleGlobalInput(controllerInputType);
+            if (inventoryBoxState != InventoryBoxState.InKnapsack) { return false; }
+            
+            ClearAllChoices();
+            SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
+            return true;
         }
         #endregion
     }

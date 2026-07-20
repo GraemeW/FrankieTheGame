@@ -113,18 +113,6 @@ namespace Frankie.Combat.UI
         {
             return MoveCursor2D(controllerInputType);
         }
-
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
-            if (ShowCursorOnAnyInteraction(controllerInputType)) { return true; }
-            if (PrepareChooseAction(controllerInputType)) { return true; }
-            if (MoveCursor(controllerInputType, CursorMovementStyle.Combined)) { return true; }
-
-            return false;
-        }
         #endregion
     }
 }

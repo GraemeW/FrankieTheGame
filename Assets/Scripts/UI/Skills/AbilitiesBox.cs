@@ -350,11 +350,9 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region Interfaces
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (controllerInputType != ControllerInputType.Option && controllerInputType != ControllerInputType.Cancel) { return base.HandleGlobalInput(controllerInputType); }
+        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterTargeting:
@@ -370,7 +368,7 @@ namespace Frankie.Combat.UI
                     SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
                     return true;
                 default:
-                    return base.HandleGlobalInput(controllerInputType);
+                    return false;
             }
         }
         #endregion

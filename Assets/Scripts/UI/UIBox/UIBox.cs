@@ -305,7 +305,7 @@ namespace Frankie.Utils.UI
         public virtual bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
             // NOTE:  When overriding, ensure to handle the bool:  handleGlobalInput
-            // To disable input when disabled, return true on !handleGlobalInput, or otherwise use HandleGlobalInputSpoofAndExit()
+            // To disable input when disabled, return true on !handleGlobalInput
             return StandardHandleGlobalInput(controllerInputType);
         }
         
@@ -328,11 +328,21 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region PassThrough
+
+        protected virtual bool IsBackInput(ControllerInputType controllerInputType)
+        {
+            return controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option;
+        }
+        protected virtual bool TryHandleBackNavigation(ControllerInputType controllerInputType) => false;
+
         protected bool StandardHandleGlobalInput(ControllerInputType controllerInputType)
         {
-            if (HandleGlobalInputSpoofAndExit(controllerInputType)) { return true; }
+            if (!handleGlobalInput) { return true; }
 
-            if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
+            if (IsBackInput(controllerInputType) && TryHandleBackNavigation(controllerInputType)) { return true; }
+            if (TryEarlyExit(controllerInputType)) { return true; }
+
+            if (!IsChoiceAvailable()) { return false; }
             if (ShowCursorOnAnyInteraction(controllerInputType)) { return true; }
             if (PrepareChooseAction(controllerInputType)) { return true; }
             if (MoveCursor(controllerInputType, CursorMovementStyle.Combined)) { return true; }
@@ -340,17 +350,12 @@ namespace Frankie.Utils.UI
             return false;
         }
 
-        protected bool HandleGlobalInputSpoofAndExit(ControllerInputType controllerInputType)
+        protected bool TryEarlyExit(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (preventEscapeOptionExit) { return false; } // Used for main menus that cannot be bypassed -- e.g. start menu
-            if (controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape)
-            {
-                destroyQueued = true;
-                return true;
-            }
-            return false;
+            if (preventEscapeOptionExit) { return false; }
+            if (controllerInputType is not (ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape)) { return false; }
+            destroyQueued = true;
+            return true;
         }
         #endregion
     }

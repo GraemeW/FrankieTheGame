@@ -430,25 +430,19 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interfaces
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
+            switch (equipmentBoxState)
             {
-                switch (equipmentBoxState)
-                {
-                    case EquipmentBoxState.InStatConfirmation:
-                        ResetEquipmentBox(false);
-                        return true;
-                    case EquipmentBoxState.InEquipmentSelection:
-                        ResetEquipmentBox(true);
-                        return true;
-                }
-                // inKnapsack handled by the EquipmentInventoryBox
+                case EquipmentBoxState.InStatConfirmation:
+                    ResetEquipmentBox(false);
+                    return true;
+                case EquipmentBoxState.InEquipmentSelection:
+                    ResetEquipmentBox(true);
+                    return true;
             }
-            
-            return base.HandleGlobalInput(controllerInputType);
+            // inKnapsack handled by the EquipmentInventoryBox
+            return false;
         }
 
         public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)

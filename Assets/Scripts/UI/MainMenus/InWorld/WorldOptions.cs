@@ -201,19 +201,11 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region InputHandling
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
-            {
-                if (childOption != null)
-                {
-                    Destroy(childOption);
-                    return true;
-                }
-            }
-            return base.HandleGlobalInput(controllerInputType);
+            if (childOption == null) { return false; }
+            Destroy(childOption);
+            return true;
         }
         #endregion
     }

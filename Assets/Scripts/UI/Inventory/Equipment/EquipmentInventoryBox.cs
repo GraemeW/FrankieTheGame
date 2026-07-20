@@ -92,16 +92,11 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            // Spoof:  Cannot accept input, so treat as if global input already handled
-            if (!handleGlobalInput) { return true; }
 
-            if (controllerInputType == ControllerInputType.Option || controllerInputType == ControllerInputType.Cancel)
-            {
-                equipmentBox.ResetEquipmentBox(false);
-            }
-            return StandardHandleGlobalInput(controllerInputType);
+        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
+            equipmentBox.ResetEquipmentBox(false);
+            return false;  // Behaviour Deviation - We want to fall through to standard global input handling
         }
         #endregion
     }

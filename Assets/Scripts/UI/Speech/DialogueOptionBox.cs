@@ -25,7 +25,6 @@ namespace Frankie.Speech.UI
         {
             return StandardChoose(nodeID);
         }
-
         protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
         {
             return StandardPrepareChooseAction(controllerInputType);

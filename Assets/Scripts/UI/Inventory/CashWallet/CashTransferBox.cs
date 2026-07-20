@@ -284,16 +284,11 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel && cashTransferState == CashTransferState.CashConfirmation)
-            {
-                SetCashTransferState(CashTransferState.CashSelection);
-                return true;
-            }
-            return base.HandleGlobalInput(controllerInputType);
+            if (cashTransferState != CashTransferState.CashConfirmation) { return false; }
+            SetCashTransferState(CashTransferState.CashSelection);
+            return true;
         }
         #endregion
     }

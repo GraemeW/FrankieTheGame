@@ -497,8 +497,9 @@ namespace Frankie.Speech.UI
         #region InputHandling
         public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
-            if (HandleGlobalInputSpoofAndExit(controllerInputType)) { return true; }
-
+            if (!handleGlobalInput) { return true; }
+            if (TryEarlyExit(controllerInputType)) { return true; }
+            
             if (controllerInputType == ControllerInputType.Execute)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }
