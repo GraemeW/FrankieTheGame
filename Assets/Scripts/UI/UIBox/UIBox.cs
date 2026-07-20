@@ -133,7 +133,12 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region UtilityMethods
-        public void SetActiveInput(bool enable) => handleGlobalInput = enable;
+
+        public void SetActiveInput(bool enable)
+        {
+            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            handleGlobalInput = enable;
+        }
         protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
@@ -145,16 +150,9 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region ChoiceBehavior
-        protected bool IsChoiceAvailable()
-        {
-            // Use state variable instead of counting for co-ex with dialogue system
-            return isChoiceAvailable; 
-        }
-
-        protected void SetChoiceAvailable(bool enable)
-        {
-            isChoiceAvailable = enable;
-        }
+        // Use state variable instead of counting for co-ex with dialogue system
+        protected bool IsChoiceAvailable() => isChoiceAvailable;
+        protected void SetChoiceAvailable(bool enable) => isChoiceAvailable = enable;
 
         protected virtual void SetUpChoiceOptions()
         {
@@ -212,7 +210,7 @@ namespace Frankie.Utils.UI
             return filteredUIChoices;
         }
 
-        protected virtual void ClearChoiceSelections()
+        protected void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
             foreach (UIChoice choiceOption in choiceOptions)

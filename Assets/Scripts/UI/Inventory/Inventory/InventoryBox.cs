@@ -270,19 +270,17 @@ namespace Frankie.Inventory.UI
                     break;
                 }
             }
-
             return false;
         }
 
         protected override bool Choose(string nodeID)
         {
-            if (inventoryBoxState != InventoryBoxState.InCharacterTargeting)
-            {
-                return base.Choose(null);
-            }
+            if (inventoryBoxState != InventoryBoxState.InCharacterTargeting) { return base.Choose(null); }
 
             InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(selectedItemSlot);
-            string senderName = selectedCharacter.GetCombatName();
+            if (inventoryItem == null) { return false; }
+            
+            string senderName = selectedCharacter != null ? selectedCharacter.GetCombatName() : "";
             string itemName = inventoryItem.GetDisplayName();
             var targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
 
@@ -356,16 +354,15 @@ namespace Frankie.Inventory.UI
             if (selectedCharacter == null || selectedKnapsack == null || selectedKnapsack.IsEmpty())
             {
                 ReInitializeToCharacterSelection();
+                return;
             }
-            else
-            {
-                SetInventoryBoxState(InventoryBoxState.InKnapsack);
-            }
+            
+            SetInventoryBoxState(InventoryBoxState.InKnapsack);
         }
         #endregion
 
         #region KnapsackBehaviour
-        protected virtual void RefreshKnapsackContents()
+        private void RefreshKnapsackContents()
         {
             if (!CleanUpOldKnapsack()) { return; } // Error handling for message received during deconstruction
 
@@ -403,15 +400,8 @@ namespace Frankie.Inventory.UI
         protected virtual void ListenToKnapsack(bool enable)
         {
             if (selectedKnapsack == null) { return; }
-
-            if (enable)
-            {
-                selectedKnapsack.knapsackUpdated += RefreshKnapsackContents;
-            }
-            else
-            {
-                selectedKnapsack.knapsackUpdated -= RefreshKnapsackContents;
-            }
+            selectedKnapsack.knapsackUpdated -= RefreshKnapsackContents;
+            if (enable) { selectedKnapsack.knapsackUpdated += RefreshKnapsackContents; }
         }
         #endregion
 
@@ -467,15 +457,14 @@ namespace Frankie.Inventory.UI
             return inventoryItemField;
         }
 
-        private void CheckItemExists(Knapsack knapsack, int selector, out bool itemExists, out string itemName)
+        private static void CheckItemExists(Knapsack knapsack, int selector, out bool itemExists, out string itemName)
         {
             itemExists = false;
-            itemName = "    ";
-            if (knapsack.HasItemInSlot(selector))
-            {
-                itemExists = true;
-                itemName = knapsack.GetItemInSlot(selector).GetDisplayName();
-            }
+            itemName = "    "; 
+            
+            if (!knapsack.HasItemInSlot(selector)) { return; }
+            itemExists = true;
+            itemName = knapsack.GetItemInSlot(selector).GetDisplayName();
         }
         #endregion
 
@@ -557,9 +546,7 @@ namespace Frankie.Inventory.UI
             {
                 selectedItemSlot = inventorySlot;
                 handleGlobalInput = true;
-                SetInventoryBoxState(GetNextTarget(TargetingNavigationType.Hold)
-                    ? InventoryBoxState.InCharacterTargeting
-                    : InventoryBoxState.InKnapsack);
+                SetInventoryBoxState(GetNextTarget(TargetingNavigationType.Hold) ? InventoryBoxState.InCharacterTargeting : InventoryBoxState.InKnapsack);
             }
         }
 
