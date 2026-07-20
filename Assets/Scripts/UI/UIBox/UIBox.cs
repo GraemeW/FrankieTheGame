@@ -133,7 +133,6 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region UtilityMethods
-
         public void SetActiveInput(bool enable)
         {
             choiceOptions.RemoveAll(choiceOption => choiceOption == null);

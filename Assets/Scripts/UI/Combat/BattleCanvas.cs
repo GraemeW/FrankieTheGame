@@ -483,11 +483,10 @@ namespace Frankie.Combat.UI
                 } )
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-
-            // Clear window re-spawn (see below) on successful choice selection
-            dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
+            
             // If user tabs out of this window, re-spawn it (avoid lost loot)
             battleController.AddInputReceiver(dialogueOptionBox, () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome));
+            dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
 
         private void SetupInventorySwapBox(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)

@@ -359,7 +359,6 @@ namespace Frankie.Inventory.UI
                 DialogueOptionBox equipmentOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 equipmentOptionMenu.Setup(localizedOptionText.GetSafeLocalizedString());
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
-
                 
                 controller.AddInputReceiver(equipmentOptionMenu, () => ResetEquipmentBox(false));
                 equipmentOptionMenu.ClearDisableCallbacksOnChoose(true);
@@ -374,7 +373,6 @@ namespace Frankie.Inventory.UI
         private void ExecuteChooseEquipLocation(int selector)
         {
             EquipLocation equipLocation = (EquipLocation)selector;
-
             if (!selectedCharacter.TryGetComponent(out Knapsack knapsack)) { return; }
 
             if (knapsack.HasAnyEquipableItem(equipLocation))
