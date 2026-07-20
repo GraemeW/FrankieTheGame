@@ -173,7 +173,7 @@ namespace Frankie.Utils.UI
             {
                 AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
             }
-            isChoiceAvailable = true;
+            isChoiceAvailable = choiceOptions.Count > 0;
         }
 
         private void AddChoiceOption(string choiceText, Action action)
@@ -212,7 +212,7 @@ namespace Frankie.Utils.UI
         protected void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoice choiceOption in choiceOptions)
+            foreach (UIChoice choiceOption in choiceOptions.Where(choiceOption => choiceOption != null))
             {
                 choiceOption.Highlight(false);
             }
