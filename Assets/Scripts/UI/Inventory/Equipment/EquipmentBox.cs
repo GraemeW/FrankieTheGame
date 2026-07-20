@@ -244,8 +244,7 @@ namespace Frankie.Inventory.UI
                 case EquipmentBoxState.InStatConfirmation:
                     return base.MoveCursor(controllerInputType, cursorMovementStyle);
                 case EquipmentBoxState.InEquipmentSelection:
-                    MoveCursor2D(controllerInputType);
-                    break;
+                    return MoveCursor2D(controllerInputType);
             }
             return false;
         }

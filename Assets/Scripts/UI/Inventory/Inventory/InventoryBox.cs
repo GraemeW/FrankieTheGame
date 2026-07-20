@@ -260,13 +260,14 @@ namespace Frankie.Inventory.UI
                     return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
                 case InventoryBoxState.InKnapsack:
                     // Support for 2-D movement across the inventory items
-                    MoveCursor2D(controllerInputType);
-                    break;
+                    return MoveCursor2D(controllerInputType);
                 case InventoryBoxState.InCharacterTargeting:
                 {
                     TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
                     bool gotNextTarget = GetNextTarget(targetingNavigationType);
-                    if (!gotNextTarget) { SetInventoryBoxState(InventoryBoxState.InKnapsack); }
+                    if (gotNextTarget) { return true; }
+                    
+                    SetInventoryBoxState(InventoryBoxState.InKnapsack);
                     break;
                 }
             }
