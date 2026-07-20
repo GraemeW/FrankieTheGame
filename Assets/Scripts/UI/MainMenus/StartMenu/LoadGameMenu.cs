@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using Frankie.Control;
 using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Utils;
@@ -122,6 +123,8 @@ namespace Frankie.Menu.UI
                 new(localizedOptionLoadGameText.GetSafeLocalizedString(), () =>
                 {
                     SetActiveInput(false);
+                    // Prevent LoadGameMenu from re-enablement after dialogueOptionBox disappears
+                    TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
                     SavingWrapper.LoadGame(saveName);
                 }),
                 new(localizedOptionDeleteGameText.GetSafeLocalizedString(), () =>
@@ -130,10 +133,8 @@ namespace Frankie.Menu.UI
                     Destroy(dialogueOptionBox.gameObject);
                 })
             };
-
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             controller.AddInputReceiver(dialogueOptionBox, null);
-            dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
 
         private void SpawnConfirmDeletionOptions(string saveName)
