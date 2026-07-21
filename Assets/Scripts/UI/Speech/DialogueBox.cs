@@ -16,6 +16,7 @@ namespace Frankie.Speech.UI
         [SerializeField] private GameObject simpleTextPrefab;
         [SerializeField] private GameObject speechTextPrefab;
         [Header("Parameters")]
+        [SerializeField] private float initialInputDelay = 0.1f; // Seconds
         [SerializeField] private float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
 
@@ -27,7 +28,9 @@ namespace Frankie.Speech.UI
         private bool optionUseChildScale = true;
         private bool optionChildForceExpand;
 
-        // State -- Toggles
+        // State
+        private float timeSinceStart = 0f;
+        private bool isInitialInputBlocked = true;
         private bool isWriting = false;
         private bool interruptWriting = false;
         private bool queuePageClear = false;
@@ -121,6 +124,13 @@ namespace Frankie.Speech.UI
         protected virtual void Update()
         {
             if (destroyQueued) { return; }
+
+            if (isInitialInputBlocked)
+            {
+                timeSinceStart += Time.deltaTime;
+                if (timeSinceStart >= initialInputDelay) { isInitialInputBlocked = false; }
+            }
+            
             if (!isWriting && printQueue.Count != 0)
             {
                 activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
@@ -152,6 +162,13 @@ namespace Frankie.Speech.UI
                 interruptWriting = false;
                 queuePageClear = false;
             }
+        }
+        
+        protected bool TryFastForwardActiveText()
+        {
+            if (!isWriting) { return false; }
+            SkipToEndOfPage();
+            return true;
         }
 
         protected override void OnDestroy()
@@ -383,6 +400,8 @@ namespace Frankie.Speech.UI
 
         protected override bool Choose(string nodeID)
         {
+            if (!UsesNodeBasedDialogueFlow()) { return StandardChoose(nodeID); }
+
             bool choose = PrepareChooseAction(ControllerInputType.Execute);
             if (choose)
             {
@@ -394,15 +413,14 @@ namespace Frankie.Speech.UI
 
         protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
         {
-            if (controllerInputType == ControllerInputType.Execute)
-            {
-                if (!isWriting) { return true; }
-                
-                if (activeTextScan != null) { StopCoroutine(activeTextScan); }
-                SetBusyWriting(false);
-                return true;
-            }
-            return false;
+            if (controllerInputType != ControllerInputType.Execute) { return false; }
+            if (TryFastForwardActiveText()) { return true; }
+            if (!UsesNodeBasedDialogueFlow()) { return StandardPrepareChooseAction(controllerInputType); }
+
+            // Note:  Node-based selection handled via:
+            // keyboard -> DialogueController.InteractWithChoices -> NextWithID,
+            // mouse -> choice button's click listener -> Choose(nodeID)
+            return true;
         }
         #endregion
         
@@ -495,11 +513,17 @@ namespace Frankie.Speech.UI
         #endregion
 
         #region InputHandling
+        protected virtual bool UsesNodeBasedDialogueFlow() => true;
+            // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
+            // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
+
         public override bool HandleGlobalInput(ControllerInputType controllerInputType)
         {
+            if (isInitialInputBlocked) { return false; }
+            if (!UsesNodeBasedDialogueFlow()) { return StandardHandleGlobalInput(controllerInputType); }
+            
             if (!handleGlobalInput) { return true; }
             if (TryEarlyExit(controllerInputType)) { return true; }
-            
             if (controllerInputType == ControllerInputType.Execute)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }

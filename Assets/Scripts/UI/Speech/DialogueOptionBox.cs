@@ -8,6 +8,8 @@ namespace Frankie.Speech.UI
 {
     public class DialogueOptionBox : DialogueBox
     {
+        protected override bool UsesNodeBasedDialogueFlow() => false;
+
         public override void Setup(string optionText)
         {
             base.Setup(optionText);
@@ -18,20 +20,8 @@ namespace Frankie.Speech.UI
 
             int maxChoiceLength = choiceActionPairs.Aggregate(0, (current, choiceActionPair) => Mathf.Max(current, choiceActionPair.choice.Length));
             ConfigureChoiceLayout(choiceActionPairs.Count, maxChoiceLength);
-        }
 
-        // Pass through implementations
-        protected override bool Choose(string nodeID)
-        {
-            return StandardChoose(nodeID);
-        }
-        protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
-        {
-            return StandardPrepareChooseAction(controllerInputType);
-        }
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            return StandardHandleGlobalInput(controllerInputType);
+            ShowCursorOnAnyInteraction(ControllerInputType.NavigateDown);
         }
     }
 }

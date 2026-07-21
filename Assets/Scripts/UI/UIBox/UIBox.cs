@@ -328,11 +328,7 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region PassThrough
-
-        protected virtual bool IsBackInput(ControllerInputType controllerInputType)
-        {
-            return controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option;
-        }
+        protected virtual bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option;
         protected virtual bool TryHandleBackNavigation(ControllerInputType controllerInputType) => false;
 
         protected bool StandardHandleGlobalInput(ControllerInputType controllerInputType)

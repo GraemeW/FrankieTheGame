@@ -380,11 +380,7 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region InputHandling
-
-        protected override bool IsBackInput(ControllerInputType controllerInputType)
-        {
-            return controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape;
-        }
+        protected override bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape;
 
         protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
         {
