@@ -317,9 +317,7 @@ namespace Frankie.Inventory.UI
             }
 
             SetInventoryBoxState(InventoryBoxState.InItemDetail);
-            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-            dialogueOptionBox.Setup(localizedOptionText.GetSafeLocalizedString());
-            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
+            DialogueBox dialogueOptionBox = SpawnDialogueBox(localizedOptionText.GetSafeLocalizedString(), choiceActionPairs);
             controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
@@ -334,8 +332,7 @@ namespace Frankie.Inventory.UI
             var targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
             if (!selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets())) { return false; }
             
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
+            DialogueBox dialogueBox = SpawnDialogueBox(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
             controller.AddInputReceiver(dialogueBox, ResetSelectState);
             return true;
         }
@@ -350,7 +347,7 @@ namespace Frankie.Inventory.UI
             return false;
         }
         
-        private void ResetSelectState()
+        protected void ResetSelectState()
         {
             selectedItemSlot = -1;
             targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
@@ -475,9 +472,7 @@ namespace Frankie.Inventory.UI
         private void Inspect(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }
-
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
+            DialogueBox dialogueBox = SpawnDialogueBox(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
             controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }
 
@@ -503,17 +498,14 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
             if (!selectedKnapsack.HasItemInSlot(inventorySlot)) { return; }
 
-            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            ChoiceActionPair confirmDrop = new ChoiceActionPair(localizedConfirmChoiceAffirmative.GetSafeLocalizedString(), () => ExecuteDrop(inventorySlot));
+            var choiceActionPairs = new List<ChoiceActionPair>();
+            var confirmDrop = new ChoiceActionPair(localizedConfirmChoiceAffirmative.GetSafeLocalizedString(), () => ExecuteDrop(inventorySlot));
             choiceActionPairs.Add(confirmDrop);
-            ChoiceActionPair rejectDrop = new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => ExecuteDrop(-1));
+            var rejectDrop = new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => ExecuteDrop(-1));
             choiceActionPairs.Add(rejectDrop);
 
-            dialogueOptionBox.Setup(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
-            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
+            DialogueBox dialogueBox = SpawnDialogueBox(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()), choiceActionPairs);
+            controller.AddInputReceiver(dialogueBox, ResetSelectState);
             return;
 
             // Local Functions
@@ -577,8 +569,7 @@ namespace Frankie.Inventory.UI
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)
         {
             handleGlobalInput = false;
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
+            DialogueBox dialogueBox = SpawnDialogueBox(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
             controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }
         #endregion
@@ -591,6 +582,15 @@ namespace Frankie.Inventory.UI
             ClearAllChoices();
             SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
             return true;
+        }
+        
+        protected DialogueBox SpawnDialogueBox(string text, List<ChoiceActionPair> choiceActionPairs = null)
+        {
+            bool isSimpleDialogueBox = choiceActionPairs == null;
+            DialogueBox dialogueBox = isSimpleDialogueBox ? Instantiate(dialogueBoxPrefab, transform.parent) : Instantiate(dialogueOptionBoxPrefab, transform.parent);
+            dialogueBox.AddText(text);
+            if (!isSimpleDialogueBox) { dialogueBox.OverrideChoiceOptions(choiceActionPairs); }
+            return dialogueBox;
         }
         #endregion
     }

@@ -66,7 +66,7 @@ namespace Frankie.Utils.UI
         #region UtilityMethods
         public void SetActiveInput(bool enable)
         {
-            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            ReconcileChoiceOptions();
             handleGlobalInput = enable;
         }
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
@@ -78,6 +78,12 @@ namespace Frankie.Utils.UI
         protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
         public void ClearDisableCallbacksOnChoose(bool enable) => clearDisableCallbacksOnChoose = enable;
         public void ClearDisableCallbacks() => TriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks, new ReceiverModifiedData(this));
+
+        private void ReconcileChoiceOptions()
+        {
+            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            isChoiceAvailable = choiceOptions.Count > 0;
+        }
         #endregion
 
         #region ChoiceSetup
@@ -251,7 +257,8 @@ namespace Frankie.Utils.UI
         
         protected bool ShowCursorOnAnyInteraction(ControllerInputType controllerInputType)
         {
-            if (!isChoiceAvailable || choiceOptions.Count == 0) { return false; }
+            ReconcileChoiceOptions();
+            if (!isChoiceAvailable) { return false; }
             if (controllerInputType is ControllerInputType.DefaultNone or ControllerInputType.Cancel or ControllerInputType.Option) { return false; }
 
             if (highlightedChoiceOption == null)

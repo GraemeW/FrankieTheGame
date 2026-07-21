@@ -49,11 +49,12 @@ namespace Frankie.Inventory.UI
         {
             if (selectedKnapsack == null) { return; }
 
-            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             InventoryItem selectedItem = selectedKnapsack.GetItemInSlot(inventorySlot);
             string selectedItemName = selectedItem != null ? selectedItem.GetDisplayName() : ""; // Edge case (should not happen)
 
-            dialogueOptionBox.Setup(string.Format(localizedMessageConfirmThrowOut.GetSafeLocalizedString(), swapItem.GetDisplayName(), selectedItemName));
+            DialogueBox dialogueOptionBox = SpawnDialogueBox(string.Format(localizedMessageConfirmThrowOut.GetSafeLocalizedString(), swapItem.GetDisplayName(), selectedItemName), new List<ChoiceActionPair>());
+            controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
+            
             var choiceActionPairs = new List<ChoiceActionPair>();
             if (swapSuccessAction != null)
             {
@@ -74,8 +75,6 @@ namespace Frankie.Inventory.UI
             }
             choiceActionPairs.Add(new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => { SwapItem(dialogueOptionBox, false, inventorySlot); }));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-
-            controller.AddInputReceiver(dialogueOptionBox, null);
         }
         
         protected override void ListenToKnapsack(bool enable)
@@ -83,14 +82,13 @@ namespace Frankie.Inventory.UI
             // Skip listening to knapsack -- window only exists momentarily and then killed
         }
 
-        private void SwapItem(DialogueOptionBox confirmationBox, bool execute, int inventorySlot)
+        private void SwapItem(DialogueBox confirmationBox, bool execute, int inventorySlot)
         {
             if (execute)
             {
                 selectedKnapsack.RemoveFromSlot(inventorySlot, false);
                 selectedKnapsack.AddToFirstEmptySlot(swapItem, true);
             }
-
             Destroy(confirmationBox.gameObject);
         }
         #endregion
