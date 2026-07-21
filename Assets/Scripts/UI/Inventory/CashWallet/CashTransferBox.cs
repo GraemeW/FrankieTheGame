@@ -173,7 +173,7 @@ namespace Frankie.Inventory.UI
                     return AdjustNumber(controllerInputType);
                 }
             }
-            return base.MoveCursor(controllerInputType, cursorMovementStyle);
+            return StandardMoveCursor(controllerInputType, cursorMovementStyle);
         }
 
         protected override bool Choose(string nodeID)
@@ -184,7 +184,7 @@ namespace Frankie.Inventory.UI
                     SetCashTransferState(CashTransferState.CashConfirmation);
                     return true;
                 case CashTransferState.CashConfirmation:
-                    return base.Choose(null);
+                    return StandardChoose(null);
                 default:
                     return false;
             }

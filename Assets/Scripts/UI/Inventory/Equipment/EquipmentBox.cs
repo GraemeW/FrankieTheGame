@@ -240,13 +240,14 @@ namespace Frankie.Inventory.UI
             switch (equipmentBoxState)
             {
                 case EquipmentBoxState.InCharacterSelection:
-                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
+                    return StandardMoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
                 case EquipmentBoxState.InStatConfirmation:
-                    return base.MoveCursor(controllerInputType, cursorMovementStyle);
+                    return StandardMoveCursor(controllerInputType, cursorMovementStyle);
                 case EquipmentBoxState.InEquipmentSelection:
                     return MoveCursor2D(controllerInputType);
+                default:
+                    return false;
             }
-            return false;
         }
 
         private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true)
@@ -281,7 +282,6 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region EquipmentBehaviour
-
         private void RefreshEquipment()
         {
             CleanUpOldEquipment();

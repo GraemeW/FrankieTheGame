@@ -152,24 +152,11 @@ namespace Frankie.Combat.UI
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
-                    return base.Choose(null);
+                    return StandardChoose(null);
                 case AbilitiesBoxState.InAbilitiesSelection:
-                    var skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
-                    Skill activeSkill = skillHandler?.GetActiveSkill();
-                    if (activeSkill == null) { return false; }
-
-                    SetAbilitiesBoxState(AbilitiesBoxState.InCharacterTargeting);
-                    if (GetNextTarget(TargetingNavigationType.Hold)) { return true; }
-                    else
-                    {
-                        SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-                        DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-                        dialogueBox.AddText(localizedMessageNoValidTarget.GetSafeLocalizedString());
-                        controller.AddInputReceiver(dialogueBox, null);
-                        return false;
-                    }
+                    return TryChooseSkill();
                 case AbilitiesBoxState.InCharacterTargeting:
-                    return ChooseSkill();
+                    return TryUseSkill();
                 default:
                     return false;
             }
@@ -205,7 +192,23 @@ namespace Frankie.Combat.UI
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true);
         }
 
-        private bool ChooseSkill()
+        private bool TryChooseSkill()
+        {
+            var skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
+            Skill activeSkill = skillHandler?.GetActiveSkill();
+            if (activeSkill == null) { return false; }
+
+            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterTargeting);
+            if (GetNextTarget(TargetingNavigationType.Hold)) { return true; }
+
+            SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
+            dialogueBox.AddText(localizedMessageNoValidTarget.GetSafeLocalizedString());
+            controller.AddInputReceiver(dialogueBox, null);
+            return false;
+        }
+
+        private bool TryUseSkill()
         {
             if (currentCombatParticipant == null) { return false; }
 
@@ -241,7 +244,7 @@ namespace Frankie.Combat.UI
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
-                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
+                    return StandardMoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
                 case AbilitiesBoxState.InAbilitiesSelection:
                     return HandleInputWithReturn(controllerInputType);
                 case AbilitiesBoxState.InCharacterTargeting:
