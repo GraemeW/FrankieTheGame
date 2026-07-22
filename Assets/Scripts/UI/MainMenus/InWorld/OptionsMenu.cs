@@ -72,11 +72,9 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region UnityMethods
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             cachedStartMenu = FindAnyObjectByType<StartMenu>();
-
             InitializeLocalization();
             
             int choiceIndex = 0;
@@ -97,15 +95,13 @@ namespace Frankie.Menu.UI
             SetUpChoiceOptions();
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             SubscribeToEscapeMenu(true);
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             SubscribeToEscapeMenu(false);
         }
         #endregion

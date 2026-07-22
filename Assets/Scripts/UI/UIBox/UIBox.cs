@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace Frankie.Utils.UI
         
         // State -- Standard
         public bool destroyQueued { get; set; } = false;
+        private Coroutine controllerCheckCoroutine;
         protected BaseController controller;
 
         // State -- Choices
@@ -34,21 +36,39 @@ namespace Frankie.Utils.UI
         public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
         
         #region UnityMethods
-        protected virtual void OnEnable()
+        // Note:  UIBox Unity Lifecycle methods are DANGEROUS to override if not considering base implementation
+        // Thus: seal base implementation and override from within the methods
+        private void Awake()
+        {
+            if (!TryAcquireDependencies())
+            {
+                Destroy(gameObject);
+                return;
+            }
+            AwakeTriggered();
+        }
+        
+        private void Start()
+        {
+            TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
+            if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
+            controllerCheckCoroutine = StartCoroutine(DestroyIfControllerMissing());
+            StartTriggered();
+        }
+
+        private void OnEnable()
         {
             TriggerUIBoxModified(ReceiverModifiedType.ClientEnable, new ReceiverModifiedData(this));
             SetUpChoiceOptions();
-        }
-        
-        protected virtual void Start()
-        {
-            TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
+            EnableTriggered();
         }
 
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
             TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
             ClearChoiceSelections();
+            if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
+            DisabledTriggered();
         }
 
         private void LateUpdate()
@@ -60,6 +80,20 @@ namespace Frankie.Utils.UI
         protected virtual void OnDestroy()
         {
             TriggerUIBoxModified(ReceiverModifiedType.ClientExit, new ReceiverModifiedData(this));
+            DestroyTriggered();
+        }
+        
+        protected virtual void AwakeTriggered() { }
+        protected virtual void StartTriggered() { }
+        protected virtual void EnableTriggered() { }
+        protected virtual void DisabledTriggered() { }
+        protected virtual void DestroyTriggered() { }
+
+        protected virtual bool TryAcquireDependencies() => true;
+        private IEnumerator DestroyIfControllerMissing()
+        {
+            yield return null;
+            if (controller == null && handleGlobalInput) { destroyQueued = true; }
         }
         #endregion
 
@@ -79,7 +113,7 @@ namespace Frankie.Utils.UI
         public void ClearDisableCallbacksOnChoose(bool enable) => clearDisableCallbacksOnChoose = enable;
         public void ClearDisableCallbacks() => TriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks, new ReceiverModifiedData(this));
 
-        private void ReconcileChoiceOptions()
+        protected virtual void ReconcileChoiceOptions()
         {
             choiceOptions.RemoveAll(choiceOption => choiceOption == null);
             isChoiceAvailable = choiceOptions.Count > 0;

@@ -36,28 +36,26 @@ namespace Frankie.Menu.UI
         public event Action escapeMenuItemSelected;
 
         #region UnityMethods
-        private void Awake()
+        protected override bool TryAcquireDependencies()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
 
-            if (playerStateMachine != null)
-            {
-                controller = playerStateMachine.GetComponent<PlayerController>();
-                controller.AddInputReceiver(this, null);
-            }
+            controller = playerStateMachine.GetComponent<PlayerController>();
+            if (controller == null) { return false; }
+
+            controller.AddInputReceiver(this, null);
+            return true;
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
             ResetAllTextElements();
-            base.Start();
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion

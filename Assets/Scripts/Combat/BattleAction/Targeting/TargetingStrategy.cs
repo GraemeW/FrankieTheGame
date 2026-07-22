@@ -103,8 +103,6 @@ namespace Frankie.Combat
                 TargetingNavigationType.Left => (currentBattleEntityIndex == 0) ? tryBattleEntities.Count - 1 : currentBattleEntityIndex - 1,
                 _ => currentBattleEntityIndex
             };
-            
-            Debug.Log($"Current battle entity index: {currentBattleEntityIndex} @ column {focalTarget.column} updated to {nextBattleEntityIndex} @ column {tryBattleEntities[nextBattleEntityIndex].column}");
             return tryBattleEntities[nextBattleEntityIndex];
         }
         #endregion

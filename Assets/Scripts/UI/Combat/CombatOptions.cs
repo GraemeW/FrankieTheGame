@@ -33,9 +33,8 @@ namespace Frankie.Combat.UI
         private PartyCombatConduit partyCombatConduit;
 
         #region UnityMethods
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             if (fightChoiceOption != null) { fightChoiceOption.SetText(localizedFightText.GetSafeLocalizedString()); }
             if (itemChoiceOption != null) { itemChoiceOption.SetText(localizedItemText.GetSafeLocalizedString()); }
             if (statsChoiceOption != null) { statsChoiceOption.SetText(localizedStatsText.GetSafeLocalizedString()); }

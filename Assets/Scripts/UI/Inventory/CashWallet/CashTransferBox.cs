@@ -51,33 +51,26 @@ namespace Frankie.Inventory.UI
         private WalletUI walletUI;
 
         // Static
-        const int _maxTransferAmount = 999999999;
+        private const int _maxTransferAmount = 999999999;
 
         #region UnityMethods
-        private void Awake()
-        {
-            GetPlayerReference();
-        }
-
-        private void GetPlayerReference()
+        protected override bool TryAcquireDependencies()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
 
-            if (playerStateMachine == null) { Destroy(gameObject); return; }
-            
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
             wallet = playerStateMachine.GetComponent<Wallet>();
+            if (playerController == null) { return false; }
+            
+            playerController.AddInputReceiver(this, null);
+            return true;
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            if (playerController == null) { Destroy(gameObject); return; }
-            playerController.AddInputReceiver(this, null);
-            
-            base.Start();
             SetupWalletUI();
             SetupCashTransferBoxUI();
         }
@@ -87,11 +80,9 @@ namespace Frankie.Inventory.UI
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion

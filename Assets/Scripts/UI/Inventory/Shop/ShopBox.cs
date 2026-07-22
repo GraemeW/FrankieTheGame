@@ -38,18 +38,16 @@ namespace Frankie.Inventory.UI
         private Shop shop;
 
         #region UnityMethods
-        protected override void Start()
+
+        protected override void StartTriggered()
         {
-            base.Start();
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
             if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -68,6 +66,8 @@ namespace Frankie.Inventory.UI
         #region PublicMethods
         public void Setup(WorldCanvas setWorldCanvas, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
         {
+            if (setPlayerController == null) { destroyQueued = true; return; }
+
             worldCanvas = setWorldCanvas;
             playerStateMachine = setPlayerStateMachine;
             playerController = setPlayerController;
@@ -96,7 +96,7 @@ namespace Frankie.Inventory.UI
         private void SetupShopBox()
         {
             shop = shopper.GetCurrentShop();
-            if (shop == null) { Destroy(gameObject); }
+            if (shop == null) { destroyQueued = true; return; }
 
             shopInfoField.text = shop.GetMessageIntro();
 

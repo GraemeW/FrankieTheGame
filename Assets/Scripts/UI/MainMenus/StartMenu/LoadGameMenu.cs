@@ -35,15 +35,13 @@ namespace Frankie.Menu.UI
         private Zone newGameZoneOverride;
         
         #region UnityMethods
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             if (loadHeaderField != null) { loadHeaderField.SetText(localizedLoadHeaderText.GetSafeLocalizedString());}
         }
-        
-        protected override void OnEnable()
+
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             ResetUI();
         }
         #endregion

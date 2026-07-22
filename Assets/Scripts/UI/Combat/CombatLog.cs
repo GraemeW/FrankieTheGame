@@ -40,23 +40,21 @@ namespace Frankie.Combat.UI
         private Coroutine marquee;
 
         #region UnityMethods
-        private void Awake()
+        protected override void AwakeTriggered()
         {
             combatLogDelay = delayBetweenCharactersSlowDown;
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
             BattleEventBus<BattleSequenceProcessedEvent>.SubscribeToEvent(ParseBattleSequence);
             BattleEventBus<StateAlteredInfo>.SubscribeToEvent(ParseCombatParticipantState);
             marquee = StartCoroutine(MarqueeScroll());
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
             BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);
             BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(ParseCombatParticipantState);

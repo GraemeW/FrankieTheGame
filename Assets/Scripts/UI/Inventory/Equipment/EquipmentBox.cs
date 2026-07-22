@@ -63,22 +63,19 @@ namespace Frankie.Inventory.UI
         public event Action<Enum> uiBoxStateChanged;
 
         #region UnityMethods
-
-        private void Awake()
+        protected override void AwakeTriggered()
         {
             if (confirmEquipmentChange != null) { confirmEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(true));}
             if (rejectEquipmentChange != null) { rejectEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(false)); }
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             ListenToSelectedEquipment(true);
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             ListenToSelectedEquipment(false);
         }
         #endregion

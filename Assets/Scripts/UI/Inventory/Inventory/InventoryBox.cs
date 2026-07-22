@@ -67,16 +67,14 @@ namespace Frankie.Inventory.UI
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
 
         #region UnityMethods
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             SubscribeCharacterSlides(true);
             ListenToKnapsack(true);
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             SubscribeCharacterSlides(false);
             ListenToKnapsack(false);
         }

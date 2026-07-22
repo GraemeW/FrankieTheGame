@@ -82,12 +82,10 @@ namespace Frankie.Inventory.UI
             walletUI = Instantiate(walletUIPrefab, transform.parent);
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (shopBox != null) { shopBox.UpdateShopMessageToSuccess(); }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-
-            base.OnDestroy();
             if (transactionType == ShopType.Sell && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         #endregion

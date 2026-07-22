@@ -54,30 +54,29 @@ namespace Frankie.Menu.UI
         private PartyCombatConduit partyCombatConduit;
         
         #region UnityMethods
-        private void Awake()
+        protected override bool TryAcquireDependencies()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null)
-            {
-                Destroy(gameObject);
-                return;
-            }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
+
             playerController = playerStateMachine.GetComponent<PlayerController>();
             partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
+            if (playerController == null) { return false; }
+
+            playerController.AddInputReceiver(this, null);
+            return true;
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            playerController.AddInputReceiver(this, null);
-            base.Start();
             InitializeLocalization();
             SetupBattleEntities();
             SetupCharacterSlides();
             SetupWallet();
         }
-        
-        protected override void OnDestroy()
+
+        protected override void DestroyTriggered()
         {
             if (childOption != null) { Destroy(childOption); }
             foreach (Transform childCharacterPanel in characterPanelTransform)
@@ -85,8 +84,6 @@ namespace Frankie.Menu.UI
                 Destroy(childCharacterPanel.gameObject);
             }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion

@@ -28,10 +28,8 @@ namespace Frankie.Stats.UI
         private CombatParticipant selectedCharacter;
         
         #region UnityMethods
-
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             if (experienceFlavourField != null) { experienceFlavourField.SetText(localizedExperienceFlavourText.GetSafeLocalizedString()); }
         }
         #endregion

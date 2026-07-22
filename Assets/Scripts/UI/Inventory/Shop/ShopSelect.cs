@@ -39,17 +39,10 @@ namespace Frankie.Inventory.UI
         private Shop shop;
 
         #region UnityMethods
-        private void Awake()
-        {
-            if (!GetPlayerReference()) { Destroy(gameObject); }
-        }
-        
-        protected override void Start()
-        {
-            if (playerController == null) { Destroy(gameObject); return; }
-            playerController.AddInputReceiver(this, null);
-            base.Start();
+        protected override bool TryAcquireDependencies() => GetPlayerReference();
 
+        protected override void StartTriggered()
+        {
             shop = shopper.GetCurrentShop();
             if (shop == null || !shop.HasInventory()) { Destroy(gameObject); return; }
             
@@ -68,10 +61,9 @@ namespace Frankie.Inventory.UI
                     break;
             }
         }
-        
-        protected override void OnDestroy()
+
+        protected override void DestroyTriggered()
         {
-            base.OnDestroy();
             if (exitShopOnDestroy && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         
@@ -84,6 +76,9 @@ namespace Frankie.Inventory.UI
             partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
+            if (playerController == null) { return false; }
+            
+            playerController.AddInputReceiver(this, null);
             return true;
         }
         #endregion

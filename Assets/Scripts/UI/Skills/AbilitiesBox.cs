@@ -48,10 +48,9 @@ namespace Frankie.Combat.UI
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
 
         #region UnityMethods
-
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
+            base.StartTriggered();
             if (statLabelField != null) { statLabelField.SetText(localizedStatLabel.GetSafeLocalizedString());}
             if (apCostLabelField != null) { apCostLabelField.SetText(localizedAPCostLabel.GetSafeLocalizedString()); }
         }
@@ -135,16 +134,20 @@ namespace Frankie.Combat.UI
         protected override void SetUpChoiceOptions()
         {
             choiceOptions.Clear();
+            if (abilitiesBoxState == AbilitiesBoxState.InCharacterSelection) { choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList()); }
+            ReconcileChoiceOptions();
+        }
+
+        protected override void ReconcileChoiceOptions()
+        {
             if (abilitiesBoxState == AbilitiesBoxState.InCharacterSelection)
             {
-                choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
                 SetChoiceAvailable(choiceOptions.Count > 0);
+                return;
             }
-            else
-            {
-                // Avoid short circuit on user control for other states
-                SetChoiceAvailable(true);
-            }
+
+            // Avoid short circuit on user control for other states
+            SetChoiceAvailable(true);
         }
 
         protected override bool Choose(string nodeID)
@@ -194,8 +197,8 @@ namespace Frankie.Combat.UI
 
         private bool TryChooseSkill()
         {
-            var skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
-            Skill activeSkill = skillHandler?.GetActiveSkill();
+            SkillHandler skillHandler = currentCombatParticipant != null ? currentCombatParticipant.GetComponent<SkillHandler>() : null;
+            Skill activeSkill = skillHandler != null ? skillHandler.GetActiveSkill() : null;
             if (activeSkill == null) { return false; }
 
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterTargeting);

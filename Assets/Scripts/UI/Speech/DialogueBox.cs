@@ -51,7 +51,8 @@ namespace Frankie.Speech.UI
         #endregion
         
         #region UnityMethods
-        protected virtual void Awake()
+        // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it by Start() check
+        protected override void AwakeTriggered()
         {
             dialogueController = DialogueController.FindDialogueController();
             if (dialogueController != null)
@@ -76,9 +77,8 @@ namespace Frankie.Speech.UI
             }
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             if (dialogueController != null)
             {
                 dialogueController.SubscribeToDialogueInput(true, HandleDialogueInput);
@@ -86,9 +86,8 @@ namespace Frankie.Speech.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             if (dialogueController != null)
             {
                 dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
@@ -97,12 +96,8 @@ namespace Frankie.Speech.UI
             if (activeTextScan != null) { StopCoroutine(activeTextScan); }
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            // Note:  After instantiating, controller must be setup and configured before frame end
-            if (!HasController()) { Destroy(gameObject); return; }
-            
-            base.Start();
             Setup(null);
         }
         #endregion
@@ -139,7 +134,7 @@ namespace Frankie.Speech.UI
 
         protected virtual void UpdateUI()
         {
-            if (!HasController()) { destroyQueued = true; }
+            if (controller == null) { destroyQueued = true; }
             if (!dialogueController.IsActive()) { destroyQueued = true; }
 
             ClearOldDialogue();
@@ -149,8 +144,6 @@ namespace Frankie.Speech.UI
                 SetChoiceList();
             }
         }
-        
-        private bool HasController() => controller != null || dialogueController != null;
 
         private void SkipToEndOfPage()
         {
@@ -171,10 +164,8 @@ namespace Frankie.Speech.UI
             return true;
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
-            base.OnDestroy();
-            
             // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
             //          Otherwise end-of-dialogue and choice-select options will not trigger
             // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed

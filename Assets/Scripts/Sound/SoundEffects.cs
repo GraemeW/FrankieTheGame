@@ -89,8 +89,8 @@ namespace Frankie.Sound
         {
             if (audioClip == null) { return; }
             SoundEffects newSoundEffects = Instantiate(this, null, true);
-            InitializeVolume();
-            destroyAfterPlay = true;
+            newSoundEffects.InitializeVolume();
+            newSoundEffects.destroyAfterPlay = true;
             DontDestroyOnLoad(newSoundEffects);
             newSoundEffects.PlayClip(audioClip);
         }

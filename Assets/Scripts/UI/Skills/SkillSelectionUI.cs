@@ -44,9 +44,8 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region UnityMethods
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             if (skillField != null)
             {
                 skillField.color = noSkillColor;
@@ -54,20 +53,18 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            if (!usingBattleController) { base.OnEnable(); }
-            else
+            if (usingBattleController)
             {
                 BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
                 battleController.SubscribeToBattleInput(true, HandleInput);
             }
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            if (!usingBattleController) { base.OnDisable(); }
-            else
+            if (usingBattleController)
             {
                 BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
                 battleController.SubscribeToBattleInput(false, HandleInput);
