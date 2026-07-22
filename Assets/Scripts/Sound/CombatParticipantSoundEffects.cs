@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 using Frankie.Combat;
 
 namespace Frankie.Sound
@@ -38,14 +39,28 @@ namespace Frankie.Sound
         protected override void InitializeAudioSources()
         {
             if (audioSources == null || audioSources.Length == 0) { StandardSetAudioSource(); return; }
-
+            
             foreach (AudioSource initAudioSource in audioSources)
             {
+                if (initAudioSource == null) { continue; }
                 audioSource = initAudioSource;
-                if (audioMixerGroup != null) { audioSource.outputAudioMixerGroup = audioMixerGroup; }
                 InitializeVolume();
             }
             audioSource = audioSources.FirstOrDefault();
+        }
+
+        protected override void LinkToAudioMixer()
+        {
+            if (audioSources == null || audioSources.Length == 0) { return; }
+            
+            bool foundMixer = CoreAudio.TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup);
+            if (!foundMixer) { return; }
+
+            foreach (AudioSource linkAudioSource in audioSources)
+            {
+                if (linkAudioSource == null) { continue; }
+                linkAudioSource.outputAudioMixerGroup = audioMixerGroup;
+            }
         }
 
         protected override void SetAudioSource(AudioClip audioClip = null)

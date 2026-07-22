@@ -20,13 +20,6 @@ namespace Frankie.Sound
         private Coroutine textScanCoroutine;
 
         #region UnityMethods
-        private void Start()
-        {
-            audioSource.Stop();
-            audioSource.clip = textScanAudioClip;
-            audioSource.time = 0f;
-        }
-
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -38,6 +31,13 @@ namespace Frankie.Sound
             base.OnDisable();
             uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
             if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
+        }
+        
+        protected override void PreConfigureAudioSource()
+        {
+            audioSource.Stop();
+            audioSource.clip = textScanAudioClip;
+            audioSource.time = 0f;
         }
         #endregion
 

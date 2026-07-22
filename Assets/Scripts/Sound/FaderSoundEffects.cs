@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using Frankie.ZoneManagement;
 
 namespace Frankie.Sound
@@ -8,7 +9,7 @@ namespace Frankie.Sound
         // Tunables
         [SerializeField] private Fader fader;
         [SerializeField] private AudioClip battleEntryAudioClip;
-
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -19,6 +20,14 @@ namespace Frankie.Sound
         {
             base.OnDisable();
             fader.fadingIn -= HandleFadeIn;
+        }
+
+        protected override void LinkToAudioMixer()
+        {
+            if (CoreAudio.TryGetFaderAudioMixer(out AudioMixerGroup audioMixerGroup))
+            {
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+            }
         }
 
         private void HandleFadeIn(TransitionType transitionType)

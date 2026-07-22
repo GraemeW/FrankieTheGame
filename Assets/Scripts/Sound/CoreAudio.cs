@@ -11,7 +11,10 @@ namespace Frankie.Sound
         [SerializeField] private float defaultBackgroundMusicVolume = 0.5f;
         [SerializeField] private float defaultSoundEffectsVolume = 0.5f;
         [Header("Hookups")]
-        [SerializeField] private AudioMixerGroup audioMixerGroup;
+        [SerializeField] private AudioMixerGroup masterAudioMixer;
+        [SerializeField] private AudioMixerGroup backgroundAudioMixer;
+        [SerializeField] private AudioMixerGroup soundEffectsAudioMixer;
+        [SerializeField] private AudioMixerGroup faderAudioMixer;
         
         // Fixed Constants
         private const float _minVolume = 0.0001f; // -80dB
@@ -52,6 +55,36 @@ namespace Frankie.Sound
             if (_coreAudioInstance == null) { _coreAudioInstance = FindCoreAudioInstance(); }
             return _coreAudioInstance != null;
         }
+        
+        public static bool TryGetMasterAudioMixer(out AudioMixerGroup audioMixerGroup)
+        {
+            audioMixerGroup = null;
+            if (!DoesCoreAudioExist()) { return false; }
+            audioMixerGroup = _coreAudioInstance.masterAudioMixer;
+            return true;
+        }
+        public static bool TryGetBackgroundAudioMixer(out AudioMixerGroup audioMixerGroup)
+        {
+            audioMixerGroup = null;
+            if (!DoesCoreAudioExist()) { return false; }
+            audioMixerGroup = _coreAudioInstance.backgroundAudioMixer;
+            return true;
+        }
+        public static bool TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup)
+        {
+            audioMixerGroup = null;
+            if (!DoesCoreAudioExist()) { return false; }
+            audioMixerGroup = _coreAudioInstance.soundEffectsAudioMixer;
+            return true;
+        }
+        
+        public static bool TryGetFaderAudioMixer(out AudioMixerGroup audioMixerGroup)
+        {
+            audioMixerGroup = null;
+            if (!DoesCoreAudioExist()) { return false; }
+            audioMixerGroup = _coreAudioInstance.faderAudioMixer;
+            return true;
+        }
         #endregion
         
         #region StaticSetters
@@ -88,7 +121,6 @@ namespace Frankie.Sound
             if (!PlayerPrefsController.BackgroundVolumeKeyExists()) { PlayerPrefsController.SetBackgroundVolume(defaultBackgroundMusicVolume); wasSettingInitialized = true; }
             if (!PlayerPrefsController.SoundEffectsVolumeKeyExists()) { PlayerPrefsController.SetSoundEffectsVolume(defaultSoundEffectsVolume); wasSettingInitialized = true; }
             if (wasSettingInitialized) { PlayerPrefsController.SaveToDisk(); }
-            Debug.LogWarning($"Sound settings are master@{PlayerPrefsController.GetMasterVolume()}, background@{PlayerPrefsController.GetBackgroundVolume()}, sfx@{PlayerPrefsController.GetSoundEffectsVolume()}");
         }
 
         private void Start()
@@ -102,7 +134,7 @@ namespace Frankie.Sound
             {
                 volume = Mathf.Clamp(PlayerPrefsController.GetMasterVolume(), _minVolume, 1f);
             }
-            audioMixerGroup.audioMixer.SetFloat(_mixerVolumeReference, Mathf.Log10(volume) * 20);
+            masterAudioMixer.audioMixer.SetFloat(_mixerVolumeReference, Mathf.Log10(volume) * 20);
         }
         #endregion
     }

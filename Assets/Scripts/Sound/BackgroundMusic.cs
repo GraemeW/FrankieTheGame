@@ -16,7 +16,6 @@ namespace Frankie.Sound
         [Header("Main Behaviour Configurables")]
         [SerializeField][Range(0f, 1.0f)] private float volume = 0.4f;
         [SerializeField] private float musicFadeDuration = 3.0f;
-        [SerializeField] private AudioMixerGroup audioMixerGroup;
         [Header("Standard Fixed Audio")]
         [SerializeField] private AudioClip levelUpAudio;
 
@@ -34,10 +33,10 @@ namespace Frankie.Sound
         private const string _mixerVolumeReference = "backgroundVolume";
         
         #region Static
-        private static IEnumerator StartFade(AudioMixer audioMixer, string exposedMixedVolumeReference, float duration, float targetVolume)
+        private static IEnumerator StartFade(AudioMixerGroup audioMixerGroup, string exposedMixedVolumeReference, float duration, float targetVolume)
         {
             float currentTime = 0;
-            audioMixer.GetFloat(exposedMixedVolumeReference, out float currentVol);
+            audioMixerGroup.audioMixer.GetFloat(exposedMixedVolumeReference, out float currentVol);
             currentVol = Mathf.Pow(10, currentVol / 20);
             float targetValue = Mathf.Clamp(targetVolume, 0.0001f, 1);
 
@@ -45,7 +44,7 @@ namespace Frankie.Sound
             {
                 currentTime += Time.deltaTime;
                 float newVol = Mathf.Lerp(currentVol, targetValue, currentTime / duration);
-                audioMixer.SetFloat(exposedMixedVolumeReference, Mathf.Log10(newVol) * 20);
+                audioMixerGroup.audioMixer.SetFloat(exposedMixedVolumeReference, Mathf.Log10(newVol) * 20);
                 yield return null;
             }
         }
@@ -55,12 +54,16 @@ namespace Frankie.Sound
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
-            audioSource.outputAudioMixerGroup = audioMixerGroup;
             RefreshVolume();
         }
 
         private void Start()
         {
+            if (CoreAudio.TryGetBackgroundAudioMixer(out AudioMixerGroup audioMixerGroup))
+            {
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+            }
+            
             Zone currentZone = SceneLoader.GetCurrentZone();
             if (currentZone == null) { Debug.Log("Zone load failed");  return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
@@ -93,7 +96,7 @@ namespace Frankie.Sound
                 volume = Mathf.Clamp(PlayerPrefsController.GetBackgroundVolume(), _minVolume, 1f);
             }
             audioSource.volume = 1.0f; // Audio volume managed by mixer
-            audioMixerGroup.audioMixer.SetFloat(_mixerVolumeReference, Mathf.Log10(volume) * 20);
+            audioSource.outputAudioMixerGroup.audioMixer.SetFloat(_mixerVolumeReference, Mathf.Log10(volume) * 20);
         }
         #endregion
 
@@ -102,13 +105,13 @@ namespace Frankie.Sound
         {
             if (audioClip == null) { yield break; }
             
-            yield return StartFade(audioMixerGroup.audioMixer, _mixerVolumeReference, musicFadeDuration, 0f);
+            yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, 0f);
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.loop = isLooping;
             audioSource.time = Mathf.Clamp(timeIndex, 0f, audioClip.length - 0.01f);
             audioSource.Play();
-            yield return StartFade(audioMixerGroup.audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
+            yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, volume);
         }
 
         private IEnumerator TransitionToAudioImmediate(AudioClip audioClip, bool isLooping)
@@ -118,7 +121,7 @@ namespace Frankie.Sound
             audioSource.loop = isLooping;
             audioSource.time = 0f;
             audioSource.Play();
-            yield return StartFade(audioMixerGroup.audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
+            yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, volume);
         }
         #endregion
 

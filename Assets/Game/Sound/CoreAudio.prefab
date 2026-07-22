@@ -47,4 +47,7 @@ MonoBehaviour:
   defaultMasterVolume: 0.5
   defaultBackgroundMusicVolume: 0.5
   defaultSoundEffectsVolume: 0.5
-  audioMixerGroup: {fileID: 24300002, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
+  masterAudioMixer: {fileID: 24300002, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
+  backgroundAudioMixer: {fileID: 1069292906390977195, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
+  soundEffectsAudioMixer: {fileID: 952329969535848474, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
+  faderAudioMixer: {fileID: 805561496896087151, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}

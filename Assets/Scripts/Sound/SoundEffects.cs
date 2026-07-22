@@ -11,7 +11,6 @@ namespace Frankie.Sound
         // Note:  Functions called via Unity Events, ignore '0 references' messages
 
         // Tunables
-        [SerializeField] protected AudioMixerGroup audioMixerGroup;
         [SerializeField][Range(0f,2f)] private float additionalVolumeScaler = 1.0f;
         [SerializeField] private List<AudioClip> audioClips = new();
         
@@ -27,6 +26,12 @@ namespace Frankie.Sound
         private void Awake()
         {
             InitializeAudioSources();
+        }
+
+        private void Start()
+        {
+            LinkToAudioMixer();
+            PreConfigureAudioSource();
         }
 
         protected virtual void OnEnable()
@@ -49,22 +54,35 @@ namespace Frankie.Sound
         #endregion
 
         #region PrivateProtectedMethods
+        private float GetPlayerVolume() => PlayerPrefsController.SoundEffectsVolumeKeyExists() ? Mathf.Clamp01(PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler) : _defaultVolume;
+        
         protected virtual void InitializeAudioSources() => StandardSetAudioSource();
         protected virtual void SetAudioSource(AudioClip audioClip = null) => StandardSetAudioSource();
-        private float GetPlayerVolume() => PlayerPrefsController.SoundEffectsVolumeKeyExists() ? Mathf.Clamp01(PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler) : _defaultVolume;
+        protected void StandardSetAudioSource()
+        {
+            if (audioSource != null) { return; }
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        protected virtual void LinkToAudioMixer()
+        {
+            if (CoreAudio.TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup))
+            {
+                audioSource.outputAudioMixerGroup = audioMixerGroup;
+            }
+        }
+
+        protected virtual void PreConfigureAudioSource()
+        {
+            audioSource.Stop();
+            if (audioSource.clip != null) { audioSource.time = 0f; }
+        }
         
         protected void InitializeVolume()
         {
             if (audioSource == null) { return; }
             volume = GetPlayerVolume();
             audioSource.volume = volume;
-        }
-        
-        protected void StandardSetAudioSource()
-        {
-            if (audioSource != null || audioMixerGroup == null) { return; }
-            audioSource = GetComponent<AudioSource>();
-            audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
 
         private void GeneratePersistentSoundEffect(AudioClip audioClip)
@@ -92,6 +110,7 @@ namespace Frankie.Sound
             if (audioClip == null || audioSource.isPlaying) { return; }
             
             InitializeVolume();
+            
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.time = 0f;
