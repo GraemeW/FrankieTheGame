@@ -53,7 +53,6 @@ namespace Frankie.Menu.UI
         [SerializeField] private int windowedResolutionOptionCount = 3;
         
         // Cached References
-        private BackgroundMusic backgroundMusic;
         private StartMenu cachedStartMenu;
         private EscapeMenu cachedEscapeMenu;
 
@@ -76,8 +75,7 @@ namespace Frankie.Menu.UI
         protected override void Start()
         {
             base.Start();
-            backgroundMusic = BackgroundMusic.FindBackgroundMusic(); // find in Start since persistent object, spawned during Awake
-            cachedStartMenu = UnityEngine.Object.FindAnyObjectByType<StartMenu>();
+            cachedStartMenu = FindAnyObjectByType<StartMenu>();
 
             InitializeLocalization();
             
@@ -292,7 +290,8 @@ namespace Frankie.Menu.UI
         {
             wasChangeMade = true;
             WriteVolumeToPlayerPrefs();
-            if (backgroundMusic != null) { backgroundMusic.RefreshVolume(); }
+            CoreAudio.RefreshMasterVolume();
+            CoreAudio.RefreshBackgroundMusicVolume();
             if (playSoundEffect && soundUpdateConfirmEffect != null) { soundUpdateConfirmEffect.PlayClip(); }
         }
 

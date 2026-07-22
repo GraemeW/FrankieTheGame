@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using Frankie.Saving;
 
 namespace Frankie.Sound
@@ -10,6 +11,7 @@ namespace Frankie.Sound
         // Note:  Functions called via Unity Events, ignore '0 references' messages
 
         // Tunables
+        [SerializeField] protected AudioMixerGroup audioMixerGroup;
         [SerializeField][Range(0f,2f)] private float additionalVolumeScaler = 1.0f;
         [SerializeField] private List<AudioClip> audioClips = new();
         
@@ -24,7 +26,7 @@ namespace Frankie.Sound
         #region UnityMethods
         private void Awake()
         {
-            SetAudioSource();
+            InitializeAudioSources();
         }
 
         protected virtual void OnEnable()
@@ -47,41 +49,30 @@ namespace Frankie.Sound
         #endregion
 
         #region PrivateProtectedMethods
-        private void Setup(bool setDestroyAfterPlay)
-        {
-            InitializeVolume();
-            destroyAfterPlay = setDestroyAfterPlay;
-        }
-
-        protected virtual void SetAudioSource(AudioClip audioClip = null)
-        {
-            if (audioSource == null) { audioSource = GetComponent<AudioSource>(); }
-        }
-
-        private void SetPlayerVolume()
-        {
-            if (PlayerPrefsController.MasterVolumeKeyExists())
-            {
-                volume = PlayerPrefsController.SoundEffectsVolumeKeyExists() 
-                    ? PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler
-                    : PlayerPrefsController.GetMasterVolume() * additionalVolumeScaler;
-                return;
-            }
-            volume = _defaultVolume; 
-        }
-
+        protected virtual void InitializeAudioSources() => StandardSetAudioSource();
+        protected virtual void SetAudioSource(AudioClip audioClip = null) => StandardSetAudioSource();
+        private float GetPlayerVolume() => PlayerPrefsController.SoundEffectsVolumeKeyExists() ? Mathf.Clamp01(PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler) : _defaultVolume;
+        
         protected void InitializeVolume()
         {
             if (audioSource == null) { return; }
-            SetPlayerVolume();
+            volume = GetPlayerVolume();
             audioSource.volume = volume;
+        }
+        
+        protected void StandardSetAudioSource()
+        {
+            if (audioSource != null || audioMixerGroup == null) { return; }
+            audioSource = GetComponent<AudioSource>();
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
 
         private void GeneratePersistentSoundEffect(AudioClip audioClip)
         {
             if (audioClip == null) { return; }
             SoundEffects newSoundEffects = Instantiate(this, null, true);
-            newSoundEffects.Setup(true);
+            InitializeVolume();
+            destroyAfterPlay = true;
             DontDestroyOnLoad(newSoundEffects);
             newSoundEffects.PlayClip(audioClip);
         }

@@ -77,34 +77,21 @@ namespace Frankie.Sound
             if (!queueTriggerInStart) { return; }
             queueTriggerInStart = false;
             
-            BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
-            if (backgroundMusic == null) { return; }
-            
-            TriggerOverride(true, backgroundMusic);
+            TriggerOverride(true);
         }
         #endregion
 
         #region PublicMethods
         public bool HasAudioOverride() => audioClip != null;
-        public void TriggerOverride(bool enable) // Callable via Unity Events
-        {
-            BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
-            if (backgroundMusic == null) { return; }
-            TriggerOverride(enable, backgroundMusic);
-        }
 
         public void ToggleOverride() // Callable via Unity Events
         {
             TriggerOverride(!isOverrideActive);
         }
-        #endregion
-
-        #region PrivateMethods
-        private AudioClip GetAudioClip() => audioClip;
-        private int GetPriority() => priority;
-        private void TriggerOverride(bool enable, BackgroundMusic backgroundMusic)
+        
+        public void TriggerOverride(bool enable)  // Callable via Unity Events
         {
-            if (backgroundMusic == null || audioClip == null) { return; }
+            if (!CoreAudio.DoesBackgroundMusicExist() || audioClip == null) { return; }
             if (enable && _currentBackgroundMusicOverride == this) { return; }
 
             if (enable)
@@ -112,7 +99,7 @@ namespace Frankie.Sound
                 isOverrideActive = true;
                 if (_currentBackgroundMusicOverride != null && priority < _currentBackgroundMusicOverride.GetPriority()) { return; }
                 
-                if (backgroundMusic.OverrideMusic(audioClip))
+                if (CoreAudio.OverrideBackgroundMusic(audioClip))
                 {
                     _currentBackgroundMusicOverride = this;
                 }
@@ -129,10 +116,15 @@ namespace Frankie.Sound
                 }
                 else
                 {
-                    backgroundMusic.StopOverrideMusic();
+                    CoreAudio.StopOverrideBackgroundMusic();
                 }
             }
         }
+        #endregion
+
+        #region PrivateMethods
+        private AudioClip GetAudioClip() => audioClip;
+        private int GetPriority() => priority;
         #endregion
 
         #region SaveSystem

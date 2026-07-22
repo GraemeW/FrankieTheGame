@@ -16,7 +16,7 @@ namespace Frankie.Sound
         [Header("Main Behaviour Configurables")]
         [SerializeField][Range(0f, 1.0f)] private float volume = 0.4f;
         [SerializeField] private float musicFadeDuration = 3.0f;
-        [SerializeField] private AudioMixer audioMixer;
+        [SerializeField] private AudioMixerGroup audioMixerGroup;
         [Header("Standard Fixed Audio")]
         [SerializeField] private AudioClip levelUpAudio;
 
@@ -29,16 +29,11 @@ namespace Frankie.Sound
         private AudioSource audioSource;
         private Coroutine musicFadeCoroutine;
 
-        #region Static
-        private const string _mixerVolumeReference = "masterVolume";
-        private const string _backgroundMusicTag = "BackgroundMusic";
-
-        public static BackgroundMusic FindBackgroundMusic()
-        {
-            var backgroundMusicGameObject = GameObject.FindGameObjectWithTag(_backgroundMusicTag);
-            return backgroundMusicGameObject != null ? backgroundMusicGameObject.GetComponent<BackgroundMusic>() : null;
-        }
+        // Const
+        private const float _minVolume = 0.0001f; // -80dB
+        private const string _mixerVolumeReference = "backgroundVolume";
         
+        #region Static
         private static IEnumerator StartFade(AudioMixer audioMixer, string exposedMixedVolumeReference, float duration, float targetVolume)
         {
             float currentTime = 0;
@@ -60,6 +55,8 @@ namespace Frankie.Sound
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            RefreshVolume();
         }
 
         private void Start()
@@ -91,13 +88,12 @@ namespace Frankie.Sound
         #region PublicMethods
         public void RefreshVolume()
         {
-            if (PlayerPrefsController.MasterVolumeKeyExists())
+            if (PlayerPrefsController.BackgroundVolumeKeyExists())
             {
-                volume = PlayerPrefsController.BackgroundVolumeKeyExists() ? 
-                    Mathf.Clamp01(PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetBackgroundVolume()) : 
-                    Mathf.Clamp01(PlayerPrefsController.GetMasterVolume());
+                volume = Mathf.Clamp(PlayerPrefsController.GetBackgroundVolume(), _minVolume, 1f);
             }
-            audioSource.volume = volume;
+            audioSource.volume = 1.0f; // Audio volume managed by mixer
+            audioMixerGroup.audioMixer.SetFloat(_mixerVolumeReference, Mathf.Log10(volume) * 20);
         }
         #endregion
 
@@ -106,13 +102,13 @@ namespace Frankie.Sound
         {
             if (audioClip == null) { yield break; }
             
-            yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, 0f);
+            yield return StartFade(audioMixerGroup.audioMixer, _mixerVolumeReference, musicFadeDuration, 0f);
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.loop = isLooping;
             audioSource.time = Mathf.Clamp(timeIndex, 0f, audioClip.length - 0.01f);
             audioSource.Play();
-            yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
+            yield return StartFade(audioMixerGroup.audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
         }
 
         private IEnumerator TransitionToAudioImmediate(AudioClip audioClip, bool isLooping)
@@ -122,7 +118,7 @@ namespace Frankie.Sound
             audioSource.loop = isLooping;
             audioSource.time = 0f;
             audioSource.Play();
-            yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
+            yield return StartFade(audioMixerGroup.audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
         }
         #endregion
 

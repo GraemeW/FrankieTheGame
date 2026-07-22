@@ -194301,6 +194301,10 @@ PrefabInstance:
       propertyPath: zoneNode
       value: 
       objectReference: {fileID: 7114888023509078925, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+    - target: {fileID: 7481126949952296372, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
+      propertyPath: 'audioClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 04f3f1845f599e0499ed6f9bd7cc8638, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -207002,7 +207006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
-  backingListHashCheck: -1226006192
+  backingListHashCheck: 957344098
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 5e78e614-19df-4719-8a5e-bc16139e86ee

@@ -17,6 +17,7 @@ namespace Frankie.Sound
 
         // State
         private bool isTextScanActive = false;
+        private Coroutine textScanCoroutine;
 
         #region UnityMethods
         private void Start()
@@ -36,6 +37,7 @@ namespace Frankie.Sound
         {
             base.OnDisable();
             uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
+            if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
         }
         #endregion
 
@@ -68,7 +70,9 @@ namespace Frankie.Sound
                 InitializeVolume();
                 audioSource.clip = textScanAudioClip;
                 isTextScanActive = true;
-                StartCoroutine(QueueTextScanAudio());
+                
+                if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
+                textScanCoroutine = StartCoroutine(QueueTextScanAudio());
             }
             else
             {

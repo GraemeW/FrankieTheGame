@@ -27,6 +27,7 @@ namespace Frankie.Saving
         public static void ClearPlayerPrefs()
         {
             PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
         }
 
         public static void SaveToDisk()
@@ -157,13 +158,13 @@ namespace Frankie.Saving
         #region HelperMethods
         private static float MapUIToVolume(float uiVolume)
         {
-            uiVolume = Mathf.Clamp(uiVolume, 0f, 1f);
+            uiVolume = Mathf.Clamp01(uiVolume);
             return (Mathf.Exp(_audioMappingCurveFactor * uiVolume) - 1.0f) / _audioMappingDenominator;
         }
 
         private static float UnmapVolumeToUI(float volume)
         {
-            volume = Mathf.Clamp(volume, 0f, 1f);
+            volume = Mathf.Clamp01(volume);
             return Mathf.Log(volume * _audioMappingDenominator + 1.0f) / _audioMappingCurveFactor;
         }
         #endregion
