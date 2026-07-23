@@ -34,10 +34,14 @@ namespace Frankie.Combat.UI
 
         // State -- UI
         private List<BattleEntity> partyBattleEntities;
-        private AbilitiesBoxState abilitiesBoxState = AbilitiesBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
 
         // State
+        private AbilitiesBoxState abilitiesBoxState
+        {
+            get => (AbilitiesBoxState)uiState;
+            set => uiState = value;
+        } 
         private bool isPartySolo = false;
         private BattleActionData battleActionData;
 
@@ -46,8 +50,14 @@ namespace Frankie.Combat.UI
 
         // Events
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
-
+        
         #region UnityMethods
+        protected override void AwakeTriggered()
+        {
+            base.AwakeTriggered();
+            abilitiesBoxState = AbilitiesBoxState.InCharacterSelection;
+        }
+
         protected override void StartTriggered()
         {
             base.StartTriggered();
@@ -91,13 +101,24 @@ namespace Frankie.Combat.UI
         
         protected override void BuildStateBehaviors()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour(
-                moveCursor: ImplementMoveCursor,
-                choose: ImplementChoose,
-                tryHandleBackNavigation: ImplementTryHandleBackNavigation
-            );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            stateLookup = new EnumLookup<AbilitiesBoxState, UIBoxStateBehaviour>();
+            stateLookup.TrySet(AbilitiesBoxState.InCharacterSelection, 
+                new UIBoxStateBehaviour(
+                    moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal),
+                    choose: _ => StandardChoose(null))
+                );
+            stateLookup.TrySet(AbilitiesBoxState.InAbilitiesSelection,
+                new UIBoxStateBehaviour(
+                    moveCursor: (input, _) => HandleInputWithReturn(input),
+                    choose: _ => TryChooseSkill(),
+                    tryHandleBackNavigation: TryBackFromAbilitiesSelection)
+                );
+            stateLookup.TrySet(AbilitiesBoxState.InCharacterTargeting,
+                new UIBoxStateBehaviour(
+                    moveCursor: (input, _) => TryMoveCharacterTargeting(input),
+                    choose: _ => TryUseSkill(),
+                    tryHandleBackNavigation: TryBackFromCharacterTargeting)
+                );
         }
 
         private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
@@ -160,21 +181,6 @@ namespace Frankie.Combat.UI
 
             // Avoid short circuit on user control for other states
             SetChoiceAvailable(true);
-        }
-
-        private bool ImplementChoose(string nodeID)
-        {
-            switch (abilitiesBoxState)
-            {
-                case AbilitiesBoxState.InCharacterSelection:
-                    return StandardChoose(null);
-                case AbilitiesBoxState.InAbilitiesSelection:
-                    return TryChooseSkill();
-                case AbilitiesBoxState.InCharacterTargeting:
-                    return TryUseSkill();
-                default:
-                    return false;
-            }
         }
 
         private void ChooseCharacter(CombatParticipant combatParticipant, bool initializeCursor = true)
@@ -253,26 +259,14 @@ namespace Frankie.Combat.UI
                 return false;
             }
         }
-
-        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        
+        private bool TryMoveCharacterTargeting(ControllerInputType controllerInputType)
         {
-            switch (abilitiesBoxState)
-            {
-                case AbilitiesBoxState.InCharacterSelection:
-                    return StandardMoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
-                case AbilitiesBoxState.InAbilitiesSelection:
-                    return HandleInputWithReturn(controllerInputType);
-                case AbilitiesBoxState.InCharacterTargeting:
-                {
-                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
-                    if (GetNextTarget(targetingNavigationType)) { return true; }
-                    
-                    SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-                    return false;
-                }
-                default:
-                    return false;
-            }
+            TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
+            if (GetNextTarget(targetingNavigationType)) { return true; }
+            
+            SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+            return false;
         }
 
         private bool HandleInputWithReturn(ControllerInputType input)
@@ -368,26 +362,22 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region Interfaces
-
-        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool TryBackFromCharacterTargeting(ControllerInputType controllerInputType)
         {
-            switch (abilitiesBoxState)
-            {
-                case AbilitiesBoxState.InCharacterTargeting:
-                    ResetSkillHandler(currentCombatParticipant);
-                    SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-                    return true;
-                case AbilitiesBoxState.InAbilitiesSelection:
-                    ResetSkillHandler(currentCombatParticipant);
-                    skillField.SetText(defaultNoText);
-                    statTextField.text = "";
-                    skillDetailTextField.text = "";
-                    apCostTextField.text = "";
-                    SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
-                    return true;
-                default:
-                    return false;
-            }
+            ResetSkillHandler(currentCombatParticipant);
+            SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+            return true;
+        }
+
+        private bool TryBackFromAbilitiesSelection(ControllerInputType controllerInputType)
+        {
+            ResetSkillHandler(currentCombatParticipant);
+            skillField.SetText(defaultNoText);
+            statTextField.text = "";
+            skillDetailTextField.text = "";
+            apCostTextField.text = "";
+            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
+            return true;
         }
         #endregion
     }

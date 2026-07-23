@@ -18,7 +18,7 @@ namespace Frankie.Utils.UI
         [SerializeField] protected GameObject optionSliderPrefab;
         
         // Key State Parameters
-        protected virtual EnumLookupBase<UIBoxStateBehaviour> stateLookup { get; set; } = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+        protected EnumLookupBase<UIBoxStateBehaviour> stateLookup { get; set; } = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
         protected bool handleGlobalInput { get; set; } = true;
         protected bool clearVolatileOptionsOnEnable { get; set; } = true;
         protected bool preventEscapeOptionExit { get; set; } = false;
@@ -26,7 +26,7 @@ namespace Frankie.Utils.UI
         // State -- Standard
         protected BaseController controller;
         private Coroutine controllerCheckCoroutine;
-        private Enum uiState = UIBoxState.Default;
+        protected Enum uiState = UIBoxState.Default;
         public bool destroyQueued { get; set; } = false;
 
         // State -- Choices
@@ -82,7 +82,7 @@ namespace Frankie.Utils.UI
             Destroy(gameObject);
         }
 
-        protected virtual void OnDestroy()
+        private void OnDestroy()
         {
             TriggerUIBoxModified(ReceiverModifiedType.ClientExit, new ReceiverModifiedData(this));
             DestroyTriggered();
@@ -108,7 +108,7 @@ namespace Frankie.Utils.UI
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
         }
-        protected virtual void BuildStateBehaviors() { } // Base implementation falls back for defaults set to null
+        protected virtual void BuildStateBehaviors() { } // Note:  Empty/null entries fall back to Standard UIBox Implementation
         
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
@@ -314,7 +314,7 @@ namespace Frankie.Utils.UI
             if (!isChoiceAvailable) { return false; }
             if (controllerInputType is ControllerInputType.DefaultNone or ControllerInputType.Cancel or ControllerInputType.Option) { return false; }
 
-            if (highlightedChoiceOption == null)
+            if (highlightedChoiceOption == null && choiceOptions.Count > 0)
             {
                 highlightedChoiceOption = choiceOptions[0];
                 highlightedChoiceOption.Highlight(true);
