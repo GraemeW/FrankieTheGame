@@ -37,6 +37,9 @@ namespace Frankie.Inventory.UI
         [Header("Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
 
+        // Key State Parameters
+        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
+        
         // State
         private CashTransferState cashTransferState = CashTransferState.CashSelection;
         private int amountAvailable = 0;

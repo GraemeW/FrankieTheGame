@@ -25,6 +25,9 @@ namespace Frankie.Inventory.UI
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
         [SerializeField] private DialogueBox dialogueBoxPrefab;
 
+        // Key State Parameters
+        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
+        
         // State
         private WalletUI walletUI;
 

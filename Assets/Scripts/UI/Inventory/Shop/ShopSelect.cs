@@ -27,6 +27,9 @@ namespace Frankie.Inventory.UI
         [SerializeField] private ShopBox shopBoxPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
 
+        // Key State Parameters
+        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
+        
         // Bool
         private bool exitShopOnDestroy = true;
 

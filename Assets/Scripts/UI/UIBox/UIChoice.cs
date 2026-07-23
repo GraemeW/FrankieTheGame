@@ -71,6 +71,14 @@ namespace Frankie.Utils.UI
             useHighlightColor = enable;
         }
 
+        public void DisableHighlightListeners()
+        {
+            for (int i = 0; i < itemHighlighted.GetPersistentEventCount(); i++)
+            {
+                itemHighlighted.SetPersistentListenerState(i, UnityEventCallState.Off);
+            }
+        }
+        
         public void AddOnHighlightListener(UnityAction unityAction)
         {
             if (unityAction == null) { return; }

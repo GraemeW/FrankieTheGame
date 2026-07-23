@@ -27,6 +27,9 @@ namespace Frankie.Combat.UI
         [SerializeField] private StatusBox statusBoxPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
 
+        // Key State Parameters
+        protected override bool preventEscapeOptionExit { get; set; } = true;
+        
         // Cached References
         private BattleController battleController;
         private BattleCanvas battleCanvas;

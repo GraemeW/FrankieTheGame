@@ -142,6 +142,7 @@ namespace Frankie.Inventory.UI
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
+                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
@@ -534,7 +535,6 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedItemSlot = inventorySlot;
-                handleGlobalInput = true;
                 SetInventoryBoxState(GetNextTarget(TargetingNavigationType.Hold) ? InventoryBoxState.InCharacterTargeting : InventoryBoxState.InKnapsack);
             }
         }
@@ -566,7 +566,6 @@ namespace Frankie.Inventory.UI
 
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)
         {
-            handleGlobalInput = false;
             DialogueBox dialogueBox = SpawnDialogueBox(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
             controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }

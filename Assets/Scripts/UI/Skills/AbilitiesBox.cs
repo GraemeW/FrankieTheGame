@@ -99,6 +99,7 @@ namespace Frankie.Combat.UI
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
+                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);

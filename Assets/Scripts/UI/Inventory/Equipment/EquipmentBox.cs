@@ -124,6 +124,7 @@ namespace Frankie.Inventory.UI
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
+                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
                 uiChoiceOption.SetText(character.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
@@ -395,7 +396,6 @@ namespace Frankie.Inventory.UI
 
         private void SpawnMessage(string message)
         {
-            handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(message);
             controller.AddInputReceiver(dialogueBox, null);
@@ -404,8 +404,7 @@ namespace Frankie.Inventory.UI
         private void SpawnInventoryBox()
         {
             if (selectedEquipLocation == EquipLocation.None) { return; }
-
-            handleGlobalInput = false;
+            
             EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;

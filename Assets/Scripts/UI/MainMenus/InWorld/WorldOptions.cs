@@ -193,7 +193,6 @@ namespace Frankie.Menu.UI
             {
                 characterSlide.HighlightSlide(CombatParticipantType.Friendly, false);
             }
-            handleGlobalInput = true;
         }
         #endregion
 

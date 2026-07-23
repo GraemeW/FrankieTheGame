@@ -13,6 +13,10 @@ namespace Frankie.Menu.UI
         [SerializeField] private LoadGameMenu loadGamePrefab;
         [SerializeField] [Tooltip("Leave as blank to use default")] private Zone newGameZoneOverride;
         
+        // Key State Parameters
+        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
+        protected override bool preventEscapeOptionExit { get; set; } = true;
+        
         // Cached References
         private Canvas startCanvas;
 

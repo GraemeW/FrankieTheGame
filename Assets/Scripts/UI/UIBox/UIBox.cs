@@ -12,13 +12,15 @@ namespace Frankie.Utils.UI
         // Tunables
         [Header("UI Box Parameters")]
         [SerializeField] protected CanvasGroup canvasGroup;
-        [SerializeField] protected bool handleGlobalInput = true;
-        [SerializeField] private bool clearVolatileOptionsOnEnable = true;
-        [SerializeField] private bool preventEscapeOptionExit = false;
         [Header("Choice Behavior")]
         [SerializeField] protected Transform optionParent;
         [SerializeField] protected GameObject optionButtonPrefab;
         [SerializeField] protected GameObject optionSliderPrefab;
+        
+        // Key State Parameters
+        protected virtual bool handleGlobalInput { get; set; } = true;
+        protected virtual bool clearVolatileOptionsOnEnable { get; set; } = true;
+        protected virtual bool preventEscapeOptionExit { get; set; } = false;
         
         // State -- Standard
         public bool destroyQueued { get; set; } = false;
@@ -112,12 +114,6 @@ namespace Frankie.Utils.UI
         protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
         public void ClearDisableCallbacksOnChoose(bool enable) => clearDisableCallbacksOnChoose = enable;
         public void ClearDisableCallbacks() => TriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks, new ReceiverModifiedData(this));
-
-        protected virtual void ReconcileChoiceOptions()
-        {
-            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
-            isChoiceAvailable = choiceOptions.Count > 0;
-        }
         #endregion
 
         #region ChoiceSetup
@@ -132,20 +128,26 @@ namespace Frankie.Utils.UI
             List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
             List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
             choiceOptions.AddRange(filteredUIChoices);
-
-            isChoiceAvailable = choiceOptions.Count > 0;
+            ReconcileChoiceOptions();
         }
 
         public void OverrideChoiceOptions(List<ChoiceActionPair> choiceActionPairs)
         {
             choiceOptions.Clear();
-            if (choiceActionPairs == null) { isChoiceAvailable = false; return; }
-
-            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
+            if (choiceActionPairs != null)
             {
-                AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
+                foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
+                {
+                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
+                }
             }
-            isChoiceAvailable = choiceOptions.Count > 0;
+            ReconcileChoiceOptions();
+        }
+        
+        protected virtual void ReconcileChoiceOptions()
+        {
+            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            SetChoiceAvailable(choiceOptions.Count > 0);
         }
 
         private void AddChoiceOption(string choiceText, Action action)

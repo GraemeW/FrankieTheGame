@@ -31,6 +31,9 @@ namespace Frankie.Combat.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDead;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageResurrected;
 
+        // Key State Parameters
+        protected override bool handleGlobalInput { get; set; } = false;
+        
         // State
         private float combatLogDelay;
         private string stringToPrint = "";
