@@ -74,7 +74,13 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region PublicMethods
-
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
+        
         public void ResetAllTextElements()
         {
             if (escapeHeaderField != null) { escapeHeaderField.SetText(localizedEscapeHeaderText.GetSafeLocalizedString()); }
@@ -101,7 +107,7 @@ namespace Frankie.Menu.UI
         #region InputHandling
         protected override bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Escape or ControllerInputType.Cancel;
 
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             if (childOption == null) { return false; }
             Destroy(childOption);

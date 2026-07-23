@@ -24,9 +24,6 @@ namespace Frankie.Inventory.UI
         [SerializeField] private WalletUI walletUIPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
         [SerializeField] private DialogueBox dialogueBoxPrefab;
-
-        // Key State Parameters
-        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
         
         // State
         private WalletUI walletUI;
@@ -41,6 +38,10 @@ namespace Frankie.Inventory.UI
         private Shop shop;
 
         #region UnityMethods
+        protected override void AwakeTriggered()
+        {
+            clearVolatileOptionsOnEnable = false;
+        }
 
         protected override void StartTriggered()
         {

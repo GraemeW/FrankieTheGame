@@ -27,9 +27,6 @@ namespace Frankie.Combat.UI
         [SerializeField] private Color noSkillColor = Color.gray;
         [SerializeField] private Color selectedSkillColor = Color.softYellow;
         
-        // Key State Parameters
-        protected override bool handleGlobalInput { get; set; } = false;
-        
         // State
         private bool usingBattleController = false;
         protected CombatParticipant currentCombatParticipant;
@@ -47,6 +44,12 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region UnityMethods
+
+        protected override void AwakeTriggered()
+        {
+            handleGlobalInput = false;
+        }
+
         protected override void StartTriggered()
         {
             if (skillField != null)

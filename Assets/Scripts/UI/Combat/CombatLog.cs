@@ -30,9 +30,6 @@ namespace Frankie.Combat.UI
         [Header("Include {0} for name")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDead;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageResurrected;
-
-        // Key State Parameters
-        protected override bool handleGlobalInput { get; set; } = false;
         
         // State
         private float combatLogDelay;
@@ -45,6 +42,7 @@ namespace Frankie.Combat.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
+            handleGlobalInput = false;
             combatLogDelay = delayBetweenCharactersSlowDown;
         }
 

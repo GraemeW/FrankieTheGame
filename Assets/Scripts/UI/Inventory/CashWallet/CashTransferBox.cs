@@ -36,9 +36,6 @@ namespace Frankie.Inventory.UI
         [SerializeField] private UIChoiceButton rejectField;
         [Header("Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
-
-        // Key State Parameters
-        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
         
         // State
         private CashTransferState cashTransferState = CashTransferState.CashSelection;
@@ -70,6 +67,11 @@ namespace Frankie.Inventory.UI
             
             playerController.AddInputReceiver(this, null);
             return true;
+        }
+
+        protected override void AwakeTriggered()
+        {
+            clearVolatileOptionsOnEnable = false;
         }
 
         protected override void StartTriggered()
@@ -158,7 +160,18 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region UIBoxStandardInterface
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                moveCursor: ImplementMoveCursor,
+                choose: ImplementChoose,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
+        
+        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             if (cashTransferState == CashTransferState.CashSelection)
             {
@@ -170,7 +183,7 @@ namespace Frankie.Inventory.UI
             return StandardMoveCursor(controllerInputType, cursorMovementStyle);
         }
 
-        protected override bool Choose(string nodeID)
+        private bool ImplementChoose(string nodeID)
         {
             switch (cashTransferState)
             {
@@ -182,6 +195,13 @@ namespace Frankie.Inventory.UI
                 default:
                     return false;
             }
+        }
+        
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
+            if (cashTransferState != CashTransferState.CashConfirmation) { return false; }
+            SetCashTransferState(CashTransferState.CashSelection);
+            return true;
         }
         #endregion
 
@@ -274,15 +294,6 @@ namespace Frankie.Inventory.UI
             tenMillionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
             hundredMillionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
-        }
-        #endregion
-
-        #region InputInterface
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
-        {
-            if (cashTransferState != CashTransferState.CashConfirmation) { return false; }
-            SetCashTransferState(CashTransferState.CashSelection);
-            return true;
         }
         #endregion
     }

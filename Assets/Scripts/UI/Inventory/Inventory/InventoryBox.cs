@@ -132,6 +132,17 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (useSoloAutoSelect && isPartySolo) { Choose(null); }
         }
+        
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                moveCursor: ImplementMoveCursor,
+                choose: ImplementChoose,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         private void SetupPartySelection()
         {
@@ -251,7 +262,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (inventoryBoxState)
             {
@@ -266,7 +277,7 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        protected override bool Choose(string nodeID)
+        private bool ImplementChoose(string nodeID)
         {
             return inventoryBoxState == InventoryBoxState.InCharacterTargeting ? TryUseItem() : StandardChoose(null);
         }
@@ -572,7 +583,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             if (inventoryBoxState != InventoryBoxState.InKnapsack) { return false; }
             

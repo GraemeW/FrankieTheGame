@@ -114,6 +114,16 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
+        
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                moveCursor: ImplementMoveCursor,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
         {
@@ -233,7 +243,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (equipmentBoxState)
             {
@@ -426,7 +436,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interfaces
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             switch (equipmentBoxState)
             {

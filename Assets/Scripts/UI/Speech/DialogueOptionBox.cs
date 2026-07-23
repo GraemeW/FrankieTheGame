@@ -8,9 +8,12 @@ namespace Frankie.Speech.UI
 {
     public class DialogueOptionBox : DialogueBox
     {
-        // Key State Parameters
-        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
         protected override bool UsesNodeBasedDialogueFlow() => false;
+
+        protected override void AwakeTriggered()
+        {
+            clearVolatileOptionsOnEnable = false;
+        }
 
         public override void Setup(string optionText)
         {

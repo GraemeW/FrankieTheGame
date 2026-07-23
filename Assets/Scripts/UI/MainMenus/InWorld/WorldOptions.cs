@@ -89,7 +89,6 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region LocalizationMethods
-
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
         {
@@ -159,7 +158,14 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
-        #region PrivateMethods
+        #region ProtectedPrivateMethods
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
+        
         private void SetupBattleEntities()
         {
             partyBattleEntities.Clear();
@@ -197,7 +203,7 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region InputHandling
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             if (childOption == null) { return false; }
             Destroy(childOption);

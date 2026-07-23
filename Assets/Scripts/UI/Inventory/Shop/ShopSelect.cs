@@ -26,9 +26,6 @@ namespace Frankie.Inventory.UI
         [Header("Shop Prefabs")]
         [SerializeField] private ShopBox shopBoxPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
-
-        // Key State Parameters
-        protected override bool clearVolatileOptionsOnEnable { get; set; } = false;
         
         // Bool
         private bool exitShopOnDestroy = true;
@@ -43,6 +40,11 @@ namespace Frankie.Inventory.UI
 
         #region UnityMethods
         protected override bool TryAcquireDependencies() => GetPlayerReference();
+
+        protected override void AwakeTriggered()
+        {
+            clearVolatileOptionsOnEnable = false;
+        }
 
         protected override void StartTriggered()
         {

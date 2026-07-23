@@ -145,6 +145,13 @@ namespace Frankie.Menu.UI
             cachedEscapeMenu = setEscapeMenu;
             if (gameObject.activeSelf) { SubscribeToEscapeMenu(true); }
         }
+        
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         private IEnumerator CancelRoutine()
         {
@@ -377,7 +384,7 @@ namespace Frankie.Menu.UI
         #region InputHandling
         protected override bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape;
 
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             if (!wasChangeMade) { return false; }
             SpawnConfirmationMenu();

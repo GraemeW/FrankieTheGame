@@ -8,6 +8,7 @@ using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
+using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
@@ -43,6 +44,13 @@ namespace Frankie.Inventory.UI
             equipLocation = setEquipLocation;
             equipment = setSelectedCharacter.GetComponent<Equipment>();
             Setup(setSelectedCharacter, setCharacterSlides);
+        }
+        
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
         }
         
         public override InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
@@ -92,8 +100,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region InputInterface
-
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             equipmentBox.ResetEquipmentBox(false);
             return false;  // Behaviour Deviation - We want to fall through to standard global input handling

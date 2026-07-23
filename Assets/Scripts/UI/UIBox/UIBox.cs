@@ -18,14 +18,16 @@ namespace Frankie.Utils.UI
         [SerializeField] protected GameObject optionSliderPrefab;
         
         // Key State Parameters
-        protected virtual bool handleGlobalInput { get; set; } = true;
-        protected virtual bool clearVolatileOptionsOnEnable { get; set; } = true;
-        protected virtual bool preventEscapeOptionExit { get; set; } = false;
+        protected virtual EnumLookupBase<UIBoxStateBehaviour> stateLookup { get; set; } = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+        protected bool handleGlobalInput { get; set; } = true;
+        protected bool clearVolatileOptionsOnEnable { get; set; } = true;
+        protected bool preventEscapeOptionExit { get; set; } = false;
         
         // State -- Standard
-        public bool destroyQueued { get; set; } = false;
-        private Coroutine controllerCheckCoroutine;
         protected BaseController controller;
+        private Coroutine controllerCheckCoroutine;
+        private Enum uiState = UIBoxState.Default;
+        public bool destroyQueued { get; set; } = false;
 
         // State -- Choices
         private bool isChoiceAvailable = false;
@@ -47,6 +49,7 @@ namespace Frankie.Utils.UI
                 Destroy(gameObject);
                 return;
             }
+            BuildStateBehaviors();
             AwakeTriggered();
         }
         
@@ -105,6 +108,8 @@ namespace Frankie.Utils.UI
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
         }
+        protected virtual void BuildStateBehaviors() { } // Base implementation falls back for defaults set to null
+        
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
             receiverModified -= action;
@@ -198,9 +203,13 @@ namespace Frankie.Utils.UI
         
         // Choose(null) since not passing a nodeID, not a standard dialogue -- irrelevant in context of override
         protected bool StandardPrepareChooseAction(ControllerInputType controllerInputType) => controllerInputType == ControllerInputType.Execute && Choose(null);
+
+        protected bool Choose(string nodeID)
+        {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.choose != null) { return stateBehaviour.choose(nodeID);; }
+            return StandardChoose(nodeID);
+        }
         
-        protected virtual bool Choose(string nodeID) => StandardChoose(nodeID);
-       
         protected bool StandardChoose(string chooseDetail)
         {
             // Note:  chooseDetail ignored in standard implementation -- employed in DialogueBox override
@@ -231,7 +240,11 @@ namespace Frankie.Utils.UI
         public virtual bool HandleGlobalInput(ControllerInputType controllerInputType) => StandardHandleGlobalInput(controllerInputType);
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
         protected virtual bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option;
-        protected virtual bool TryHandleBackNavigation(ControllerInputType controllerInputType) => false;
+        private bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.tryHandleBackNavigation != null) { stateBehaviour.tryHandleBackNavigation(controllerInputType); }
+            return false;
+        }
         
         protected bool StandardHandleGlobalInput(ControllerInputType controllerInputType)
         {
@@ -248,7 +261,11 @@ namespace Frankie.Utils.UI
             return false;
         }
 
-        protected virtual bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle) => StandardMoveCursor(controllerInputType, cursorMovementStyle);
+        protected bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.moveCursor != null) { return stateBehaviour.moveCursor(controllerInputType, cursorMovementStyle); }
+            return StandardMoveCursor(controllerInputType, cursorMovementStyle);
+        }
         
         protected bool StandardMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {

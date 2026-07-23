@@ -88,6 +88,17 @@ namespace Frankie.Combat.UI
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
+        
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                moveCursor: ImplementMoveCursor,
+                choose: ImplementChoose,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
         {
@@ -151,7 +162,7 @@ namespace Frankie.Combat.UI
             SetChoiceAvailable(true);
         }
 
-        protected override bool Choose(string nodeID)
+        private bool ImplementChoose(string nodeID)
         {
             switch (abilitiesBoxState)
             {
@@ -243,7 +254,7 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (abilitiesBoxState)
             {
@@ -358,7 +369,7 @@ namespace Frankie.Combat.UI
 
         #region Interfaces
 
-        protected override bool TryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
             switch (abilitiesBoxState)
             {

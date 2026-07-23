@@ -115,6 +115,14 @@ namespace Frankie.Speech.UI
                 AddText(optionText);
             }
         }
+        
+        protected override void BuildStateBehaviors()
+        {
+            // Base implementation falls back for defaults set to null
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( choose: ImplementChoose );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         protected virtual void Update()
         {
@@ -389,7 +397,7 @@ namespace Frankie.Speech.UI
             yield break;
         }
 
-        protected override bool Choose(string nodeID)
+        private bool ImplementChoose(string nodeID)
         {
             if (!UsesNodeBasedDialogueFlow()) { return StandardChoose(nodeID); }
 

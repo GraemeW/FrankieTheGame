@@ -26,9 +26,6 @@ namespace Frankie.Combat.UI
         [Header("Prefabs")]
         [SerializeField] private StatusBox statusBoxPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
-
-        // Key State Parameters
-        protected override bool preventEscapeOptionExit { get; set; } = true;
         
         // Cached References
         private BattleController battleController;
@@ -36,6 +33,12 @@ namespace Frankie.Combat.UI
         private PartyCombatConduit partyCombatConduit;
 
         #region UnityMethods
+
+        protected override void AwakeTriggered()
+        {
+            preventEscapeOptionExit = true;
+        }
+
         protected override void StartTriggered()
         {
             if (fightChoiceOption != null) { fightChoiceOption.SetText(localizedFightText.GetSafeLocalizedString()); }
@@ -51,6 +54,13 @@ namespace Frankie.Combat.UI
             battleController = setBattleController;
             battleCanvas = setBattleCanvas;
             partyCombatConduit = setPartyCombatConduit;
+        }
+        
+        protected override void BuildStateBehaviors()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( moveCursor: (controllerInputType, _) => MoveCursor2D(controllerInputType) );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
         }
 
         public void InitiateCombat() // Called via unity events
@@ -107,13 +117,6 @@ namespace Frankie.Combat.UI
                 localizedStatsText.TableEntryReference,
                 localizedRunawayText.TableEntryReference
             };
-        }
-        #endregion
-        
-        #region InterfaceMethods
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
-        {
-            return MoveCursor2D(controllerInputType);
         }
         #endregion
     }
