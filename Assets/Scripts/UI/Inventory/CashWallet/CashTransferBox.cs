@@ -52,6 +52,18 @@ namespace Frankie.Inventory.UI
 
         // Static
         private const int _maxTransferAmount = 999999999;
+        
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                moveCursor: ImplementMoveCursor,
+                choose: ImplementChoose,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         #region UnityMethods
         protected override bool TryAcquireDependencies()
@@ -159,18 +171,7 @@ namespace Frankie.Inventory.UI
         }
         #endregion
 
-        #region UIBoxStandardInterface
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour(
-                moveCursor: ImplementMoveCursor,
-                choose: ImplementChoose,
-                tryHandleBackNavigation: ImplementTryHandleBackNavigation
-            );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
-        }
-        
+        #region UIBoxInterfaceMethods
         private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             if (cashTransferState == CashTransferState.CashSelection)

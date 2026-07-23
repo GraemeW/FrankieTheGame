@@ -51,6 +51,35 @@ namespace Frankie.Combat.UI
         // Events
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
         
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<AbilitiesBoxState, UIBoxStateBehaviour>();
+            stateLookup.TrySet(AbilitiesBoxState.InCharacterSelection, 
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    reconcileChoiceOptions: ImplementReconcileChoiceOptions,
+                    choose: _ => StandardChoose(null),
+                    moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal))
+            );
+            stateLookup.TrySet(AbilitiesBoxState.InAbilitiesSelection,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    reconcileChoiceOptions: ImplementReconcileChoiceOptions,
+                    choose: _ => TryChooseSkill(),
+                    moveCursor: (input, _) => HandleInputWithReturn(input),
+                    tryHandleBackNavigation: TryBackFromAbilitiesSelection)
+            );
+            stateLookup.TrySet(AbilitiesBoxState.InCharacterTargeting,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    reconcileChoiceOptions: ImplementReconcileChoiceOptions,
+                    choose: _ => TryUseSkill(),
+                    moveCursor: (input, _) => TryMoveCharacterTargeting(input),
+                    tryHandleBackNavigation: TryBackFromCharacterTargeting)
+            );
+        }
+        
         #region UnityMethods
         protected override void AwakeTriggered()
         {
@@ -98,28 +127,6 @@ namespace Frankie.Combat.UI
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
-        
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<AbilitiesBoxState, UIBoxStateBehaviour>();
-            stateLookup.TrySet(AbilitiesBoxState.InCharacterSelection, 
-                new UIBoxStateBehaviour(
-                    moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal),
-                    choose: _ => StandardChoose(null))
-                );
-            stateLookup.TrySet(AbilitiesBoxState.InAbilitiesSelection,
-                new UIBoxStateBehaviour(
-                    moveCursor: (input, _) => HandleInputWithReturn(input),
-                    choose: _ => TryChooseSkill(),
-                    tryHandleBackNavigation: TryBackFromAbilitiesSelection)
-                );
-            stateLookup.TrySet(AbilitiesBoxState.InCharacterTargeting,
-                new UIBoxStateBehaviour(
-                    moveCursor: (input, _) => TryMoveCharacterTargeting(input),
-                    choose: _ => TryUseSkill(),
-                    tryHandleBackNavigation: TryBackFromCharacterTargeting)
-                );
-        }
 
         private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
         {
@@ -164,14 +171,14 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region Interaction
-        protected override void SetUpChoiceOptions()
+        private void ImplementSetUpChoiceOptions()
         {
             choiceOptions.Clear();
             if (abilitiesBoxState == AbilitiesBoxState.InCharacterSelection) { choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList()); }
             ReconcileChoiceOptions();
         }
 
-        protected override void ReconcileChoiceOptions()
+        private void ImplementReconcileChoiceOptions()
         {
             if (abilitiesBoxState == AbilitiesBoxState.InCharacterSelection)
             {

@@ -63,6 +63,16 @@ namespace Frankie.Menu.UI
         private float openingSoundEffectsVolume;
         private ResolutionSetting openingResolutionSetting;
         private SupportedLocalizationType openingLocalizationType;
+        
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                isBackInput: ImplementIsBackInput,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation);
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         #region StaticMethods
         private static void WriteScreenResolutionToPlayerPrefs()
@@ -144,13 +154,6 @@ namespace Frankie.Menu.UI
         {
             cachedEscapeMenu = setEscapeMenu;
             if (gameObject.activeSelf) { SubscribeToEscapeMenu(true); }
-        }
-        
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
         }
 
         private IEnumerator CancelRoutine()
@@ -382,7 +385,7 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region InputHandling
-        protected override bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape;
+        private bool ImplementIsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape;
 
         private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {

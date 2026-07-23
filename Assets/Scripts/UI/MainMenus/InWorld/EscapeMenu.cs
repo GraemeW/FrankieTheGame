@@ -34,6 +34,16 @@ namespace Frankie.Menu.UI
 
         // Events
         public event Action escapeMenuItemSelected;
+        
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                isBackInput: ImplementIsBackInput,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation);
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         #region UnityMethods
         protected override bool TryAcquireDependencies()
@@ -74,13 +84,6 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region PublicMethods
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
-        }
-        
         public void ResetAllTextElements()
         {
             if (escapeHeaderField != null) { escapeHeaderField.SetText(localizedEscapeHeaderText.GetSafeLocalizedString()); }
@@ -105,7 +108,7 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region InputHandling
-        protected override bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Escape or ControllerInputType.Cancel;
+        private bool ImplementIsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Escape or ControllerInputType.Cancel;
 
         private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {

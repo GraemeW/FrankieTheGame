@@ -39,6 +39,15 @@ namespace Frankie.Utils.UI
         private event Action<ReceiverModifiedType, ReceiverModifiedData> receiverModified;
         public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
         
+        // UIBox Configuration
+        protected virtual void BuildStateBehaviours() { } // Note:  Empty/null entries fall back to Standard UIBox Implementation
+        protected virtual bool TryAcquireDependencies() => true;
+        protected virtual void AwakeTriggered() { }
+        protected virtual void StartTriggered() { }
+        protected virtual void EnableTriggered() { }
+        protected virtual void DisabledTriggered() { }
+        protected virtual void DestroyTriggered() { }
+        
         #region UnityMethods
         // Note:  UIBox Unity Lifecycle methods are DANGEROUS to override if not considering base implementation
         // Thus: seal base implementation and override from within the methods
@@ -49,7 +58,7 @@ namespace Frankie.Utils.UI
                 Destroy(gameObject);
                 return;
             }
-            BuildStateBehaviors();
+            BuildStateBehaviours();
             AwakeTriggered();
         }
         
@@ -88,13 +97,6 @@ namespace Frankie.Utils.UI
             DestroyTriggered();
         }
         
-        protected virtual void AwakeTriggered() { }
-        protected virtual void StartTriggered() { }
-        protected virtual void EnableTriggered() { }
-        protected virtual void DisabledTriggered() { }
-        protected virtual void DestroyTriggered() { }
-
-        protected virtual bool TryAcquireDependencies() => true;
         private IEnumerator DestroyIfControllerMissing()
         {
             yield return null;
@@ -108,7 +110,6 @@ namespace Frankie.Utils.UI
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
         }
-        protected virtual void BuildStateBehaviors() { } // Note:  Empty/null entries fall back to Standard UIBox Implementation
         
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
@@ -126,10 +127,11 @@ namespace Frankie.Utils.UI
         protected bool IsChoiceAvailable() => isChoiceAvailable;
         protected void SetChoiceAvailable(bool enable) => isChoiceAvailable = enable;
 
-        protected virtual void SetUpChoiceOptions()
+        protected void SetUpChoiceOptions()
         {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.setupChoiceOptions != null) { stateBehaviour.setupChoiceOptions(); return; }
+            
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-
             List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
             List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
             choiceOptions.AddRange(filteredUIChoices);
@@ -149,8 +151,10 @@ namespace Frankie.Utils.UI
             ReconcileChoiceOptions();
         }
         
-        protected virtual void ReconcileChoiceOptions()
+        protected void ReconcileChoiceOptions()
         {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.reconcileChoiceOptions != null) { stateBehaviour.reconcileChoiceOptions(); return; }
+            
             choiceOptions.RemoveAll(choiceOption => choiceOption == null);
             SetChoiceAvailable(choiceOptions.Count > 0);
         }
@@ -174,7 +178,6 @@ namespace Frankie.Utils.UI
         private List<UIChoice> FilterOutSubOptions(List<UIChoice> uiChoices)
         {
             List<UIChoice> filteredUIChoices = uiChoices.ToList();
-            
             var subOptions = new List<UIChoice>();
             foreach (UIChoice choice in filteredUIChoices)
             {
@@ -199,14 +202,18 @@ namespace Frankie.Utils.UI
         #endregion
         
         #region ChoiceExecution
-        protected virtual bool PrepareChooseAction(ControllerInputType controllerInputType) => StandardPrepareChooseAction(controllerInputType);
+        protected bool PrepareChooseAction(ControllerInputType controllerInputType)
+        {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.prepareChooseAction != null) { return stateBehaviour.prepareChooseAction(controllerInputType); }
+            return StandardPrepareChooseAction(controllerInputType);
+        }
         
         // Choose(null) since not passing a nodeID, not a standard dialogue -- irrelevant in context of override
         protected bool StandardPrepareChooseAction(ControllerInputType controllerInputType) => controllerInputType == ControllerInputType.Execute && Choose(null);
 
         protected bool Choose(string nodeID)
         {
-            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.choose != null) { return stateBehaviour.choose(nodeID);; }
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.choose != null) { return stateBehaviour.choose(nodeID); }
             return StandardChoose(nodeID);
         }
         
@@ -236,13 +243,22 @@ namespace Frankie.Utils.UI
             return true;
         }
         
-        // NOTE:  When overriding, ensure to handle the bool:  handleGlobalInput - to disable input when disabled, return true on !handleGlobalInput
-        public virtual bool HandleGlobalInput(ControllerInputType controllerInputType) => StandardHandleGlobalInput(controllerInputType);
+        // NOTE:  When applying alternate implementation, ensure to take care of bool[handleGlobalInput] - to disable input when disabled, return true on !handleGlobalInput
+        private bool HandleGlobalInput(ControllerInputType controllerInputType)
+        {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.handleGlobalInput != null) { return stateBehaviour.handleGlobalInput(controllerInputType); }
+            return StandardHandleGlobalInput(controllerInputType);
+        }
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
-        protected virtual bool IsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option;
+
+        private bool IsBackInput(ControllerInputType controllerInputType)
+        {
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.isBackInput != null) { return stateBehaviour.isBackInput(controllerInputType); }
+            return controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option;
+        }
         private bool TryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.tryHandleBackNavigation != null) { stateBehaviour.tryHandleBackNavigation(controllerInputType); }
+            if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.tryHandleBackNavigation != null) { return stateBehaviour.tryHandleBackNavigation(controllerInputType); }
             return false;
         }
         

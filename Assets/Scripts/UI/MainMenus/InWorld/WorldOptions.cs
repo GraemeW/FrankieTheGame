@@ -53,6 +53,14 @@ namespace Frankie.Menu.UI
         private WorldCanvas worldCanvas;
         private PartyCombatConduit partyCombatConduit;
         
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
+        
         #region UnityMethods
         protected override bool TryAcquireDependencies()
         {
@@ -159,13 +167,6 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region ProtectedPrivateMethods
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
-        }
-        
         private void SetupBattleEntities()
         {
             partyBattleEntities.Clear();

@@ -23,6 +23,14 @@ namespace Frankie.Inventory.UI
         private EquipLocation equipLocation = EquipLocation.None;
         private Equipment equipment;
 
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
+        
         #region LocalizationMethods
         public override List<TableEntryReference> GetLocalizationEntries()
         {
@@ -44,13 +52,6 @@ namespace Frankie.Inventory.UI
             equipLocation = setEquipLocation;
             equipment = setSelectedCharacter.GetComponent<Equipment>();
             Setup(setSelectedCharacter, setCharacterSlides);
-        }
-        
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
         }
         
         public override InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)

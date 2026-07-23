@@ -40,6 +40,17 @@ namespace Frankie.Speech.UI
 
         // Cached References
         protected DialogueController dialogueController;
+        
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                prepareChooseAction: ImplementPrepareChooseAction,
+                choose: ImplementChoose, 
+                handleGlobalInput: ImplementHandleGlobalInput);
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         #region DataStructures
         private struct ReceptacleTextPair
@@ -114,14 +125,6 @@ namespace Frankie.Speech.UI
                 if (string.IsNullOrEmpty(optionText)) { return; }
                 AddText(optionText);
             }
-        }
-        
-        protected override void BuildStateBehaviors()
-        {
-            // Base implementation falls back for defaults set to null
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( choose: ImplementChoose );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
         }
 
         protected virtual void Update()
@@ -410,7 +413,7 @@ namespace Frankie.Speech.UI
             return choose;
         }
 
-        protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
+        private bool ImplementPrepareChooseAction(ControllerInputType controllerInputType)
         {
             if (controllerInputType != ControllerInputType.Execute) { return false; }
             if (TryFastForwardActiveText()) { return true; }
@@ -516,7 +519,7 @@ namespace Frankie.Speech.UI
             // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
             // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
 
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        private bool ImplementHandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (isInitialInputBlocked) { return false; }
             if (!UsesNodeBasedDialogueFlow()) { return StandardHandleGlobalInput(controllerInputType); }

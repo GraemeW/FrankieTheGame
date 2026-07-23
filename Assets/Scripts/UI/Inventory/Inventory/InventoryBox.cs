@@ -65,6 +65,19 @@ namespace Frankie.Inventory.UI
         // Events
         public event Action<Enum> uiBoxStateChanged;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
+        
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                setupChoiceOptions: ImplementSetUpChoiceOptions,
+                choose: ImplementChoose,
+                moveCursor: ImplementMoveCursor,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         #region UnityMethods
         protected override void EnableTriggered()
@@ -132,17 +145,6 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (useSoloAutoSelect && isPartySolo) { Choose(null); }
         }
-        
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour(
-                moveCursor: ImplementMoveCursor,
-                choose: ImplementChoose,
-                tryHandleBackNavigation: ImplementTryHandleBackNavigation
-            );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
-        }
 
         private void SetupPartySelection()
         {
@@ -200,7 +202,7 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        protected override void SetUpChoiceOptions()
+        private void ImplementSetUpChoiceOptions()
         {
             if (inventoryBoxState is InventoryBoxState.InKnapsack or InventoryBoxState.InCharacterSelection)
             {

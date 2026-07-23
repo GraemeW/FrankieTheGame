@@ -61,6 +61,18 @@ namespace Frankie.Inventory.UI
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
+        
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                setupChoiceOptions: ImplementSetUpChoiceOptions,
+                moveCursor: ImplementMoveCursor,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
 
         #region UnityMethods
         protected override void AwakeTriggered()
@@ -114,16 +126,6 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
-        
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour(
-                moveCursor: ImplementMoveCursor,
-                tryHandleBackNavigation: ImplementTryHandleBackNavigation
-            );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
-        }
 
         private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
         {
@@ -175,7 +177,7 @@ namespace Frankie.Inventory.UI
             ResetEquipmentBox(false);
         }
 
-        protected override void SetUpChoiceOptions()
+        private void ImplementSetUpChoiceOptions()
         {
             choiceOptions.Clear();
             switch (equipmentBoxState)

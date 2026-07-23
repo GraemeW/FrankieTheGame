@@ -32,6 +32,14 @@ namespace Frankie.Combat.UI
         private BattleCanvas battleCanvas;
         private PartyCombatConduit partyCombatConduit;
 
+        // UIBox Configuration
+        protected override void BuildStateBehaviours()
+        {
+            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( moveCursor: (controllerInputType, _) => MoveCursor2D(controllerInputType) );
+            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+        }
+        
         #region UnityMethods
 
         protected override void AwakeTriggered()
@@ -54,13 +62,6 @@ namespace Frankie.Combat.UI
             battleController = setBattleController;
             battleCanvas = setBattleCanvas;
             partyCombatConduit = setPartyCombatConduit;
-        }
-        
-        protected override void BuildStateBehaviors()
-        {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( moveCursor: (controllerInputType, _) => MoveCursor2D(controllerInputType) );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
         }
 
         public void InitiateCombat() // Called via unity events
