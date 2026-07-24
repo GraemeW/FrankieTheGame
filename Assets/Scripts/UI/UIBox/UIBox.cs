@@ -55,6 +55,7 @@ namespace Frankie.Utils.UI
         {
             if (!TryAcquireDependencies())
             {
+                Debug.LogWarning($"Failed to acquire required dependencies.  Destroying UIBox[{name}].");
                 Destroy(gameObject);
                 return;
             }
@@ -100,7 +101,11 @@ namespace Frankie.Utils.UI
         private IEnumerator DestroyIfControllerMissing()
         {
             yield return null;
-            if (controller == null && handleGlobalInput) { destroyQueued = true; }
+            if (controller == null && handleGlobalInput)
+            {
+                Debug.LogWarning($"Failed to find required controller.  Destroying UIBox[{name}].");
+                destroyQueued = true;
+            }
         }
         #endregion
 

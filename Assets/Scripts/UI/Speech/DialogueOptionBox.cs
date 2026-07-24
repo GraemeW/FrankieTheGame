@@ -12,6 +12,7 @@ namespace Frankie.Speech.UI
 
         protected override void AwakeTriggered()
         {
+            base.AwakeTriggered();
             clearVolatileOptionsOnEnable = false;
         }
 

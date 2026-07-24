@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -203,6 +204,10 @@ namespace Frankie.Control
             
             if (TryGetLastActiveInputReceiver(out ActiveInputReceiver _)) { return; }
             if (HasAlternateReceiversActive()) { return; }
+            
+            // Attempt to find player and enter world to prevent lock-up
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine != null) { playerStateMachine.EnterWorld(); }
             
             Debug.LogWarning($"Identified rogue controller with no active receivers ({gameObject.name}), queuing for destroy.");
             destroyQueued = true;
