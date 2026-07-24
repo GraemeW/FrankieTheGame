@@ -235,17 +235,6 @@ namespace Frankie.Inventory.UI
             choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
             SetChoiceAvailable(choiceOptions.Count > 0);
         }
-        
-        private void ImplementSetUpChoiceOptions()
-        {
-            if (uiState is InventoryBoxState.InKnapsack or InventoryBoxState.InCharacterSelection)
-            {
-            }
-            else
-            {
-                
-            }
-        }
 
         private void ReInitializeToCharacterSelection()
         {
@@ -355,6 +344,7 @@ namespace Frankie.Inventory.UI
             var targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
             if (!selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets())) { return false; }
             
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             DialogueBox useDialogueBox = SpawnDialogueBox(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
             controller.AddInputReceiver(useDialogueBox, ResetSelectState);
             return true;
@@ -597,6 +587,7 @@ namespace Frankie.Inventory.UI
             battleActionData.SetTargets(battleEntity);
             if (!GetNextTarget(TargetingNavigationType.Hold)) { SetInventoryBoxState(InventoryBoxState.InKnapsack); return; } // Verify passed combatParticipant is valid target
 
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { battleEntity });
             Choose(null);
         }

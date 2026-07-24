@@ -38,11 +38,6 @@ namespace Frankie.Combat.UI
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
 
         // State
-        private AbilitiesBoxState abilitiesBoxState
-        {
-            get => (AbilitiesBoxState)uiState;
-            set => uiState = value;
-        } 
         private bool isPartySolo = false;
         private BattleActionData battleActionData;
 

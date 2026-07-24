@@ -3,7 +3,6 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Frankie.Combat;
-using Frankie.Control;
 using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
 using UnityEngine.Localization;
