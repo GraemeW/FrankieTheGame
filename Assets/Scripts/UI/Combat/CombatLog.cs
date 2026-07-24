@@ -10,7 +10,7 @@ using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatLog : UIBox, ILocalizable
+    public class CombatLog : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Presentation")]

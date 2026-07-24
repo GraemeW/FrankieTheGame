@@ -16,7 +16,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class EquipmentBox : UIBox, IUIItemHandler, ILocalizable
+    public class EquipmentBox : UIBox<EquipmentBoxState>, IUIItemHandler, ILocalizable
     {
         // Tunables
         [Header("Data Links")]
@@ -45,11 +45,6 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionRemove;
 
         // State -- UI
-        private EquipmentBoxState equipmentBoxState
-        {
-            get => (EquipmentBoxState)uiState;
-            set => uiState = value;
-        } 
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
         private readonly List<InventoryItemField> equipableItemChoiceOptions = new();
         
@@ -67,7 +62,7 @@ namespace Frankie.Inventory.UI
         public event Action<Enum> uiBoxStateChanged;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<EquipmentBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var equipmentConfiguration = new EnumLookup<EquipmentBoxState, UIBoxStateBehaviour>();
             equipmentConfiguration.TrySet(EquipmentBoxState.InCharacterSelection,
@@ -93,7 +88,7 @@ namespace Frankie.Inventory.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            equipmentBoxState = EquipmentBoxState.InCharacterSelection;
+            uiState = EquipmentBoxState.InCharacterSelection;
             if (confirmEquipmentChange != null) { confirmEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(true));}
             if (rejectEquipmentChange != null) { rejectEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(false)); }
         }
@@ -197,7 +192,7 @@ namespace Frankie.Inventory.UI
         private void ImplementSetUpChoiceOptions()
         {
             choiceOptions.Clear();
-            switch (equipmentBoxState)
+            switch (uiState)
             {
                 case EquipmentBoxState.InEquipmentSelection:
                     choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
@@ -253,7 +248,7 @@ namespace Frankie.Inventory.UI
                 return;
             }
             
-            equipmentBoxState = setEquipmentBoxState;
+            uiState = setEquipmentBoxState;
             equipmentChangeMenu.SetActive(setEquipmentBoxState == EquipmentBoxState.InStatConfirmation);
             SetUpChoiceOptions();
 

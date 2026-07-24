@@ -16,7 +16,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class OptionsMenu : UIBox, ILocalizable
+    public class OptionsMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionsHeader;
@@ -65,7 +65,7 @@ namespace Frankie.Menu.UI
         private SupportedLocalizationType openingLocalizationType;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var optionsMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 

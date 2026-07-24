@@ -5,7 +5,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class Launcher : UIBox
+    public class Launcher : UIBox<UIBoxState>
     {
         // Tunables
         [Header("Start Menu-Specific")]

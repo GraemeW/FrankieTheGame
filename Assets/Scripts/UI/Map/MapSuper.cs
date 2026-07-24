@@ -9,7 +9,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement.UI
 {
-    public class MapSuper : UIBox, ILocalizable
+    public class MapSuper : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedFlavourTopText;

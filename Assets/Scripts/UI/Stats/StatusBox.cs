@@ -11,7 +11,7 @@ using UnityEngine.Localization.Tables;
 
 namespace Frankie.Stats.UI
 {
-    public class StatusBox : UIBox, ILocalizable
+    public class StatusBox : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedExperienceFlavourText;

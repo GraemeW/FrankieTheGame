@@ -8,7 +8,7 @@ namespace Frankie.Sound
     public class UIBoxSoundEffects : SoundEffects
     {
         // Tunables
-        [SerializeField] private UIBox uiBox;
+        [SerializeField] private UIBoxBase uiBox;
         [SerializeField] private AudioClip textScanAudioClip;
         [SerializeField] private AudioClip chooseAudioClip;
         [SerializeField] private AudioClip enterClip;

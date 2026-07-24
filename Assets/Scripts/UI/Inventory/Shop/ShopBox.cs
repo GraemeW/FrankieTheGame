@@ -13,7 +13,7 @@ using Frankie.Speech.UI;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopBox : UIBox, ILocalizable
+    public class ShopBox : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Shop Specific Details")]

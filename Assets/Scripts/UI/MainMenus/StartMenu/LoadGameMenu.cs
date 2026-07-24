@@ -13,7 +13,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class LoadGameMenu : UIBox, ILocalizable
+    public class LoadGameMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Configuration")]
         [SerializeField] private int maxSaves = 5;

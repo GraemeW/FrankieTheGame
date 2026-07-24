@@ -53,7 +53,7 @@ namespace Frankie.Combat.UI
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<AbilitiesBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var abilitiesConfiguration = new EnumLookup<AbilitiesBoxState, UIBoxStateBehaviour>();
             abilitiesConfiguration.TrySet(AbilitiesBoxState.InCharacterSelection, 
@@ -86,7 +86,7 @@ namespace Frankie.Combat.UI
         protected override void AwakeTriggered()
         {
             base.AwakeTriggered();
-            abilitiesBoxState = AbilitiesBoxState.InCharacterSelection;
+            uiState = AbilitiesBoxState.InCharacterSelection;
         }
 
         protected override void StartTriggered()
@@ -176,13 +176,13 @@ namespace Frankie.Combat.UI
         private void ImplementSetUpChoiceOptions()
         {
             choiceOptions.Clear();
-            if (abilitiesBoxState == AbilitiesBoxState.InCharacterSelection) { choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList()); }
+            if (uiState == AbilitiesBoxState.InCharacterSelection) { choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList()); }
             ReconcileChoiceOptions();
         }
 
         private void ImplementReconcileChoiceOptions()
         {
-            if (abilitiesBoxState == AbilitiesBoxState.InCharacterSelection)
+            if (uiState == AbilitiesBoxState.InCharacterSelection)
             {
                 SetChoiceAvailable(choiceOptions.Count > 0);
                 return;
@@ -338,8 +338,8 @@ namespace Frankie.Combat.UI
         #region AbilitiesBehaviour
         private void SetAbilitiesBoxState(AbilitiesBoxState setAbilitiesBoxState, bool bypassSoloCheck = false)
         {
-            abilitiesBoxState = setAbilitiesBoxState;
-            switch (abilitiesBoxState)
+            uiState = setAbilitiesBoxState;
+            switch (uiState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
                     if (!bypassSoloCheck && isPartySolo)

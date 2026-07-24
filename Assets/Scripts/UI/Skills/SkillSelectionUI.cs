@@ -10,7 +10,7 @@ using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI
 {
-    public class SkillSelectionUI : UIBox, ILocalizable
+    public class SkillSelectionUI : UIBox<AbilitiesBoxState>, ILocalizable
     {
         // Tunables
         [Header("Skill Selection Text")]

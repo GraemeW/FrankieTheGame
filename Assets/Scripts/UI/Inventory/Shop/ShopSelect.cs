@@ -12,7 +12,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopSelect : UIBox, ILocalizable
+    public class ShopSelect : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageIntro;

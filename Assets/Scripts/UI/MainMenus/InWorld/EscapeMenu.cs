@@ -14,7 +14,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class EscapeMenu : UIBox, ILocalizable
+    public class EscapeMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedEscapeHeaderText;
@@ -37,7 +37,7 @@ namespace Frankie.Menu.UI
         public event Action escapeMenuItemSelected;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var escapeMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 

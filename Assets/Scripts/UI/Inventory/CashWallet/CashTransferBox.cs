@@ -15,7 +15,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class CashTransferBox : UIBox, ILocalizable
+    public class CashTransferBox : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Text")]
@@ -55,7 +55,7 @@ namespace Frankie.Inventory.UI
         private const int _maxTransferAmount = 999999999;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var cashTransferConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour(

@@ -9,7 +9,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueBox : UIBox
+    public class DialogueBox : UIBox<UIBoxState>
     {
         // Tunables
         [Header("Links And Prefabs")]
@@ -43,7 +43,7 @@ namespace Frankie.Speech.UI
         protected DialogueController dialogueController;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var dialogueBoxConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 

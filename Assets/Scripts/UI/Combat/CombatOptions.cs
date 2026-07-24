@@ -11,7 +11,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : UIBox, ILocalizable
+    public class CombatOptions : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedFightText;
@@ -33,7 +33,7 @@ namespace Frankie.Combat.UI
         private PartyCombatConduit partyCombatConduit;
 
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var combatOptionsConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 

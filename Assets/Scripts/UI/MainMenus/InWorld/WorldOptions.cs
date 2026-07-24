@@ -18,7 +18,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class WorldOptions : UIBox, ILocalizable
+    public class WorldOptions : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKnapsackText;
@@ -55,7 +55,7 @@ namespace Frankie.Menu.UI
         private PartyCombatConduit partyCombatConduit;
         
         // UIBox Configuration
-        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var worldOptionsConfiguration =  new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
