@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -18,8 +19,10 @@ namespace Frankie.Sound
         private const float _defaultVolume = 0.3f;
         
         // State
-        private float volume = _defaultVolume;
         private protected AudioSource audioSource;
+        private bool isAudioMixerLinked = false;
+        private float volume = _defaultVolume;
+        private Coroutine delayedPlayCoroutine;
         private bool destroyAfterPlay = false;
 
         #region UnityMethods
@@ -41,7 +44,7 @@ namespace Frankie.Sound
 
         protected virtual void OnDisable()
         {
-            // Used in alternate implementations
+            if (delayedPlayCoroutine != null) { StopCoroutine(delayedPlayCoroutine); }
         }
 
         private void FixedUpdate()
@@ -53,9 +56,8 @@ namespace Frankie.Sound
         }
         #endregion
 
-        #region PrivateProtectedMethods
+        #region SetupMethods
         private float GetPlayerVolume() => PlayerPrefsController.SoundEffectsVolumeKeyExists() ? Mathf.Clamp01(PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler) : _defaultVolume;
-        
         protected virtual void InitializeAudioSources() => StandardSetAudioSource();
         protected virtual void SetAudioSource(AudioClip audioClip = null) => StandardSetAudioSource();
         protected void StandardSetAudioSource()
@@ -66,10 +68,10 @@ namespace Frankie.Sound
 
         protected virtual void LinkToAudioMixer()
         {
-            if (CoreAudio.TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup))
-            {
-                audioSource.outputAudioMixerGroup = audioMixerGroup;
-            }
+            if (isAudioMixerLinked) { return; }
+            if (!CoreAudio.TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup)) { return; }
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            isAudioMixerLinked = true;
         }
 
         protected virtual void PreConfigureAudioSource()
@@ -84,15 +86,38 @@ namespace Frankie.Sound
             volume = GetPlayerVolume();
             audioSource.volume = volume;
         }
-
+        
+        private void InitializePersistentSoundEffect()
+        {
+            LinkToAudioMixer(); // Must link immediately after instantiation to ensure set up in time
+            InitializeVolume();
+            DontDestroyOnLoad(this);
+            destroyAfterPlay = false; // Destroy after play set on DelayedPlay
+        }
+        #endregion
+        
+        #region PersistentSoundEffects
         private void GeneratePersistentSoundEffect(AudioClip audioClip)
         {
             if (audioClip == null) { return; }
             SoundEffects newSoundEffects = Instantiate(this, null, true);
-            newSoundEffects.InitializeVolume();
-            newSoundEffects.destroyAfterPlay = true;
-            DontDestroyOnLoad(newSoundEffects);
-            newSoundEffects.PlayClip(audioClip);
+            newSoundEffects.InitializePersistentSoundEffect();
+            
+            // Note - for reasons, we must delay a frame after instantiation/configuration and before play
+            newSoundEffects.StartDelayedPlay(audioClip);
+        }
+        
+        private void StartDelayedPlay(AudioClip audioClip)
+        {
+            if (delayedPlayCoroutine != null) { StopCoroutine(delayedPlayCoroutine); }
+            delayedPlayCoroutine = StartCoroutine(DelayedPlay(audioClip));
+        }
+        
+        private IEnumerator DelayedPlay(AudioClip audioClip)
+        {
+            yield return null;
+            destroyAfterPlay = true;
+            PlayClip(audioClip);
         }
         #endregion
 
