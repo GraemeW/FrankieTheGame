@@ -8,6 +8,7 @@ using TMPro;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
+using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 

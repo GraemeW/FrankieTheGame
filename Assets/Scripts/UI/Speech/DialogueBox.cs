@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
+using Frankie.Utils;
 using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Control;
 using Frankie.Stats;
-using Frankie.Utils.UI;
+using Frankie.Utils;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
+using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI

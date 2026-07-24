@@ -7,6 +7,7 @@ using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.World;
+using Frankie.Utils;
 using Frankie.Combat.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;

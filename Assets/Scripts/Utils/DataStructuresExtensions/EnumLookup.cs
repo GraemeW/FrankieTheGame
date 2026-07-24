@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Frankie.Utils.UI
+namespace Frankie.Utils
 {
     public class EnumLookup<TEnum, TValue> : EnumLookupBase<TValue> where TEnum : struct, Enum
     {

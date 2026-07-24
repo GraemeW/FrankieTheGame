@@ -8,8 +8,9 @@ using Frankie.Core;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.World;
-using Frankie.Utils.Localization;
+using Frankie.Utils;
 using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

@@ -28,12 +28,10 @@ namespace Frankie.Inventory.UI
         protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var equipmentInventoryConfiguration = base.BuildStateBehaviours();
-            foreach (InventoryBoxState inventoryBoxState in Enum.GetValues(typeof(InventoryBoxState)))
+            foreach (UIBoxStateBehaviour stateBehaviour in equipmentInventoryConfiguration.GetValues<InventoryBoxState>())
             {
-                if (equipmentInventoryConfiguration.TryGet(inventoryBoxState, out UIBoxStateBehaviour defaultBehaviour))
-                {
-                    defaultBehaviour.tryHandleBackNavigation = ImplementTryHandleBackNavigation;
-                }
+                Debug.Log($"DId 4 {stateBehaviour}");
+                stateBehaviour.tryHandleBackNavigation = ImplementTryHandleBackNavigation;
             }
             return equipmentInventoryConfiguration;
         }

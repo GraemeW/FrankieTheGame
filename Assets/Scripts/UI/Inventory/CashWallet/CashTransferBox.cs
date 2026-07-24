@@ -8,9 +8,10 @@ using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Core;
 using Frankie.Control;
-using Frankie.Utils.Localization;
 using Frankie.World;
+using Frankie.Utils;
 using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
