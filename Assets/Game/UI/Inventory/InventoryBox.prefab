@@ -613,6 +613,15 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  localizedMessageCannotUseItemInWorld:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 35599198513520640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   localizedMessageBusyInCooldown:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
@@ -627,15 +636,6 @@ MonoBehaviour:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
     m_TableEntryReference:
       m_KeyId: 9090309425192960
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageCannotUseItemInWorld:
-    m_TableReference:
-      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
-    m_TableEntryReference:
-      m_KeyId: 35599198513520640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

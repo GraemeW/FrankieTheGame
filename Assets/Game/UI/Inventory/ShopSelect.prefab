@@ -266,9 +266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 5257144902321780821}
-  handleGlobalInput: 1
-  clearVolatileOptionsOnEnable: 0
-  preventEscapeOptionExit: 0
   optionParent: {fileID: 2827520980706274898}
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 648355362501312909, guid: d568fe93320469d4e97d2b75d847f84b, type: 3}

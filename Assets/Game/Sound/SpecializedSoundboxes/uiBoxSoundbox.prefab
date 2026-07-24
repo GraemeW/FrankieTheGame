@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ec55ceb687ab74bbada214ac95dded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixerGroup: {fileID: 952329969535848474, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
   additionalVolumeScaler: 1
   audioClips: []
   uiBox: {fileID: 0}
