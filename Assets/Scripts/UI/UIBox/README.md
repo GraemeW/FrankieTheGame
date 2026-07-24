@@ -2,7 +2,7 @@
 
 ## Overview
 
-The [UIBox](./UIBox.cs) abstract class serves as the standard building block for all UI elements in Frankie.   To this end, all UI windows/boxes that act as [input receivers](../../Control/Controllers/InputReceiver/IInputReceiver.cs) should extend this class, since it contains all the necessary hooks to work with Frankie's [controllers](../../../Game/Controllers/).
+The [UIBox](./UIBox.cs) abstract class serves as the standard building block for most UI elements in Frankie.   To this end, all UI windows/boxes that act as [input receivers](../../Control/Controllers/InputReceiver/IInputReceiver.cs) should extend this class, since it contains all the necessary hooks to work with Frankie's [controllers](../../../Game/Controllers/).
 
 ## State-Based Strategy Pattern
 
@@ -11,7 +11,7 @@ The [UIBox](./UIBox.cs) abstract class serves as the standard building block for
 The state-based strategies for each UI box are managed through two internal state variables:
 ```C#
 private Enum internalUIState; // current box state
-EnumLookupBase<UIBoxStateBehaviour> stateLookup; // state-dependent method overrides  
+private EnumLookupBase<UIBoxStateBehaviour> stateLookup; // state-dependent UIBox strategies
 ```
 , which are accessed via protected attributes/methods:
 ```C#
@@ -23,7 +23,7 @@ protected TBoxState uiState
 protected virtual EnumLookup<TBoxState,UIBoxStateBehaviour> BuildStateBehaviours();
 ```
 
-Child classes of UIBox can override `BuildStateBehaviours()` to return their specific state-dependent strategies through instances of [UIBoxStateBehaviour](./UIBoxStateBehaviour.cs).  UIBoxStateBehaviours allow alternate strategies/implementations for things like `MoveCursor()`, `HandleGlobalInput()`, `Choose()`, etc.  Naturally, since each UIBox child class defines its own TBoxState enum, the child class itself is responsible for updating and managing its `uiState`.
+Child classes of UIBox can override `BuildStateBehaviours()` to return their specific state-dependent strategies through instances of [UIBoxStateBehaviour](./UIBoxStateBehaviour.cs).  UIBoxStateBehaviours allow alternate implementations for things like `MoveCursor()`, `HandleGlobalInput()`, `Choose()`, etc.  Naturally, since each UIBox child class defines its own `TBoxState` enum, the child class itself is responsible for updating and managing its `uiState`.
 
 See:
 * [DialogueBox](../Speech/DialogueBox.cs):  for an example of a single-state strategy
@@ -33,7 +33,7 @@ See:
 
 Since the [UIBox](./UIBox.cs) is an [IInputReceiver](../../Control/Controllers/InputReceiver/IInputReceiver.cs), which intercepts user input, it is necessary to strictly control and manage its lifecycle.  Failure to do so could result in a game lock-up, where a UIBox child is silently receiving and disposing of user input.  As such, enabling free access to override standard Unity methods (Awake, Start, OnEnable/Disable, Destroy) is particularly risky.
 
-As such, all Unity methods are sealed as private in the UIBox abstract class.  Access to these methods is provided via `_____Triggered()` virtual methods, which are triggered at the end of the corresponding Unity methods.  This ensures that standard UIBox Unity methods are always called and the UIBoxes are always safely disposed.
+As such, all Unity methods are sealed as private in the UIBox abstract class.  Access to these methods is provided via `_____Triggered()` virtual methods, which are called at the end of the corresponding Unity methods.  This ensures that standard UIBox Unity methods are always called and the UIBoxes are always safely disposed.
 
 ## Fallback Safety Destruction Mechanisms
 
