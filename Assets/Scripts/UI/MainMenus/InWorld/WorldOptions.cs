@@ -54,11 +54,12 @@ namespace Frankie.Menu.UI
         private PartyCombatConduit partyCombatConduit;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var worldOptionsConfiguration =  new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            worldOptionsConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return worldOptionsConfiguration;
         }
         
         #region UnityMethods

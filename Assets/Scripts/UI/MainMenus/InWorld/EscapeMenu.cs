@@ -36,13 +36,14 @@ namespace Frankie.Menu.UI
         public event Action escapeMenuItemSelected;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var escapeMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 
                 isBackInput: ImplementIsBackInput,
                 tryHandleBackNavigation: ImplementTryHandleBackNavigation);
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            escapeMenuConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return escapeMenuConfiguration;
         }
 
         #region UnityMethods

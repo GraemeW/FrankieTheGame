@@ -42,14 +42,15 @@ namespace Frankie.Speech.UI
         protected DialogueController dialogueController;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var dialogueBoxConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 
                 prepareChooseAction: ImplementPrepareChooseAction,
                 choose: ImplementChoose, 
                 handleGlobalInput: ImplementHandleGlobalInput);
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            dialogueBoxConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return dialogueBoxConfiguration;
         }
 
         #region DataStructures

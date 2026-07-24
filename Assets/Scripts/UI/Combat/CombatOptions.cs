@@ -33,11 +33,14 @@ namespace Frankie.Combat.UI
         private PartyCombatConduit partyCombatConduit;
 
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( moveCursor: (controllerInputType, _) => MoveCursor2D(controllerInputType) );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            var combatOptionsConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                moveCursor: (controllerInputType, _) => MoveCursor2D(controllerInputType) 
+                );
+            combatOptionsConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return combatOptionsConfiguration;
         }
         
         #region UnityMethods

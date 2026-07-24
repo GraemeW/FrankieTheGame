@@ -65,13 +65,14 @@ namespace Frankie.Menu.UI
         private SupportedLocalizationType openingLocalizationType;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var optionsMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 
                 isBackInput: ImplementIsBackInput,
                 tryHandleBackNavigation: ImplementTryHandleBackNavigation);
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            optionsMenuConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return optionsMenuConfiguration;
         }
 
         #region StaticMethods

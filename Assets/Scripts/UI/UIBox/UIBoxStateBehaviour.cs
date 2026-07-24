@@ -5,14 +5,14 @@ namespace Frankie.Utils.UI
 {
     public class UIBoxStateBehaviour
     {
-        public readonly Action setupChoiceOptions;
-        public readonly Action reconcileChoiceOptions;
-        public readonly Func<ControllerInputType, bool> prepareChooseAction;
-        public readonly Func<string, bool> choose;
-        public readonly Func<ControllerInputType, bool> handleGlobalInput;
-        public readonly Func<ControllerInputType, CursorMovementStyle, bool> moveCursor;
-        public readonly Func<ControllerInputType, bool> isBackInput;
-        public readonly Func<ControllerInputType, bool> tryHandleBackNavigation;
+        public Action setupChoiceOptions;
+        public Action reconcileChoiceOptions;
+        public Func<ControllerInputType, bool> prepareChooseAction;
+        public Func<string, bool> choose;
+        public Func<ControllerInputType, bool> handleGlobalInput;
+        public Func<ControllerInputType, CursorMovementStyle, bool> moveCursor;
+        public Func<ControllerInputType, bool> isBackInput;
+        public Func<ControllerInputType, bool> tryHandleBackNavigation;
 
         public UIBoxStateBehaviour(
             Action setupChoiceOptions = null,

@@ -54,15 +54,16 @@ namespace Frankie.Inventory.UI
         private const int _maxTransferAmount = 999999999;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var cashTransferConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour(
                 moveCursor: ImplementMoveCursor,
                 choose: ImplementChoose,
                 tryHandleBackNavigation: ImplementTryHandleBackNavigation
             );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            cashTransferConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return cashTransferConfiguration;
         }
 
         #region UnityMethods

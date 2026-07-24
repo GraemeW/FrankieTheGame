@@ -18,7 +18,7 @@ namespace Frankie.Utils.UI
         [SerializeField] protected GameObject optionSliderPrefab;
         
         // Key State Parameters
-        protected EnumLookupBase<UIBoxStateBehaviour> stateLookup { get; set; } = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+        private EnumLookupBase<UIBoxStateBehaviour> stateLookup { get; set; } = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
         protected bool handleGlobalInput { get; set; } = true;
         protected bool clearVolatileOptionsOnEnable { get; set; } = true;
         protected bool preventEscapeOptionExit { get; set; } = false;
@@ -40,7 +40,7 @@ namespace Frankie.Utils.UI
         public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
         
         // UIBox Configuration
-        protected virtual void BuildStateBehaviours() { } // Note:  Empty/null entries fall back to Standard UIBox Implementation
+        protected virtual EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours() { return new EnumLookup<UIBoxState,UIBoxStateBehaviour>(); } // Note:  Empty/null entries fall back to Standard UIBox Implementation
         protected virtual bool TryAcquireDependencies() => true;
         protected virtual void AwakeTriggered() { }
         protected virtual void StartTriggered() { }
@@ -58,7 +58,7 @@ namespace Frankie.Utils.UI
                 Destroy(gameObject);
                 return;
             }
-            BuildStateBehaviours();
+            stateLookup = BuildStateBehaviours();
             AwakeTriggered();
         }
         

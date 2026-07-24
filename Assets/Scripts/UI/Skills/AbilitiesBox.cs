@@ -52,17 +52,17 @@ namespace Frankie.Combat.UI
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<AbilitiesBoxState, UIBoxStateBehaviour>();
-            stateLookup.TrySet(AbilitiesBoxState.InCharacterSelection, 
+            var abilitiesConfiguration = new EnumLookup<AbilitiesBoxState, UIBoxStateBehaviour>();
+            abilitiesConfiguration.TrySet(AbilitiesBoxState.InCharacterSelection, 
                 new UIBoxStateBehaviour(
                     setupChoiceOptions: ImplementSetUpChoiceOptions,
                     reconcileChoiceOptions: ImplementReconcileChoiceOptions,
                     choose: _ => StandardChoose(null),
                     moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal))
             );
-            stateLookup.TrySet(AbilitiesBoxState.InAbilitiesSelection,
+            abilitiesConfiguration.TrySet(AbilitiesBoxState.InAbilitiesSelection,
                 new UIBoxStateBehaviour(
                     setupChoiceOptions: ImplementSetUpChoiceOptions,
                     reconcileChoiceOptions: ImplementReconcileChoiceOptions,
@@ -70,7 +70,7 @@ namespace Frankie.Combat.UI
                     moveCursor: (input, _) => HandleInputWithReturn(input),
                     tryHandleBackNavigation: TryBackFromAbilitiesSelection)
             );
-            stateLookup.TrySet(AbilitiesBoxState.InCharacterTargeting,
+            abilitiesConfiguration.TrySet(AbilitiesBoxState.InCharacterTargeting,
                 new UIBoxStateBehaviour(
                     setupChoiceOptions: ImplementSetUpChoiceOptions,
                     reconcileChoiceOptions: ImplementReconcileChoiceOptions,
@@ -78,6 +78,7 @@ namespace Frankie.Combat.UI
                     moveCursor: (input, _) => TryMoveCharacterTargeting(input),
                     tryHandleBackNavigation: TryBackFromCharacterTargeting)
             );
+            return abilitiesConfiguration;
         }
         
         #region UnityMethods

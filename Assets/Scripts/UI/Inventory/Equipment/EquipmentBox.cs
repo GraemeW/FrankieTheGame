@@ -45,7 +45,11 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionRemove;
 
         // State -- UI
-        private EquipmentBoxState equipmentBoxState = EquipmentBoxState.InCharacterSelection;
+        private EquipmentBoxState equipmentBoxState
+        {
+            get => (EquipmentBoxState)uiState;
+            set => uiState = value;
+        } 
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
         private readonly List<InventoryItemField> equipableItemChoiceOptions = new();
         
@@ -63,20 +67,33 @@ namespace Frankie.Inventory.UI
         public event Action<Enum> uiBoxStateChanged;
         
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour(
-                setupChoiceOptions: ImplementSetUpChoiceOptions,
-                moveCursor: ImplementMoveCursor,
-                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            var equipmentConfiguration = new EnumLookup<EquipmentBoxState, UIBoxStateBehaviour>();
+            equipmentConfiguration.TrySet(EquipmentBoxState.InCharacterSelection,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal))
             );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            equipmentConfiguration.TrySet(EquipmentBoxState.InEquipmentSelection,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    moveCursor: (input, _) => MoveCursor2D(input),
+                    tryHandleBackNavigation: TryBackFromEquipmentSelection)
+            );
+            equipmentConfiguration.TrySet(EquipmentBoxState.InStatConfirmation,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    moveCursor: StandardMoveCursor,
+                    tryHandleBackNavigation: TryBackFromStatConfirmation)
+            );
+            return equipmentConfiguration;
         }
-
+        
         #region UnityMethods
         protected override void AwakeTriggered()
         {
+            equipmentBoxState = EquipmentBoxState.InCharacterSelection;
             if (confirmEquipmentChange != null) { confirmEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(true));}
             if (rejectEquipmentChange != null) { rejectEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(false)); }
         }
@@ -245,21 +262,6 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
-        {
-            switch (equipmentBoxState)
-            {
-                case EquipmentBoxState.InCharacterSelection:
-                    return StandardMoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
-                case EquipmentBoxState.InStatConfirmation:
-                    return StandardMoveCursor(controllerInputType, cursorMovementStyle);
-                case EquipmentBoxState.InEquipmentSelection:
-                    return MoveCursor2D(controllerInputType);
-                default:
-                    return false;
-            }
-        }
-
         private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true)
         {
             selectedEquipLocation = EquipLocation.None;
@@ -438,19 +440,16 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interfaces
-        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
+        private bool TryBackFromStatConfirmation(ControllerInputType controllerInputType)
         {
-            switch (equipmentBoxState)
-            {
-                case EquipmentBoxState.InStatConfirmation:
-                    ResetEquipmentBox(false);
-                    return true;
-                case EquipmentBoxState.InEquipmentSelection:
-                    ResetEquipmentBox(true);
-                    return true;
-            }
-            // inKnapsack handled by the EquipmentInventoryBox
-            return false;
+            ResetEquipmentBox(false);
+            return true;
+        }
+
+        private bool TryBackFromEquipmentSelection(ControllerInputType controllerInputType)
+        {
+            ResetEquipmentBox(true);
+            return true;
         }
 
         public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)

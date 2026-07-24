@@ -483,6 +483,10 @@ MonoBehaviour:
     m_Key: InventorySwapBox.Prefab.InventorySwapBox.MessageConfirmThrowOut.179a247
     m_Metadata:
       m_Items: []
+  - m_Id: 35599198513520640
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageCannotUseItemInWorld.a3a1716
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

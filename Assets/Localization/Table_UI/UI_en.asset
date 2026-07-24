@@ -488,6 +488,10 @@ MonoBehaviour:
     m_Localized: Will you chuck {1} in order to pick up {0}?
     m_Metadata:
       m_Items: []
+  - m_Id: 35599198513520640
+    m_Localized: No valid targets
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -24,11 +25,17 @@ namespace Frankie.Inventory.UI
         private Equipment equipment;
 
         // UIBox Configuration
-        protected override void BuildStateBehaviours()
+        protected override EnumLookupBase<UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            stateLookup = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
-            stateLookup.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            var equipmentInventoryConfiguration = base.BuildStateBehaviours();
+            foreach (InventoryBoxState inventoryBoxState in Enum.GetValues(typeof(InventoryBoxState)))
+            {
+                if (equipmentInventoryConfiguration.TryGet(inventoryBoxState, out UIBoxStateBehaviour defaultBehaviour))
+                {
+                    defaultBehaviour.tryHandleBackNavigation = ImplementTryHandleBackNavigation;
+                }
+            }
+            return equipmentInventoryConfiguration;
         }
         
         #region LocalizationMethods
