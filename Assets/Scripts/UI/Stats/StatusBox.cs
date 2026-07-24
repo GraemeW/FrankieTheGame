@@ -55,8 +55,8 @@ namespace Frankie.Stats.UI
                 UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(character.GetCombatName());
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character); });
-                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
                 if (choiceIndex == 0) { SoftChooseCharacter(character); }
@@ -77,7 +77,6 @@ namespace Frankie.Stats.UI
         {
             if (character == selectedCharacter) return;
             
-            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             selectedCharacter = character;
             CleanUpOldStats();
 

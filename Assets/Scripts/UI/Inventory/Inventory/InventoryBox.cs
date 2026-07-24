@@ -172,8 +172,8 @@ namespace Frankie.Inventory.UI
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
-                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
@@ -297,15 +297,16 @@ namespace Frankie.Inventory.UI
         #region Interaction
         protected virtual void SoftChooseCharacter(CombatParticipant character)
         {
-            ChooseCharacter(character, false);
+            ChooseCharacter(character, false, false);
             SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true);
         }
         
-        protected virtual void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        protected virtual void ChooseCharacter(CombatParticipant character, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             UpdateKnapsackView(character);
             battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.InKnapsack);
+            if (triggerUIBoxModified) { TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this)); }
 
             if (initializeCursor && IsChoiceAvailable()) { MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined); }
             if (!IsChoiceAvailable()) { SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true); }
@@ -321,7 +322,6 @@ namespace Frankie.Inventory.UI
             }
             if (character == selectedCharacter) return;
             
-            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             selectedCharacter = character;
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
             RefreshKnapsackContents();

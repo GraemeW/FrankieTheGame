@@ -139,8 +139,8 @@ namespace Frankie.Combat.UI
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
-                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
@@ -192,34 +192,26 @@ namespace Frankie.Combat.UI
             SetChoiceAvailable(true);
         }
 
-        private void ChooseCharacter(CombatParticipant combatParticipant, bool initializeCursor = true)
+        private void ChooseCharacter(CombatParticipant combatParticipant, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             if (combatParticipant == null)
             {
                 // Failsafe, re-setup box if character lost
-                SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
+                SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, false, triggerUIBoxModified);
                 return;
             }
-
-            if (combatParticipant != currentCombatParticipant)
-            {
-                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
-                currentCombatParticipant = combatParticipant;
-            }
             
+            currentCombatParticipant = combatParticipant;
             battleActionData = new BattleActionData(combatParticipant);
-            SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-
-            if (IsChoiceAvailable() && initializeCursor)
-            {
-                MoveCursor(ControllerInputType.DefaultNone, CursorMovementStyle.Combined);
-            }
+            
+            SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection, false, triggerUIBoxModified);
+            if (IsChoiceAvailable() && initializeCursor) { MoveCursor(ControllerInputType.DefaultNone, CursorMovementStyle.Combined); }
         }
 
         private void SoftChooseCharacter(CombatParticipant character)
         {
-            ChooseCharacter(character, false);
-            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true);
+            ChooseCharacter(character, false, false);
+            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true, false);
         }
 
         private bool TryChooseSkill()
@@ -336,7 +328,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region AbilitiesBehaviour
-        private void SetAbilitiesBoxState(AbilitiesBoxState setAbilitiesBoxState, bool bypassSoloCheck = false)
+        private void SetAbilitiesBoxState(AbilitiesBoxState setAbilitiesBoxState, bool bypassSoloCheck = false, bool triggerUIBoxModified = true)
         {
             uiState = setAbilitiesBoxState;
             switch (uiState)
@@ -360,8 +352,7 @@ namespace Frankie.Combat.UI
                     break;
             }
             SetUpChoiceOptions();
-
-            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
+            if (triggerUIBoxModified) { TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this)); }
         }
 
         protected override void ResetUI()

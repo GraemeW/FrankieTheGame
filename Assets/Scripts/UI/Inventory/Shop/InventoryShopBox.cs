@@ -91,7 +91,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region BuySpecificOverrides
-        protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             switch (transactionType)
             {
@@ -99,7 +99,7 @@ namespace Frankie.Inventory.UI
                     TryBuyForCharacter(character);
                     break;
                 case ShopType.Sell:
-                    base.ChooseCharacter(character, initializeCursor);
+                    base.ChooseCharacter(character, initializeCursor, triggerUIBoxModified);
                     break;
             }
         }

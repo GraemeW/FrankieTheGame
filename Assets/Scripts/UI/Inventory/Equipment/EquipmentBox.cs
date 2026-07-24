@@ -147,8 +147,8 @@ namespace Frankie.Inventory.UI
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
-                uiChoiceOption.DisableHighlightListeners(); // Each movement chooses, disable highlight sounds
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
                 uiChoiceOption.SetText(character.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
@@ -257,7 +257,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true)
+        private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             selectedEquipLocation = EquipLocation.None;
             selectedItem = null;
@@ -270,7 +270,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter || forceChoose)
             {
-                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
+                if (triggerUIBoxModified) { TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this)); }
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -283,7 +283,7 @@ namespace Frankie.Inventory.UI
 
         private void SoftChooseCharacter(CombatParticipant character)
         {
-            ChooseCharacter(character, false, false);
+            ChooseCharacter(character, false, false, false);
             SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
         }
         #endregion
