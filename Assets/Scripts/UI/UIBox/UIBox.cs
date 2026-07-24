@@ -23,7 +23,7 @@ namespace Frankie.Utils.UI
         
         // Event Handlers
         public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
-        protected override void SimpleTriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType) => TriggerUIBoxModified(dialogueBoxModifiedType, new ReceiverModifiedData(this));
+        protected sealed override void SimpleTriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType) => TriggerUIBoxModified(dialogueBoxModifiedType, new ReceiverModifiedData(this));
         
         // UIBox Configuration
         protected virtual EnumLookup<TBoxState,UIBoxStateBehaviour> BuildStateBehaviours() { return new EnumLookup<TBoxState,UIBoxStateBehaviour>(); } // Note:  Empty/null entries fall back to Standard UIBox Implementation
