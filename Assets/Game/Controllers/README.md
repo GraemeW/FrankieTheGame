@@ -33,7 +33,15 @@ As part of this transition, the [PlayerStateMachine](../../Scripts/Core/PlayerSt
 
 ### Controller Behaviour
 
-Once a new controller is instantiated, it will monitor for player input and update game state accordingly.  As noted above, see [Controllers Scripts](../../Scripts/Control/Controllers/) and [Player Scripts](../../Scripts/Control/Player/) for more detail on implementation.
+Once a new controller is instantiated, it will monitor for player input and update game state accordingly.  As noted above, see [Controllers Scripts](../../Scripts/Control/Controllers/) for more detail on implementation.
+
+### Input Receivers and Subscription to Controllers
+
+All controllers derive from the [BaseController](../../Scripts/Control/Controllers/BaseController.cs) abstract class, and thus support the `AddInputReceiver(IInputReceiver inputReceiver, Action disableCallbacks)` method.
+
+This allows one to add any number of [IInputReceivers](../../Scripts/Control/Controllers/InputReceiver/IInputReceiver.cs) onto the BaseController to temporarily take control of the user input.  When an IInputReceiver is destroyed, the Controller will automatically pass control to the next top-most receiver in the controller's stack (as a LIFO-type implementation).
+
+For example, one may spawn a [DialogueOptionBox](../UI/Speech/DialogueOptionBox.prefab), which implements the [UIBox](../../Scripts/UI/UIBox/UIBox.cs) and assign it to the PlayerController via `AddInputReceiver(dialogueOptionBox, null)`.  This temporarily makes a window that appears to the user with some options.  The window may in itself spawn a second DialogueOptionBox, which can also be added to the PlayerController.  Once the second window is closed/destroyed, control passes back to the first window, and once the first window is destroyed, control then passes back to the base PlayerInputController (e.g. if in world, the player resumes control to move their character).  Practically, these fine details are all managed via access methods through the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs)
 
 ### Controller Destruction
 
@@ -50,6 +58,13 @@ When the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) hears `B
 
 #### DialogueController
 
-When dialogue has completed or the player has exited out of the dialogue box, the DialogueController will call `EndConversation()`.  This triggers the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) to transition from [DialogueState](../../Scripts/Core/PlayerStateMachine/PlayerStates/DialogueState.cs) to [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs).
+When dialogue has completed or the player has exited out of the dialogue box, the DialogueController will call `EndConversation()`.  This triggers the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) to transition from [DialogueState](../../Scripts/Core/PlayerStateMachine/PlayerStates/DialogueState.cs) to [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs) and destroys the DialogueController.
 
-The DialogueController will subsequently kill itself via its `KillControllerForNoReceivers()` method.
+#### Polling to Kill Rogue Controllers
+
+In addition to standard destruction methods, controllers also periodically poll for the scenario where they're initialized, but no longer have any valid input receivers.  This is handled in the [BaseController](../../Scripts/Control/Controllers/BaseController.cs) abstract class, via the `PollForReceivers(float deltaTime)` method.
+
+If a rogue controller is identified, it will:
+* attempt to push the player back into the World State via the [PlayerStateMachine's](../../Scripts/Core/PlayerStateMachine.cs) `EnterWorld()` method
+* make note of its rogue existence as a debug log warning
+* destroy itself
