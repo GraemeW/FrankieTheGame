@@ -90,6 +90,18 @@ namespace Frankie.Combat.UI
             if (statLabelField != null) { statLabelField.SetText(localizedStatLabel.GetSafeLocalizedString());}
             if (apCostLabelField != null) { apCostLabelField.SetText(localizedAPCostLabel.GetSafeLocalizedString()); }
         }
+
+        protected override void EnableTriggered()
+        {
+            base.EnableTriggered();
+            SubscribeCharacterSlides(true);
+        }
+
+        protected override void DisabledTriggered()
+        {
+            base.DisabledTriggered();
+            SubscribeCharacterSlides(false);
+        }
         #endregion
         
         #region LocalizationMethods
@@ -153,15 +165,12 @@ namespace Frankie.Combat.UI
             
             foreach (CharacterSlide characterSlide in characterSlides)
             {
+                targetCharacterChanged -= characterSlide.HighlightSlide;
+                characterSlide.RemoveButtonClickEvents();
                 if (enable)
                 {
                     targetCharacterChanged += characterSlide.HighlightSlide;
                     characterSlide.AddButtonClickEvent(delegate { UseSkillOnTarget(characterSlide.GetBattleEntity()); });
-                }
-                else
-                {
-                    targetCharacterChanged -= characterSlide.HighlightSlide;
-                    characterSlide.RemoveButtonClickEvents();
                 }
             }
         }
