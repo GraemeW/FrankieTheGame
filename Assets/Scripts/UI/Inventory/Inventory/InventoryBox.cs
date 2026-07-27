@@ -207,15 +207,12 @@ namespace Frankie.Inventory.UI
             
             foreach (CharacterSlide characterSlide in characterSlides)
             {
+                targetCharacterChanged -= characterSlide.HighlightSlide;
+                characterSlide.RemoveButtonClickEvents();
                 if (enable)
                 {
                     targetCharacterChanged += characterSlide.HighlightSlide;
-                    characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetBattleEntity()); });
-                }
-                else
-                {
-                    targetCharacterChanged -= characterSlide.HighlightSlide;
-                    characterSlide.RemoveButtonClickEvents();
+                    characterSlide.AddButtonClickEvent(delegate { SlideUseItemOnTarget(characterSlide.GetBattleEntity()); });
                 }
             }
         }
@@ -334,10 +331,41 @@ namespace Frankie.Inventory.UI
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
 
+        private bool TryTargetCharacter(ControllerInputType controllerInputType)
+        {
+            TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
+            bool gotNextTarget = GetNextTarget(targetingNavigationType);
+            if (gotNextTarget) { return true; }
+            
+            SetInventoryBoxState(InventoryBoxState.InKnapsack);
+            return false;
+        }
+        
+        private bool GetNextTarget(TargetingNavigationType targetingNavigationType, IList<BattleEntity> activeCharacters = null)
+        {
+            var actionItem = selectedKnapsack.GetItemInSlot(selectedItemSlot) as ActionItem;
+            if (actionItem == null) { return false; }
+
+            battleActionData ??= new BattleActionData(selectedCharacter);
+            activeCharacters ??= partyBattleEntities;
+            actionItem.SetTargets(targetingNavigationType, battleActionData, activeCharacters, null);
+            if (!battleActionData.HasTargets()) { return false; }
+
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
+            return true;
+        }
+        
         private bool TryUseItem()
         {
+            if (uiState != InventoryBoxState.InCharacterTargeting) { return false; }
+            
             InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(selectedItemSlot);
-            if (inventoryItem == null) { return false; }
+            if (inventoryItem == null || battleActionData == null) { return false; }
+            if (!battleActionData.HasTargets())
+            {
+                GetNextTarget(TargetingNavigationType.Hold);
+                return false;
+            }
             
             string senderName = selectedCharacter != null ? selectedCharacter.GetCombatName() : "";
             string itemName = inventoryItem.GetDisplayName();
@@ -347,17 +375,16 @@ namespace Frankie.Inventory.UI
             TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             DialogueBox useDialogueBox = SpawnDialogueBox(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
             controller.AddInputReceiver(useDialogueBox, ResetSelectState);
+            
+            ResetSelectState();
             return true;
         }
-
-        private bool TryTargetCharacter(ControllerInputType controllerInputType)
+        
+        private void SlideUseItemOnTarget(BattleEntity battleEntity)
         {
-            TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
-            bool gotNextTarget = GetNextTarget(targetingNavigationType);
-            if (gotNextTarget) { return true; }
-            
-            SetInventoryBoxState(InventoryBoxState.InKnapsack);
-            return false;
+            if (uiState != InventoryBoxState.InCharacterTargeting) { return; }
+            if (!GetNextTarget(TargetingNavigationType.Hold, new[] { battleEntity })) { SetInventoryBoxState(InventoryBoxState.InKnapsack); return; } // Verify passed combatParticipant is valid target
+            TryUseItem();
         }
         
         protected void ResetSelectState()
@@ -370,6 +397,7 @@ namespace Frankie.Inventory.UI
                 ReInitializeToCharacterSelection();
                 return;
             }
+            battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.InKnapsack);
         }
         
@@ -556,7 +584,8 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedItemSlot = inventorySlot;
-                bool hasValidTarget = GetNextTarget(TargetingNavigationType.Hold);
+                bool hasValidTarget = true;//GetNextTarget(TargetingNavigationType.Hold);
+                battleActionData ??= new BattleActionData(selectedCharacter);
                 if (!hasValidTarget)
                 {
                     DialogueBox cannotUseDialogueBox = SpawnDialogueBox(string.Format(localizedMessageCannotUseItemInWorld.GetSafeLocalizedString()));
@@ -564,32 +593,6 @@ namespace Frankie.Inventory.UI
                 }
                 SetInventoryBoxState(hasValidTarget ? InventoryBoxState.InCharacterTargeting : InventoryBoxState.InKnapsack);
             }
-        }
-
-        private bool GetNextTarget(TargetingNavigationType targetingNavigationType)
-        {
-            var actionItem = selectedKnapsack.GetItemInSlot(selectedItemSlot) as ActionItem;
-            if (actionItem == null) { return false; }
-
-            battleActionData ??= new BattleActionData(selectedCharacter);
-
-            actionItem.SetTargets(targetingNavigationType, battleActionData, partyBattleEntities, null);
-            if (!battleActionData.HasTargets()) { return false; }
-
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
-            return true;
-        }
-
-        private void UseItemOnTarget(BattleEntity battleEntity)
-        {
-            if (uiState != InventoryBoxState.InCharacterTargeting) { return; }
-
-            battleActionData.SetTargets(battleEntity);
-            if (!GetNextTarget(TargetingNavigationType.Hold)) { SetInventoryBoxState(InventoryBoxState.InKnapsack); return; } // Verify passed combatParticipant is valid target
-
-            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { battleEntity });
-            Choose(null);
         }
 
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)

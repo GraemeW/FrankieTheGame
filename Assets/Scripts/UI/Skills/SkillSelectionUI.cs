@@ -29,7 +29,7 @@ namespace Frankie.Combat.UI
         
         // State
         private bool usingBattleController = false;
-        protected CombatParticipant currentCombatParticipant;
+        protected CombatParticipant selectedCharacter;
 
         // Cached References
         private BattleController battleController;
@@ -86,9 +86,9 @@ namespace Frankie.Combat.UI
         #region InputHandlers
         protected virtual void HandleInput(ControllerInputType input)
         {
-            if (currentCombatParticipant == null) {return; }
+            if (selectedCharacter == null) {return; }
             if (battleController.IsBattleActionArmed()) { return; } // Need to manually check because can be armed while UI element disabled (InventoryBox-based)
-            SetBranchOrSkill(currentCombatParticipant, input);
+            SetBranchOrSkill(selectedCharacter, input);
         }
 
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
@@ -133,19 +133,19 @@ namespace Frankie.Combat.UI
                 if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } 
             }
 
-            currentCombatParticipant = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
-            if (currentCombatParticipant == null) { ResetUI(); return; }
+            selectedCharacter = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
+            if (selectedCharacter == null) { ResetUI(); return; }
 
             UpdateSkillHandler();
         }
         
         protected void UpdateSkillHandler()
         {
-            if (currentCombatParticipant == null) { return; }
+            if (selectedCharacter == null) { return; }
 
             canvasGroup.alpha = 1;
-            selectedCharacterNameField.SetText(currentCombatParticipant.GetCombatName());
-            var skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
+            selectedCharacterNameField.SetText(selectedCharacter.GetCombatName());
+            var skillHandler = selectedCharacter.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
         }
