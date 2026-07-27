@@ -9,10 +9,13 @@ namespace Frankie.Utils.UI
     public abstract class UIBoxBase : MonoBehaviour
     {
         // Tunables
-        [Header("UI Box Parameters")]
+        [Header("UI Box Hookups")]
         [SerializeField] protected CanvasGroup canvasGroup;
-        [Header("Choice Behavior")]
         [SerializeField] protected Transform optionParent;
+        [SerializeField] protected Transform backExitParent;
+        
+        [Header("UI Box Prefabs")] 
+        [SerializeField] protected UIBackExit backExitPrefab;
         [SerializeField] protected GameObject optionButtonPrefab;
         [SerializeField] protected GameObject optionSliderPrefab;
         

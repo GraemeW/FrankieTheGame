@@ -719,6 +719,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 7931030931547762203}
   optionParent: {fileID: 2827520980706274898}
+  backExitParent: {fileID: 2227106547557423765}
+  backExitPrefab: {fileID: 2023356370033701760, guid: 0e7dc3d1ec0284e3fa8f428974dff786, type: 3}
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
   selectedCharacterNameField: {fileID: 9194726771461153638}

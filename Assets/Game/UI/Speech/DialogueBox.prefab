@@ -264,6 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: -9126222842676821729}
   optionParent: {fileID: 2827520980706274898}
+  backExitParent: {fileID: 2227106547557423765}
+  backExitPrefab: {fileID: 2023356370033701760, guid: 0e7dc3d1ec0284e3fa8f428974dff786, type: 3}
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
   optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
   dialogueParent: {fileID: 4819427655758832652}

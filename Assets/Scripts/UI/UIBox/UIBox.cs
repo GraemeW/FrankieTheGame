@@ -46,6 +46,12 @@ namespace Frankie.Utils.UI
                 return;
             }
             stateLookup = BuildStateBehaviours();
+            
+            if (!preventEscapeOptionExit && backExitPrefab != null)
+            {
+                UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
+                backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
+            }
             AwakeTriggered();
         }
         
