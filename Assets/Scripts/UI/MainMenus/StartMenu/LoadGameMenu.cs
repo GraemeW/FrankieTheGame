@@ -30,9 +30,6 @@ namespace Frankie.Menu.UI
         [SerializeField] private TMP_Text loadHeaderField;
         [SerializeField] private UIChoiceButton cancelOption;
         [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab;
-
-        // State
-        private Zone newGameZoneOverride;
         
         #region UnityMethods
         protected override void StartTriggered()
@@ -65,11 +62,6 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region PublicMethods
-        public void Setup(Zone setNewGameZoneOverride)
-        {
-            newGameZoneOverride = setNewGameZoneOverride;
-        }
-        
         public void Cancel()
         {
             Destroy(gameObject);
@@ -101,7 +93,7 @@ namespace Frankie.Menu.UI
                     loadGameEntry.Setup(index, localizedOptionNewGameText.GetSafeLocalizedString(), 0, () =>
                     {
                         SetActiveInput(false);
-                        SavingWrapper.NewGame(saveName, newGameZoneOverride);
+                        SavingWrapper.NewGame(saveName);
                     });
                 }
                 loadGameEntry.SetChoiceOrder(choiceOptions.Count + 1);
