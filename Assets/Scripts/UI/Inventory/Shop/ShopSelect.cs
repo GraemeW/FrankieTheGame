@@ -112,7 +112,7 @@ namespace Frankie.Inventory.UI
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
             InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
-            inventoryShopBox.Setup(playerController, playerStateMachine, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop.GetMessageForSale(), shop.GetMessageCannotSell());
+            inventoryShopBox.Setup(playerController, playerStateMachine, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop);
             Destroy(gameObject);
         }
         #endregion

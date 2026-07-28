@@ -589,7 +589,7 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedItemSlot = inventorySlot;
-                bool hasValidTarget = true;//GetNextTarget(TargetingNavigationType.Hold);
+                bool hasValidTarget = GetNextTarget(TargetingNavigationType.Hold);
                 battleActionData ??= new BattleActionData(selectedCharacter);
                 if (!hasValidTarget)
                 {

@@ -744,6 +744,15 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  localizedMessageEquipItem:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 37360153048113152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   statSheetParent: {fileID: 581196615866837989}
   walletUIPrefab: {fileID: 3399884933549309670, guid: fa1c608bd62d3d94392523e931df8915, type: 3}
   statChangeFieldPrefab: {fileID: 4895827502126253176, guid: de2b0f8d2f51c3e4da7f0b370ea24fa5, type: 3}

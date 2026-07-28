@@ -492,6 +492,10 @@ MonoBehaviour:
     m_Localized: No valid targets
     m_Metadata:
       m_Items: []
+  - m_Id: 37360153048113152
+    m_Localized: Equip {0} now?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
