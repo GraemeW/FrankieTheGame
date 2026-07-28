@@ -236,7 +236,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7267237508407296
-    m_Localized: "Je peux t'en donner {0} $ pour \xE7a"
+    m_Localized: "Je peux t'en donner {1} $ pour \xE7a {0}"
     m_Metadata:
       m_Items: []
   - m_Id: 7267276448325632
@@ -264,7 +264,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7277346045288448
-    m_Localized: "PHWOON ** {0} PI\xC8CES TRAIT\xC9ES **"
+    m_Localized: "PHWOON ** {1} PI\xC8CES TRAIT\xC9ES POUR {0}?**"
     m_Metadata:
       m_Items: []
   - m_Id: 7277361329332224

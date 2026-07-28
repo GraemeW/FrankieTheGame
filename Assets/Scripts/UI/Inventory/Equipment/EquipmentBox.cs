@@ -316,29 +316,15 @@ namespace Frankie.Inventory.UI
         private void GenerateStatConfirmationMenu()
         {
             CleanOldStatSheet();
-
             if (!selectedCharacter.TryGetComponent(out BaseStats baseStats)) { return; }
-
-            Dictionary<Stat, float> activeStatSheetWithModifiers = baseStats.GetActiveStatSheet();
-            Dictionary<Stat, float> statDeltas = selectedEquipment.CompareEquipableItem(selectedEquipLocation, selectedItem);
             
-            foreach (KeyValuePair<Stat, float> statEntry in activeStatSheetWithModifiers)
+            foreach (StatComparison statComparison in Equipment.GetStatComparisons(baseStats, selectedEquipment, selectedItem, selectedEquipLocation))
             {
-                Stat stat = statEntry.Key;
-                if (BaseStats.GetNonModifyingStats().Contains(stat)) { continue; }
-
-                float oldValue = baseStats.GetStat(stat); // Pull from actual stat, since active stat sheet does not contain modifiers
-                float newValue = oldValue;
-                if (statDeltas.TryGetValue(stat, out var delta))
-                {
-                    newValue += delta;
-                }
-
                 StatChangeField statChangeField = Instantiate(statChangeFieldPrefab, statSheetParent);
-                statChangeField.Setup(stat, oldValue, newValue);
+                statChangeField.Setup(statComparison);
             }
         }
-
+        
         private void CleanOldStatSheet()
         {
             foreach (Transform child in statSheetParent)

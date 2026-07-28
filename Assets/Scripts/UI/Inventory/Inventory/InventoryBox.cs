@@ -410,11 +410,16 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region KnapsackBehaviour
-        private void RefreshKnapsackContents()
+        protected void RefreshKnapsackContents()
         {
             if (!CleanUpOldKnapsack()) { return; } // Error handling for message received during deconstruction
 
             SetSelectedKnapsack(selectedCharacter.GetComponent<Knapsack>());
+            PopulateKnapsackContents();
+        }
+
+        protected virtual void PopulateKnapsackContents()
+        {
             for (int i = 0; i < selectedKnapsack.GetSize(); i++)
             {
                 InventoryItemField inventoryItemField = (i % 2 == 0) ?
@@ -584,7 +589,7 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedItemSlot = inventorySlot;
-                bool hasValidTarget = true;//GetNextTarget(TargetingNavigationType.Hold);
+                bool hasValidTarget = GetNextTarget(TargetingNavigationType.Hold);
                 battleActionData ??= new BattleActionData(selectedCharacter);
                 if (!hasValidTarget)
                 {

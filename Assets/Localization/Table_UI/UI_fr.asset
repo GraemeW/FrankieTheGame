@@ -488,6 +488,10 @@ MonoBehaviour:
     m_Localized: Aucune cible valide
     m_Metadata:
       m_Items: []
+  - m_Id: 37360153048113152
+    m_Localized: "\xC9quiper {0} tout de suite?"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

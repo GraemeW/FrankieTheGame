@@ -15,12 +15,12 @@ namespace Frankie.Inventory.UI
         [SerializeField] private Color betterDeltaColor = Color.green;
         [SerializeField] private Color worseDeltaColor = Color.red;
 
-        public void Setup(Stat stat, float oldValue, float newValue)
+        public void Setup(StatComparison statComparison)
         {
-            statField.text = LocalizationNames.GetLocalizedName(stat);
-            int oldValueRounded = Mathf.RoundToInt(oldValue);
+            statField.text = LocalizationNames.GetLocalizedName(statComparison.stat);
+            int oldValueRounded = Mathf.RoundToInt(statComparison.oldValue);
             oldValueField.text = oldValueRounded.ToString(CultureInfo.InvariantCulture);
-            int newValueRounded = Mathf.RoundToInt(newValue);
+            int newValueRounded = Mathf.RoundToInt(statComparison.newValue);
             newValueField.text = newValueRounded.ToString(CultureInfo.InvariantCulture);
             newValueField.color = neutralDeltaColor;
 

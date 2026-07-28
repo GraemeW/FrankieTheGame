@@ -89,6 +89,17 @@ namespace Frankie.Inventory
         #region RetrieveFromKnapsack
         public int GetNumberOfFreeSlots() => slots.Count(x => x == null);
         public InventoryItem GetItemInSlot(int slot) => slots[slot] == null ? null : slots[slot].GetInventoryItem();
+        public int FindSlotWithItem(InventoryItem inventoryItem)
+        {
+            if (inventoryItem == null) { return -1; }
+            
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == null) { continue; }
+                if (slots[i].GetInventoryItem().GetGUID() == inventoryItem.GetGUID()) { return i; }
+            }
+            return -1;
+        }
         private IEnumerable<KeyItem> GetKeyItems()
         {
             return (from inventoryItem in slots where inventoryItem != null select inventoryItem.GetInventoryItem()).OfType<KeyItem>();
@@ -101,16 +112,6 @@ namespace Frankie.Inventory
             for (int i = 0; i < slots.Length; i++)
             {
                 if (slots[i] == null) { return i; }
-            }
-            return -1;
-        }
-
-        private int FindSlotWithItem(InventoryItem inventoryItem)
-        {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] == null) { continue; }
-                if (slots[i].GetInventoryItem().GetGUID() == inventoryItem.GetGUID()) { return i; }
             }
             return -1;
         }
