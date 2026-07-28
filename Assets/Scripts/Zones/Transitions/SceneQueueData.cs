@@ -6,12 +6,10 @@ namespace Frankie.ZoneManagement
     {
         public readonly float delayTime;
         public readonly Action sceneLoadedCallback;
-        public readonly Zone zoneOverride;
         public readonly bool useFader;
         
-        public SceneQueueData(Zone zoneOverride, Action sceneLoadedCallback, float delayTime, bool useFader)
+        public SceneQueueData(Action sceneLoadedCallback, float delayTime, bool useFader)
         {
-            this.zoneOverride = zoneOverride;
             this.sceneLoadedCallback = sceneLoadedCallback;
             this.delayTime = delayTime;
             this.useFader = useFader;
@@ -20,7 +18,6 @@ namespace Frankie.ZoneManagement
         public SceneQueueData(bool useFader)
         {
             this.useFader = useFader;
-            zoneOverride = null;
             sceneLoadedCallback = null;
             delayTime = 0f;
         }

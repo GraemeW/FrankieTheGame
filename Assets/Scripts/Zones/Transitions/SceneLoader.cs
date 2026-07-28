@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
@@ -106,7 +107,7 @@ namespace Frankie.ZoneManagement
         #region PrivateMethods
         private void StartLoadScene(SceneQueueType sceneQueueType, SceneQueueData sceneQueueData)
         {
-            Zone zone = ReconcileZone(sceneQueueType, sceneQueueData.zoneOverride);
+            Zone zone = ReconcileZone(sceneQueueType);
             if (zone == null) { return; }
 
             if (sceneQueueData.useFader)
@@ -122,22 +123,24 @@ namespace Frankie.ZoneManagement
             }
         }
 
-        private Zone ReconcileZone(SceneQueueType sceneQueueType, Zone zoneOverride)
+        private Zone ReconcileZone(SceneQueueType sceneQueueType)
         {
-            Zone zone = zoneOverride;
-            if (zone == null)
+            Zone zone = null;
+            if (sceneQueueType == SceneQueueType.New)
             {
-                zone = sceneQueueType switch
-                {
-                    SceneQueueType.Splash => splashScreen,
-                    SceneQueueType.Start => startScreen,
-                    SceneQueueType.New => newGame,
-                    SceneQueueType.GameOver => gameOverScreen,
-                    SceneQueueType.GameWin => gameWinScreen,
-                    _ => zone
-                };
+                zone = FrankieDebugger.GetDemoZoneOverride();
+                if (zone != null) { return zone; }
             }
-            return zone;
+            
+            return sceneQueueType switch
+            {
+                SceneQueueType.Splash => splashScreen,
+                SceneQueueType.Start => startScreen,
+                SceneQueueType.New => newGame,
+                SceneQueueType.GameOver => gameOverScreen,
+                SceneQueueType.GameWin => gameWinScreen,
+                _ => zone
+            };
         }
         
         private IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback)
