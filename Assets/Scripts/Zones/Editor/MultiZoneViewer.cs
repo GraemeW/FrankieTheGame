@@ -606,27 +606,6 @@ namespace Frankie.ZoneManagement.Editor
             RefreshNodeDots();
         }
 
-        private static void SaveZoneAsset(ZoneNode zoneNode, string undoMessage)
-        {
-            AssetDatabase.SaveAssetIfDirty(zoneNode);
-            
-            // Since ZoneNode childed to Zone, mark as dirty and save as well
-            Zone sourceZone = zoneNode.GetZone();
-            if (sourceZone == null) { return; }
-            Undo.RecordObject(sourceZone, undoMessage);
-            EditorUtility.SetDirty(sourceZone);
-            AssetDatabase.SaveAssetIfDirty(sourceZone);
-        }
-
-        private static void SaveMultiZoneViewAsset(MultiZoneView multiZoneView, string undoMessage)
-        {
-            if (multiZoneView == null) { return; }
-            
-            Undo.RecordObject(multiZoneView, undoMessage);
-            EditorUtility.SetDirty(multiZoneView);
-            AssetDatabase.SaveAssetIfDirty(multiZoneView);
-        }
-
         private static ZoneNode GetZoneNodeByID(string zoneName, string zoneNodeID)
         {
             Zone zone = Zone.GetFromName(zoneName);
@@ -962,6 +941,27 @@ namespace Frankie.ZoneManagement.Editor
             AssetDatabase.CreateAsset(asset, path);
             AssetDatabase.SaveAssets();
             return asset;
+        }
+        
+        private static void SaveZoneAsset(ZoneNode zoneNode, string undoMessage)
+        {
+            AssetDatabase.SaveAssetIfDirty(zoneNode);
+            
+            // Since ZoneNode childed to Zone, mark as dirty and save as well
+            Zone sourceZone = zoneNode.GetZone();
+            if (sourceZone == null) { return; }
+            Undo.RecordObject(sourceZone, undoMessage);
+            EditorUtility.SetDirty(sourceZone);
+            AssetDatabase.SaveAssetIfDirty(sourceZone);
+        }
+
+        private static void SaveMultiZoneViewAsset(MultiZoneView multiZoneView, string undoMessage)
+        {
+            if (multiZoneView == null) { return; }
+            
+            Undo.RecordObject(multiZoneView, undoMessage);
+            EditorUtility.SetDirty(multiZoneView);
+            AssetDatabase.SaveAssetIfDirty(multiZoneView);
         }
         #endregion
         
