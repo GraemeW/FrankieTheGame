@@ -68,9 +68,7 @@ namespace Frankie.ZoneManagement
         
 #if UNITY_EDITOR
         #region ZoneEditorMethods
-
         public Rect GetRect() => rect;
-
         
         public void Initialize(int width, int height)
         {
@@ -88,7 +86,6 @@ namespace Frankie.ZoneManagement
             zoneName = setZoneName;
             string newKey = GetNameLocalizationKey();
             LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
-
             EditorUtility.SetDirty(this);
         }
 
@@ -132,6 +129,29 @@ namespace Frankie.ZoneManagement
             Undo.RecordObject(this, "Delete Localization Entries");
             TryDeleteLocalization();
             EditorUtility.SetDirty(this);
+        }
+        #endregion
+        
+        #region MultiZoneEditorMethods
+        public bool TrySetExternalLink(ZoneNode targetZoneNode)
+        {
+            if (targetZoneNode == null || targetZoneNode == this) { return false; }
+            if (targetZoneNode.GetZoneName() == zoneName) { return false; }
+
+            Undo.RecordObject(this, "Link Zone Node");
+            externalZoneLinkToZoneNode = targetZoneNode;
+            EditorUtility.SetDirty(this);
+            return true;
+        }
+        
+        public bool ClearExternalLink()
+        {
+            if (externalZoneLinkToZoneNode == null) { return false; }
+
+            Undo.RecordObject(this, "Clear Zone Node Link");
+            externalZoneLinkToZoneNode = null;
+            EditorUtility.SetDirty(this);
+            return true;
         }
         #endregion
         

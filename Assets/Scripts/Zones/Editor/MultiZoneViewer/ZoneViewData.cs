@@ -14,6 +14,7 @@ namespace Frankie.ZoneManagement.Editor
         public Vector2 topLeftPosition;
         public Vector2 dimensions;
         [field: SerializeField] public List<ZoneHandlerLinkData> zoneHandlerLinkDataSet { get; private set; } = new();
+        [field: SerializeField] public List<ZoneNodeDotData> zoneNodeDotDataSet { get; private set; } = new();
 
         public void Setup(string setZoneName, string setScenePath, string setSnapshotPath, Vector2 setDimensions, Vector2 setTopLeftPosition)
         {
@@ -24,7 +25,21 @@ namespace Frankie.ZoneManagement.Editor
             dimensions = setDimensions;
             topLeftPosition = setTopLeftPosition;
             zoneHandlerLinkDataSet = new List<ZoneHandlerLinkData>();
+            zoneNodeDotDataSet = new List<ZoneNodeDotData>();
             EditorUtility.SetDirty(this);
+        }
+
+        public void SetZoneNodeDotData(List<ZoneNodeDotData> setZoneNodeDotDataSet)
+        {
+            zoneNodeDotDataSet = setZoneNodeDotDataSet;
+            EditorUtility.SetDirty(this);
+        }
+
+        public bool RemoveZoneLinkDataForSource(string sourceZoneNodeID)
+        {
+            int removedCount = zoneHandlerLinkDataSet.RemoveAll(zoneHandlerLinkData => zoneHandlerLinkData.sourceZoneNodeID == sourceZoneNodeID);
+            if (removedCount > 0) { EditorUtility.SetDirty(this); }
+            return removedCount > 0;
         }
 
         public void CreateOrUpdateZoneLinkData(ZoneHandlerLinkData zoneHandlerLinkData)

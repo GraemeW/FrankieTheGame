@@ -33,11 +33,18 @@ namespace Frankie.ZoneManagement.Editor
             targetZoneNodeID = targetZoneHandlerNodeData.zoneNode.GetNodeID();
             targetNodeRelativePosition = GetRelativePosition(targetZoneHandlerNodeData.position, targetZoneBounds);
         }
-
-        public bool MatchSource(ZoneHandlerLinkData matchZoneHandlerLinkData)
-        { 
-            return matchZoneHandlerLinkData.sourceZoneName == sourceZoneName && matchZoneHandlerLinkData.sourceZoneNodeID == sourceZoneNodeID;
+        
+        public ZoneHandlerLinkData(string sourceZoneName, string sourceZoneNodeID, Vector2 sourceNodeRelativePosition, string targetZoneName, string targetZoneNodeID, Vector2 targetNodeRelativePosition)
+        {
+            this.sourceZoneName = sourceZoneName;
+            this.sourceZoneNodeID = sourceZoneNodeID;
+            this.sourceNodeRelativePosition = sourceNodeRelativePosition;
+            this.targetZoneName = targetZoneName;
+            this.targetZoneNodeID = targetZoneNodeID;
+            this.targetNodeRelativePosition = targetNodeRelativePosition;
         }
+
+        public bool MatchSource(ZoneHandlerLinkData matchZoneHandlerLinkData) => matchZoneHandlerLinkData.sourceZoneName == sourceZoneName && matchZoneHandlerLinkData.sourceZoneNodeID == sourceZoneNodeID;
 
         public void UpdateZoneHandlerLinkData(ZoneHandlerLinkData updatedZoneHandlerLinkData)
         {
@@ -47,7 +54,7 @@ namespace Frankie.ZoneManagement.Editor
             targetNodeRelativePosition = updatedZoneHandlerLinkData.targetNodeRelativePosition;
         }
 
-        private static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
+        public static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
         {
             Vector2 topLeft = new Vector2(bounds.min.x, bounds.max.y);
             float xRelative = Mathf.Clamp01((position.x - topLeft.x) / bounds.size.x);

@@ -70,6 +70,18 @@ namespace Frankie.ZoneManagement.Editor
             return scenePaths;
         }
 
+        public void UpdateZoneNodeDotData(Dictionary<string, List<ZoneNodeDotData>> zoneNodeDotDataByZoneName)
+        {
+            BuildZoneViewLookup();
+
+            foreach (KeyValuePair<string, List<ZoneNodeDotData>> entry in zoneNodeDotDataByZoneName)
+            {
+                ZoneViewData zoneViewData = FindZoneViewData(entry.Key);
+                if (zoneViewData == null) { continue; }
+                zoneViewData.SetZoneNodeDotData(entry.Value);
+            }
+        }
+
         public void UpdateZoneHandlerLinkData(List<ZoneHandlerLinkData> zoneHandlerLinkDataSet)
         {
             BuildZoneViewLookup();

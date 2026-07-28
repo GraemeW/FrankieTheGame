@@ -62,6 +62,29 @@ namespace Frankie.ZoneManagement.Editor
             return zoneHandlerNodeDataSet;
         }
 
+        public static Dictionary<string, List<ZoneNodeDotData>> BuildZoneNodeDotData(List<ZoneHandlerNodeData> zoneHandlerNodeDataSet, Dictionary<string, Bounds> zoneDimensionsLookup)
+        {
+            Dictionary<string, List<ZoneNodeDotData>> zoneNodeDotDataByZoneName = new();
+            foreach (ZoneHandlerNodeData zoneHandlerNodeData in zoneHandlerNodeDataSet)
+            {
+                if (zoneHandlerNodeData.zoneNode == null) { continue; }
+
+                string zoneName = zoneHandlerNodeData.zoneNode.GetZoneName();
+                if (!zoneDimensionsLookup.TryGetValue(zoneName, out Bounds zoneBounds)) { continue; }
+
+                Vector2 relativePosition = ZoneHandlerLinkData.GetRelativePosition(zoneHandlerNodeData.position, zoneBounds);
+                var zoneNodeDotData = new ZoneNodeDotData(zoneHandlerNodeData.zoneNode.GetNodeID(), relativePosition);
+
+                if (!zoneNodeDotDataByZoneName.TryGetValue(zoneName, out List<ZoneNodeDotData> dotDataSet))
+                {
+                    dotDataSet = new List<ZoneNodeDotData>();
+                    zoneNodeDotDataByZoneName[zoneName] = dotDataSet;
+                }
+                dotDataSet.Add(zoneNodeDotData);
+            }
+            return zoneNodeDotDataByZoneName;
+        }
+
         public static List<ZoneHandlerLinkData> GenerateZoneHandlerLinks(List<ZoneHandlerNodeData> zoneHandlerNodeDataSet, Dictionary<string, Bounds> zoneDimensionsLookup)
         {
             List<ZoneHandlerLinkData> zoneHandlerLinkDataSet = new();
