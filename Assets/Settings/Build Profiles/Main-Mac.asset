@@ -70,6 +70,9 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
     m_guid: 00850a2bedb4a47a5b90b9b587036db6
+  - m_enabled: 1
+    m_path: Assets/Scenes/_Debug/TEST_BattleRoyale.unity
+    m_guid: 8b8eb4164910bda45acce09717d5064a
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

@@ -125,20 +125,22 @@ namespace Frankie.ZoneManagement
 
         private Zone ReconcileZone(SceneQueueType sceneQueueType)
         {
-            Zone zone = FrankieDebugger.GetDemoZoneOverride();
-            if (zone == null)
+            Zone zone = null;
+            if (sceneQueueType == SceneQueueType.New)
             {
-                zone = sceneQueueType switch
-                {
-                    SceneQueueType.Splash => splashScreen,
-                    SceneQueueType.Start => startScreen,
-                    SceneQueueType.New => newGame,
-                    SceneQueueType.GameOver => gameOverScreen,
-                    SceneQueueType.GameWin => gameWinScreen,
-                    _ => zone
-                };
+                zone = FrankieDebugger.GetDemoZoneOverride();
+                if (zone != null) { return zone; }
             }
-            return zone;
+            
+            return sceneQueueType switch
+            {
+                SceneQueueType.Splash => splashScreen,
+                SceneQueueType.Start => startScreen,
+                SceneQueueType.New => newGame,
+                SceneQueueType.GameOver => gameOverScreen,
+                SceneQueueType.GameWin => gameWinScreen,
+                _ => zone
+            };
         }
         
         private IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback)
