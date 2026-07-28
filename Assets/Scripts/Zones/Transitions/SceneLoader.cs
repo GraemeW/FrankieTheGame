@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
@@ -106,7 +107,7 @@ namespace Frankie.ZoneManagement
         #region PrivateMethods
         private void StartLoadScene(SceneQueueType sceneQueueType, SceneQueueData sceneQueueData)
         {
-            Zone zone = ReconcileZone(sceneQueueType, sceneQueueData.zoneOverride);
+            Zone zone = ReconcileZone(sceneQueueType);
             if (zone == null) { return; }
 
             if (sceneQueueData.useFader)
@@ -122,9 +123,9 @@ namespace Frankie.ZoneManagement
             }
         }
 
-        private Zone ReconcileZone(SceneQueueType sceneQueueType, Zone zoneOverride)
+        private Zone ReconcileZone(SceneQueueType sceneQueueType)
         {
-            Zone zone = zoneOverride;
+            Zone zone = FrankieDebugger.GetDemoZoneOverride();
             if (zone == null)
             {
                 zone = sceneQueueType switch

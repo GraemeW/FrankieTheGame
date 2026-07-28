@@ -363,6 +363,25 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
+--- !u!1 &1286319285 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8757293728349162056, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+  m_PrefabInstance: {fileID: 8004034116238802503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1286319289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286319285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07cd3c8a51034491ab6b9dd145d53767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.FrankieDemoToggler
+  demoToggleType: 1
+  entitiesToEnable: {fileID: 0}
 --- !u!1 &1427791522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6748405756474271261, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
@@ -830,10 +849,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7541381697509518278, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
-      propertyPath: newGameZoneOverride
-      value: 
-      objectReference: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
-    - target: {fileID: 7541381697509518278, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
       propertyPath: preventEscapeOptionExit
       value: 1
       objectReference: {fileID: 0}
@@ -956,7 +971,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8757293728349162056, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1286319289}
   m_SourcePrefab: {fileID: 100100000, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

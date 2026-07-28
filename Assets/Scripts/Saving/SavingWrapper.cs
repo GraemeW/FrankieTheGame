@@ -75,12 +75,12 @@ namespace Frankie.Saving
             return includeSession ? SavingSystem.ListSaves() : SavingSystem.ListSaves().Where(saveName => saveName != _sessionFile).ToList();
         }
 
-        public static void NewGame(string saveName, Zone newGameZoneOverride = null)
+        public static void NewGame(string saveName)
         {
             Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
 
             SetCurrentSave(saveName);
-            var sceneQueueData = new SceneQueueData(newGameZoneOverride, () => Save(), 0f, false);
+            var sceneQueueData = new SceneQueueData(() => Save(), 0f, false);
             SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
         }
 

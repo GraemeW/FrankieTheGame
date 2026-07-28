@@ -5,6 +5,7 @@ using Frankie.Combat;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
+using Frankie.ZoneManagement;
 using Frankie.Saving;
 
 namespace Frankie.Utils
@@ -16,6 +17,8 @@ namespace Frankie.Utils
         [SerializeField] private bool resetSaveOnStart = false;
         [SerializeField] private bool isCinematicAutoplayDisabled = false;
         [SerializeField] private bool shouldEnableAllRooms = false;
+        [SerializeField] private bool isDemo = false;
+        [SerializeField] private Zone demoZoneOverride;
 
         // Cached References
         private PlayerInput playerInput;
@@ -42,6 +45,19 @@ namespace Frankie.Utils
         {
             FrankieDebugger frankieDebugger = FindDebugger();
             return frankieDebugger != null && frankieDebugger.shouldEnableAllRooms;
+        }
+
+        public static bool IsDemo()
+        {
+            FrankieDebugger frankieDebugger = FindDebugger();
+            return frankieDebugger != null && frankieDebugger.isDemo;
+        }
+
+        public static Zone GetDemoZoneOverride()
+        {
+            FrankieDebugger frankieDebugger = FindDebugger();
+            if (!frankieDebugger.isDemo) { return null; }
+            return frankieDebugger != null ? frankieDebugger.demoZoneOverride : null;
         }
         
         private static FrankieDebugger FindDebugger()
