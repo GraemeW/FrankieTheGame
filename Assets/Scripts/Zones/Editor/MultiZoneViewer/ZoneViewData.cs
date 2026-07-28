@@ -13,8 +13,7 @@ namespace Frankie.ZoneManagement.Editor
         [field: SerializeField] public string snapshotPath { get; private set; }
         public Vector2 topLeftPosition;
         public Vector2 dimensions;
-        [field: SerializeField] public List<ZoneHandlerLinkData> zoneHandlerLinkDataSet { get; private set; } = new();
-        [field: SerializeField] public List<ZoneNodeDotData> zoneNodeDotDataSet { get; private set; } = new();
+        [field: SerializeField] public List<ZoneNodeData> zoneNodeDataSet { get; private set; } = new();
 
         public void Setup(string setZoneName, string setScenePath, string setSnapshotPath, Vector2 setDimensions, Vector2 setTopLeftPosition)
         {
@@ -24,40 +23,50 @@ namespace Frankie.ZoneManagement.Editor
             snapshotPath = setSnapshotPath;
             dimensions = setDimensions;
             topLeftPosition = setTopLeftPosition;
-            zoneHandlerLinkDataSet = new List<ZoneHandlerLinkData>();
-            zoneNodeDotDataSet = new List<ZoneNodeDotData>();
+            zoneNodeDataSet = new List<ZoneNodeData>();
             EditorUtility.SetDirty(this);
         }
 
-        public void SetZoneNodeDotData(List<ZoneNodeDotData> setZoneNodeDotDataSet)
+        public void SetZoneNodeData(List<ZoneNodeData> setZoneNodeDataSet)
         {
-            zoneNodeDotDataSet = setZoneNodeDotDataSet;
+            zoneNodeDataSet = setZoneNodeDataSet;
             EditorUtility.SetDirty(this);
         }
 
-        public bool RemoveZoneLinkDataForSource(string sourceZoneNodeID)
+        public bool TryGetZoneNodeData(string zoneNodeID, out ZoneNodeData zoneNodeData)
         {
-            int removedCount = zoneHandlerLinkDataSet.RemoveAll(zoneHandlerLinkData => zoneHandlerLinkData.sourceZoneNodeID == sourceZoneNodeID);
-            if (removedCount > 0) { EditorUtility.SetDirty(this); }
-            return removedCount > 0;
+            foreach (ZoneNodeData candidateZoneNodeData in zoneNodeDataSet)
+            {
+                if (candidateZoneNodeData.zoneNodeID != zoneNodeID) { continue; }
+                zoneNodeData = candidateZoneNodeData;
+                return true;
+            }
+            zoneNodeData = default;
+            return false;
         }
 
-        public void CreateOrUpdateZoneLinkData(ZoneHandlerLinkData zoneHandlerLinkData)
+        public bool TrySetLink(string zoneNodeID, string linkedZoneName, string linkedZoneNodeID, Vector2 linkedRelativePosition)
         {
-            bool matchFound = false;
-            foreach (ZoneHandlerLinkData matchZoneHandlerLinkData in zoneHandlerLinkDataSet)
-            {
-                if (!matchZoneHandlerLinkData.MatchSource(zoneHandlerLinkData)) { continue; }
-                
-                matchZoneHandlerLinkData.UpdateZoneHandlerLinkData(zoneHandlerLinkData);
-                matchFound = true;
-                break;
-            }
+            int index = zoneNodeDataSet.FindIndex(candidateZoneNodeData => candidateZoneNodeData.zoneNodeID == zoneNodeID);
+            if (index < 0) { return false; }
 
-            if (!matchFound)
-            {
-                zoneHandlerLinkDataSet.Add(zoneHandlerLinkData);
-            }
+            ZoneNodeData zoneNodeData = zoneNodeDataSet[index];
+            zoneNodeData.SetLink(linkedZoneName, linkedZoneNodeID, linkedRelativePosition);
+            zoneNodeDataSet[index] = zoneNodeData;
+            EditorUtility.SetDirty(this);
+            return true;
+        }
+
+        public bool TryClearLink(string zoneNodeID)
+        {
+            int index = zoneNodeDataSet.FindIndex(candidateZoneNodeData => candidateZoneNodeData.zoneNodeID == zoneNodeID);
+            if (index < 0 || !zoneNodeDataSet[index].HasLink()) { return false; } // Nothing to clear
+
+            ZoneNodeData zoneNodeData = zoneNodeDataSet[index];
+            zoneNodeData.ClearLink();
+            zoneNodeDataSet[index] = zoneNodeData;
+            EditorUtility.SetDirty(this);
+            return true;
         }
     }
 }

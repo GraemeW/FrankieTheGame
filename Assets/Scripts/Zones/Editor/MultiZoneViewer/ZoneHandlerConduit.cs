@@ -61,10 +61,12 @@ namespace Frankie.ZoneManagement.Editor
             }
             return zoneHandlerNodeDataSet;
         }
-
-        public static Dictionary<string, List<ZoneNodeDotData>> BuildZoneNodeDotData(List<ZoneHandlerNodeData> zoneHandlerNodeDataSet, Dictionary<string, Bounds> zoneDimensionsLookup)
+        
+        public static Dictionary<string, List<ZoneNodeData>> BuildZoneNodeData(List<ZoneHandlerNodeData> zoneHandlerNodeDataSet, Dictionary<string, Bounds> zoneDimensionsLookup)
         {
-            Dictionary<string, List<ZoneNodeDotData>> zoneNodeDotDataByZoneName = new();
+            Dictionary<string, List<ZoneNodeData>> zoneNodeDataByZoneName = new();
+            Dictionary<(string zoneName, string zoneNodeID), Vector2> relativePositionLookup = new();
+
             foreach (ZoneHandlerNodeData zoneHandlerNodeData in zoneHandlerNodeDataSet)
             {
                 if (zoneHandlerNodeData.zoneNode == null) { continue; }
@@ -72,43 +74,48 @@ namespace Frankie.ZoneManagement.Editor
                 string zoneName = zoneHandlerNodeData.zoneNode.GetZoneName();
                 if (!zoneDimensionsLookup.TryGetValue(zoneName, out Bounds zoneBounds)) { continue; }
 
-                Vector2 relativePosition = ZoneHandlerLinkData.GetRelativePosition(zoneHandlerNodeData.position, zoneBounds);
-                var zoneNodeDotData = new ZoneNodeDotData(zoneHandlerNodeData.zoneNode.GetNodeID(), relativePosition);
+                string zoneNodeID = zoneHandlerNodeData.zoneNode.GetNodeID();
+                Vector2 relativePosition = GetRelativePosition(zoneHandlerNodeData.position, zoneBounds);
 
-                if (!zoneNodeDotDataByZoneName.TryGetValue(zoneName, out List<ZoneNodeDotData> dotDataSet))
+                if (!zoneNodeDataByZoneName.TryGetValue(zoneName, out List<ZoneNodeData> dataSet))
                 {
-                    dotDataSet = new List<ZoneNodeDotData>();
-                    zoneNodeDotDataByZoneName[zoneName] = dotDataSet;
+                    dataSet = new List<ZoneNodeData>();
+                    zoneNodeDataByZoneName[zoneName] = dataSet;
                 }
-                dotDataSet.Add(zoneNodeDotData);
+                dataSet.Add(new ZoneNodeData(zoneNodeID, relativePosition));
+                relativePositionLookup[(zoneName, zoneNodeID)] = relativePosition;
             }
-            return zoneNodeDotDataByZoneName;
-        }
 
-        public static List<ZoneHandlerLinkData> GenerateZoneHandlerLinks(List<ZoneHandlerNodeData> zoneHandlerNodeDataSet, Dictionary<string, Bounds> zoneDimensionsLookup)
-        {
-            List<ZoneHandlerLinkData> zoneHandlerLinkDataSet = new();
-            Dictionary<(string, string), ZoneHandlerNodeData> zoneHandlerNodeDataLookup = BuildZoneHandlerNodeDataLookup(zoneHandlerNodeDataSet);
             foreach (ZoneHandlerNodeData zoneHandlerNodeData in zoneHandlerNodeDataSet)
             {
                 if (zoneHandlerNodeData.zoneNode == null || !zoneHandlerNodeData.zoneNode.HasLinkedSceneReference()) { continue; }
-                
-                ZoneHandlerNodeData sourceZoneHandlerNodeData = zoneHandlerNodeData;
-                string sourceZoneName = sourceZoneHandlerNodeData.zoneNode.GetZoneName();
-                string targetZoneName = zoneHandlerNodeData.zoneNode.GetLinkedZoneNode().GetZoneName();
-                
-                if (!zoneDimensionsLookup.ContainsKey(sourceZoneName) || !zoneDimensionsLookup.ContainsKey(targetZoneName)) { continue; }
-                
-                string targetZoneNodeID = zoneHandlerNodeData.zoneNode.GetLinkedZoneNode().GetNodeID();
-                if (!zoneHandlerNodeDataLookup.TryGetValue((targetZoneName, targetZoneNodeID), out ZoneHandlerNodeData targetZoneHandlerNodeData)) { continue; }
-                
-                var zoneHandlerLinkData = new ZoneHandlerLinkData(
-                    sourceZoneHandlerNodeData, zoneDimensionsLookup[sourceZoneName],
-                    targetZoneHandlerNodeData, zoneDimensionsLookup[targetZoneName]);
-                zoneHandlerLinkDataSet.Add(zoneHandlerLinkData);
+
+                string sourceZoneName = zoneHandlerNodeData.zoneNode.GetZoneName();
+                string sourceZoneNodeID = zoneHandlerNodeData.zoneNode.GetNodeID();
+                if (!zoneNodeDataByZoneName.TryGetValue(sourceZoneName, out List<ZoneNodeData> sourceDataSet)) { continue; }
+
+                ZoneNode targetZoneNode = zoneHandlerNodeData.zoneNode.GetLinkedZoneNode();
+                string targetZoneName = targetZoneNode.GetZoneName();
+                string targetZoneNodeID = targetZoneNode.GetNodeID();
+                if (!relativePositionLookup.TryGetValue((targetZoneName, targetZoneNodeID), out Vector2 targetRelativePosition)) { continue; }
+
+                int sourceIndex = sourceDataSet.FindIndex(candidateZoneNodeData => candidateZoneNodeData.zoneNodeID == sourceZoneNodeID);
+                if (sourceIndex < 0) { continue; }
+
+                ZoneNodeData sourceZoneNodeData = sourceDataSet[sourceIndex];
+                sourceZoneNodeData.SetLink(targetZoneName, targetZoneNodeID, targetRelativePosition);
+                sourceDataSet[sourceIndex] = sourceZoneNodeData;
             }
 
-            return zoneHandlerLinkDataSet;
+            return zoneNodeDataByZoneName;
+        }
+
+        private static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
+        {
+            Vector2 topLeft = new Vector2(bounds.min.x, bounds.max.y);
+            float xRelative = Mathf.Clamp01((position.x - topLeft.x) / bounds.size.x);
+            float yRelative = Mathf.Clamp01((topLeft.y - position.y) / bounds.size.y);
+            return new Vector2(xRelative, yRelative);
         }
         #endregion
 
@@ -117,23 +124,10 @@ namespace Frankie.ZoneManagement.Editor
         {
             return (from zoneHandler in Object.FindObjectsByType<ZoneHandler>() where zoneHandler.GetZoneNode() != null select zoneHandler.GetZoneNode()).ToList();
         }
-    
+
         private static IEnumerable<ZoneNode> FilterToLinking(IList<ZoneNode> zoneNodes)
         {
             return zoneNodes.Where(zoneNode => zoneNode.HasLinkedSceneReference());
-        }
-
-        private static Dictionary<(string, string), ZoneHandlerNodeData> BuildZoneHandlerNodeDataLookup(List<ZoneHandlerNodeData> zoneHandlerNodeDataSet)
-        {
-            Dictionary<(string, string), ZoneHandlerNodeData> zoneHandlerNodeDataLookup = new();
-            foreach (ZoneHandlerNodeData zoneHandlerNodeData in zoneHandlerNodeDataSet)
-            {
-                ZoneNode zoneNode = zoneHandlerNodeData.zoneNode;
-                if (zoneNode == null) { continue; }
-                
-                zoneHandlerNodeDataLookup[(zoneNode.GetZoneName(), zoneNode.GetNodeID())] = zoneHandlerNodeData;
-            }
-            return zoneHandlerNodeDataLookup;
         }
         #endregion
     }

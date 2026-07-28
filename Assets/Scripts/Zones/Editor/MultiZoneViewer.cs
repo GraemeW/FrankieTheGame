@@ -492,31 +492,26 @@ namespace Frankie.ZoneManagement.Editor
             {
                 if (zoneView?.data == null) { continue; }
 
-                var linkedSourceNodeIDs = new HashSet<string>(zoneView.data.zoneHandlerLinkDataSet.Select(zoneHandlerLinkData => zoneHandlerLinkData.sourceZoneNodeID));
-                foreach (ZoneNodeDotData zoneNodeDotData in zoneView.data.zoneNodeDotDataSet)
+                foreach (ZoneNodeData zoneNodeData in zoneView.data.zoneNodeDataSet)
                 {
-                    AddNodeDotElement(zoneView, zoneNodeDotData, linkedSourceNodeIDs.Contains(zoneNodeDotData.zoneNodeID));
+                    AddNodeDotElement(zoneView, zoneNodeData);
                 }
             }
         }
 
-        private void AddNodeDotElement(ZoneView zoneView, ZoneNodeDotData zoneNodeDotData, bool isLinked)
+        private void AddNodeDotElement(ZoneView zoneView, ZoneNodeData zoneNodeData)
         {
             float diameter = Mathf.Clamp(_uiNodeDotBaseDiameter / zoomScale, _uiNodeDotMinDiameter, _uiNodeDotMaxDiameter);
-            Vector2 centre = NodeRelativePosition(zoneView, zoneNodeDotData.relativePosition) + panOffset;
+            Vector2 centre = NodeRelativePosition(zoneView, zoneNodeData.relativePosition) + panOffset;
             Rect canvasRect = new Rect(centre.x - diameter / 2f, centre.y - diameter / 2f, diameter, diameter);
 
-            VisualElement dot = MakeNodeDotElement(diameter, isLinked);
+            VisualElement dot = MakeNodeDotElement(diameter, zoneNodeData.HasLink());
             dot.style.left = canvasRect.x;
             dot.style.top = canvasRect.y;
 
             string zoneName = zoneView.data.zoneName;
-            string zoneNodeID = zoneNodeDotData.zoneNodeID;
-            dot.AddManipulator(new ZoneNodeLinkManipulator(
-                canvas,
-                () => OnNodeDotDragStarted(zoneName, zoneNodeID),
-                OnNodeDotDragUpdated,
-                OnNodeDotDragEnded));
+            string zoneNodeID = zoneNodeData.zoneNodeID;
+            dot.AddManipulator(new ZoneNodeLinkManipulator(canvas, () => OnNodeDotDragStarted(zoneName, zoneNodeID), OnNodeDotDragUpdated, OnNodeDotDragEnded));
 
             nodeDotsLayer.Add(dot);
             nodeDotElements.Add((zoneName, zoneNodeID, canvasRect));
@@ -573,50 +568,63 @@ namespace Frankie.ZoneManagement.Editor
             ZoneNode sourceNode = GetZoneNodeByID(sourceZoneName, sourceZoneNodeID);
             ZoneNode targetNode = GetZoneNodeByID(targetZoneName, targetZoneNodeID);
             if (sourceNode == null || targetNode == null) { return; }
-            if (!sourceNode.TrySetExternalLink(targetNode)) { return; }
             
-            AssetDatabase.SaveAssetIfDirty(sourceNode);
-            Zone sourceZone = sourceNode.GetZone();
-            if (sourceZone != null)
-            {
-                // Since ZoneNode childed to Zone, mark as dirty and save as well
-                EditorUtility.SetDirty(sourceZone);
-                AssetDatabase.SaveAssetIfDirty(sourceZone);
-            }
+            // Save On Asset
+            if (!sourceNode.TrySetExternalLink(targetNode)) { return; }
+            SaveZoneAsset(sourceNode, "Link Zone Nodes");
 
+            // Update MultiZone Serialized Data
             ZoneViewData sourceZoneViewData = FindZoneViewDataByName(sourceZoneName);
             ZoneViewData targetZoneViewData = FindZoneViewDataByName(targetZoneName);
             if (sourceZoneViewData == null || targetZoneViewData == null) { return; }
-
-            ZoneNodeDotData sourceDotData = sourceZoneViewData.zoneNodeDotDataSet.FirstOrDefault(dotData => dotData.zoneNodeID == sourceZoneNodeID);
-            ZoneNodeDotData targetDotData = targetZoneViewData.zoneNodeDotDataSet.FirstOrDefault(dotData => dotData.zoneNodeID == targetZoneNodeID);
-            var linkData = new ZoneHandlerLinkData(sourceZoneName, sourceZoneNodeID, sourceDotData.relativePosition, targetZoneName, targetZoneNodeID, targetDotData.relativePosition);
+            if (!targetZoneViewData.TryGetZoneNodeData(targetZoneNodeID, out ZoneNodeData targetZoneNodeData)) { return; }
 
             Undo.RecordObject(sourceZoneViewData, "Link Zone Nodes");
-            sourceZoneViewData.CreateOrUpdateZoneLinkData(linkData);
-            EditorUtility.SetDirty(sourceZoneViewData);
-            EditorUtility.SetDirty(activeMultiZoneView);
-            AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
+            sourceZoneViewData.TrySetLink(sourceZoneNodeID, targetZoneName, targetZoneNodeID, targetZoneNodeData.relativePosition);
+            SaveMultiZoneViewAsset(activeMultiZoneView, "Link Zone Nodes");
+
             RefreshNodeDots();
         }
 
         private void TryClearZoneNodeLink(string zoneName, string zoneNodeID)
         {
+            if (activeMultiZoneView == null) { return; }
             ZoneNode zoneNode = GetZoneNodeByID(zoneName, zoneNodeID);
-            if (zoneNode == null || !zoneNode.ClearExternalLink()) { return; }
-            AssetDatabase.SaveAssetIfDirty(zoneNode);
+            if (zoneNode == null) { return; }
+            
+            // Save on Asset
+            if (!zoneNode.ClearExternalLink()) { return; }
+            SaveZoneAsset(zoneNode, "Clear Zone Node Link");
 
             ZoneViewData zoneViewData = FindZoneViewDataByName(zoneName);
             if (zoneViewData != null)
             {
                 Undo.RecordObject(zoneViewData, "Clear Zone Node Link");
-                if (zoneViewData.RemoveZoneLinkDataForSource(zoneNodeID))
-                {
-                    AssetDatabase.SaveAssetIfDirty(zoneViewData);
-                }
+                if (zoneViewData.TryClearLink(zoneNodeID)) { SaveMultiZoneViewAsset(activeMultiZoneView, "Clear Zone Node Link"); }
             }
-
+            
             RefreshNodeDots();
+        }
+
+        private static void SaveZoneAsset(ZoneNode zoneNode, string undoMessage)
+        {
+            AssetDatabase.SaveAssetIfDirty(zoneNode);
+            
+            // Since ZoneNode childed to Zone, mark as dirty and save as well
+            Zone sourceZone = zoneNode.GetZone();
+            if (sourceZone == null) { return; }
+            Undo.RecordObject(sourceZone, undoMessage);
+            EditorUtility.SetDirty(sourceZone);
+            AssetDatabase.SaveAssetIfDirty(sourceZone);
+        }
+
+        private static void SaveMultiZoneViewAsset(MultiZoneView multiZoneView, string undoMessage)
+        {
+            if (multiZoneView == null) { return; }
+            
+            Undo.RecordObject(multiZoneView, undoMessage);
+            EditorUtility.SetDirty(multiZoneView);
+            AssetDatabase.SaveAssetIfDirty(multiZoneView);
         }
 
         private static ZoneNode GetZoneNodeByID(string zoneName, string zoneNodeID)
@@ -685,17 +693,10 @@ namespace Frankie.ZoneManagement.Editor
                 }
             }
 
-            if (useZoneHandlerCrawl && activeMultiZoneView != null)
-            {
-                List<ZoneHandlerLinkData> zoneHandlerLinkData = ZoneHandlerConduit.GenerateZoneHandlerLinks(zoneHandlerNodeDataSet, zoneDimensionsLookup);
-                Debug.Log($"count of zone handler link data is {zoneHandlerLinkData.Count}");
-                activeMultiZoneView.UpdateZoneHandlerLinkData(zoneHandlerLinkData);
-            }
-
             if (activeMultiZoneView != null)
             {
-                Dictionary<string, List<ZoneNodeDotData>> zoneNodeDotDataByZoneName = ZoneHandlerConduit.BuildZoneNodeDotData(zoneHandlerNodeDataSet, zoneDimensionsLookup);
-                activeMultiZoneView.UpdateZoneNodeDotData(zoneNodeDotDataByZoneName);
+                Dictionary<string, List<ZoneNodeData>> zoneNodeDataByZoneName = ZoneHandlerConduit.BuildZoneNodeData(zoneHandlerNodeDataSet, zoneDimensionsLookup);
+                activeMultiZoneView.UpdateZoneNodeData(zoneNodeDataByZoneName);
             }
             
             EditorUtility.SetDirty(activeMultiZoneView);
@@ -1109,13 +1110,15 @@ namespace Frankie.ZoneManagement.Editor
                 {
                     if (zoneView == null) { continue; }
 
-                    foreach (ZoneHandlerLinkData zoneHandlerLinkData in zoneView.data.zoneHandlerLinkDataSet)
+                    foreach (ZoneNodeData zoneNodeData in zoneView.data.zoneNodeDataSet)
                     {
-                        ZoneView sourceZoneView = zoneView;
-                        if (!zoneViewLookup.TryGetValue(zoneHandlerLinkData.targetZoneName, out ZoneView targetZoneView)) { continue; }
+                        if (!zoneNodeData.HasLink()) { continue; }
 
-                        Vector2 start = NodeRelativePosition(sourceZoneView, zoneHandlerLinkData.sourceNodeRelativePosition);
-                        Vector2 end = NodeRelativePosition(targetZoneView, zoneHandlerLinkData.targetNodeRelativePosition);
+                        ZoneView sourceZoneView = zoneView;
+                        if (!zoneViewLookup.TryGetValue(zoneNodeData.linkedZoneName, out ZoneView targetZoneView)) { continue; }
+
+                        Vector2 start = NodeRelativePosition(sourceZoneView, zoneNodeData.relativePosition);
+                        Vector2 end = NodeRelativePosition(targetZoneView, zoneNodeData.linkedRelativePosition);
 
                         start += panOffset;
                         end += panOffset;
@@ -1129,7 +1132,6 @@ namespace Frankie.ZoneManagement.Editor
                         painter2D.MoveTo(start);
                         painter2D.BezierCurveTo(clampPoint1, clampPoint2, end);
                         painter2D.Stroke();
-                        DrawEndDot(painter2D, end);
                     }
                 }
             }
@@ -1168,14 +1170,6 @@ namespace Frankie.ZoneManagement.Editor
             return worldPosition * zoomScale;
         }
         
-        private void DrawEndDot(Painter2D p, Vector2 centre)
-        {
-            float r = 5f * zoomScale;
-            p.fillColor = _uiBezierLineColour;
-            p.BeginPath();
-            p.Arc(centre, r, 0f, 360f);
-            p.Fill();
-        }
         #endregion
 
         #region StaticUIBuilders
