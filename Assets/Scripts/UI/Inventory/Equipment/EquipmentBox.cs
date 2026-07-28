@@ -16,7 +16,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class EquipmentBox : UIBox, IUIItemHandler, ILocalizable
+    public class EquipmentBox : UIBox<EquipmentBoxState>, IUIItemHandler, ILocalizable
     {
         // Tunables
         [Header("Data Links")]
@@ -45,7 +45,6 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionRemove;
 
         // State -- UI
-        private EquipmentBoxState equipmentBoxState = EquipmentBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
         private readonly List<InventoryItemField> equipableItemChoiceOptions = new();
         
@@ -61,24 +60,46 @@ namespace Frankie.Inventory.UI
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
-
-        #region UnityMethods
-
-        private void Awake()
+        
+        // UIBox Configuration
+        protected override EnumLookup<EquipmentBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
+            var equipmentConfiguration = new EnumLookup<EquipmentBoxState, UIBoxStateBehaviour>();
+            equipmentConfiguration.TrySet(EquipmentBoxState.InCharacterSelection,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal))
+            );
+            equipmentConfiguration.TrySet(EquipmentBoxState.InEquipmentSelection,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    moveCursor: (input, _) => MoveCursor2D(input),
+                    tryHandleBackNavigation: TryBackFromEquipmentSelection)
+            );
+            equipmentConfiguration.TrySet(EquipmentBoxState.InStatConfirmation,
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: ImplementSetUpChoiceOptions,
+                    moveCursor: StandardMoveCursor,
+                    tryHandleBackNavigation: TryBackFromStatConfirmation)
+            );
+            return equipmentConfiguration;
+        }
+        
+        #region UnityMethods
+        protected override void AwakeTriggered()
+        {
+            uiState = EquipmentBoxState.InCharacterSelection;
             if (confirmEquipmentChange != null) { confirmEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(true));}
             if (rejectEquipmentChange != null) { rejectEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(false)); }
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             ListenToSelectedEquipment(true);
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             ListenToSelectedEquipment(false);
         }
         #endregion
@@ -126,6 +147,7 @@ namespace Frankie.Inventory.UI
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
                 uiChoiceOption.SetText(character.GetCombatName());
@@ -167,10 +189,10 @@ namespace Frankie.Inventory.UI
             ResetEquipmentBox(false);
         }
 
-        protected override void SetUpChoiceOptions()
+        private void ImplementSetUpChoiceOptions()
         {
             choiceOptions.Clear();
-            switch (equipmentBoxState)
+            switch (uiState)
             {
                 case EquipmentBoxState.InEquipmentSelection:
                     choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
@@ -226,7 +248,7 @@ namespace Frankie.Inventory.UI
                 return;
             }
             
-            equipmentBoxState = setEquipmentBoxState;
+            uiState = setEquipmentBoxState;
             equipmentChangeMenu.SetActive(setEquipmentBoxState == EquipmentBoxState.InStatConfirmation);
             SetUpChoiceOptions();
 
@@ -235,21 +257,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
-        {
-            switch (equipmentBoxState)
-            {
-                case EquipmentBoxState.InCharacterSelection:
-                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
-                case EquipmentBoxState.InStatConfirmation:
-                    return base.MoveCursor(controllerInputType, cursorMovementStyle);
-                case EquipmentBoxState.InEquipmentSelection:
-                    return MoveCursor2D(controllerInputType);
-            }
-            return false;
-        }
-
-        private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true)
+        private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             selectedEquipLocation = EquipLocation.None;
             selectedItem = null;
@@ -262,7 +270,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter || forceChoose)
             {
-                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
+                if (triggerUIBoxModified) { TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this)); }
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -275,13 +283,12 @@ namespace Frankie.Inventory.UI
 
         private void SoftChooseCharacter(CombatParticipant character)
         {
-            ChooseCharacter(character, false, false);
+            ChooseCharacter(character, false, false, false);
             SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
         }
         #endregion
 
         #region EquipmentBehaviour
-
         private void RefreshEquipment()
         {
             CleanUpOldEquipment();
@@ -398,7 +405,6 @@ namespace Frankie.Inventory.UI
 
         private void SpawnMessage(string message)
         {
-            handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(message);
             controller.AddInputReceiver(dialogueBox, null);
@@ -407,8 +413,7 @@ namespace Frankie.Inventory.UI
         private void SpawnInventoryBox()
         {
             if (selectedEquipLocation == EquipLocation.None) { return; }
-
-            handleGlobalInput = false;
+            
             EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
@@ -430,25 +435,16 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interfaces
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        private bool TryBackFromStatConfirmation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
+            ResetEquipmentBox(false);
+            return true;
+        }
 
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
-            {
-                switch (equipmentBoxState)
-                {
-                    case EquipmentBoxState.InStatConfirmation:
-                        ResetEquipmentBox(false);
-                        return true;
-                    case EquipmentBoxState.InEquipmentSelection:
-                        ResetEquipmentBox(true);
-                        return true;
-                }
-                // inKnapsack handled by the EquipmentInventoryBox
-            }
-            
-            return base.HandleGlobalInput(controllerInputType);
+        private bool TryBackFromEquipmentSelection(ControllerInputType controllerInputType)
+        {
+            ResetEquipmentBox(true);
+            return true;
         }
 
         public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)

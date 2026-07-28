@@ -9,7 +9,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement.UI
 {
-    public class MapSuper : UIBox, ILocalizable
+    public class MapSuper : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedFlavourTopText;
@@ -24,26 +24,23 @@ namespace Frankie.ZoneManagement.UI
         private MapCamera mapCamera;
 
         #region UnityMethods
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             if (flavourTopField != null) { flavourTopField.SetText(localizedFlavourTopText.GetSafeLocalizedString()); }
             if (flavourBottomField != null) { flavourBottomField.SetText(localizedFlavourBottomText.GetSafeLocalizedString()); }
         }
-        
-        protected override void OnEnable()
+
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             if (mapCamera != null) { Destroy(mapCamera.gameObject); }
             
             mapCamera = Instantiate(mapCameraPrefab);
             mapCamera.UpdateMap();
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (mapCamera != null) { Destroy(mapCamera.gameObject); }
-            base.OnDestroy();
         }
         #endregion
 

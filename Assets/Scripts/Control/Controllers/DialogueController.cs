@@ -171,7 +171,6 @@ namespace Frankie.Speech
             if (currentDialogue.skipRootNode) { Next(); }
 
             Instantiate(dialogueBoxPrefab, worldCanvas.transform);
-
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueInitiated, null);
             triggerUIUpdates?.Invoke();
         }
@@ -187,7 +186,6 @@ namespace Frankie.Speech
         {
             isSimpleMessage = true;
             Instantiate(ReckonDialogueOptionBox(choiceActionPairs), worldCanvas.transform);
-
             simpleMessage = message;
             simpleChoices = choiceActionPairs;
         }

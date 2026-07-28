@@ -8,12 +8,13 @@ using Frankie.Core;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.World;
-using Frankie.Utils.Localization;
+using Frankie.Utils;
 using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class EscapeMenu : UIBox, ILocalizable
+    public class EscapeMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedEscapeHeaderText;
@@ -34,30 +35,39 @@ namespace Frankie.Menu.UI
 
         // Events
         public event Action escapeMenuItemSelected;
+        
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
+        {
+            var escapeMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                isBackInput: ImplementIsBackInput,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation);
+            escapeMenuConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return escapeMenuConfiguration;
+        }
 
         #region UnityMethods
-        private void Awake()
+        protected override bool TryAcquireDependencies()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
 
-            if (playerStateMachine != null)
-            {
-                controller = playerStateMachine.GetComponent<PlayerController>();
-                controller.AddInputReceiver(this, null);
-            }
+            controller = playerStateMachine.GetComponent<PlayerController>();
+            if (controller == null) { return false; }
+
+            controller.AddInputReceiver(this, null);
+            return true;
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
             ResetAllTextElements();
-            base.Start();
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -76,7 +86,6 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region PublicMethods
-
         public void ResetAllTextElements()
         {
             if (escapeHeaderField != null) { escapeHeaderField.SetText(localizedEscapeHeaderText.GetSafeLocalizedString()); }
@@ -101,20 +110,13 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region InputHandling
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-            
-            if (controllerInputType is ControllerInputType.Escape or ControllerInputType.Cancel)
-            {
-                if (childOption != null)
-                {
-                    Destroy(childOption);
-                    return true;
-                }
-            }
+        private bool ImplementIsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Escape or ControllerInputType.Cancel;
 
-            return base.HandleGlobalInput(controllerInputType);
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
+            if (childOption == null) { return false; }
+            Destroy(childOption);
+            return true;
         }
         #endregion
     }

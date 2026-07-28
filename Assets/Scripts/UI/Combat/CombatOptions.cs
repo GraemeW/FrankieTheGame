@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Control;
 using Frankie.Stats;
-using Frankie.Utils.UI;
+using Frankie.Utils;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
+using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : UIBox, ILocalizable
+    public class CombatOptions : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedFightText;
@@ -26,16 +26,32 @@ namespace Frankie.Combat.UI
         [Header("Prefabs")]
         [SerializeField] private StatusBox statusBoxPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
-
+        
         // Cached References
         private BattleController battleController;
         private BattleCanvas battleCanvas;
         private PartyCombatConduit partyCombatConduit;
 
-        #region UnityMethods
-        protected override void Start()
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            base.Start();
+            var combatOptionsConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                moveCursor: (controllerInputType, _) => MoveCursor2D(controllerInputType) 
+                );
+            combatOptionsConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return combatOptionsConfiguration;
+        }
+        
+        #region UnityMethods
+
+        protected override void AwakeTriggered()
+        {
+            preventEscapeOptionExit = true;
+        }
+
+        protected override void StartTriggered()
+        {
             if (fightChoiceOption != null) { fightChoiceOption.SetText(localizedFightText.GetSafeLocalizedString()); }
             if (itemChoiceOption != null) { itemChoiceOption.SetText(localizedItemText.GetSafeLocalizedString()); }
             if (statsChoiceOption != null) { statsChoiceOption.SetText(localizedStatsText.GetSafeLocalizedString()); }
@@ -105,25 +121,6 @@ namespace Frankie.Combat.UI
                 localizedStatsText.TableEntryReference,
                 localizedRunawayText.TableEntryReference
             };
-        }
-        #endregion
-        
-        #region InterfaceMethods
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
-        {
-            return MoveCursor2D(controllerInputType);
-        }
-
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
-            if (ShowCursorOnAnyInteraction(controllerInputType)) { return true; }
-            if (PrepareChooseAction(controllerInputType)) { return true; }
-            if (MoveCursor(controllerInputType, CursorMovementStyle.Combined)) { return true; }
-
-            return false;
         }
         #endregion
     }

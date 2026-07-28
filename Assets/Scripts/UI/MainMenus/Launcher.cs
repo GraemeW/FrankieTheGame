@@ -5,7 +5,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class Launcher : UIBox
+    public class Launcher : UIBox<UIBoxState>
     {
         // Tunables
         [Header("Start Menu-Specific")]
@@ -15,6 +15,12 @@ namespace Frankie.Menu.UI
         
         // Cached References
         private Canvas startCanvas;
+
+        protected override void AwakeTriggered()
+        {
+            clearVolatileOptionsOnEnable = false;
+            preventEscapeOptionExit = true;
+        }
 
         public void Setup(Canvas setStartCanvas)
         {

@@ -7,6 +7,7 @@ using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.World;
+using Frankie.Utils;
 using Frankie.Combat.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
@@ -17,7 +18,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class WorldOptions : UIBox, ILocalizable
+    public class WorldOptions : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKnapsackText;
@@ -53,31 +54,39 @@ namespace Frankie.Menu.UI
         private WorldCanvas worldCanvas;
         private PartyCombatConduit partyCombatConduit;
         
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
+        {
+            var worldOptionsConfiguration =  new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            worldOptionsConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return worldOptionsConfiguration;
+        }
+        
         #region UnityMethods
-        private void Awake()
+        protected override bool TryAcquireDependencies()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null)
-            {
-                Destroy(gameObject);
-                return;
-            }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
+
             playerController = playerStateMachine.GetComponent<PlayerController>();
             partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
+            if (playerController == null) { return false; }
+
+            playerController.AddInputReceiver(this, null);
+            return true;
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            playerController.AddInputReceiver(this, null);
-            base.Start();
             InitializeLocalization();
             SetupBattleEntities();
             SetupCharacterSlides();
             SetupWallet();
         }
-        
-        protected override void OnDestroy()
+
+        protected override void DestroyTriggered()
         {
             if (childOption != null) { Destroy(childOption); }
             foreach (Transform childCharacterPanel in characterPanelTransform)
@@ -85,14 +94,11 @@ namespace Frankie.Menu.UI
                 Destroy(childCharacterPanel.gameObject);
             }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
         
         #region LocalizationMethods
-
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
         {
@@ -162,7 +168,7 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
-        #region PrivateMethods
+        #region ProtectedPrivateMethods
         private void SetupBattleEntities()
         {
             partyBattleEntities.Clear();
@@ -196,24 +202,15 @@ namespace Frankie.Menu.UI
             {
                 characterSlide.HighlightSlide(CombatParticipantType.Friendly, false);
             }
-            handleGlobalInput = true;
         }
         #endregion
 
         #region InputHandling
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
-            {
-                if (childOption != null)
-                {
-                    Destroy(childOption);
-                    return true;
-                }
-            }
-            return base.HandleGlobalInput(controllerInputType);
+            if (childOption == null) { return false; }
+            Destroy(childOption);
+            return true;
         }
         #endregion
     }

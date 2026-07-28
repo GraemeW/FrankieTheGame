@@ -10,7 +10,7 @@ using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatLog : UIBox, ILocalizable
+    public class CombatLog : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Presentation")]
@@ -30,7 +30,7 @@ namespace Frankie.Combat.UI
         [Header("Include {0} for name")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDead;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageResurrected;
-
+        
         // State
         private float combatLogDelay;
         private string stringToPrint = "";
@@ -40,23 +40,22 @@ namespace Frankie.Combat.UI
         private Coroutine marquee;
 
         #region UnityMethods
-        private void Awake()
+        protected override void AwakeTriggered()
         {
+            handleGlobalInput = false;
             combatLogDelay = delayBetweenCharactersSlowDown;
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
             BattleEventBus<BattleSequenceProcessedEvent>.SubscribeToEvent(ParseBattleSequence);
             BattleEventBus<StateAlteredInfo>.SubscribeToEvent(ParseCombatParticipantState);
             marquee = StartCoroutine(MarqueeScroll());
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
             BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);
             BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(ParseCombatParticipantState);

@@ -16,7 +16,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class OptionsMenu : UIBox, ILocalizable
+    public class OptionsMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionsHeader;
@@ -53,7 +53,6 @@ namespace Frankie.Menu.UI
         [SerializeField] private int windowedResolutionOptionCount = 3;
         
         // Cached References
-        private BackgroundMusic backgroundMusic;
         private StartMenu cachedStartMenu;
         private EscapeMenu cachedEscapeMenu;
 
@@ -64,6 +63,17 @@ namespace Frankie.Menu.UI
         private float openingSoundEffectsVolume;
         private ResolutionSetting openingResolutionSetting;
         private SupportedLocalizationType openingLocalizationType;
+        
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
+        {
+            var optionsMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                isBackInput: ImplementIsBackInput,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation);
+            optionsMenuConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return optionsMenuConfiguration;
+        }
 
         #region StaticMethods
         private static void WriteScreenResolutionToPlayerPrefs()
@@ -73,12 +83,9 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region UnityMethods
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
-            backgroundMusic = BackgroundMusic.FindBackgroundMusic(); // find in Start since persistent object, spawned during Awake
-            cachedStartMenu = UnityEngine.Object.FindAnyObjectByType<StartMenu>();
-
+            cachedStartMenu = FindAnyObjectByType<StartMenu>();
             InitializeLocalization();
             
             int choiceIndex = 0;
@@ -99,15 +106,13 @@ namespace Frankie.Menu.UI
             SetUpChoiceOptions();
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             SubscribeToEscapeMenu(true);
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             SubscribeToEscapeMenu(false);
         }
         #endregion
@@ -292,7 +297,8 @@ namespace Frankie.Menu.UI
         {
             wasChangeMade = true;
             WriteVolumeToPlayerPrefs();
-            if (backgroundMusic != null) { backgroundMusic.RefreshVolume(); }
+            CoreAudio.RefreshMasterVolume();
+            CoreAudio.RefreshBackgroundMusicVolume();
             if (playSoundEffect && soundUpdateConfirmEffect != null) { soundUpdateConfirmEffect.PlayClip(); }
         }
 
@@ -380,19 +386,13 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region InputHandling
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
+        private bool ImplementIsBackInput(ControllerInputType controllerInputType) => controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape;
+
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-            
-            if (controllerInputType is ControllerInputType.Cancel or ControllerInputType.Option or ControllerInputType.Escape)
-            {
-                if (wasChangeMade)
-                {
-                    SpawnConfirmationMenu();
-                    return true;
-                }
-            }
-            return StandardHandleGlobalInput(controllerInputType);
+            if (!wasChangeMade) { return false; }
+            SpawnConfirmationMenu();
+            return true;
         }
         #endregion
     }

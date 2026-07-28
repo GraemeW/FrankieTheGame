@@ -8,7 +8,7 @@ namespace Frankie.Sound
     public class UIBoxSoundEffects : SoundEffects
     {
         // Tunables
-        [SerializeField] private UIBox uiBox;
+        [SerializeField] private UIBoxBase uiBox;
         [SerializeField] private AudioClip textScanAudioClip;
         [SerializeField] private AudioClip chooseAudioClip;
         [SerializeField] private AudioClip enterClip;
@@ -17,15 +17,9 @@ namespace Frankie.Sound
 
         // State
         private bool isTextScanActive = false;
+        private Coroutine textScanCoroutine;
 
         #region UnityMethods
-        private void Start()
-        {
-            audioSource.Stop();
-            audioSource.clip = textScanAudioClip;
-            audioSource.time = 0f;
-        }
-
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -36,6 +30,14 @@ namespace Frankie.Sound
         {
             base.OnDisable();
             uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
+            if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
+        }
+        
+        protected override void PreConfigureAudioSource()
+        {
+            audioSource.Stop();
+            audioSource.clip = textScanAudioClip;
+            audioSource.time = 0f;
         }
         #endregion
 
@@ -68,7 +70,9 @@ namespace Frankie.Sound
                 InitializeVolume();
                 audioSource.clip = textScanAudioClip;
                 isTextScanActive = true;
-                StartCoroutine(QueueTextScanAudio());
+                
+                if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
+                textScanCoroutine = StartCoroutine(QueueTextScanAudio());
             }
             else
             {

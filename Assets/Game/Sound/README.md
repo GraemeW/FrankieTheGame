@@ -1,8 +1,27 @@
 # Assets:  Game - Sound
 
+
+## Core Audio
+
+Audio mixing and audio levels are managed by the [CoreAudio](./CoreAudio.prefab) prefab, which is childed to the [PersistentObjects](../Core/README.md#persistent-objects-singleton) singleton.  CoreAudio keeps the sole reference to the [FrankieMusicMixer](./FrankieMusicMixer.mixer) in order to master all tracks as well as handle track transitions.  
+
+CoreAudio serves as the main conduit to update the real volume settings on the audio mixer when volume settings values are changed (e.g. via UI options menus).  It also holds the default volume settings for the game (i.e. before the player adjusts settings).
+
+### Warning on CoreAudio Singleton and Mixer References
+
+It is absolutely critical that:
+1. CoreAudio is a singleton
+2. AudioSources' mixers are only ever configured with CoreAudio's references via the `TryGet_____Mixer(out AudioMixerGroup audioMixerGroup)` methods
+
+Or, oppositely:
+
+**AudioMixers should never serialize references to the .mixer object directly**
+
+Unity does not guarantee different objects will share reference to the same .mixer instance in a compiled build.  In other words, two objects could feasibly refer to the same mixer, but end up referring to different mixer instances, which results in one or none of the two objects having the correct volume levels.  Since this bug does not occur in the editor, it is particularly nefarious.
+
 ## Background Music
 
-All background music is played by the [BackgroundMusic](./BackgroundMusic.prefab) prefab, which is childed to the [PersistentObjects](../Core/README.md#persistent-objects-singleton) singleton.  [BackgroundMusic](./BackgroundMusic.prefab) employs a [Unity Audio Mixer](https://docs.unity3d.com/6000.4/Documentation/Manual/AudioMixerOverview.html) in order to master all tracks as well as handle track transitions.
+All background music is played by the [BackgroundMusic](./BackgroundMusic.prefab) prefab, which is childed to the [PersistentObjects](../Core/README.md#persistent-objects-singleton) singleton.
 
 ### Configuration
 
@@ -11,7 +30,6 @@ All background music is played by the [BackgroundMusic](./BackgroundMusic.prefab
 Set:
 * `volume`:  0.0f to 1.0f to set volume to min to max respectively
 * `musicFadeDuration`:  duration in seconds for fading between tracks
-* `audioMixer`:  typically fixed, set to [FrankieMusicMixer](./FrankieMusicMixer.mixer)
 * Standard Fixed Audio
   * `levelUpAudio`:  track to play at end of combat when characters level up, typically fixed
 

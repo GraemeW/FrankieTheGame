@@ -82,44 +82,24 @@ namespace Frankie.Inventory.UI
             walletUI = Instantiate(walletUIPrefab, transform.parent);
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (shopBox != null) { shopBox.UpdateShopMessageToSuccess(); }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-
-            base.OnDestroy();
             if (transactionType == ShopType.Sell && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         #endregion
 
         #region BuySpecificOverrides
-        protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             switch (transactionType)
             {
                 case ShopType.Buy:
-                {
-                    UpdateKnapsackView(character);
-                    SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
-
-                    var characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
-                    var selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
-                    if (characterKnapsack == null || selectedCharacterKnapsack == null) { return; }
-
-                    if (selectedCharacterKnapsack.HasFreeSpace())
-                    {
-                        shopper.CompleteTransaction(ShopType.Buy, buyItem, characterKnapsack);
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
-                        SpawnMessage(messageNoSpace);
-                    }
-
+                    TryBuyForCharacter(character);
                     break;
-                }
                 case ShopType.Sell:
-                    base.ChooseCharacter(character, initializeCursor);
+                    base.ChooseCharacter(character, initializeCursor, triggerUIBoxModified);
                     break;
             }
         }
@@ -136,6 +116,27 @@ namespace Frankie.Inventory.UI
                     break;
             }
         }
+
+        private void TryBuyForCharacter(CombatParticipant character)
+        {
+            UpdateKnapsackView(character);
+            SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
+
+            var characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+            var selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+            if (characterKnapsack == null || selectedCharacterKnapsack == null) { return; }
+
+            if (selectedCharacterKnapsack.HasFreeSpace())
+            {
+                shopper.CompleteTransaction(ShopType.Buy, buyItem, characterKnapsack);
+                Destroy(gameObject);
+            }
+            else
+            {
+                DialogueBox dialogueBox = SpawnDialogueBox(messageNoSpace, null);
+                controller.AddInputReceiver(dialogueBox, () => SetInventoryBoxState(InventoryBoxState.InCharacterSelection));
+            }
+        }
         #endregion
 
         #region SellSpecificOverrides
@@ -145,7 +146,6 @@ namespace Frankie.Inventory.UI
             {
                 case ShopType.Sell:
                 {
-                    // Guard against invalid entity
                     var choiceActionPairs = new List<ChoiceActionPair>();
                     if (selectedKnapsack == null) { return choiceActionPairs; }
                     InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
@@ -176,19 +176,28 @@ namespace Frankie.Inventory.UI
             switch (transactionType)
             {
                 case ShopType.Sell:
-                {
-                    // Check if item is sellable
-                    InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
-                    if (inventoryItem == null) { return; }
-
-                    if (inventoryItem.GetType() == typeof(KeyItem)) { SpawnMessage(messageCannotSell); }
-                    else { SpawnSellMenu(inventorySlot); }
-                    
+                    TrySellItem(inventorySlot);
                     break;
-                }
                 case ShopType.Buy:
                     base.ChooseItem(inventorySlot);
                     break;
+            }
+        }
+
+        private void TrySellItem(int inventorySlot)
+        {
+            // Check if item is sellable
+            InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
+            if (inventoryItem == null) { return; }
+
+            if (inventoryItem.GetType() == typeof(KeyItem))
+            {
+                DialogueBox dialogueBox = SpawnDialogueBox(messageCannotSell);
+                controller.AddInputReceiver(dialogueBox, ResetSelectState);
+            }
+            else
+            {
+                SpawnSellMenu(inventorySlot);
             }
         }
 
@@ -204,19 +213,8 @@ namespace Frankie.Inventory.UI
             List<ChoiceActionPair> choiceActionPairs = GetChoiceActionPairs(inventorySlot);
             if (choiceActionPairs == null || choiceActionPairs.Count == 0) { return; }
 
-            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-            dialogueOptionBox.Setup(saleMessage);
-            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            controller.AddInputReceiver(dialogueOptionBox, null);
-        }
-        #endregion
-
-        #region UtilityMethods
-        private void SpawnMessage(string message)
-        {
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(message);
-            controller.AddInputReceiver(dialogueBox, null);
+            DialogueBox dialogueBox = SpawnDialogueBox(saleMessage, choiceActionPairs);
+            controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }
         #endregion
     }

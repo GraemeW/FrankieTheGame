@@ -8,13 +8,14 @@ using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Core;
 using Frankie.Control;
-using Frankie.Utils.Localization;
 using Frankie.World;
+using Frankie.Utils;
 using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class CashTransferBox : UIBox, ILocalizable
+    public class CashTransferBox : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Text")]
@@ -36,7 +37,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] private UIChoiceButton rejectField;
         [Header("Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
-
+        
         // State
         private CashTransferState cashTransferState = CashTransferState.CashSelection;
         private int amountAvailable = 0;
@@ -51,33 +52,44 @@ namespace Frankie.Inventory.UI
         private WalletUI walletUI;
 
         // Static
-        const int _maxTransferAmount = 999999999;
-
-        #region UnityMethods
-        private void Awake()
+        private const int _maxTransferAmount = 999999999;
+        
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            GetPlayerReference();
+            var cashTransferConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                moveCursor: ImplementMoveCursor,
+                choose: ImplementChoose,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+            );
+            cashTransferConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return cashTransferConfiguration;
         }
 
-        private void GetPlayerReference()
+        #region UnityMethods
+        protected override bool TryAcquireDependencies()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
+            if (worldCanvas == null || playerStateMachine == null) { return false; }
 
-            if (playerStateMachine == null) { Destroy(gameObject); return; }
-            
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
             wallet = playerStateMachine.GetComponent<Wallet>();
+            if (playerController == null) { return false; }
+            
+            playerController.AddInputReceiver(this, null);
+            return true;
         }
 
-        protected override void Start()
+        protected override void AwakeTriggered()
         {
-            if (playerController == null) { Destroy(gameObject); return; }
-            playerController.AddInputReceiver(this, null);
-            
-            base.Start();
+            clearVolatileOptionsOnEnable = false;
+        }
+
+        protected override void StartTriggered()
+        {
             SetupWalletUI();
             SetupCashTransferBoxUI();
         }
@@ -87,11 +99,9 @@ namespace Frankie.Inventory.UI
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -163,8 +173,8 @@ namespace Frankie.Inventory.UI
         }
         #endregion
 
-        #region UIBoxStandardInterface
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        #region UIBoxInterfaceMethods
+        private bool ImplementMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
             if (cashTransferState == CashTransferState.CashSelection)
             {
@@ -173,10 +183,10 @@ namespace Frankie.Inventory.UI
                     return AdjustNumber(controllerInputType);
                 }
             }
-            return base.MoveCursor(controllerInputType, cursorMovementStyle);
+            return StandardMoveCursor(controllerInputType, cursorMovementStyle);
         }
 
-        protected override bool Choose(string nodeID)
+        private bool ImplementChoose(string nodeID)
         {
             switch (cashTransferState)
             {
@@ -184,10 +194,17 @@ namespace Frankie.Inventory.UI
                     SetCashTransferState(CashTransferState.CashConfirmation);
                     return true;
                 case CashTransferState.CashConfirmation:
-                    return base.Choose(null);
+                    return StandardChoose(null);
                 default:
                     return false;
             }
+        }
+        
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
+            if (cashTransferState != CashTransferState.CashConfirmation) { return false; }
+            SetCashTransferState(CashTransferState.CashSelection);
+            return true;
         }
         #endregion
 
@@ -280,20 +297,6 @@ namespace Frankie.Inventory.UI
             tenMillionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
             hundredMillionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
-        }
-        #endregion
-
-        #region InputInterface
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel && cashTransferState == CashTransferState.CashConfirmation)
-            {
-                SetCashTransferState(CashTransferState.CashSelection);
-                return true;
-            }
-            return base.HandleGlobalInput(controllerInputType);
         }
         #endregion
     }

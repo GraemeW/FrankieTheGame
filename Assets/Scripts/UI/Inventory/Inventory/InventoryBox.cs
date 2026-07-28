@@ -16,7 +16,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryBox : UIBox, IUIItemHandler, ILocalizable
+    public class InventoryBox : UIBox<InventoryBoxState>, IUIItemHandler, ILocalizable
     {
         // Tunables
         [Header("Data Links")]
@@ -37,6 +37,7 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedOptionDrop;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedConfirmChoiceAffirmative;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedConfirmChoiceNegative;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageCannotUseItemInWorld;
         [Header("Include {0} for character name")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBusyInCooldown;
         [Header("Include {0} for user, {1} for item, {2} for target")]
@@ -45,7 +46,6 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDropItem;
         
         // State -- UI
-        private InventoryBoxState inventoryBoxState = InventoryBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
         protected readonly List<InventoryItemField> inventoryItemChoiceOptions = new();
         
@@ -65,18 +65,47 @@ namespace Frankie.Inventory.UI
         // Events
         public event Action<Enum> uiBoxStateChanged;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
-
-        #region UnityMethods
-        protected override void OnEnable()
+        
+        // UIBox Configuration
+        protected override EnumLookup<InventoryBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            base.OnEnable();
+            var inventoryConfiguration = new EnumLookup<InventoryBoxState,UIBoxStateBehaviour>();
+            inventoryConfiguration.TrySet(InventoryBoxState.InCharacterSelection, 
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: TrySetupChoiceOptionsFromCharacterSelection,
+                    choose: _ => StandardChoose(null),
+                    moveCursor: (input, _) => StandardMoveCursor(input, CursorMovementStyle.Horizontal))
+            );
+            inventoryConfiguration.TrySet(InventoryBoxState.InKnapsack, 
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: TrySetupChoiceOptionsFromKnapsack,
+                    choose: _ => StandardChoose(null),
+                    moveCursor: (input, _) => MoveCursor2D(input),
+                    tryHandleBackNavigation: TryBackFromKnapsack)
+            );
+            inventoryConfiguration.TrySet(InventoryBoxState.InCharacterTargeting, 
+                new UIBoxStateBehaviour(
+                    setupChoiceOptions: () => SetChoiceAvailable(true), // avoid short circuit on user control for other states
+                    choose: _ => TryUseItem(),
+                    moveCursor: (input, _) => TryTargetCharacter(input))
+            );
+            return inventoryConfiguration;
+        }
+        
+        #region UnityMethods
+        protected override void AwakeTriggered()
+        {
+            uiState = InventoryBoxState.InCharacterSelection;
+        }
+
+        protected override void EnableTriggered()
+        {
             SubscribeCharacterSlides(true);
             ListenToKnapsack(true);
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             SubscribeCharacterSlides(false);
             ListenToKnapsack(false);
         }
@@ -143,6 +172,7 @@ namespace Frankie.Inventory.UI
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
@@ -177,40 +207,30 @@ namespace Frankie.Inventory.UI
             
             foreach (CharacterSlide characterSlide in characterSlides)
             {
+                targetCharacterChanged -= characterSlide.HighlightSlide;
+                characterSlide.RemoveButtonClickEvents();
                 if (enable)
                 {
                     targetCharacterChanged += characterSlide.HighlightSlide;
-                    characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetBattleEntity()); });
-                }
-                else
-                {
-                    targetCharacterChanged -= characterSlide.HighlightSlide;
-                    characterSlide.RemoveButtonClickEvents();
+                    characterSlide.AddButtonClickEvent(delegate { SlideUseItemOnTarget(characterSlide.GetBattleEntity()); });
                 }
             }
         }
 
-        protected override void SetUpChoiceOptions()
+        private void TrySetupChoiceOptionsFromCharacterSelection()
         {
-            if (inventoryBoxState is InventoryBoxState.InKnapsack or InventoryBoxState.InCharacterSelection)
-            {
-                choiceOptions.Clear();
-                selectedItemSlot = -1;
-                if (inventoryBoxState == InventoryBoxState.InKnapsack)
-                {
-                    choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
-                }
-                else if (inventoryBoxState == InventoryBoxState.InCharacterSelection)
-                {
-                    choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
-                }
-
-                SetChoiceAvailable(choiceOptions.Count > 0);
-            }
-            else
-            {
-                SetChoiceAvailable(true) ; // avoid short circuit on user control for other states
-            }
+            choiceOptions.Clear();
+            selectedItemSlot = -1;
+            choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
+            SetChoiceAvailable(choiceOptions.Count > 0);
+        }
+        
+        private void TrySetupChoiceOptionsFromKnapsack()
+        {
+            choiceOptions.Clear();
+            selectedItemSlot = -1;
+            choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
+            SetChoiceAvailable(choiceOptions.Count > 0);
         }
 
         private void ReInitializeToCharacterSelection()
@@ -243,72 +263,39 @@ namespace Frankie.Inventory.UI
                 return;
             }
             
-            inventoryBoxState = setInventoryBoxState;
-            if (inventoryBoxState == InventoryBoxState.InCharacterSelection) { battleActionData = null; } // Reset battle action data on selected character changed
+            uiState = setInventoryBoxState;
+            if (uiState == InventoryBoxState.InCharacterSelection) { battleActionData = null; } // Reset battle action data on selected character changed
             SetUpChoiceOptions();
 
-            uiBoxStateChanged?.Invoke(inventoryBoxState);
+            uiBoxStateChanged?.Invoke(uiState);
+        }
+        
+        protected DialogueBox SpawnDialogueBox(string text, List<ChoiceActionPair> choiceActionPairs = null)
+        {
+            bool isSimpleDialogueBox = choiceActionPairs == null;
+            DialogueBox dialogueBox = isSimpleDialogueBox ? Instantiate(dialogueBoxPrefab, transform.parent) : Instantiate(dialogueOptionBoxPrefab, transform.parent);
+            dialogueBox.AddText(text);
+            if (!isSimpleDialogueBox) { dialogueBox.OverrideChoiceOptions(choiceActionPairs); }
+            return dialogueBox;
         }
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
+        protected virtual void SoftChooseCharacter(CombatParticipant character)
         {
-            switch (inventoryBoxState)
-            {
-                case InventoryBoxState.InCharacterSelection:
-                    return base.MoveCursor(controllerInputType, CursorMovementStyle.Horizontal);
-                case InventoryBoxState.InKnapsack:
-                    // Support for 2-D movement across the inventory items
-                    return MoveCursor2D(controllerInputType);
-                case InventoryBoxState.InCharacterTargeting:
-                {
-                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
-                    bool gotNextTarget = GetNextTarget(targetingNavigationType);
-                    if (gotNextTarget) { return true; }
-                    
-                    SetInventoryBoxState(InventoryBoxState.InKnapsack);
-                    break;
-                }
-            }
-            return false;
+            ChooseCharacter(character, false, false);
+            SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true);
         }
-
-        protected override bool Choose(string nodeID)
-        {
-            if (inventoryBoxState != InventoryBoxState.InCharacterTargeting) { return base.Choose(null); }
-
-            InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(selectedItemSlot);
-            if (inventoryItem == null) { return false; }
-            
-            string senderName = selectedCharacter != null ? selectedCharacter.GetCombatName() : "";
-            string itemName = inventoryItem.GetDisplayName();
-            var targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
-
-            if (selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets()))
-            {
-                DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-                dialogueBox.AddText(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
-                controller.AddInputReceiver(dialogueBox, ResetSelectState);
-                return true;
-            }
-            return false;
-        }
-
-        protected virtual void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        
+        protected virtual void ChooseCharacter(CombatParticipant character, bool initializeCursor = true, bool triggerUIBoxModified = true)
         {
             UpdateKnapsackView(character);
             battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.InKnapsack);
+            if (triggerUIBoxModified) { TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this)); }
 
             if (initializeCursor && IsChoiceAvailable()) { MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined); }
             if (!IsChoiceAvailable()) { SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true); }
-        }
-
-        protected virtual void SoftChooseCharacter(CombatParticipant character)
-        {
-            ChooseCharacter(character, false);
-            SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true);
         }
 
         protected void UpdateKnapsackView(CombatParticipant character)
@@ -321,7 +308,6 @@ namespace Frankie.Inventory.UI
             }
             if (character == selectedCharacter) return;
             
-            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             selectedCharacter = character;
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
             RefreshKnapsackContents();
@@ -340,14 +326,68 @@ namespace Frankie.Inventory.UI
             }
 
             SetInventoryBoxState(InventoryBoxState.InItemDetail);
-            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-            dialogueOptionBox.Setup(localizedOptionText.GetSafeLocalizedString());
-            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
+            DialogueBox dialogueOptionBox = SpawnDialogueBox(localizedOptionText.GetSafeLocalizedString(), choiceActionPairs);
             controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
+
+        private bool TryTargetCharacter(ControllerInputType controllerInputType)
+        {
+            TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(controllerInputType);
+            bool gotNextTarget = GetNextTarget(targetingNavigationType);
+            if (gotNextTarget) { return true; }
+            
+            SetInventoryBoxState(InventoryBoxState.InKnapsack);
+            return false;
+        }
         
-        private void ResetSelectState()
+        private bool GetNextTarget(TargetingNavigationType targetingNavigationType, IList<BattleEntity> activeCharacters = null)
+        {
+            var actionItem = selectedKnapsack.GetItemInSlot(selectedItemSlot) as ActionItem;
+            if (actionItem == null) { return false; }
+
+            battleActionData ??= new BattleActionData(selectedCharacter);
+            activeCharacters ??= partyBattleEntities;
+            actionItem.SetTargets(targetingNavigationType, battleActionData, activeCharacters, null);
+            if (!battleActionData.HasTargets()) { return false; }
+
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
+            return true;
+        }
+        
+        private bool TryUseItem()
+        {
+            if (uiState != InventoryBoxState.InCharacterTargeting) { return false; }
+            
+            InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(selectedItemSlot);
+            if (inventoryItem == null || battleActionData == null) { return false; }
+            if (!battleActionData.HasTargets())
+            {
+                GetNextTarget(TargetingNavigationType.Hold);
+                return false;
+            }
+            
+            string senderName = selectedCharacter != null ? selectedCharacter.GetCombatName() : "";
+            string itemName = inventoryItem.GetDisplayName();
+            var targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
+            if (!selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets())) { return false; }
+            
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
+            DialogueBox useDialogueBox = SpawnDialogueBox(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
+            controller.AddInputReceiver(useDialogueBox, ResetSelectState);
+            
+            ResetSelectState();
+            return true;
+        }
+        
+        private void SlideUseItemOnTarget(BattleEntity battleEntity)
+        {
+            if (uiState != InventoryBoxState.InCharacterTargeting) { return; }
+            if (!GetNextTarget(TargetingNavigationType.Hold, new[] { battleEntity })) { SetInventoryBoxState(InventoryBoxState.InKnapsack); return; } // Verify passed combatParticipant is valid target
+            TryUseItem();
+        }
+        
+        protected void ResetSelectState()
         {
             selectedItemSlot = -1;
             targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
@@ -357,8 +397,15 @@ namespace Frankie.Inventory.UI
                 ReInitializeToCharacterSelection();
                 return;
             }
-            
+            battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.InKnapsack);
+        }
+        
+        private bool TryBackFromKnapsack(ControllerInputType controllerInputType)
+        {
+            ClearAllChoices();
+            SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
+            return true;
         }
         #endregion
 
@@ -409,7 +456,7 @@ namespace Frankie.Inventory.UI
         #region ItemBehaviour
         protected virtual List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            var choiceActionPairs = new List<ChoiceActionPair>();
             if (selectedKnapsack == null) { return choiceActionPairs; }
             InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
             if (inventoryItem == null) { return choiceActionPairs; }
@@ -417,24 +464,24 @@ namespace Frankie.Inventory.UI
             // Use
             if (inventoryItem.GetType() == typeof(ActionItem))
             {
-                ChoiceActionPair useActionPair = new ChoiceActionPair(localizedOptionUse.GetSafeLocalizedString(), () => Use(inventorySlot));
+                var useActionPair = new ChoiceActionPair(localizedOptionUse.GetSafeLocalizedString(), () => Use(inventorySlot));
                 choiceActionPairs.Add(useActionPair);
             }
             // Inspect
-            ChoiceActionPair inspectActionPair = new ChoiceActionPair(localizedOptionInspect.GetSafeLocalizedString(), () => Inspect(inventorySlot));
+            var inspectActionPair = new ChoiceActionPair(localizedOptionInspect.GetSafeLocalizedString(), () => Inspect(inventorySlot));
             choiceActionPairs.Add(inspectActionPair);
 
             // Move
-            ChoiceActionPair moveActionPair = new ChoiceActionPair(localizedOptionMove.GetSafeLocalizedString(), () => Move(inventorySlot));
+            var moveActionPair = new ChoiceActionPair(localizedOptionMove.GetSafeLocalizedString(), () => Move(inventorySlot));
             choiceActionPairs.Add(moveActionPair);
 
             // Drop
             if (inventoryItem.IsDroppable())
             {
-                ChoiceActionPair dropActionPair = new ChoiceActionPair(localizedOptionDrop.GetSafeLocalizedString(), () => Drop(inventorySlot));
+                var dropActionPair = new ChoiceActionPair(localizedOptionDrop.GetSafeLocalizedString(), () => Drop(inventorySlot));
                 choiceActionPairs.Add(dropActionPair);
             }
-
+            
             return choiceActionPairs;
         }
 
@@ -473,9 +520,7 @@ namespace Frankie.Inventory.UI
         private void Inspect(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }
-
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
+            DialogueBox dialogueBox = SpawnDialogueBox(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
             controller.AddInputReceiver(dialogueBox, ResetSelectState);
         }
 
@@ -501,27 +546,20 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
             if (!selectedKnapsack.HasItemInSlot(inventorySlot)) { return; }
 
-            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            ChoiceActionPair confirmDrop = new ChoiceActionPair(localizedConfirmChoiceAffirmative.GetSafeLocalizedString(), () => ExecuteDrop(inventorySlot));
+            var choiceActionPairs = new List<ChoiceActionPair>();
+            var confirmDrop = new ChoiceActionPair(localizedConfirmChoiceAffirmative.GetSafeLocalizedString(), () => ExecuteDrop(inventorySlot));
             choiceActionPairs.Add(confirmDrop);
-            ChoiceActionPair rejectDrop = new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => ExecuteDrop(-1));
+            var rejectDrop = new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => ExecuteDrop(-1));
             choiceActionPairs.Add(rejectDrop);
 
-            dialogueOptionBox.Setup(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
-            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            controller.AddInputReceiver(dialogueOptionBox, ResetSelectState);
-        }
+            DialogueBox dialogueBox = SpawnDialogueBox(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()), choiceActionPairs);
+            controller.AddInputReceiver(dialogueBox, ResetSelectState);
+            return;
 
-        private void ExecuteDrop(int inventorySlot)
-        {
-            if (inventorySlot != -1)
-            {
-                selectedKnapsack.DropItem(inventorySlot);
-            }
+            // Local Functions
+            void ExecuteDrop(int dropSlot) { if (dropSlot != -1) { selectedKnapsack.DropItem(dropSlot); }}
         }
-
+        
         private void Use(int inventorySlot)
         {
             if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() != typeof(ActionItem)) { return; }
@@ -546,60 +584,21 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedItemSlot = inventorySlot;
-                handleGlobalInput = true;
-                SetInventoryBoxState(GetNextTarget(TargetingNavigationType.Hold) ? InventoryBoxState.InCharacterTargeting : InventoryBoxState.InKnapsack);
+                bool hasValidTarget = true;//GetNextTarget(TargetingNavigationType.Hold);
+                battleActionData ??= new BattleActionData(selectedCharacter);
+                if (!hasValidTarget)
+                {
+                    DialogueBox cannotUseDialogueBox = SpawnDialogueBox(string.Format(localizedMessageCannotUseItemInWorld.GetSafeLocalizedString()));
+                    controller.AddInputReceiver(cannotUseDialogueBox, ResetSelectState);
+                }
+                SetInventoryBoxState(hasValidTarget ? InventoryBoxState.InCharacterTargeting : InventoryBoxState.InKnapsack);
             }
-        }
-
-        private bool GetNextTarget(TargetingNavigationType targetingNavigationType)
-        {
-            var actionItem = selectedKnapsack.GetItemInSlot(selectedItemSlot) as ActionItem;
-            if (actionItem == null) { return false; }
-
-            battleActionData ??= new BattleActionData(selectedCharacter);
-
-            actionItem.SetTargets(targetingNavigationType, battleActionData, partyBattleEntities, null);
-            if (!battleActionData.HasTargets()) { return false; }
-
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
-            return true;
-        }
-
-        private void UseItemOnTarget(BattleEntity battleEntity)
-        {
-            if (inventoryBoxState != InventoryBoxState.InCharacterTargeting) { return; }
-
-            battleActionData.SetTargets(battleEntity);
-            if (!GetNextTarget(TargetingNavigationType.Hold)) { SetInventoryBoxState(InventoryBoxState.InKnapsack); return; } // Verify passed combatParticipant is valid target
-
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { battleEntity });
-            Choose(null);
         }
 
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)
         {
-            handleGlobalInput = false;
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
+            DialogueBox dialogueBox = SpawnDialogueBox(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
             controller.AddInputReceiver(dialogueBox, ResetSelectState);
-        }
-        #endregion
-
-        #region InputInterface
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (controllerInputType is ControllerInputType.Option or ControllerInputType.Cancel)
-            {
-                if (inventoryBoxState == InventoryBoxState.InKnapsack)
-                {
-                    ClearAllChoices();
-                    SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
-                    return true;
-                }
-            }
-            return base.HandleGlobalInput(controllerInputType);
         }
         #endregion
     }

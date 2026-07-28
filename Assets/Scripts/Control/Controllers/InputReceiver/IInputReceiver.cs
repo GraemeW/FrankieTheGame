@@ -11,6 +11,5 @@ namespace Frankie.Control
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action);
         public void SetActiveInput(bool active);
         public bool TrySetController(BaseController controller);
-        bool HandleGlobalInput(ControllerInputType controllerInputType);
     }
 }

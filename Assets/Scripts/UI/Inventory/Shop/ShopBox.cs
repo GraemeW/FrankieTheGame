@@ -13,7 +13,7 @@ using Frankie.Speech.UI;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopBox : UIBox, ILocalizable
+    public class ShopBox : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Shop Specific Details")]
@@ -24,7 +24,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] private WalletUI walletUIPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
         [SerializeField] private DialogueBox dialogueBoxPrefab;
-
+        
         // State
         private WalletUI walletUI;
 
@@ -38,18 +38,20 @@ namespace Frankie.Inventory.UI
         private Shop shop;
 
         #region UnityMethods
-        protected override void Start()
+        protected override void AwakeTriggered()
         {
-            base.Start();
+            clearVolatileOptionsOnEnable = false;
+        }
+
+        protected override void StartTriggered()
+        {
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
             if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
         }
 
-        protected override void OnDestroy()
+        protected override void DestroyTriggered()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-
-            base.OnDestroy();
             playerStateMachine?.EnterWorld();
         }
         #endregion
@@ -68,6 +70,8 @@ namespace Frankie.Inventory.UI
         #region PublicMethods
         public void Setup(WorldCanvas setWorldCanvas, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
         {
+            if (setPlayerController == null) { destroyQueued = true; return; }
+
             worldCanvas = setWorldCanvas;
             playerStateMachine = setPlayerStateMachine;
             playerController = setPlayerController;
@@ -96,7 +100,7 @@ namespace Frankie.Inventory.UI
         private void SetupShopBox()
         {
             shop = shopper.GetCurrentShop();
-            if (shop == null) { Destroy(gameObject); }
+            if (shop == null) { destroyQueued = true; return; }
 
             shopInfoField.text = shop.GetMessageIntro();
 

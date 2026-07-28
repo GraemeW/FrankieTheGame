@@ -484,6 +484,10 @@ MonoBehaviour:
     m_Localized: Veux-tu jeter {1} pour ramasser {0} ?
     m_Metadata:
       m_Items: []
+  - m_Id: 35599198513520640
+    m_Localized: Aucune cible valide
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

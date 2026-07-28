@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
+using Frankie.Utils;
 using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueBox : UIBox
+    public class DialogueBox : UIBox<UIBoxState>
     {
         // Tunables
         [Header("Links And Prefabs")]
@@ -16,6 +17,7 @@ namespace Frankie.Speech.UI
         [SerializeField] private GameObject simpleTextPrefab;
         [SerializeField] private GameObject speechTextPrefab;
         [Header("Parameters")]
+        [SerializeField] private float initialInputDelay = 0.1f; // Seconds
         [SerializeField] private float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
 
@@ -27,7 +29,9 @@ namespace Frankie.Speech.UI
         private bool optionUseChildScale = true;
         private bool optionChildForceExpand;
 
-        // State -- Toggles
+        // State
+        private float timeSinceStart = 0f;
+        private bool isInitialInputBlocked = true;
         private bool isWriting = false;
         private bool interruptWriting = false;
         private bool queuePageClear = false;
@@ -37,6 +41,18 @@ namespace Frankie.Speech.UI
 
         // Cached References
         protected DialogueController dialogueController;
+        
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
+        {
+            var dialogueBoxConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
+            var defaultStateBehaviour = new UIBoxStateBehaviour( 
+                prepareChooseAction: ImplementPrepareChooseAction,
+                choose: ImplementChoose, 
+                handleGlobalInput: ImplementHandleGlobalInput);
+            dialogueBoxConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
+            return dialogueBoxConfiguration;
+        }
 
         #region DataStructures
         private struct ReceptacleTextPair
@@ -48,7 +64,8 @@ namespace Frankie.Speech.UI
         #endregion
         
         #region UnityMethods
-        protected virtual void Awake()
+        // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it by Start() check
+        protected override void AwakeTriggered()
         {
             dialogueController = DialogueController.FindDialogueController();
             if (dialogueController != null)
@@ -73,9 +90,8 @@ namespace Frankie.Speech.UI
             }
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            base.OnEnable();
             if (dialogueController != null)
             {
                 dialogueController.SubscribeToDialogueInput(true, HandleDialogueInput);
@@ -83,9 +99,8 @@ namespace Frankie.Speech.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            base.OnDisable();
             if (dialogueController != null)
             {
                 dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
@@ -94,12 +109,8 @@ namespace Frankie.Speech.UI
             if (activeTextScan != null) { StopCoroutine(activeTextScan); }
         }
 
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            // Note:  After instantiating, controller must be setup and configured before frame end
-            if (!HasController()) { Destroy(gameObject); return; }
-            
-            base.Start();
             Setup(null);
         }
         #endregion
@@ -121,6 +132,13 @@ namespace Frankie.Speech.UI
         protected virtual void Update()
         {
             if (destroyQueued) { return; }
+
+            if (isInitialInputBlocked)
+            {
+                timeSinceStart += Time.deltaTime;
+                if (timeSinceStart >= initialInputDelay) { isInitialInputBlocked = false; }
+            }
+            
             if (!isWriting && printQueue.Count != 0)
             {
                 activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
@@ -129,7 +147,7 @@ namespace Frankie.Speech.UI
 
         protected virtual void UpdateUI()
         {
-            if (!HasController()) { destroyQueued = true; }
+            if (controller == null) { destroyQueued = true; }
             if (!dialogueController.IsActive()) { destroyQueued = true; }
 
             ClearOldDialogue();
@@ -139,8 +157,6 @@ namespace Frankie.Speech.UI
                 SetChoiceList();
             }
         }
-        
-        private bool HasController() => controller != null || dialogueController != null;
 
         private void SkipToEndOfPage()
         {
@@ -153,11 +169,16 @@ namespace Frankie.Speech.UI
                 queuePageClear = false;
             }
         }
-
-        protected override void OnDestroy()
+        
+        protected bool TryFastForwardActiveText()
         {
-            base.OnDestroy();
-            
+            if (!isWriting) { return false; }
+            SkipToEndOfPage();
+            return true;
+        }
+
+        protected override void DestroyTriggered()
+        {
             // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
             //          Otherwise end-of-dialogue and choice-select options will not trigger
             // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed
@@ -381,8 +402,10 @@ namespace Frankie.Speech.UI
             yield break;
         }
 
-        protected override bool Choose(string nodeID)
+        private bool ImplementChoose(string nodeID)
         {
+            if (!UsesNodeBasedDialogueFlow()) { return StandardChoose(nodeID); }
+
             bool choose = PrepareChooseAction(ControllerInputType.Execute);
             if (choose)
             {
@@ -392,17 +415,16 @@ namespace Frankie.Speech.UI
             return choose;
         }
 
-        protected override bool PrepareChooseAction(ControllerInputType controllerInputType)
+        private bool ImplementPrepareChooseAction(ControllerInputType controllerInputType)
         {
-            if (controllerInputType == ControllerInputType.Execute)
-            {
-                if (!isWriting) { return true; }
-                
-                if (activeTextScan != null) { StopCoroutine(activeTextScan); }
-                SetBusyWriting(false);
-                return true;
-            }
-            return false;
+            if (controllerInputType != ControllerInputType.Execute) { return false; }
+            if (TryFastForwardActiveText()) { return true; }
+            if (!UsesNodeBasedDialogueFlow()) { return StandardPrepareChooseAction(controllerInputType); }
+
+            // Note:  Node-based selection handled via:
+            // keyboard -> DialogueController.InteractWithChoices -> NextWithID,
+            // mouse -> choice button's click listener -> Choose(nodeID)
+            return true;
         }
         #endregion
         
@@ -495,10 +517,17 @@ namespace Frankie.Speech.UI
         #endregion
 
         #region InputHandling
-        public override bool HandleGlobalInput(ControllerInputType controllerInputType)
-        {
-            if (HandleGlobalInputSpoofAndExit(controllerInputType)) { return true; }
+        protected virtual bool UsesNodeBasedDialogueFlow() => true;
+            // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
+            // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
 
+        private bool ImplementHandleGlobalInput(ControllerInputType controllerInputType)
+        {
+            if (isInitialInputBlocked) { return false; }
+            if (!UsesNodeBasedDialogueFlow()) { return StandardHandleGlobalInput(controllerInputType); }
+            
+            if (!handleGlobalInput) { return true; }
+            if (TryEarlyExit(controllerInputType)) { return true; }
             if (controllerInputType == ControllerInputType.Execute)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }

@@ -58,10 +58,7 @@ namespace Frankie.Inventory.UI
         protected override void ListenToKnapsack(bool enable)
         {
             // Skip listening to knapsack -- window only exists momentarily and then killed
-            return;
         }
         #endregion
-
-
     }
 }

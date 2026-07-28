@@ -129,6 +129,7 @@ namespace Frankie.Combat
 
         private void Start()
         {
+            SetupLazyState(); // [ExecuteInEditMode] can result in weird Unity state, so safety re-check/set
             currentHP.ForceInit();
             currentAP.ForceInit();
             isDead.ForceInit();

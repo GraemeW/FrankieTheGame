@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 using Frankie.Combat;
 
 namespace Frankie.Sound
@@ -35,9 +36,36 @@ namespace Frankie.Sound
             combatParticipant.UnsubscribeToStateUpdates(HandleCombatParticipantState);
         }
 
+        protected override void InitializeAudioSources()
+        {
+            if (audioSources == null || audioSources.Length == 0) { StandardSetAudioSource(); return; }
+            
+            foreach (AudioSource initAudioSource in audioSources)
+            {
+                if (initAudioSource == null) { continue; }
+                audioSource = initAudioSource;
+                InitializeVolume();
+            }
+            audioSource = audioSources.FirstOrDefault();
+        }
+
+        protected override void LinkToAudioMixer()
+        {
+            if (audioSources == null || audioSources.Length == 0) { return; }
+            
+            bool foundMixer = CoreAudio.TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup);
+            if (!foundMixer) { return; }
+
+            foreach (AudioSource linkAudioSource in audioSources)
+            {
+                if (linkAudioSource == null) { continue; }
+                linkAudioSource.outputAudioMixerGroup = audioMixerGroup;
+            }
+        }
+
         protected override void SetAudioSource(AudioClip audioClip = null)
         {
-            if (audioSources == null || audioSources.Length == 0) { base.SetAudioSource(audioClip); }
+            if (audioSources == null || audioSources.Length == 0) { StandardSetAudioSource(); }
             else
             {
                 // Avoid duplicate simultaneous clip plays (impact is otherwise LOUD)

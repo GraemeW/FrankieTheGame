@@ -12,7 +12,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopSelect : UIBox, ILocalizable
+    public class ShopSelect : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageIntro;
@@ -26,7 +26,7 @@ namespace Frankie.Inventory.UI
         [Header("Shop Prefabs")]
         [SerializeField] private ShopBox shopBoxPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
-
+        
         // Bool
         private bool exitShopOnDestroy = true;
 
@@ -39,17 +39,15 @@ namespace Frankie.Inventory.UI
         private Shop shop;
 
         #region UnityMethods
-        private void Awake()
-        {
-            if (!GetPlayerReference()) { Destroy(gameObject); }
-        }
-        
-        protected override void Start()
-        {
-            if (playerController == null) { Destroy(gameObject); return; }
-            playerController.AddInputReceiver(this, null);
-            base.Start();
+        protected override bool TryAcquireDependencies() => GetPlayerReference();
 
+        protected override void AwakeTriggered()
+        {
+            clearVolatileOptionsOnEnable = false;
+        }
+
+        protected override void StartTriggered()
+        {
             shop = shopper.GetCurrentShop();
             if (shop == null || !shop.HasInventory()) { Destroy(gameObject); return; }
             
@@ -68,10 +66,9 @@ namespace Frankie.Inventory.UI
                     break;
             }
         }
-        
-        protected override void OnDestroy()
+
+        protected override void DestroyTriggered()
         {
-            base.OnDestroy();
             if (exitShopOnDestroy && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         
@@ -84,6 +81,9 @@ namespace Frankie.Inventory.UI
             partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
+            if (playerController == null) { return false; }
+            
+            playerController.AddInputReceiver(this, null);
             return true;
         }
         #endregion

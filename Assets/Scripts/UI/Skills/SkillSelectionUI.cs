@@ -10,7 +10,7 @@ using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI
 {
-    public class SkillSelectionUI : UIBox, ILocalizable
+    public class SkillSelectionUI : UIBox<AbilitiesBoxState>, ILocalizable
     {
         // Tunables
         [Header("Skill Selection Text")]
@@ -29,7 +29,7 @@ namespace Frankie.Combat.UI
         
         // State
         private bool usingBattleController = false;
-        protected CombatParticipant currentCombatParticipant;
+        protected CombatParticipant selectedCharacter;
 
         // Cached References
         private BattleController battleController;
@@ -44,9 +44,14 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region UnityMethods
-        protected override void Start()
+
+        protected override void AwakeTriggered()
         {
-            base.Start();
+            handleGlobalInput = false;
+        }
+
+        protected override void StartTriggered()
+        {
             if (skillField != null)
             {
                 skillField.color = noSkillColor;
@@ -54,20 +59,18 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override void OnEnable()
+        protected override void EnableTriggered()
         {
-            if (!usingBattleController) { base.OnEnable(); }
-            else
+            if (usingBattleController)
             {
                 BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
                 battleController.SubscribeToBattleInput(true, HandleInput);
             }
         }
 
-        protected override void OnDisable()
+        protected override void DisabledTriggered()
         {
-            if (!usingBattleController) { base.OnDisable(); }
-            else
+            if (usingBattleController)
             {
                 BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
                 battleController.SubscribeToBattleInput(false, HandleInput);
@@ -83,9 +86,9 @@ namespace Frankie.Combat.UI
         #region InputHandlers
         protected virtual void HandleInput(ControllerInputType input)
         {
-            if (currentCombatParticipant == null) {return; }
+            if (selectedCharacter == null) {return; }
             if (battleController.IsBattleActionArmed()) { return; } // Need to manually check because can be armed while UI element disabled (InventoryBox-based)
-            SetBranchOrSkill(currentCombatParticipant, input);
+            SetBranchOrSkill(selectedCharacter, input);
         }
 
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
@@ -130,19 +133,19 @@ namespace Frankie.Combat.UI
                 if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } 
             }
 
-            currentCombatParticipant = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
-            if (currentCombatParticipant == null) { ResetUI(); return; }
+            selectedCharacter = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
+            if (selectedCharacter == null) { ResetUI(); return; }
 
             UpdateSkillHandler();
         }
         
         protected void UpdateSkillHandler()
         {
-            if (currentCombatParticipant == null) { return; }
+            if (selectedCharacter == null) { return; }
 
             canvasGroup.alpha = 1;
-            selectedCharacterNameField.SetText(currentCombatParticipant.GetCombatName());
-            var skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
+            selectedCharacterNameField.SetText(selectedCharacter.GetCombatName());
+            var skillHandler = selectedCharacter.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
         }

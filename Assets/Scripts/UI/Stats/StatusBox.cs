@@ -3,7 +3,6 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Frankie.Combat;
-using Frankie.Control;
 using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
 using UnityEngine.Localization;
@@ -11,7 +10,7 @@ using UnityEngine.Localization.Tables;
 
 namespace Frankie.Stats.UI
 {
-    public class StatusBox : UIBox, ILocalizable
+    public class StatusBox : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedExperienceFlavourText;
@@ -28,10 +27,8 @@ namespace Frankie.Stats.UI
         private CombatParticipant selectedCharacter;
         
         #region UnityMethods
-
-        protected override void Start()
+        protected override void StartTriggered()
         {
-            base.Start();
             if (experienceFlavourField != null) { experienceFlavourField.SetText(localizedExperienceFlavourText.GetSafeLocalizedString()); }
         }
         #endregion
@@ -57,6 +54,7 @@ namespace Frankie.Stats.UI
                 UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(character.GetCombatName());
+                uiChoiceOption.DisableOnClickListeners();
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
@@ -78,7 +76,6 @@ namespace Frankie.Stats.UI
         {
             if (character == selectedCharacter) return;
             
-            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
             selectedCharacter = character;
             CleanUpOldStats();
 

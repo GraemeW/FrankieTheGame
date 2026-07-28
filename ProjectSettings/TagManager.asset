@@ -15,6 +15,7 @@ TagManager:
   - CameraController
   - Debugger
   - Interactable
+  - CoreAudio
   layers:
   - Default
   - TransparentFX
