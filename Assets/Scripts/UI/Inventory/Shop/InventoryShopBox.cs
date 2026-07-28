@@ -8,8 +8,8 @@ using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Utils;
-using Frankie.Utils.Localization;
 using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
@@ -19,8 +19,11 @@ namespace Frankie.Inventory.UI
         [Header("Inventory-Shop Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionSell;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionCancelSale;
+        [Header("Inventory-Shop Hookups")]
+        [SerializeField] private Transform statSheetParent;
         [Header("Inventory-Shop Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
+        [SerializeField] private StatChangeField statChangeFieldPrefab;
 
         // State
         private ShopType transactionType = ShopType.Both;
@@ -60,6 +63,8 @@ namespace Frankie.Inventory.UI
             shopBox = setShopBox;
             buyItem = setBuyItem;
             messageNoSpace = setMessageNoSpace;
+            
+            RefreshKnapsackContents();
         }
 
         // Sell-specific
@@ -75,6 +80,21 @@ namespace Frankie.Inventory.UI
 
             SetupWalletUI();
             baseController.AddInputReceiver(this, null);
+        }
+
+        protected override void PopulateKnapsackContents()
+        {
+            CleanOldStatSheet();
+            switch (transactionType)
+            {
+                case ShopType.Buy:
+                    if (buyItem is EquipableItemBase equipableItem && CanDoStatCompare(equipableItem)) { PopulateStatComparisonPanel(equipableItem); }
+                    else { base.PopulateKnapsackContents(); }
+                    break;
+                case ShopType.Sell:
+                    base.PopulateKnapsackContents();
+                    break;
+            }
         }
 
         private void SetupWalletUI()
@@ -135,6 +155,36 @@ namespace Frankie.Inventory.UI
             {
                 DialogueBox dialogueBox = SpawnDialogueBox(messageNoSpace, null);
                 controller.AddInputReceiver(dialogueBox, () => SetInventoryBoxState(InventoryBoxState.InCharacterSelection));
+            }
+        }
+        #endregion
+        
+        #region EquipmentContext
+        private bool CanDoStatCompare(EquipableItemBase equipableItem)
+        {
+            if (selectedKnapsack == null) { return false; }
+            return selectedCharacter.TryGetComponent(out Equipment equipment) && equipableItem.CanUseItem(equipment);
+        }
+        
+        private void PopulateStatComparisonPanel(EquipableItemBase equipableItem)
+        {
+            if (selectedKnapsack == null) { return; }
+            if (!selectedCharacter.TryGetComponent(out BaseStats baseStats)) { return; }
+            if (!selectedCharacter.TryGetComponent(out Equipment equipment)) { return; }
+            
+            foreach (StatComparison statComparison in Equipment.GetStatComparisons(baseStats, equipment, equipableItem, equipableItem.GetEquipLocation()))
+            {
+                StatChangeField statChangeField = Instantiate(statChangeFieldPrefab, statSheetParent);
+                statChangeField.Setup(statComparison);
+            }
+            
+        }
+        
+        private void CleanOldStatSheet()
+        {
+            foreach (Transform child in statSheetParent)
+            {
+                Destroy(child.gameObject);
             }
         }
         #endregion
