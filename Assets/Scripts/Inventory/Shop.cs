@@ -35,8 +35,9 @@ namespace Frankie.Inventory
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageSuccess;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageNoFunds;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageNoSpace;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageForSale;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageCannotSell;
+        [Header("Interaction Texts = {0}: item name, {1}: coins")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageForSale;
         [Header("Transaction Events")]
         [SerializeField] private UnityEvent transactionCompleted;
 

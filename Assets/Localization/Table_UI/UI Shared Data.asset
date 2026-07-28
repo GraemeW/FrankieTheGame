@@ -487,6 +487,10 @@ MonoBehaviour:
     m_Key: InventoryBox.Prefab.InventoryBox.MessageCannotUseItemInWorld.a3a1716
     m_Metadata:
       m_Items: []
+  - m_Id: 37360153048113152
+    m_Key: InventoryShopBox.Prefab.InventoryShopBox.MessageEquipItem.8660b2c
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

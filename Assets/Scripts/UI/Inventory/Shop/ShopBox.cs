@@ -27,6 +27,7 @@ namespace Frankie.Inventory.UI
         
         // State
         private WalletUI walletUI;
+        private InventoryShopBox activeInventoryShopBox;
 
         // Cached Reference
         private WorldCanvas worldCanvas;
@@ -121,7 +122,11 @@ namespace Frankie.Inventory.UI
         {
             if (wallet.GetCash() < inventoryItem.GetPrice()) { SpawnMessage(shop.GetMessageNoFunds()); }
             else if (!partyKnapsackConduit.HasFreeSpace()) { SpawnMessage(shop.GetMessageNoSpace()); }
-            else { SpawnInventoryShopBox(inventoryItem); }
+            else
+            {
+                if (activeInventoryShopBox != null) { Destroy(activeInventoryShopBox.gameObject); }
+                activeInventoryShopBox = SpawnInventoryShopBox(inventoryItem);
+            }
         }
 
         private void SpawnMessage(string message)
@@ -131,11 +136,12 @@ namespace Frankie.Inventory.UI
             controller.AddInputReceiver(dialogueBox, null);
         }
 
-        private void SpawnInventoryShopBox(InventoryItem inventoryItem)
+        private InventoryShopBox SpawnInventoryShopBox(InventoryItem inventoryItem)
         {
             InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
-            inventoryShopBox.Setup(playerController, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, this, inventoryItem, shop.GetMessageNoSpace());
+            inventoryShopBox.Setup(playerController, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop, this, inventoryItem);
             controller.AddInputReceiver(inventoryShopBox, null);
+            return inventoryShopBox;
         }
         #endregion
     }

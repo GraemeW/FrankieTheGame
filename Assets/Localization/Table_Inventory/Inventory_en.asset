@@ -236,7 +236,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7267237508407296
-    m_Localized: I can give you ${0} for that
+    m_Localized: I can give you ${1} for that {0}
     m_Metadata:
       m_Items: []
   - m_Id: 7267276448325632
@@ -260,7 +260,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7277346045288448
-    m_Localized: PHWOON ** {0} COINS PROCESSED **
+    m_Localized: PHWOON ** {1} COINS PROCESSED FOR {0}? **
     m_Metadata:
       m_Items: []
   - m_Id: 7277361329332224
@@ -286,14 +286,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 7281028736475136
     m_Localized: No-can-do, bud.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 26804935554228224
-    m_Localized: asdf
-    m_Metadata:
-      m_Items: []
-  - m_Id: 26804936409866240
-    m_Localized: Initial dummy text - to be replaced
     m_Metadata:
       m_Items: []
   references:

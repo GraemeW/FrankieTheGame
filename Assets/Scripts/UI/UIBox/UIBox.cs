@@ -116,7 +116,11 @@ namespace Frankie.Utils.UI
         protected void ReconcileChoiceOptions()
         {
             if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.reconcileChoiceOptions != null) { stateBehaviour.reconcileChoiceOptions(); return; }
-            
+            StandardReconcileChoiceOptions();
+        }
+
+        protected void StandardReconcileChoiceOptions()
+        {
             choiceOptions.RemoveAll(choiceOption => choiceOption == null);
             SetChoiceAvailable(choiceOptions.Count > 0);
         }

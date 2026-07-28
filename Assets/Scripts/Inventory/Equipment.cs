@@ -21,6 +21,25 @@ namespace Frankie.Inventory
         // Events
         public event Action<EquipableItemBase> equipmentUpdated;
 
+        // Static
+        public static IEnumerable<StatComparison> GetStatComparisons(BaseStats baseStats, Equipment equipment, EquipableItemBase equipableItem, EquipLocation equipLocation)
+        {
+            Dictionary<Stat, float> activeStatSheetWithModifiers = baseStats.GetActiveStatSheet();
+            Dictionary<Stat, float> statDeltas = equipment.CompareEquipableItem(equipLocation, equipableItem);
+            
+            foreach (KeyValuePair<Stat, float> statEntry in activeStatSheetWithModifiers)
+            {
+                Stat stat = statEntry.Key;
+                if (BaseStats.GetNonModifyingStats().Contains(stat)) { continue; }
+
+                float oldValue = baseStats.GetStat(stat); // Pull from actual stat, since active stat sheet does not contain modifiers
+                float newValue = oldValue;
+                if (statDeltas.TryGetValue(stat, out var delta)) { newValue += delta; }
+                yield return new StatComparison(stat, oldValue, newValue);
+            }
+        }
+
+        #region UnityMethods
         private void Awake()
         {
             knapsack = GetComponent<Knapsack>();
@@ -31,6 +50,7 @@ namespace Frankie.Inventory
         {
             ReconcileEquipment(true);
         }
+        #endregion
 
         #region CheckEquipment
         public bool HasItemInSlot(EquipLocation equipLocation) => equippedItems.ContainsKey(equipLocation);
