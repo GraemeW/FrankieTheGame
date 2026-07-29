@@ -1,267 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5644337007954103214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
-  m_Name: Demo_Forest1to20-Exterior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
-  <zoneName>k__BackingField: Demo_Forest1to20-Exterior
-  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
-  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Exterior.png
-  topLeftPosition: {x: 462, y: 175}
-  dimensions: {x: 561, y: 342}
-  <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: Forest-to-PortaNF
-    relativePosition: {x: 0.22082701, y: 0.3244291}
-    linkedZoneName: Demo_Forest1to20-Portabank
-    linkedZoneNodeID: PortaNF-to-Forest
-    linkedRelativePosition: {x: 0.22314128, y: 0.24970745}
-  - zoneNodeID: Forest-to-OrangeHouse
-    relativePosition: {x: 0.09513327, y: 0.90054137}
-    linkedZoneName: Demo_Forest1to20-Interior
-    linkedZoneNodeID: OrangeHouseToForest
-    linkedRelativePosition: {x: 0.07574803, y: 0.79473686}
-  - zoneNodeID: Forest-to-LacklustreVideo
-    relativePosition: {x: 0.24307992, y: 0.8258575}
-    linkedZoneName: Demo_Forest1to20-Interior
-    linkedZoneNodeID: LacklustreVideoToForest
-    linkedRelativePosition: {x: 0.22409448, y: 0.6722807}
-  - zoneNodeID: Forest-to-ChugNSlurp
-    relativePosition: {x: 0.24815972, y: 0.3374339}
-    linkedZoneName: Demo_Forest1to20-Interior
-    linkedZoneNodeID: ChugNSlurpToForest
-    linkedRelativePosition: {x: 0.099921264, y: 0.39403507}
-  - zoneNodeID: Forest-to-TunnelEast
-    relativePosition: {x: 0.78348637, y: 0.3756802}
-    linkedZoneName: Demo_Forest1to20-Interior
-    linkedZoneNodeID: TunnelEastToForest
-    linkedRelativePosition: {x: 0.70362204, y: 0.06210528}
-  - zoneNodeID: Forest-to-TunnelWest
-    relativePosition: {x: 0.37975726, y: 0.8089467}
-    linkedZoneName: Demo_Forest1to20-Interior
-    linkedZoneNodeID: TunnelWestToForest
-    linkedRelativePosition: {x: 0.3335433, y: 0.23368424}
-  - zoneNodeID: Forest-to-PortaSF
-    relativePosition: {x: 0.1952865, y: 0.75932056}
-    linkedZoneName: Demo_Forest1to20-Portabank
-    linkedZoneNodeID: PortaSF-to-Forest
-    linkedRelativePosition: {x: 0.18254589, y: 0.97538835}
-  - zoneNodeID: Forest-to-ChurchLobby
-    relativePosition: {x: 0.8564721, y: 0.3903113}
-    linkedZoneName: Demo_Forest1to20-Interior
-    linkedZoneNodeID: ChurchLobbyToForest
-    linkedRelativePosition: {x: 0.9527559, y: 0.45640528}
-  - zoneNodeID: Forest-to-PortaE
-    relativePosition: {x: 0.76830494, y: 0.3769237}
-    linkedZoneName: Demo_Forest1to20-Portabank
-    linkedZoneNodeID: PortaE-to-Forest
-    linkedRelativePosition: {x: 0.94844574, y: 0.4014584}
---- !u!114 &-3367321908338650525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
-  m_Name: Demo_Forest1to20-Interior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
-  <zoneName>k__BackingField: Demo_Forest1to20-Interior
-  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
-  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Interior.png
-  topLeftPosition: {x: 962.7, y: 564}
-  dimensions: {x: 381, y: 171}
-  <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: LV_B1-to-1f
-    relativePosition: {x: 0.23244095, y: 0.8449123}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B3-to-B3_SR
-    relativePosition: {x: 0.7332283, y: 0.9259649}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ChurchLobbyToForest
-    relativePosition: {x: 0.9527559, y: 0.45640528}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-ChurchLobby
-    linkedRelativePosition: {x: 0.8564721, y: 0.3903113}
-  - zoneNodeID: LV_1f-to-1f_SR
-    relativePosition: {x: 0.24598426, y: 0.68421054}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B3_SR-to-B3
-    relativePosition: {x: 0.77244097, y: 0.92210525}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B2_SR2-to-B3
-    relativePosition: {x: 0.57118106, y: 0.8807018}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1_SR2-to-B1_SR
-    relativePosition: {x: 0.37204725, y: 0.72929823}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1-to-B1_SR
-    relativePosition: {x: 0.2703937, y: 0.83017546}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B3_SR-to-B4
-    relativePosition: {x: 0.8746457, y: 0.9077193}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1_SR-to-B1_SR2
-    relativePosition: {x: 0.33070865, y: 0.7294737}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ChurchLobby2ToChurch
-    relativePosition: {x: 0.9607532, y: 0.44421053}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ChurchLobby1ToChurch
-    relativePosition: {x: 0.9448524, y: 0.44421053}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ChugNSlurpToForest
-    relativePosition: {x: 0.099921264, y: 0.39403507}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-ChugNSlurp
-    linkedRelativePosition: {x: 0.24815972, y: 0.3374339}
-  - zoneNodeID: LV_B2_SR-to-B1_SR2
-    relativePosition: {x: 0.4798425, y: 0.73192984}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B2-to-B2_SR2
-    relativePosition: {x: 0.4674016, y: 0.8796491}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LacklustreVideoToForest
-    relativePosition: {x: 0.22409448, y: 0.6722807}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-LacklustreVideo
-    linkedRelativePosition: {x: 0.24307992, y: 0.8258575}
-  - zoneNodeID: LV_1f_SR-to-1f
-    relativePosition: {x: 0.28346458, y: 0.6277193}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B2_SR2-to-B2
-    relativePosition: {x: 0.5325984, y: 0.8796491}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: TunnelWestToForest
-    relativePosition: {x: 0.3335433, y: 0.23368424}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-TunnelWest
-    linkedRelativePosition: {x: 0.37975726, y: 0.8089467}
-  - zoneNodeID: TunnelEastToForest
-    relativePosition: {x: 0.70362204, y: 0.06210528}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-TunnelEast
-    linkedRelativePosition: {x: 0.78348637, y: 0.3756802}
-  - zoneNodeID: LV_B2-to-B2_SR
-    relativePosition: {x: 0.44897637, y: 0.86526316}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1-to-B2
-    relativePosition: {x: 0.30094486, y: 0.8575439}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1_SR-to-B1
-    relativePosition: {x: 0.29976377, y: 0.72982454}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1_SR2-to-B1
-    relativePosition: {x: 0.41708663, y: 0.73017544}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B4-to-B3_SR
-    relativePosition: {x: 0.9283464, y: 0.9782456}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ChurchToChurchLobby
-    relativePosition: {x: 0.9527559, y: 0.3126316}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B2_SR-to-B2
-    relativePosition: {x: 0.47275588, y: 0.7498246}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1_SR2-to-B2_SR
-    relativePosition: {x: 0.41070867, y: 0.7164912}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B3-to-B2_SR2
-    relativePosition: {x: 0.62897635, y: 0.9259649}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B4-to-1f_SR
-    relativePosition: {x: 0.9619229, y: 0.97200704}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: OrangeHouseToForest
-    relativePosition: {x: 0.07574803, y: 0.79473686}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-OrangeHouse
-    linkedRelativePosition: {x: 0.09513327, y: 0.90054137}
-  - zoneNodeID: LV_1f-to-B1
-    relativePosition: {x: 0.20393701, y: 0.68}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_1f_SR-to-B4
-    relativePosition: {x: 0.316063, y: 0.6210526}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ChurchLobbyToPortaE
-    relativePosition: {x: 0.94973844, y: 0.44017053}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-PortaE
-    linkedRelativePosition: {x: 0.76830494, y: 0.3769237}
-  - zoneNodeID: LV_B2-to-B1
-    relativePosition: {x: 0.40362203, y: 0.8842105}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LV_B1-to-B1_SR2
-    relativePosition: {x: 0.28188977, y: 0.83017546}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
---- !u!114 &-2535137584839464250
+--- !u!114 &-8316331411005989518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,19 +15,19 @@ MonoBehaviour:
   <zoneName>k__BackingField: Demo_Forest1to20-Portabank
   <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
   <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Portabank.png
-  topLeftPosition: {x: 97, y: 14}
+  topLeftPosition: {x: 64, y: 54}
   dimensions: {x: 221.70001, y: 154.20001}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: PortaSF-to-Forest
-    relativePosition: {x: 0.18254589, y: 0.97538835}
-    linkedZoneName: Demo_Forest1to20-Exterior
-    linkedZoneNodeID: Forest-to-PortaSF
-    linkedRelativePosition: {x: 0.1952865, y: 0.75932056}
   - zoneNodeID: PortaNF-to-Forest
     relativePosition: {x: 0.22314128, y: 0.24970745}
     linkedZoneName: Demo_Forest1to20-Exterior
     linkedZoneNodeID: Forest-to-PortaNF
     linkedRelativePosition: {x: 0.22082701, y: 0.3244291}
+  - zoneNodeID: PortaSF-to-Forest
+    relativePosition: {x: 0.18254589, y: 0.97538835}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-PortaSF
+    linkedRelativePosition: {x: 0.1952865, y: 0.75932056}
   - zoneNodeID: PortaE-to-Forest
     relativePosition: {x: 0.94844574, y: 0.4014584}
     linkedZoneName: Demo_Forest1to20-Exterior
@@ -307,6 +46,267 @@ MonoBehaviour:
   m_Name: Temp
   m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.MultiZoneView
   <zoneViewDataSet>k__BackingField:
-  - {fileID: -5644337007954103214}
-  - {fileID: -2535137584839464250}
-  - {fileID: -3367321908338650525}
+  - {fileID: 6694089147838374869}
+  - {fileID: 2810515331861051315}
+  - {fileID: -8316331411005989518}
+--- !u!114 &2810515331861051315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Demo_Forest1to20-Interior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: Demo_Forest1to20-Interior
+  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Interior.png
+  topLeftPosition: {x: 816, y: 629}
+  dimensions: {x: 381, y: 171}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: LV_B1-to-B1_SR2
+    relativePosition: {x: 0.28188977, y: 0.83017546}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B2-to-B1
+    relativePosition: {x: 0.40362203, y: 0.8842105}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1_SR2-to-B1_SR
+    relativePosition: {x: 0.37204725, y: 0.72929823}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B3_SR-to-B4
+    relativePosition: {x: 0.8746457, y: 0.9077193}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1-to-B2
+    relativePosition: {x: 0.30094486, y: 0.8575439}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B3-to-B3_SR
+    relativePosition: {x: 0.7332283, y: 0.9259649}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1_SR2-to-B1
+    relativePosition: {x: 0.41708663, y: 0.73017544}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B2_SR2-to-B3
+    relativePosition: {x: 0.57118106, y: 0.8807018}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: TunnelWestToForest
+    relativePosition: {x: 0.3335433, y: 0.23368424}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-TunnelWest
+    linkedRelativePosition: {x: 0.37975726, y: 0.8089467}
+  - zoneNodeID: LV_B4-to-B3_SR
+    relativePosition: {x: 0.9283464, y: 0.9782456}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B3_SR-to-B3
+    relativePosition: {x: 0.77244097, y: 0.92210525}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B2_SR2-to-B2
+    relativePosition: {x: 0.5325984, y: 0.8796491}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ChugNSlurpToForest
+    relativePosition: {x: 0.099921264, y: 0.39403507}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-ChugNSlurp
+    linkedRelativePosition: {x: 0.24815972, y: 0.3374339}
+  - zoneNodeID: LV_1f_SR-to-B4
+    relativePosition: {x: 0.316063, y: 0.6210526}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1_SR-to-B1_SR2
+    relativePosition: {x: 0.33070865, y: 0.7294737}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ChurchLobbyToPortaE
+    relativePosition: {x: 0.94973844, y: 0.44017053}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-PortaE
+    linkedRelativePosition: {x: 0.76830494, y: 0.3769237}
+  - zoneNodeID: LV_B2_SR-to-B1_SR2
+    relativePosition: {x: 0.4798425, y: 0.73192984}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1-to-1f
+    relativePosition: {x: 0.23244095, y: 0.8449123}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B2-to-B2_SR
+    relativePosition: {x: 0.44897637, y: 0.86526316}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ChurchLobbyToForest
+    relativePosition: {x: 0.9527559, y: 0.45640528}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-ChurchLobby
+    linkedRelativePosition: {x: 0.8564721, y: 0.3903113}
+  - zoneNodeID: ChurchLobby1ToChurch
+    relativePosition: {x: 0.9448524, y: 0.44421053}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LacklustreVideoToForest
+    relativePosition: {x: 0.22409448, y: 0.6722807}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-LacklustreVideo
+    linkedRelativePosition: {x: 0.24307992, y: 0.8258575}
+  - zoneNodeID: LV_B3-to-B2_SR2
+    relativePosition: {x: 0.62897635, y: 0.9259649}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B2-to-B2_SR2
+    relativePosition: {x: 0.4674016, y: 0.8796491}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OrangeHouseToForest
+    relativePosition: {x: 0.07574803, y: 0.79473686}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-OrangeHouse
+    linkedRelativePosition: {x: 0.09513327, y: 0.90054137}
+  - zoneNodeID: LV_1f_SR-to-1f
+    relativePosition: {x: 0.28346458, y: 0.6277193}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B2_SR-to-B2
+    relativePosition: {x: 0.47275588, y: 0.7498246}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1_SR-to-B1
+    relativePosition: {x: 0.29976377, y: 0.72982454}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ChurchLobby2ToChurch
+    relativePosition: {x: 0.9607532, y: 0.44421053}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B4-to-1f_SR
+    relativePosition: {x: 0.9619229, y: 0.97200704}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_1f-to-1f_SR
+    relativePosition: {x: 0.24598426, y: 0.68421054}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1-to-B1_SR
+    relativePosition: {x: 0.2703937, y: 0.83017546}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ChurchToChurchLobby
+    relativePosition: {x: 0.9527559, y: 0.3126316}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_1f-to-B1
+    relativePosition: {x: 0.20393701, y: 0.68}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LV_B1_SR2-to-B2_SR
+    relativePosition: {x: 0.41070867, y: 0.7164912}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: TunnelEastToForest
+    relativePosition: {x: 0.70362204, y: 0.06210528}
+    linkedZoneName: Demo_Forest1to20-Exterior
+    linkedZoneNodeID: Forest-to-TunnelEast
+    linkedRelativePosition: {x: 0.78348637, y: 0.3756802}
+--- !u!114 &6694089147838374869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Demo_Forest1to20-Exterior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: Demo_Forest1to20-Exterior
+  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Exterior.png
+  topLeftPosition: {x: 398, y: 207}
+  dimensions: {x: 561, y: 342}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: Forest-to-TunnelWest
+    relativePosition: {x: 0.37975726, y: 0.8089467}
+    linkedZoneName: Demo_Forest1to20-Interior
+    linkedZoneNodeID: TunnelWestToForest
+    linkedRelativePosition: {x: 0.3335433, y: 0.23368424}
+  - zoneNodeID: Forest-to-TunnelEast
+    relativePosition: {x: 0.78348637, y: 0.3756802}
+    linkedZoneName: Demo_Forest1to20-Interior
+    linkedZoneNodeID: TunnelEastToForest
+    linkedRelativePosition: {x: 0.70362204, y: 0.06210528}
+  - zoneNodeID: Forest-to-PortaE
+    relativePosition: {x: 0.76830494, y: 0.3769237}
+    linkedZoneName: Demo_Forest1to20-Portabank
+    linkedZoneNodeID: PortaE-to-Forest
+    linkedRelativePosition: {x: 0.94844574, y: 0.4014584}
+  - zoneNodeID: Forest-to-PortaNF
+    relativePosition: {x: 0.22082701, y: 0.3244291}
+    linkedZoneName: Demo_Forest1to20-Portabank
+    linkedZoneNodeID: PortaNF-to-Forest
+    linkedRelativePosition: {x: 0.22314128, y: 0.24970745}
+  - zoneNodeID: Forest-to-ChugNSlurp
+    relativePosition: {x: 0.24815972, y: 0.3374339}
+    linkedZoneName: Demo_Forest1to20-Interior
+    linkedZoneNodeID: ChugNSlurpToForest
+    linkedRelativePosition: {x: 0.099921264, y: 0.39403507}
+  - zoneNodeID: Forest-to-OrangeHouse
+    relativePosition: {x: 0.09513327, y: 0.90054137}
+    linkedZoneName: Demo_Forest1to20-Interior
+    linkedZoneNodeID: OrangeHouseToForest
+    linkedRelativePosition: {x: 0.07574803, y: 0.79473686}
+  - zoneNodeID: Forest-to-ChurchLobby
+    relativePosition: {x: 0.8564721, y: 0.3903113}
+    linkedZoneName: Demo_Forest1to20-Interior
+    linkedZoneNodeID: ChurchLobbyToForest
+    linkedRelativePosition: {x: 0.9527559, y: 0.45640528}
+  - zoneNodeID: Forest-to-LacklustreVideo
+    relativePosition: {x: 0.24307992, y: 0.8258575}
+    linkedZoneName: Demo_Forest1to20-Interior
+    linkedZoneNodeID: LacklustreVideoToForest
+    linkedRelativePosition: {x: 0.22409448, y: 0.6722807}
+  - zoneNodeID: Forest-to-PortaSF
+    relativePosition: {x: 0.1952865, y: 0.75932056}
+    linkedZoneName: Demo_Forest1to20-Portabank
+    linkedZoneNodeID: PortaSF-to-Forest
+    linkedRelativePosition: {x: 0.18254589, y: 0.97538835}

@@ -8,22 +8,24 @@ namespace Frankie.ZoneManagement.Editor
     {
         private readonly ZoneView zoneView;
         private readonly VisualElement activeVisualElement;
-        private readonly System.Action onClicked; // short-click firing
+        private readonly System.Action onClicked;
         private readonly System.Action onDragged;
         private readonly System.Func<float> getZoomScale;
+        private readonly System.Action onDragComplete;
         private bool dragging;
         private Vector2 startMouse;
         private Vector2 startPos;
 
         private const float _clickMoveThreshold = 4f;
 
-        public MultiZoneDragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked, System.Action onDragged, System.Func<float> getZoomScale = null)
+        public MultiZoneDragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked, System.Action onDragged, System.Func<float> getZoomScale = null, System.Action onDragComplete = null)
         {
             this.zoneView = zoneView;
             this.activeVisualElement = activeVisualElement;
             this.onClicked = onClicked;
             this.onDragged = onDragged;
             this.getZoomScale = getZoomScale ?? (() => 1f);
+            this.onDragComplete = onDragComplete;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
 
@@ -49,6 +51,7 @@ namespace Frankie.ZoneManagement.Editor
             dragging = true;
             startMouse = mouseDownEvent.mousePosition;
             startPos = zoneView.data.topLeftPosition;
+            Undo.RecordObject(zoneView.data, "Move Zone View");
 
             BringNodeToFront();
             target.CaptureMouse();
@@ -90,7 +93,7 @@ namespace Frankie.ZoneManagement.Editor
             else
             {
                 EditorUtility.SetDirty(zoneView.data);
-                AssetDatabase.SaveAssetIfDirty(zoneView.data);
+                onDragComplete?.Invoke(); // SaveAssetIfDirty must target the parent asset, so the actual disk save should delegate to the caller via onDragComplete
             }
             mouseUpEvent.StopPropagation();
         }

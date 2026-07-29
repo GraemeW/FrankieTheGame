@@ -34,6 +34,9 @@ namespace Frankie.ZoneManagement.Editor
         private const float _minZoomScale = 0.25f;
         private const float _maxZoomScale = 3.0f;
         private const float _zoomWheelStepFactor = 1.05f;
+        
+        // Node Link Tunables
+        private const float _uiNodeDotMinLinkDragDistance = 6f;
  
         // UI Styles
         private static readonly StyleColor _uiCanvasBackgroundColour = new(new Color(0.18f, 0.18f, 0.18f));
@@ -51,7 +54,13 @@ namespace Frankie.ZoneManagement.Editor
         private static readonly float _uiStandardFontSize = 11f;
         private static readonly float _uiBezierLineWidth = 0.8f;
         private static readonly Color _uiBezierLineColour = new(1.0f, 0f, 0f, 0.8f); 
-
+        private const float _uiNodeDotBaseDiameter = 10f;
+        private const float _uiNodeDotMinDiameter = 6f;
+        private const float _uiNodeDotMaxDiameter = 16f;
+        private const float _uiNodeDotHoverScale = 1.5f;
+        private static readonly Color _uiNodeDotHoverBorderColour = new(1f, 0.85f, 0.2f);
+        private static readonly Color _uiNodeDotDragBelowThresholdColour = new(0.6f, 0.6f, 0.6f, 0.8f);
+        
         // Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
         [SerializeField] private Vector2 panOffset = Vector2.zero;
@@ -71,12 +80,10 @@ namespace Frankie.ZoneManagement.Editor
         private readonly Dictionary<string, ZoneView> zoneViewLookup = new();
 
         // Node Dot State
-        private const float _uiNodeDotBaseDiameter = 10f;
-        private const float _uiNodeDotMinDiameter = 6f;
-        private const float _uiNodeDotMaxDiameter = 16f;
         private readonly List<(string zoneName, string zoneNodeID, Rect canvasRect)> nodeDotElements = new();
         private bool isDraggingNodeLink;
         private (string zoneName, string zoneNodeID) activeDragSource;
+        private Vector2 dragStartCanvasPosition;
         private Vector2 dragCurrentCanvasPosition;
         
         // UI State
@@ -106,6 +113,7 @@ namespace Frankie.ZoneManagement.Editor
             SubscribeCanvasToZoom(true);
             SubscribeToOnSceneOpened(true);
             SubscribeToPlayModeStateChanges(true);
+            SubscribeToUndoRedo(true);
         }
 
         private void OnDisable()
@@ -115,6 +123,7 @@ namespace Frankie.ZoneManagement.Editor
             SubscribeCanvasToZoom(false);
             SubscribeToOnSceneOpened(false);
             SubscribeToPlayModeStateChanges(false);
+            SubscribeToUndoRedo(false);
             DisposeRuntimeTextures();
         }
         
@@ -124,7 +133,11 @@ namespace Frankie.ZoneManagement.Editor
             root.style.flexDirection = FlexDirection.Column;
             root.style.flexGrow = 1;
 
-            if (activeMultiZoneView != null) { TryLoadSnapshots(); }
+            if (activeMultiZoneView != null)
+            {
+                TryLoadSnapshots();
+                ResyncZoneNodeLinks();
+            }
             BuildToolbar(root);
             BuildCanvas(root);
             BuildParametersPanel(canvas);
@@ -183,6 +196,18 @@ namespace Frankie.ZoneManagement.Editor
         {
             EditorSceneManager.sceneOpened -= OnSceneOpened;
             if (enable) { EditorSceneManager.sceneOpened  += OnSceneOpened; }
+        }
+
+        private void SubscribeToUndoRedo(bool enable)
+        {
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+            if (enable) { Undo.undoRedoPerformed += OnUndoRedoPerformed; }
+        }
+
+        private void OnUndoRedoPerformed()
+        {
+            if (!isToolAvailable) { return; }
+            RefreshZoneViews(false);
         }
         #endregion
         
@@ -289,7 +314,11 @@ namespace Frankie.ZoneManagement.Editor
 
             activeMultiZoneView = multiZoneView;
             
-            if (activeMultiZoneView != null) { TryLoadSnapshots(); }
+            if (activeMultiZoneView != null)
+            {
+                TryLoadSnapshots();
+                ResyncZoneNodeLinks();
+            }
             AddAllZoneViews();
             curvesLayer?.MarkDirtyRepaint();
             canvas?.MarkDirtyRepaint();
@@ -329,6 +358,7 @@ namespace Frankie.ZoneManagement.Editor
 
         private void OnRefreshClicked()
         {
+            ResyncZoneNodeLinks();
             OnRefreshClicked(true);
         }
 
@@ -427,24 +457,29 @@ namespace Frankie.ZoneManagement.Editor
             VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.topLeftPosition, zoneViewData.dimensions);
             
             Label zoneViewElementHeader = MakeZoneViewElementHeader(zoneViewData.zoneName);
+
+            zoneViewElementHeader.AddManipulator(new MultiZoneDragManipulator(zoneView, zoneViewElement, OnClickedHeader, OnDraggedCurveRepaint, () => zoomScale, OnZoneViewDragComplete));
+            zoneViewElement.Add(zoneViewElementHeader);
+            
+            VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
+            imageArea.AddManipulator(new MultiZoneDragManipulator(zoneView, zoneViewElement, OnClickedImage, OnDraggedCurveRepaint, () => zoomScale, OnZoneViewDragComplete));
+            
+            zoneViewLayer.Add(zoneViewElement);
+            return;
+            
+            
+            // Local Functions
             void OnClickedHeader() => Selection.activeObject = zoneViewData;
+            void OnClickedImage() => TryLoadScene(zoneView);
+            void OnZoneViewDragComplete() => SaveMultiZoneViewAsset(activeMultiZoneView, "Move Zone View");
             void OnDraggedCurveRepaint()
             {
                 curvesLayer?.MarkDirtyRepaint();
                 RefreshNodeDots();
             }
-            zoneViewElementHeader.AddManipulator(new MultiZoneDragManipulator(zoneView, zoneViewElement, OnClickedHeader, OnDraggedCurveRepaint, () => zoomScale));
-            zoneViewElement.Add(zoneViewElementHeader);
-            
-            VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
-            
-            void OnClickedImage() => TryLoadScene(zoneView);
-            imageArea.AddManipulator(new MultiZoneDragManipulator(zoneView, zoneViewElement, OnClickedImage, OnDraggedCurveRepaint, () => zoomScale));
-            
-            zoneViewLayer.Add(zoneViewElement);
         }
 
-        private VisualElement AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
+        private static VisualElement AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
         {
             VisualElement imageArea;
             
@@ -482,6 +517,14 @@ namespace Frankie.ZoneManagement.Editor
         #endregion
 
         #region NodeDots
+        private ZoneViewData FindZoneViewDataByName(string zoneName) => zoneViewLookup.TryGetValue(zoneName, out ZoneView zoneView) ? zoneView.data : null;
+        private static ZoneNode GetZoneNodeByID(string zoneName, string zoneNodeID)
+        {
+            Zone zone = Zone.GetFromName(zoneName);
+            return zone == null ? null : zone.GetNodeFromID(zoneNodeID);
+        }
+        private bool IsPastLinkDragThreshold(Vector2 canvasPosition) => Vector2.Distance(dragStartCanvasPosition, canvasPosition) >= _uiNodeDotMinLinkDragDistance;
+        
         private void RefreshNodeDots()
         {
             if (nodeDotsLayer == null) { return; }
@@ -516,12 +559,13 @@ namespace Frankie.ZoneManagement.Editor
             nodeDotsLayer.Add(dot);
             nodeDotElements.Add((zoneName, zoneNodeID, canvasRect));
         }
-
+        
         private void OnNodeDotDragStarted(string zoneName, string zoneNodeID)
         {
             isDraggingNodeLink = true;
             activeDragSource = (zoneName, zoneNodeID);
-            dragCurrentCanvasPosition = GetDotCanvasPosition(zoneName, zoneNodeID) ?? Vector2.zero;
+            dragStartCanvasPosition = GetDotCanvasPosition(zoneName, zoneNodeID) ?? Vector2.zero;
+            dragCurrentCanvasPosition = dragStartCanvasPosition;
             curvesLayer?.MarkDirtyRepaint();
         }
 
@@ -536,6 +580,14 @@ namespace Frankie.ZoneManagement.Editor
         {
             if (!isDraggingNodeLink) { return; }
             isDraggingNodeLink = false;
+
+            if (!IsPastLinkDragThreshold(canvasPosition))
+            {
+                ZoneNode clickedZoneNode = GetZoneNodeByID(activeDragSource.zoneName, activeDragSource.zoneNodeID);
+                if (clickedZoneNode != null) { Selection.activeObject = clickedZoneNode; }
+                curvesLayer?.MarkDirtyRepaint();
+                return;
+            }
 
             (string zoneName, string zoneNodeID)? dropTarget = FindNodeDotAtCanvasPosition(canvasPosition, activeDragSource);
             if (dropTarget.HasValue)
@@ -605,14 +657,6 @@ namespace Frankie.ZoneManagement.Editor
             
             RefreshNodeDots();
         }
-
-        private static ZoneNode GetZoneNodeByID(string zoneName, string zoneNodeID)
-        {
-            Zone zone = Zone.GetFromName(zoneName);
-            return zone == null ? null : zone.GetNodeFromID(zoneNodeID);
-        }
-
-        private ZoneViewData FindZoneViewDataByName(string zoneName) => zoneViewLookup.TryGetValue(zoneName, out ZoneView zoneView) ? zoneView.data : null;
         #endregion
         
         #region Capture
@@ -923,6 +967,146 @@ namespace Frankie.ZoneManagement.Editor
         }
         #endregion
         
+        #region ZoneNodeResyncCapture
+        private class PendingLinkClear
+        {
+            public ZoneViewData zoneViewData { get; private set; }
+            public string zoneNodeID { get; private set; }
+
+            public PendingLinkClear(ZoneViewData zoneViewData, string zoneNodeID)
+            {
+                this.zoneViewData = zoneViewData;
+                this.zoneNodeID = zoneNodeID;
+            }
+        }
+
+        private class PendingLinkUpdate
+        {
+            public ZoneViewData sourceZoneViewData { get; private set; }
+            public string sourceZoneNodeID { get; private set; }
+            public string targetZoneName { get; private set; }
+            public string targetZoneNodeID { get; private set; }
+
+            public PendingLinkUpdate(ZoneViewData sourceZoneViewData, string sourceZoneNodeID, string targetZoneName, string targetZoneNodeID)
+            {
+                this.sourceZoneViewData = sourceZoneViewData;
+                this.sourceZoneNodeID = sourceZoneNodeID;
+                this.targetZoneName = targetZoneName;
+                this.targetZoneNodeID = targetZoneNodeID;
+            }
+        }
+        
+        private void ResyncZoneNodeLinks()
+        {
+            if (activeMultiZoneView == null) { return; }
+
+            var pendingLinkClears = new List<PendingLinkClear>();
+            var pendingLinkUpdates = new List<PendingLinkUpdate>();
+            var zonesNeedingRecheck = new HashSet<string>();
+            
+            BuildPendingUpdatesByCachedData(ref pendingLinkClears, ref pendingLinkUpdates, ref zonesNeedingRecheck);
+            if (pendingLinkClears.Count == 0 && pendingLinkUpdates.Count == 0) { return; }
+            if (zonesNeedingRecheck.Count > 0) { RecheckZonePositions(zonesNeedingRecheck); }
+            
+            bool anyChange = false;
+            foreach (PendingLinkClear pendingLinkClear in pendingLinkClears)
+            {
+                Undo.RecordObject(pendingLinkClear.zoneViewData, "Resync Zone Node Link");
+                if (pendingLinkClear.zoneViewData.TryClearLink(pendingLinkClear.zoneNodeID)) { anyChange = true; }
+            }
+
+            foreach (PendingLinkUpdate pendingLinkUpdate in pendingLinkUpdates)
+            {
+                if (!zoneViewLookup.TryGetValue(pendingLinkUpdate.targetZoneName, out ZoneView targetZoneView)) { continue; }
+                if (!targetZoneView.data.TryGetZoneNodeData(pendingLinkUpdate.targetZoneNodeID, out ZoneNodeData targetZoneNodeData)) { continue; } // Still unresolved even after recheck
+
+                Undo.RecordObject(pendingLinkUpdate.sourceZoneViewData, "Resync Zone Node Link");
+                if (pendingLinkUpdate.sourceZoneViewData.TrySetLink(pendingLinkUpdate.sourceZoneNodeID, pendingLinkUpdate.targetZoneName, pendingLinkUpdate.targetZoneNodeID, targetZoneNodeData.relativePosition)) { anyChange = true; }
+            }
+            if (!anyChange) { return; }
+
+            SaveMultiZoneViewAsset(activeMultiZoneView, "Resync Zone Node Links");
+            RefreshNodeDots();
+            curvesLayer?.MarkDirtyRepaint();
+        }
+
+        private void BuildPendingUpdatesByCachedData(ref List<PendingLinkClear> pendingLinkClears, ref List<PendingLinkUpdate> pendingLinkUpdates, ref HashSet<string> zonesNeedingRecheck)
+        {
+            foreach (ZoneView zoneView in zoneViews)
+            {
+                ZoneViewData zoneViewData = zoneView?.data;
+                if (zoneViewData == null) { continue; }
+
+                foreach (ZoneNodeData zoneNodeData in zoneViewData.zoneNodeDataSet)
+                {
+                    ZoneNode zoneNode = GetZoneNodeByID(zoneViewData.zoneName, zoneNodeData.zoneNodeID);
+                    if (zoneNode == null) { continue; } // Node itself no longer exists; leave cached entry alone
+
+                    if (!zoneNode.HasLinkedSceneReference())
+                    {
+                        if (zoneNodeData.HasLink()) { pendingLinkClears.Add(new PendingLinkClear(zoneViewData, zoneNodeData.zoneNodeID)); }
+                        continue;
+                    }
+
+                    ZoneNode linkedZoneNode = zoneNode.GetLinkedZoneNode();
+                    string targetZoneName = linkedZoneNode.GetZoneName();
+                    string targetZoneNodeID = linkedZoneNode.GetNodeID();
+
+                    bool alreadyInSync = zoneNodeData.HasLink() && zoneNodeData.linkedZoneName == targetZoneName && zoneNodeData.linkedZoneNodeID == targetZoneNodeID;
+                    if (alreadyInSync) { continue; }
+
+                    if (!zoneViewLookup.TryGetValue(targetZoneName, out ZoneView targetZoneView) || targetZoneView?.data == null)
+                    {
+                        Debug.LogWarning($"MultiZoneViewer: Zone node '{zoneNodeData.zoneNodeID}' in '{zoneViewData.zoneName}' now links to zone '{targetZoneName}', which isn't part of this Multi-Zone View. Capture that zone to include this connection.");
+                        continue;
+                    }
+
+                    pendingLinkUpdates.Add(new PendingLinkUpdate(zoneViewData, zoneNodeData.zoneNodeID, targetZoneName, targetZoneNodeID));
+                    if (!targetZoneView.data.TryGetZoneNodeData(targetZoneNodeID, out _)) { zonesNeedingRecheck.Add(targetZoneName); }
+                }
+            }
+        }
+        
+        private void RecheckZonePositions(HashSet<string> zoneNames)
+        {
+            if (zoneNames.Count == 0) { return; }
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
+
+            string originalScenePath = SceneManager.GetActiveScene().path;
+            try
+            {
+                foreach (string zoneName in zoneNames)
+                {
+                    if (!zoneViewLookup.TryGetValue(zoneName, out ZoneView zoneView) || zoneView?.data == null) { continue; }
+
+                    string scenePath = zoneView.data.scenePath;
+                    if (string.IsNullOrEmpty(scenePath) || !File.Exists(scenePath)) { continue; }
+
+                    EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+                    Bounds zoneBounds = CalculateZoneBounds();
+                    List<ZoneHandlerNodeData> zoneHandlerNodeDataSet = ZoneHandlerConduit.BuildZoneHandlerNodeData();
+                    Dictionary<string, Bounds> singleZoneBoundsLookup = new() { { zoneName, zoneBounds } };
+                    Dictionary<string, List<ZoneNodeData>> freshZoneNodeDataByZoneName = ZoneHandlerConduit.BuildZoneNodeData(zoneHandlerNodeDataSet, singleZoneBoundsLookup);
+                    if (!freshZoneNodeDataByZoneName.TryGetValue(zoneName, out List<ZoneNodeData> freshZoneNodeDataSet)) { continue; }
+
+                    Dictionary<string, Vector2> relativePositionByNodeID = new();
+                    foreach (ZoneNodeData freshZoneNodeData in freshZoneNodeDataSet)
+                    {
+                        relativePositionByNodeID[freshZoneNodeData.zoneNodeID] = freshZoneNodeData.relativePosition;
+                    }
+
+                    Undo.RecordObject(zoneView.data, "Resync Zone Node Positions");
+                    zoneView.data.UpdateZoneNodePositions(relativePositionByNodeID);
+                }
+            }
+            finally
+            {
+                if (!string.IsNullOrEmpty(originalScenePath) && File.Exists(originalScenePath)) { EditorSceneManager.OpenScene(originalScenePath, OpenSceneMode.Single); }
+                else { EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single); }
+            }
+        }
+        #endregion
+        
         #region AssetManagement
         private static MultiZoneView CreateMultiZoneViewAsset()
         {
@@ -1144,7 +1328,7 @@ namespace Frankie.ZoneManagement.Editor
             Vector2? sourceCanvasPosition = GetDotCanvasPosition(activeDragSource.zoneName, activeDragSource.zoneNodeID);
             if (!sourceCanvasPosition.HasValue) { return; }
 
-            painter2D.strokeColor = Color.white;
+            painter2D.strokeColor = IsPastLinkDragThreshold(dragCurrentCanvasPosition) ? Color.white : _uiNodeDotDragBelowThresholdColour;
             painter2D.lineWidth = _uiBezierLineWidth * Mathf.Clamp(zoomScale, 0.5f, 2f);
             painter2D.BeginPath();
             painter2D.MoveTo(sourceCanvasPosition.Value);
@@ -1541,7 +1725,7 @@ namespace Frankie.ZoneManagement.Editor
         
         private static VisualElement MakeNodeDotElement(float diameter, bool isLinked)
         {
-            return new VisualElement
+            var dot = new VisualElement
             {
                 style =
                 {
@@ -1561,8 +1745,32 @@ namespace Frankie.ZoneManagement.Editor
                     borderBottomColor = _uiBorderDarkColour,
                     borderLeftColor = _uiBorderDarkColour,
                     borderRightColor = _uiBorderDarkColour,
+                    // Scale grows/shrinks around the dot's own centre rather than its top-left corner.
+                    transformOrigin = new StyleTransformOrigin(new TransformOrigin(Length.Percent(50), Length.Percent(50))),
                 }
             };
+            AddNodeDotHoverStyle(dot);
+            return dot;
+        }
+
+        private static void AddNodeDotHoverStyle(VisualElement dot)
+        {
+            dot.RegisterCallback<MouseEnterEvent>(_ =>
+            {
+                dot.style.scale = new StyleScale(new Scale(new Vector3(_uiNodeDotHoverScale, _uiNodeDotHoverScale, 1f)));
+                dot.style.borderTopColor = _uiNodeDotHoverBorderColour;
+                dot.style.borderBottomColor = _uiNodeDotHoverBorderColour;
+                dot.style.borderLeftColor = _uiNodeDotHoverBorderColour;
+                dot.style.borderRightColor = _uiNodeDotHoverBorderColour;
+            });
+            dot.RegisterCallback<MouseLeaveEvent>(_ =>
+            {
+                dot.style.scale = new StyleScale(new Scale(Vector3.one));
+                dot.style.borderTopColor = _uiBorderDarkColour;
+                dot.style.borderBottomColor = _uiBorderDarkColour;
+                dot.style.borderLeftColor = _uiBorderDarkColour;
+                dot.style.borderRightColor = _uiBorderDarkColour;
+            });
         }
         #endregion
     }

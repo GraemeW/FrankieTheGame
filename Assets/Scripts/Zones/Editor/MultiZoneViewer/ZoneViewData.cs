@@ -68,5 +68,20 @@ namespace Frankie.ZoneManagement.Editor
             EditorUtility.SetDirty(this);
             return true;
         }
+        
+        public void UpdateZoneNodePositions(Dictionary<string, Vector2> relativePositionByNodeID)
+        {
+            bool changed = false;
+            for (int i = 0; i < zoneNodeDataSet.Count; i++)
+            {
+                if (!relativePositionByNodeID.TryGetValue(zoneNodeDataSet[i].zoneNodeID, out Vector2 relativePosition)) { continue; }
+
+                ZoneNodeData zoneNodeData = zoneNodeDataSet[i];
+                zoneNodeData.relativePosition = relativePosition;
+                zoneNodeDataSet[i] = zoneNodeData;
+                changed = true;
+            }
+            if (changed) { EditorUtility.SetDirty(this); }
+        }
     }
 }
