@@ -472,7 +472,10 @@ namespace Frankie.ZoneManagement.Editor
             // Local Functions
             void OnClickedHeader() => Selection.activeObject = zoneViewData;
             void OnClickedImage() => TryLoadScene(zoneView);
-            void OnZoneViewDragComplete() => SaveMultiZoneViewAsset(activeMultiZoneView, "Move Zone View");
+            void OnZoneViewDragComplete()
+            {
+                SaveMultiZoneViewAsset(activeMultiZoneView, "Move Zone View");
+            }
             void OnDraggedCurveRepaint()
             {
                 curvesLayer?.MarkDirtyRepaint();

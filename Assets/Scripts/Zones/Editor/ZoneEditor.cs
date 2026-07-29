@@ -118,6 +118,7 @@ namespace Frankie.ZoneManagement.Editor
                         selectedZone = matchZone;
                         RefreshFromSelection();
                     }
+                    if (zoneGraphView == null || selectedZone == null) { return; }
                     zoneGraphView.FocusOnNode(zoneNode);
                     break;
                 }

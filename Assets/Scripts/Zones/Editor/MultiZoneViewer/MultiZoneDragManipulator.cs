@@ -51,7 +51,7 @@ namespace Frankie.ZoneManagement.Editor
             dragging = true;
             startMouse = mouseDownEvent.mousePosition;
             startPos = zoneView.data.topLeftPosition;
-            Undo.RecordObject(zoneView.data, "Move Zone View");
+            Undo.RecordObject(zoneView.data, "Move Zone View"); // Initiate
 
             BringNodeToFront();
             target.CaptureMouse();
@@ -69,12 +69,14 @@ namespace Frankie.ZoneManagement.Editor
         private void OnMouseMove(MouseMoveEvent mouseMoveEvent)
         {
             if (!dragging) { return; }
+            Undo.RecordObject(zoneView.data, "Move Zone View"); // Repeat event will merge together in Editor
             
             float zoomScale = Mathf.Max(getZoomScale(), 0.0001f);
             Vector2 screenDelta = mouseMoveEvent.mousePosition - startMouse;
             zoneView.data.topLeftPosition = startPos + screenDelta / zoomScale;
             activeVisualElement.style.left = zoneView.data.topLeftPosition.x;
             activeVisualElement.style.top = zoneView.data.topLeftPosition.y;
+            
             onDragged?.Invoke();
             mouseMoveEvent.StopPropagation();
         }
@@ -93,6 +95,7 @@ namespace Frankie.ZoneManagement.Editor
             else
             {
                 EditorUtility.SetDirty(zoneView.data);
+                AssetDatabase.SaveAssetIfDirty(zoneView.data); // Not strictly necessary, see below
                 onDragComplete?.Invoke(); // SaveAssetIfDirty must target the parent asset, so the actual disk save should delegate to the caller via onDragComplete
             }
             mouseUpEvent.StopPropagation();
