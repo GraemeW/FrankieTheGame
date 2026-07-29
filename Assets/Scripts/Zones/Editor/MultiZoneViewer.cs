@@ -127,6 +127,7 @@ namespace Frankie.ZoneManagement.Editor
             SubscribeToOnSceneOpened(true);
             SubscribeToPlayModeStateChanges(true);
             SubscribeToUndoRedo(true);
+            SubscribeToSelectionChanged(true);
         }
 
         private void OnDisable()
@@ -137,6 +138,7 @@ namespace Frankie.ZoneManagement.Editor
             SubscribeToOnSceneOpened(false);
             SubscribeToPlayModeStateChanges(false);
             SubscribeToUndoRedo(false);
+            SubscribeToSelectionChanged(false);
             DisposeRuntimeTextures();
         }
         
@@ -157,7 +159,9 @@ namespace Frankie.ZoneManagement.Editor
             AddAllZoneViews();
             RefreshToolbarState();
         }
+        #endregion
         
+        #region SetupCallbacks
         private void OnSceneOpened(Scene scene, OpenSceneMode mode) => OnRefreshClicked(false);
 
         private void OnPlayModeStateChanged(PlayModeStateChange state)
@@ -221,6 +225,54 @@ namespace Frankie.ZoneManagement.Editor
         {
             if (!isToolAvailable) { return; }
             RefreshZoneViews(false);
+        }
+
+        private void SubscribeToSelectionChanged(bool enable)
+        {
+            Selection.selectionChanged -= OnSelectionChanged;
+            if (enable) { Selection.selectionChanged += OnSelectionChanged; }
+        }
+
+        private void OnSelectionChanged()
+        {
+            if (!isToolAvailable) { return; }
+
+            switch (Selection.activeObject)
+            {
+                case Zone zone:
+                    CenterViewOnZone(zone);
+                    break;
+                case ZoneNode zoneNode:
+                    CenterViewOnZoneNode(zoneNode);
+                    break;
+            }
+        }
+
+        private void CenterViewOnZone(Zone zone)
+        {
+            if (!zoneViewLookup.TryGetValue(zone.name, out ZoneView zoneView) || zoneView?.data == null) { return; }
+
+            Vector2 boxCentre = zoneView.data.topLeftPosition + new Vector2(zoneView.data.dimensions.x / 2f, (_zoneViewHeaderHeight + zoneView.data.dimensions.y) / 2f);
+            CenterViewOnWorldPosition(boxCentre);
+        }
+
+        private void CenterViewOnZoneNode(ZoneNode zoneNode)
+        {
+            if (!zoneViewLookup.TryGetValue(zoneNode.GetZoneName(), out ZoneView zoneView) || zoneView?.data == null) { return; }
+            if (!zoneView.data.TryGetZoneNodeData(zoneNode.GetNodeID(), out ZoneNodeData zoneNodeData)) { return; }
+
+            CenterViewOnWorldPosition(GetNodeWorldPosition(zoneView, zoneNodeData.relativePosition));
+        }
+
+        private void CenterViewOnWorldPosition(Vector2 worldPosition)
+        {
+            if (canvas == null) { return; }
+
+            panOffset = canvas.contentRect.size / 2f - worldPosition * zoomScale;
+            ApplyPanAndZoom();
+            RefreshNodeDots();
+            curvesLayer?.MarkDirtyRepaint();
+            canvas.MarkDirtyRepaint();
         }
         #endregion
         
@@ -538,6 +590,13 @@ namespace Frankie.ZoneManagement.Editor
         {
             Zone zone = Zone.GetFromName(zoneName);
             return zone == null ? null : zone.GetNodeFromID(zoneNodeID);
+        }
+        private Vector2 NodeRelativePosition(ZoneView zoneView, Vector2 relativePosition) => GetNodeWorldPosition(zoneView, relativePosition) * zoomScale; 
+        private Vector2 GetNodeWorldPosition(ZoneView zoneView, Vector2 relativePosition)
+        {
+            return new Vector2(
+                zoneView.data.topLeftPosition.x + zoneView.renderedImageOffset.x + zoneView.renderedImageDimensions.x * relativePosition.x,
+                zoneView.data.topLeftPosition.y + _zoneViewHeaderHeight + zoneView.renderedImageOffset.y + zoneView.renderedImageDimensions.y * relativePosition.y);
         }
         private bool IsPastLinkDragThreshold(Vector2 canvasPosition) => Vector2.Distance(dragStartCanvasPosition, canvasPosition) >= _uiNodeDotMinLinkDragDistance;
         
@@ -1361,15 +1420,6 @@ namespace Frankie.ZoneManagement.Editor
             }
             return null;
         }
-        
-        private Vector2 NodeRelativePosition(ZoneView zoneView, Vector2 relativePosition)
-        {
-            var worldPosition = new Vector2(
-                zoneView.data.topLeftPosition.x + zoneView.renderedImageOffset.x + zoneView.renderedImageDimensions.x * relativePosition.x,
-                zoneView.data.topLeftPosition.y + _zoneViewHeaderHeight + zoneView.renderedImageOffset.y + zoneView.renderedImageDimensions.y * relativePosition.y);
-            return worldPosition * zoomScale;
-        }
-        
         #endregion
 
         #region StaticUIBuilders
