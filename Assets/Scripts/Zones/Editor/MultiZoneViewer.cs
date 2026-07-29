@@ -52,15 +52,27 @@ namespace Frankie.ZoneManagement.Editor
         private static readonly StyleColor _uiButtonColour = new(Color.gray4);
         private static readonly StyleColor _uiLabelTextColour = new(Color.gray6);
         private const float _uiStandardFontSize = 11f;
-        private const float _uiBezierLineWidth = 0.8f;
-        private static readonly Color _uiBezierLineColour = Color.red * 0.8f; 
+        private const float _uiBezierLineWidth = 1.2f;
+        private static readonly Color _uiBezierLineColourStart = Color.red;
+        private static readonly Color _uiBezierLineColourEnd = Color.bisque;
         private const float _uiNodeDotBaseDiameter = 10f;
         private const float _uiNodeDotMinDiameter = 6f;
         private const float _uiNodeDotMaxDiameter = 8f;
         private const float _uiNodeDotHoverScale = 1.5f;
-        private static readonly StyleColor _uiNodeDotHoverBorderColour = new(Color.sandyBrown);
+        private static readonly StyleColor _uiNodeDotLinkedColor = new(new Color(Color.red.r, Color.red.g, Color.red.b, 0.8f));
+        private static readonly StyleColor _uiNodeDotUnlinkedColor = new(new Color(Color.ivory.r, Color.ivory.g, Color.ivory.b, 0.9f));
+        private static readonly StyleColor _uiNodeDotHoverBorderColour = new(Color.bisque);
         private static readonly Color _uiNodeDotDragAboveThresholdColour = Color.lightGreen; 
         private static readonly Color _uiNodeDotDragBelowThresholdColour = Color.gray7;
+        
+        private static readonly Gradient _uiBezierLineGradient = new()
+        {
+            colorKeys = new[]
+            {
+                new GradientColorKey(_uiBezierLineColourStart, 0f),
+                new GradientColorKey(_uiBezierLineColourEnd, 1f)
+            }
+        };
         
         // Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
@@ -1291,7 +1303,7 @@ namespace Frankie.ZoneManagement.Editor
 
             if (drawConnections && useZoneHandlerCrawl)
             {
-                painter2D.strokeColor = _uiBezierLineColour;
+                painter2D.strokeGradient = _uiBezierLineGradient;
                 painter2D.lineWidth   = _uiBezierLineWidth * Mathf.Clamp(zoomScale, 0.5f, 2f);
 
                 foreach (ZoneView zoneView in zoneViews)
@@ -1740,7 +1752,7 @@ namespace Frankie.ZoneManagement.Editor
                     borderTopRightRadius = diameter / 2f,
                     borderBottomLeftRadius = diameter / 2f,
                     borderBottomRightRadius = diameter / 2f,
-                    backgroundColor = isLinked ? _uiBezierLineColour : new StyleColor(Color.white),
+                    backgroundColor = isLinked ? _uiNodeDotLinkedColor : _uiNodeDotUnlinkedColor,
                     borderTopWidth = 1,
                     borderBottomWidth = 1,
                     borderLeftWidth = 1,
