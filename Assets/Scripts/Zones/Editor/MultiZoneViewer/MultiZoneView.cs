@@ -70,17 +70,15 @@ namespace Frankie.ZoneManagement.Editor
             return scenePaths;
         }
 
-        public void UpdateZoneHandlerLinkData(List<ZoneHandlerLinkData> zoneHandlerLinkDataSet)
+        public void UpdateZoneNodeData(Dictionary<string, List<ZoneNodeData>> zoneNodeDataByZoneName)
         {
             BuildZoneViewLookup();
-            
-            foreach (ZoneHandlerLinkData zoneHandlerLinkData in zoneHandlerLinkDataSet)
+
+            foreach (KeyValuePair<string, List<ZoneNodeData>> entry in zoneNodeDataByZoneName)
             {
-                if (string.IsNullOrWhiteSpace(zoneHandlerLinkData.sourceZoneName) || string.IsNullOrWhiteSpace(zoneHandlerLinkData.targetZoneName)) { continue; }
-                if (zoneHandlerLinkData.sourceZoneName == zoneHandlerLinkData.targetZoneName) { continue; }
-                
-                ZoneViewData sourceZoneViewData = FindZoneViewData(zoneHandlerLinkData.sourceZoneName);
-                sourceZoneViewData.CreateOrUpdateZoneLinkData(zoneHandlerLinkData);
+                ZoneViewData zoneViewData = FindZoneViewData(entry.Key);
+                if (zoneViewData == null) { continue; }
+                zoneViewData.SetZoneNodeData(entry.Value);
             }
         }
         #endregion

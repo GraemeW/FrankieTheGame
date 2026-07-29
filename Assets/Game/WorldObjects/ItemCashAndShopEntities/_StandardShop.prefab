@@ -88,20 +88,20 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  localizedMessageForSale:
-    m_TableReference:
-      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
-    m_TableEntryReference:
-      m_KeyId: 7267237508407296
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
   localizedMessageCannotSell:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
     m_TableEntryReference:
       m_KeyId: 7267276448325632
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageForSale:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267237508407296
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

@@ -47,6 +47,10 @@ namespace Frankie.World
 
         private void Start()
         {
+#if UNITY_EDITOR
+            numberTransactionsLeft ??= new LazyValue<int>(GetInitialTransactionCount); // [ExecuteInEditMode] can result in weird Unity state, so safety re-check/set
+#endif
+            
             numberTransactionsLeft.ForceInit();
         }
         

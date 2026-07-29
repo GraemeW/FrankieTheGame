@@ -56,7 +56,9 @@ namespace Frankie.World
 
         private void Start()
         {
-            currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
+#if UNITY_EDITOR
+            currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity); // [ExecuteInEditMode] can result in weird Unity state, so safety re-check/set
+#endif
             currentItemQuantity.ForceInit();
         }
 

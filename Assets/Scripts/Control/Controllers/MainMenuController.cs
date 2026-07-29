@@ -1,6 +1,6 @@
 using UnityEngine;
 using Frankie.Menu.UI;
-using UnityEngine.Serialization;
+using Frankie.Utils.UI;
 
 namespace Frankie.Control
 {
@@ -9,7 +9,7 @@ namespace Frankie.Control
         // Tunables
         [Header("Links and Prefabs")]
         [SerializeField] private Canvas startCanvas;
-        [FormerlySerializedAs("startMenu")] [SerializeField] private Launcher launcher;
+        [SerializeField] private UIBoxBase uiBoxReceiver;
 
         // State
         private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
@@ -32,10 +32,10 @@ namespace Frankie.Control
 
         private void Start()
         {
-            if (launcher == null) { return; }
+            if (uiBoxReceiver == null) { return; }
+            if (uiBoxReceiver is Launcher launcher) { launcher.Setup(startCanvas); }
             
-            launcher.Setup(startCanvas);
-            AddInputReceiver(launcher, null);
+            if (uiBoxReceiver is IInputReceiver inputReceiver) { AddInputReceiver(inputReceiver, null); }
         }
 
         private void OnEnable()
