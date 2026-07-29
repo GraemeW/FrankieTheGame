@@ -87,6 +87,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 5522855836536396411}
   optionParent: {fileID: 6405053344212698481}
+  backExitParent: {fileID: 0}
+  backExitPrefab: {fileID: 0}
   optionButtonPrefab: {fileID: 0}
   optionSliderPrefab: {fileID: 0}
   localizedFlavourTopText:

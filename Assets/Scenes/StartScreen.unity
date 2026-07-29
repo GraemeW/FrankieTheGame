@@ -380,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07cd3c8a51034491ab6b9dd145d53767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.FrankieDemoToggler
+  executeIfDemo: 0
   demoToggleType: 1
   entitiesToEnable: {fileID: 0}
 --- !u!1 &1427791522 stripped
