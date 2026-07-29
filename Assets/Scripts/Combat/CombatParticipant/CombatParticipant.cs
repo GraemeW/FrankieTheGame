@@ -116,20 +116,22 @@ namespace Frankie.Combat
             SetupLazyState();
         }
 
-        private void SetupLazyState()
+        private void SetupLazyState(bool forceSetup = false)
         {
-            if (lazyStateSet) { return; }
+            if (lazyStateSet && !forceSetup) { return; }
             if (baseStats == null) { baseStats = GetComponent<BaseStats>(); }
             
-            currentHP = new LazyValue<float>(GetMaxHP);
-            currentAP = new LazyValue<float>(GetMaxAP);
-            isDead = new LazyValue<bool>(() => false);
+            currentHP ??= new LazyValue<float>(GetMaxHP);
+            currentAP ??= new LazyValue<float>(GetMaxAP);
+            isDead ??= new LazyValue<bool>(() => false);
             lazyStateSet = true;
         }
 
         private void Start()
         {
-            SetupLazyState(); // [ExecuteInEditMode] can result in weird Unity state, so safety re-check/set
+#if UNITY_EDITOR
+            SetupLazyState(true); // [ExecuteInEditMode] can result in weird Unity state, so safety re-check/set
+#endif
             currentHP.ForceInit();
             currentAP.ForceInit();
             isDead.ForceInit();
