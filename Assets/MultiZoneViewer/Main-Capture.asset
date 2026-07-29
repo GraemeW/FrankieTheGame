@@ -1,0 +1,511 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4322098715817100084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: PortaBank
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: PortaBank
+  <scenePath>k__BackingField: Assets/Scenes/PortaBank.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_PortaBank.png
+  topLeftPosition: {x: 372.86584, y: 222.7799}
+  dimensions: {x: 156, y: 120}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: PortaBankPrimSouth
+    relativePosition: {x: 0.8658501, y: 0.978703}
+    linkedZoneName: Prim
+    linkedZoneNodeID: PrimSouthPortaBankDoor
+    linkedRelativePosition: {x: 0.22780389, y: 0.53014815}
+  - zoneNodeID: PortaBankOffice
+    relativePosition: {x: 0.47852612, y: 0.21607684}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: OfficePortaBankDoor
+    linkedRelativePosition: {x: 0.07109827, y: 0.91342765}
+--- !u!114 &-3212340588349623591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Subway
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: Subway
+  <scenePath>k__BackingField: Assets/Scenes/Subway.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Subway.png
+  topLeftPosition: {x: 6.6891174, y: -204.1925}
+  dimensions: {x: 288, y: 196.95001}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: UpStairsApartment
+    relativePosition: {x: 0.95154554, y: 0.15184961}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: SubwayApartmentDownstairs
+    linkedRelativePosition: {x: 0.47122675, y: 0.46419755}
+  - zoneNodeID: PlatformOffice
+    relativePosition: {x: 0.7529454, y: 0.8727995}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: UpStairsOffice
+    relativePosition: {x: 0.6796572, y: 0.83218944}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: SubwayOfficeDownStairs
+    linkedRelativePosition: {x: 0.16434112, y: 0.9432288}
+  - zoneNodeID: PlatformApartment
+    relativePosition: {x: 0.7972644, y: 0.20577773}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+--- !u!114 &-2423536985916262508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Tunnels
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: Tunnels
+  <scenePath>k__BackingField: Assets/Scenes/Tunnels.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Tunnels.png
+  topLeftPosition: {x: 912.317, y: 474.10577}
+  dimensions: {x: 555, y: 135}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: TunnelToProper
+    relativePosition: {x: 0.9014832, y: 0.6610955}
+    linkedZoneName: Proper
+    linkedZoneNodeID: ProperToTunnel
+    linkedRelativePosition: {x: 0.29758707, y: 0.6543064}
+  - zoneNodeID: TunnelToPrim
+    relativePosition: {x: 0.093056574, y: 0.6865283}
+    linkedZoneName: Prim
+    linkedZoneNodeID: PrimToTunnel
+    linkedRelativePosition: {x: 0.7643716, y: 0.22413084}
+--- !u!114 &-1478187135376446744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Proper
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: Proper
+  <scenePath>k__BackingField: Assets/Scenes/Proper.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Proper.png
+  topLeftPosition: {x: 1512.7155, y: 147.53777}
+  dimensions: {x: 735, y: 417.00003}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: ProperToTunnel
+    relativePosition: {x: 0.29758707, y: 0.6543064}
+    linkedZoneName: Tunnels
+    linkedZoneNodeID: TunnelToProper
+    linkedRelativePosition: {x: 0.9014832, y: 0.6610955}
+--- !u!114 &-1385213352933379027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Prim
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: Prim
+  <scenePath>k__BackingField: Assets/Scenes/Prim.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Prim.png
+  topLeftPosition: {x: 334.56903, y: 576.6759}
+  dimensions: {x: 663, y: 303}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: PS_YellowHouse_Exterior
+    relativePosition: {x: 0.26381487, y: 0.3048169}
+    linkedZoneName: PrimInterior
+    linkedZoneNodeID: PS_YellowHouse_Interior
+    linkedRelativePosition: {x: 0.94972974, y: 0.9653145}
+  - zoneNodeID: PrimToTunnel
+    relativePosition: {x: 0.7643716, y: 0.22413084}
+    linkedZoneName: Tunnels
+    linkedZoneNodeID: TunnelToPrim
+    linkedRelativePosition: {x: 0.093056574, y: 0.6865283}
+  - zoneNodeID: PrimSouthPortaBankDoor
+    relativePosition: {x: 0.22780389, y: 0.53014815}
+    linkedZoneName: PortaBank
+    linkedZoneNodeID: PortaBankPrimSouth
+    linkedRelativePosition: {x: 0.8658501, y: 0.978703}
+  - zoneNodeID: PS_TallestBuilding_Exterior
+    relativePosition: {x: 0.15525351, y: 0.5949021}
+    linkedZoneName: PrimInterior
+    linkedZoneNodeID: PS_TallestBuilding_Interior
+    linkedRelativePosition: {x: 0.2027027, y: 0.94532627}
+  - zoneNodeID: PS_RedHouse_Exterior
+    relativePosition: {x: 0.3464322, y: 0.60978156}
+    linkedZoneName: PrimInterior
+    linkedZoneNodeID: PS_RedHouse_Interior
+    linkedRelativePosition: {x: 0.5605695, y: 0.95267487}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb1993dc64a4ad099547778d9321e5b, type: 3}
+  m_Name: Main-Capture
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.MultiZoneView
+  <zoneViewDataSet>k__BackingField:
+  - {fileID: 3347040157586233625}
+  - {fileID: -3212340588349623591}
+  - {fileID: 2691826094032579596}
+  - {fileID: -4322098715817100084}
+  - {fileID: -1385213352933379027}
+  - {fileID: 9220412953820126821}
+  - {fileID: -2423536985916262508}
+  - {fileID: -1478187135376446744}
+  - {fileID: 2561856878136476070}
+--- !u!114 &2561856878136476070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: OfficeInterior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: OfficeInterior
+  <scenePath>k__BackingField: Assets/Scenes/OfficeInterior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_OfficeInterior.png
+  topLeftPosition: {x: -234.94202, y: 51.128464}
+  dimensions: {x: 288, y: 166.95001}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: BasementBDoorRight
+    relativePosition: {x: 0.4217541, y: 0.66172105}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: DankGreenElevator
+    relativePosition: {x: 0.06577819, y: 0.9310089}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: EntranceHallwayDoor
+    relativePosition: {x: 0.70120376, y: 0.22329378}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: Kitchen
+    relativePosition: {x: 0.8435082, y: 0.402819}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: Lobby
+    relativePosition: {x: 0.8422184, y: 0.63501483}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementBDoorLeft
+    relativePosition: {x: 0.3452279, y: 0.69287837}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementAPole
+    relativePosition: {x: 0.096665554, y: 0.698114}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeInteriorDoor
+    relativePosition: {x: 0.89122957, y: 0.6624629}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: OfficeDoor
+    linkedRelativePosition: {x: 0.11387895, y: 0.7950465}
+  - zoneNodeID: OfficeBDoorRight
+    relativePosition: {x: 0.27257094, y: 0.22329378}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: VendingMachineRoom
+    relativePosition: {x: 0.8404987, y: 0.84792286}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementCDoorTop
+    relativePosition: {x: 0.5842648, y: 0.66394657}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementDDoorLeft
+    relativePosition: {x: 0.23108341, y: 0.9495549}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementCDoorBottom
+    relativePosition: {x: 0.5184867, y: 0.8902077}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementDDoorRight
+    relativePosition: {x: 0.39705607, y: 0.9020169}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementADoorRight
+    relativePosition: {x: 0.22269993, y: 0.69065285}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: EntranceHallway
+    relativePosition: {x: 0.8435082, y: 0.21735907}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: DankGreenDoorRight
+    relativePosition: {x: 0.15004303, y: 0.9591988}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeBElevator
+    relativePosition: {x: 0.15864147, y: 0.18026708}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeADoorRight
+    relativePosition: {x: 0.60533106, y: 0.22997035}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeBPole
+    relativePosition: {x: 0.113031395, y: 0.22971085}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeADoorLeft
+    relativePosition: {x: 0.39724854, y: 0.22403564}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+--- !u!114 &2691826094032579596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: ApartmentInterior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: ApartmentInterior
+  <scenePath>k__BackingField: Assets/Scenes/ApartmentInterior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_ApartmentInterior.png
+  topLeftPosition: {x: 558.6469, y: -145.01982}
+  dimensions: {x: 288, y: 193.8}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: BedToBedroomRefresh
+    relativePosition: {x: 0.88006425, y: 0.585493}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LobbyDoor
+    relativePosition: {x: 0.46153846, y: 0.93142855}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LivingRoomToBathRoom
+    relativePosition: {x: 0.5830769, y: 0.448}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LivingRoomToBedRoom
+    relativePosition: {x: 0.61, y: 0.4925714}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BedRoom
+    relativePosition: {x: 0.8053846, y: 0.5942857}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LobbyToApartment
+    relativePosition: {x: 0.30769232, y: 0.904}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: Kitchen
+    relativePosition: {x: 0.19615385, y: 0.32571426}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ApartmentToLobby
+    relativePosition: {x: 0.3923077, y: 0.48914286}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BathRoom
+    relativePosition: {x: 0.8069231, y: 0.21714287}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ApartmentBed
+    relativePosition: {x: 0.88006425, y: 0.585493}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LivingRoomToKitchen
+    relativePosition: {x: 0.41846153, y: 0.44914287}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+--- !u!114 &3347040157586233625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: OfficeExterior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: OfficeExterior
+  <scenePath>k__BackingField: Assets/Scenes/OfficeExterior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_OfficeExterior.png
+  topLeftPosition: {x: 203.11153, y: 46.308556}
+  dimensions: {x: 288, y: 187.65001}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: SubwayApartmentDownstairs
+    relativePosition: {x: 0.47122675, y: 0.46419755}
+    linkedZoneName: Subway
+    linkedZoneNodeID: UpStairsApartment
+    linkedRelativePosition: {x: 0.95154554, y: 0.15184961}
+  - zoneNodeID: OfficeDoor
+    relativePosition: {x: 0.11387895, y: 0.7950465}
+    linkedZoneName: OfficeInterior
+    linkedZoneNodeID: OfficeInteriorDoor
+    linkedRelativePosition: {x: 0.89122957, y: 0.6624629}
+  - zoneNodeID: ApartmentDoor
+    relativePosition: {x: 0.5961519, y: 0.34415895}
+    linkedZoneName: ApartmentInterior
+    linkedZoneNodeID: LobbyDoor
+    linkedRelativePosition: {x: 0.46153846, y: 0.93142855}
+  - zoneNodeID: SubwayOfficeDownStairs
+    relativePosition: {x: 0.16434112, y: 0.9432288}
+    linkedZoneName: Subway
+    linkedZoneNodeID: UpStairsOffice
+    linkedRelativePosition: {x: 0.6796572, y: 0.83218944}
+  - zoneNodeID: OfficePortaBankDoor
+    relativePosition: {x: 0.07109827, y: 0.91342765}
+    linkedZoneName: PortaBank
+    linkedZoneNodeID: PortaBankOffice
+    linkedRelativePosition: {x: 0.47852612, y: 0.21607684}
+  - zoneNodeID: ApartmentDoor
+    relativePosition: {x: 0.5961519, y: 0.34415895}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+--- !u!114 &9220412953820126821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: PrimInterior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  <zoneName>k__BackingField: PrimInterior
+  <scenePath>k__BackingField: Assets/Scenes/PrimInterior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_PrimInterior.png
+  topLeftPosition: {x: 145.54416, y: 389.76456}
+  dimensions: {x: 288, y: 264.75}
+  <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: PS_YellowHouse_2F
+    relativePosition: {x: 0.7610811, y: 0.74955904}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_3f-down
+    relativePosition: {x: 0.2027027, y: 0.5343915}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_YellowHouse_Interior
+    relativePosition: {x: 0.94972974, y: 0.9653145}
+    linkedZoneName: Prim
+    linkedZoneNodeID: PS_YellowHouse_Exterior
+    linkedRelativePosition: {x: 0.26381487, y: 0.3048169}
+  - zoneNodeID: PS_TallestBuilding_1f
+    relativePosition: {x: 0.067567565, y: 0.94532627}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_2f-down
+    relativePosition: {x: 0.067567565, y: 0.74015284}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_Interior
+    relativePosition: {x: 0.2027027, y: 0.94532627}
+    linkedZoneName: Prim
+    linkedZoneNodeID: PS_TallestBuilding_Exterior
+    linkedRelativePosition: {x: 0.15525351, y: 0.5949021}
+  - zoneNodeID: PS_TallestBuilding_5f
+    relativePosition: {x: 0.2027027, y: 0.12286891}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_RedHouse_Interior
+    relativePosition: {x: 0.5605695, y: 0.95267487}
+    linkedZoneName: Prim
+    linkedZoneNodeID: PS_RedHouse_Exterior
+    linkedRelativePosition: {x: 0.3464322, y: 0.60978156}
+  - zoneNodeID: PS_YellowHouse_1F
+    relativePosition: {x: 0.7572973, y: 0.9606114}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_2f-up
+    relativePosition: {x: 0.2027027, y: 0.74015284}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_3f-up
+    relativePosition: {x: 0.067567565, y: 0.5343915}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_4f-down
+    relativePosition: {x: 0.067567565, y: 0.3286302}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_4f-up
+    relativePosition: {x: 0.2027027, y: 0.3286302}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
