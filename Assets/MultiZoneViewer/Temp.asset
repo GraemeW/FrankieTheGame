@@ -64,7 +64,7 @@ MonoBehaviour:
   <zoneName>k__BackingField: Demo_Forest1to20-Interior
   <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
   <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Interior.png
-  topLeftPosition: {x: 816, y: 629}
+  topLeftPosition: {x: 750.11914, y: 686.1555}
   dimensions: {x: 381, y: 171}
   <zoneNodeDataSet>k__BackingField:
   - zoneNodeID: LV_B1-to-B1_SR2
@@ -262,7 +262,7 @@ MonoBehaviour:
   <zoneName>k__BackingField: Demo_Forest1to20-Exterior
   <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
   <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Exterior.png
-  topLeftPosition: {x: 398, y: 207}
+  topLeftPosition: {x: 375.17212, y: 218.2155}
   dimensions: {x: 561, y: 342}
   <zoneNodeDataSet>k__BackingField:
   - zoneNodeID: Forest-to-TunnelWest

@@ -36,30 +36,31 @@ namespace Frankie.ZoneManagement.Editor
         private const float _zoomWheelStepFactor = 1.05f;
         
         // Node Link Tunables
-        private const float _uiNodeDotMinLinkDragDistance = 6f;
+        private const float _uiNodeDotMinLinkDragDistance = 100f;
  
         // UI Styles
-        private static readonly StyleColor _uiCanvasBackgroundColour = new(new Color(0.18f, 0.18f, 0.18f));
+        private static readonly StyleColor _uiCanvasBackgroundColour =  new(Color.gray2 * 0.8f); 
         private static readonly Color _uiGridLineMinorColour = new(1f, 1f, 1f, 0.05f);
         private static readonly Color _uiGridLineMajorColour = new(1f, 1f, 1f, 0.10f);
-        private static readonly StyleColor _uiStandardBackgroundColour = new(new Color(0.22f, 0.22f, 0.22f));
-        private static readonly StyleColor _uiViewBackgroundColour = new(new Color(0.25f, 0.25f, 0.27f));
+        private static readonly StyleColor _uiStandardBackgroundColour = new(Color.gray2);
+        private static readonly StyleColor _uiViewBackgroundColour = new(Color.gray3);
         private static readonly StyleColor _uiViewHeaderColour = new(new Color(0.13f, 0.45f, 0.72f));
-        private static readonly StyleColor _uiImageBackgroundColour = new(new Color(0.12f, 0.12f, 0.12f));
-        private static readonly StyleColor _uiImageHoverBackgroundColour = new(new Color(0.20f, 0.30f, 0.38f));
-        private static readonly StyleColor _uiBorderDarkColour = new(new Color(0.125f, 0.125f, 0.125f));
-        private static readonly StyleColor _uiBorderBrightColour = new(new Color(0.5f, 0.5f, 0.5f, 0.5f));
-        private static readonly StyleColor _uiButtonColour = new(new Color(0.3f, 0.3f, 0.3f));
-        private static readonly StyleColor _uiLabelTextColour = new(new Color(0.6f, 0.6f, 0.6f));
-        private static readonly float _uiStandardFontSize = 11f;
-        private static readonly float _uiBezierLineWidth = 0.8f;
-        private static readonly Color _uiBezierLineColour = new(1.0f, 0f, 0f, 0.8f); 
+        private static readonly StyleColor _uiImageBackgroundColour = new(Color.gray1);
+        private static readonly StyleColor _uiImageHoverBackgroundColour = new(Color.skyBlue * 0.3f);
+        private static readonly StyleColor _uiBorderDarkColour = new(Color.gray1);
+        private static readonly StyleColor _uiBorderBrightColour = new(Color.gray4);
+        private static readonly StyleColor _uiButtonColour = new(Color.gray4);
+        private static readonly StyleColor _uiLabelTextColour = new(Color.gray6);
+        private const float _uiStandardFontSize = 11f;
+        private const float _uiBezierLineWidth = 0.8f;
+        private static readonly Color _uiBezierLineColour = Color.red * 0.8f; 
         private const float _uiNodeDotBaseDiameter = 10f;
         private const float _uiNodeDotMinDiameter = 6f;
-        private const float _uiNodeDotMaxDiameter = 16f;
+        private const float _uiNodeDotMaxDiameter = 8f;
         private const float _uiNodeDotHoverScale = 1.5f;
-        private static readonly Color _uiNodeDotHoverBorderColour = new(1f, 0.85f, 0.2f);
-        private static readonly Color _uiNodeDotDragBelowThresholdColour = new(0.6f, 0.6f, 0.6f, 0.8f);
+        private static readonly StyleColor _uiNodeDotHoverBorderColour = new(Color.sandyBrown);
+        private static readonly Color _uiNodeDotDragAboveThresholdColour = Color.lightGreen; 
+        private static readonly Color _uiNodeDotDragBelowThresholdColour = Color.gray7;
         
         // Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
@@ -1328,7 +1329,7 @@ namespace Frankie.ZoneManagement.Editor
             Vector2? sourceCanvasPosition = GetDotCanvasPosition(activeDragSource.zoneName, activeDragSource.zoneNodeID);
             if (!sourceCanvasPosition.HasValue) { return; }
 
-            painter2D.strokeColor = IsPastLinkDragThreshold(dragCurrentCanvasPosition) ? Color.white : _uiNodeDotDragBelowThresholdColour;
+            painter2D.strokeColor = IsPastLinkDragThreshold(dragCurrentCanvasPosition) ? _uiNodeDotDragAboveThresholdColour : _uiNodeDotDragBelowThresholdColour;
             painter2D.lineWidth = _uiBezierLineWidth * Mathf.Clamp(zoomScale, 0.5f, 2f);
             painter2D.BeginPath();
             painter2D.MoveTo(sourceCanvasPosition.Value);
