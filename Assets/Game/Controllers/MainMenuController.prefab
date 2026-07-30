@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listenerPollingInterval: 0.1
   startCanvas: {fileID: 0}
-  launcher: {fileID: 0}
+  uiBoxReceiver: {fileID: 0}
 --- !u!114 &7791871072140480130
 MonoBehaviour:
   m_ObjectHideFlags: 0
