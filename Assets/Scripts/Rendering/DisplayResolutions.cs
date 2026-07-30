@@ -20,7 +20,7 @@ namespace Frankie.Rendering
         private static int _currentScreenHeight = 477;
 
         // Events
-        public static event Action<ResolutionScaler, int> resolutionUpdated;
+        public static event Action<ResolutionScaler, float> resolutionUpdated;
 
         #region PrivateMethods
         private static ResolutionScaler GetResolutionScaler()
@@ -28,11 +28,13 @@ namespace Frankie.Rendering
             return Screen.fullScreenMode != FullScreenMode.Windowed ? new ResolutionScaler(1, 1) : _windowedResolutionScaler;
         }
 
-        private static int GetCameraScaling()
+        private static float GetCameraScaling()
         {
-            int cameraScaling = 1;
-            if (Screen.fullScreenMode == FullScreenMode.Windowed) { cameraScaling *= 2; }
-            if (Screen.width < _fineZoomThresholds[0] || Screen.height < _fineZoomThresholds[1]) { cameraScaling *= 2; }
+            float cameraScaling = 1f;
+            if (Screen.fullScreenMode == FullScreenMode.Windowed) { cameraScaling *= 2f; }
+            
+            if (Screen.width < _fineZoomThresholds[0]) { cameraScaling *= 2f; }
+            else if (Screen.height < _fineZoomThresholds[1]) { cameraScaling *= Mathf.Max(2f, _fineZoomThresholds[1] / (float)Screen.height); } // Fractional scale to avoid wild zoom-outs for silly resolutions
 #if UNITY_EDITOR
             cameraScaling = 2; // Disable excessive camera scaling for editor window
 #endif

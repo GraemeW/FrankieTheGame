@@ -131,7 +131,7 @@ namespace Frankie.Rendering
             cameraData.cameraStack.Add(spawnAssistCamera);
         }
 
-        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler, int cameraScaling)
+        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler, float cameraScaling)
         {
             currentActiveOrthoSize = (defaultActiveOrthoSize * resolutionScaler.numerator / resolutionScaler.denominator) / cameraScaling;
             currentIdleOrthoSize = (defaultIdleOrthoSize * resolutionScaler.numerator / resolutionScaler.denominator) / cameraScaling;
