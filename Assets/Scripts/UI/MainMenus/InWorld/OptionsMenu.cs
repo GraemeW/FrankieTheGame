@@ -111,7 +111,7 @@ namespace Frankie.Menu.UI
             SubscribeToEscapeMenu(true);
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             SubscribeToEscapeMenu(false);
         }

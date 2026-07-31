@@ -98,7 +98,7 @@ namespace Frankie.Inventory.UI
             ListenToSelectedEquipment(true);
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             ListenToSelectedEquipment(false);
         }

@@ -499,6 +499,10 @@ MonoBehaviour:
     m_Key: Keyboard.Prefab.Keyboard.KeyboardKeysUpper
     m_Metadata:
       m_Items: []
+  - m_Id: 38415156680581120
+    m_Key: NameScreenOrchestrator.GO.NamingScreen.NameScreenOrchestrator.startingMessage
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

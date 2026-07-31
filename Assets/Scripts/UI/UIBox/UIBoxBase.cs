@@ -54,6 +54,7 @@ namespace Frankie.Utils.UI
         #endregion
         
         #region UtilityMethods
+        public void SetHandleGlobalInput(bool enable) => handleGlobalInput = enable; // Warning:  Only use if a known receiver exists to handle input
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
             receiverModified -= action;

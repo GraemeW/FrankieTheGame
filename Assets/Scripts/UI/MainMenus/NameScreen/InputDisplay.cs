@@ -7,7 +7,7 @@ namespace Frankie.Menu.UI
     {
         [Header("Inputs")]
         [SerializeField] private char padCharacter = '·';
-        [SerializeField] private int maxSize = 6;
+        [SerializeField] private int maxSize = 8;
         [Header("Hookups")]
         [SerializeField] private TMP_Text displayText;
 
@@ -39,6 +39,18 @@ namespace Frankie.Menu.UI
             currentDisplayText = currentDisplayText.Remove(currentDisplayText.Length - 1);
             RefreshDisplay();
             return true;
+        }
+
+        public void ClearDisplay()
+        {
+            currentDisplayText = "";
+            RefreshDisplay();
+        }
+
+        public void OverrideDisplay(string newDisplayText)
+        {
+            currentDisplayText = newDisplayText;
+            RefreshDisplay();
         }
         #endregion
 

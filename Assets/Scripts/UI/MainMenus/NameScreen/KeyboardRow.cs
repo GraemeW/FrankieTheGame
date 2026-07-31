@@ -21,14 +21,6 @@ namespace Frankie.Menu.UI
         {
             Instantiate(spacerPrefab, transform);
         }
-        
-        public void ClearRow()
-        {
-            foreach (Transform child in transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
         #endregion
     }
 }

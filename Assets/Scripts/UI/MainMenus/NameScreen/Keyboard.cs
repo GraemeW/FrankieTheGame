@@ -23,15 +23,24 @@ namespace Frankie.Menu.UI
         [SerializeField] private UIChoiceButton lowerCaseButton;
         [SerializeField] private UIChoiceButton upperCaseButton;
         [SerializeField] private Transform adminRowOrigin;
+        [SerializeField] private UIChoiceButton dontCareButton;
+        [SerializeField] private UIChoiceButton backspaceButton;
+        [SerializeField] private UIChoiceButton confirmButton;
         [Header("Prefabs")]
         [SerializeField] private KeyboardRow keyboardRowPrefab;
         
         // State
+        private bool areChoiceOptionsSetup = false;
         private bool isUpper = false;
         private readonly List<Key> standardKeys = new();
         private readonly List<Key> upperKeys = new();
         private readonly List<UIChoice> optionKeys = new();
         private readonly List<UIChoice> adminKeys = new();
+        private int nextDontCareIndex = 0;
+        private readonly List<string> dontCareAnswers = new();
+        
+        // Cached References
+        private NameScreenOrchestrator nameScreenOrchestrator;
 
         // UIBox Configuration
         protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
@@ -49,28 +58,11 @@ namespace Frankie.Menu.UI
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
-            InitializeOptionButtons();
         }
-        #endregion
-        
-        #region PublicMethods
-        public void Setup(InputDisplay inputDisplay)
+
+        protected override void EnableTriggered()
         {
-            if (inputDisplay == null) { return; }
-            
-            foreach (Key key in standardKeys.Where(key => key.keyboardButton != null))
-            {
-                key.keyboardButton.RemoveOnClickListeners();
-                key.keyboardButton.AddOnClickListener(() => UpdateDisplay(inputDisplay, key.character));
-            }
-            
-            foreach (Key key in upperKeys.Where(key => key.keyboardButton != null))
-            {
-                key.keyboardButton.RemoveOnClickListeners();
-                key.keyboardButton.AddOnClickListener(() => UpdateDisplay(inputDisplay, key.character));
-            }
-            
-            SetKeyboardToUpper(false);
+            ReconcileChoiceOptions();
             if (IsChoiceAvailable())
             {
                 highlightedChoiceOption = choiceOptions[0];
@@ -78,10 +70,38 @@ namespace Frankie.Menu.UI
             }
         }
         #endregion
+        
+        #region PublicMethods
+        public void Setup(NameScreenOrchestrator setNameScreenOrchestrator, InputDisplay inputDisplay)
+        {
+            nameScreenOrchestrator = setNameScreenOrchestrator;
+            if (!areChoiceOptionsSetup) { ImplementSetupChoiceOptions(); } // Fallback for Unity (out of) order of operations
+
+            if (inputDisplay != null)
+            {
+                foreach (Key key in standardKeys.Where(key => key.keyboardButton != null))
+                {
+                    key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(inputDisplay, key.character));
+                }
+            
+                foreach (Key key in upperKeys.Where(key => key.keyboardButton != null))
+                {
+                    key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(inputDisplay, key.character));
+                }
+            }
+            
+            InitializeOptionButtons();
+            InitializeAdminButtons(inputDisplay);
+            SetKeyboardToUpper(false);
+        }
+        #endregion
 
         #region UIBoxConfiguration
         private void ImplementSetupChoiceOptions()
         {
+            if (areChoiceOptionsSetup) { return; }
+            
+            areChoiceOptionsSetup = true;
             ClearExistingRows();
             
             int globalChoiceOrder = 0;
@@ -189,17 +209,51 @@ namespace Frankie.Menu.UI
             upperCaseButton.AddOnClickListener(() => SetKeyboardToUpper(true));
         }
 
-        private void InitializeAdminButtons()
+        private void InitializeAdminButtons(InputDisplay inputDisplay)
         {
-            
+            if (inputDisplay != null)
+            {
+                backspaceButton.AddOnClickListener(() => RemoveCharacterFromDisplay(inputDisplay));
+                dontCareButton.AddOnClickListener(() => SetDontCareEntry(inputDisplay));
+            }
+
+            if (nameScreenOrchestrator != null)
+            {
+                confirmButton.AddOnClickListener(() => nameScreenOrchestrator.AdvanceNamingRoutine());
+            }
         }
         #endregion
 
         #region PrivateUtility
-        private static void UpdateDisplay(InputDisplay inputDisplay, char character)
+        public void SetDontCareAnswers(List<string> setDontCareAnswers)
+        {
+            nextDontCareIndex = 0;
+            dontCareAnswers.Clear();
+            dontCareAnswers.AddRange(setDontCareAnswers);
+        }
+
+        private void SetDontCareEntry(InputDisplay inputDisplay)
+        {
+            if (dontCareAnswers.Count == 0) { return; }
+            if (nextDontCareIndex >= dontCareAnswers.Count) { nextDontCareIndex = 0; }
+            
+            string dontCareAnswer = dontCareAnswers[nextDontCareIndex];
+            inputDisplay.ClearDisplay();
+            inputDisplay.OverrideDisplay(dontCareAnswer);
+            
+            nextDontCareIndex++;
+        }
+        
+        private static void AddCharacterToDisplay(InputDisplay inputDisplay, char character)
         {
             if (inputDisplay == null) { return; }
             inputDisplay.TryAddText(character);
+        }
+
+        private static void RemoveCharacterFromDisplay(InputDisplay inputDisplay)
+        {
+            if (inputDisplay == null) { return; }
+            inputDisplay.TryRemoveText();
         }
         
         private void SetKeyboardToUpper(bool enable)

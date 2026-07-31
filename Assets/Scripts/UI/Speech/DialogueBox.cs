@@ -78,6 +78,7 @@ namespace Frankie.Speech.UI
 
         private void StoreOptionPanelConfigurables()
         {
+            if (optionParent == null) { return; }
             if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
             {
                 optionPadding = horizontalLayoutGroup.padding;
@@ -99,7 +100,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             if (dialogueController != null)
             {
@@ -217,13 +218,15 @@ namespace Frankie.Speech.UI
             }
         }
 
-        private void ClearOldDialogue()
+        public void ClearOldDialogue()
         {
             ClearPrintedJobs();
             foreach (Transform child in dialogueParent)
             {
                 Destroy(child.gameObject);
             }
+            if (optionParent == null) { return; }
+            
             foreach (Transform child in optionParent)
             {
                 child.GetComponent<Button>().onClick.RemoveAllListeners();

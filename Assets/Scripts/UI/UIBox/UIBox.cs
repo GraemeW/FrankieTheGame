@@ -31,7 +31,7 @@ namespace Frankie.Utils.UI
         protected virtual void AwakeTriggered() { }
         protected virtual void StartTriggered() { }
         protected virtual void EnableTriggered() { }
-        protected virtual void DisabledTriggered() { }
+        protected virtual void DisableTriggered() { }
         protected virtual void DestroyTriggered() { }
         
         #region UnityMethods
@@ -77,7 +77,7 @@ namespace Frankie.Utils.UI
             TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
             ClearChoiceSelections();
             if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
-            DisabledTriggered();
+            DisableTriggered();
         }
 
         private void LateUpdate()

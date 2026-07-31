@@ -98,9 +98,9 @@ namespace Frankie.Combat.UI
             SubscribeCharacterSlides(true);
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
-            base.DisabledTriggered();
+            base.DisableTriggered();
             SubscribeCharacterSlides(false);
         }
         #endregion

@@ -104,7 +104,7 @@ namespace Frankie.Inventory.UI
             ListenToKnapsack(true);
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             SubscribeCharacterSlides(false);
             ListenToKnapsack(false);
