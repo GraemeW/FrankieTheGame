@@ -491,6 +491,14 @@ MonoBehaviour:
     m_Key: InventoryShopBox.Prefab.InventoryShopBox.MessageEquipItem.8660b2c
     m_Metadata:
       m_Items: []
+  - m_Id: 38106325266194432
+    m_Key: Keyboard.Prefab.Keyboard.KeyboardKeys
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38353579130478592
+    m_Key: Keyboard.Prefab.Keyboard.KeyboardKeysUpper
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

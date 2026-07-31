@@ -25,6 +25,12 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region PublicMethods
+
+        public void RemoveOnClickListeners()
+        {
+            button.onClick.RemoveAllListeners();
+        }
+        
         public void DisableOnClickListeners()
         {
             for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)

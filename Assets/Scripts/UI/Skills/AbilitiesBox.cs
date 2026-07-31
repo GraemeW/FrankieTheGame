@@ -152,7 +152,7 @@ namespace Frankie.Combat.UI
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
-                uiChoiceOption.UseHighlightColor(true);
+                uiChoiceOption.UseInvalidChoiceDimming(true);
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 partyBattleEntities.Add(new BattleEntity(combatParticipant));

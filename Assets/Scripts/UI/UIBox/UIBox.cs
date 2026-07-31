@@ -55,8 +55,10 @@ namespace Frankie.Utils.UI
             AwakeTriggered();
         }
         
-        private void Start()
+        protected sealed override void Start()
         {
+            base.Start();
+            
             TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
             if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
             controllerCheckCoroutine = StartCoroutine(DestroyIfControllerMissing());
@@ -107,6 +109,7 @@ namespace Frankie.Utils.UI
             if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.setupChoiceOptions != null) { stateBehaviour.setupChoiceOptions(); return; }
             
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
+            if (optionParent == null) { return; }
             List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
             List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
             choiceOptions.AddRange(filteredUIChoices);

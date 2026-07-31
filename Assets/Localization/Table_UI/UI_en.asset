@@ -496,6 +496,14 @@ MonoBehaviour:
     m_Localized: Equip {0} now?
     m_Metadata:
       m_Items: []
+  - m_Id: 38106325266194432
+    m_Localized: abcdefghijklmnopqrstuvwxyz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38353579130478592
+    m_Localized: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

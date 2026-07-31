@@ -12,11 +12,13 @@ namespace Frankie.Utils.UI
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
         [SerializeField] private Color validChoiceColor = Color.white;
         [SerializeField] private Color invalidChoiceColor = Color.gray;
+        [SerializeField] private Color selectHighlightColor = Color.lawnGreen;
         [SerializeField] private TextMeshProUGUI textField;
 
         // State
         private readonly List<UnityAction> onHighlightExtraListeners = new();
-        private bool useHighlightColor = false;
+        private bool dimInvalidChoices = false;
+        private bool highlightSelected = false;
 
         // Unity Events
         public UnityEvent itemHighlighted;
@@ -66,9 +68,14 @@ namespace Frankie.Utils.UI
             textField.color = enable ? validChoiceColor : invalidChoiceColor;
         }
 
-        public void UseHighlightColor(bool enable)
+        public void UseInvalidChoiceDimming(bool enable)
         {
-            useHighlightColor = enable;
+            dimInvalidChoices = enable;
+        }
+
+        public void UseHighlightSelected(bool enable)
+        {
+            highlightSelected = enable;
         }
 
         public void DisableHighlightListeners()
@@ -89,8 +96,14 @@ namespace Frankie.Utils.UI
 
         public virtual void Highlight(bool enable)
         {
-            selectionMarker.SetActive(enable);
-            if (useHighlightColor) { textField.color = enable ? validChoiceColor : invalidChoiceColor; }
+            if (selectionMarker != null) { selectionMarker.SetActive(enable); }
+            if (dimInvalidChoices) { textField.color = enable ? validChoiceColor : invalidChoiceColor; }
+
+            if (highlightSelected)
+            {
+                textField.color = enable ? selectHighlightColor : validChoiceColor;
+                textField.fontStyle = enable ? FontStyles.Bold : FontStyles.Normal;
+            }
             if (enable && itemHighlighted != null) { itemHighlighted.Invoke(); }
         }
         #endregion
