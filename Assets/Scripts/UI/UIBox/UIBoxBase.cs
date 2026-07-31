@@ -36,11 +36,10 @@ namespace Frankie.Utils.UI
         private bool isChoiceAvailable = false;
         private bool clearDisableCallbacksOnChoose = false;
         protected readonly List<UIChoice> choiceOptions = new();
-        protected readonly List<List<UIChoice>> choiceGrid = new();
         protected UIChoice highlightedChoiceOption;
 
         // Cached References
-        private Camera renderCamera;
+        private Camera renderCamera; // Only relevant if canvas != overlay
         
         // Event Handles
         private event Action<ReceiverModifiedType, ReceiverModifiedData> receiverModified;
@@ -49,7 +48,8 @@ namespace Frankie.Utils.UI
 
         protected virtual void Start()
         {
-            renderCamera = Camera.main;
+            var canvas = GetComponentInParent<Canvas>();
+            renderCamera = canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay ? canvas.worldCamera : null;
         }
         #endregion
         
@@ -183,7 +183,6 @@ namespace Frankie.Utils.UI
         
         protected bool StandardMoveCursorSpatial(ControllerInputType controllerInputType)
         {
-            if (renderCamera == null) { return false; }
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
 
             // Special objects that require specialty input (sliders, etc.)
@@ -287,7 +286,6 @@ namespace Frankie.Utils.UI
         private static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice closestChoice)
         {
             closestChoice = null;
-            if (renderCamera == null) { return false; }
 
             float closestDistance = float.PositiveInfinity;
             foreach (UIChoice candidate in choiceOptions.Where(candidate => candidate != null && candidate != highlightedChoiceOption))
@@ -305,7 +303,6 @@ namespace Frankie.Utils.UI
         private static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice bestChoice)
         {
             bestChoice = null;
-            if (renderCamera == null) { return false; }
             
             float bestScore = float.NegativeInfinity;
             foreach (UIChoice candidate in choiceOptions.Where(candidate => candidate != null && candidate != highlightedChoiceOption))
@@ -332,7 +329,7 @@ namespace Frankie.Utils.UI
         private static bool TryGetScreenRect(Camera renderCamera, RectTransform rectTransform, out Rect screenRect)
         {
             screenRect = default;
-            if (renderCamera == null || rectTransform == null) { return false; }
+            if (rectTransform == null) { return false; }
 
             var worldCorners = new Vector3[4];
             rectTransform.GetWorldCorners(worldCorners);
