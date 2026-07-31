@@ -590,6 +590,14 @@ MonoBehaviour:
     m_Localized: Demo_Forest1to20-Portabank
     m_Metadata:
       m_Items: []
+  - m_Id: 38383849237897216
+    m_Localized: NamingScreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38383850068369408
+    m_Localized: a2e12e6b-a7d5-4e7e-a41f-20b5976e093c
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
