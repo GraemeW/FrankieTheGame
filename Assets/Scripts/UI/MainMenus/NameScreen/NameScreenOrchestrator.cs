@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,11 +26,10 @@ namespace Frankie.Menu.UI
         [SerializeField] private Transform infoPanel;
         [SerializeField] private Transform namingPanel;
         [SerializeField] private Transform confirmationPanel;
-        [SerializeField] private InputDisplay inputDisplay;
-        [SerializeField] private DialogueBox questionTextScan;
-        [SerializeField] private Keyboard keyboard;
         [SerializeField] private Transform offStagePosition;
         [SerializeField] private Transform stagePosition;
+        [SerializeField] private RelativeUISequencer offStagePositionRelativeUI;
+        [SerializeField] private RelativeUISequencer leftWalkCoverRelativeUI;
 
         // State
         private NameScreenState nameScreenState = NameScreenState.Intro;
@@ -38,21 +38,16 @@ namespace Frankie.Menu.UI
         private Coroutine thingInitializationCoroutine;
         private Coroutine thingRemovalCoroutine;
         
+        // Events
+        public event Action<NameScreenState, NameScreenQuestion> stateChanged;
+        
         #region UnityMethods
         private void Awake()
         {
-            questionTextScan.SetHandleGlobalInput(false);
-            mainMenuController.AddInputReceiver(keyboard, null);
-
             SetState(NameScreenState.Intro);
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoPanel);
             dialogueBox.Setup(startingMessage.GetSafeLocalizedString());
             mainMenuController.AddInputReceiver(dialogueBox, () => SetState(NameScreenState.Naming));
-        }
-        
-        private void Start()
-        {
-            keyboard.Setup(this, inputDisplay);
         }
 
         private void OnDestroy()
@@ -61,8 +56,15 @@ namespace Frankie.Menu.UI
         }
         #endregion
         
+        #region PublicMethods
+        public bool TryGetController(out BaseController controller)
+        {
+            controller = mainMenuController;
+            return controller != null;
+        }
+        #endregion
+        
         #region PrivateMethods
-
         private void SetState(NameScreenState setNameScreenState)
         {
             nameScreenState = setNameScreenState;
@@ -71,51 +73,36 @@ namespace Frankie.Menu.UI
             namingPanel.gameObject.SetActive(setNameScreenState == NameScreenState.Naming);
             confirmationPanel.gameObject.SetActive(setNameScreenState == NameScreenState.Confirm);
             
-            if (setNameScreenState == NameScreenState.Naming) { InitiateNamingRoutine(); }
+            if (setNameScreenState == NameScreenState.Intro) { questionIndex = 0; }
+            
+            NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
+            if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); } // Invalid state
+            
+            stateChanged?.Invoke(setNameScreenState, question);
         }
 
-        private void InitiateNamingRoutine()
-        {
-            if (questions.Count == 0) { SetState(NameScreenState.Confirm); }
-            questionIndex = 0;
-            SetupCurrentQuestion();
-        }
+        private bool HasValidQuestion() => questions is { Count: > 0 } && questionIndex < questions.Count;
 
         public void AdvanceNamingRoutine()
         {
-            // TODO:  Store current data ++ error handling for name
-            
             questionIndex++;
-            SetupCurrentQuestion();
+            SetState(HasValidQuestion() ? NameScreenState.Naming : NameScreenState.Confirm);
         }
 
-        private void SetupCurrentQuestion()
+        public void InitializeThing(GameObject newThingPrefab)
         {
-            if (questionIndex >= questions.Count) { SetState(NameScreenState.Confirm); return; }
-            
-            inputDisplay.ClearDisplay();
-            
-            NameScreenQuestion question = questions[questionIndex];
-            questionTextScan.ClearOldDialogue();
-            questionTextScan.Setup(question.question);
-            
-            InitializeThing(question.thingPrefab);
-            
-            keyboard.SetDontCareAnswers(question.dontCareAnswers);
-        }
-
-        private void InitializeThing(GameObject newThingPrefab)
-        {
-            GameObject newThing = null;
-            if (newThingPrefab != null) { newThing = Instantiate(newThingPrefab, offStagePosition); }
             if (thingInitializationCoroutine != null) { StopCoroutine(thingInitializationCoroutine); }
-            thingInitializationCoroutine = StartCoroutine(SwapThingToWalkInFrame(newThing));
+            thingInitializationCoroutine = StartCoroutine(SwapThingToWalkInFrame(newThingPrefab));
         }
         
-        private IEnumerator SwapThingToWalkInFrame(GameObject newThing)
+        private IEnumerator SwapThingToWalkInFrame(GameObject newThingPrefab)
         {
-            UICharacter uiCharacter;
+            yield return null;
+            if (offStagePositionRelativeUI != null) { offStagePositionRelativeUI.AssertAlignment(); }
+            if (leftWalkCoverRelativeUI != null) { leftWalkCoverRelativeUI.AssertAlignment(); }
+            yield return null;
             
+            UICharacter uiCharacter;
             if (thing != null)
             {
                 if (thing.TryGetComponent(out uiCharacter))
@@ -125,6 +112,9 @@ namespace Frankie.Menu.UI
                 }
                 Destroy(thing);
             }
+            if (newThingPrefab == null) { thing = null; yield break;}
+            
+            GameObject newThing = Instantiate(newThingPrefab, offStagePosition);
             thing = newThing;
             if (thing == null) { yield break; }
             

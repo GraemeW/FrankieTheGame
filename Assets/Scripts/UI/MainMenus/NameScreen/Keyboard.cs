@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Localization;
+using Frankie.Control;
+using Frankie.Speech.UI;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
-using UnityEngine;
-using UnityEngine.Localization;
 
 namespace Frankie.Menu.UI
 {
@@ -17,6 +19,8 @@ namespace Frankie.Menu.UI
         [SerializeField] private int standardKeysPerRow = 8;
         [SerializeField] private int spacersToSpecialKeys = 2;
         [Header("Hookups")]
+        [SerializeField] private InputDisplay inputDisplay;
+        [SerializeField] private DialogueBox questionTextScan;
         [SerializeField] private Transform keyboardRowOrigin;
         [SerializeField] private Transform upperKeyboardRowOrigin;
         [SerializeField] private Transform optionRowOrigin;
@@ -58,41 +62,32 @@ namespace Frankie.Menu.UI
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
+            nameScreenOrchestrator = GetComponentInParent<NameScreenOrchestrator>();
+            questionTextScan.SetHandleGlobalInput(false);
+        }
+
+        protected override void StartTriggered()
+        {
+            if (nameScreenOrchestrator != null && nameScreenOrchestrator.TryGetController(out BaseController baseController)) { baseController.AddInputReceiver(this, null); }
         }
 
         protected override void EnableTriggered()
         {
+            SubscribeToQuestionUpdates(true);
+            
             ReconcileChoiceOptions();
+            SetupButtonEvents();
+            SetKeyboardToUpper(false);
             if (IsChoiceAvailable())
             {
                 highlightedChoiceOption = choiceOptions[0];
                 highlightedChoiceOption.Highlight(true);
             }
         }
-        #endregion
-        
-        #region PublicMethods
-        public void Setup(NameScreenOrchestrator setNameScreenOrchestrator, InputDisplay inputDisplay)
-        {
-            nameScreenOrchestrator = setNameScreenOrchestrator;
-            if (!areChoiceOptionsSetup) { ImplementSetupChoiceOptions(); } // Fallback for Unity (out of) order of operations
 
-            if (inputDisplay != null)
-            {
-                foreach (Key key in standardKeys.Where(key => key.keyboardButton != null))
-                {
-                    key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(inputDisplay, key.character));
-                }
-            
-                foreach (Key key in upperKeys.Where(key => key.keyboardButton != null))
-                {
-                    key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(inputDisplay, key.character));
-                }
-            }
-            
-            InitializeOptionButtons();
-            InitializeAdminButtons(inputDisplay);
-            SetKeyboardToUpper(false);
+        protected override void DisableTriggered()
+        {
+            SubscribeToQuestionUpdates(false);
         }
         #endregion
 
@@ -125,6 +120,30 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
+        #region EventHandling
+        private void SubscribeToQuestionUpdates(bool enable)
+        {
+            if (nameScreenOrchestrator == null)  { return; }
+
+            nameScreenOrchestrator.stateChanged -= SetupCurrentQuestion;
+            if (enable) { nameScreenOrchestrator.stateChanged += SetupCurrentQuestion; }
+        }
+        
+        private void SetupCurrentQuestion(NameScreenState nameScreenState, NameScreenQuestion question)
+        {
+            if (nameScreenState != NameScreenState.Naming) { return; }
+            
+            inputDisplay.ClearDisplay();
+            
+            questionTextScan.ClearOldDialogue();
+            questionTextScan.Setup(question.question);
+            
+            nameScreenOrchestrator.InitializeThing(question.thingPrefab);
+            
+            SetDontCareAnswers(question.dontCareAnswers);
+        }
+        #endregion
+        
         #region PrivateSetup
         private List<Key> BuildKeyboardChoices(string keyboardKeys, bool isStandardOrigin, ref int globalChoiceOrder)
         {
@@ -202,6 +221,22 @@ namespace Frankie.Menu.UI
             }
             return adminChoices;
         }
+        
+        private void SetupButtonEvents()
+        {
+            foreach (Key key in standardKeys.Where(key => key.keyboardButton != null))
+            {
+                key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(key.character));
+            }
+            
+            foreach (Key key in upperKeys.Where(key => key.keyboardButton != null))
+            {
+                key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(key.character));
+            }
+            InitializeOptionButtons();
+            InitializeAdminButtons();
+
+        }
 
         private void InitializeOptionButtons()
         {
@@ -209,12 +244,12 @@ namespace Frankie.Menu.UI
             upperCaseButton.AddOnClickListener(() => SetKeyboardToUpper(true));
         }
 
-        private void InitializeAdminButtons(InputDisplay inputDisplay)
+        private void InitializeAdminButtons()
         {
             if (inputDisplay != null)
             {
-                backspaceButton.AddOnClickListener(() => RemoveCharacterFromDisplay(inputDisplay));
-                dontCareButton.AddOnClickListener(() => SetDontCareEntry(inputDisplay));
+                backspaceButton.AddOnClickListener(() => RemoveCharacterFromDisplay());
+                dontCareButton.AddOnClickListener(() => SetDontCareEntry());
             }
 
             if (nameScreenOrchestrator != null)
@@ -225,14 +260,14 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region PrivateUtility
-        public void SetDontCareAnswers(List<string> setDontCareAnswers)
+        private void SetDontCareAnswers(List<string> setDontCareAnswers)
         {
             nextDontCareIndex = 0;
             dontCareAnswers.Clear();
             dontCareAnswers.AddRange(setDontCareAnswers);
         }
 
-        private void SetDontCareEntry(InputDisplay inputDisplay)
+        private void SetDontCareEntry()
         {
             if (dontCareAnswers.Count == 0) { return; }
             if (nextDontCareIndex >= dontCareAnswers.Count) { nextDontCareIndex = 0; }
@@ -244,13 +279,13 @@ namespace Frankie.Menu.UI
             nextDontCareIndex++;
         }
         
-        private static void AddCharacterToDisplay(InputDisplay inputDisplay, char character)
+        private void AddCharacterToDisplay(char character)
         {
             if (inputDisplay == null) { return; }
             inputDisplay.TryAddText(character);
         }
 
-        private static void RemoveCharacterFromDisplay(InputDisplay inputDisplay)
+        private void RemoveCharacterFromDisplay()
         {
             if (inputDisplay == null) { return; }
             inputDisplay.TryRemoveText();
