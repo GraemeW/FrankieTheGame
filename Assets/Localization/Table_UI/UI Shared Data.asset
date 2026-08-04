@@ -527,6 +527,30 @@ MonoBehaviour:
     m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[4]'
     m_Metadata:
       m_Items: []
+  - m_Id: 39855287304183808
+    m_Key: NameScreenQuestion.TillyQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855287891386368
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855288491171840
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855310490296320
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855310792286208
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855311396265984
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

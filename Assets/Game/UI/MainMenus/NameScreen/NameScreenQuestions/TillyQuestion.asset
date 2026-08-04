@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98fc4b69c8c4e05b4e7bf19a3cfa6e2, type: 3}
+  m_Name: TillyQuestion
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.NameScreenQuestion
+  localizedQuestion:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 39855287304183808
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  thingPrefab: {fileID: 0}
+  localizedDontCareAnswers:
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39855287891386368
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39855288491171840
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39855310490296320
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39855310792286208
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39855311396265984
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  questionType: 0
+  optionalCharacterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  cachedName: TillyQuestion
+  references:
+    version: 2
+    RefIds: []

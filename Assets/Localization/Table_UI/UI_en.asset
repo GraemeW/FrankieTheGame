@@ -512,6 +512,26 @@ MonoBehaviour:
     m_Localized: Who is this guy?
     m_Metadata:
       m_Items: []
+  - m_Id: 39855287891386368
+    m_Localized: Gal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855288491171840
+    m_Localized: Tipsy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855310490296320
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855310792286208
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855311396265984
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
   - m_Id: 39852936195465216
     m_Localized: Frankie
     m_Metadata:
@@ -530,6 +550,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 39853004646506496
     m_Localized: Guy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39855287304183808
+    m_Localized: Who's this gal?
     m_Metadata:
       m_Items: []
   references:
