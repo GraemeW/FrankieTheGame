@@ -505,7 +505,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 38415156680581120
-    m_Localized: '"Before getting started, we need to ask a few quick questions."'
+    m_Localized: Before getting started, we need to get a few quick facts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39841667832864768
+    m_Localized: Who is this guy?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936195465216
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936963022848
+    m_Localized: Francis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852937948684288
+    m_Localized: Biff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004327739392
+    m_Localized: Wolfgang
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004646506496
+    m_Localized: Guy
     m_Metadata:
       m_Items: []
   references:

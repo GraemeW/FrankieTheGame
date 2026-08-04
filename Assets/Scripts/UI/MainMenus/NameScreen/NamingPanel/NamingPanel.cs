@@ -1,24 +1,31 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Control;
-using Frankie.Speech.UI;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
+using Frankie.Speech.UI;
 using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class Keyboard : UIBox<UIBoxState>
+    public class NamingPanel : UIBox<UIBoxState>, ILocalizable
     {
-        [Header("Standard Settings")]
+        [Header("Keyboard Parameters")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKeyboardKeys;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKeyboardKeysUpper;
         [SerializeField] private string additionalSpecialCharacters = "0123456789._-@!*^";
         [SerializeField] private int standardKeysPerRow = 8;
         [SerializeField] private int spacersToSpecialKeys = 2;
-        [Header("Hookups")]
+        [Header("Thing Parameters")]
+        [SerializeField] private float thingSize = 180;
+        [SerializeField] private float thingWalkTimeEstimate = 2f;
+        [Header("Prefabs")]
+        [SerializeField] private KeyboardRow keyboardRowPrefab;
+        [Header("Keyboard Hookups")]
         [SerializeField] private InputDisplay inputDisplay;
         [SerializeField] private DialogueBox questionTextScan;
         [SerializeField] private Transform keyboardRowOrigin;
@@ -30,21 +37,39 @@ namespace Frankie.Menu.UI
         [SerializeField] private UIChoiceButton dontCareButton;
         [SerializeField] private UIChoiceButton backspaceButton;
         [SerializeField] private UIChoiceButton confirmButton;
-        [Header("Prefabs")]
-        [SerializeField] private KeyboardRow keyboardRowPrefab;
+        [Header("Thing Hookups")]
+        [SerializeField] private Transform stagePosition;
+        [SerializeField] private RelativeUISequencer offStagePosition;
+        [SerializeField] private RelativeUISequencer leftWalkCover;
         
-        // State
+        // Core State
         private bool areChoiceOptionsSetup = false;
         private bool isUpper = false;
+        // Keyboard State
         private readonly List<Key> standardKeys = new();
         private readonly List<Key> upperKeys = new();
         private readonly List<UIChoice> optionKeys = new();
         private readonly List<UIChoice> adminKeys = new();
+        // Don't Care State
         private int nextDontCareIndex = 0;
         private readonly List<string> dontCareAnswers = new();
+        // Thing State
+        private GameObject thing;
+        private Coroutine thingCoroutine;
         
         // Cached References
         private NameScreenOrchestrator nameScreenOrchestrator;
+        
+        // Localization
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedKeyboardKeys.TableEntryReference,
+                localizedKeyboardKeysUpper.TableEntryReference,
+            };
+        }
 
         // UIBox Configuration
         protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
@@ -90,6 +115,11 @@ namespace Frankie.Menu.UI
             SubscribeToQuestionUpdates(false);
             SetupButtonEvents(false);
         }
+
+        protected override void DestroyTriggered()
+        {
+            if (thingCoroutine != null) { StopCoroutine(thingCoroutine); }
+        }
         #endregion
 
         #region UIBoxConfiguration
@@ -132,16 +162,23 @@ namespace Frankie.Menu.UI
         
         private void SetupCurrentQuestion(NameScreenState nameScreenState, NameScreenQuestion question)
         {
-            if (nameScreenState != NameScreenState.Naming) { return; }
-            
-            inputDisplay.ClearDisplay();
-            
-            questionTextScan.ClearOldDialogue();
-            questionTextScan.Setup(question.question);
-            
-            nameScreenOrchestrator.InitializeThing(question.thingPrefab);
-            
-            SetDontCareAnswers(question.dontCareAnswers);
+            switch (nameScreenState)
+            {
+                case NameScreenState.Naming:
+                    inputDisplay.ClearDisplay();
+                    questionTextScan.ClearOldDialogue();
+                    questionTextScan.Setup(question.localizedQuestion.GetSafeLocalizedString());
+                    InitializeThing(question.thingPrefab);
+                    SetDontCareAnswers(SanitizeDontCareAnswers(question.localizedDontCareAnswers));
+                    break;
+                case NameScreenState.NamingComplete:
+                    CloseOutNamingPanel();
+                    break;
+                default:
+                case NameScreenState.Intro:
+                case NameScreenState.Confirm:
+                    break;
+            }
         }
         #endregion
         
@@ -263,12 +300,28 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
-        #region PrivateUtility
+        #region DontCareEntrySetup
         private void SetDontCareAnswers(List<string> setDontCareAnswers)
         {
             nextDontCareIndex = 0;
             dontCareAnswers.Clear();
             dontCareAnswers.AddRange(setDontCareAnswers);
+        }
+        
+        private static List<string> SanitizeDontCareAnswers(IEnumerable<DontCareAnswer> passDontCareAnswers)
+        {
+            var sanitizedDontCareAnswers = new List<string>();
+            if (passDontCareAnswers == null)  { return sanitizedDontCareAnswers; }
+            
+            foreach (DontCareAnswer dontCareAnswer in passDontCareAnswers)
+            {
+                if (dontCareAnswer?.entry == null) { continue; }
+                string sanitizedDontCareAnswer = dontCareAnswer.entry.GetSafeLocalizedString();
+                
+                if (string.IsNullOrEmpty(sanitizedDontCareAnswer)) { continue; }
+                sanitizedDontCareAnswers.Add(sanitizedDontCareAnswer);
+            }
+            return sanitizedDontCareAnswers;
         }
 
         private void SetDontCareEntry()
@@ -282,7 +335,9 @@ namespace Frankie.Menu.UI
             
             nextDontCareIndex++;
         }
+        #endregion
         
+        #region KeyboardDisplay
         private void AddCharacterToDisplay(char character)
         {
             if (inputDisplay == null) { return; }
@@ -314,6 +369,59 @@ namespace Frankie.Menu.UI
             adminKeys.Clear();
             choiceOptions.Clear();
             highlightedChoiceOption = null;
+        }
+        #endregion
+        
+        #region ThingVisualization
+        private void InitializeThing(GameObject newThingPrefab)
+        {
+            if (thingCoroutine != null) { StopCoroutine(thingCoroutine); }
+            thingCoroutine = StartCoroutine(SwapThingToWalkInFrame(newThingPrefab));
+        }
+
+        private void CloseOutNamingPanel()
+        {
+            if (thingCoroutine != null) { StopCoroutine(thingCoroutine); }
+            thingCoroutine = StartCoroutine(WalkOffThingAndMoveToConfirm());
+        }
+        
+        private IEnumerator SwapThingToWalkInFrame(GameObject newThingPrefab)
+        {
+            yield return WalkOffThing();
+            if (newThingPrefab == null) { thing = null; yield break;}
+            
+            GameObject newThing = Instantiate(newThingPrefab, offStagePosition.transform);
+            thing = newThing;
+            if (thing == null) { yield break; }
+            
+            yield return null;
+            if (thing.TryGetComponent(out RectTransform rectTransform)) { rectTransform.sizeDelta = new Vector2(thingSize, thingSize); }
+            yield return null;
+            if (thing.TryGetComponent(out UICharacter uiCharacter)) { uiCharacter.MoveTowards(stagePosition.position); }
+            else { thing.transform.position = stagePosition.position; }
+        }
+
+        private IEnumerator WalkOffThing()
+        {
+            yield return null;
+            if (offStagePosition != null) { offStagePosition.AssertAlignment(); }
+            if (leftWalkCover != null) { leftWalkCover.AssertAlignment(); }
+            yield return null;
+            if (thing == null) { yield break; }
+            
+            if (thing.TryGetComponent(out UICharacter uiCharacter))
+            {
+                uiCharacter.MoveTowards(offStagePosition.transform.position);
+                yield return new WaitForSeconds(thingWalkTimeEstimate);
+            }
+            Destroy(thing);
+        }
+
+        private IEnumerator WalkOffThingAndMoveToConfirm()
+        {
+            yield return WalkOffThing();
+            yield return null;
+            if (nameScreenOrchestrator != null) { nameScreenOrchestrator.SetState(NameScreenState.Confirm); }
         }
         #endregion
     }

@@ -503,6 +503,30 @@ MonoBehaviour:
     m_Key: NameScreenOrchestrator.GO.NamingScreen.NameScreenOrchestrator.startingMessage
     m_Metadata:
       m_Items: []
+  - m_Id: 39841667832864768
+    m_Key: NameScreenQuestion.FrankieQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936195465216
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936963022848
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852937948684288
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004327739392
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004646506496
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

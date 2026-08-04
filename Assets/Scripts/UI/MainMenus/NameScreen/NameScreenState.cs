@@ -4,6 +4,7 @@ namespace Frankie.Menu.UI
     {
         Intro,
         Naming,
+        NamingComplete,
         Confirm
     }
 }

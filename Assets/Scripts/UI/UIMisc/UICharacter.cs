@@ -1,7 +1,7 @@
 using Frankie.Control;
 using UnityEngine;
 
-namespace Frankie.Menu.UI
+namespace Frankie.Utils.UI
 {
     [RequireComponent(typeof(Animator))]
     public class UICharacter : MonoBehaviour

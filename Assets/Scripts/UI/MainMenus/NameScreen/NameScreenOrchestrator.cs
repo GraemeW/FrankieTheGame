@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Utils.UI;
@@ -10,15 +10,13 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class NameScreenOrchestrator : MonoBehaviour
+    public class NameScreenOrchestrator : MonoBehaviour, ILocalizable
     {
         [Header("Controller")]
         [SerializeField] private MainMenuController mainMenuController;
         [Header("Tunables")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString startingMessage;
         [SerializeField] private List<NameScreenQuestion> questions = new();
-        [SerializeField] private float thingSize = 180;
-        [SerializeField] private float thingWalkTimeEstimate = 2f;
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
         [SerializeField] private UIChoiceButton choiceButtonPrefab;
@@ -27,20 +25,23 @@ namespace Frankie.Menu.UI
         [SerializeField] private Transform namingPanel;
         [SerializeField] private Transform confirmationPanel;
         [SerializeField] private Transform dialogueBoxSpawnPoint;
-        [SerializeField] private Transform offStagePosition;
-        [SerializeField] private Transform stagePosition;
-        [SerializeField] private RelativeUISequencer offStagePositionRelativeUI;
-        [SerializeField] private RelativeUISequencer leftWalkCoverRelativeUI;
 
         // State
         private NameScreenState nameScreenState = NameScreenState.Intro;
         private int questionIndex = 0;
-        private GameObject thing;
-        private Coroutine thingInitializationCoroutine;
-        private Coroutine thingRemovalCoroutine;
         
         // Events
         public event Action<NameScreenState, NameScreenQuestion> stateChanged;
+        
+        // Localization
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                startingMessage.TableEntryReference,
+            };
+        }
         
         #region UnityMethods
         private void Awake()
@@ -51,11 +52,6 @@ namespace Frankie.Menu.UI
             dialogueBox.Setup(startingMessage.GetSafeLocalizedString());
             mainMenuController.AddInputReceiver(dialogueBox, () => SetState(NameScreenState.Naming));
         }
-
-        private void OnDestroy()
-        {
-            if (thingInitializationCoroutine != null) { StopCoroutine(thingInitializationCoroutine); }
-        }
         #endregion
         
         #region PublicMethods
@@ -64,67 +60,31 @@ namespace Frankie.Menu.UI
             controller = mainMenuController;
             return controller != null;
         }
-        #endregion
         
-        #region PrivateMethods
-        private void SetState(NameScreenState setNameScreenState)
+        public void SetState(NameScreenState setNameScreenState)
         {
             nameScreenState = setNameScreenState;
             
-            infoPanel.gameObject.SetActive(setNameScreenState == NameScreenState.Intro);
-            namingPanel.gameObject.SetActive(setNameScreenState == NameScreenState.Naming);
-            confirmationPanel.gameObject.SetActive(setNameScreenState == NameScreenState.Confirm);
+            infoPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Intro);
+            namingPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Naming or NameScreenState.NamingComplete);
+            confirmationPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
             
             if (setNameScreenState == NameScreenState.Intro) { questionIndex = 0; }
             
             NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
             if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); } // Invalid state
             
-            stateChanged?.Invoke(setNameScreenState, question);
+            stateChanged?.Invoke(nameScreenState, question);
         }
-
+        #endregion
+        
+        #region PrivateMethods
         private bool HasValidQuestion() => questions is { Count: > 0 } && questionIndex < questions.Count;
 
         public void AdvanceNamingRoutine()
         {
             questionIndex++;
-            SetState(HasValidQuestion() ? NameScreenState.Naming : NameScreenState.Confirm);
-        }
-
-        public void InitializeThing(GameObject newThingPrefab)
-        {
-            if (thingInitializationCoroutine != null) { StopCoroutine(thingInitializationCoroutine); }
-            thingInitializationCoroutine = StartCoroutine(SwapThingToWalkInFrame(newThingPrefab));
-        }
-        
-        private IEnumerator SwapThingToWalkInFrame(GameObject newThingPrefab)
-        {
-            yield return null;
-            if (offStagePositionRelativeUI != null) { offStagePositionRelativeUI.AssertAlignment(); }
-            if (leftWalkCoverRelativeUI != null) { leftWalkCoverRelativeUI.AssertAlignment(); }
-            yield return null;
-            
-            UICharacter uiCharacter;
-            if (thing != null)
-            {
-                if (thing.TryGetComponent(out uiCharacter))
-                {
-                    uiCharacter.MoveTowards(offStagePosition.position);
-                    yield return new WaitForSeconds(thingWalkTimeEstimate);
-                }
-                Destroy(thing);
-            }
-            if (newThingPrefab == null) { thing = null; yield break;}
-            
-            GameObject newThing = Instantiate(newThingPrefab, offStagePosition);
-            thing = newThing;
-            if (thing == null) { yield break; }
-            
-            yield return null;
-            if (thing.TryGetComponent(out RectTransform rectTransform)) { rectTransform.sizeDelta = new Vector2(thingSize, thingSize); }
-            yield return null;
-            if (thing.TryGetComponent(out uiCharacter)) { uiCharacter.MoveTowards(stagePosition.position); }
-            else { thing.transform.position = stagePosition.position; }
+            SetState(HasValidQuestion() ? NameScreenState.Naming : NameScreenState.NamingComplete);
         }
         #endregion
     }

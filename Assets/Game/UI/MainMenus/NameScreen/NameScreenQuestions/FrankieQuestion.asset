@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98fc4b69c8c4e05b4e7bf19a3cfa6e2, type: 3}
+  m_Name: FrankieQuestion
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.NameScreenQuestion
+  localizedQuestion:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 39841667832864768
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  thingPrefab: {fileID: 4059431491826454265, guid: 29a3168c19a6a47ada2e836421705c39, type: 3}
+  localizedDontCareAnswers:
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39852936195465216
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39852936963022848
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39852937948684288
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39853004327739392
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 39853004646506496
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  questionType: 0
+  optionalCharacterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  cachedName: FrankieQuestion
+  references:
+    version: 2
+    RefIds: []
