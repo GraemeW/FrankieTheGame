@@ -74,9 +74,9 @@ namespace Frankie.Menu.UI
         protected override void EnableTriggered()
         {
             SubscribeToQuestionUpdates(true);
+            SetupButtonEvents(true);
             
             ReconcileChoiceOptions();
-            SetupButtonEvents();
             SetKeyboardToUpper(false);
             if (IsChoiceAvailable())
             {
@@ -88,6 +88,7 @@ namespace Frankie.Menu.UI
         protected override void DisableTriggered()
         {
             SubscribeToQuestionUpdates(false);
+            SetupButtonEvents(false);
         }
         #endregion
 
@@ -222,40 +223,43 @@ namespace Frankie.Menu.UI
             return adminChoices;
         }
         
-        private void SetupButtonEvents()
+        private void SetupButtonEvents(bool enable)
         {
             foreach (Key key in standardKeys.Where(key => key.keyboardButton != null))
             {
-                key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(key.character));
+                key.keyboardButton.RemoveOnClickListeners();
+                if (enable) { key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(key.character)); }
             }
             
             foreach (Key key in upperKeys.Where(key => key.keyboardButton != null))
             {
-                key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(key.character));
+                key.keyboardButton.RemoveOnClickListeners();
+                if (enable) { key.keyboardButton.AddOnClickListener(() => AddCharacterToDisplay(key.character)); }
             }
-            InitializeOptionButtons();
-            InitializeAdminButtons();
-
+            InitializeOptionButtons(enable);
+            InitializeAdminButtons(enable);
         }
 
-        private void InitializeOptionButtons()
+        private void InitializeOptionButtons(bool enable)
         {
+            lowerCaseButton.RemoveOnClickListeners();
+            upperCaseButton.RemoveOnClickListeners();
+            if (!enable) { return; }
+            
             lowerCaseButton.AddOnClickListener(() => SetKeyboardToUpper(false));
             upperCaseButton.AddOnClickListener(() => SetKeyboardToUpper(true));
         }
 
-        private void InitializeAdminButtons()
+        private void InitializeAdminButtons(bool enable)
         {
-            if (inputDisplay != null)
-            {
-                backspaceButton.AddOnClickListener(() => RemoveCharacterFromDisplay());
-                dontCareButton.AddOnClickListener(() => SetDontCareEntry());
-            }
-
-            if (nameScreenOrchestrator != null)
-            {
-                confirmButton.AddOnClickListener(() => nameScreenOrchestrator.AdvanceNamingRoutine());
-            }
+            backspaceButton.RemoveOnClickListeners();
+            dontCareButton.RemoveOnClickListeners();
+            confirmButton.RemoveOnClickListeners();
+            if (!enable) { return; }
+            
+            backspaceButton.AddOnClickListener(RemoveCharacterFromDisplay);
+            dontCareButton.AddOnClickListener(SetDontCareEntry);
+            if (nameScreenOrchestrator != null) { confirmButton.AddOnClickListener(() => nameScreenOrchestrator.AdvanceNamingRoutine()); }
         }
         #endregion
 
@@ -269,7 +273,7 @@ namespace Frankie.Menu.UI
 
         private void SetDontCareEntry()
         {
-            if (dontCareAnswers.Count == 0) { return; }
+            if (inputDisplay == null || dontCareAnswers.Count == 0) { return; }
             if (nextDontCareIndex >= dontCareAnswers.Count) { nextDontCareIndex = 0; }
             
             string dontCareAnswer = dontCareAnswers[nextDontCareIndex];

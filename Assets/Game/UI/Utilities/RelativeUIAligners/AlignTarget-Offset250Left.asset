@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e2fc6ee957c49bab690158b6edcc805, type: 3}
-  m_Name: AlignYPositionToMidPt
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.RelativeUIAlignMidPoint
-  xAlignEnabled: 0
+  m_Script: {fileID: 11500000, guid: 24b66fd76c784a39bb9559155daa3bc1, type: 3}
+  m_Name: AlignTarget-Offset250Left
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.RelativeUIAlignWithOffset
+  xAlignEnabled: 1
   yAlignEnabled: 1
+  relativeRectPosition: {x: 0.5, y: 0.5}
+  offset: {x: -250, y: 0}

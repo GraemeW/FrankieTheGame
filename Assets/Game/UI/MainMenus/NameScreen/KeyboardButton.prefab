@@ -18,19 +18,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 366570592541661994, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_ChildControlWidth
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 366570592541661994, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_ChildControlHeight
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 366570592541661994, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_ChildForceExpandWidth
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 366570592541661994, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_ChildForceExpandHeight
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 587053370915415545, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_IsActive
@@ -59,6 +59,10 @@ PrefabInstance:
     - target: {fileID: 2975401742356952794, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035811638059250556, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_FlexibleHeight
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_Name
@@ -162,11 +166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8124058361190039015, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 14.999999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8124058361190039015, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8124058361190039015, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -180,7 +184,8 @@ PrefabInstance:
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6727369657796174726, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

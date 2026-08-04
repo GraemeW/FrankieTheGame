@@ -26,6 +26,7 @@ namespace Frankie.Menu.UI
         [SerializeField] private Transform infoPanel;
         [SerializeField] private Transform namingPanel;
         [SerializeField] private Transform confirmationPanel;
+        [SerializeField] private Transform dialogueBoxSpawnPoint;
         [SerializeField] private Transform offStagePosition;
         [SerializeField] private Transform stagePosition;
         [SerializeField] private RelativeUISequencer offStagePositionRelativeUI;
@@ -45,7 +46,8 @@ namespace Frankie.Menu.UI
         private void Awake()
         {
             SetState(NameScreenState.Intro);
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoPanel);
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, dialogueBoxSpawnPoint);
+            if (dialogueBox.TryGetComponent(out RectTransform rectTransform)) { rectTransform.anchoredPosition = Vector2.zero; } // Revert any prefab offsets
             dialogueBox.Setup(startingMessage.GetSafeLocalizedString());
             mainMenuController.AddInputReceiver(dialogueBox, () => SetState(NameScreenState.Naming));
         }
