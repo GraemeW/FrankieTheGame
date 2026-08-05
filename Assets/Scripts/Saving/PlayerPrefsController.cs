@@ -18,6 +18,9 @@ namespace Frankie.Saving
         private const string _resolutionWindowedWidthKey = "resolutionWindowedWidth";
         private const string _resolutionWindowedHeightKey = "resolutionWindowedHeight";
         private const string _languageKey = "languageCode";
+        private const string _characterNameStem = "charName";
+        private const string _favouriteFoodKey = "favouriteFood";
+        private const string _favouriteThingKey = "favouriteThing";
 
         // Parameters
         private const float _audioMappingCurveFactor = 2.0f;
@@ -40,6 +43,7 @@ namespace Frankie.Saving
         public static bool MasterVolumeKeyExists() => PlayerPrefs.HasKey(_masterVolumeKey);
         public static bool BackgroundVolumeKeyExists() => PlayerPrefs.HasKey(_backgroundVolumeKey);
         public static bool SoundEffectsVolumeKeyExists() => PlayerPrefs.HasKey(_soundEffectsVolumeKey);
+        
         public static float GetMasterVolume() => PlayerPrefs.GetFloat(_masterVolumeKey);
         public static float GetMasterUIVolume() => UnmapVolumeToUI(GetMasterVolume());
         public static float GetBackgroundVolume() => PlayerPrefs.GetFloat(_backgroundVolumeKey);
@@ -47,20 +51,9 @@ namespace Frankie.Saving
         public static float GetSoundEffectsVolume() => PlayerPrefs.GetFloat(_soundEffectsVolumeKey);
         public static float GetSoundEffectsUIVolume() => UnmapVolumeToUI(GetSoundEffectsVolume());
         
-        public static void SetMasterVolume(float uiVolume)
-        {
-            PlayerPrefs.SetFloat(_masterVolumeKey, MapUIToVolume(uiVolume));
-        }
-
-        public static void SetBackgroundVolume(float uiVolume)
-        {
-            PlayerPrefs.SetFloat(_backgroundVolumeKey, MapUIToVolume(uiVolume));
-        }
-
-        public static void SetSoundEffectsVolume(float uiVolume)
-        {
-            PlayerPrefs.SetFloat(_soundEffectsVolumeKey, MapUIToVolume(uiVolume));
-        }
+        public static void SetMasterVolume(float uiVolume) => PlayerPrefs.SetFloat(_masterVolumeKey, MapUIToVolume(uiVolume));
+        public static void SetBackgroundVolume(float uiVolume) => PlayerPrefs.SetFloat(_backgroundVolumeKey, MapUIToVolume(uiVolume));
+        public static void SetSoundEffectsVolume(float uiVolume) => PlayerPrefs.SetFloat(_soundEffectsVolumeKey, MapUIToVolume(uiVolume));
         #endregion
 
         #region DisplaySettings
@@ -79,10 +72,7 @@ namespace Frankie.Saving
             PlayerPrefs.SetInt(_displayHeight, displayInfo.height);
         }
 
-        private static void SetResolutionInitialized()
-        {
-            PlayerPrefs.SetInt(_resolutionInitializedKey, 1);
-        }
+        private static void SetResolutionInitialized() => PlayerPrefs.SetInt(_resolutionInitializedKey, 1);
 
         public static void SetResolutionSettings(ResolutionSetting resolutionSetting)
         {
@@ -148,11 +138,20 @@ namespace Frankie.Saving
         #region LanguageSettings
         public static bool LanguageKeyExists() => PlayerPrefs.HasKey(_languageKey);
         public static string GetLanguageCode() => PlayerPrefs.GetString(_languageKey);
-
-        public static void SetLanguageCode(string languageCode)
-        {
-            PlayerPrefs.SetString(_languageKey, languageCode);
-        }
+        public static void SetLanguageCode(string languageCode) => PlayerPrefs.SetString(_languageKey, languageCode);
+        #endregion
+        
+        #region NameScreenSettings
+        private static string GetCharacterNameKey(string characterPropertiesName) => $"{_characterNameStem}_{characterPropertiesName}";
+        public static bool CharacterNameKeyExists(string characterPropertiesName) => PlayerPrefs.HasKey(GetCharacterNameKey(characterPropertiesName));
+        public static bool FavouriteFoodKeyExists() => PlayerPrefs.HasKey($"{_favouriteFoodKey}");
+        public static bool FavouriteThingKeyExists() => PlayerPrefs.HasKey($"{_favouriteThingKey}");
+        public static string GetCharacterName(string characterPropertiesName) => PlayerPrefs.GetString(GetCharacterNameKey(characterPropertiesName));
+        public static string GetFavouriteFood() => PlayerPrefs.GetString($"{_favouriteFoodKey}");
+        public static string GetFavouriteThing() => PlayerPrefs.GetString($"{_favouriteThingKey}");
+        public static void SetCharacterName(string characterPropertiesName, string characterName) => PlayerPrefs.SetString(GetCharacterNameKey(characterPropertiesName), characterName);
+        public static void SetFavouriteFood(string favouriteFood) => PlayerPrefs.SetString($"{_favouriteFoodKey}", favouriteFood);
+        public static void SetFavouriteThing(string favouriteThing) => PlayerPrefs.SetString($"{_favouriteThingKey}", favouriteThing);
         #endregion
         
         #region HelperMethods

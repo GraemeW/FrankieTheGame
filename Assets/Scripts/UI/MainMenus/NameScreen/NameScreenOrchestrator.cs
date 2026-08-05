@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Control;
+using Frankie.Saving;
+using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
@@ -29,6 +31,7 @@ namespace Frankie.Menu.UI
         // State
         private NameScreenState nameScreenState = NameScreenState.Intro;
         private int questionIndex = 0;
+        private readonly List<NameScreenAnswer> answers = new();
         
         // Events
         public event Action<NameScreenState, NameScreenQuestion> stateChanged;
@@ -68,24 +71,57 @@ namespace Frankie.Menu.UI
             infoPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Intro);
             namingPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Naming or NameScreenState.NamingComplete);
             confirmationPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
-            
-            if (setNameScreenState == NameScreenState.Intro) { questionIndex = 0; }
+
+            if (setNameScreenState == NameScreenState.Intro)
+            {
+                questionIndex = 0;
+                answers.Clear();
+            }
             
             NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
             if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); } // Invalid state
             
             stateChanged?.Invoke(nameScreenState, question);
         }
+        
+        public void AdvanceNamingRoutine(string answerText)
+        {
+            if (!HasValidQuestion()) { SetState(NameScreenState.Confirm); } // Invalid state
+            
+            NameScreenQuestion currentQuestion = questions[questionIndex];
+            answers.Add(new NameScreenAnswer(currentQuestion.questionType, currentQuestion.optionalCharacterProperties, answerText));
+            
+            questionIndex++;
+            SetState(HasValidQuestion() ? NameScreenState.Naming : NameScreenState.NamingComplete);
+        }
+
+        public void ConfirmAndContinue()
+        {
+            foreach (NameScreenAnswer answer in answers)
+            {
+                switch (answer.questionType)
+                {
+                    case NameScreenQuestionType.CharacterName:
+                        if (answer.characterProperties == null) { continue; }
+                        PlayerPrefsController.SetCharacterName(answer.characterProperties.GetCharacterID(), answer.text);
+                        break;
+                    case NameScreenQuestionType.FavouriteFood:
+                        PlayerPrefsController.SetFavouriteFood(answer.text);
+                        break;
+                    case NameScreenQuestionType.FavouriteThing:
+                        PlayerPrefsController.SetFavouriteThing(answer.text);
+                        break;
+                    default:
+                        continue;
+                }
+            }
+            var sceneQueueData = new SceneQueueData(() => SavingWrapper.Save(), 0f, false);
+            SceneLoader.QueueScene(SceneQueueType.Start, sceneQueueData);
+        }
         #endregion
         
         #region PrivateMethods
         private bool HasValidQuestion() => questions is { Count: > 0 } && questionIndex < questions.Count;
-
-        public void AdvanceNamingRoutine()
-        {
-            questionIndex++;
-            SetState(HasValidQuestion() ? NameScreenState.Naming : NameScreenState.NamingComplete);
-        }
         #endregion
     }
 }

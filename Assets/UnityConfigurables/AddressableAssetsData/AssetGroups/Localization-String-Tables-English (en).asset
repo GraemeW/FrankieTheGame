@@ -41,7 +41,6 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
-    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3bacb302c6c6b4ac09097741eb3a1a5b
     m_Address: ChecksWorldObjects_en

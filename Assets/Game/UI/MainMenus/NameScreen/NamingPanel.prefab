@@ -166,9 +166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
-  m_MinWidth: 1100
+  m_MinWidth: 1140
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 1140
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -1285,9 +1285,57 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  lowerText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 40262096137478144
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  upperText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 40262142610366464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  backspaceText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 40262223950503936
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  dontCareText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 40262284327510016
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  confirmText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 40262355379019776
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   additionalSpecialCharacters: 0123456789._-@!*^
   standardKeysPerRow: 8
-  spacersToSpecialKeys: 2
+  spacersToSpecialKeys: 3
+  thingSize: 180
+  thingWalkTimeEstimate: 2
+  keyboardRowPrefab: {fileID: -5301400400689626632, guid: 701400386b2564000851e8526ca4a9fe, type: 3}
   inputDisplay: {fileID: 3252200120737167628}
   questionTextScan: {fileID: 6156861168884678636}
   keyboardRowOrigin: {fileID: 8838533598686528019}
@@ -1299,7 +1347,9 @@ MonoBehaviour:
   dontCareButton: {fileID: 5166779815536931850}
   backspaceButton: {fileID: 8253291076040885750}
   confirmButton: {fileID: 986514929108375741}
-  keyboardRowPrefab: {fileID: -5301400400689626632, guid: 701400386b2564000851e8526ca4a9fe, type: 3}
+  stagePosition: {fileID: 0}
+  offStagePosition: {fileID: 0}
+  leftWalkCover: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -1382,9 +1432,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
-  m_MinWidth: 1200
+  m_MinWidth: 1280
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 1280
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -2439,9 +2489,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
-  m_MinWidth: 600
+  m_MinWidth: 640
   m_MinHeight: 160
-  m_PreferredWidth: 600
+  m_PreferredWidth: 640
   m_PreferredHeight: 160
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

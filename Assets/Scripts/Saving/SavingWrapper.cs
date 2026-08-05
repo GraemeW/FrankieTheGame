@@ -80,8 +80,8 @@ namespace Frankie.Saving
             Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
 
             SetCurrentSave(saveName);
-            var sceneQueueData = new SceneQueueData(() => Save(), 0f, false);
-            SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
+            var sceneQueueData = new SceneQueueData(null, 0f, false);
+            SceneLoader.QueueScene(SceneQueueType.Naming, sceneQueueData);
         }
 
         public static void LoadGame(string saveName)

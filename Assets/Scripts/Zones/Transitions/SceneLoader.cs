@@ -13,9 +13,10 @@ namespace Frankie.ZoneManagement
         [Header("Core Scene Listing")]
         [SerializeField] private Zone splashScreen;
         [SerializeField] private Zone startScreen;
+        [SerializeField] private Zone namingScreen;
+        [SerializeField] private Zone newGame;
         [SerializeField] private Zone gameOverScreen;
         [SerializeField] private Zone gameWinScreen;
-        [SerializeField] private Zone newGame;
 
         // Static State
         private static SceneLoader _activeSceneLoader;
@@ -136,14 +137,20 @@ namespace Frankie.ZoneManagement
             {
                 SceneQueueType.Splash => splashScreen,
                 SceneQueueType.Start => startScreen,
+                SceneQueueType.Naming => namingScreen,
                 SceneQueueType.New => newGame,
                 SceneQueueType.GameOver => gameOverScreen,
                 SceneQueueType.GameWin => gameWinScreen,
                 _ => zone
             };
         }
+
+        private void StartDelayedDestroy(IList<GameObject> entries)
+        {
+            StartCoroutine(DelayedDestroy(entries));
+        }
         
-        private IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback)
+        private static IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback)
         {
             if (zone == null) { yield break; }
 
@@ -155,12 +162,7 @@ namespace Frankie.ZoneManagement
             sceneLoadedCallback?.Invoke();
         }
 
-        private void StartDelayedDestroy(IList<GameObject> entries)
-        {
-            StartCoroutine(DelayedDestroy(entries));
-        }
-
-        private IEnumerator DelayedDestroy(IList<GameObject> entries)
+        private static IEnumerator DelayedDestroy(IList<GameObject> entries)
         {
             yield return null;
             foreach (GameObject entry in entries)

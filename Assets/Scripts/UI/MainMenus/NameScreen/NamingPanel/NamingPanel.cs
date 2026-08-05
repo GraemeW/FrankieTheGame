@@ -17,9 +17,15 @@ namespace Frankie.Menu.UI
         [Header("Keyboard Parameters")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKeyboardKeys;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKeyboardKeysUpper;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString lowerText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString upperText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString backspaceText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString dontCareText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString confirmText;
         [SerializeField] private string additionalSpecialCharacters = "0123456789._-@!*^";
         [SerializeField] private int standardKeysPerRow = 8;
-        [SerializeField] private int spacersToSpecialKeys = 2;
+        [SerializeField] private int spacersToSpecialKeys = 3;
+        [SerializeField] private int specialKeysPerRow = 5;
         [Header("Thing Parameters")]
         [SerializeField] private float thingSize = 180;
         [SerializeField] private float thingWalkTimeEstimate = 2f;
@@ -99,6 +105,7 @@ namespace Frankie.Menu.UI
         protected override void EnableTriggered()
         {
             SubscribeToQuestionUpdates(true);
+            SetupButtonLocalization();
             SetupButtonEvents(true);
             
             ReconcileChoiceOptions();
@@ -190,7 +197,6 @@ namespace Frankie.Menu.UI
             
             // Format per row: [StandardKeys][Spacers][SpecialKeys]
             int rowCount = Mathf.CeilToInt(keyboardKeys.Length / (float)standardKeysPerRow);
-            int specialKeysPerRow = additionalSpecialCharacters.Length > 0 ? Mathf.CeilToInt(additionalSpecialCharacters.Length / (float)rowCount) : 0;
             int standardIndex = 0;
             int specialIndex = 0;
             
@@ -215,7 +221,7 @@ namespace Frankie.Menu.UI
                 // Spacer section separating standard keys from special keys
                 for (int i = 0; i < spacersToSpecialKeys; i++) { keyboardRow.AddSpacerToRow(); }
 
-                // Special characters section (numbers/punctuation), divvied evenly across rows
+                // Special characters section (numbers/punctuation)
                 for (int i = 0; i < specialKeysPerRow; i++)
                 {
                     if (specialIndex < additionalSpecialCharacters.Length)
@@ -259,6 +265,15 @@ namespace Frankie.Menu.UI
             }
             return adminChoices;
         }
+
+        private void SetupButtonLocalization()
+        {
+            lowerCaseButton.SetText(lowerText.GetSafeLocalizedString());
+            upperCaseButton.SetText(upperText.GetSafeLocalizedString());
+            backspaceButton.SetText(backspaceText.GetSafeLocalizedString());
+            dontCareButton.SetText(dontCareText.GetSafeLocalizedString());
+            confirmButton.SetText(confirmText.GetSafeLocalizedString());
+        }
         
         private void SetupButtonEvents(bool enable)
         {
@@ -296,7 +311,13 @@ namespace Frankie.Menu.UI
             
             backspaceButton.AddOnClickListener(RemoveCharacterFromDisplay);
             dontCareButton.AddOnClickListener(SetDontCareEntry);
-            if (nameScreenOrchestrator != null) { confirmButton.AddOnClickListener(() => nameScreenOrchestrator.AdvanceNamingRoutine()); }
+            if (nameScreenOrchestrator != null) { confirmButton.AddOnClickListener(TryAdvanceNamingRoutine); }
+        }
+
+        private void TryAdvanceNamingRoutine()
+        {
+            if (string.IsNullOrEmpty(inputDisplay.GetCurrentText())) { return; }
+            nameScreenOrchestrator.AdvanceNamingRoutine(inputDisplay.GetCurrentText());
         }
         #endregion
 

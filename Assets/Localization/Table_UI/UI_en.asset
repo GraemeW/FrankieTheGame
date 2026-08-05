@@ -652,6 +652,26 @@ MonoBehaviour:
     m_Localized: Thinking
     m_Metadata:
       m_Items: []
+  - m_Id: 40262096137478144
+    m_Localized: lower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262142610366464
+    m_Localized: UPPER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262223950503936
+    m_Localized: backspace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262284327510016
+    m_Localized: Don't Care
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262355379019776
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

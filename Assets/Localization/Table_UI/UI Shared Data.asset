@@ -647,6 +647,26 @@ MonoBehaviour:
     m_Key: 'NameScreenQuestion.FavouriteThingQuestion.DontCareAnswers[4]'
     m_Metadata:
       m_Items: []
+  - m_Id: 40262096137478144
+    m_Key: NamingPanel.Prefab.NamingPanel.lowerText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262142610366464
+    m_Key: NamingPanel.Prefab.NamingPanel.upperText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262223950503936
+    m_Key: NamingPanel.Prefab.NamingPanel.backspaceText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262284327510016
+    m_Key: NamingPanel.Prefab.NamingPanel.dontCareText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262355379019776
+    m_Key: NamingPanel.Prefab.NamingPanel.confirmText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
