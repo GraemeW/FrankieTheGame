@@ -20,10 +20,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: e54bb40dc3352e5478c548cc91ce4ae4, type: 3}
-    - target: {fileID: 7063919405762274484, guid: 8d32c5c2b264f496da012785f2c99967, type: 3}
-      propertyPath: moveSpeed
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 7115562638294868142, guid: 8d32c5c2b264f496da012785f2c99967, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

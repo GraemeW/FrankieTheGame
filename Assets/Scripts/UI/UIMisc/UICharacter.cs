@@ -6,7 +6,7 @@ namespace Frankie.Utils.UI
     [RequireComponent(typeof(Animator))]
     public class UICharacter : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 1.0f;
+        [SerializeField] private float moveSpeed = 100f;
         [SerializeField] private float distanceSquaredThreshold = 0.1f;
         
         // State

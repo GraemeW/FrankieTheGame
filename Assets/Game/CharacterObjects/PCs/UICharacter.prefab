@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd155dd760148158232533899e7edae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.UICharacter
-  moveSpeed: 1
+  moveSpeed: 100
   distanceSquaredThreshold: 0.1
 --- !u!114 &3434523314622851978
 MonoBehaviour:

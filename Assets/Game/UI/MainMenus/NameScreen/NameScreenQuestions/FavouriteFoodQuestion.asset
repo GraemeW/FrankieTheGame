@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98fc4b69c8c4e05b4e7bf19a3cfa6e2, type: 3}
-  m_Name: TillyQuestion
+  m_Name: FavouriteFoodQuestion
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.NameScreenQuestion
   localizedQuestion:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
     m_TableEntryReference:
-      m_KeyId: 39933888024272896
+      m_KeyId: 40221689903046656
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  thingPrefab: {fileID: 3708396635807745371, guid: f7fcd525ad6d649718c4b39677173064, type: 3}
+  thingPrefab: {fileID: 0}
   localizedDontCareAnswers:
   - entry:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933888351428608
+        m_KeyId: 40221690465083392
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933888926048256
+        m_KeyId: 40221691043897344
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933922795053056
+        m_KeyId: 40221816285814784
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933923084460032
+        m_KeyId: 40221816579416064
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -63,14 +63,14 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933923684245504
+        m_KeyId: 40221817149841408
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  questionType: 0
-  optionalCharacterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  cachedName: TillyQuestion
+  questionType: 1
+  optionalCharacterProperties: {fileID: 0}
+  cachedName: FavouriteFoodQuestion
   references:
     version: 2
     RefIds: []

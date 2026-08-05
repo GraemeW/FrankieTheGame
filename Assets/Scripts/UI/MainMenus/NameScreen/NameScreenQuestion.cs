@@ -52,6 +52,6 @@ namespace Frankie.Menu.UI
     [Serializable]
     public class DontCareAnswer
     {
-        [SimpleLocalizedString(LocalizationTableType.UI, true)] public LocalizedString entry;
+        [SimpleLocalizedString(LocalizationTableType.UI, false)] public LocalizedString entry;
     }
 }

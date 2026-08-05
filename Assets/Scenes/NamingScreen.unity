@@ -873,6 +873,11 @@ MonoBehaviour:
     m_LocalVariables: []
   questions:
   - {fileID: 11400000, guid: f312a6ce205b9480993cc366b3f02e05, type: 2}
+  - {fileID: 11400000, guid: fa633fe6b5d494346aed995817bc8616, type: 2}
+  - {fileID: 11400000, guid: 60065fb38a58a48b29a43c2c76246489, type: 2}
+  - {fileID: 11400000, guid: f40b30a2748b040428d961c021d0ca45, type: 2}
+  - {fileID: 11400000, guid: bda28b23c0f4943479f0ba05c1e4dda6, type: 2}
+  - {fileID: 11400000, guid: a3d7b43c9b112485eac6e1fa6761a3ab, type: 2}
   dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   choiceButtonPrefab: {fileID: 7210201464791026358, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   infoPanel: {fileID: 1155124364}
