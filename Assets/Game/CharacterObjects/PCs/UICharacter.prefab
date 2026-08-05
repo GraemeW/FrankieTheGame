@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.UICharacter
   moveSpeed: 1
-  arrivedErrorThreshold: 1
+  distanceSquaredThreshold: 0.1
 --- !u!114 &3434523314622851978
 MonoBehaviour:
   m_ObjectHideFlags: 0

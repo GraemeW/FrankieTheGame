@@ -42,9 +42,15 @@ namespace Frankie.Utils.Editor
             { "BackRight", "UpRight" },
         };
         private static readonly HashSet<string> _canonicalDirections = new(_directionAliasMap.Values, StringComparer.OrdinalIgnoreCase);
-        private static readonly string[] _idleTokens = { "Idle" };
-        private const string _standStillToken = "Static";
+        public static readonly string[] idleTokens = { "Idle" };
+        public const string standStillToken = "Static";
 
+        // Generation State
+        private bool isGenerating;
+        private Queue<Action> pendingBuildSteps;
+        private AnimationBuildLog activeLog;
+        private HashSet<string> activePassthroughActions;
+        
         // UI State
         private ObjectField referenceClipField;
         private ObjectField sourceFolderField;
@@ -129,11 +135,18 @@ namespace Frankie.Utils.Editor
                 sourceFolderField.value != null &&
                 outputFolderField.value != null);
         }
+        
+        private void OnDisable()
+        {
+            EditorApplication.update -= ProcessNextBuildStep;
+        }
         #endregion
         
         #region GenerationAnimations
         private void Generate()
         {
+            if (isGenerating) { return; }
+
             var referenceClip = referenceClipField.value as AnimationClip;
             var sourceFolder = sourceFolderField.value as DefaultAsset;
             var outputFolder = outputFolderField.value as DefaultAsset;
@@ -147,11 +160,10 @@ namespace Frankie.Utils.Editor
 
             if (!AreInputsValid(referenceClip, bindings, sourcePath, outputPath)) { return; }
 
-            // Note:  Only valid for standard prefabs with a single sprite-bound renderer
             EditorCurveBinding spriteBinding = bindings[0];
             AnimationClipSettings refSettings = AnimationUtility.GetAnimationClipSettings(referenceClip);
-            float frameRate = frameRateField.value;
-            float idleFrameRate = idleFrameRateField.value;
+            var standardAnimationConfig = new AnimationConfig(frameRateField.value, spriteBinding, refSettings);
+            var idleStaticAnimationConfig = new AnimationConfig(idleFrameRateField.value, spriteBinding, refSettings);
 
             var regex = new Regex(_filenamePattern);
             string[] guids = AssetDatabase.FindAssets("t:Texture2D", new[] { sourcePath });
@@ -168,7 +180,6 @@ namespace Frankie.Utils.Editor
 
                 string rawAction = match.Groups["dir"].Value.Trim();
                 ActionClassification actionClassification = ClassifyAction(rawAction);
-
                 if (!actionClassification.isRecognized) { passthroughActions.Add(rawAction); }
 
                 frameEntries.Add(new FrameEntry(
@@ -182,38 +193,30 @@ namespace Frankie.Utils.Editor
 
             if (!HasFrameEntries(frameEntries)) { return; }
 
-            // Dedicated Idle Art
             var idleSourceSprites = frameEntries
                 .Where(e => e.isIdleSource)
                 .GroupBy(e => (e.character, e.action))
-                .ToDictionary(
-                    g => g.Key,
-                    g => g.OrderBy(e => e.frame)
-                        .Select(e => AssetDatabase.LoadAssetAtPath<Sprite>(e.assetPath))
-                        .Where(s => s != null)
-                        .ToArray());
+                .ToDictionary(g => g.Key, g => g.OrderBy(e => e.frame)
+                    .Select(e => AssetDatabase.LoadAssetAtPath<Sprite>(e.assetPath))
+                    .Where(s => s != null).ToArray());
 
-            // Dedicated StandStill Art
             var standStillSourceSprites = frameEntries
                 .Where(e => e.isStandStillSource)
                 .GroupBy(e => e.character)
-                .ToDictionary(
-                    g => g.Key,
-                    g => g.OrderBy(e => e.frame)
-                        .Select(e => AssetDatabase.LoadAssetAtPath<Sprite>(e.assetPath))
-                        .FirstOrDefault(s => s != null));
+                .ToDictionary(g => g.Key, g => g.OrderBy(e => e.frame)
+                    .Select(e => AssetDatabase.LoadAssetAtPath<Sprite>(e.assetPath))
+                    .FirstOrDefault(s => s != null));
 
-            // Primary Art
             var mainGroups = frameEntries
                 .Where(e => !e.isIdleSource && !e.isStandStillSource)
                 .GroupBy(e => (e.character, e.action))
                 .OrderBy(g => g.Key.character)
-                .ThenBy(g => g.Key.action);
+                .ThenBy(g => g.Key.action)
+                .ToList(); // materialize now — the queued actions capture group data by reference
 
-            var log = new AnimationBuildLog();
             var downFirstFrameByCharacter = new Dictionary<string, Sprite>();
+            var buildQueue = new Queue<Action>();
 
-            AnimationConfig animationConfig;
             foreach (var group in mainGroups)
             {
                 string characterName = group.Key.character;
@@ -227,37 +230,58 @@ namespace Frankie.Utils.Editor
                     .Where(s => s != null)
                     .ToArray();
 
-                var animationData = new StandardAnimationData(clipAssetPath, clipName, orderedSprites);
-                animationConfig = new AnimationConfig(frameRate, spriteBinding, refSettings);
-                WriteAnimationClip(animationData, animationConfig, overwriteExisting, overrideController, log);
-
                 if (orderedSprites.Length > 0 && string.Equals(action, "Down", StringComparison.OrdinalIgnoreCase))
                 {
                     downFirstFrameByCharacter[characterName] = orderedSprites[0];
                 }
-                
+
+                var animationData = new StandardAnimationData(clipAssetPath, clipName, orderedSprites);
+                var overrideConfiguration = new OverrideConfiguration(overrideController, action, isIdle: false, isStandStill: false);
+                buildQueue.Enqueue(() => WriteAnimationClip(animationData, standardAnimationConfig, overwriteExisting, overrideConfiguration, activeLog));
+
                 if (orderedSprites.Length > 0 && _canonicalDirections.Contains(action))
                 {
-                    animationConfig = new AnimationConfig(idleFrameRate, spriteBinding, refSettings);
-                    IdleAnimationData idleAnimationData = new IdleAnimationData(prefix, characterName, action, orderedSprites, idleSourceSprites, outputPath);
-                    GenerateIdleClip(idleAnimationData, animationConfig, overwriteExisting, overrideController, log);
+                    var idleAnimationData = new IdleAnimationData(prefix, characterName, action, orderedSprites, idleSourceSprites, outputPath);
+                    var idleOverrideConfiguration = new OverrideConfiguration(overrideController, action, isIdle: true, isStandStill: false);
+                    buildQueue.Enqueue(() => GenerateIdleClip(idleAnimationData, idleStaticAnimationConfig, overwriteExisting, idleOverrideConfiguration, activeLog));
                 }
             }
-            
+
             foreach (string characterName in frameEntries.Select(e => e.character).Distinct())
             {
-                animationConfig = new AnimationConfig(idleFrameRate, spriteBinding, refSettings);
                 downFirstFrameByCharacter.TryGetValue(characterName, out Sprite downFirstFrame);
-                var inputAnimationData = new StandStillAnimationData(prefix, characterName, standStillSourceSprites, downFirstFrame, outputPath);
-                GenerateStandStillClip(inputAnimationData, animationConfig, overwriteExisting, overrideController, log);
+                var standStillData = new StandStillAnimationData(prefix, characterName, standStillSourceSprites, downFirstFrame, outputPath);
+                var standStillOverrideConfiguration = new OverrideConfiguration(overrideController, action: null, isIdle: false, isStandStill: true);
+                buildQueue.Enqueue(() => GenerateStandStillClip(standStillData, idleStaticAnimationConfig, overwriteExisting, standStillOverrideConfiguration, activeLog));
             }
 
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            activeLog = new AnimationBuildLog(logLabel);
+            activePassthroughActions = passthroughActions;
+            pendingBuildSteps = buildQueue;
+            isGenerating = true;
+            generateButton.SetEnabled(false);
+            EditorApplication.update += ProcessNextBuildStep;
+        }
 
-            log.AnnotatePassthroughActions(passthroughActions);
-            log.SummarizeGeneration();
-            logLabel.text = log.log.ToString();
+        private void ProcessNextBuildStep()
+        {
+            if (pendingBuildSteps.Count == 0)
+            {
+                EditorApplication.update -= ProcessNextBuildStep;
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                activeLog.AnnotatePassthroughActions(activePassthroughActions);
+                activeLog.SummarizeGeneration();
+
+                isGenerating = false;
+                RefreshButtonState();
+                return;
+            }
+
+            Action nextStep = pendingBuildSteps.Dequeue();
+            nextStep.Invoke();
         }
         
         private bool AreInputsValid(AnimationClip referenceClip, EditorCurveBinding[] bindings, string sourcePath, string outputPath)
@@ -270,7 +294,7 @@ namespace Frankie.Utils.Editor
             
             if (bindings == null || bindings.Length == 0)
             {
-                if (referenceClip != null) logLabel.text = $"Reference clip '{referenceClip.name}' has no object reference (sprite) curves.";
+                logLabel.text = referenceClip != null ? $"Reference clip '{referenceClip.name}' has no object reference (sprite) curves." : "Reference clip is missing.";
                 return false;
             }
 
@@ -302,12 +326,12 @@ namespace Frankie.Utils.Editor
         #region StaticHelpers
         private static ActionClassification ClassifyAction(string rawAction)
         {
-            if (rawAction.IndexOf(_standStillToken, StringComparison.OrdinalIgnoreCase) >= 0)
+            if (rawAction.IndexOf(standStillToken, StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return new ActionClassification(rawAction, false, true, true);
             }
 
-            foreach (string token in _idleTokens)
+            foreach (string token in idleTokens)
             {
                 int idx = rawAction.IndexOf(token, StringComparison.OrdinalIgnoreCase);
                 if (idx < 0) continue;
@@ -324,27 +348,27 @@ namespace Frankie.Utils.Editor
                 new ActionClassification(rawAction, false, false, false);
         }
         
-        private static void GenerateStandStillClip(StandStillAnimationData inputAnimationData, AnimationConfig animationConfig, bool overwriteExisting, AnimatorOverrideController overrideController, AnimationBuildLog log)
+        private static void GenerateStandStillClip(StandStillAnimationData inputAnimationData, AnimationConfig animationConfig, bool overwriteExisting, OverrideConfiguration overrideConfiguration, AnimationBuildLog log)
         {
             string clipName = inputAnimationData.GetClipName();
             string clipAssetPath = inputAnimationData.GetClipAssetPath();
             Sprite[] standStillSprites = inputAnimationData.GetStandStillSprites();
             
             var parsedAnimationData = new StandardAnimationData(clipAssetPath, clipName, standStillSprites);
-            WriteAnimationClip(parsedAnimationData, animationConfig, overwriteExisting, overrideController, log);
+            WriteAnimationClip(parsedAnimationData, animationConfig, overwriteExisting, overrideConfiguration, log);
         }
         
-        private static void GenerateIdleClip(IdleAnimationData inputAnimationData, AnimationConfig animationConfig, bool overwriteExisting, AnimatorOverrideController overrideController, AnimationBuildLog log)
+        private static void GenerateIdleClip(IdleAnimationData inputAnimationData, AnimationConfig animationConfig, bool overwriteExisting, OverrideConfiguration overrideConfiguration, AnimationBuildLog log)
         {
             string clipName = inputAnimationData.GetClipName();
             string clipAssetPath = inputAnimationData.GetClipAssetPath();
             Sprite[] idleSprites = inputAnimationData.GetIdleSprites();
             
             var parsedAnimationData = new StandardAnimationData(clipAssetPath, clipName, idleSprites);
-            WriteAnimationClip(parsedAnimationData, animationConfig, overwriteExisting, overrideController, log);
+            WriteAnimationClip(parsedAnimationData, animationConfig, overwriteExisting, overrideConfiguration, log);
         }
         
-        private static void WriteAnimationClip(StandardAnimationData animationData, AnimationConfig animationConfig, bool overwriteExisting, AnimatorOverrideController overrideController, AnimationBuildLog log)
+        private static void WriteAnimationClip(StandardAnimationData animationData, AnimationConfig animationConfig, bool overwriteExisting, OverrideConfiguration overrideConfiguration, AnimationBuildLog log)
         {
             if (animationData.sprites == null || animationData.sprites.Length == 0) { log.SkipNoSprite(animationData.clipName); return; }
             AnimationClip existing = AssetDatabase.LoadAssetAtPath<AnimationClip>(animationData.clipAssetPath);
@@ -366,27 +390,8 @@ namespace Frankie.Utils.Editor
 
             log.AppendLine($"{(existing == null ? "Created" : "Updated")} {animationData.clipName} ({animationData.sprites.Length} frames)");
             log.createdCount++;
-
-            if (overrideController != null) { ApplyOverride(overrideController, animationData.clipName, clip); }
-        }
-        
-        private static void ApplyOverride(AnimatorOverrideController controller, string clipName, AnimationClip newClip)
-        {
-            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
-            controller.GetOverrides(overrides);
-
-            bool matched = false;
-            for (int i = 0; i < overrides.Count; i++)
-            {
-                if (overrides[i].Key == null || !string.Equals(overrides[i].Key.name, clipName, StringComparison.OrdinalIgnoreCase)) { continue; }
-                overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(overrides[i].Key, newClip);
-                matched = true;
-                break;
-            }
-
-            if (!matched) { return; }
-            controller.ApplyOverrides(overrides);
-            EditorUtility.SetDirty(controller);
+            
+            overrideConfiguration.ApplyOverride(clip, log);
         }
         #endregion
         

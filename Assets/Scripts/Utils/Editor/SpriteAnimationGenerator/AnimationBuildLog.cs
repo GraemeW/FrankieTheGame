@@ -1,23 +1,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine.UIElements;
 
 namespace Frankie.Utils.Editor
 {
     public class AnimationBuildLog
     {
-        public readonly StringBuilder log = new();
+        private readonly StringBuilder log = new();
         public int createdCount = 0;
         private int skippedCount = 0;
+        private readonly Label logLabel;
+
+        public AnimationBuildLog(Label logLabel = null)
+        {
+            this.logLabel = logLabel;
+            Publish();
+        }
+
+        private void Publish()
+        {
+            if (logLabel != null) { logLabel.text = log.ToString(); }
+        }
 
         public void AppendLine(string line = "")
         {
             log.AppendLine(line);
+            Publish();
         }
 
-        public void SummarizeGeneration(string line = "")
+        public void SummarizeGeneration()
         {
             log.Insert(0, $"Done. {createdCount} clip(s) written, {skippedCount} skipped.\n\n");
+            Publish();
         }
 
         public void AnnotatePassthroughActions(HashSet<string> passthroughActions)
@@ -29,18 +44,21 @@ namespace Frankie.Utils.Editor
             {
                 log.AppendLine($"  {action}");
             }
+            Publish();
         }
 
         public void SkipNoSprite(string clipName)
         {
             log.AppendLine($"Skipped {clipName}: no loadable sprites found.");
             skippedCount++;
+            Publish();
         }
 
         public void SkipAlreadyExists(string clipName)
         {
             log.AppendLine($"Skipped {clipName}: already exists (overwrite disabled).");
             skippedCount++;
+            Publish();
         }
     }
 }
