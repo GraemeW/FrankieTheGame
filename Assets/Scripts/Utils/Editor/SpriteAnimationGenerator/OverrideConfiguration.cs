@@ -10,14 +10,17 @@ namespace Frankie.Utils.Editor
     {
         private readonly bool isOverrideAvailable;
         private readonly AnimatorOverrideController overrideController;
+        private readonly OverrideDirectionLookup overrideDirectionLookup;
         private readonly string action;
         private readonly bool isIdle;
         private readonly bool isStandStill;
         
-        public OverrideConfiguration(AnimatorOverrideController overrideController, string action, bool isIdle, bool isStandStill)
+        public OverrideConfiguration(AnimatorOverrideController overrideController, OverrideDirectionLookup overrideDirectionLookup, string action, bool isIdle, bool isStandStill)
         {
-            isOverrideAvailable = overrideController != null;
+            isOverrideAvailable = overrideController != null && overrideDirectionLookup != null;
             this.overrideController = overrideController;
+            this.overrideDirectionLookup = overrideDirectionLookup;
+            
             this.action = action;
             this.isIdle = isIdle;
             this.isStandStill = isStandStill;
@@ -27,9 +30,16 @@ namespace Frankie.Utils.Editor
         {
             if (!isOverrideAvailable) { return; }
             
-            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+            // Always fetch overrides fresh, since multiple OverrideConfigurations may exist
+            List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new();
             overrideController.GetOverrides(overrides);
 
+            if (overrideDirectionLookup.TryGetExactMatch(action, isIdle, out int slotIndex))
+            {
+                ExecuteApply(overrides, slotIndex, newClip);
+                return;
+            }
+            
             var matchIndices = new List<int>();
             for (int i = 0; i < overrides.Count; i++)
             {
@@ -48,9 +58,14 @@ namespace Frankie.Utils.Editor
                     return;
                 }
             }
-
+            
             int matchedIndex = matchIndices[0];
-            overrides[matchedIndex] = new KeyValuePair<AnimationClip, AnimationClip>(overrides[matchedIndex].Key, newClip);
+            ExecuteApply(overrides, matchedIndex, newClip);
+        }
+        
+        private void ExecuteApply(List<KeyValuePair<AnimationClip, AnimationClip>> overrides, int slotIndex, AnimationClip newClip)
+        {
+            overrides[slotIndex] = new KeyValuePair<AnimationClip, AnimationClip>(overrides[slotIndex].Key, newClip);
             overrideController.ApplyOverrides(overrides);
             EditorUtility.SetDirty(overrideController);
         }

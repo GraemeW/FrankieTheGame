@@ -41,7 +41,7 @@ namespace Frankie.Utils.Editor
             { "UpRight", "UpRight" },
             { "BackRight", "UpRight" },
         };
-        private static readonly HashSet<string> _canonicalDirections = new(_directionAliasMap.Values, StringComparer.OrdinalIgnoreCase);
+        public static readonly HashSet<string> canonicalDirections = new(_directionAliasMap.Values, StringComparer.OrdinalIgnoreCase);
         public static readonly string[] idleTokens = { "Idle" };
         public const string standStillToken = "Static";
 
@@ -151,6 +151,8 @@ namespace Frankie.Utils.Editor
             var sourceFolder = sourceFolderField.value as DefaultAsset;
             var outputFolder = outputFolderField.value as DefaultAsset;
             var overrideController = overrideControllerField.value as AnimatorOverrideController;
+            var overrideDirectionLookup = new OverrideDirectionLookup(overrideController);
+            
             bool overwriteExisting = overwriteToggle.value;
             string prefix = prefixField.value?.Trim() ?? string.Empty;
 
@@ -212,11 +214,12 @@ namespace Frankie.Utils.Editor
                 .GroupBy(e => (e.character, e.action))
                 .OrderBy(g => g.Key.character)
                 .ThenBy(g => g.Key.action)
-                .ToList(); // materialize now — the queued actions capture group data by reference
+                .ToList();
 
             var downFirstFrameByCharacter = new Dictionary<string, Sprite>();
             var buildQueue = new Queue<Action>();
 
+            var unusedIdleSourceSprites = new Dictionary<(string, string), Sprite[]>(idleSourceSprites);
             foreach (var group in mainGroups)
             {
                 string characterName = group.Key.character;
@@ -235,23 +238,35 @@ namespace Frankie.Utils.Editor
                     downFirstFrameByCharacter[characterName] = orderedSprites[0];
                 }
 
+                // Standard animations
                 var animationData = new StandardAnimationData(clipAssetPath, clipName, orderedSprites);
-                var overrideConfiguration = new OverrideConfiguration(overrideController, action, isIdle: false, isStandStill: false);
+                var overrideConfiguration = new OverrideConfiguration(overrideController, overrideDirectionLookup, action, isIdle: false, isStandStill: false);
                 buildQueue.Enqueue(() => WriteAnimationClip(animationData, standardAnimationConfig, overwriteExisting, overrideConfiguration, activeLog));
-
-                if (orderedSprites.Length > 0 && _canonicalDirections.Contains(action))
-                {
-                    var idleAnimationData = new IdleAnimationData(prefix, characterName, action, orderedSprites, idleSourceSprites, outputPath);
-                    var idleOverrideConfiguration = new OverrideConfiguration(overrideController, action, isIdle: true, isStandStill: false);
-                    buildQueue.Enqueue(() => GenerateIdleClip(idleAnimationData, idleStaticAnimationConfig, overwriteExisting, idleOverrideConfiguration, activeLog));
-                }
+                
+                if (orderedSprites.Length <= 0 || !canonicalDirections.Contains(action)) { continue; }
+                
+                // Idle animations match-to-standard animations
+                var idleAnimationData = new IdleAnimationData(prefix, characterName, action, orderedSprites, idleSourceSprites, outputPath);
+                var idleOverrideConfiguration = new OverrideConfiguration(overrideController, overrideDirectionLookup, action, isIdle: true, isStandStill: false);
+                buildQueue.Enqueue(() => GenerateIdleClip(idleAnimationData, idleStaticAnimationConfig, overwriteExisting, idleOverrideConfiguration, activeLog));
+                
+                unusedIdleSourceSprites.Remove((characterName, action));
             }
 
+            // Remaining idle animations
+            foreach (KeyValuePair<(string character, string action), Sprite[]> entry in unusedIdleSourceSprites)
+            {
+                var idleAnimationData = new IdleAnimationData(prefix, entry.Key.character, entry.Key.action, entry.Value, idleSourceSprites, outputPath);
+                var idleOverrideConfiguration = new OverrideConfiguration(overrideController, overrideDirectionLookup, entry.Key.action, isIdle: true, isStandStill: false);
+                buildQueue.Enqueue(() => GenerateIdleClip(idleAnimationData, idleStaticAnimationConfig, overwriteExisting, idleOverrideConfiguration, activeLog));
+            }
+
+            // Stand-still animations
             foreach (string characterName in frameEntries.Select(e => e.character).Distinct())
             {
                 downFirstFrameByCharacter.TryGetValue(characterName, out Sprite downFirstFrame);
                 var standStillData = new StandStillAnimationData(prefix, characterName, standStillSourceSprites, downFirstFrame, outputPath);
-                var standStillOverrideConfiguration = new OverrideConfiguration(overrideController, action: null, isIdle: false, isStandStill: true);
+                var standStillOverrideConfiguration = new OverrideConfiguration(overrideController, overrideDirectionLookup, action: null, isIdle: false, isStandStill: true);
                 buildQueue.Enqueue(() => GenerateStandStillClip(standStillData, idleStaticAnimationConfig, overwriteExisting, standStillOverrideConfiguration, activeLog));
             }
 
