@@ -88,11 +88,11 @@ namespace Frankie.Utils.Localization.Editor
             
             // Build UI Elements
             VisualElement root = MakeRoot(state.nicePropertyName);
-            VisualElement keyRow = BuildKeyRow(ref state);
+            VisualElement keyRow = BuildKeyRow(state);
             root.Add(keyRow);
-            VisualElement lockToggleRow = BuildLockToggleRow(ref state); 
+            VisualElement lockToggleRow = BuildLockToggleRow(state); 
             root.Add(lockToggleRow);
-            VisualElement contentsRow = BuildContentsRow(ref state);
+            VisualElement contentsRow = BuildContentsRow(state);
             root.Add(contentsRow);
             VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.newKeyButton); 
             root.Add(newKeyButtonRow);
@@ -366,7 +366,7 @@ namespace Frankie.Utils.Localization.Editor
         #endregion
         
         #region RowBuilders
-        private static VisualElement BuildKeyRow(ref ElementState state)
+        private static VisualElement BuildKeyRow(ElementState state)
         {
             VisualElement keyRow = MakeLabeledRow(_keyLabel, out state.keyTextField);
             bool isEnabled = state.isKeyEditable && state.isKeyUnlocked;
@@ -375,7 +375,7 @@ namespace Frankie.Utils.Localization.Editor
             return keyRow;
         }
         
-        private static VisualElement BuildLockToggleRow(ref ElementState state)
+        private static VisualElement BuildLockToggleRow(ElementState state)
         {
             VisualElement lockToggleRow = MakeLockToggleBaseRow();
             state.lockToggle = MakeToggle(state.isKeyUnlocked);
@@ -384,7 +384,7 @@ namespace Frankie.Utils.Localization.Editor
             return lockToggleRow;
         }
 
-        private static VisualElement BuildContentsRow(ref ElementState state)
+        private static VisualElement BuildContentsRow(ElementState state)
         {
             VisualElement contentsRow = MakeLabeledRow(_textLabel, out state.contentsTextField);
             SetContentsFromLocalization(state, true);
