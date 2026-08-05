@@ -42,8 +42,11 @@ namespace Frankie.Utils.Editor
             { "BackRight", "UpRight" },
         };
         public static readonly HashSet<string> canonicalDirections = new(_directionAliasMap.Values, StringComparer.OrdinalIgnoreCase);
-        public static readonly string[] idleTokens = { "Idle" };
-        public const string standStillToken = "Static";
+        public const string standardDownToken = "Down"; // Source Artwork
+        public static readonly string[] idleTokens = { "Idle" }; // Source Artwork
+        public const string standStillToken = "Static"; // Source Artwork
+        public const string idleOverrideToken = "Idle"; // Animator Controller
+        public const string standStillOverrideToken = "StandStill"; // Animator Controller
 
         // Generation State
         private bool isGenerating;
@@ -151,7 +154,7 @@ namespace Frankie.Utils.Editor
             var sourceFolder = sourceFolderField.value as DefaultAsset;
             var outputFolder = outputFolderField.value as DefaultAsset;
             var overrideController = overrideControllerField.value as AnimatorOverrideController;
-            var overrideDirectionLookup = new OverrideDirectionLookup(overrideController);
+            var overrideDirectionLookup = overrideController != null ? new OverrideDirectionLookup(overrideController) : null;
             
             bool overwriteExisting = overwriteToggle.value;
             string prefix = prefixField.value?.Trim() ?? string.Empty;
@@ -233,7 +236,7 @@ namespace Frankie.Utils.Editor
                     .Where(s => s != null)
                     .ToArray();
 
-                if (orderedSprites.Length > 0 && string.Equals(action, "Down", StringComparison.OrdinalIgnoreCase))
+                if (orderedSprites.Length > 0 && string.Equals(action, standardDownToken, StringComparison.OrdinalIgnoreCase))
                 {
                     downFirstFrameByCharacter[characterName] = orderedSprites[0];
                 }
@@ -271,6 +274,7 @@ namespace Frankie.Utils.Editor
             }
 
             activeLog = new AnimationBuildLog(logLabel);
+            if (overrideDirectionLookup != null) { activeLog.AnnotateAmbiguousActions(overrideDirectionLookup.GetAmbiguousKeys()); }
             activePassthroughActions = passthroughActions;
             pendingBuildSteps = buildQueue;
             isGenerating = true;

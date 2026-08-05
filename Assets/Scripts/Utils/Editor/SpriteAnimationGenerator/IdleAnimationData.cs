@@ -23,7 +23,7 @@ namespace Frankie.Utils.Editor
             this.outputPath = outputPath;
         }
         
-        public string GetClipName() => $"{prefix}{characterName}Idle{action}";
+        public string GetClipName() => $"{prefix}{characterName}{SpriteAnimationGeneratorWindow.idleOverrideToken}{action}";
         public string GetClipAssetPath() => $"{outputPath}/{GetClipName()}.anim";
 
         public Sprite[] GetIdleSprites()
@@ -33,7 +33,7 @@ namespace Frankie.Utils.Editor
             {
                 idleSprites = dedicated;
             }
-            else if (string.Equals(action, "Down", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(action, SpriteAnimationGeneratorWindow.standardDownToken, StringComparison.OrdinalIgnoreCase))
             {
                 idleSprites = movementSprites;
             }

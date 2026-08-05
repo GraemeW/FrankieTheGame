@@ -16,6 +16,7 @@ namespace Frankie.Utils.Editor
         }
         
         public bool TryGetExactMatch(string action, bool isIdle, out int slotIndex) => exactMatchSlotIndex.TryGetValue((action, isIdle), out slotIndex);
+        public List<string> GetAmbiguousKeys() => ambiguousKeys;
 
         private void Build(AnimatorOverrideController controller)
         {
@@ -29,7 +30,7 @@ namespace Frankie.Utils.Editor
                 if (original == null) { continue; }
 
                 string name = original.name;
-                if (name.IndexOf(SpriteAnimationGeneratorWindow.standStillToken, StringComparison.OrdinalIgnoreCase) >= 0) { continue; }
+                if (name.IndexOf(SpriteAnimationGeneratorWindow.standStillOverrideToken, StringComparison.OrdinalIgnoreCase) >= 0) { continue; }
 
                 bool isIdle = SpriteAnimationGeneratorWindow.idleTokens.Any(t => name.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0);
                 candidates.AddRange(from direction in SpriteAnimationGeneratorWindow.canonicalDirections where name.EndsWith(direction, StringComparison.OrdinalIgnoreCase) select new CandidateEntry(i, direction, isIdle));
@@ -44,7 +45,7 @@ namespace Frankie.Utils.Editor
                     case 0:
                         continue;
                     case > 1:
-                        ambiguousKeys.Add($"{(group.Key.isIdle ? "Idle" : "")}{group.Key.direction}");
+                        ambiguousKeys.Add($"{(group.Key.isIdle ? SpriteAnimationGeneratorWindow.idleOverrideToken : "")}{group.Key.direction}");
                         continue;
                 }
                 

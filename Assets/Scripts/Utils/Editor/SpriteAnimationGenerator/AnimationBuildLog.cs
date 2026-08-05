@@ -47,6 +47,18 @@ namespace Frankie.Utils.Editor
             Publish();
         }
 
+        public void AnnotateAmbiguousActions(List<string> ambiguousActions)
+        {
+            if (ambiguousActions.Count <= 0) { return; }
+            log.AppendLine();
+            log.AppendLine("Ambiguous actions identified in OverrideController:");
+            foreach (string action in ambiguousActions.OrderBy(s => s))
+            {
+                log.AppendLine($"  {action}");
+            }
+            Publish();
+        }
+
         public void SkipNoSprite(string clipName)
         {
             log.AppendLine($"Skipped {clipName}: no loadable sprites found.");
