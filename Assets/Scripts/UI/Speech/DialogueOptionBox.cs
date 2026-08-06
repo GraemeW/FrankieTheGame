@@ -16,9 +16,9 @@ namespace Frankie.Speech.UI
             clearVolatileOptionsOnEnable = false;
         }
 
-        public override void Setup(string optionText)
+        public override void Setup(string text)
         {
-            base.Setup(optionText);
+            base.Setup(text);
 
             if (dialogueController == null) { return; }
             List<ChoiceActionPair> choiceActionPairs = dialogueController.GetSimpleChoices();

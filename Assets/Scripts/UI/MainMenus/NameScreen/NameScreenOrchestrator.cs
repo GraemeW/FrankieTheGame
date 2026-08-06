@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -7,6 +8,7 @@ using Frankie.Control;
 using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
+using Frankie.Stats;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
@@ -25,7 +27,7 @@ namespace Frankie.Menu.UI
         [Header("Hookups")]
         [SerializeField] private Transform infoPanel;
         [SerializeField] private Transform namingPanel;
-        [SerializeField] private Transform confirmationPanel;
+        [SerializeField] private Transform namingConfirmPanel;
         [SerializeField] private Transform dialogueBoxSpawnPoint;
 
         // State
@@ -50,10 +52,6 @@ namespace Frankie.Menu.UI
         private void Awake()
         {
             SetState(NameScreenState.Intro);
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, dialogueBoxSpawnPoint);
-            if (dialogueBox.TryGetComponent(out RectTransform rectTransform)) { rectTransform.anchoredPosition = Vector2.zero; } // Revert any prefab offsets
-            dialogueBox.Setup(startingMessage.GetSafeLocalizedString());
-            mainMenuController.AddInputReceiver(dialogueBox, () => SetState(NameScreenState.Naming));
         }
         #endregion
         
@@ -64,32 +62,35 @@ namespace Frankie.Menu.UI
             return controller != null;
         }
         
+        public List<NameScreenAnswer> GetAnswers() => answers;
+        
         public void SetState(NameScreenState setNameScreenState)
         {
             nameScreenState = setNameScreenState;
             
             infoPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Intro);
             namingPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Naming or NameScreenState.NamingComplete);
-            confirmationPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
+            namingConfirmPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
 
             if (setNameScreenState == NameScreenState.Intro)
             {
                 questionIndex = 0;
                 answers.Clear();
+                SpawnIntroDialogueBox();
             }
             
             NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
-            if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); } // Invalid state
+            if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); return; } // Invalid state
             
             stateChanged?.Invoke(nameScreenState, question);
         }
         
         public void AdvanceNamingRoutine(string answerText)
         {
-            if (!HasValidQuestion()) { SetState(NameScreenState.Confirm); } // Invalid state
+            if (!HasValidQuestion()) { SetState(NameScreenState.Confirm); return; } // Invalid state
             
             NameScreenQuestion currentQuestion = questions[questionIndex];
-            answers.Add(new NameScreenAnswer(currentQuestion.questionType, currentQuestion.optionalCharacterProperties, answerText));
+            answers.Add(new NameScreenAnswer(currentQuestion, answerText));
             
             questionIndex++;
             SetState(HasValidQuestion() ? NameScreenState.Naming : NameScreenState.NamingComplete);
@@ -97,31 +98,40 @@ namespace Frankie.Menu.UI
 
         public void ConfirmAndContinue()
         {
-            foreach (NameScreenAnswer answer in answers)
+            foreach (NameScreenAnswer answer in answers.Where(answer => answer.question != null))
             {
-                switch (answer.questionType)
+                switch (answer.question.questionType)
                 {
                     case NameScreenQuestionType.CharacterName:
-                        if (answer.characterProperties == null) { continue; }
-                        PlayerPrefsController.SetCharacterName(answer.characterProperties.GetCharacterID(), answer.text);
+                        CharacterProperties characterProperties = answer.question.optionalCharacterProperties;
+                        if (characterProperties == null) { continue; }
+                        PlayerPrefsController.SetCharacterName(characterProperties.GetCharacterID(), answer.answer);
                         break;
                     case NameScreenQuestionType.FavouriteFood:
-                        PlayerPrefsController.SetFavouriteFood(answer.text);
+                        PlayerPrefsController.SetFavouriteFood(answer.answer);
                         break;
                     case NameScreenQuestionType.FavouriteThing:
-                        PlayerPrefsController.SetFavouriteThing(answer.text);
+                        PlayerPrefsController.SetFavouriteThing(answer.answer);
                         break;
                     default:
                         continue;
                 }
             }
             var sceneQueueData = new SceneQueueData(() => SavingWrapper.Save(), 0f, false);
-            SceneLoader.QueueScene(SceneQueueType.Start, sceneQueueData);
+            SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
         }
         #endregion
         
         #region PrivateMethods
         private bool HasValidQuestion() => questions is { Count: > 0 } && questionIndex < questions.Count;
+
+        private void SpawnIntroDialogueBox()
+        {
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, dialogueBoxSpawnPoint);
+            if (dialogueBox.TryGetComponent(out RectTransform rectTransform)) { rectTransform.anchoredPosition = Vector2.zero; } // Revert any prefab offsets
+            dialogueBox.Setup(startingMessage.GetSafeLocalizedString());
+            mainMenuController.AddInputReceiver(dialogueBox, () => SetState(NameScreenState.Naming));
+        }
         #endregion
     }
 }

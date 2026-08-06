@@ -164,11 +164,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9043485888864256
-    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.ConfirmText.6beb9ee4
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.ConfirmText
     m_Metadata:
       m_Items: []
   - m_Id: 9043523323027456
-    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText.52fe4e6d
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText
     m_Metadata:
       m_Items: []
   - m_Id: 9045403184914432
@@ -665,6 +665,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 40262355379019776
     m_Key: NamingPanel.Prefab.NamingPanel.confirmText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40543122298494976
+    m_Key: NamingConfirmPanel.Prefab.NamingConfirmPanel.ConfirmPhrase
     m_Metadata:
       m_Items: []
   m_Metadata:

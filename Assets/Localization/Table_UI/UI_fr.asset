@@ -668,6 +668,10 @@ MonoBehaviour:
     m_Localized: Confirmer
     m_Metadata:
       m_Items: []
+  - m_Id: 40543122298494976
+    m_Localized: "Est-ce que \xE7a te semble bon?"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

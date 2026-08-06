@@ -5,6 +5,7 @@ namespace Frankie.Menu.UI
         Intro,
         Naming,
         NamingComplete,
+        FrameColour,
         Confirm
     }
 }

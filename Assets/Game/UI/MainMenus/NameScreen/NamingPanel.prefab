@@ -71,8 +71,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6467484353078459355}
-  - component: {fileID: 4765212784794332148}
-  - component: {fileID: 411754666937751166}
   - component: {fileID: 7564106477106217827}
   - component: {fileID: 605171130434638971}
   m_Layer: 5
@@ -107,26 +105,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
---- !u!222 &4765212784794332148
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513230127509740300}
-  m_CullTransparentMesh: 1
---- !u!225 &411754666937751166
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513230127509740300}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!114 &7564106477106217827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,7 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806863e0dc70420f888fb3aa46e74fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.Keyboard
-  canvasGroup: {fileID: 411754666937751166}
+  canvasGroup: {fileID: 0}
   optionParent: {fileID: 0}
   backExitParent: {fileID: 0}
   backExitPrefab: {fileID: 0}
@@ -1333,6 +1311,7 @@ MonoBehaviour:
   additionalSpecialCharacters: 0123456789._-@!*^
   standardKeysPerRow: 8
   spacersToSpecialKeys: 3
+  specialKeysPerRow: 5
   thingSize: 180
   thingWalkTimeEstimate: 2
   keyboardRowPrefab: {fileID: -5301400400689626632, guid: 701400386b2564000851e8526ca4a9fe, type: 3}

@@ -117,7 +117,7 @@ namespace Frankie.Speech.UI
         #endregion
 
         #region SetupUpdateMethods
-        public virtual void Setup(string optionText)
+        public virtual void Setup(string text)
         {
             if (dialogueController != null && dialogueController.IsSimpleMessage())
             {
@@ -125,8 +125,8 @@ namespace Frankie.Speech.UI
             }
             else
             {
-                if (string.IsNullOrEmpty(optionText)) { return; }
-                AddText(optionText);
+                if (string.IsNullOrEmpty(text)) { return; }
+                AddText(text);
             }
         }
 

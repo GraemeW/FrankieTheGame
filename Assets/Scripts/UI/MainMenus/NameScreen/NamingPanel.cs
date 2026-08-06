@@ -74,6 +74,11 @@ namespace Frankie.Menu.UI
             {
                 localizedKeyboardKeys.TableEntryReference,
                 localizedKeyboardKeysUpper.TableEntryReference,
+                lowerText.TableEntryReference,
+                upperText.TableEntryReference,
+                backspaceText.TableEntryReference,
+                dontCareText.TableEntryReference,
+                confirmText.TableEntryReference,
             };
         }
 
