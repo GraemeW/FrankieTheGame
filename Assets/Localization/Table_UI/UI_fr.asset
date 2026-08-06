@@ -672,6 +672,62 @@ MonoBehaviour:
     m_Localized: "Est-ce que \xE7a te semble bon?"
     m_Metadata:
       m_Items: []
+  - m_Id: 40608583732158464
+    m_Localized: "C'est quoi ta saveur pr\xE9f\xE9r\xE9e?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40580842639056896
+    m_Localized: Nature
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40581058167562240
+    m_Localized: Sympa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40582973458735104
+    m_Localized: "\xC9pic\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583411973218304
+    m_Localized: beurre d'arachide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583676973539328
+    m_Localized: Moutarde
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585210528522240
+    m_Localized: Frais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585451155742720
+    m_Localized: "Amiti\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40624107111309312
+    m_Localized: Crevette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608584415830016
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608585103695872
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608600823947264
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601125937152
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601721528320
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

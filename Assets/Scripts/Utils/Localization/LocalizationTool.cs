@@ -1,17 +1,11 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
-using Object = UnityEngine.Object;
-using Frankie.Combat;
-using Frankie.Stats;
-using Frankie.Inventory;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Localization;
-using UnityEditor.SceneManagement;
 #endif
 
 namespace Frankie.Utils.Localization
