@@ -676,6 +676,62 @@ MonoBehaviour:
     m_Localized: Does this look right?
     m_Metadata:
       m_Items: []
+  - m_Id: 40580842639056896
+    m_Localized: Plain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40581058167562240
+    m_Localized: Cool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40582973458735104
+    m_Localized: Spicy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583411973218304
+    m_Localized: PeanutButter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583676973539328
+    m_Localized: Mustard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585210528522240
+    m_Localized: Fresh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585451155742720
+    m_Localized: Friendship
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608583732158464
+    m_Localized: What's your favourite flavour?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608584415830016
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608585103695872
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608600823947264
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601125937152
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601721528320
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40624107111309312
+    m_Localized: Shrimp
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

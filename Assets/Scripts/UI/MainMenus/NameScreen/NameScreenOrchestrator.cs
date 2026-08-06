@@ -9,6 +9,7 @@ using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using Frankie.Stats;
+using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
@@ -27,6 +28,7 @@ namespace Frankie.Menu.UI
         [Header("Hookups")]
         [SerializeField] private Transform infoPanel;
         [SerializeField] private Transform namingPanel;
+        [SerializeField] private Transform frameFlavourPanel;
         [SerializeField] private Transform namingConfirmPanel;
         [SerializeField] private Transform dialogueBoxSpawnPoint;
 
@@ -63,26 +65,16 @@ namespace Frankie.Menu.UI
         }
         
         public List<NameScreenAnswer> GetAnswers() => answers;
-        
-        public void SetState(NameScreenState setNameScreenState)
-        {
-            nameScreenState = setNameScreenState;
-            
-            infoPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Intro);
-            namingPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Naming or NameScreenState.NamingComplete);
-            namingConfirmPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
+        public void AddAnswer(NameScreenAnswer answer) => answers.Add(answer);
 
-            if (setNameScreenState == NameScreenState.Intro)
-            {
-                questionIndex = 0;
-                answers.Clear();
-                SpawnIntroDialogueBox();
-            }
-            
-            NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
-            if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); return; } // Invalid state
-            
-            stateChanged?.Invoke(nameScreenState, question);
+        public void AdvanceState() => SetState(nameScreenState.NextClamped());
+
+        public void ResetState()
+        {
+            questionIndex = 0;
+            answers.Clear();
+            PlayerPrefsController.SetFrameFlavourColour(Color.white);
+            SetState(NameScreenState.Intro);
         }
         
         public void AdvanceNamingRoutine(string answerText)
@@ -113,6 +105,9 @@ namespace Frankie.Menu.UI
                     case NameScreenQuestionType.FavouriteThing:
                         PlayerPrefsController.SetFavouriteThing(answer.answer);
                         break;
+                    case NameScreenQuestionType.FrameFlavour:
+                        PlayerPrefsController.SetFrameFlavourColour(answer.optionalAnswerColor);
+                        break;
                     default:
                         continue;
                 }
@@ -125,6 +120,23 @@ namespace Frankie.Menu.UI
         #region PrivateMethods
         private bool HasValidQuestion() => questions is { Count: > 0 } && questionIndex < questions.Count;
 
+        private void SetState(NameScreenState setNameScreenState)
+        {
+            nameScreenState = setNameScreenState;
+            
+            infoPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Intro);
+            namingPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Naming or NameScreenState.NamingComplete);
+            frameFlavourPanel.gameObject.SetActive(setNameScreenState is NameScreenState.FrameFlavouring);
+            namingConfirmPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
+
+            if (setNameScreenState == NameScreenState.Intro) { SpawnIntroDialogueBox(); }
+            
+            NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
+            if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); return; } // Invalid state
+            
+            stateChanged?.Invoke(nameScreenState, question);
+        }
+        
         private void SpawnIntroDialogueBox()
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, dialogueBoxSpawnPoint);

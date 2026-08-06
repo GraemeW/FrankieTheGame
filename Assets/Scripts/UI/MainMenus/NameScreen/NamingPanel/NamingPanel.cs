@@ -28,7 +28,8 @@ namespace Frankie.Menu.UI
         [SerializeField] private int specialKeysPerRow = 5;
         [Header("Thing Parameters")]
         [SerializeField] private float thingSize = 180;
-        [SerializeField] private float thingWalkTimeEstimate = 2f;
+        [SerializeField] private float thingWalkTimeEstimate = 1.5f;
+        [SerializeField] private bool includeWalkTimeOnLastElement = false;
         [Header("Prefabs")]
         [SerializeField] private KeyboardRow keyboardRowPrefab;
         [Header("Keyboard Hookups")]
@@ -408,7 +409,7 @@ namespace Frankie.Menu.UI
         private void CloseOutNamingPanel()
         {
             if (thingCoroutine != null) { StopCoroutine(thingCoroutine); }
-            thingCoroutine = StartCoroutine(WalkOffThingAndMoveToConfirm());
+            thingCoroutine = StartCoroutine(WalkOffThingAdvanceState());
         }
         
         private IEnumerator SwapThingToWalkInFrame(GameObject newThingPrefab)
@@ -443,11 +444,19 @@ namespace Frankie.Menu.UI
             Destroy(thing);
         }
 
-        private IEnumerator WalkOffThingAndMoveToConfirm()
+        private IEnumerator WalkOffThingAdvanceState()
         {
-            yield return WalkOffThing();
-            yield return null;
-            if (nameScreenOrchestrator != null) { nameScreenOrchestrator.SetState(NameScreenState.Confirm); }
+            if (includeWalkTimeOnLastElement)
+            {
+                yield return WalkOffThing();
+                yield return null;
+            }
+            else
+            {
+                if (thing != null) { Destroy(thing); }
+            }
+            
+            if (nameScreenOrchestrator != null) { nameScreenOrchestrator.AdvanceState(); }
         }
         #endregion
     }

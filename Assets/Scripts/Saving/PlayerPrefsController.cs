@@ -1,5 +1,6 @@
 using UnityEngine;
 using Frankie.Rendering;
+using Frankie.Utils.UI;
 
 namespace Frankie.Saving
 {
@@ -21,6 +22,7 @@ namespace Frankie.Saving
         private const string _characterNameStem = "charName";
         private const string _favouriteFoodKey = "favouriteFood";
         private const string _favouriteThingKey = "favouriteThing";
+        private const string _frameFlavourColour = "frameFlavourColour";
 
         // Parameters
         private const float _audioMappingCurveFactor = 2.0f;
@@ -144,14 +146,26 @@ namespace Frankie.Saving
         #region NameScreenSettings
         private static string GetCharacterNameKey(string characterPropertiesName) => $"{_characterNameStem}_{characterPropertiesName}";
         public static bool CharacterNameKeyExists(string characterPropertiesName) => PlayerPrefs.HasKey(GetCharacterNameKey(characterPropertiesName));
-        public static bool FavouriteFoodKeyExists() => PlayerPrefs.HasKey($"{_favouriteFoodKey}");
-        public static bool FavouriteThingKeyExists() => PlayerPrefs.HasKey($"{_favouriteThingKey}");
+        public static bool FavouriteFoodKeyExists() => PlayerPrefs.HasKey(_favouriteFoodKey);
+        public static bool FavouriteThingKeyExists() => PlayerPrefs.HasKey(_favouriteThingKey);
+        public static bool FrameFlavourColourKeyExists() => PlayerPrefs.HasKey(_frameFlavourColour);
         public static string GetCharacterName(string characterPropertiesName) => PlayerPrefs.GetString(GetCharacterNameKey(characterPropertiesName));
-        public static string GetFavouriteFood() => PlayerPrefs.GetString($"{_favouriteFoodKey}");
-        public static string GetFavouriteThing() => PlayerPrefs.GetString($"{_favouriteThingKey}");
+        public static string GetFavouriteFood() => PlayerPrefs.GetString(_favouriteFoodKey);
+        public static string GetFavouriteThing() => PlayerPrefs.GetString(_favouriteThingKey);
+        public static Color GetFrameFlavourColour()
+        {
+            string frameFlavourColourHex = PlayerPrefs.GetString(_frameFlavourColour);
+            return ColorUtility.TryParseHtmlString("#" + frameFlavourColourHex, out Color parsedColor) ? parsedColor : Color.white;
+        }
         public static void SetCharacterName(string characterPropertiesName, string characterName) => PlayerPrefs.SetString(GetCharacterNameKey(characterPropertiesName), characterName);
-        public static void SetFavouriteFood(string favouriteFood) => PlayerPrefs.SetString($"{_favouriteFoodKey}", favouriteFood);
-        public static void SetFavouriteThing(string favouriteThing) => PlayerPrefs.SetString($"{_favouriteThingKey}", favouriteThing);
+        public static void SetFavouriteFood(string favouriteFood) => PlayerPrefs.SetString(_favouriteFoodKey, favouriteFood);
+        public static void SetFavouriteThing(string favouriteThing) => PlayerPrefs.SetString(_favouriteThingKey, favouriteThing);
+        public static void SetFrameFlavourColour(Color frameFlavourColour)
+        {
+            string frameFlavourColourHex = ColorUtility.ToHtmlStringRGBA(frameFlavourColour);
+            PlayerPrefs.SetString(_frameFlavourColour, frameFlavourColourHex);
+            UIFrame.SetGlobalFrameFlavour(frameFlavourColour);
+        }
         #endregion
         
         #region HelperMethods

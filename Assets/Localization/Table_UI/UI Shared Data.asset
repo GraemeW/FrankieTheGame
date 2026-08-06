@@ -671,6 +671,62 @@ MonoBehaviour:
     m_Key: NamingConfirmPanel.Prefab.NamingConfirmPanel.ConfirmPhrase
     m_Metadata:
       m_Items: []
+  - m_Id: 40580842639056896
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Plain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40581058167562240
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Cool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40582973458735104
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Spicy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583411973218304
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.PB
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583676973539328
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Mustard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585210528522240
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Fresh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585451155742720
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Friendship
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608583732158464
+    m_Key: NameScreenQuestion.FrameFlavourQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608584415830016
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608585103695872
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608600823947264
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601125937152
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601721528320
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40624107111309312
+    m_Key: FrameFlavourChoice.Prefab.PlayerChoice.FrameFlavour.Shrimp
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

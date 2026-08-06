@@ -12,7 +12,7 @@ namespace Frankie.Utils.UI
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
         [SerializeField] private Color validChoiceColor = Color.white;
         [SerializeField] private Color invalidChoiceColor = Color.gray;
-        [SerializeField] private Color selectHighlightColor = Color.lawnGreen;
+        [SerializeField] protected Color selectHighlightColor = Color.lawnGreen;
         [SerializeField] private TextMeshProUGUI textField;
 
         // State

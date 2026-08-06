@@ -107,7 +107,13 @@ namespace Frankie.Speech.UI
                 dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
                 dialogueController.triggerUIUpdates -= UpdateUI;
             }
-            if (activeTextScan != null) { StopCoroutine(activeTextScan); }
+
+            if (activeTextScan != null)
+            {
+                StopCoroutine(activeTextScan);
+                SetBusyWriting(false);
+                ClearOldDialogue();
+            }
         }
 
         protected override void StartTriggered()

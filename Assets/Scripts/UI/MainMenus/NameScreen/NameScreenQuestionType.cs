@@ -5,6 +5,6 @@ namespace Frankie.Menu.UI
         CharacterName,
         FavouriteFood,
         FavouriteThing,
-        FrameColour
+        FrameFlavour
     }
 }

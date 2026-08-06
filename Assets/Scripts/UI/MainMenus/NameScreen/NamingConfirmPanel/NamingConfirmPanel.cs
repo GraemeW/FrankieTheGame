@@ -13,7 +13,7 @@ namespace Frankie.Menu.UI
 {
     public class NamingConfirmPanel : UIBox<UIBoxState>, ILocalizable
     {
-        [Header("Standard Parameters")]
+        [Header("Properties")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmPhrase;
         [Header("Prefabs")]
         [SerializeField] private CharacterConfirmCard characterConfirmCardPrefab;
@@ -72,7 +72,6 @@ namespace Frankie.Menu.UI
             SubscribeToStateUpdates(false);
             SetupButtonEvents(false);
         }
-
         #endregion
         
         #region UIBoxConfiguration
@@ -108,7 +107,7 @@ namespace Frankie.Menu.UI
             if (enable && nameScreenOrchestrator != null)
             {
                 confirmButton.AddOnClickListener(() => nameScreenOrchestrator.ConfirmAndContinue());
-                rejectButton.AddOnClickListener(() => nameScreenOrchestrator.SetState(NameScreenState.Intro));
+                rejectButton.AddOnClickListener(() => nameScreenOrchestrator.ResetState());
             }
         }
         #endregion
@@ -130,7 +129,7 @@ namespace Frankie.Menu.UI
             List<NameScreenAnswer> answers = nameScreenOrchestrator.GetAnswers();
             if (answers == null || answers.Count == 0) // Invalid state
             {
-                nameScreenOrchestrator.SetState(NameScreenState.Intro);
+                nameScreenOrchestrator.ResetState();
                 return;
             }
 
@@ -144,7 +143,7 @@ namespace Frankie.Menu.UI
                         break;
                     case NameScreenQuestionType.FavouriteFood:
                     case NameScreenQuestionType.FavouriteThing:
-                    case NameScreenQuestionType.FrameColour:
+                    case NameScreenQuestionType.FrameFlavour:
                         AltConfirmCard altConfirmCard = Instantiate(altConfirmCardPrefab, rightCardSpawnPoint);
                         altConfirmCard.Setup(answer.question.localizedQuestion.GetSafeLocalizedString(), answer.answer);
                         break;
