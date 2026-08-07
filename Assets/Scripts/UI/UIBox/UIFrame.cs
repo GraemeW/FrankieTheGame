@@ -23,11 +23,12 @@ namespace Frankie.Utils.UI
         private static void InitializeFrameFlavour()
         {
             _isFrameFlavourSet = true;
-            if (!PlayerPrefsController.FrameFlavourColourKeyExists()) { return; }
-            _frameFlavourColour = PlayerPrefsController.GetFrameFlavourColour();
-
+            
             PlayerPrefsController.frameFlavourUpdated -= SetGlobalFrameFlavour;
             PlayerPrefsController.frameFlavourUpdated += SetGlobalFrameFlavour;
+            
+            if (!PlayerPrefsController.FrameFlavourColourKeyExists()) { return; }
+            _frameFlavourColour = PlayerPrefsController.GetFrameFlavourColour();
         }
         private static void SetGlobalFrameFlavour(Color frameFlavourColor) => _frameFlavourColour = frameFlavourColor;
         
@@ -48,7 +49,7 @@ namespace Frankie.Utils.UI
         public void OverwriteLocalFrameFlavour(Color overwriteColour)
         {
             if (frame == null) { return; }
-            frame.color = new Color(overwriteColour.r * colourModifyFactor, overwriteColour.g * colourModifyFactor, overwriteColour.b * colourModifyFactor, _frameFlavourColour.a);;
+            frame.color = new Color(overwriteColour.r * colourModifyFactor, overwriteColour.g * colourModifyFactor, overwriteColour.b * colourModifyFactor, _frameFlavourColour.a);
         }
 
         public void ResetToDefaultFrameFlavour()

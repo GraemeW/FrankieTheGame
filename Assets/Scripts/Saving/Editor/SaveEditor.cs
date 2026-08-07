@@ -47,7 +47,7 @@ namespace Frankie.Saving.Editor
         private ScrollView saveControlEntityScrollView;
         
         #region UnityMethods
-        [MenuItem("Tools/Save Editor", false, 205)]
+        [MenuItem("Tools/Save Editor", false, 305)]
         private static void ShowWindow()
         {
             var window = GetWindow<SaveEditor>("Save Editor");
@@ -181,7 +181,7 @@ namespace Frankie.Saving.Editor
             string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
             saveHeaderBox.Add(new Label($"Current Save:  {currentSaveName}"));
             
-            if (SavingWrapper.GetInfoFromName(currentSaveName, out string characterName, out int level))
+            if (SavingWrapper.GetInfoFromSave(currentSaveName, out string characterName, out int level))
             {
                 saveHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
                 saveHeaderBox.Add(new Label($"Level:   {level}"));
@@ -223,7 +223,7 @@ namespace Frankie.Saving.Editor
 
             if (!string.IsNullOrWhiteSpace(selectedSave) && SavingWrapper.HasSave(selectedSave))
             {
-                if (SavingWrapper.GetInfoFromName(selectedSave, out string characterName, out int level))
+                if (SavingWrapper.GetInfoFromSave(selectedSave, out string characterName, out int level))
                 {
                     selectionHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
                     selectionHeaderBox.Add(new Label($"Level:   {level}"));

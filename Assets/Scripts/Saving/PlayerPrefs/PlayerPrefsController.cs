@@ -11,6 +11,9 @@ namespace Frankie.Saving
     {
         // Keys
         // Note:  Update KeyEnumeration below when adding new keys to be able to view/edit them in PlayerPrefsEditor
+        private const string _currentSaveKey = "currentSave";
+        private const string _currentSaveLeaderStem = "leader";
+        private const string _currentSaveLevelStem = "level";
         private const string _masterVolumeKey = "masterVolume";
         private const string _backgroundVolumeKey = "backgroundVolume";
         private const string _soundEffectsVolumeKey = "soundEffectsVolume";
@@ -24,9 +27,9 @@ namespace Frankie.Saving
         private const string _resolutionWindowedHeightKey = "resolutionWindowedHeight";
         private const string _languageKey = "languageCode";
         private const string _characterNameStem = "charName";
-        private const string _favouriteFoodKey = "favouriteFood";
-        private const string _favouriteThingKey = "favouriteThing";
-        private const string _frameFlavourColourKey = "frameFlavourColour";
+        private const string _favouriteFoodStem = "favouriteFood";
+        private const string _favouriteThingStem = "favouriteThing";
+        private const string _frameFlavourColourStem = "frameFlavourColour";
 
         // Parameters
         private const float _audioMappingCurveFactor = 2.0f;
@@ -36,38 +39,51 @@ namespace Frankie.Saving
         public static event Action<Color> frameFlavourUpdated;
         
         #region KeyEnumeration
-        private static List<PrefsKeyInfo> GetAllKnownKeys(IEnumerable<string> characterPropertiesNames = null)
+        private static List<PrefsKeyInfo> GetAllDefinedKeys(List<string> characterPropertiesNames = null, bool includeCurrentSave = false)
         {
-            var list = new List<PrefsKeyInfo>();
-
-            AddIfExists(list, _masterVolumeKey, PrefsValueType.Float);
-            AddIfExists(list, _backgroundVolumeKey, PrefsValueType.Float);
-            AddIfExists(list, _soundEffectsVolumeKey, PrefsValueType.Float);
-            AddIfExists(list, _displayWidthKey, PrefsValueType.Int);
-            AddIfExists(list, _displayHeightKey, PrefsValueType.Int);
-            AddIfExists(list, _resolutionInitializedKey, PrefsValueType.Int);
-            AddIfExists(list, _resolutionFullScreenWindowedKey, PrefsValueType.Int);
-            AddIfExists(list, _resolutionFSWWidthKey, PrefsValueType.Int);
-            AddIfExists(list, _resolutionFSWHeightKey, PrefsValueType.Int);
-            AddIfExists(list, _resolutionWindowedWidthKey, PrefsValueType.Int);
-            AddIfExists(list, _resolutionWindowedHeightKey, PrefsValueType.Int);
-            AddIfExists(list, _languageKey, PrefsValueType.String);
-            AddIfExists(list, _favouriteFoodKey, PrefsValueType.String);
-            AddIfExists(list, _favouriteThingKey, PrefsValueType.String);
-            AddIfExists(list, _frameFlavourColourKey, PrefsValueType.String);
-
-            if (characterPropertiesNames == null) { return list; }
-            foreach (string characterPropertiesName in characterPropertiesNames)
+            var fixedKeys = new List<PrefsKeyInfo>
             {
-                AddIfExists(list, GetCharacterNameKey(characterPropertiesName), PrefsValueType.String);
+                new(_masterVolumeKey, PrefsValueType.Float),
+                new(_backgroundVolumeKey, PrefsValueType.Float),
+                new(_soundEffectsVolumeKey, PrefsValueType.Float),
+                new(_displayWidthKey, PrefsValueType.Int),
+                new(_displayHeightKey, PrefsValueType.Int),
+                new(_resolutionInitializedKey, PrefsValueType.Int),
+                new(_resolutionFullScreenWindowedKey, PrefsValueType.Int),
+                new(_resolutionFSWWidthKey, PrefsValueType.Int),
+                new(_resolutionFSWHeightKey, PrefsValueType.Int),
+                new(_resolutionWindowedWidthKey, PrefsValueType.Int),
+                new(_resolutionWindowedHeightKey, PrefsValueType.Int),
+                new(_languageKey, PrefsValueType.String),
+            };
+            
+            // Save-Dependent Keys
+            if (includeCurrentSave) { fixedKeys.Add(new( _currentSaveKey, PrefsValueType.Int)); }
+            
+            if (!CurrentSaveKeyExists()) { return fixedKeys; }
+            string saveName = GetCurrentSave();
+            string key;
+                
+            if (TryGetCurrentSaveLeaderKey(out key, saveName)) { fixedKeys.Add(new PrefsKeyInfo(key, PrefsValueType.String)); }
+            if (TryGetCurrentSaveLevelKey(out key, saveName)) { fixedKeys.Add(new PrefsKeyInfo(key, PrefsValueType.Int)); }
+
+            if (characterPropertiesNames != null)
+            {
+                foreach (string characterPropertiesName in characterPropertiesNames)
+                {
+                    if (TryGetCharacterNameKey(characterPropertiesName, out key, saveName)) { fixedKeys.Add(new PrefsKeyInfo(key, PrefsValueType.String)); }
+                }
             }
-            return list;
+            
+            if (TryGetFavouriteFoodKey(out key,saveName)) { fixedKeys.Add(new PrefsKeyInfo(key, PrefsValueType.String)); }
+            if (TryGetFavouriteThingKey(out key, saveName)) { fixedKeys.Add(new PrefsKeyInfo(key, PrefsValueType.String)); }
+            if (TryGetFrameFlavourKey(out key, saveName)) { fixedKeys.Add(new PrefsKeyInfo(key, PrefsValueType.String)); }
+            
+            return fixedKeys;
         }
 
-        private static void AddIfExists(List<PrefsKeyInfo> list, string key, PrefsValueType type)
-        {
-            if (PlayerPrefs.HasKey(key)) list.Add(new PrefsKeyInfo(key, type));
-        }
+        private static List<PrefsKeyInfo> GetAllKnownKeys(List<string> characterPropertiesNames = null, bool includeCurrentSave = false) => GetAllDefinedKeys(characterPropertiesNames, includeCurrentSave).Where(info => PlayerPrefs.HasKey(info.key)).ToList();
+        public static List<PrefsKeyInfo> GetAvailableKeysToAdd(List<string> characterPropertiesNames = null, bool includeCurrentSave = false) => GetAllDefinedKeys(characterPropertiesNames, includeCurrentSave).Where(info => !PlayerPrefs.HasKey(info.key)).ToList();
         #endregion
         
         #region Admin
@@ -84,11 +100,9 @@ namespace Frankie.Saving
         #endregion
         
         #region GenericInterface
-        public static List<PrefsEntryData> GetPrefsEntries(IEnumerable<string> characterPropertiesNames = null)
+        public static List<PrefsEntryData> GetPrefsEntries(List<string> characterPropertiesNames = null, bool includeCurrentSave = false)
         {
-            var results = GetAllKnownKeys(characterPropertiesNames).Select(info => new PrefsEntryData(info.key, info.type, ReadValue(info.key, info.type))).ToList();
-            results.Sort((a, b) => string.Compare(a.key, b.key, StringComparison.OrdinalIgnoreCase));
-            return results;
+            return GetAllKnownKeys(characterPropertiesNames, includeCurrentSave).Select(info => new PrefsEntryData(info.key, info.type, ReadValue(info.key, info.type))).ToList();
         }
         
         private static string ReadValue(string key, PrefsValueType type)
@@ -126,6 +140,42 @@ namespace Frankie.Saving
         }
         #endregion
 
+        #region Saving
+        public static bool CurrentSaveKeyExists() => PlayerPrefs.HasKey(_currentSaveKey);
+        public static string GetCurrentSave() => PlayerPrefs.GetString(_currentSaveKey);
+        public static void SetCurrentSave(string saveName) => PlayerPrefs.SetString(_currentSaveKey, saveName);
+        
+        private static bool TryGetCurrentSaveLeaderKey(out string key, string saveName = null)
+        {
+            if (saveName == null && CurrentSaveKeyExists()) { saveName = PlayerPrefs.GetString(_currentSaveKey); }
+            key = saveName != null ? $"{saveName}_{_currentSaveLeaderStem}" : string.Empty;
+            return saveName != null;
+        }
+
+        private static bool TryGetCurrentSaveLevelKey(out string key, string saveName = null)
+        {
+            if (saveName == null && CurrentSaveKeyExists()) { saveName = PlayerPrefs.GetString(_currentSaveKey); }
+            key = saveName != null ? $"{saveName}_{_currentSaveLevelStem}" : string.Empty;
+            return saveName != null;
+        }
+
+        public static bool CurrentSaveLeaderKeyExists(string saveName = null) => TryGetCurrentSaveLeaderKey(out string key, saveName) && PlayerPrefs.HasKey(key);
+        public static bool CurrentSaveLevelKeyExists(string saveName = null) => TryGetCurrentSaveLevelKey(out string key, saveName) && PlayerPrefs.HasKey(key);
+
+        public static string GetCurrentSaveLeader(string saveName = null) => TryGetCurrentSaveLeaderKey(out string key, saveName) ? PlayerPrefs.GetString(key) : string.Empty;
+        public static int GetCurrentSaveLevel(string saveName = null) => TryGetCurrentSaveLevelKey(out string key, saveName) ? PlayerPrefs.GetInt(key) : 0;
+
+        public static void SetCurrentSaveLeader(string leader, string saveName = null)
+        {
+            if (TryGetCurrentSaveLeaderKey(out string key, saveName)) { PlayerPrefs.SetString(key, leader); }
+        }
+
+        public static void SetCurrentSaveLevel(int level, string saveName = null)
+        {
+            if (TryGetCurrentSaveLevelKey(out string key, saveName)) { PlayerPrefs.SetInt(key, level); }
+        }
+        #endregion
+        
         #region VolumeSettings
         public static bool MasterVolumeKeyExists() => PlayerPrefs.HasKey(_masterVolumeKey);
         public static bool BackgroundVolumeKeyExists() => PlayerPrefs.HasKey(_backgroundVolumeKey);
@@ -229,26 +279,68 @@ namespace Frankie.Saving
         #endregion
         
         #region NameScreenSettings
-        private static string GetCharacterNameKey(string characterPropertiesName) => $"{_characterNameStem}_{characterPropertiesName}";
-        public static bool CharacterNameKeyExists(string characterPropertiesName) => PlayerPrefs.HasKey(GetCharacterNameKey(characterPropertiesName));
-        public static bool FavouriteFoodKeyExists() => PlayerPrefs.HasKey(_favouriteFoodKey);
-        public static bool FavouriteThingKeyExists() => PlayerPrefs.HasKey(_favouriteThingKey);
-        public static bool FrameFlavourColourKeyExists() => PlayerPrefs.HasKey(_frameFlavourColourKey);
-        public static string GetCharacterName(string characterPropertiesName) => PlayerPrefs.GetString(GetCharacterNameKey(characterPropertiesName));
-        public static string GetFavouriteFood() => PlayerPrefs.GetString(_favouriteFoodKey);
-        public static string GetFavouriteThing() => PlayerPrefs.GetString(_favouriteThingKey);
-        public static Color GetFrameFlavourColour()
+        private static bool TryGetCharacterNameKey(string characterPropertiesName, out string key, string saveName = null)
         {
-            string frameFlavourColourHex = PlayerPrefs.GetString(_frameFlavourColourKey);
-            return ColorUtility.TryParseHtmlString("#" + frameFlavourColourHex, out Color parsedColor) ? parsedColor : Color.white;
+            if (saveName == null && CurrentSaveKeyExists()) { saveName = PlayerPrefs.GetString(_currentSaveKey); }
+            key = saveName != null ? $"{saveName}_{_characterNameStem}_{characterPropertiesName}" : string.Empty;
+            return saveName != null;
         }
-        public static void SetCharacterName(string characterPropertiesName, string characterName) => PlayerPrefs.SetString(GetCharacterNameKey(characterPropertiesName), characterName);
-        public static void SetFavouriteFood(string favouriteFood) => PlayerPrefs.SetString(_favouriteFoodKey, favouriteFood);
-        public static void SetFavouriteThing(string favouriteThing) => PlayerPrefs.SetString(_favouriteThingKey, favouriteThing);
-        public static void SetFrameFlavourColour(Color frameFlavourColour)
+
+        private static bool TryGetFavouriteFoodKey(out string key, string saveName = null)
         {
+            if (saveName == null && CurrentSaveKeyExists()) { saveName = PlayerPrefs.GetString(_currentSaveKey); }
+            key = saveName != null ? $"{saveName}_{_favouriteFoodStem}" : string.Empty;
+            return saveName != null;
+        }
+
+        private static bool TryGetFavouriteThingKey(out string key, string saveName = null)
+        {
+            if (saveName == null && CurrentSaveKeyExists()) { saveName = PlayerPrefs.GetString(_currentSaveKey); }
+            key = saveName != null ? $"{saveName}_{_favouriteThingStem}" : string.Empty;
+            return saveName != null;
+        }
+
+        private static bool TryGetFrameFlavourKey(out string key, string saveName = null)
+        {
+            if (saveName == null && CurrentSaveKeyExists()) { saveName = PlayerPrefs.GetString(_currentSaveKey); }
+            key = saveName != null ? $"{saveName}_{_frameFlavourColourStem}" : string.Empty;
+            return saveName != null;
+        }
+        
+        public static bool CharacterNameKeyExists(string characterPropertiesName, string saveName = null) => TryGetCharacterNameKey(characterPropertiesName, out string key, saveName) && PlayerPrefs.HasKey(key);
+        public static bool FavouriteFoodKeyExists(string saveName = null) => TryGetFavouriteFoodKey(out string key, saveName) && PlayerPrefs.HasKey(key);
+        public static bool FavouriteThingKeyExists(string saveName = null) => TryGetFavouriteThingKey(out string key, saveName) && PlayerPrefs.HasKey(key);
+        public static bool FrameFlavourColourKeyExists(string saveName = null) => TryGetFrameFlavourKey(out string key, saveName) && PlayerPrefs.HasKey(key);
+        
+        public static string GetCharacterName(string characterPropertiesName, string saveName = null) => TryGetCharacterNameKey(characterPropertiesName, out string key, saveName) ? PlayerPrefs.GetString(key) : string.Empty;
+        public static string GetFavouriteFood(string saveName = null) => TryGetFavouriteFoodKey(out string key, saveName) ? PlayerPrefs.GetString(key) : string.Empty;
+        public static string GetFavouriteThing(string saveName = null) => TryGetFavouriteThingKey(out string key, saveName) ? PlayerPrefs.GetString(key) : string.Empty;
+        public static Color GetFrameFlavourColour(string saveName = null)
+        {
+            if (!TryGetFrameFlavourKey(out string key, saveName)) { return Color.white; }
+            return ColorUtility.TryParseHtmlString("#" + PlayerPrefs.GetString(key), out Color parsedColor) ? parsedColor : Color.white;
+        }
+
+        public static void SetCharacterName(string characterPropertiesName, string characterName, string saveName = null)
+        {
+            if (TryGetCharacterNameKey(characterPropertiesName, out string key, saveName)) { PlayerPrefs.SetString(key, characterName); }
+        }
+
+        public static void SetFavouriteFood(string favouriteFood, string saveName = null)
+        {
+            if (TryGetFavouriteFoodKey(out string key, saveName)) { PlayerPrefs.SetString(key, favouriteFood); }
+        }
+
+        public static void SetFavouriteThing(string favouriteThing, string saveName = null)
+        {
+            if (TryGetFavouriteThingKey(out string key, saveName)) { PlayerPrefs.SetString(key, favouriteThing); }
+        }
+        public static void SetFrameFlavourColour(Color frameFlavourColour, string saveName = null)
+        {
+            if (!TryGetFrameFlavourKey(out string key, saveName)) { return; }
             string frameFlavourColourHex = ColorUtility.ToHtmlStringRGBA(frameFlavourColour);
-            PlayerPrefs.SetString(_frameFlavourColourKey, frameFlavourColourHex);
+            PlayerPrefs.SetString(key, frameFlavourColourHex);
+            
             frameFlavourUpdated?.Invoke(frameFlavourColour);
         }
         #endregion

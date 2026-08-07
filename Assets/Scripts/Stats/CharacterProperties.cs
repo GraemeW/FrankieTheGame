@@ -6,9 +6,6 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Utils.Addressables;
 using Frankie.Utils.Localization;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Frankie.Stats
 {

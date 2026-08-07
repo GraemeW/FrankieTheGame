@@ -5,7 +5,6 @@ using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Control;
 using Frankie.Saving;
-using Frankie.ZoneManagement;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
 using Frankie.Speech.UI;
@@ -85,7 +84,7 @@ namespace Frankie.Menu.UI
                 var loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
                 if (SavingWrapper.HasSave(saveName))
                 {
-                    SavingWrapper.GetInfoFromName(saveName, out string characterName, out int level);
+                    SavingWrapper.GetInfoFromSave(saveName, out string characterName, out int level);
                     loadGameEntry.Setup(index, characterName, level, () => SpawnGameSelectOptions(saveName));
                 }
                 else
