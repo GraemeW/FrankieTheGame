@@ -7,36 +7,54 @@ namespace Frankie.Utils.UI
     [RequireComponent(typeof(Image))]
     public class UIFrame : MonoBehaviour
     {
+        [SerializeField] [Range(.5f, 1.5f)] private float colourModifyFactor = 1.0f; 
+        
+        // State
+        private Color currentColour = _frameFlavourColour;
+        
         // Cached References
         private Image frame;
         
         // Static
         private static bool _isFrameFlavourSet = false;
-        private static Color _frameFlavourColor = Color.white;
+        private static Color _frameFlavourColour = Color.white;
         
         // Static Methods
         private static void InitializeFrameFlavour()
         {
             _isFrameFlavourSet = true;
             if (!PlayerPrefsController.FrameFlavourColourKeyExists()) { return; }
-            _frameFlavourColor = PlayerPrefsController.GetFrameFlavourColour();
-        }
+            _frameFlavourColour = PlayerPrefsController.GetFrameFlavourColour();
 
-        public static void SetGlobalFrameFlavour(Color frameFlavourColor)
-        {
-            _frameFlavourColor = frameFlavourColor;
+            PlayerPrefsController.frameFlavourUpdated -= SetGlobalFrameFlavour;
+            PlayerPrefsController.frameFlavourUpdated += SetGlobalFrameFlavour;
         }
+        private static void SetGlobalFrameFlavour(Color frameFlavourColor) => _frameFlavourColour = frameFlavourColor;
         
         // Local Methods
         private void OnEnable()
         {
             if (!_isFrameFlavourSet) { InitializeFrameFlavour(); }
-            if (TryGetComponent(out frame)) { frame.color = _frameFlavourColor; }
+            UpdateCurrentColour();
+        }
+
+        private void UpdateCurrentColour()
+        {
+            if (!TryGetComponent(out frame)) { return;  }
+            currentColour = new Color(_frameFlavourColour.r * colourModifyFactor, _frameFlavourColour.g * colourModifyFactor, _frameFlavourColour.b * colourModifyFactor, _frameFlavourColour.a);
+            frame.color = currentColour;
         }
         
-        public void OverwriteLocalFrameFlavour(Color overwriteColor)
+        public void OverwriteLocalFrameFlavour(Color overwriteColour)
         {
-            if (frame != null) { frame.color = overwriteColor; }
+            if (frame == null) { return; }
+            frame.color = new Color(overwriteColour.r * colourModifyFactor, overwriteColour.g * colourModifyFactor, overwriteColour.b * colourModifyFactor, _frameFlavourColour.a);;
+        }
+
+        public void ResetToDefaultFrameFlavour()
+        {
+            if (frame == null) { return; }
+            frame.color = currentColour;
         }
     }
 }

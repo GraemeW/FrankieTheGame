@@ -30,10 +30,10 @@ namespace Frankie.Utils.Editor
                 if (original == null) { continue; }
 
                 string name = original.name;
-                if (name.IndexOf(SpriteAnimationGeneratorWindow.standStillOverrideToken, StringComparison.OrdinalIgnoreCase) >= 0) { continue; }
+                if (name.IndexOf(SpriteAnimationGenerator.standStillOverrideToken, StringComparison.OrdinalIgnoreCase) >= 0) { continue; }
 
-                bool isIdle = SpriteAnimationGeneratorWindow.idleTokens.Any(t => name.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0);
-                candidates.AddRange(from direction in SpriteAnimationGeneratorWindow.canonicalDirections where name.EndsWith(direction, StringComparison.OrdinalIgnoreCase) select new CandidateEntry(i, direction, isIdle));
+                bool isIdle = SpriteAnimationGenerator.idleTokens.Any(t => name.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0);
+                candidates.AddRange(from direction in SpriteAnimationGenerator.canonicalDirections where name.EndsWith(direction, StringComparison.OrdinalIgnoreCase) select new CandidateEntry(i, direction, isIdle));
             }
 
             var claimedSlots = new HashSet<int>();
@@ -45,7 +45,7 @@ namespace Frankie.Utils.Editor
                     case 0:
                         continue;
                     case > 1:
-                        ambiguousKeys.Add($"{(group.Key.isIdle ? SpriteAnimationGeneratorWindow.idleOverrideToken : "")}{group.Key.direction}");
+                        ambiguousKeys.Add($"{(group.Key.isIdle ? SpriteAnimationGenerator.idleOverrideToken : "")}{group.Key.direction}");
                         continue;
                 }
                 

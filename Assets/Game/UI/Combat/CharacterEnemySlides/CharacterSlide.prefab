@@ -254,9 +254,11 @@ MonoBehaviour:
   currentAPHundreds: {fileID: 621684899563121143}
   currentAPTens: {fileID: 3779205739022887581}
   currentAPOnes: {fileID: 1961126035102761917}
-  selectHighlight: {fileID: 4469655348132733684}
+  highlights:
+  - {fileID: 1836017300773807776}
+  - {fileID: 6141258602486727678}
+  - {fileID: 2524146776178336637}
   selectedCharacterFrameColor: {r: 0.4444464, g: 0.8207547, b: 0.4444464, a: 1}
-  cooldownCharacterFrameColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
   targetedCharacterFrameColor: {r: 0.4440726, g: 0.6320765, b: 0.9339623, a: 1}
   deadCharacterFrameColor: {r: 1, g: 0.44716978, b: 0.44716978, a: 1}
   references:
@@ -523,6 +525,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2024536053441167953, guid: ce7eec30860e3481a9c0917aabd905a1, type: 3}
   m_PrefabInstance: {fileID: 2401830824929787715}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6141258602486727678 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8389966694273875133, guid: ce7eec30860e3481a9c0917aabd905a1, type: 3}
+  m_PrefabInstance: {fileID: 2401830824929787715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9787a8572a8d4ce2b0921c0a1d0c6fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.UIFrame
 --- !u!1001 &4657982943703282350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -624,22 +637,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
---- !u!224 &3464979281217087488 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8120674585450076846, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
-  m_PrefabInstance: {fileID: 4657982943703282350}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4469655348132733684 stripped
+--- !u!114 &1836017300773807776 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9125169247971135578, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6475792324404909070, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
   m_PrefabInstance: {fileID: 4657982943703282350}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 9787a8572a8d4ce2b0921c0a1d0c6fdc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.UIFrame
+--- !u!224 &3464979281217087488 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8120674585450076846, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
+  m_PrefabInstance: {fileID: 4657982943703282350}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6102760003801096392
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1477,6 +1490,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2524146776178336637 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5540222355018581097, guid: caba6e59717c04f5fbc114a28dfd0937, type: 3}
+  m_PrefabInstance: {fileID: 8062922169497233172}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9787a8572a8d4ce2b0921c0a1d0c6fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.UIFrame
 --- !u!114 &3779205739022887581 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6599795897340693897, guid: caba6e59717c04f5fbc114a28dfd0937, type: 3}

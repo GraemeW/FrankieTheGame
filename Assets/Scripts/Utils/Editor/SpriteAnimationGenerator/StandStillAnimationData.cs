@@ -21,7 +21,7 @@ namespace Frankie.Utils.Editor
             this.outputPath = outputPath;
         }
 
-        public string GetClipName() => $"{prefix}{characterName}{SpriteAnimationGeneratorWindow.standStillOverrideToken}";
+        public string GetClipName() => $"{prefix}{characterName}{SpriteAnimationGenerator.standStillOverrideToken}";
         public string GetClipAssetPath() => $"{outputPath}/{GetClipName()}.anim";
         public Sprite[] GetStandStillSprites()
         {

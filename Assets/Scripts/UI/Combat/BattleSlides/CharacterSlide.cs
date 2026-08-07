@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Utils.Localization;
+using Frankie.Utils.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -26,16 +27,14 @@ namespace Frankie.Combat.UI
         [SerializeField] private TextMeshProUGUI currentAPHundreds;
         [SerializeField] private TextMeshProUGUI currentAPTens;
         [SerializeField] private TextMeshProUGUI currentAPOnes;
-        [SerializeField] private Image selectHighlight;
+        [SerializeField] private List<UIFrame> highlights = new();
 
         [Header("Highlight Colors")]
         [SerializeField] private Color selectedCharacterFrameColor = Color.green;
-        [SerializeField] private Color cooldownCharacterFrameColor = Color.gray;
         [SerializeField] private Color targetedCharacterFrameColor = Color.blue;
         [SerializeField] private Color deadCharacterFrameColor = Color.red;
 
         // State
-        private Color defaultColor = Color.white;
         private SlideState slideState;
         private SlideState lastSlideState;
 
@@ -70,12 +69,6 @@ namespace Frankie.Combat.UI
         #endregion
 
         // Functions
-        protected override void Awake()
-        {
-            base.Awake();
-            defaultColor = selectHighlight.color;
-        }
-
         private void Start()
         {
             if (hpTextField != null) { hpTextField.text = localizedHPText.GetSafeLocalizedString(); }
@@ -229,19 +222,27 @@ namespace Frankie.Combat.UI
             if (battleEntity.combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
                 slideState is SlideState.Ready or SlideState.Selected or SlideState.Cooldown)
             {
-                selectHighlight.color = deadCharacterFrameColor;
+                foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(deadCharacterFrameColor); }
                 return;
             }
 
-            selectHighlight.color = slideState switch
+            switch (slideState)
             {
-                SlideState.Ready => defaultColor,
-                SlideState.Selected => selectedCharacterFrameColor,
-                SlideState.Cooldown => cooldownCharacterFrameColor,
-                SlideState.Target => targetedCharacterFrameColor,
-                SlideState.Dead => deadCharacterFrameColor,
-                _ => Color.white,
-            };
+                case SlideState.Selected:
+                    foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(selectedCharacterFrameColor); }
+                    break;
+                case SlideState.Target:
+                    foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(targetedCharacterFrameColor); }
+                    break;
+                case SlideState.Dead:
+                    foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(deadCharacterFrameColor); }
+                    break;
+                case SlideState.Ready:
+                case SlideState.Cooldown:
+                default:
+                    foreach (UIFrame highlight in highlights) { highlight.ResetToDefaultFrameFlavour(); }
+                    break;
+            }
         }
 
         private void UpdateName(string characterName)

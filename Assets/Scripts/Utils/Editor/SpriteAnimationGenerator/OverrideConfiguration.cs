@@ -72,11 +72,11 @@ namespace Frankie.Utils.Editor
         
         private static bool IsOverrideMatch(string overrideSlotName, string action, bool isIdle, bool isStandStill)
         {
-            bool slotHasStandStill = overrideSlotName.IndexOf(SpriteAnimationGeneratorWindow.standStillOverrideToken, StringComparison.OrdinalIgnoreCase) >= 0;
+            bool slotHasStandStill = overrideSlotName.IndexOf(SpriteAnimationGenerator.standStillOverrideToken, StringComparison.OrdinalIgnoreCase) >= 0;
             if (isStandStill) { return slotHasStandStill; }
             if (slotHasStandStill) { return false; } // StandStill slots never take movement/idle clips
 
-            bool slotHasIdle = SpriteAnimationGeneratorWindow.idleTokens.Any(t => overrideSlotName.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0);
+            bool slotHasIdle = SpriteAnimationGenerator.idleTokens.Any(t => overrideSlotName.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0);
             if (isIdle != slotHasIdle) { return false; }
 
             return !string.IsNullOrEmpty(action) && overrideSlotName.EndsWith(action, StringComparison.OrdinalIgnoreCase);
