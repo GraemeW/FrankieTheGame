@@ -9,7 +9,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    [CreateAssetMenu(fileName = "New Name Screen Question", menuName = "NameScreen/New Question", order = 30)]
+    [CreateAssetMenu(fileName = "New Name Screen Question", menuName = "UI/NameScreen/New Question", order = 30)]
     public class NameScreenQuestion : ScriptableObject, ILocalizable
     {
         // Properties

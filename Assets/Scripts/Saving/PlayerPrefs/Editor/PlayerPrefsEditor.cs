@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Frankie.Saving;
@@ -10,9 +11,13 @@ namespace Frankie.Utils.Editor
 {
     public class PlayerPrefsEditorWindow : EditorWindow
     {
+        // Const
+        private const string _registryEditorPrefsKey = "Frankie.PlayerPrefsEditor.CharacterPropertiesRegistryGuid";
+
         // State
         private readonly List<PrefsEntryData> entries = new();
         private List<PrefsKeyInfo> availableKeysToAdd = new();
+        private CharacterPropertiesRegistry characterPropertiesRegistry;
         private ScrollView rowContainer;
         private PopupField<PrefsKeyInfo> keyDropdown;
         private Button addButton;
@@ -28,22 +33,48 @@ namespace Frankie.Utils.Editor
         #region UnityMethods
         public void CreateGUI()
         {
+            LoadRegistry();
             RefreshEntries();
             BuildLayout();
         }
+        #endregion
+
+        #region RegistryPersistence
+        private void LoadRegistry()
+        {
+            string guid = EditorPrefs.GetString(_registryEditorPrefsKey, string.Empty);
+            if (string.IsNullOrEmpty(guid)) { return; }
+
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            characterPropertiesRegistry = AssetDatabase.LoadAssetAtPath<CharacterPropertiesRegistry>(path);
+        }
+
+        private void SaveRegistryReference()
+        {
+            if (characterPropertiesRegistry == null)
+            {
+                EditorPrefs.DeleteKey(_registryEditorPrefsKey);
+                return;
+            }
+
+            string path = AssetDatabase.GetAssetPath(characterPropertiesRegistry);
+            EditorPrefs.SetString(_registryEditorPrefsKey, AssetDatabase.AssetPathToGUID(path));
+        }
+
+        private List<string> GetCharacterPropertiesNames() => characterPropertiesRegistry != null ? characterPropertiesRegistry.GetCharacterIDs() : null;
         #endregion
 
         #region DataRefresh
         private void RefreshEntries()
         {
             entries.Clear();
-            entries.AddRange(PlayerPrefsController.GetPrefsEntries());
+            entries.AddRange(PlayerPrefsController.GetPrefsEntries(GetCharacterPropertiesNames()));
             RefreshAvailableKeys();
         }
 
         private void RefreshAvailableKeys()
         {
-            availableKeysToAdd = PlayerPrefsController.GetAvailableKeysToAdd();
+            availableKeysToAdd = PlayerPrefsController.GetAvailableKeysToAdd(GetCharacterPropertiesNames());
 
             if (keyDropdown == null) { return; }
 
@@ -71,10 +102,34 @@ namespace Frankie.Utils.Editor
             rootVisualElement.Add(MakeToolbar());
         }
 
+        private VisualElement MakeRegistryField()
+        {
+            var container = new VisualElement { style = { flexDirection = FlexDirection.Row, alignItems = Align.Center, marginBottom = 6 } };
+
+            var label = new Label("Character Properties Registry") { style = { marginRight = 4 } };
+            var objectField = new ObjectField
+            {
+                objectType = typeof(CharacterPropertiesRegistry),
+                value = characterPropertiesRegistry,
+                style = { flexGrow = 1 }
+            };
+            objectField.RegisterValueChangedCallback(evt =>
+            {
+                characterPropertiesRegistry = evt.newValue as CharacterPropertiesRegistry;
+                SaveRegistryReference();
+                RefreshAll();
+            });
+
+            container.Add(label);
+            container.Add(objectField);
+            return container;
+        }
+
         private VisualElement MakeToolbar()
         {
             var toolbar = new VisualElement();
             toolbar.Add(MakeAddEntryRow());
+            toolbar.Add(MakeRegistryField());
             toolbar.Add(MakeAdminRow());
             return toolbar;
         }
@@ -115,7 +170,8 @@ namespace Frankie.Utils.Editor
             return adminRow;
         }
 
-        private static string FormatKeyChoice(PrefsKeyInfo info) => string.IsNullOrEmpty(info.key) ? "No keys available" : $"{info.key} ({info.type})";
+        private static string FormatKeyChoice(PrefsKeyInfo info) =>
+            string.IsNullOrEmpty(info.key) ? "No keys available" : $"{info.key} ({info.type})";
         #endregion
 
         #region Rows

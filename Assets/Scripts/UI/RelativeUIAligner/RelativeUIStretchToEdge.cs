@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Utils.UI
 {
-    [CreateAssetMenu(fileName = "New Align Width to Edge", menuName = "RelativeUIAligner/AlignDimensionToEdge", order = 30)]
+    [CreateAssetMenu(fileName = "New Align Width to Edge", menuName = "UI/RelativeUIAligner/AlignDimensionToEdge", order = 30)]
     public class RelativeUIStretchToEdge : RelativeUIAligner
     {
         [SerializeField] private bool xAlignEnabled = false;

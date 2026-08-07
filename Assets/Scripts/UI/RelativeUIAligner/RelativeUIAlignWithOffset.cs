@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Utils.UI
 {
-    [CreateAssetMenu(fileName = "New Align To Target with Offset", menuName = "RelativeUIAligner/AlignTargetWithOffset", order = 30)]
+    [CreateAssetMenu(fileName = "New Align To Target with Offset", menuName = "UI/RelativeUIAligner/AlignTargetWithOffset", order = 30)]
     public class RelativeUIAlignWithOffset : RelativeUIAligner
     {
         [SerializeField] private bool xAlignEnabled = false;

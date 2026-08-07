@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Utils.UI
 {
-    [CreateAssetMenu(fileName = "New Copy from Reference", menuName = "RelativeUIAligner/CopyFromReference", order = 30)]
+    [CreateAssetMenu(fileName = "New Copy from Reference", menuName = "UI/RelativeUIAligner/CopyFromReference", order = 30)]
     public class RelativeUICopyReference : RelativeUIAligner
     {
         [SerializeField] private bool xAlignEnabled = false;
