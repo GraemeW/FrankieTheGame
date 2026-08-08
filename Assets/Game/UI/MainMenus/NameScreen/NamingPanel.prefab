@@ -930,6 +930,7 @@ MonoBehaviour:
   specialKeysPerRow: 5
   thingSize: 180
   thingWalkTimeEstimate: 2
+  includeWalkTimeOnLastElement: 0
   keyboardRowPrefab: {fileID: -5301400400689626632, guid: 701400386b2564000851e8526ca4a9fe, type: 3}
   inputDisplay: {fileID: 3252200120737167628}
   questionTextScan: {fileID: 6156861168884678636}
