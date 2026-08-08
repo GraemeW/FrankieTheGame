@@ -85,7 +85,7 @@ namespace Frankie.Saving.Editor
         #region CreateUIElements
         private void CreateGUI()
         {
-            var splitView = new TwoPaneSplitView(0, 135, TwoPaneSplitViewOrientation.Vertical);
+            var splitView = new TwoPaneSplitView(0, 150, TwoPaneSplitViewOrientation.Vertical);
             rootVisualElement.Add(splitView);
 
             Box saveHeader = CreateSaveHeaderBox();
@@ -176,7 +176,7 @@ namespace Frankie.Saving.Editor
             if (saveHeaderBox == null) { return; }
             saveHeaderBox.Clear();
             
-            saveHeaderBox.Add(new Label("Save Editor Tool"));
+            saveHeaderBox.Add(MakeTitleLabel("Save Editor Tool"));
             
             string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
             saveHeaderBox.Add(new Label($"Current Save:  {currentSaveName}"));
@@ -373,6 +373,19 @@ namespace Frankie.Saving.Editor
                 var spacer = new VisualElement { style = { height = _entityCardSpacerHeight } };
                 saveControlEntityScrollView.Add(spacer);
             }
+        }
+        
+        private static Label MakeTitleLabel(string title)
+        {
+            return new Label(title)
+            {
+                style =
+                {
+                    fontSize = 14,
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                    marginBottom = 8
+                }
+            };
         }
         #endregion
         

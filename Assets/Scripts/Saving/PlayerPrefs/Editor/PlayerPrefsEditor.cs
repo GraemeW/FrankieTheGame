@@ -91,15 +91,42 @@ namespace Frankie.Utils.Editor
         {
             InitializeRoot(rootVisualElement);
 
+            rootVisualElement.Add(MakeTitleLabel("Player Prefs Editor"));
+            rootVisualElement.Add(MakeAdminPanel());
+            rootVisualElement.Add(MakeSeparator());
+
             rootVisualElement.Add(MakeHeader());
 
             rowContainer = new ScrollView { style = { flexGrow = 1 } };
             rootVisualElement.Add(rowContainer);
 
             RebuildRows();
+        }
+        
+        private VisualElement MakeAdminPanel()
+        {
+            var panel = new VisualElement();
+            panel.Add(MakeAdminRow());
+            panel.Add(MakeRegistryField());
+            panel.Add(MakeAddEntryRow());
+            return panel;
+        }
 
-            rootVisualElement.Add(MakeSeparator());
-            rootVisualElement.Add(MakeToolbar());
+        private VisualElement MakeAdminRow()
+        {
+            var adminRow = new VisualElement { style = { flexDirection = FlexDirection.Row, marginBottom = 6 } };
+
+            Button refreshButton = MakeStandardButton("Refresh");
+            refreshButton.RegisterCallback<ClickEvent>(_ => RefreshAll());
+            Button saveButton = MakeStandardButton("Save to PlayerPrefs", 6);
+            saveButton.RegisterCallback<ClickEvent>(_ => SaveAll());
+            Button clearButton = MakeStandardButton("Clear All PlayerPrefs", 6);
+            clearButton.RegisterCallback<ClickEvent>(_ => ClearAllPrefs());
+
+            adminRow.Add(refreshButton);
+            adminRow.Add(saveButton);
+            adminRow.Add(clearButton);
+            return adminRow;
         }
 
         private VisualElement MakeRegistryField()
@@ -111,7 +138,7 @@ namespace Frankie.Utils.Editor
             {
                 objectType = typeof(CharacterPropertiesRegistry),
                 value = characterPropertiesRegistry,
-                style = { flexGrow = 1 }
+                style = { width = 300 }
             };
             objectField.RegisterValueChangedCallback(evt =>
             {
@@ -125,18 +152,9 @@ namespace Frankie.Utils.Editor
             return container;
         }
 
-        private VisualElement MakeToolbar()
-        {
-            var toolbar = new VisualElement();
-            toolbar.Add(MakeAddEntryRow());
-            toolbar.Add(MakeRegistryField());
-            toolbar.Add(MakeAdminRow());
-            return toolbar;
-        }
-
         private VisualElement MakeAddEntryRow()
         {
-            var addRow = new VisualElement { style = { flexDirection = FlexDirection.Row, alignItems = Align.Center, marginBottom = 4 } };
+            var addRow = new VisualElement { style = { flexDirection = FlexDirection.Row, alignItems = Align.Center } };
 
             PrefsKeyInfo initialSelection = availableKeysToAdd.Count > 0 ? availableKeysToAdd[0] : default;
             keyDropdown = new PopupField<PrefsKeyInfo>(availableKeysToAdd, initialSelection, FormatKeyChoice, FormatKeyChoice)
@@ -151,23 +169,6 @@ namespace Frankie.Utils.Editor
             addRow.Add(keyDropdown);
             addRow.Add(addButton);
             return addRow;
-        }
-
-        private VisualElement MakeAdminRow()
-        {
-            var adminRow = new VisualElement { style = { flexDirection = FlexDirection.Row, justifyContent = Justify.FlexEnd } };
-
-            Button refreshButton = MakeStandardButton("Refresh");
-            refreshButton.RegisterCallback<ClickEvent>(_ => RefreshAll());
-            Button saveButton = MakeStandardButton("Save to PlayerPrefs", 6);
-            saveButton.RegisterCallback<ClickEvent>(_ => SaveAll());
-            Button clearButton = MakeStandardButton("Clear All PlayerPrefs", 6);
-            clearButton.RegisterCallback<ClickEvent>(_ => ClearAllPrefs());
-
-            adminRow.Add(refreshButton);
-            adminRow.Add(saveButton);
-            adminRow.Add(clearButton);
-            return adminRow;
         }
 
         private static string FormatKeyChoice(PrefsKeyInfo info) =>
@@ -186,11 +187,11 @@ namespace Frankie.Utils.Editor
             var row = new VisualElement { style = { flexDirection = FlexDirection.Row, alignItems = Align.Center, marginBottom = 2 } };
 
             VisualElement keyCell = MakeCell(_columns[0]);
-            keyCell.Add(new Label(entry.key));
+            keyCell.Add(MakeCellLabel(entry.key));
             row.Add(keyCell);
 
             VisualElement typeCell = MakeCell(_columns[1]);
-            typeCell.Add(new Label(entry.type.ToString()));
+            typeCell.Add(MakeCellLabel(entry.type.ToString()));
             row.Add(typeCell);
 
             VisualElement valueCell = MakeCell(_columns[2]);
@@ -290,7 +291,7 @@ namespace Frankie.Utils.Editor
             root.style.paddingTop = 6;
             root.style.paddingBottom = 6;
         }
-        
+
         private readonly struct ColumnSpec
         {
             public readonly string header;
@@ -312,6 +313,19 @@ namespace Frankie.Utils.Editor
             new("Value", 2f),
             new("", 0f, 24f)
         };
+        
+        private static Label MakeTitleLabel(string title)
+        {
+            return new Label(title)
+            {
+                style =
+                {
+                    fontSize = 14,
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                    marginBottom = 8
+                }
+            };
+        }
 
         private static VisualElement MakeHeader()
         {
@@ -327,10 +341,36 @@ namespace Frankie.Utils.Editor
 
         private static VisualElement MakeCell(ColumnSpec spec)
         {
-            var cell = new VisualElement { style = { marginRight = 4 } };
-            if (spec.fixedWidth >= 0f) { cell.style.width = spec.fixedWidth; }
-            else { cell.style.flexGrow = spec.flexGrow; }
+            var cell = new VisualElement { style = { marginRight = 4, overflow = Overflow.Hidden } };
+
+            if (spec.fixedWidth >= 0f)
+            {
+                cell.style.width = spec.fixedWidth;
+                cell.style.flexShrink = 0;
+            }
+            else
+            {
+                cell.style.flexGrow = spec.flexGrow;
+                cell.style.flexShrink = 1;
+                cell.style.flexBasis = 0;
+                cell.style.minWidth = 0;
+            }
+
             return cell;
+        }
+
+        private static Label MakeCellLabel(string text)
+        {
+            return new Label(text)
+            {
+                style =
+                {
+                    flexGrow = 1,
+                    minWidth = 0,
+                    overflow = Overflow.Hidden,
+                    textOverflow = TextOverflow.Ellipsis
+                }
+            };
         }
 
         private static VisualElement MakeSeparator()
@@ -339,10 +379,10 @@ namespace Frankie.Utils.Editor
             {
                 style =
                 {
-                    height = 1,
-                    marginTop = 4,
-                    marginBottom = 4,
-                    backgroundColor = new Color(0f, 0f, 0f, 0.2f)
+                    height = 2,
+                    marginTop = 2,
+                    marginBottom = 8,
+                    backgroundColor = new Color(0f, 0f, 0f, 0.35f)
                 }
             };
         }
@@ -357,7 +397,7 @@ namespace Frankie.Utils.Editor
             return new IntegerField
             {
                 value = int.TryParse(value, out int i) ? i : 0,
-                style = { flexGrow = 1 }
+                style = { flexGrow = 1, minWidth = 0 }
             };
         }
 
@@ -366,7 +406,7 @@ namespace Frankie.Utils.Editor
             return new FloatField
             {
                 value = float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float f) ? f : 0f,
-                style = { flexGrow = 1 }
+                style = { flexGrow = 1, minWidth = 0 }
             };
         }
 
@@ -375,7 +415,7 @@ namespace Frankie.Utils.Editor
             return new TextField
             {
                 value = value ?? string.Empty,
-                style = { flexGrow = 1 }
+                style = { flexGrow = 1, minWidth = 0 }
             };
         }
         #endregion
