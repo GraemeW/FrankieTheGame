@@ -5,7 +5,7 @@ using UnityEngine.Localization.Tables;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
-namespace Frankie.Menu.UI.FrameFlavourPanel
+namespace Frankie.Menu.UI
 {
     [ExecuteInEditMode]
     public class FrameFlavourChoice : UIChoiceButton, ILocalizable

@@ -20,6 +20,7 @@ namespace Frankie.Utils.UI
             set => internalUIState = value;
         } 
         private Coroutine controllerCheckCoroutine;
+        private bool isBackExitButtonSetup = false;
         
         // Event Handlers
         public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
@@ -46,12 +47,8 @@ namespace Frankie.Utils.UI
                 return;
             }
             stateLookup = BuildStateBehaviours();
-            
-            if (!preventEscapeOptionExit && backExitPrefab != null)
-            {
-                UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
-                backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
-            }
+
+            SetupBackExitButton(); 
             AwakeTriggered();
         }
         
@@ -220,6 +217,16 @@ namespace Frankie.Utils.UI
                 return true;
             }
             return false;
+        }
+
+        protected void SetupBackExitButton()
+        {
+            if (isBackExitButtonSetup) { return; }
+            if (preventEscapeOptionExit || backExitPrefab == null) { return; }
+            
+            UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
+            backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
+            isBackExitButtonSetup = true;
         }
         #endregion
     }

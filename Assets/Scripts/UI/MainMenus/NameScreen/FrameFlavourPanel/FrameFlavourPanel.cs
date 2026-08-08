@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Speech.UI;
@@ -5,7 +6,7 @@ using Frankie.Utils;
 using Frankie.Utils.UI;
 using UnityEngine;
 
-namespace Frankie.Menu.UI.FrameFlavourPanel
+namespace Frankie.Menu.UI
 {
     public class FrameFlavourPanel : UIBox<UIBoxState>
     {
@@ -15,6 +16,9 @@ namespace Frankie.Menu.UI.FrameFlavourPanel
         [SerializeField] private DialogueOptionBox flavourSelectionBox;
         [SerializeField] private Transform flavourChoiceParent;
 
+        // State
+        private readonly HashSet<UIFrame> additionalLocalFrameOverwrites = new();
+        
         // Cached References
         private NameScreenOrchestrator nameScreenOrchestrator;
         
@@ -22,7 +26,10 @@ namespace Frankie.Menu.UI.FrameFlavourPanel
         protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var stateBehaviours = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
-            stateBehaviours.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(setupChoiceOptions: ImplementSetupChoiceOptions));
+            stateBehaviours.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(
+                setupChoiceOptions: ImplementSetupChoiceOptions,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+                ));
             return stateBehaviours;
         }
 
@@ -34,8 +41,14 @@ namespace Frankie.Menu.UI.FrameFlavourPanel
                 choiceOptions.Add(flavourChoice);
             }
         }
-        #endregion
         
+        private bool ImplementTryHandleBackNavigation(ControllerInputType inputType)
+        {
+            // Only available if EnableEscapeOptionExit is triggered
+            Destroy(gameObject);
+            return true;
+        }
+        #endregion
         
         #region UnityMethods
         protected override void AwakeTriggered()
@@ -61,6 +74,22 @@ namespace Frankie.Menu.UI.FrameFlavourPanel
         }
         #endregion
         
+        #region PublicMethods
+        public void SetupAdditionalColorUpdates(UIBoxBase uiBox)
+        {
+            // Temporarily update frame colour on selection for already instantiated frames
+            foreach (UIFrame uiFrame in uiBox.GetComponentsInChildren<UIFrame>())
+            {
+                additionalLocalFrameOverwrites.Add(uiFrame);
+            }
+        }
+        
+        public void EnableEscapeOptionExit()
+        {
+            preventEscapeOptionExit = true;
+        }
+        #endregion
+        
         #region PrivateMethods
         private void SetupButtonEvents(bool enable)
         {
@@ -73,11 +102,31 @@ namespace Frankie.Menu.UI.FrameFlavourPanel
 
         private void HandleFlavourSelection(FrameFlavourChoice flavourChoice)
         {
-            if (nameScreenOrchestrator == null) { return; }
-            if (flavourChoice == null) { nameScreenOrchestrator.AdvanceState(); return; }
+            bool hasNewFrameColour = HasNewFrameColour(flavourChoice, out Color newFrameColor);
+            if (hasNewFrameColour) { UpdateFrameColour(newFrameColor); }
+            
+            if (nameScreenOrchestrator == null) { Destroy(gameObject); return; }
+            UpdateNameOrchestratorState(flavourChoice, newFrameColor);
+        }
 
-            PlayerPrefsController.SetFrameFlavourColour(flavourChoice.GetFrameFlavourColour());
-            nameScreenOrchestrator.AddAnswer(new NameScreenAnswer(flavourQuestion, flavourChoice.GetFrameFlavour(), flavourChoice.GetFrameFlavourColour()));
+        private static bool HasNewFrameColour(FrameFlavourChoice flavourChoice, out Color newFrameColor)
+        {
+            newFrameColor = Color.white;
+            if (flavourChoice == null) { return false; }
+            newFrameColor = flavourChoice.GetFrameFlavourColour();
+            return true;
+        }
+
+        private void UpdateFrameColour(Color newFrameColor)
+        {
+            PlayerPrefsController.SetFrameFlavourColour(newFrameColor);
+            foreach (UIFrame uiFrame in additionalLocalFrameOverwrites) { uiFrame.OverwriteLocalFrameFlavour(newFrameColor); }
+        }
+
+        private void UpdateNameOrchestratorState(FrameFlavourChoice flavourChoice, Color newFrameColor)
+        {
+            if (flavourChoice == null) { nameScreenOrchestrator.AdvanceState(); return; }
+            nameScreenOrchestrator.AddAnswer(new NameScreenAnswer(flavourQuestion, flavourChoice.GetFrameFlavour(), newFrameColor));
             nameScreenOrchestrator.AdvanceState();
         }
         #endregion
