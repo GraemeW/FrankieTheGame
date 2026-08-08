@@ -401,7 +401,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767786323664896
-    m_Localized: Should Lucy join the party?
+    m_Localized: Should {1} join the party?
     m_Metadata:
       m_Items: []
   - m_Id: 4767786428522496
@@ -501,7 +501,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767788919939072
-    m_Localized: Should Tilly join the party?
+    m_Localized: Should {1} join the party?
     m_Metadata:
       m_Items: []
   - m_Id: 4767789028990976
@@ -533,7 +533,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767789750411264
-    m_Localized: Should PhilToo join party?
+    m_Localized: Should {1} join party?
     m_Metadata:
       m_Items: []
   - m_Id: 4767789855268864
