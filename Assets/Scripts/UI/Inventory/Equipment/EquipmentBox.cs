@@ -98,7 +98,7 @@ namespace Frankie.Inventory.UI
             ListenToSelectedEquipment(true);
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             ListenToSelectedEquipment(false);
         }
@@ -152,7 +152,7 @@ namespace Frankie.Inventory.UI
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
                 uiChoiceOption.SetText(character.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
-                uiChoiceOption.UseHighlightColor(true);
+                uiChoiceOption.UseInvalidChoiceDimming(true);
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;

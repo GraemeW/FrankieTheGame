@@ -496,6 +496,242 @@ MonoBehaviour:
     m_Localized: Equip {0} now?
     m_Metadata:
       m_Items: []
+  - m_Id: 38106325266194432
+    m_Localized: abcdefghijklmnopqrstuvwxyz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38353579130478592
+    m_Localized: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38415156680581120
+    m_Localized: Before getting started, we need to get a few quick facts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39841667832864768
+    m_Localized: Who is this guy?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933923084460032
+    m_Localized: Smiles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933922795053056
+    m_Localized: Fanny
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933888926048256
+    m_Localized: Tipsy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933888351428608
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933888024272896
+    m_Localized: Who is this gal?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936195465216
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936963022848
+    m_Localized: Francis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852937948684288
+    m_Localized: Biff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004327739392
+    m_Localized: Wolfgang
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004646506496
+    m_Localized: Guy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933923684245504
+    m_Localized: Gal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219697189216256
+    m_Localized: Who is this pal?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219697919025152
+    m_Localized: PhilToo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219698548170752
+    m_Localized: Phineas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219917788635136
+    m_Localized: Chet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219918082236416
+    m_Localized: Style
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219918673633280
+    m_Localized: Pal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220278880460800
+    m_Localized: What's her name?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220279442497536
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220280025505792
+    m_Localized: Addy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220307259121664
+    m_Localized: Hilda
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220307548528640
+    m_Localized: Lucky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220308152508416
+    m_Localized: Yvon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221689903046656
+    m_Localized: What's your favourite food?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221690465083392
+    m_Localized: Pizza
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221691043897344
+    m_Localized: Shawarma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221816285814784
+    m_Localized: HotPie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221816579416064
+    m_Localized: Sushi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221817149841408
+    m_Localized: Toast
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222149934309376
+    m_Localized: What's your favourite thing?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222150492151808
+    m_Localized: Gaming
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222151075160064
+    m_Localized: Arting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222160952745984
+    m_Localized: Sporting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222161242152960
+    m_Localized: Talking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222161812578304
+    m_Localized: Thinking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262096137478144
+    m_Localized: lower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262142610366464
+    m_Localized: UPPER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262223950503936
+    m_Localized: backspace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262284327510016
+    m_Localized: Don't Care
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262355379019776
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40543122298494976
+    m_Localized: Does this look right?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40580842639056896
+    m_Localized: Plain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40581058167562240
+    m_Localized: Cool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40582973458735104
+    m_Localized: Spicy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583411973218304
+    m_Localized: PeanutButter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583676973539328
+    m_Localized: Mustard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585210528522240
+    m_Localized: Fresh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585451155742720
+    m_Localized: Friendship
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608583732158464
+    m_Localized: What's your favourite flavour?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608584415830016
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608585103695872
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608600823947264
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601125937152
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601721528320
+    m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40624107111309312
+    m_Localized: Shrimp
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

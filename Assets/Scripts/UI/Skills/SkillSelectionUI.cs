@@ -68,7 +68,7 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             if (usingBattleController)
             {

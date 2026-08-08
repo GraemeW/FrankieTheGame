@@ -54,7 +54,7 @@ namespace Frankie.Combat.UI
             marquee = StartCoroutine(MarqueeScroll());
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
             BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);

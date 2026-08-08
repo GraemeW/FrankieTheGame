@@ -164,11 +164,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9043485888864256
-    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.ConfirmText.6beb9ee4
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.ConfirmText
     m_Metadata:
       m_Items: []
   - m_Id: 9043523323027456
-    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText.52fe4e6d
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText
     m_Metadata:
       m_Items: []
   - m_Id: 9045403184914432
@@ -489,6 +489,242 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 37360153048113152
     m_Key: InventoryShopBox.Prefab.InventoryShopBox.MessageEquipItem.8660b2c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38106325266194432
+    m_Key: Keyboard.Prefab.Keyboard.KeyboardKeys
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38353579130478592
+    m_Key: Keyboard.Prefab.Keyboard.KeyboardKeysUpper
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38415156680581120
+    m_Key: NameScreenOrchestrator.GO.NamingScreen.NameScreenOrchestrator.startingMessage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39841667832864768
+    m_Key: NameScreenQuestion.FrankieQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936195465216
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852936963022848
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39852937948684288
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004327739392
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39853004646506496
+    m_Key: 'NameScreenQuestion.FrankieQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933888024272896
+    m_Key: NameScreenQuestion.TillyQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933888351428608
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933888926048256
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933922795053056
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933923084460032
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39933923684245504
+    m_Key: 'NameScreenQuestion.TillyQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219697189216256
+    m_Key: NameScreenQuestion.PhilTooQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219697919025152
+    m_Key: 'NameScreenQuestion.PhilTooQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219698548170752
+    m_Key: 'NameScreenQuestion.PhilTooQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219917788635136
+    m_Key: 'NameScreenQuestion.PhilTooQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219918082236416
+    m_Key: 'NameScreenQuestion.PhilTooQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40219918673633280
+    m_Key: 'NameScreenQuestion.PhilTooQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220278880460800
+    m_Key: NameScreenQuestion.LucyQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220279442497536
+    m_Key: 'NameScreenQuestion.LucyQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220280025505792
+    m_Key: 'NameScreenQuestion.LucyQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220307259121664
+    m_Key: 'NameScreenQuestion.LucyQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220307548528640
+    m_Key: 'NameScreenQuestion.LucyQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40220308152508416
+    m_Key: 'NameScreenQuestion.LucyQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221689903046656
+    m_Key: NameScreenQuestion.FavouriteFoodQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221690465083392
+    m_Key: 'NameScreenQuestion.FavouriteFoodQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221691043897344
+    m_Key: 'NameScreenQuestion.FavouriteFoodQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221816285814784
+    m_Key: 'NameScreenQuestion.FavouriteFoodQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221816579416064
+    m_Key: 'NameScreenQuestion.FavouriteFoodQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40221817149841408
+    m_Key: 'NameScreenQuestion.FavouriteFoodQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222149934309376
+    m_Key: NameScreenQuestion.FavouriteThingQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222150492151808
+    m_Key: 'NameScreenQuestion.FavouriteThingQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222151075160064
+    m_Key: 'NameScreenQuestion.FavouriteThingQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222160952745984
+    m_Key: 'NameScreenQuestion.FavouriteThingQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222161242152960
+    m_Key: 'NameScreenQuestion.FavouriteThingQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40222161812578304
+    m_Key: 'NameScreenQuestion.FavouriteThingQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262096137478144
+    m_Key: NamingPanel.Prefab.NamingPanel.lowerText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262142610366464
+    m_Key: NamingPanel.Prefab.NamingPanel.upperText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262223950503936
+    m_Key: NamingPanel.Prefab.NamingPanel.backspaceText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262284327510016
+    m_Key: NamingPanel.Prefab.NamingPanel.dontCareText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40262355379019776
+    m_Key: NamingPanel.Prefab.NamingPanel.confirmText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40543122298494976
+    m_Key: NamingConfirmPanel.Prefab.NamingConfirmPanel.ConfirmPhrase
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40580842639056896
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Plain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40581058167562240
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Cool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40582973458735104
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Spicy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583411973218304
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.PB
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40583676973539328
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Mustard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585210528522240
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Fresh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40585451155742720
+    m_Key: FrameFlavourChoice.GO.NamingScreen.PlayerChoice.FrameFlavour.Friendship
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608583732158464
+    m_Key: NameScreenQuestion.FrameFlavourQuestion.Question
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608584415830016
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[0]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608585103695872
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[1]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608600823947264
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[2]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601125937152
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[3]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40608601721528320
+    m_Key: 'NameScreenQuestion.FrameFlavourQuestion.DontCareAnswers[4]'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40624107111309312
+    m_Key: FrameFlavourChoice.Prefab.PlayerChoice.FrameFlavour.Shrimp
     m_Metadata:
       m_Items: []
   m_Metadata:

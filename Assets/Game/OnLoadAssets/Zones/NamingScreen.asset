@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
+  m_Name: NamingScreen
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.Zone
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 38383849237897216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: 080417185f2824824b6e0019d1af84c5, type: 3}
+    sceneName: NamingScreen
+    scenePath: Assets/Scenes/NamingScreen.unity
+  updateMap: 0
+  zoneAudio: {fileID: 8300000, guid: 5f9e66b5f88d74cc2989e6e4f5d47a8e, type: 3}
+  isZoneAudioLooping: 1
+  cachedName: NamingScreen
+  zoneNodes:
+  - {fileID: 2029785923344766139}
+  zoneNodeGroups: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &2029785923344766139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: a2e12e6b-a7d5-4e7e-a41f-20b5976e093c
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 38383850068369408
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  children: []
+  externalZoneLinkToZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 350
+    height: 125
+  zoneName: NamingScreen
+  condition:
+    and: []
+  references:
+    version: 2
+    RefIds: []

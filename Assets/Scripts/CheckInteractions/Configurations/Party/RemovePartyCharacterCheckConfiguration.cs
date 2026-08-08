@@ -28,7 +28,7 @@ namespace Frankie.Control
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
             interactActions.AddRange(party.GetMembers().Select(character => 
-                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterDisplayName(), () => RemoveFromPartyWithErrorHandling(playerStateMachine, party, character))));
+                new ChoiceActionPair(CharacterProperties.GetCharacterDisplayName(character), () => RemoveFromPartyWithErrorHandling(playerStateMachine, party, character))));
             return interactActions;
         }
         

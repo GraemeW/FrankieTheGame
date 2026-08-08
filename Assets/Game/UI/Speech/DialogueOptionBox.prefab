@@ -155,10 +155,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2227106547557423765}
   - component: {fileID: 9165638598010028551}
-  - component: {fileID: 4125584263346831155}
-  - component: {fileID: 2653761137607708041}
-  - component: {fileID: 3084176042462386772}
   - component: {fileID: 5257144902321780821}
+  - component: {fileID: 2653761137607708041}
+  - component: {fileID: 4125584263346831155}
+  - component: {fileID: 3084176042462386772}
   m_Layer: 0
   m_Name: DialogueOptionBox
   m_TagString: Untagged
@@ -198,6 +198,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6413694501190794285}
   m_CullTransparentMesh: 1
+--- !u!225 &5257144902321780821
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6413694501190794285}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2653761137607708041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6413694501190794285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &4125584263346831155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,20 +250,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
---- !u!114 &2653761137607708041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6413694501190794285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!114 &3084176042462386772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,18 +274,6 @@ MonoBehaviour:
   initialInputDelay: 0.1
   delayBetweenCharacters: 0.05
   reconfigureLayoutOnOptionSize: 1
---- !u!225 &5257144902321780821
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6413694501190794285}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1001 &6451051398701878834
 PrefabInstance:
   m_ObjectHideFlags: 0

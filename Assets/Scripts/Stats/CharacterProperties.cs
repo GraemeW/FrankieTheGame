@@ -4,11 +4,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Saving;
 using Frankie.Utils.Addressables;
 using Frankie.Utils.Localization;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Frankie.Stats
 {
@@ -22,17 +20,24 @@ namespace Frankie.Stats
         [SerializeField] private bool hasProgressionStats = true;
         [SerializeField] private bool incrementsStatsOnLevelUp = false;
         
-        // State
+        // Const
+        private const string _errName = "???";
+        
+        // Local State
         [HideInInspector][SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }
+        
+        // Static State
+        private static Dictionary<string, string> personalizedNameLookup = new();
         private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
         private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
         #region Getters
-        public string GetCharacterDisplayName() => localizedDisplayName.GetSafeLocalizedString();
         public string GetCharacterID() => name;
         // Note:  Using name as ID for simplicity
         // Previously scoped separate GUID for this, found it overkill ++ hindered look-up functionality
+        
+        private string GetStandardCharacterDisplayName() => localizedDisplayName.GetSafeLocalizedString();
         public GameObject GetCharacterPrefab() => characterPrefab;
         public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
         public bool HasProgressionStats() => hasProgressionStats;
@@ -61,6 +66,28 @@ namespace Frankie.Stats
         {
             if (entryA == null || entryB == null) { return false; }
             return entryA.GetCharacterID() == entryB.GetCharacterID();
+        }
+
+        public static string GetCharacterDisplayName(CharacterProperties characterProperties)
+        {
+            if (characterProperties == null) { return _errName; }
+            
+            string characterID = characterProperties.GetCharacterID();
+            SyncToPersonalizedNameLookup(characterID);
+            
+            if (personalizedNameLookup.ContainsKey(characterID) && personalizedNameLookup[characterID] != null) { return personalizedNameLookup[characterID]; }
+            return characterProperties.GetStandardCharacterDisplayName();
+        }
+
+        public static string GetCharacterDisplayName(BaseStats baseStats) => baseStats != null ? GetCharacterDisplayName(baseStats.GetCharacterProperties()) : _errName;
+
+        private static void SyncToPersonalizedNameLookup(string characterID)
+        {
+            if (PlayerPrefsController.wereCharacterNamesDirtied) { personalizedNameLookup.Clear(); PlayerPrefsController.wereCharacterNamesDirtied = false; }
+            if (personalizedNameLookup.ContainsKey(characterID)) { return; }
+            
+            if (PlayerPrefsController.CharacterNameKeyExists(characterID)) { personalizedNameLookup[characterID] = PlayerPrefsController.GetCharacterName(characterID); }
+            else { personalizedNameLookup[characterID] = null; }
         }
         #endregion
         

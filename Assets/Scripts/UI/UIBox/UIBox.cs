@@ -20,6 +20,7 @@ namespace Frankie.Utils.UI
             set => internalUIState = value;
         } 
         private Coroutine controllerCheckCoroutine;
+        private bool isBackExitButtonSetup = false;
         
         // Event Handlers
         public Action<ControllerInputType> GetInputHandler() => HandleInputWrapper;
@@ -31,7 +32,7 @@ namespace Frankie.Utils.UI
         protected virtual void AwakeTriggered() { }
         protected virtual void StartTriggered() { }
         protected virtual void EnableTriggered() { }
-        protected virtual void DisabledTriggered() { }
+        protected virtual void DisableTriggered() { }
         protected virtual void DestroyTriggered() { }
         
         #region UnityMethods
@@ -46,17 +47,15 @@ namespace Frankie.Utils.UI
                 return;
             }
             stateLookup = BuildStateBehaviours();
-            
-            if (!preventEscapeOptionExit && backExitPrefab != null)
-            {
-                UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
-                backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
-            }
+
+            SetupBackExitButton(); 
             AwakeTriggered();
         }
         
-        private void Start()
+        protected sealed override void Start()
         {
+            base.Start();
+            
             TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
             if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
             controllerCheckCoroutine = StartCoroutine(DestroyIfControllerMissing());
@@ -75,7 +74,7 @@ namespace Frankie.Utils.UI
             TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
             ClearChoiceSelections();
             if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
-            DisabledTriggered();
+            DisableTriggered();
         }
 
         private void LateUpdate()
@@ -107,6 +106,7 @@ namespace Frankie.Utils.UI
             if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.setupChoiceOptions != null) { stateBehaviour.setupChoiceOptions(); return; }
             
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
+            if (optionParent == null) { return; }
             List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
             List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
             choiceOptions.AddRange(filteredUIChoices);
@@ -217,6 +217,16 @@ namespace Frankie.Utils.UI
                 return true;
             }
             return false;
+        }
+
+        protected void SetupBackExitButton()
+        {
+            if (isBackExitButtonSetup) { return; }
+            if (preventEscapeOptionExit || backExitPrefab == null) { return; }
+            
+            UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
+            backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
+            isBackExitButtonSetup = true;
         }
         #endregion
     }

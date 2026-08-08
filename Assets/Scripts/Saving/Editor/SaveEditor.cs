@@ -47,7 +47,7 @@ namespace Frankie.Saving.Editor
         private ScrollView saveControlEntityScrollView;
         
         #region UnityMethods
-        [MenuItem("Tools/Save Editor", false, 205)]
+        [MenuItem("Tools/Save Editor", false, 305)]
         private static void ShowWindow()
         {
             var window = GetWindow<SaveEditor>("Save Editor");
@@ -85,7 +85,7 @@ namespace Frankie.Saving.Editor
         #region CreateUIElements
         private void CreateGUI()
         {
-            var splitView = new TwoPaneSplitView(0, 135, TwoPaneSplitViewOrientation.Vertical);
+            var splitView = new TwoPaneSplitView(0, 150, TwoPaneSplitViewOrientation.Vertical);
             rootVisualElement.Add(splitView);
 
             Box saveHeader = CreateSaveHeaderBox();
@@ -176,12 +176,12 @@ namespace Frankie.Saving.Editor
             if (saveHeaderBox == null) { return; }
             saveHeaderBox.Clear();
             
-            saveHeaderBox.Add(new Label("Save Editor Tool"));
+            saveHeaderBox.Add(MakeTitleLabel("Save Editor Tool"));
             
             string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
             saveHeaderBox.Add(new Label($"Current Save:  {currentSaveName}"));
             
-            if (SavingWrapper.GetInfoFromName(currentSaveName, out string characterName, out int level))
+            if (SavingWrapper.GetInfoFromSave(currentSaveName, out string characterName, out int level))
             {
                 saveHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
                 saveHeaderBox.Add(new Label($"Level:   {level}"));
@@ -223,7 +223,7 @@ namespace Frankie.Saving.Editor
 
             if (!string.IsNullOrWhiteSpace(selectedSave) && SavingWrapper.HasSave(selectedSave))
             {
-                if (SavingWrapper.GetInfoFromName(selectedSave, out string characterName, out int level))
+                if (SavingWrapper.GetInfoFromSave(selectedSave, out string characterName, out int level))
                 {
                     selectionHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
                     selectionHeaderBox.Add(new Label($"Level:   {level}"));
@@ -373,6 +373,19 @@ namespace Frankie.Saving.Editor
                 var spacer = new VisualElement { style = { height = _entityCardSpacerHeight } };
                 saveControlEntityScrollView.Add(spacer);
             }
+        }
+        
+        private static Label MakeTitleLabel(string title)
+        {
+            return new Label(title)
+            {
+                style =
+                {
+                    fontSize = 14,
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                    marginBottom = 8
+                }
+            };
         }
         #endregion
         

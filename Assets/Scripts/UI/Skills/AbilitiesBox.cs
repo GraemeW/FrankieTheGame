@@ -98,9 +98,9 @@ namespace Frankie.Combat.UI
             SubscribeCharacterSlides(true);
         }
 
-        protected override void DisabledTriggered()
+        protected override void DisableTriggered()
         {
-            base.DisabledTriggered();
+            base.DisableTriggered();
             SubscribeCharacterSlides(false);
         }
         #endregion
@@ -152,7 +152,7 @@ namespace Frankie.Combat.UI
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.SetValidColor(choiceIndex == 0);
-                uiChoiceOption.UseHighlightColor(true);
+                uiChoiceOption.UseInvalidChoiceDimming(true);
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 partyBattleEntities.Add(new BattleEntity(combatParticipant));

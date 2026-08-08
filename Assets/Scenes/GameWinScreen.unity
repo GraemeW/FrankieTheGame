@@ -376,6 +376,10 @@ PrefabInstance:
       propertyPath: startCanvas
       value: 
       objectReference: {fileID: 11044726}
+    - target: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
+      propertyPath: uiBoxReceiver
+      value: 
+      objectReference: {fileID: 7541381697953824397}
     - target: {fileID: 1652440945069373202, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
       propertyPath: m_Name
       value: StartMenuController

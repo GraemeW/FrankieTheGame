@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -12,15 +13,32 @@ namespace Frankie.Utils.Localization.Editor
     [CustomPropertyDrawer(typeof(SimpleLocalizedStringAttribute))]
     public class SimpleLocalizedStringDrawer : PropertyDrawer
     {
-        // State
-        private LocalizedString localizedString;
-        private bool isKeyUnlocked;
-        private TextField keyTextField;
-        private TextField contentsTextField;
-        private Toggle lockToggle;
-        private Button newKeyButton;
-        private Button renameKeyButton;
-        private Button deleteKeyButton;
+        // IMPORTANT: Do NOT store any state on `this`
+        // Unity reuses a single PropertyDrawer instance across every element of an array/list that shares this attribute
+        // Any state that varies per-element must live in a local object created fresh inside CreatePropertyGUI and threaded through explicitly
+        private class ElementState
+        {
+            public readonly SerializedProperty property;
+            public readonly FieldInfo fieldInfo;
+            public readonly string nicePropertyName;
+            public LocalizedString localizedString;
+            public LocalizationTableType localizationTableType;
+            public bool isKeyEditable;
+            public bool isKeyUnlocked;
+            public TextField keyTextField;
+            public TextField contentsTextField;
+            public Toggle lockToggle;
+            public Button newKeyButton;
+            public Button renameKeyButton;
+            public Button deleteKeyButton;
+
+            public ElementState(SerializedProperty property, FieldInfo fieldInfo)
+            {
+                this.property = property;
+                this.fieldInfo = fieldInfo;
+                nicePropertyName = property.displayName.Replace("Localized", "");
+            }
+        }
         
         #region UIProperties
         private const string _keyLabel = "Key";
@@ -50,68 +68,69 @@ namespace Frankie.Utils.Localization.Editor
         #region UnityMethods
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            // Local Variables
-            var simpleLocalizedStringAttribute = (SimpleLocalizedStringAttribute)attribute;
-            LocalizationTableType localizationTableType = simpleLocalizedStringAttribute.localizationTableType;
-            bool isKeyEditable = simpleLocalizedStringAttribute.isKeyEditable;
-            string nicePropertyName = property.displayName.Replace("Localized", "");
-            
-            // State
             LocalizationTool.InitializeEnglishLocale();
-            isKeyUnlocked = false;
-            localizedString = property.boxedValue as LocalizedString;
-            if (localizedString == null) { return MakeErrorBox("Property is not LocalizedString."); }
-            if (!LocalizationTool.GetOrMakeTableCollection(localizationTableType, out StringTableCollection _)) { return MakeErrorBox($"Could not find or create StringTableCollection of type: '{localizationTableType}'."); }
-            if (IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _) && HasPrefab(property, out Object prefabSource))
-            {
-                TryResetToPrefab(property, prefabSource);
-            }
+            
+            // Per-Element State (see Note above)
+            var state = new ElementState(property, fieldInfo);
+            
+            // State Initialization
+            var simpleLocalizedStringAttribute = (SimpleLocalizedStringAttribute)attribute;
+            state.localizationTableType = simpleLocalizedStringAttribute.localizationTableType;
+            
+            state.localizedString = property.boxedValue as LocalizedString;
+            if (state.localizedString == null) { return MakeErrorBox("Property is not LocalizedString."); }
+            
+            state.isKeyEditable = simpleLocalizedStringAttribute.isKeyEditable;
+            state.isKeyUnlocked = false;
+
+            if (!LocalizationTool.GetOrMakeTableCollection(state.localizationTableType, out StringTableCollection _)) { return MakeErrorBox($"Could not find or create StringTableCollection of type: '{state.localizationTableType}'."); }
+            if (IsKeyEmpty(state, out TableEntryReference _) && HasPrefab(property, out Object prefabSource)) { TryResetToPrefab(state, prefabSource); }
             
             // Build UI Elements
-            VisualElement root = MakeRoot(nicePropertyName);
-            VisualElement keyRow = BuildKeyRow(localizedString, localizationTableType, isKeyEditable && isKeyUnlocked, out keyTextField);
+            VisualElement root = MakeRoot(state.nicePropertyName);
+            VisualElement keyRow = BuildKeyRow(state);
             root.Add(keyRow);
-            VisualElement lockToggleRow = BuildLockToggleRow(isKeyEditable, isKeyUnlocked, out lockToggle); 
+            VisualElement lockToggleRow = BuildLockToggleRow(state); 
             root.Add(lockToggleRow);
-            VisualElement contentsRow = BuildContentsRow(localizedString, localizationTableType, out contentsTextField);
+            VisualElement contentsRow = BuildContentsRow(state);
             root.Add(contentsRow);
-            VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, isKeyEditable && isKeyUnlocked, out newKeyButton); 
+            VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.newKeyButton); 
             root.Add(newKeyButtonRow);
-            VisualElement renameKeyButtonRow = BuildButtonRow(_renameKeyButtonLabel, isKeyEditable && isKeyUnlocked, out renameKeyButton);
+            VisualElement renameKeyButtonRow = BuildButtonRow(_renameKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.renameKeyButton);
             root.Add(renameKeyButtonRow);
-            VisualElement deleteKeyButtonRow = BuildButtonRow(_deleteKeyButtonLabel, isKeyEditable && isKeyUnlocked, out deleteKeyButton);
+            VisualElement deleteKeyButtonRow = BuildButtonRow(_deleteKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.deleteKeyButton);
             root.Add(deleteKeyButtonRow);
             
             // Assign callbacks
-            contentsTextField.RegisterValueChangedCallback(changeEvent => OnContentsChanged(property, localizationTableType, changeEvent.newValue));
-            keyTextField.RegisterValueChangedCallback(changeEvent => OnKeyChanged(property, localizationTableType, changeEvent.newValue));
-            lockToggle.RegisterValueChangedCallback(evt =>
+            state.contentsTextField.RegisterValueChangedCallback(changeEvent => OnContentsChanged(state, changeEvent.newValue));
+            state.keyTextField.RegisterValueChangedCallback(changeEvent => OnKeyChanged(state, changeEvent.newValue));
+            state.lockToggle.RegisterValueChangedCallback(evt =>
             {
-                isKeyUnlocked = evt.newValue;
+                state.isKeyUnlocked = evt.newValue;
                 Label toggleLabel = lockToggleRow.Q<Label>();
-                if (toggleLabel != null) { toggleLabel.text = isKeyUnlocked ? _unlockLabel : _lockLabel; }
+                if (toggleLabel != null) { toggleLabel.text = state.isKeyUnlocked ? _unlockLabel : _lockLabel; }
                 
-                bool isKeyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
-                keyTextField.SetEnabled(isKeyEditable && isKeyUnlocked);
-                newKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked);
-                renameKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked && !isKeyEmpty);
-                ReconcileDeleteButtonState(property, localizationTableType, isKeyEditable && isKeyUnlocked && !isKeyEmpty);
+                bool isKeyEmpty = IsKeyEmpty(state, out _);
+                state.keyTextField.SetEnabled(state.isKeyEditable && state.isKeyUnlocked);
+                state.newKeyButton.SetEnabled(state.isKeyEditable && state.isKeyUnlocked);
+                state.renameKeyButton.SetEnabled(state.isKeyEditable && state.isKeyUnlocked && !isKeyEmpty);
+                ReconcileDeleteButtonState(state, state.isKeyEditable && state.isKeyUnlocked && !isKeyEmpty);
             });
-            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType));
-            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType));
-            deleteKeyButton.RegisterCallback<ClickEvent>(_ => HandleDeleteButtonClick(property, localizationTableType));
+            state.newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(state));
+            state.renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(state));
+            state.deleteKeyButton.RegisterCallback<ClickEvent>(_ => HandleDeleteButtonClick(state));
             
             return root;
         }
         #endregion
         
         #region UtilityMethodsAndCallbacks
-        private static bool IsKeyEmpty(LocalizedString localizedString, LocalizationTableType localizationTableType, out TableEntryReference tableEntryReference)
+        private static bool IsKeyEmpty(ElementState state, out TableEntryReference tableEntryReference)
         {
             tableEntryReference = new TableEntryReference();
-            if (localizedString.IsEmpty) { return true; }
+            if (state.localizedString.IsEmpty) { return true; }
             
-            string currentKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out tableEntryReference);
+            string currentKey = LocalizationTool.ResolveKeyName(state.localizationTableType, state.localizedString, out tableEntryReference);
             return tableEntryReference.ReferenceType == TableEntryReference.Type.Empty || string.IsNullOrWhiteSpace(currentKey);
         }
         
@@ -134,211 +153,211 @@ namespace Frankie.Utils.Localization.Editor
             return targetObject != null && component != null;
         }
         
-        private static void SetKeyFromLocalization(LocalizedString localizedString, LocalizationTableType localizationTableType, TextField textField, bool isEnabled, bool shouldNotify)
+        private static void SetKeyFromLocalization(ElementState state, bool isEnabled, bool shouldNotify)
         {
-            if (textField == null) { return; }
-            string keyValue = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference _);
+            if (state.keyTextField == null) { return; }
+            string keyValue = LocalizationTool.ResolveKeyName(state.localizationTableType, state.localizedString, out TableEntryReference _);
 
-            if (shouldNotify) { textField.value = keyValue; }
-            else { textField.SetValueWithoutNotify(keyValue); }
-            textField.SetEnabled(isEnabled);
+            if (shouldNotify) { state.keyTextField.value = keyValue; }
+            else { state.keyTextField.SetValueWithoutNotify(keyValue); }
+            state.keyTextField.SetEnabled(isEnabled);
         }
 
-        private static void SetContentsFromLocalization(LocalizedString localizedString, LocalizationTableType localizationTableType, TextField contentsTextField, bool shouldNotify)
+        private static void SetContentsFromLocalization(ElementState state, bool shouldNotify)
         {
-            if (contentsTextField == null) { return; }
-            bool isKeyCurrentlyEmpty = IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference tableEntryReference);
-            string contentsValue = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);
+            if (state.contentsTextField == null) { return; }
+            bool isKeyCurrentlyEmpty = IsKeyEmpty(state, out TableEntryReference tableEntryReference);
+            string contentsValue = LocalizationTool.GetEnglishEntry(state.localizationTableType, tableEntryReference);
             
-            if (shouldNotify) { contentsTextField.value = contentsValue; }
-            else { contentsTextField.SetValueWithoutNotify(contentsValue); }
-            DisableContentsForEmptyKey(contentsTextField, isKeyCurrentlyEmpty);
+            if (shouldNotify) { state.contentsTextField.value = contentsValue; }
+            else { state.contentsTextField.SetValueWithoutNotify(contentsValue); }
+            DisableContentsForEmptyKey(state.contentsTextField, isKeyCurrentlyEmpty);
         }
         
-        private void OnContentsChanged(SerializedProperty property, LocalizationTableType localizationTableType, string newContents)
+        private static void OnContentsChanged(ElementState state, string newContents)
         {
-            if (localizedString == null) { return; }
-            TableEntryReference tableEntryReference = localizedString.TableEntryReference;
+            if (state.localizedString == null) { return; }
+            TableEntryReference tableEntryReference = state.localizedString.TableEntryReference;
             if (tableEntryReference.ReferenceType == TableEntryReference.Type.Empty) { return; }
             
-            Object targetObject = property.serializedObject.targetObject;
-            string oldContents = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);
+            Object targetObject = state.property.serializedObject.targetObject;
+            string oldContents = LocalizationTool.GetEnglishEntry(state.localizationTableType, tableEntryReference);
             if (newContents == oldContents) { return; }
             
             string newKey = null;
-            if (HasPrefab(property, out Object prefabSource) && !IsPropertyUniqueFromPrefab(property, localizationTableType, prefabSource))
+            if (HasPrefab(state.property, out Object prefabSource) && !IsPropertyUniqueFromPrefab(state, prefabSource))
             {
                 // Avoid overwriting prefab entry, generate new key 
-                newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, property.name, fieldInfo.DeclaringType);
+                newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, state.property.name, state.fieldInfo.DeclaringType);
                 tableEntryReference = newKey;
             }
             
-            if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, newContents)) { return; }
+            if (!LocalizationTool.AddUpdateEnglishEntry(state.localizationTableType, tableEntryReference, newContents)) { return; }
             if (string.IsNullOrWhiteSpace(newKey)) { return; }
             
-            LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey);
+            LocalizationTool.SafelyUpdateReference(state.localizationTableType, state.localizedString, newKey);
             Undo.RecordObject(targetObject, "Bind localized string to new key");
-            property.boxedValue = localizedString;
-            property.serializedObject.ApplyModifiedProperties();
-            property.serializedObject.Update();
+            state.property.boxedValue = state.localizedString;
+            state.property.serializedObject.ApplyModifiedProperties();
+            state.property.serializedObject.Update();
 
-            keyTextField?.SetValueWithoutNotify(newKey);
-            newKeyButton?.SetEnabled(isKeyUnlocked);
-            renameKeyButton?.SetEnabled(isKeyUnlocked);
-            ReconcileDeleteButtonState(property, localizationTableType, isKeyUnlocked);
+            state.keyTextField?.SetValueWithoutNotify(newKey);
+            state.newKeyButton?.SetEnabled(state.isKeyUnlocked);
+            state.renameKeyButton?.SetEnabled(state.isKeyUnlocked);
+            ReconcileDeleteButtonState(state, state.isKeyUnlocked);
         }
         
-        private void OnKeyChanged(SerializedProperty property, LocalizationTableType localizationTableType, string newKey)
+        private static void OnKeyChanged(ElementState state, string newKey)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            if (localizedString == null || targetObject == null) { return; }
+            Object targetObject = state.property.serializedObject.targetObject;
+            if (state.localizedString == null || targetObject == null) { return; }
             
-            string oldKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference tableEntryReference);
+            string oldKey = LocalizationTool.ResolveKeyName(state.localizationTableType, state.localizedString, out TableEntryReference tableEntryReference);
             if (newKey == oldKey || string.IsNullOrWhiteSpace(newKey)) { return; }
 
-            bool newKeyExists = LocalizationTool.HasTableEntry(localizationTableType, newKey); 
-            if (!newKeyExists) { if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; } }
-            if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+            bool newKeyExists = LocalizationTool.HasTableEntry(state.localizationTableType, newKey); 
+            if (!newKeyExists) { if (!LocalizationTool.MakeOrRenameKey(state.localizationTableType, tableEntryReference, newKey)) { return; } }
+            if (!LocalizationTool.SafelyUpdateReference(state.localizationTableType, state.localizedString, newKey)) { return; }
 
-            if (newKeyExists) { SetContentsFromLocalization(localizedString, localizationTableType, contentsTextField, false); }
+            if (newKeyExists) { SetContentsFromLocalization(state, false); }
 
             Undo.RecordObject(targetObject, "Bind localized string to updated key");
-            property.boxedValue = localizedString;
-            property.serializedObject.ApplyModifiedProperties();
-            property.serializedObject.Update();
+            state.property.boxedValue = state.localizedString;
+            state.property.serializedObject.ApplyModifiedProperties();
+            state.property.serializedObject.Update();
             
-            bool isKeyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
-            renameKeyButton.SetEnabled(!isKeyEmpty);
-            DisableContentsForEmptyKey(contentsTextField, isKeyEmpty);
-            ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
+            bool isKeyEmpty = IsKeyEmpty(state, out _);
+            state.renameKeyButton.SetEnabled(!isKeyEmpty);
+            DisableContentsForEmptyKey(state.contentsTextField, isKeyEmpty);
+            ReconcileDeleteButtonState(state, !isKeyEmpty);
         }
         
-        private void HandleNewKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType)
+        private static void HandleNewKeyButtonClick(ElementState state)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            if (localizedString == null || targetObject == null) { return; }
+            Object targetObject = state.property.serializedObject.targetObject;
+            if (state.localizedString == null || targetObject == null) { return; }
 
-            LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference currentTableEntryReference);
+            LocalizationTool.ResolveKeyName(state.localizationTableType, state.localizedString, out TableEntryReference currentTableEntryReference);
             string currentContents = "";
             if (currentTableEntryReference.ReferenceType != TableEntryReference.Type.Empty)
             {
-                currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
+                currentContents = LocalizationTool.GetEnglishEntry(state.localizationTableType, currentTableEntryReference);
             }
             
-            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, property.name, fieldInfo.DeclaringType);
-            if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
-            if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, state.property.name, state.fieldInfo.DeclaringType);
+            if (!LocalizationTool.AddUpdateEnglishEntry(state.localizationTableType, newKey, currentContents)) { return; }
+            if (!LocalizationTool.SafelyUpdateReference(state.localizationTableType, state.localizedString, newKey)) { return; }
             
             Undo.RecordObject(targetObject, "Bind localized string to new key");
-            property.boxedValue = localizedString;
-            property.serializedObject.ApplyModifiedProperties();
-            property.serializedObject.Update();
+            state.property.boxedValue = state.localizedString;
+            state.property.serializedObject.ApplyModifiedProperties();
+            state.property.serializedObject.Update();
 
-            keyTextField?.SetValueWithoutNotify(newKey);
-            bool isKeyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
-            renameKeyButton.SetEnabled(!isKeyEmpty);
-            DisableContentsForEmptyKey(contentsTextField, isKeyEmpty);
-            ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
+            state.keyTextField?.SetValueWithoutNotify(newKey);
+            bool isKeyEmpty = IsKeyEmpty(state, out _);
+            state.renameKeyButton.SetEnabled(!isKeyEmpty);
+            DisableContentsForEmptyKey(state.contentsTextField, isKeyEmpty);
+            ReconcileDeleteButtonState(state, !isKeyEmpty);
         }
         
-        private void HandleRenameKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType)
+        private static void HandleRenameKeyButtonClick(ElementState state)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            if (targetObject == null || localizedString == null || IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _))
+            Object targetObject = state.property.serializedObject.targetObject;
+            if (targetObject == null || state.localizedString == null || IsKeyEmpty(state, out TableEntryReference _))
             {
                 Debug.Log("Localized string is not configured, cannot rename.");
                 return;
             }
             
-            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, property.name, fieldInfo.DeclaringType);
-            keyTextField.value = newKey;
+            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, state.property.name, state.fieldInfo.DeclaringType);
+            state.keyTextField.value = newKey;
         }
 
-        private void HandleDeleteButtonClick(SerializedProperty property, LocalizationTableType localizationTableType)
+        private static void HandleDeleteButtonClick(ElementState state)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            if (localizedString == null || targetObject == null) { return; }
+            Object targetObject = state.property.serializedObject.targetObject;
+            if (state.localizedString == null || targetObject == null) { return; }
             
-            if (string.IsNullOrWhiteSpace(keyTextField.value)) { return; }
-            LocalizationTool.RemoveEntry(localizationTableType, keyTextField.value);
-            localizedString.SetReference("", "");
-            property.serializedObject.Update();
+            if (string.IsNullOrWhiteSpace(state.keyTextField.value)) { return; }
+            LocalizationTool.RemoveEntry(state.localizationTableType, state.keyTextField.value);
+            state.localizedString.SetReference("", "");
+            state.property.serializedObject.Update();
 
-            if (HasPrefab(property, out Object prefabSource))
+            if (HasPrefab(state.property, out Object prefabSource))
             {
-                TryResetToPrefab(property, prefabSource);
-                SetKeyFromLocalization(localizedString, localizationTableType, keyTextField, true, false);
-                SetContentsFromLocalization(localizedString, localizationTableType, contentsTextField, false);
+                TryResetToPrefab(state, prefabSource);
+                SetKeyFromLocalization(state, true, false);
+                SetContentsFromLocalization(state, false);
             }
             else
             {
-                keyTextField?.SetValueWithoutNotify("");
-                contentsTextField?.SetValueWithoutNotify("");
+                state.keyTextField?.SetValueWithoutNotify("");
+                state.contentsTextField?.SetValueWithoutNotify("");
             }
 
-            bool isKeyCurrentlyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
-            lockToggle.value = false;
-            DisableContentsForEmptyKey(contentsTextField, isKeyCurrentlyEmpty);
+            bool isKeyCurrentlyEmpty = IsKeyEmpty(state, out _);
+            state.lockToggle.value = false;
+            DisableContentsForEmptyKey(state.contentsTextField, isKeyCurrentlyEmpty);
         }
         
-        private void ReconcileDeleteButtonState(SerializedProperty property, LocalizationTableType localizationTableType, bool isEnabled)
+        private static void ReconcileDeleteButtonState(ElementState state, bool isEnabled)
         {
-            if (deleteKeyButton == null) { return; }
+            if (state.deleteKeyButton == null) { return; }
             if (!isEnabled)
             {
-                deleteKeyButton.SetEnabled(false); 
+                state.deleteKeyButton.SetEnabled(false); 
                 return;
             }
-            if (!HasPrefab(property, out Object prefabSource) || IsPropertyUniqueFromPrefab(property, localizationTableType, prefabSource))
+            if (!HasPrefab(state.property, out Object prefabSource) || IsPropertyUniqueFromPrefab(state, prefabSource))
             {
-                deleteKeyButton.SetEnabled(true); 
+                state.deleteKeyButton.SetEnabled(true); 
                 return;
             }
-            deleteKeyButton.SetEnabled(false); 
+            state.deleteKeyButton.SetEnabled(false); 
         }
 
-        private void TryResetToPrefab(SerializedProperty property, Object prefabSource)
+        private static void TryResetToPrefab(ElementState state, Object prefabSource)
         {
-            if (!TryGetTargetComponent(property, out Component targetComponent)) { return; }
+            if (!TryGetTargetComponent(state.property, out Component targetComponent)) { return; }
             
             if (PrefabUtility.IsPartOfPrefabInstance(targetComponent))
             {
                 Undo.RecordObject(targetComponent.gameObject, "Reset localized string to prefab value");
-                PrefabUtility.RevertPropertyOverride(property, InteractionMode.UserAction);
+                PrefabUtility.RevertPropertyOverride(state.property, InteractionMode.UserAction);
             }
             else if (PrefabUtility.IsPartOfPrefabAsset(targetComponent))
             {
                 if (prefabSource == null) { return; }
                 
                 using var prefabSerializedObject = new SerializedObject(prefabSource);
-                SerializedProperty prefabProperty = prefabSerializedObject.FindProperty(property.propertyPath);
+                SerializedProperty prefabProperty = prefabSerializedObject.FindProperty(state.property.propertyPath);
                 if (prefabProperty == null) { return; }
 
                 Undo.RecordObject(targetComponent.gameObject, "Reset localized string to prefab value");
-                property.serializedObject.CopyFromSerializedPropertyIfDifferent(prefabProperty);
-                property.serializedObject.ApplyModifiedProperties();
+                state.property.serializedObject.CopyFromSerializedPropertyIfDifferent(prefabProperty);
+                state.property.serializedObject.ApplyModifiedProperties();
             }
             else { return; }
-            property.serializedObject.Update();
-            localizedString = property.boxedValue as LocalizedString;
+            state.property.serializedObject.Update();
+            state.localizedString = state.property.boxedValue as LocalizedString;
         }
 
-        private bool IsPropertyUniqueFromPrefab(SerializedProperty property, LocalizationTableType localizationTableType, Object prefabSource)
+        private static bool IsPropertyUniqueFromPrefab(ElementState state, Object prefabSource)
         {
             // Input sanity checks
-            if (!TryGetTargetComponent(property, out Component _)) { return false; }
+            if (!TryGetTargetComponent(state.property, out Component _)) { return false; }
             
-            if (localizedString == null) { return false; }
-            TableEntryReference targetTableEntryReference = LocalizationTool.GetTableEntryReferencedByID(localizationTableType, localizedString.TableEntryReference);
+            if (state.localizedString == null) { return false; }
+            TableEntryReference targetTableEntryReference = LocalizationTool.GetTableEntryReferencedByID(state.localizationTableType, state.localizedString.TableEntryReference);
             if (targetTableEntryReference.ReferenceType != TableEntryReference.Type.Id) { return false; }
             
             // Check for prefab existence
             if (prefabSource == null) { return true; } // No prefab source found
             using var prefabSerializedObject = new SerializedObject(prefabSource);
-            SerializedProperty prefabProperty = prefabSerializedObject.FindProperty(property.propertyPath);
+            SerializedProperty prefabProperty = prefabSerializedObject.FindProperty(state.property.propertyPath);
             if (prefabProperty == null) { return true; } // No prefab property found
             
-            TableEntryReference prefabTableEntryReference = LocalizationTool.GetSerializedTableEntryKeyID(localizationTableType, prefabProperty);
+            TableEntryReference prefabTableEntryReference = LocalizationTool.GetSerializedTableEntryKeyID(state.localizationTableType, prefabProperty);
             if (prefabTableEntryReference.ReferenceType != TableEntryReference.Type.Id) { return true; }
             
             // Match to ID -- if different, allow for deletion (since unique entry on target)
@@ -347,30 +366,29 @@ namespace Frankie.Utils.Localization.Editor
         #endregion
         
         #region RowBuilders
-        private static VisualElement BuildKeyRow(LocalizedString localizedString, LocalizationTableType localizationTableType, bool isEnabled, out TextField keyTextField)
+        private static VisualElement BuildKeyRow(ElementState state)
         {
-            VisualElement keyRow = MakeLabeledRow(_keyLabel, out keyTextField);
-            SetKeyFromLocalization(localizedString, localizationTableType, keyTextField, isEnabled, true);
-            keyTextField.isDelayed = true;
+            VisualElement keyRow = MakeLabeledRow(_keyLabel, out state.keyTextField);
+            bool isEnabled = state.isKeyEditable && state.isKeyUnlocked;
+            SetKeyFromLocalization(state, isEnabled, true);
+            state.keyTextField.isDelayed = true;
             return keyRow;
         }
         
-        private static VisualElement BuildLockToggleRow(bool isKeyEditable, bool isKeyUnlocked, out Toggle lockToggle)
+        private static VisualElement BuildLockToggleRow(ElementState state)
         {
             VisualElement lockToggleRow = MakeLockToggleBaseRow();
-            lockToggle = MakeToggle(isKeyUnlocked);
-            lockToggle.SetEnabled(isKeyEditable);
-
-            lockToggleRow.Add(lockToggle);
+            state.lockToggle = MakeToggle(state.isKeyUnlocked);
+            state.lockToggle.SetEnabled(state.isKeyEditable);
+            lockToggleRow.Add(state.lockToggle);
             return lockToggleRow;
         }
 
-        private static VisualElement BuildContentsRow(LocalizedString localizedString, LocalizationTableType localizationTableType, out TextField contentsTextField)
+        private static VisualElement BuildContentsRow(ElementState state)
         {
-            VisualElement contentsRow = MakeLabeledRow(_textLabel, out contentsTextField);
-            SetContentsFromLocalization(localizedString, localizationTableType, contentsTextField, true);
-            contentsTextField.isDelayed = true;
-
+            VisualElement contentsRow = MakeLabeledRow(_textLabel, out state.contentsTextField);
+            SetContentsFromLocalization(state, true);
+            state.contentsTextField.isDelayed = true;
             return contentsRow;
         }
 

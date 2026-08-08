@@ -24,9 +24,9 @@ namespace Frankie.Menu.UI
         [SerializeField] private TMP_Text escapeHeaderField;
         [SerializeField] private UIChoiceButton optionOptionsField;
         [SerializeField] private UIChoiceButton optionQuitField;
-        
         [Header("Prefabs")]
         [SerializeField] private OptionsMenu optionsMenuPrefab;
+        [SerializeField] private FrameFlavourPanel frameFlavourPanelPrefab;
 
         // Cached References
         private PlayerStateMachine playerStateMachine;
@@ -95,12 +95,27 @@ namespace Frankie.Menu.UI
         
         public void OpenOptionsMenu() // Called via Unity Events
         {
+            if (optionsMenuPrefab == null) { return; }
+            
             // Front-load event calling -- despawns any open windows
             escapeMenuItemSelected?.Invoke();
 
             OptionsMenu optionsMenu = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             optionsMenu.Setup(this);
             controller.AddInputReceiver(optionsMenu, null);
+        }
+
+        public void OpenFrameFlavourPanel() // Called via Unity Events
+        {
+            if  (frameFlavourPanelPrefab == null) { return; }
+            
+            // Front-load event calling -- despawns any open windows
+            escapeMenuItemSelected?.Invoke();
+            
+            FrameFlavourPanel frameFlavourPanel = Instantiate(frameFlavourPanelPrefab, worldCanvas.gameObject.transform);
+            frameFlavourPanel.EnableEscapeOptionExit();
+            frameFlavourPanel.SetupAdditionalColorUpdates(this);
+            controller.AddInputReceiver(frameFlavourPanel, null);
         }
 
         public void QuitGame() // Called via Unity Events

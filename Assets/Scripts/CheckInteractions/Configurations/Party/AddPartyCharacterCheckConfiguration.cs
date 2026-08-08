@@ -22,7 +22,7 @@ namespace Frankie.Control
         {
             Party party = playerStateMachine.GetParty();
             return party.GetAvailableCharactersToAdd().Select(character => 
-                new ChoiceActionPair(character.GetCharacterDisplayName(), () => AddToPartyWithErrorHandling(playerStateMachine, party, character))).ToList();
+                new ChoiceActionPair(CharacterProperties.GetCharacterDisplayName(character), () => AddToPartyWithErrorHandling(playerStateMachine, party, character))).ToList();
         }
 
         public override List<TableEntryReference> GetLocalizationEntries()

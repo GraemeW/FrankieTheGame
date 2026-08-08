@@ -29,6 +29,9 @@ MonoBehaviour:
     m_path: Assets/Scenes/StartScreen.unity
     m_guid: 651f6a80cb1b1bd40ab16e2d1e5f7eda
   - m_enabled: 1
+    m_path: Assets/Scenes/NamingScreen.unity
+    m_guid: 080417185f2824824b6e0019d1af84c5
+  - m_enabled: 1
     m_path: Assets/Scenes/OfficeExterior.unity
     m_guid: 12f7e76c252184d49b8c69c04f2c8c3e
   - m_enabled: 1

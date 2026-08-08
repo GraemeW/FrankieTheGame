@@ -4,6 +4,7 @@ namespace Frankie.ZoneManagement
     {
         Splash,
         Start,
+        Naming,
         New,
         GameOver,
         GameWin

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14436739d2a246de85a0e04f08ff06bf, type: 3}
+  m_Name: _PlayerPrefsEditor_CharacterPropertiesRefs
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.CharacterPropertiesRegistry
+  characterProperties:
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  - {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
+  - {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}

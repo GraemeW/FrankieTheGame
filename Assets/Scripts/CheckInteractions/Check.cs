@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Core;
+using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
 
@@ -16,8 +17,9 @@ namespace Frankie.Control
         [SerializeField] protected InteractionEvent checkInteraction;
         [Header("Message Behaviour")]
         [SerializeField][Tooltip("Otherwise, checks at end of interaction")] private bool checkAtStartOfInteraction = false;
+        [Header("Note - {0} for party leader, {1} for check object name")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedCheckMessage;
-        [Header("Choice Behaviour")]
+        [Header("Choices")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAccept;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageReject;
         [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
@@ -67,7 +69,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateMachine.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName));
+                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName, GetCheckObjectName()));
                 
                 if (checkAtStartOfInteraction) { checkInteraction?.Invoke(playerStateMachine); }
                 else { playerStateMachine.SetPostDialogueCallbackActions(checkInteraction); }
@@ -95,9 +97,15 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateMachine.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
                 
-                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName), interactActions);
+                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName, GetCheckObjectName()), interactActions);
             }
             return true;
+        }
+
+        private string GetCheckObjectName()
+        {
+            if (transform.parent == null) { return TryGetComponent(out BaseStats baseStats) ? CharacterProperties.GetCharacterDisplayName(baseStats) : name; }
+            return transform.parent.TryGetComponent(out BaseStats parentBaseStats) ? CharacterProperties.GetCharacterDisplayName(parentBaseStats) : transform.parent.name;
         }
         #endregion
     }

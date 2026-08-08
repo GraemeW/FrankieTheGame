@@ -170,7 +170,7 @@ namespace Frankie.Combat
         #endregion
 
         #region SimpleGetters
-        public string GetCombatName() => baseStats.GetCharacterProperties().GetCharacterDisplayName();
+        public string GetCombatName() => CharacterProperties.GetCharacterDisplayName(baseStats);
             // Split apart name on lower case followed by upper case w/ or w/out underscores
         public Sprite GetCombatSprite() => combatSprite;
         public BattleEntityType GetBattleEntityType() => battleEntityType;

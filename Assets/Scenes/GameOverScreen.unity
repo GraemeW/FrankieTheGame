@@ -783,6 +783,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11044726}
     - target: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
+      propertyPath: uiBoxReceiver
+      value: 
+      objectReference: {fileID: 1521503223}
+    - target: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
       propertyPath: destroyPlayerOnStart
       value: 0
       objectReference: {fileID: 0}

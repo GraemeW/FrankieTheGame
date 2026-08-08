@@ -47,6 +47,19 @@ namespace Frankie.Control
                 _ => ControllerInputType.DefaultNone
             };
         }
+
+        public static bool TryInputTypeToNavigationVector(ControllerInputType controllerInputType, out Vector2 navigationVector)
+        {
+            switch (controllerInputType)
+            {
+                case ControllerInputType.NavigateUp: navigationVector = Vector2.up; return true;
+                case ControllerInputType.NavigateDown: navigationVector = Vector2.down; return true;
+                case ControllerInputType.NavigateLeft: navigationVector = Vector2.left; return true;
+                case ControllerInputType.NavigateRight: navigationVector = Vector2.right; return true;
+            }
+            navigationVector = Vector2.zero; 
+            return false;
+        }
         #endregion
         
         #region PublicMethods

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Frankie.Core;
-using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Stats;
 
@@ -15,7 +14,6 @@ namespace Frankie.Saving
         // Constants
         private const string _defaultSaveFile = "save";
         private const string _sessionFile = "session";
-        private const string _playerPrefsCurrentSave = "currentSave";
         
         // Events
         public static event Action gameListUpdated;
@@ -23,35 +21,13 @@ namespace Frankie.Saving
         #region StaticMethods
         public static string GetSaveNameForIndex(int index) => string.Concat(_defaultSaveFile, "_", index.ToString(CultureInfo.InvariantCulture));
 
-        public static bool GetInfoFromName(string saveName, out string characterName, out int level)
+        public static bool GetInfoFromSave(string saveName, out string characterName, out int level)
         {
             characterName = "Frankie";
             level = 0;
-
-            string saveNameCharacterNameKey = GetPrefsKey(PrefsKeyType.CharacterName, saveName);
-            string saveLevelKey = GetPrefsKey(PrefsKeyType.Level, saveName);
-
-            if (!PlayerPrefs.HasKey(saveNameCharacterNameKey) || !PlayerPrefs.HasKey(saveLevelKey)) { return false; }
-
-            characterName = PlayerPrefs.GetString(saveNameCharacterNameKey);
-            level = PlayerPrefs.GetInt(saveLevelKey);
+            if (PlayerPrefsController.CurrentSaveLeaderKeyExists(saveName)) { characterName = PlayerPrefsController.GetCurrentSaveLeader(); }
+            if (PlayerPrefsController.CurrentSaveLevelKeyExists(saveName)) { level = PlayerPrefsController.GetCurrentSaveLevel(); }
             return true;
-        }
-
-        private static string GetPrefsKey(PrefsKeyType prefsKeyType, string saveName)
-        {
-            return prefsKeyType switch
-            {
-                PrefsKeyType.CharacterName => string.Concat(saveName, "_CharacterName"),
-                PrefsKeyType.Level => string.Concat(saveName, "_Level"),
-                _ => ""
-            };
-        }
-
-        private static void SetSavePrefs(string saveName, string characterName, int level)
-        {
-            PlayerPrefs.SetString(GetPrefsKey(PrefsKeyType.CharacterName, saveName), characterName);
-            PlayerPrefs.SetInt(GetPrefsKey(PrefsKeyType.Level, saveName), level);
         }
 
         public static void LoadStartScene()
@@ -63,10 +39,11 @@ namespace Frankie.Saving
 
         #region PublicMethods
         public static bool HasSave(string matchSave) => ListSaves().Any(saveName => string.Equals(matchSave, saveName));
-        public static string GetCurrentSaveName() => PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? PlayerPrefs.GetString(_playerPrefsCurrentSave) : null;
-        public static void SetCurrentSave(string saveFile, bool announceGameListUpdate = true)
+        public static string GetCurrentSaveName() => PlayerPrefsController.CurrentSaveKeyExists() ? PlayerPrefsController.GetCurrentSave() : null;
+        public static void SetCurrentSave(string saveName, bool announceGameListUpdate = true)
         {
-            PlayerPrefs.SetString(_playerPrefsCurrentSave, saveFile);
+            if (string.IsNullOrEmpty(saveName)) { return; }
+            PlayerPrefsController.SetCurrentSave(saveName);
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
         
@@ -77,11 +54,11 @@ namespace Frankie.Saving
 
         public static void NewGame(string saveName)
         {
-            Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
+            DeleteSession();
 
             SetCurrentSave(saveName);
-            var sceneQueueData = new SceneQueueData(() => Save(), 0f, false);
-            SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
+            var sceneQueueData = new SceneQueueData(null, 0f, false);
+            SceneLoader.QueueScene(SceneQueueType.Naming, sceneQueueData);
         }
 
         public static void LoadGame(string saveName)
@@ -98,9 +75,9 @@ namespace Frankie.Saving
         public static void Continue()
         {
             string saveName = GetCurrentSaveName();
-            if (saveName == null) { return; }
+            if (string.IsNullOrEmpty(saveName)) { return; }
             
-            Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
+            DeleteSession();
             
             // Need a MonoBehaviour to kick off a Coroutine, SceneLoader is safe to use 
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
@@ -129,7 +106,7 @@ namespace Frankie.Saving
         public static void SaveCorePlayerStateToSave()
         {
             string saveName = GetCurrentSaveName();
-            if (saveName == null) { return; }
+            if (string.IsNullOrEmpty(saveName)) { return; }
             
             UpdateSavePrefs(saveName);
             SavingSystem.CopyCorePlayerStateToSave(saveName);
@@ -138,7 +115,7 @@ namespace Frankie.Saving
         public static void Save(bool announceGameListUpdate = true)
         {
             string saveName = GetCurrentSaveName();
-            if (saveName == null) { return; }
+            if (string.IsNullOrEmpty(saveName)) { return; }
             
             UpdateSavePrefs(saveName);
             SavingSystem.CopySessionToSave(_sessionFile, saveName);
@@ -148,7 +125,7 @@ namespace Frankie.Saving
         public static void Delete(bool announceGameListUpdate = true)
         {
             string saveName = GetCurrentSaveName();
-            if (saveName == null) { return; }
+            if (string.IsNullOrEmpty(saveName)) { return; }
             
             SavingSystem.Delete(saveName);
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
@@ -168,21 +145,22 @@ namespace Frankie.Saving
         public static void CopySave(string newSave, bool announceGameListUpdate = true)
         {
             string saveName = GetCurrentSaveName();
-            if (saveName == null) { return; }
+            if (string.IsNullOrEmpty(saveName)) { return; }
             
             CopySave(saveName, newSave, announceGameListUpdate);
         }
 
-        public static void CopySave(string existingSave, string newSave, bool announceGameListUpdate = true)
+        public static void CopySave(string existingSaveName, string newSaveName, bool announceGameListUpdate = true)
         {
-            if (string.IsNullOrWhiteSpace(existingSave) || string.IsNullOrWhiteSpace(newSave)) { return; }
-            if (!HasSave(existingSave)) { return; }
+            if (string.IsNullOrEmpty(existingSaveName)  || string.IsNullOrWhiteSpace(newSaveName)) { return; }
+            if (!HasSave(existingSaveName)) { return; }
             
-            SavingSystem.CopySaveToSave(existingSave, newSave);
+            SavingSystem.CopySaveToSave(existingSaveName, newSaveName);
 
-            if (GetInfoFromName(existingSave, out string characterName, out int level))
+            if (GetInfoFromSave(existingSaveName, out string characterName, out int level))
             {
-                SetSavePrefs(newSave, characterName, level);
+                PlayerPrefsController.SetCurrentSaveLeader(characterName, newSaveName);
+                PlayerPrefsController.SetCurrentSaveLevel(level, newSaveName);
             }
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
@@ -199,7 +177,8 @@ namespace Frankie.Saving
             string characterName = party.GetPartyLeaderName();
             int level = party.TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.GetLevel() : 1;
 
-            SetSavePrefs(saveName, characterName, level);
+            PlayerPrefsController.SetCurrentSaveLeader(characterName, saveName);
+            PlayerPrefsController.SetCurrentSaveLevel(level, saveName);
         }
         
         private static IEnumerator LoadFromSave(string saveFile)
