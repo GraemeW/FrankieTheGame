@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 15003, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Demo_Forest-Mac
+  m_Name: Main-Linux
   m_EditorClassIdentifier: UnityEditor.dll::UnityEditor.Build.Profile.BuildProfile
   m_AssetVersion: 1
-  m_BuildTarget: 2
+  m_BuildTarget: 24
   m_Subtarget: 2
-  m_PlatformId: 0d2129357eac403d8b359c2dcbf82502
+  m_PlatformId: cb423bfea44b4d658edb8bc5d91a3024
   m_PlatformBuildProfile:
-    rid: 3751081976599937096
+    rid: 5769979868454060033
   m_ActivePlatformGuid: 
   m_AdditionalPlatformBuildSettings: []
   m_OverrideGlobalSceneList: 1
@@ -28,6 +28,42 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/StartScreen.unity
     m_guid: 651f6a80cb1b1bd40ab16e2d1e5f7eda
+  - m_enabled: 1
+    m_path: Assets/Scenes/NamingScreen.unity
+    m_guid: 080417185f2824824b6e0019d1af84c5
+  - m_enabled: 1
+    m_path: Assets/Scenes/OfficeExterior.unity
+    m_guid: 12f7e76c252184d49b8c69c04f2c8c3e
+  - m_enabled: 1
+    m_path: Assets/Scenes/OfficeInterior.unity
+    m_guid: 813f104c01953014ba595875d499ada2
+  - m_enabled: 1
+    m_path: Assets/Scenes/PortaBank.unity
+    m_guid: bd5507673954fb8449f66ea595f9f98e
+  - m_enabled: 1
+    m_path: Assets/Scenes/Prim.unity
+    m_guid: 0011512185daf894d9a465659975d19d
+  - m_enabled: 1
+    m_path: Assets/Scenes/ApartmentInterior.unity
+    m_guid: 52222d36ecfd3de48ba0a6a7086a4d38
+  - m_enabled: 1
+    m_path: Assets/Scenes/PrimInterior.unity
+    m_guid: a0d0d2d6d43c51843a58bdb193f8e175
+  - m_enabled: 1
+    m_path: Assets/Scenes/Tunnels.unity
+    m_guid: eccdfd585cec2fe4881a93b6d688f3c7
+  - m_enabled: 1
+    m_path: Assets/Scenes/Proper.unity
+    m_guid: 06f2222db45582245bb1d6aa64044d8e
+  - m_enabled: 1
+    m_path: Assets/Scenes/Subway.unity
+    m_guid: 1adce6d662c0b0b47abecc5d8e178aab
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameOverScreen.unity
+    m_guid: c904f3148156b38488efe90bfa1101b6
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameWinScreen.unity
+    m_guid: e494b574f37534540b7b1adee3863d96
   - m_enabled: 1
     m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
     m_guid: fb6fba365500445ddbf566d4d36cff28
@@ -40,12 +76,6 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/_Debug/TEST_BattleRoyale.unity
     m_guid: 8b8eb4164910bda45acce09717d5064a
-  - m_enabled: 1
-    m_path: Assets/Scenes/GameOverScreen.unity
-    m_guid: c904f3148156b38488efe90bfa1101b6
-  - m_enabled: 1
-    m_path: Assets/Scenes/GameWinScreen.unity
-    m_guid: e494b574f37534540b7b1adee3863d96
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
@@ -54,10 +84,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3751081976599937096
-      type: {class: OSXStandaloneBuildProfile, ns: UnityEditor.OSXStandalone, asm: UnityEditor.OSXStandalone.Extensions}
+    - rid: 5769979868454060033
+      type: {class: LinuxPlatformSettings, ns: UnityEditor.LinuxStandalone, asm: UnityEditor.LinuxStandalone.Extensions}
       data:
-        m_Development: 1
+        m_Development: 0
         m_ConnectProfiler: 0
         m_BuildWithDeepProfilingSupport: 0
         m_BuildWithCodeCoverage: 0
@@ -72,6 +102,10 @@ MonoBehaviour:
         m_InsightsSettingsContainer:
           m_BuildProfileEngineDiagnosticsState: 2
         m_AdaptivePerformanceEnabled: 0
-        m_MacOSXcodeBuildConfig: 1
-        m_Architecture: 2
-        m_CreateXcodeProject: 0
+        m_Architecture: 0
+        m_RemoteDeviceSectionFoldoutOpen: 0
+        m_DeployTarget: 0
+        m_RemoteDeviceAddress: 
+        m_RemoteDeviceUsername: 
+        m_RemoteDeviceExports: 
+        m_PathOnRemoteDevice: 
