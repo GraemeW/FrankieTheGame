@@ -207,7 +207,7 @@ namespace Frankie.Utils
             Debug.Log("Leveling up party:");
             foreach (BaseStats character in party.value.GetMembers())
             {
-                Debug.Log($"{character.GetCharacterProperties().GetCharacterDisplayName()} has gained a level");
+                Debug.Log($"{CharacterProperties.GetCharacterDisplayName(character)} has gained a level");
                 character.IncrementLevel();
             }
         }

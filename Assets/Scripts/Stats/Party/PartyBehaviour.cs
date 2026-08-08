@@ -22,6 +22,7 @@ namespace Frankie.Stats
         
         // Static
         private const int _initialOffset = 0;
+        private const string _errName = "???";
 
         // State
         private readonly Dictionary<BaseStats, Rigidbody2D> rigidBody2DLookup = new();
@@ -140,12 +141,7 @@ namespace Frankie.Stats
         }
         public GameObject GetPartyLeaderObject() => TryGetPartyLeader(out BaseStats partyLeader) ? partyLeader.gameObject : null;
 
-        public string GetPartyLeaderName()
-        {
-            if (!TryGetPartyLeader(out BaseStats partyLeader)) { return ""; }
-            CharacterProperties partyLeaderProperties = partyLeader.GetCharacterProperties();
-            return partyLeaderProperties != null ? partyLeaderProperties.GetCharacterDisplayName() ?? "" : "";
-        }
+        public string GetPartyLeaderName() => TryGetPartyLeader(out BaseStats partyLeader) ? CharacterProperties.GetCharacterDisplayName(partyLeader) : _errName;
         
         public List<BaseStats> GetMembers() => members;
         public int GetPartySize() => members.Count;

@@ -35,6 +35,9 @@ namespace Frankie.Saving
         private const float _audioMappingCurveFactor = 2.0f;
         private static readonly float _audioMappingDenominator = Mathf.Exp(_audioMappingCurveFactor) - 1.0f;
 
+        // Static State
+        public static bool wereCharacterNamesDirtied { get; set; } = false;
+        
         // Events
         public static event Action<Color> frameFlavourUpdated;
         
@@ -323,7 +326,9 @@ namespace Frankie.Saving
 
         public static void SetCharacterName(string characterPropertiesName, string characterName, string saveName = null)
         {
-            if (TryGetCharacterNameKey(characterPropertiesName, out string key, saveName)) { PlayerPrefs.SetString(key, characterName); }
+            if (!TryGetCharacterNameKey(characterPropertiesName, out string key, saveName)) { return; }
+            PlayerPrefs.SetString(key, characterName);
+            wereCharacterNamesDirtied = true;
         }
 
         public static void SetFavouriteFood(string favouriteFood, string saveName = null)
