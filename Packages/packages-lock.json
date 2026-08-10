@@ -26,6 +26,16 @@
         "com.unity.2d.tilemap.extras": "8.0.3"
       }
     },
+    "com.lowdefmustard.uibox": {
+      "version": "file:com.lowdefmustard.uibox",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.lowdefmustard.control": "0.1.0",
+        "com.lowdefmustard.utils": "0.1.0",
+        "com.unity.ugui": "2.5.0"
+      }
+    },
     "com.lowdefmustard.utils": {
       "version": "file:com.lowdefmustard.utils",
       "depth": 0,
@@ -131,7 +141,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
-      "version": "3.1.6",
+      "version": "3.1.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
