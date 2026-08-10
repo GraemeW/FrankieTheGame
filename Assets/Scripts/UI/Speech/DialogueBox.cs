@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using LowDefMustard.Control;
@@ -9,36 +6,19 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueBox : UIBox<UIBoxState>
+    public class DialogueBox : TextScanBox
     {
         // Tunables
-        [Header("Links And Prefabs")]
-        [SerializeField] protected Transform dialogueParent;
-        [SerializeField] private GameObject simpleTextPrefab;
-        [SerializeField] private GameObject speechTextPrefab;
-        [Header("Parameters")]
-        [SerializeField] private float initialInputDelay = 0.1f; // Seconds
-        [SerializeField] private float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
-
-        // Option Field Configurables
+        
+        // State -- Option Field Configurables
         private RectOffset optionPadding;
         private float optionSpacing;
         private TextAnchor optionChildAlignment;
         private bool optionControlChildSize = true;
         private bool optionUseChildScale = true;
         private bool optionChildForceExpand;
-
-        // State
-        private float timeSinceStart = 0f;
-        private bool isInitialInputBlocked = true;
-        private bool isWriting = false;
-        private bool interruptWriting = false;
-        private bool queuePageClear = false;
-        private Coroutine activeTextScan;
-        private readonly Queue<ReceptacleTextPair> printQueue = new();
-        private List<GameObject> printedJobs = new();
-
+        
         // Cached References
         protected DialogueController dialogueController;
         
@@ -47,26 +27,19 @@ namespace Frankie.Speech.UI
         {
             var dialogueBoxConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 
-                prepareChooseAction: ImplementPrepareChooseAction,
-                choose: ImplementChoose, 
-                handleGlobalInput: ImplementHandleGlobalInput);
+                prepareChooseAction: DialoguePrepareChooseAction,
+                choose: DialogueChoose, 
+                handleGlobalInput: DialogueHandleGlobalInput);
             dialogueBoxConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
             return dialogueBoxConfiguration;
         }
-
-        #region DataStructures
-        private struct ReceptacleTextPair
-        {
-            public GameObject receptacle;
-            public string text;
-            public bool isChoice;
-        }
-        #endregion
         
         #region UnityMethods
-        // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it by Start() check
         protected override void AwakeTriggered()
         {
+            // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it by Start() check
+            
+            base.AwakeTriggered();
             dialogueController = DialogueController.FindDialogueController();
             if (dialogueController != null)
             {
@@ -76,6 +49,50 @@ namespace Frankie.Speech.UI
             StoreOptionPanelConfigurables();
         }
 
+        protected override void EnableTriggered()
+        {
+            base.EnableTriggered();
+            if (dialogueController != null)
+            {
+                dialogueController.SubscribeToDialogueInput(true, HandleDialogueInput);
+                dialogueController.triggerUIUpdates += UpdateUI;
+            }
+        }
+
+        protected override void DisableTriggered()
+        {
+            base.DisableTriggered();
+            if (dialogueController != null)
+            {
+                dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
+                dialogueController.triggerUIUpdates -= UpdateUI;
+            }
+        }
+
+        protected override void DestroyTriggered()
+        {
+            base.DestroyTriggered();
+            
+            // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
+            //          Otherwise end-of-dialogue and choice-select options will not trigger
+            // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed
+            //          We try to end conversation, but if another box is subscribed to the controller, conversation continues
+            if (dialogueController == null) { return; }
+            dialogueController.EndConversation();
+        }
+        #endregion
+        
+        #region SetupUpdateMethods
+        public override void Setup(string text)
+        {
+            if (dialogueController != null && dialogueController.IsSimpleMessage())
+            {
+                AddText(dialogueController.GetSimpleMessage());
+                return;
+            }
+            base.Setup(text);
+        }
+        
         private void StoreOptionPanelConfigurables()
         {
             if (optionParent == null) { return; }
@@ -90,69 +107,8 @@ namespace Frankie.Speech.UI
                 optionChildForceExpand = horizontalLayoutGroup.childForceExpandWidth;
             }
         }
-
-        protected override void EnableTriggered()
-        {
-            if (dialogueController != null)
-            {
-                dialogueController.SubscribeToDialogueInput(true, HandleDialogueInput);
-                dialogueController.triggerUIUpdates += UpdateUI;
-            }
-        }
-
-        protected override void DisableTriggered()
-        {
-            if (dialogueController != null)
-            {
-                dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
-                dialogueController.triggerUIUpdates -= UpdateUI;
-            }
-
-            if (activeTextScan != null)
-            {
-                StopCoroutine(activeTextScan);
-                SetBusyWriting(false);
-                ClearOldDialogue();
-            }
-        }
-
-        protected override void StartTriggered()
-        {
-            Setup(null);
-        }
-        #endregion
-
-        #region SetupUpdateMethods
-        public virtual void Setup(string text)
-        {
-            if (dialogueController != null && dialogueController.IsSimpleMessage())
-            {
-                AddText(dialogueController.GetSimpleMessage());
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(text)) { return; }
-                AddText(text);
-            }
-        }
-
-        protected virtual void Update()
-        {
-            if (destroyQueued) { return; }
-
-            if (isInitialInputBlocked)
-            {
-                timeSinceStart += Time.deltaTime;
-                if (timeSinceStart >= initialInputDelay) { isInitialInputBlocked = false; }
-            }
-            
-            if (!isWriting && printQueue.Count != 0)
-            {
-                activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
-            }
-        }
-
-        protected virtual void UpdateUI()
+        
+        private void UpdateUI()
         {
             if (controller == null) { destroyQueued = true; }
             if (!dialogueController.IsActive()) { destroyQueued = true; }
@@ -165,38 +121,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        private void SkipToEndOfPage()
-        {
-            interruptWriting = true;
-            if (queuePageClear)
-            {
-                ClearPrintedJobs();
-                SetBusyWriting(false);
-                interruptWriting = false;
-                queuePageClear = false;
-            }
-        }
-        
-        protected bool TryFastForwardActiveText()
-        {
-            if (!isWriting) { return false; }
-            SkipToEndOfPage();
-            return true;
-        }
-
-        protected override void DestroyTriggered()
-        {
-            // Note 1:  This MUST be called during destruction itself (and not e.g. immediately before in LateUpdate())
-            //          Otherwise end-of-dialogue and choice-select options will not trigger
-            // Note 2:  Since this is being called in OnDestroy(), all of THIS dialogueBox's handlers are unsubscribed
-            //          We try to end conversation, but if another box is subscribed to the controller, conversation continues
-            if (dialogueController == null) { return; }
-            dialogueController.EndConversation();
-        }
-        #endregion
-
-        #region WritingFunctionality
-        private void SetBusyWriting(bool enable)
+        protected override void OnBusyWriting(bool enable)
         {
             if (enable)
             {
@@ -206,9 +131,6 @@ namespace Frankie.Speech.UI
             {
                 if (dialogueController != null) { dialogueController.triggerUIUpdates += UpdateUI; }
             }
-            isWriting = enable;
-
-            TriggerUIBoxModified(ReceiverModifiedType.WritingStateChanged, new ReceiverModifiedData(this, enable));
         }
 
         private void SetText()
@@ -223,116 +145,8 @@ namespace Frankie.Speech.UI
                 AddSpeech(dialogueController.GetText());
             }
         }
-
-        public void ClearOldDialogue()
-        {
-            ClearPrintedJobs();
-            foreach (Transform child in dialogueParent)
-            {
-                Destroy(child.gameObject);
-            }
-            if (optionParent == null) { return; }
-            
-            foreach (Transform child in optionParent)
-            {
-                child.GetComponent<Button>().onClick.RemoveAllListeners();
-                Destroy(child.gameObject);
-            }
-        }
-
-        public void AddText(string text)
-        {
-            GameObject textObject = Instantiate(simpleTextPrefab, dialogueParent);
-            textObject.SetActive(false);
-            QueueTextForPrinting(textObject, text, false);
-        }
-
-        public void AddSpeech(string text)
-        {
-            GameObject textObject = Instantiate(speechTextPrefab, dialogueParent);
-            textObject.SetActive(false);
-            QueueTextForPrinting(textObject, text, false);
-        }
-
-        public void AddPageBreak()
-        {
-            QueueTextForPrinting(null, "BREAK", false);
-        }
-
-        protected void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
-        {
-            var receptacleTextPair = new ReceptacleTextPair
-            {
-                receptacle = textObject,
-                text = text,
-                isChoice = isChoice
-            };
-            printQueue.Enqueue(receptacleTextPair);
-        }
-
-        private IEnumerator TextScan(ReceptacleTextPair receptacleTextPair)
-        {
-            if (receptacleTextPair.receptacle == null)
-            {
-                yield return PrintPageBreak();
-            }
-            else if (receptacleTextPair.isChoice)
-            {
-                yield return PrintChoices(receptacleTextPair.receptacle);
-            }
-            else
-            {
-                yield return PrintText(receptacleTextPair);
-            }
-        }
-
-        private IEnumerator PrintPageBreak()
-        {
-            SetBusyWriting(true);
-            TriggerUIBoxModified(ReceiverModifiedType.WritingStateChanged, new ReceiverModifiedData(this, false)); // override printing to false, since not really printing -- wait for user input for next step
-
-            queuePageClear = true;
-            yield break;
-        }
-
-        private IEnumerator PrintText(ReceptacleTextPair receptacleTextPair)
-        {
-            if (string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
-            receptacleTextPair.receptacle.SetActive(true);
-
-            SetBusyWriting(true);
-            SimpleTextLink simpleTextLink = receptacleTextPair.receptacle.GetComponent<SimpleTextLink>();
-            if (simpleTextLink == null) { yield break; }
-            string fullText = UnescapeText(receptacleTextPair.text);
-            if (string.IsNullOrEmpty(fullText)) { yield break; }
-
-            int letterIndex = 0;
-            string textFragment = "";
-            while (letterIndex < fullText.Length - 1)
-            {
-                if (interruptWriting) { break; }
-                textFragment += fullText[letterIndex];
-                if (simpleTextLink == null) { break; }
-                simpleTextLink.Setup(textFragment);
-                letterIndex++;
-                yield return new WaitForSeconds(delayBetweenCharacters);
-            }
-            if (simpleTextLink != null) { simpleTextLink.Setup(receptacleTextPair.text); }
-            printedJobs.Add(receptacleTextPair.receptacle);
-            SetBusyWriting(false);
-            interruptWriting = false;
-        }
-
-        private void ClearPrintedJobs()
-        {
-            foreach (GameObject printedJob in printedJobs)
-            {
-                if (printedJob != null) { Destroy(printedJob); }
-            }
-            printedJobs = new List<GameObject>();
-        }
         #endregion
-
+        
         #region ChoiceFunctionality
         private void SetChoiceList()
         {
@@ -392,7 +206,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
+        private void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
         {
             GameObject dialogueChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
             var dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
@@ -405,13 +219,7 @@ namespace Frankie.Speech.UI
             QueueTextForPrinting(dialogueChoiceOption.gameObject, null, true);
         }
 
-        private IEnumerator PrintChoices(GameObject choiceObject)
-        {
-            choiceObject.SetActive(true);
-            yield break;
-        }
-
-        private bool ImplementChoose(string nodeID)
+        private bool DialogueChoose(string nodeID)
         {
             if (!UsesNodeBasedDialogueFlow()) { return StandardChoose(nodeID); }
 
@@ -424,7 +232,7 @@ namespace Frankie.Speech.UI
             return choose;
         }
 
-        private bool ImplementPrepareChooseAction(ControllerInputType controllerInputType)
+        private bool DialoguePrepareChooseAction(ControllerInputType controllerInputType)
         {
             if (controllerInputType != ControllerInputType.Execute) { return false; }
             if (TryFastForwardActiveText()) { return true; }
@@ -437,100 +245,12 @@ namespace Frankie.Speech.UI
         }
         #endregion
         
-        #region StringPreParse
-        private static string UnescapeText(string inputString)
-        {
-            if (string.IsNullOrEmpty(inputString)) { return inputString; }
-
-            var stringBuilder = new System.Text.StringBuilder(inputString.Length);
-            int i = 0;
-            while (i < inputString.Length)
-            {
-                char c = inputString[i];
-
-                if (c != '\\' || i == inputString.Length - 1)
-                {
-                    stringBuilder.Append(c);
-                    i++;
-                    continue;
-                }
-                
-                char next = inputString[i + 1];
-                switch (next)
-                {
-                    case 'n': stringBuilder.Append('\n'); i += 2; break;
-                    case 't': stringBuilder.Append('\t'); i += 2; break;
-                    case 'r': stringBuilder.Append('\r'); i += 2; break;
-                    case '\\': stringBuilder.Append('\\'); i += 2; break;
-                    case '"': stringBuilder.Append('"'); i += 2; break;
-                    case '\'': stringBuilder.Append('\''); i += 2; break;
-                    case '0': stringBuilder.Append('\0'); i += 2; break;
-                    case 'a': stringBuilder.Append('\a'); i += 2; break;
-                    case 'b': stringBuilder.Append('\b'); i += 2; break;
-                    case 'f': stringBuilder.Append('\f'); i += 2; break;
-                    case 'v': stringBuilder.Append('\v'); i += 2; break;
-                    case 'u':
-                        // \uXXXX - exactly 4 hex digits required.
-                        if (i + 5 < inputString.Length + 1 && i + 6 <= inputString.Length &&
-                            TryParseHex(inputString, i + 2, 4, out int codeUnit))
-                        {
-                            stringBuilder.Append((char)codeUnit);
-                            i += 6;
-                        }
-                        else
-                        {
-                            stringBuilder.Append(c);
-                            i++;
-                        }
-                        break;
-                    case 'x':
-                        // \xH, \xHH, \xHHH, or \xHHHH - variable length (1-4 hex digits), greedy.
-                        int hexLen = 0;
-                        while (hexLen < 4 && i + 2 + hexLen < inputString.Length &&
-                               Uri.IsHexDigit(inputString[i + 2 + hexLen]))
-                        {
-                            hexLen++;
-                        }
-                        if (hexLen > 0 && TryParseHex(inputString, i + 2, hexLen, out int hexVal))
-                        {
-                            stringBuilder.Append((char)hexVal);
-                            i += 2 + hexLen;
-                        }
-                        else
-                        {
-                            stringBuilder.Append(c);
-                            i++;
-                        }
-                        break;
-                    default:
-                        // Unrecognized escape (e.g. "\q") - pass through
-                        stringBuilder.Append(c);
-                        stringBuilder.Append(next);
-                        i += 2;
-                        break;
-                }
-            }
-            return stringBuilder.ToString();
-        }
-
-        private static bool TryParseHex(string inputString, int start, int length, out int value)
-        {
-            value = 0;
-            if (start + length > inputString.Length) { return false; }
-            for (int k = 0; k < length; k++)
-            {
-                if (!Uri.IsHexDigit(inputString[start + k])) { return false; }
-            }
-            return int.TryParse( inputString.Substring(start, length), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out value);
-        }
-        #endregion
-
         #region InputHandling
         protected virtual bool UsesNodeBasedDialogueFlow() => true;
-            // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
-            // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
+        // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
+        // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
 
-        private bool ImplementHandleGlobalInput(ControllerInputType controllerInputType)
+        private bool DialogueHandleGlobalInput(ControllerInputType controllerInputType)
         {
             if (isInitialInputBlocked) { return false; }
             if (!UsesNodeBasedDialogueFlow()) { return StandardHandleGlobalInput(controllerInputType); }
@@ -553,7 +273,7 @@ namespace Frankie.Speech.UI
             }
             return false;
         }
-
+        
         private void HandleDialogueInput(ControllerInputType controllerInputType)
         {
             PrepareChooseAction(controllerInputType);
