@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 
-namespace CustomRuleTiles.Editor
+namespace LowDefMustard.RuleTiles.Editor
 {
     [CustomEditor(typeof(RuleTileRandomFromSiblings))]
     public class RuleTileRandomFromSiblingsEditor : UnityEditor.Editor

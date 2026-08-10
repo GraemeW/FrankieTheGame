@@ -2,7 +2,7 @@
 
 ## Rule Tile Sibling
 
-[RuleTileSibling](./RuleTileSibling.cs) allows different tile assets to recognize and connect with each other as if they were the same tile.  
+[RuleTileSibling](./Runtime/RuleTileSibling.cs) allows different tile assets to recognize and connect with each other as if they were the same tile.  
 
 This is a simple/standard implementation, where sibling `TileBase` tiles are defined in `siblings`.  `RuleMatch()` is overridden to treat sibling tiles the same as This during neighbor checks.
 
@@ -16,7 +16,7 @@ In any case, here we discuss two approaches to enable random animation tiles.
 
 ### POR Approach:  Random Tiles from Siblings
 
-[RuleTileRandomFromSiblings](./RuleTileRandomFromSiblings.cs) chooses a base tile (including arbitrary rule tiles) randomly from a list of siblings.
+[RuleTileRandomFromSiblings](./Runtime/RuleTileRandomFromSiblings.cs) chooses a base tile (including arbitrary rule tiles) randomly from a list of siblings.
 
 The index of the random tile is calculated by the deterministic approach:
 ```C#
@@ -31,6 +31,6 @@ Note that:
 
 ### Alternative (Deprecated) Approach:  Random Animations from Tile Rules
 
-[RuleTileRandomAnimation](./RuleTileRandomAnimation.cs) chooses a base tile randomly from the rule tile entries (i.e. ignoring the rules themselves).  This is accomplished by forcing each tiling rule's `m_Output` to `OutputSprite.Animation`.  The tile data is then populated with the values from the randomly selected rule.
+[RuleTileRandomAnimation](./Runtime/RuleTileRandomAnimation.cs) chooses a base tile randomly from the rule tile entries (i.e. ignoring the rules themselves).  This is accomplished by forcing each tiling rule's `m_Output` to `OutputSprite.Animation`.  The tile data is then populated with the values from the randomly selected rule.
 
 This approach is less desirable because of A) additional overhead on randomized animation speeds on a per-tile/call basis, and B) reduced flexibility in allowing more complex rule tiles that may or may not contain animations as part of the random tile set.

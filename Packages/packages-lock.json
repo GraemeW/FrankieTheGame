@@ -17,6 +17,15 @@
         "com.lowdefmustard.utils": "0.1.0"
       }
     },
+    "com.lowdefmustard.ruletiles": {
+      "version": "file:com.lowdefmustard.ruletiles",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.2d.tilemap": "1.0.0",
+        "com.unity.2d.tilemap.extras": "8.0.3"
+      }
+    },
     "com.lowdefmustard.utils": {
       "version": "file:com.lowdefmustard.utils",
       "depth": 0,
