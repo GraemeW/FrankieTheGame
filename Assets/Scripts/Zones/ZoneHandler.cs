@@ -12,16 +12,15 @@ using Frankie.Control;
 namespace Frankie.ZoneManagement
 {
     [ExecuteInEditMode]
-    public class ZoneHandler : MonoBehaviour, IRaycastable, ILocalizable
+    public class ZoneHandler : ZoneHandlerBase, IRaycastable, ILocalizable
     {
         // Localization Properties
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
         
         // Tunables 
-        [SerializeField] private ZoneNode zoneNode;
+        [Header("Zone Handler-Implemented Parameters")]
         [SerializeField] private bool overrideDefaultInteractionDistance = false;
         [SerializeField] private float interactionDistance = 0.3f;
-        [SerializeField] private Transform warpTransform;
         [SerializeField] private float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
         [SerializeField] [Tooltip("If left null, will attempt to auto-populate from parent")] private Room roomParent;
@@ -50,10 +49,6 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PublicMethods
-        public ZoneNode GetZoneNode() => zoneNode;
-        private bool HasWarpPosition() => warpTransform != null;
-        public Vector3 GetWarpPosition() => warpTransform != null ? warpTransform.position : transform.position;
-
         private void ToggleRoomParent(bool enable)
         {
             if (roomParent == null)

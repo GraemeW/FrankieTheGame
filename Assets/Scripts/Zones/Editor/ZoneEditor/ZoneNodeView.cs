@@ -127,7 +127,7 @@ namespace Frankie.ZoneManagement.Editor
             void TrySelectReference()
             {
                 GameObject foundGameObject = (
-                    from zoneHandler in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<ZoneHandler>()
+                    from zoneHandler in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<ZoneHandlerBase>()
                     where zoneHandler.GetZoneNode() != null && zoneHandler.GetZoneNode().GetNodeID() == zoneNode.GetNodeID()
                     select zoneHandler.gameObject).FirstOrDefault();
 
