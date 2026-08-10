@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Utils.Addressables;
+using LowDefMustard.Utils;
 
 namespace Frankie.Combat
 {

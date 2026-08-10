@@ -1,4 +1,4 @@
-namespace Frankie.Core.Predicates
+namespace LowDefMustard.Utils
 {
     public interface IPredicateEvaluator
     {

@@ -7,7 +7,6 @@ using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using LowDefMustard.Control;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 using Frankie.Control;
 
 namespace Frankie.ZoneManagement

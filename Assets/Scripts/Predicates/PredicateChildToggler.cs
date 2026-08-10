@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Control;
+using LowDefMustard.Utils;
 using Frankie.Saving;
 
 namespace Frankie.Core.Predicates

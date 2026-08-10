@@ -7,8 +7,8 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Utils;
 using LowDefMustard.Localization;
-using Frankie.Utils.Addressables;
 
 namespace Frankie.ZoneManagement
 {

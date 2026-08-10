@@ -1,6 +1,6 @@
 using System;
 
-namespace Frankie.Utils.Addressables
+namespace LowDefMustard.Utils
 {
     public interface IAddressablesCache
     {

@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
+using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 using Frankie.Saving;
 using Frankie.Stats;
 

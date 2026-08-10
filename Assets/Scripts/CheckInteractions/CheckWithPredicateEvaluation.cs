@@ -4,8 +4,8 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.Localization;
+using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 
 namespace Frankie.Control
 {
