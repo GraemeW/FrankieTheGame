@@ -4,7 +4,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using Frankie.Utils;
+using LowDefMustard.Utils;
 
 namespace Frankie.Combat
 {

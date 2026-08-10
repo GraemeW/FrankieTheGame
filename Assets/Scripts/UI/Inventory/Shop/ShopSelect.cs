@@ -3,10 +3,10 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Stats;
-using Frankie.Utils.Localization;
 using Frankie.World;
 using Frankie.Utils.UI;
 

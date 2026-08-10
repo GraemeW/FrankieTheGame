@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Utils.Editor;
+using LowDefMustard.Utils.Editor;
 
 namespace Frankie.Combat.Editor
 {

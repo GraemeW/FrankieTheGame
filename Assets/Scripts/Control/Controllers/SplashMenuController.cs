@@ -1,4 +1,5 @@
 using UnityEngine;
+using LowDefMustard.Control;
 using Frankie.ZoneManagement;
 
 namespace Frankie.Control
@@ -114,6 +115,9 @@ namespace Frankie.Control
         #endregion
 
         #region InputHandling
+
+        protected override void OnNoReceiversIdentified() => this.StandardOnNoReceiversIdentified();
+
         private void SkipSplash()
         {
             currentSplashIndex++;

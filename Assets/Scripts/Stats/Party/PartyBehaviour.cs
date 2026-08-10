@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Control;
 using Frankie.Combat;
-using Frankie.Utils;
 
 namespace Frankie.Stats
 {

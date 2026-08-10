@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.Control;
-using Frankie.Utils;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
 
 namespace Frankie.Speech.UI
 {

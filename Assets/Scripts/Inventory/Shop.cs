@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory
 {

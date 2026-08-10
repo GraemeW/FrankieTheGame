@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Saving;
-using Frankie.Utils;
 
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(NPCStateHandler))]
-    public class NPCMover : Mover
+    public class NPCMover : Mover, ISaveable<SerializableVector2>
     {
         // Tunables
         [Header("NPC Specific Behavior")]
@@ -349,17 +350,28 @@ namespace Frankie.Control
         #endregion
         
         #region SaveInterface
-        public override SaveState CaptureState() => ManualGetStateFromData(new SerializableVector2(transform.position));
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public override void RestoreState(SaveState saveState)
+        public SaveState CaptureState() => ManualGetStateFromData(new SerializableVector2(transform.position));
+
+        public void RestoreState(SaveState saveState)
         {
-             if (!TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition)) { return; }
+            if (!TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition)) { return; }
 
             // Force initialization for objects set to disable
             SelfInitializeRigidBody();
             SetupInitialState();
             transform.position = savedPosition.ToVector();
             SetLookDirection(Vector2.down);
+        }
+
+        public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
+
+        public bool TryManualGetDataFromState(SaveState saveState, out SerializableVector2 serializableVector2)
+        {
+            if (saveState != null && saveState.TryGetState(out serializableVector2)) { return true; }
+            serializableVector2 = null;
+            return false;
         }
         #endregion
 

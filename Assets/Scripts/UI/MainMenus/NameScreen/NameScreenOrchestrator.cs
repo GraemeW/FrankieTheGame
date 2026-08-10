@@ -4,14 +4,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using Frankie.Stats;
-using Frankie.Utils;
 using Frankie.Utils.UI;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

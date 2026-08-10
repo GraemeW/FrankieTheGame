@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
+using LowDefMustard.Localization;
 using Frankie.Stats;
 using Frankie.ZoneManagement;
 using Frankie.Speech;
@@ -29,12 +30,6 @@ namespace Frankie.Utils.Localization
         private static Dictionary<Stat, LocalizedString> _statusEffectDecreaseNameCache;
         
         #region PublicMethods
-        public static string GetStandardLocalizationKey(string id, string typeName, string propertyName)
-        {
-            string sanitizedPropertyName = (propertyName ?? "").Replace("localized", "");
-            return sanitizedPropertyName.Contains("Name") ? $"{typeName}.{id}" : $"{typeName}.{id}.{sanitizedPropertyName}";
-        }
-        
         // Enum Translations
         public static string GetLocalizedName(Stat stat)
         {
@@ -124,7 +119,7 @@ namespace Frankie.Utils.Localization
             {
                 case CharacterProperties or Zone or Dialogue or Skill or InventoryItem or Quest:
                     string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
-                    return GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
+                    return ILocalizable.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
                 default:
                     return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
             }

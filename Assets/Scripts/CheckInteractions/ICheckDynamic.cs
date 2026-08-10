@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Utils;
 
 namespace Frankie.Control
 {

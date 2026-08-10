@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Utils;
+using LowDefMustard.Utils;
 using Frankie.Saving;
 
 namespace Frankie.Stats

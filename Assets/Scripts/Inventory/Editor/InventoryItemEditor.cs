@@ -1,6 +1,6 @@
-using Frankie.Core.GameStateModifiers;
-using Frankie.Utils.Localization;
 using UnityEditor;
+using LowDefMustard.Localization;
+using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Inventory.Editor
 {

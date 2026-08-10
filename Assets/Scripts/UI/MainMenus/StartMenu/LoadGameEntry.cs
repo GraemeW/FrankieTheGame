@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Frankie.Utils.Localization;
 using UnityEngine;
-using TMPro;
-using Frankie.Utils.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using TMPro;
+using LowDefMustard.Localization;
+using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {

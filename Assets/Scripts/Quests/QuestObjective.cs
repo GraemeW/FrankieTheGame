@@ -7,7 +7,7 @@ using UnityEngine.Localization.Tables;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using Frankie.Utils.Localization;
+using LowDefMustard.Localization;
 
 namespace Frankie.Quests
 {

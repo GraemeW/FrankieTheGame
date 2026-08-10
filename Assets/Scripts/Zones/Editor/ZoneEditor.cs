@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Utils.Localization;
+using LowDefMustard.Localization;
 
 namespace Frankie.ZoneManagement.Editor
 {

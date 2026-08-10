@@ -1,5 +1,28 @@
 {
   "dependencies": {
+    "com.lowdefmustard.control": {
+      "version": "file:com.lowdefmustard.control",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.lowdefmustard.utils": "0.1.0"
+      }
+    },
+    "com.lowdefmustard.localization": {
+      "version": "file:com.lowdefmustard.localization",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.localization": "1.5.12",
+        "com.lowdefmustard.utils": "0.1.0"
+      }
+    },
+    "com.lowdefmustard.utils": {
+      "version": "file:com.lowdefmustard.utils",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "15.1.0",
       "depth": 0,

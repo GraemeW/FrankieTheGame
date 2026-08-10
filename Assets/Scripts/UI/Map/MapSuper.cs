@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using LowDefMustard.Localization;
 using Frankie.Rendering;
 using Frankie.Utils.UI;
-using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement.UI
 {

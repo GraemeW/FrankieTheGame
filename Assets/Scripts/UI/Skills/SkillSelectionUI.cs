@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
-using Frankie.Control;
+using LowDefMustard.Control;
+using LowDefMustard.Localization;
 using Frankie.Stats;
-using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
 using UnityEngine.Localization.Tables;
 

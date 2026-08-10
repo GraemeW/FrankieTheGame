@@ -1,5 +1,5 @@
 using System;
-using Frankie.Control;
+using LowDefMustard.Control;
 
 namespace Frankie.Utils.UI
 {

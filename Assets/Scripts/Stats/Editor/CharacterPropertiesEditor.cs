@@ -1,7 +1,7 @@
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
-using Frankie.Utils.Localization;
+using LowDefMustard.Localization;
 
 namespace Frankie.Stats.Editor
 {

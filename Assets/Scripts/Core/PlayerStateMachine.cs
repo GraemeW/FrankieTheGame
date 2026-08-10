@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Utils;
 using Frankie.Core.PlayerStates;
 using Frankie.Core.PlayerStateMemory;
 using Frankie.Control;
@@ -12,7 +13,6 @@ using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.World;
 using Frankie.ZoneManagement;
-using Frankie.Utils;
 
 namespace Frankie.Core
 {

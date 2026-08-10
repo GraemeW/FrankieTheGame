@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using Frankie.Utils;
+using LowDefMustard.Utils;
 
 namespace Frankie.Core.GameStateModifiers
 {
@@ -46,7 +46,7 @@ namespace Frankie.Core.GameStateModifiers
         {
 #if UNITY_EDITOR
             if (gameStateModifierHandler is not MonoBehaviour monoBehaviour) { return; }
-            if (!FrankieNonEditorEditorTools.IsStandardEditorState(monoBehaviour.gameObject)) { return; }
+            if (!EditorStateCheck.IsStandardEditorState(monoBehaviour.gameObject)) { return; }
             gameStateModifierHandler.RemoveSelfFromGameStateModifiers();
 #endif
         }
@@ -75,7 +75,7 @@ namespace Frankie.Core.GameStateModifiers
 #if UNITY_EDITOR
             var component = this as Component;
             if (component == null) { return;} // Avoid gameObject null reference for OnBeforeSerialize() in isolation mode
-            if (!FrankieNonEditorEditorTools.IsStandardEditorState(gameObject)) { return; }
+            if (!EditorStateCheck.IsStandardEditorState(gameObject)) { return; }
             
             ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
             

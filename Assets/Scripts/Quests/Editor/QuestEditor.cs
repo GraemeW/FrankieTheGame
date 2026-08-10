@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine.UIElements;
+using LowDefMustard.Localization;
 using Frankie.Core.GameStateModifiers;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Quests.Editor
 {

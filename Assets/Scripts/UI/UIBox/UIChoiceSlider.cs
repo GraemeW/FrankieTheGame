@@ -1,7 +1,7 @@
-using Frankie.Control;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using LowDefMustard.Control;
 
 namespace Frankie.Utils.UI
 {

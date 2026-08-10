@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
 using Frankie.Control;
 using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.World;
-using Frankie.Utils;
 
 namespace Frankie.Speech
 {
@@ -63,6 +64,7 @@ namespace Frankie.Speech
         #region ProtectedLifeCycle
         protected override bool HasAlternateReceiversActive() => dialogueUpdated != null;
         protected override bool ShouldDestroyForNoReceivers() => true;
+        protected override void OnNoReceiversIdentified() => this.StandardOnNoReceiversIdentified();
         #endregion
         
         #region UnityMethods

@@ -1,6 +1,7 @@
 using UnityEngine;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Utils;
 
 namespace Frankie.Control
 {

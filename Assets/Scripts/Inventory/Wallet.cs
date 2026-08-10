@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
+using LowDefMustard.Utils;
 using Frankie.Saving;
-using Frankie.Utils;
 
 namespace Frankie.Inventory
 {

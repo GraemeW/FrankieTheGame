@@ -3,10 +3,10 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
-using Frankie.Control;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Saving;
-using Frankie.Utils;
-using Frankie.Utils.Localization;
 using Frankie.Speech.UI;
 using Frankie.Utils.UI;
 

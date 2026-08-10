@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Localization;
 using Frankie.Utils.UI;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

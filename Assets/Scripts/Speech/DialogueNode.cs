@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Core.Predicates;
 using Frankie.Stats;
-using Frankie.Utils;
-using Frankie.Utils.Localization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

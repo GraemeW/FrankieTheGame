@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Utils;
+using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
 

@@ -1,0 +1,14 @@
+{
+  "name": "com.lowdefmustard.localization",
+  "version": "0.1.0",
+  "displayName": "Low Def Mustard Localization",
+  "description": "Localization interfaces, helpers, and editor tooling.",
+  "unity": "6000.5",
+  "author": {
+    "name": "Low Def Mustard Games"
+  },
+  "dependencies": {
+    "com.unity.localization": "1.5.12",
+    "com.lowdefmustard.utils": "0.1.0"
+  }
+}

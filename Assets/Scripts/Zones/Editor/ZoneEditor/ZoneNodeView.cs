@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Utils.Editor;
+using LowDefMustard.Utils.Editor;
 
 namespace Frankie.ZoneManagement.Editor
 {

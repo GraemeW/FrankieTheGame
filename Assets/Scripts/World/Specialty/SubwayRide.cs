@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.Localization;
-using Frankie.Control;
+using LowDefMustard.Control;
+using LowDefMustard.Localization;
 using Frankie.ZoneManagement;
-using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

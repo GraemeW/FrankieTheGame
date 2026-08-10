@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Frankie.Utils.Localization;
+using LowDefMustard.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;

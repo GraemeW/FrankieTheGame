@@ -4,8 +4,8 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Localization;
-using Frankie.Utils.Localization;
-using Frankie.Utils.Editor;
+using LowDefMustard.Localization;
+using LowDefMustard.Utils.Editor;
 
 namespace Frankie.Speech.Editor
 {

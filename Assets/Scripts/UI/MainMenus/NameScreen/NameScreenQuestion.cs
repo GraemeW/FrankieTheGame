@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Localization;
 using Frankie.Stats;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
