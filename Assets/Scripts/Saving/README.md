@@ -73,4 +73,3 @@ Some notable feature highlights:
   * likewise - if an equipped item is removed from the knapsack, it will be unequipped
 * BaseStats cards include convenience buttons to automatically level/de-level characters (incrementing level by level, or in one fell swoop to a defined level)
 * CombatParticipant cards include a convenience button to automatically set HP/AP to the max values defined in BaseStats
-

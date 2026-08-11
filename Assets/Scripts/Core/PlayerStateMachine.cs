@@ -284,7 +284,7 @@ namespace Frankie.Core
             if (this == null || gameObject == null) { return false; }
             
             TransitionType currentTransitionType = transitionMemory.currentTransitionType;
-            var faderEventTriggers = new FaderEventTriggers(null, () => OnBattleEntryPeak(currentTransitionType), null, () => OnBattleEntryComplete(currentTransitionType));
+            var faderEventTriggers = new FaderEventTriggers<TransitionType>(null, () => OnBattleEntryPeak(currentTransitionType), null, () => OnBattleEntryComplete(currentTransitionType));
             return combatMemory.BeginFade(currentTransitionType, faderEventTriggers);
         }
 
@@ -294,7 +294,7 @@ namespace Frankie.Core
             if (this == null || gameObject == null) { return false; }
 
             transitionMemory.currentTransitionType = TransitionType.BattleComplete;
-            var faderEventTriggers = new FaderEventTriggers(null, OnBattleExitPeak, null, OnBattleExitComplete);
+            var faderEventTriggers = new FaderEventTriggers<TransitionType>(null, OnBattleExitPeak, null, OnBattleExitComplete);
             return combatMemory.ConcludeFade(TransitionType.BattleComplete, faderEventTriggers);
         }
 

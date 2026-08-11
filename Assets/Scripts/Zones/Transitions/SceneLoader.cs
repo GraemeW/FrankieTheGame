@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
@@ -24,6 +23,9 @@ namespace Frankie.ZoneManagement
         private static Zone _lastZone;
         private static Zone _currentZone;
 
+        // External Hooks
+        public static Func<Zone> DemoZoneOverrideProvider;
+        
         // Events
         public static event Action<Zone> leavingZone;
         public static event Action<Zone> zoneUpdated;
@@ -116,7 +118,7 @@ namespace Frankie.ZoneManagement
                 // Standard Behaviour:  Load to GameOver scene while skipping session saving
                 // From GameOver scene only player will be present, and we can save session to carry over player exp, etc.
                 bool saveSession = sceneQueueType != SceneQueueType.GameOver;
-                Fader.StartZoneFade(zone, new FaderEventTriggers(), saveSession);
+                Fader.StartSceneLoadFade(zone, saveSession);
             }
             else
             {
@@ -129,7 +131,7 @@ namespace Frankie.ZoneManagement
             Zone zone = null;
             if (sceneQueueType == SceneQueueType.New)
             {
-                zone = FrankieDebugger.GetDemoZoneOverride();
+                zone = DemoZoneOverrideProvider?.Invoke();
                 if (zone != null) { return zone; }
             }
             

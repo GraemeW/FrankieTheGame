@@ -24,7 +24,7 @@ namespace Frankie.Core.PlayerStateMemory
             }
         }
 
-        public bool BeginFade(TransitionType currentTransitionType, FaderEventTriggers faderEventTriggers)
+        public bool BeginFade(TransitionType currentTransitionType, FaderEventTriggers<TransitionType> faderEventTriggers)
         {
             combatFadeComplete = false;
             bool faderInitiated = Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
@@ -32,6 +32,6 @@ namespace Frankie.Core.PlayerStateMemory
             return faderInitiated;
         }
 
-        public bool ConcludeFade(TransitionType currentTransitionType, FaderEventTriggers faderEventTriggers) => Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
+        public bool ConcludeFade(TransitionType currentTransitionType, FaderEventTriggers<TransitionType> faderEventTriggers) => Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
     }
 }

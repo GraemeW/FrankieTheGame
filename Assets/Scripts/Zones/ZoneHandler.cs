@@ -236,8 +236,8 @@ namespace Frankie.ZoneManagement
         private bool TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
             queuedZoneNodeID = nextNode.GetNodeID();
-            var faderEventTriggers = new FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
-            return Fader.StartZoneFade(nextZone, faderEventTriggers, true);
+            var faderEventTriggers = new FaderEventTriggers<TransitionType>(null, HandleFadingPeak, QueuedMoveToNextNode, null);
+            return Fader.StartSceneLoadFade(nextZone, faderEventTriggers, true);
         }
 
         private void RemoveZoneHandler()

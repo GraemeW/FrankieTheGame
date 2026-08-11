@@ -53,13 +53,6 @@ namespace Frankie.Utils
             FrankieDebugger frankieDebugger = FindDebugger();
             return frankieDebugger != null && frankieDebugger.isDemo;
         }
-
-        public static Zone GetDemoZoneOverride()
-        {
-            FrankieDebugger frankieDebugger = FindDebugger();
-            if (!frankieDebugger.isDemo) { return null; }
-            return frankieDebugger != null ? frankieDebugger.demoZoneOverride : null;
-        }
         
         private static FrankieDebugger FindDebugger()
         {
@@ -85,6 +78,13 @@ namespace Frankie.Utils
         {
             GameObject playerObject = Player.FindPlayerObject();
             return playerObject !=null ? playerObject.GetComponent<Wallet>() : null;
+        }
+        
+        private static Zone GetDemoZoneOverride()
+        {
+            FrankieDebugger frankieDebugger = FindDebugger();
+            if (!frankieDebugger.isDemo) { return null; }
+            return frankieDebugger != null ? frankieDebugger.demoZoneOverride : null;
         }
         #endregion
         
@@ -124,12 +124,18 @@ namespace Frankie.Utils
 
         private void OnEnable()
         {
+            _frankieDebugger = this;
+            SceneLoader.DemoZoneOverrideProvider -= GetDemoZoneOverride;
+            SceneLoader.DemoZoneOverrideProvider += GetDemoZoneOverride;
+            
             playerInput.Admin.Enable();
             SceneManager.sceneLoaded += ResetReferences;
         }
 
         private void OnDisable()
         {
+            if (SceneLoader.DemoZoneOverrideProvider == GetDemoZoneOverride) { SceneLoader.DemoZoneOverrideProvider = null; }
+            
             playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;
         }

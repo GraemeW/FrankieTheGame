@@ -33,7 +33,7 @@ namespace Frankie.Saving
         public static void LoadStartScene()
         {
             SceneLoader.QueueScene(SceneQueueType.Start, new SceneQueueData());
-            Fader.StartQuickZoneFade();
+            Fader.StartQuickSceneLoadFade();
         }
         #endregion
 
@@ -185,7 +185,7 @@ namespace Frankie.Saving
         {
             yield return SavingSystem.LoadLastScene(saveFile);
             SceneLoader.SetCurrentZoneToCurrentScene();
-            Fader.StartQuickZoneFade();
+            Fader.StartQuickSceneLoadFade();
         }
         #endregion
     }

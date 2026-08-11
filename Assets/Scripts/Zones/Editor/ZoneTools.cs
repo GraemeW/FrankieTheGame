@@ -1,15 +1,13 @@
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
-#endif
 
-namespace Frankie.ZoneManagement
+namespace Frankie.ZoneManagement.Editor
 {
     public static class ZoneTools
     {
-#if UNITY_EDITOR
         public static void OpenSceneAndAct(string zoneName, Action onSceneOpen)
         {
             Zone zone = Zone.GetFromName(zoneName);
@@ -26,7 +24,7 @@ namespace Frankie.ZoneManagement
             onSceneOpen?.Invoke();
         }
 
-        public static bool OpenZone(Zone zone)
+        private static bool OpenZone(Zone zone)
         {
             if (zone == null) { return false; }
 
@@ -40,6 +38,6 @@ namespace Frankie.ZoneManagement
             Debug.Log($"{zone.name} opened successfully.");
             return true;
         }
-#endif
     }
 }
+#endif
