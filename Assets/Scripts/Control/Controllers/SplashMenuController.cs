@@ -1,6 +1,6 @@
 using UnityEngine;
 using LowDefMustard.Control;
-using Frankie.ZoneManagement;
+using LowDefMustard.Zones;
 
 namespace Frankie.Control
 {

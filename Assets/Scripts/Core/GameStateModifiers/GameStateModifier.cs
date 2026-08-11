@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
-using Frankie.ZoneManagement;
+using LowDefMustard.Zones;
 
 namespace Frankie.Core.GameStateModifiers
 {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using Frankie.ZoneManagement.Editor;
+using LowDefMustard.Zones.Editor;
 
 namespace Frankie.Core.GameStateModifiers
 {

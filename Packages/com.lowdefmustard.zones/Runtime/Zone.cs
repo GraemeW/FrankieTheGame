@@ -1,0 +1,360 @@
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
+
+namespace LowDefMustard.Zones
+{
+    [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
+    public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
+    {
+        // Tunables
+        [Header("Zone Properties")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
+        [SerializeField] private SceneReference sceneReference;
+        [SerializeField] private bool updateMap = false;
+        [SerializeField] private AudioClip zoneAudio;
+        [SerializeField] private bool isZoneAudioLooping = true;
+
+        // Const / Static UI Tunables
+#if UNITY_EDITOR
+        private static readonly Vector2 _defaultNodeOffset = new(100f, 25f);
+        private const int _defaultNodeWidth = 350;
+        private const int _defaultNodeHeight = 125;
+        private const float _defaultZoneNodeGroupWidth = 250f;
+        private const float _defaultZoneNodeGroupHeight = 100f;
+        private const float _zoneGroupRectCheckRatio = 0.5f;
+#endif
+        
+        // State
+        [HideInInspector][SerializeField] private string cachedName = "";
+        public string iCachedName { get => cachedName; set => cachedName = value; }
+        [HideInInspector][SerializeField] private List<ZoneNode> zoneNodes = new();
+        [HideInInspector][SerializeField] private List<ZoneNodeGroup> zoneNodeGroups = new();
+#if UNITY_EDITOR
+        private Dictionary<string, ZoneNode> nodeEditorLookup = new();
+#endif
+
+        private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
+        private static Dictionary<string, Zone> _zoneLookupCache;
+        private static Dictionary<string, Zone> _sceneReferenceCache;
+        
+        #region AddressablesCaching
+        public static Zone GetFromName(string zoneName)
+        {
+            if (string.IsNullOrWhiteSpace(zoneName)) { return null; }
+            BuildCacheIfEmpty();
+            return _zoneLookupCache.GetValueOrDefault(zoneName);
+        }
+
+        public static Zone GetFromSceneReference(string sceneReference)
+        {
+            if (string.IsNullOrWhiteSpace(sceneReference)) { return null; }
+
+            Debug.Log($"Attempting to load zone from scene reference {sceneReference}");
+            BuildCacheIfEmpty();
+            return _sceneReferenceCache.GetValueOrDefault(sceneReference);
+        }
+
+        public static void BuildCacheIfEmpty()
+        {
+            if (_sceneReferenceCache != null) { return; }
+            BuildZoneCache();
+        }
+
+        private static void BuildZoneCache()
+        {
+            _zoneLookupCache = new Dictionary<string, Zone>();
+            _sceneReferenceCache = new Dictionary<string, Zone>();
+            //Debug.Log("Zone:  Building static Zone cache");
+            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) =>
+            {
+                if (_zoneLookupCache.ContainsKey(zone.name) || _sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
+                {
+                    Debug.LogError($"Looks like there's a duplicate ID for objects: {_zoneLookupCache[zone.name]} and {zone}");
+                }
+
+                _zoneLookupCache[zone.name] = zone;
+                _sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
+            }
+            );
+            _addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(_addressablesLoadHandle);
+        }
+        #endregion
+
+        #region UnityMethods
+        private void Awake()
+        {
+#if UNITY_EDITOR
+            // Deprecated Approach:
+            // CreateRootNodeIfMissing();
+            
+            // Note:  We now make in ZoneEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
+            // If doing this in Awake(), the root node gets made and then killed by the time serialization occurs
+#endif
+        }
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            nodeEditorLookup = new Dictionary<string, ZoneNode>();
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                nodeEditorLookup.Add(zoneNode.name, zoneNode);
+            }
+#endif
+        }
+        #endregion
+
+        #region Getters
+        public SceneReference GetSceneReference() => sceneReference;
+        public AudioClip GetZoneAudio() => zoneAudio;
+        public bool IsZoneAudioLooping() => isZoneAudioLooping;
+        public bool ShouldUpdateMap() => updateMap;
+        public IEnumerable<ZoneNode> GetAllNodes() => zoneNodes;
+        public ZoneNode GetRootNode() => zoneNodes[0];
+        public static bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
+        public ZoneNode GetNodeFromID(string zoneNodeName) => zoneNodes.FirstOrDefault(zoneNode => zoneNode.name == zoneNodeName);
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            var entries = new List<TableEntryReference> { localizedDisplayName.TableEntryReference };
+            foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode != null))
+            {
+                entries.AddRange(zoneNode.GetLocalizationEntries());
+            }
+            return entries;
+        }
+        
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true)
+            };
+        }
+        #endregion
+        
+#if UNITY_EDITOR
+        #region StandardEditorMethods
+        [ContextMenu("Match Zone Name to Scene")]
+        public void ForceUpdateZoneNameToMatchScene()
+        {
+            // Ensure Zone name always matches scene name exactly
+            var path = AssetDatabase.GetAssetPath(this);
+            AssetDatabase.RenameAsset(path, sceneReference.SceneName);
+            name = sceneReference.SceneName;
+        }
+        
+        public IEnumerable<ZoneNode> GetAllChildren(ZoneNode parentNode)
+        {
+            if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
+            foreach (var childUniqueID in parentNode.GetChildren().Where(childUniqueID => nodeEditorLookup.ContainsKey(childUniqueID)))
+            {
+                yield return nodeEditorLookup[childUniqueID];
+            }
+        }
+        
+        private ZoneNode CreateNode()
+        {
+            var zoneNode = CreateInstance<ZoneNode>();
+            Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
+            zoneNode.Initialize(_defaultNodeWidth, _defaultNodeHeight);
+            zoneNode.SetZoneName(name);
+            zoneNode.SetNodeID(System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture));
+
+            Undo.RecordObject(this, "Add Zone Node");
+            zoneNodes.Add(zoneNode);
+
+            return zoneNode;
+        }
+
+        public void CreateChildNode(ZoneNode parentNode)
+        {
+            if (parentNode == null) { return; }
+
+            ZoneNode childNode = CreateNode();
+            parentNode.AddChild(childNode.name);
+
+            var offsetPosition = new Vector2(parentNode.GetRect().xMax + _defaultNodeOffset.x,
+                parentNode.GetRect().yMin + (parentNode.GetRect().height + _defaultNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
+            childNode.SetPosition(offsetPosition);
+
+            OnValidate();
+        }
+
+        public void CreateRootNodeIfMissing()
+        {
+            if (zoneNodes.Count > 0) return;
+            CreateNode();
+            OnValidate();
+        }
+
+        public void DeleteNode(ZoneNode nodeToDelete)
+        {
+            if (nodeToDelete == null) { return; }
+
+            Undo.RecordObject(this, "Delete Zone Node");
+            nodeToDelete.DeleteLocalizationEntries();
+            zoneNodes.Remove(nodeToDelete);
+            CleanDanglingChildren(nodeToDelete);
+            RemoveNodeFromAllGroups(nodeToDelete.GetNodeID());
+            OnValidate();
+
+            Undo.DestroyObjectImmediate(nodeToDelete);
+        }
+        public void UpdateNodeID(string oldNodeID, string newNodeID)
+        {
+            foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode.GetChildren() != null))
+            {
+                zoneNode.UpdateChildNodeID(oldNodeID, newNodeID);
+            }
+            foreach (ZoneNodeGroup group in zoneNodeGroups.Where(group => group.ContainsNodeID(oldNodeID)))
+            {
+                group.RemoveNodeID(oldNodeID);
+                group.AddNodeID(newNodeID);
+            }
+            OnValidate();
+        }
+
+        public void ToggleRelation(ZoneNode parentNode, ZoneNode childNode)
+        {
+            if (IsRelated(parentNode, childNode))
+            {
+                parentNode.RemoveChild(childNode.name);
+            }
+            else
+            {
+                parentNode.AddChild(childNode.name);
+            }
+            OnValidate();
+        }
+        
+        private void CleanDanglingChildren(ZoneNode nodeToDelete)
+        {
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                zoneNode.RemoveChild(nodeToDelete.name);
+            }
+        }
+        
+        public void TriggerOnRename()
+        {
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                zoneNode.SetZoneName(name);
+            }
+        }
+        #endregion
+        
+        #region NodeGroupMethods
+        public IEnumerable<ZoneNodeGroup> GetAllGroups() => zoneNodeGroups;
+
+        public ZoneNodeGroup CreateZoneNodeGroup(Vector2 position)
+        {
+            Undo.RecordObject(this, "Create Zone Node Group");
+            var group = new ZoneNodeGroup(name);
+            group.SetRect(new Rect(position, new Vector2(_defaultZoneNodeGroupWidth, _defaultZoneNodeGroupHeight)));
+            zoneNodeGroups.Add(group);
+            EditorUtility.SetDirty(this);
+            return group;
+        }
+
+        public void DeleteGroup(ZoneNodeGroup zoneNodeGroup)
+        {
+            Undo.RecordObject(this, "Delete Zone Node Group");
+            zoneNodeGroups.Remove(zoneNodeGroup);
+            EditorUtility.SetDirty(this);
+        }
+
+        public void SetGroupRect(ZoneNodeGroup zoneNodeGroup, Rect rect)
+        {
+            Undo.RecordObject(this, "Move Zone Node Group");
+            zoneNodeGroup.SetRect(rect);
+            EditorUtility.SetDirty(this);
+        }
+        
+        public void UpdateGroupsForNodeMove(ZoneNode movedNode)
+        {
+            Rect nodeRect = movedNode.GetRect();
+            var checkRect = new Rect(0f, 0f, nodeRect.width * _zoneGroupRectCheckRatio, nodeRect.height * _zoneGroupRectCheckRatio) { center = nodeRect.center };
+            bool changed = false;
+
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (!zoneNodeGroup.ContainsNodeID(movedNode.GetNodeID())) { continue; }
+                if (zoneNodeGroup.GetRect().Overlaps(checkRect)) { continue; }
+
+                if (!changed) { Undo.RecordObject(this, "Update Zone Node Group"); }
+                changed = true;
+                zoneNodeGroup.RemoveNodeID(movedNode.GetNodeID());
+                zoneNodeGroup.RecomputeGroupRect();
+            }
+            
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (zoneNodeGroup.ContainsNodeID(movedNode.GetNodeID())) { continue; }
+                if (!zoneNodeGroup.GetRect().Overlaps(checkRect)) { continue; }
+
+                if (!changed) { Undo.RecordObject(this, "Update Zone Node Group"); }
+                changed = true;
+                zoneNodeGroup.AddNodeID(movedNode.GetNodeID());
+                zoneNodeGroup.RecomputeGroupRect();
+                break;
+            }
+
+            if (changed) { EditorUtility.SetDirty(this); }
+        }
+
+        private void RemoveNodeFromAllGroups(string nodeID)
+        {
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (!zoneNodeGroup.ContainsNodeID(nodeID)) { continue; }
+                zoneNodeGroup.RemoveNodeID(nodeID);
+                zoneNodeGroup.RecomputeGroupRect();
+            }
+        }
+        #endregion
+#endif
+
+        #region SerializationInterface
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        {
+#if UNITY_EDITOR
+            if (AssetDatabase.GetAssetPath(this) == "") { return; }
+
+            if (sceneReference.IsSet() && name != sceneReference.SceneName)
+            {
+                Debug.LogWarning($"Warning!  Zone Name {name} does not match scene reference {sceneReference.SceneName}!  Use Zone context menu to auto-match.");
+            }
+            
+            foreach (ZoneNode zoneNode in GetAllNodes())
+            {
+                if (AssetDatabase.GetAssetPath(zoneNode) == "")
+                {
+                    AssetDatabase.AddObjectToAsset(zoneNode, this);
+                }
+            }
+#endif
+        }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            // Unused, required for interface
+        }
+        #endregion
+    }
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using Frankie.Core.PlayerStates;
 using Frankie.Core.PlayerStateMemory;

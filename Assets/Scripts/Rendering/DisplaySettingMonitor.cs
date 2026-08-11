@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using LowDefMustard.Zones;
 using Frankie.Saving;
-using Frankie.ZoneManagement;
 
 namespace Frankie.Rendering
 {

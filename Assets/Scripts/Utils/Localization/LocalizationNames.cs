@@ -8,9 +8,9 @@ using Object = UnityEngine.Object;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
+using LowDefMustard.Zones;
 using LowDefMustard.Localization;
 using Frankie.Stats;
-using Frankie.ZoneManagement;
 using Frankie.Speech;
 using Frankie.Combat;
 using Frankie.Inventory;

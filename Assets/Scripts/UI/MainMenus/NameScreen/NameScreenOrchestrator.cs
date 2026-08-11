@@ -6,11 +6,11 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
+using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Control;
 using Frankie.Saving;
-using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 

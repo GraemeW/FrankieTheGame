@@ -32,9 +32,9 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.unity.ugui": "2.5.0",
         "com.lowdefmustard.control": "0.1.0",
-        "com.lowdefmustard.utils": "0.1.0",
-        "com.unity.ugui": "2.5.0"
+        "com.lowdefmustard.utils": "0.1.0"
       }
     },
     "com.lowdefmustard.utils": {
@@ -42,6 +42,18 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
+    },
+    "com.lowdefmustard.zones": {
+      "version": "file:com.lowdefmustard.zones",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.localization": "1.5.12",
+        "com.unity.addressables": "2.9.1",
+        "com.unity.ugui": "2.5.0",
+        "com.lowdefmustard.utils": "0.1.0",
+        "com.lowdefmustard.localization": "0.1.0"
+      }
     },
     "com.unity.2d.animation": {
       "version": "15.1.0",
