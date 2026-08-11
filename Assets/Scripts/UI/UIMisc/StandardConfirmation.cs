@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using UnityEngine;
 using UnityEngine.Localization;

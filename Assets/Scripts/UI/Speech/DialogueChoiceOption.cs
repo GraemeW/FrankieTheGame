@@ -1,4 +1,4 @@
-using Frankie.Utils.UI;
+using LowDefMustard.UIBox;
 
 namespace Frankie.Speech.UI
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using LowDefMustard.Control;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public abstract class UIBoxBase : MonoBehaviour
     {

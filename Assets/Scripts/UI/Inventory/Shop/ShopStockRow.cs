@@ -2,7 +2,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
-using Frankie.Utils.UI;
+using LowDefMustard.UIBox;
 
 namespace Frankie.Inventory.UI
 {

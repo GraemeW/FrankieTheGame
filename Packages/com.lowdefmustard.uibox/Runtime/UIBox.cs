@@ -6,7 +6,7 @@ using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public abstract class UIBox<TBoxState> : UIBoxBase, IInputReceiver where TBoxState : struct, Enum
     {

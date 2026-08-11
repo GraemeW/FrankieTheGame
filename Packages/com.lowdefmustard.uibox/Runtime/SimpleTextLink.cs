@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public class SimpleTextLink : MonoBehaviour
     {

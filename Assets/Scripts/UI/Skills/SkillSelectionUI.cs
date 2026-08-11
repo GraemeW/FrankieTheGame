@@ -3,9 +3,9 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Stats;
-using Frankie.Utils.UI;
 using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI

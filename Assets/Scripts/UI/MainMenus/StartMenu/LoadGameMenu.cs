@@ -4,11 +4,11 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
 using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Saving;
 using Frankie.Speech.UI;
-using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {

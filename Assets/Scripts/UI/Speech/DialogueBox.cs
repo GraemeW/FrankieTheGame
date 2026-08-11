@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
-using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI
 {

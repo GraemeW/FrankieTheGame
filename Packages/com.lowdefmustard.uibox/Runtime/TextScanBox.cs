@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public class TextScanBox : UIBox<UIBoxState>
     {

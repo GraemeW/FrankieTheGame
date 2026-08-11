@@ -1,6 +1,6 @@
 using LowDefMustard.Control;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public interface IUIMoveInterceptor
     {

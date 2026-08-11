@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Control;
@@ -12,7 +13,6 @@ using Frankie.Saving;
 using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using Frankie.Stats;
-using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {

@@ -5,12 +5,12 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
+using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Speech.UI;
-using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {

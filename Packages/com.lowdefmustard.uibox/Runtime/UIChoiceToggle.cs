@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public class UIChoiceToggle : UIChoice
     {

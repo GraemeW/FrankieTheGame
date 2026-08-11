@@ -1,4 +1,4 @@
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public enum CursorMovementStyle
     {

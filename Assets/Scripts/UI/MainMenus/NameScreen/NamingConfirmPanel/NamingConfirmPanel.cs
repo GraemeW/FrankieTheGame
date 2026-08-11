@@ -3,10 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Speech.UI;
-using Frankie.Utils.UI;
 using UnityEngine.Localization.Tables;
 
 namespace Frankie.Menu.UI

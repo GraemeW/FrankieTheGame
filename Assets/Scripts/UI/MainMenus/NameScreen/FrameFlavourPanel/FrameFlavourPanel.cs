@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using Frankie.Saving;
 using Frankie.Speech.UI;

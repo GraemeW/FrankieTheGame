@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using LowDefMustard.Control;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public class UIChoiceSlider : UIChoice, IUIMoveInterceptor
     {

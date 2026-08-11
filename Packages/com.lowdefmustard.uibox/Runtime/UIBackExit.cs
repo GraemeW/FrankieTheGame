@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Frankie.Utils.UI
+namespace LowDefMustard.UIBox
 {
     public class UIBackExit : MonoBehaviour
     {

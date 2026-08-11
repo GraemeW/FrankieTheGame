@@ -1,6 +1,6 @@
 using UnityEngine;
+using LowDefMustard.UIBox;
 using Frankie.Saving;
-using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {

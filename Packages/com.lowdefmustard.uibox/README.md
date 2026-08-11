@@ -2,11 +2,11 @@
 
 ## Overview
 
-The [UIBox](./UIBox.cs) abstract class serves as the standard building block for most UI elements in Frankie.   To this end, all UI windows/boxes that act as [input receivers](../../Control/Controllers/InputReceiver/IInputReceiver.cs) should extend this class, since it contains all the necessary hooks to work with Frankie's [controllers](../../../Game/Controllers/).
+The [UIBox](./Runtime/UIBox.cs) abstract class serves as the standard building block for most UI elements in Frankie.   To this end, all UI windows/boxes that act as [input receivers](../com.lowdefmustard.control/Runtime/InputReceiver/IInputReceiver.cs) should extend this class, since it contains all the necessary hooks to work with Frankie's [controllers](../../Assets/Game/Controllers/).
 
 ## State-Based Strategy Pattern
 
-[UIBox](./UIBox.cs) is defined with a generic `TBoxState`, which should be defined as an enum that can be used for unique state-dependent UIBox behaviours.   If the UIBox is simple in nature, it can be defined with the generic [UIBoxState](./UIBoxState.cs) enum (though, in practice, any enum will work).
+[UIBox](./Runtime/UIBox.cs) is defined with a generic `TBoxState`, which should be defined as an enum that can be used for unique state-dependent UIBox behaviours.   If the UIBox is simple in nature, it can be defined with the generic [UIBoxState](./Runtime/UIBoxState.cs) enum (though, in practice, any enum will work).
 
 The state-based strategies for each UI box are managed through two internal state variables:
 ```C#
@@ -26,12 +26,12 @@ protected virtual EnumLookup<TBoxState,UIBoxStateBehaviour> BuildStateBehaviours
 Child classes of UIBox can override `BuildStateBehaviours()` to return their specific state-dependent strategies through instances of [UIBoxStateBehaviour](./UIBoxStateBehaviour.cs).  UIBoxStateBehaviours allow alternate implementations for things like `MoveCursor()`, `HandleGlobalInput()`, `Choose()`, etc.  Naturally, since each UIBox child class defines its own `TBoxState` enum, the child class itself is responsible for updating and managing its `uiState`.
 
 See:
-* [DialogueBox](../Speech/DialogueBox.cs):  for an example of a single-state strategy
-* [InventoryBox](../Inventory/Inventory/InventoryBox.cs):  for an example of a multi-state strategy
+* [DialogueBox](../../Assets/Scripts/UI/Speech/DialogueBox.cs):  for an example of a single-state strategy
+* [InventoryBox](../../Assets/Scripts/UI/Inventory/Inventory/InventoryBox.cs):  for an example of a multi-state strategy
 
 ## Unity Methods / Overrides
 
-Since the [UIBox](./UIBox.cs) is an [IInputReceiver](../../Control/Controllers/InputReceiver/IInputReceiver.cs), which intercepts user input, it is necessary to strictly control and manage its lifecycle.  Failure to do so could result in a game lock-up, where a UIBox child is silently receiving and disposing of user input.  As such, enabling free access to override standard Unity methods (Awake, Start, OnEnable/Disable, Destroy) is particularly risky.
+Since the [UIBox](./Runtime/UIBox.cs) is an [IInputReceiver](../com.lowdefmustard.control/Runtime/InputReceiver/IInputReceiver.cs), which intercepts user input, it is necessary to strictly control and manage its lifecycle.  Failure to do so could result in a game lock-up, where a UIBox child is silently receiving and disposing of user input.  As such, enabling free access to override standard Unity methods (Awake, Start, OnEnable/Disable, Destroy) is particularly risky.
 
 As such, all Unity methods are sealed as private in the UIBox abstract class.  Access to these methods is provided via `_____Triggered()` virtual methods, which are called at the end of the corresponding Unity methods.  This ensures that standard UIBox Unity methods are always called and the UIBoxes are always safely disposed.
 
@@ -39,7 +39,7 @@ As such, all Unity methods are sealed as private in the UIBox abstract class.  A
 
 ### Key Dependencies
 
-[UIBox](./UIBox.cs) provides a virtual method `TryAcquireDependencies()` that should be overridden for any child classes that have critical dependencies that **must** exist in order for the UIBox to function correctly.  This may include, e.g., acquiring a relevant [controller](../../Control/Controllers) and establishing a controller link through its `AddInputReceiver(IInputReceiver inputReceiver, Action disableCallbacks)` method. 
+[UIBox](./Runtime/UIBox.cs) provides a virtual method `TryAcquireDependencies()` that should be overridden for any child classes that have critical dependencies that **must** exist in order for the UIBox to function correctly.  This may include, e.g., acquiring a relevant [controller](../../Assets/Game/Controllers/) and establishing a controller link through its `AddInputReceiver(IInputReceiver inputReceiver, Action disableCallbacks)` method. 
 
 Failure to establish these dependencies will result in destruction of the UIBox in the following `LateUpdate()` after its `Awake()`.
 
