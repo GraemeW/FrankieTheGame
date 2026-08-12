@@ -1,6 +1,6 @@
 # Low Def Mustard Utils
 
-`com.lowdefmustard.utils` — General-purpose data structures, editor tooling, and attribute drawers shared across Low Def Mustard Games projects.
+General-purpose data structures, editor tooling, and attribute drawers shared across Low Def Mustard Games projects.
 
 - **Package name:** `com.lowdefmustard.utils`
 - **Version:** 0.1.0
