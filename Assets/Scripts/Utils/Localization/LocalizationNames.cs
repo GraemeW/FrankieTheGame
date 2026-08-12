@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Object = UnityEngine.Object;
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditor.SceneManagement;
-#endif
 using LowDefMustard.Zones;
 using LowDefMustard.Localization;
 using Frankie.Stats;
@@ -20,8 +15,6 @@ namespace Frankie.Utils.Localization
 {
     public static class LocalizationNames
     {
-        // State
-        private static readonly System.Random _random = new();
         // Enum Translation Layer
         private static Dictionary<Stat, LocalizedString> _statNameCache;
         private static Dictionary<EquipLocation, LocalizedString> _equipLocationNameCache;
@@ -111,7 +104,6 @@ namespace Frankie.Utils.Localization
         }
         #endregion
         
-#if UNITY_EDITOR
         #region KeyGeneration
         public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
         {
@@ -121,60 +113,12 @@ namespace Frankie.Utils.Localization
                     string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
                     return ILocalizable.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
                 default:
-                    return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
+                    return DefaultKeyGenerator.GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
             }
-        }
-        
-        private static string GenerateKindaUniqueKey(Object targetObject, string propertyName, Type declaringType = null,  bool useParentNameStem = true)
-        {
-            string componentStem = declaringType != null ? $"{declaringType.Name}." : $"{targetObject.GetType().Name}.";
-            string targetStem = "";
-            string nameStem = targetObject.name;
-            
-            if (targetObject is GameObject castGameObject) { targetObject = castGameObject.GetComponent<MonoBehaviour>(); }
-            if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
-            {
-                string parentName = castMonoBehaviour.transform.parent.name;
-                if (!parentName.Contains("Canvas")) // Skip UI-most parent name
-                {
-                    nameStem = castMonoBehaviour.transform.parent.name;
-                }
-            }
-            
-            if (targetObject != null)
-            {
-                switch (targetObject)
-                {
-                    case ScriptableObject:
-                        targetStem += $"SO.{nameStem}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
-                        targetStem += $"Prefab.{nameStem}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour:
-                    {
-                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
-                        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-                        if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
-                        {
-                            targetStem += $"Prefab.{nameStem}.";
-                            break;
-                        }
-                        
-                        targetStem += "GO.";
-                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{nameStem}."; }
-                        else { targetStem += $"{nameStem}."; }
-                        break;
-                    }
-                }
-            }
-
-            string propertyNameStem = $"{(propertyName ?? "").Replace("localized", "")}.";
-            string semiUniqueShortKey = _random.Next().ToString("x");
-            return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
         }
         #endregion
         
+#if UNITY_EDITOR
         #region DefaultGeneration
         public static void GenerateDefaultEnumEntries(LocalizationTableType localizationTableType)
         {
