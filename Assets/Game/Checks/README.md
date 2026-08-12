@@ -48,7 +48,7 @@ Beyond the straightforward checks noted above, there are a number of relatively 
 
 ### Check With Predicate Evaluation
 
-The prefab [CheckWithPredicateEvaluation](./CheckWithPredicateEvaluation.prefab) can be used to evaluate any arbitrary [predicate](../../Scripts/Predicates/Predicate.cs) condition, and then prompt independent messages + Unity Events on success/failure.  This can be useful, for example, for only prompting events/behaviour when the player has progressed past a certain quest, or a specific character is above a certain level, or the player has a certain amount of cash, or a specific key item is in a party member's knapsack, etc.
+The prefab [CheckWithPredicateEvaluation](./CheckWithPredicateEvaluation.prefab) can be used to evaluate any arbitrary [predicate](../../../Packages/com.lowdefmustard.utils/Runtime/Predicates/Predicate.cs) condition, and then prompt independent messages + Unity Events on success/failure.  This can be useful, for example, for only prompting events/behaviour when the player has progressed past a certain quest, or a specific character is above a certain level, or the player has a certain amount of cash, or a specific key item is in a party member's knapsack, etc.
 
 The check configurables are shown below:
 
@@ -90,7 +90,7 @@ Example checks can be found in:
 
 In some circumstances, the check options themselves may not be fixed/static, but may also vary as a function of the game state -- for these, one may employ the [CheckWithDynamicOptions](./CheckWithDynamicOptions.prefab) prefab.
 
-This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../Scripts/Utils/DataStructuresExtensions/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Specialty/WorldSubwayRider.cs) component to generate viable subway travel options:
+This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../../Packages/com.lowdefmustard.utils/Runtime/DataStructuresExtensions/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Specialty/WorldSubwayRider.cs) component to generate viable subway travel options:
 
 <img src="../../../InfoTools/Documentation/Game/Checks/CheckWithDynamicOptionsSubwayTrain.png" width="1080">
 
@@ -98,7 +98,7 @@ This prefab makes use of a Dynamic Check Object that has a component implementin
 
 In order to allow for highly customized check behaviors, one may also employ the prefab [CheckWithConfiguration](./CheckWithConfiguration.prefab) with custom-scripted configurations.
 
-Similarly to Dynamic Options above, this prefab uses a [CheckConfiguration](../../Scripts/CheckInteractions/Configurations/CheckConfiguration.cs) scriptable object to define [ChoiceActionPairs](../../Scripts/Utils/DataStructuresExtensions/ChoiceActionPair.cs) that are used to populate a menu of choices.
+Similarly to Dynamic Options above, this prefab uses a [CheckConfiguration](../../Scripts/CheckInteractions/Configurations/CheckConfiguration.cs) scriptable object to define [ChoiceActionPairs](../../../Packages/com.lowdefmustard.utils/Runtime/DataStructuresExtensions/ChoiceActionPair.cs) that are used to populate a menu of choices.
 
 Example configurations include:
 * [AddToParty](./Configurations/AddToParty.asset) / [RemoveFromParty](./Configurations/RemoveFromParty.asset): with options populated by available characters / availability party members

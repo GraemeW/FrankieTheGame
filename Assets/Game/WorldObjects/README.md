@@ -15,7 +15,7 @@ The directories are structured as:
 | [ExteriorWorld](./_ExteriorWorld/) |   ~    |       |                            Parent game object for any exterior world, to be unpacked in a given exterior Scene/Zone                             |                                                                 ~                                                                  |
 | [InteriorRooms](./_InteriorRooms/) |   ~    |       | Parent game object for any interior room containing [Doors](./Doors/), may include a [sprite renderer](./_InteriorRooms/TilemapRoomRoot.prefab) |                                             [Room](../../Scripts/Zones/Room.cs) script                                             |
 |      [Spawners](./_Spawners/)      |        |       |                                               Standard game object for spawning enemies/monsters                                                |                                [EnemySpawner](../../Scripts/Combat/Spawner/EnemySpawner.cs) script                                 |
-|         [Paths](./_Paths/)         |        |       |                         Standard game object for delineating a path for an [NPC](../CharacterObjects/NPCs/) to traverse                         |                              [PatrolPath](../../Scripts/Control/Movement/Patrol/PatrolPath.cs) script                              |
+|         [Paths](./_Paths/)         |        |       |                         Standard game object for delineating a path for an [NPC](../CharacterObjects/NPCs/) to traverse                         |                              [PatrolPath](../../../Packages/com.lowdefmustard.control/Runtime/Movement/Patrol/PatrolPath.cs) script                              |
 
 #### Note on Document Scope
 
@@ -35,7 +35,7 @@ Before placing any objects into the scene, ensure that Snapping is Enabled, with
 
 If assets have been placed before snapping was enabled, they can be force-snapped to the grid by clicking on the `All Axes` button under `Align Selected`
 
-Note that the Save System will identify and save ISaveanle data from any World Objects that include the component [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs) (for more detail on the Save System && Saveable Entity settings, see [Saving](../../Scripts/Saving/)).
+Note that the Save System will identify and save ISaveanle data from any World Objects that include the component [SaveableEntity](../../../Packages/com.lowdefmustard.saving/Runtime/SaveableEntity.cs) (for more detail on the Save System && Saveable Entity settings, see [Saving](../../Scripts/Saving/)).
 
 ### Interior Room and Exterior World Map Prefabs
 
@@ -50,9 +50,9 @@ More detail on the tilemaps used in the prefabs can be found in [Tilemaps](../Ti
 
 ### MoveMesh:  PathFinding Mesh for Rooms and World Maps
 
-The [MoveMesh](../../Scripts/Zones/MoveMesh/MoveMesh.cs) component can be employed to support more complex movement types (e.g. teleporting) as well as [A* PathFinding](../CharacterObjects/README.md#npcmover-and-path-finding) for character movement.  
+The [MoveMesh](../../../Packages/com.lowdefmustard.control/Runtime/Movement/MoveMesh/MoveMesh.cs) component can be employed to support more complex movement types (e.g. teleporting) as well as [A* PathFinding](../CharacterObjects/README.md#npcmover-and-path-finding) for character movement.  
 
-[MoveMesh](../../Scripts/Zones/MoveMesh/MoveMesh.cs) should be placed upon a parent-most object containing the relevant tilemap composite colliders that define a scene's view.  Notably, the combination of the composite colliders must overlap to define an enclosed space (e.g. left, right, back and front colliders in a room define a room's enclosed space).  This is necessarily the case, as the player would otherwise be able to exit from the edges of the painted view.
+[MoveMesh](../../../Packages/com.lowdefmustard.control/Runtime/Movement/MoveMesh/MoveMesh.cs) should be placed upon a parent-most object containing the relevant tilemap composite colliders that define a scene's view.  Notably, the combination of the composite colliders must overlap to define an enclosed space (e.g. left, right, back and front colliders in a room define a room's enclosed space).  This is necessarily the case, as the player would otherwise be able to exit from the edges of the painted view.
 
 Any static/fixed world objects that should be carved out of the MoveMesh should be placed in the AdditionalColliderSources game object list, as below.  These can be parent game objects that include any number of standard/simple 2D colliders (box, circle, capsule, polygon).  A brief summary of some of the other relevant MoveMesh configurables is provided below:
 * `Cell Size`:  world-space spacing between grid points for the mesh
@@ -293,7 +293,7 @@ Briefly:
 * Drag 'n' [Waypoint](./_Paths/Waypoint.prefab) prefab children under the patrol path
   * move each waypoint's transform to the desired location for the patrol path
   * note:  a series of blue/green spheres connected by lines are generated in Scene View to show the walking path
-* Configure the [Patrol Path Component](../../Scripts/Control/Movement/Patrol/PatrolPath.cs), by setting:
+* Configure the [Patrol Path Component](../../../Packages/com.lowdefmustard.control/Runtime/Movement/Patrol/PatrolPath.cs), by setting:
   * `Waypoints`:  drag the array of waypoint children under the patrol path onto this field
   * `Looping`:  `Enabled` if the NPC should loop through the patrol path
   * `Return to First Waypoint`:  `Enabled` if the NPC should walk back to the first waypoint after reaching the final waypoint

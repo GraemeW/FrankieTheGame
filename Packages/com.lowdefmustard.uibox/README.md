@@ -23,7 +23,7 @@ protected TBoxState uiState
 protected virtual EnumLookup<TBoxState,UIBoxStateBehaviour> BuildStateBehaviours();
 ```
 
-Child classes of UIBox can override `BuildStateBehaviours()` to return their specific state-dependent strategies through instances of [UIBoxStateBehaviour](./UIBoxStateBehaviour.cs).  UIBoxStateBehaviours allow alternate implementations for things like `MoveCursor()`, `HandleGlobalInput()`, `Choose()`, etc.  Naturally, since each UIBox child class defines its own `TBoxState` enum, the child class itself is responsible for updating and managing its `uiState`.
+Child classes of UIBox can override `BuildStateBehaviours()` to return their specific state-dependent strategies through instances of [UIBoxStateBehaviour](./Runtime/UIBoxStateBehaviour.cs).  UIBoxStateBehaviours allow alternate implementations for things like `MoveCursor()`, `HandleGlobalInput()`, `Choose()`, etc.  Naturally, since each UIBox child class defines its own `TBoxState` enum, the child class itself is responsible for updating and managing its `uiState`.
 
 See:
 * [DialogueBox](../../Assets/Scripts/UI/Speech/DialogueBox.cs):  for an example of a single-state strategy

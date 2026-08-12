@@ -95,7 +95,7 @@ Note that the simulated values are calculated using the `levelChartAveraging` pa
 Character objects are broken down into:
 * [PCs](./PCs/): Playable characters, which can be added to the player's [Party](../../Scripts/Stats/Party/) and controlled by the player
 * [NPCs](./NPCs/): Non-playable characters, which notably have some form of intelligence to control themselves, whether in the world or in combat
-  * e.g. in fixed movements through [NPCMover](../../Scripts/Control/Movement/NPCMover.cs) via [patrol paths](../../Scripts/Control/Movement/Patrol/PatrolPath.cs)
+  * e.g. in fixed movements through [NPCMover](../../Scripts/Control/Movement/NPCMover.cs) via [patrol paths](../../../Packages/com.lowdefmustard.control/Runtime/Movement/Patrol/PatrolPath.cs)
   * , or to chase the player through [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs)
   * , or in combat to attack the player with the [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs) and [BattleAIPredicates](../../Scripts/Combat/BattleAI/BattleAIPredicates/)
 
@@ -242,7 +242,7 @@ If the NPC in question should move more intelligently toward the player, enable 
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/NPCMoverSettings.png" width="700">
 
-Enabling `usingPathFinding` will allow the NPC to use A* pathfinding to periodically generate an optimal path toward its target, based on the parameters in the [PathFinder](../../Scripts/Control/Movement/PathFinding/PathFinder.cs):
+Enabling `usingPathFinding` will allow the NPC to use A* pathfinding to periodically generate an optimal path toward its target, based on the parameters in the [PathFinder](../../../Packages/com.lowdefmustard.control/Runtime/Movement/PathFinding/PathFinder.cs):
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/PathFinderSettings.png" width="400">
 
@@ -268,7 +268,7 @@ A brief summary of the configurable components on the character prefabs noted ab
 |              [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs)               |       |   X    |   X   |   X    |       |  Logic for NPCs during battle (i.e. skill selection, combat priorities), interfacing to the battle system   |
 |     [NPCCollisionHandler](../../Scripts/Control/NPC/NPCCollisionHandler.cs)      |       |        |   X   |   X    |       |     State changes as a function of character collisions, flesibility to trigger arbitrary Unity Events      |
 |            [LootDispenser](../../Scripts/Inventory/LootDispenser.cs)             |       |        |       |   X    |       |                            Loot tables & logic for randomly providing loot/cash                             |
-|             [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs)             |   X   |   X    |   X   |   X    |       |          For interfacing with the save system - defines the character state as an item to be saved          |
+|             [SaveableEntity](../../../Packages/com.lowdefmustard.saving/Runtime/SaveableEntity.cs)             |   X   |   X    |   X   |   X    |       |          For interfacing with the save system - defines the character state as an item to be saved          |
 
 
 ## Wearables

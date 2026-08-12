@@ -76,7 +76,7 @@
   * Menus and Debuggers:
     * [SplashController](../../Assets/Scripts/Control/Controllers/SplashMenuController.cs)
     * [MainMenuController](../../Assets/Scripts/Control/Controllers/MainMenuController.cs)
-    * [FrankieDebugger](../../Assets/Scripts/Utils/FrankieDebugger.cs)
+    * [FrankieDebugger](../../Assets/Scripts/Utils/Debugger/FrankieDebugger.cs)
 
 ## Artwork
 

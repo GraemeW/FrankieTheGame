@@ -4,13 +4,13 @@ Note: This README is currently a WIP, thus incomplete, and will be updated in du
 
 ## Saveable Entities
 
-In order for a GameObject to have its state saved, it must have a [SaveableEntity](./SaveableEntity.cs) component attached to it.  This tags the object so that is can be found by the [SavingSystem](./SavingSystem.cs).  
+In order for a GameObject to have its state saved, it must have a [SaveableEntity](./Runtime/SaveableEntity.cs) component attached to it.  This tags the object so that is can be found by the [SavingSystem](./Runtime/SavingSystem.cs).  
 
-The [SaveableEntity](./SaveableEntity.cs) in turn finds all other components on the GameObject that implement the [ISaveable](./ISaveable.cs) interface.  Notably, it does **not** find [ISaveables](./ISaveable.cs) in the game object's children/extended hierarchy, only on the GameObject with the [SaveableEntity](./SaveableEntity.cs) itself.
+The [SaveableEntity](./Runtime/SaveableEntity.cs) in turn finds all other components on the GameObject that implement the [ISaveable](./Runtime/SaveableInterface/ISaveable.cs) interface.  Notably, it does **not** find [ISaveables](./Runtime/SaveableInterface/ISaveable.cs) in the game object's children/extended hierarchy, only on the GameObject with the [SaveableEntity](./Runtime/SaveableEntity.cs) itself.
 
 ### Unique Identifiers
 
-Each [SaveableEntity](./SaveableEntity.cs) has a unique identifier for look-up (to save/restore the given GameObject's state) in the [SavingSystem](./SavingSystem.cs).  There are two high-level requirements for use with prefabs that require special note:
+Each [SaveableEntity](./Runtime/SaveableEntity.cs) has a unique identifier for look-up (to save/restore the given GameObject's state) in the [SavingSystem](./Runtime/SavingSystem.cs).  There are two high-level requirements for use with prefabs that require special note:
 * we wish to have fixed (single-value) GUIDs for the **prefabs** of special / recurring entities
 * separately, we wish to have fixed GUIDs for the **instances** generated from prefabs for other more generic entities.
 
@@ -53,13 +53,13 @@ As shown below, the Save Editor has three main sections:
 2. A list view in the left panel to set the current save from available saves
 3. A main view in the right panel to edit the current save
 
-<img src="../../../InfoTools/Documentation/Scripts/Saving/SaveEditor.png" width="650">
+<img src="../../InfoTools/Documentation/Scripts/Saving/SaveEditor.png" width="650">
 
 In order to edit a save file, ensure the relevant save is currently selected in PlayerPrefs (via the `Set to Current` button), and then click the `Load Scene Data` button.  The save editor will display all saveable entities in the currently open scene view in the right panel.  
 
-Note that as long as a [player object](../../Game/Core/Player.prefab) exists in the scene view, the save editor will show all key player properties (aside from start menu scenes, the player object should always be present in the scene view).  Player properties include player mover, party - including all party member equipment/knapsack/stats, quest list, wallet, etc. 
+Note that as long as a [player object](../../Assets/Game/Core/Player.prefab) exists in the scene view, the save editor will show all key player properties (aside from start menu scenes, the player object should always be present in the scene view).  Player properties include player mover, party - including all party member equipment/knapsack/stats, quest list, wallet, etc. 
 
-All other saveable entities in the current scene, such as NPC properties, check interaction (presents, doors, etc.) state, room visibility state, etc. are listed below the player cards, sorted first by any entities that are [GameStateModifiers](../Core/GameStateModifiers).
+All other saveable entities in the current scene, such as NPC properties, check interaction (presents, doors, etc.) state, room visibility state, etc. are listed below the player cards, sorted first by any entities that are [GameStateModifiers](../../Assets/Scripts/Core/GameStateModifiers).
 
 The Save Editor functionality is relatively straightforward:  edit a parameter, save the appropriate entity (or click apply all data to save all entities).  When a parameter has been adjusted, but not yet saved, the entity's card will appear red, and the specific saveable component will show `Data Sync:  Volatile` until it is saved (or the save file reloaded)
 
