@@ -81,7 +81,7 @@ An `EditorWindow` that batch-generates `AnimationClip` assets from a folder of s
 - Optionally links generated clips into an `AnimatorOverrideController` slot, matching by direction/idle/stand-still naming conventions (`OverrideDirectionLookup`, `OverrideConfiguration`).
 - Frame rate is read from a reference clip and independently configurable for idle/stand-still clips.
 
-## Notes / Known Limitations
+## Design Notes
 
 - The Predicates system intentionally avoids generics at the `Predicate` base level to keep evaluator wiring simple; concrete predicate types are expected to define their own typed `Evaluate` overloads.
 
