@@ -27,6 +27,14 @@
         "com.unity.2d.tilemap.extras": "8.0.3"
       }
     },
+    "com.lowdefmustard.saving": {
+      "version": "file:com.lowdefmustard.saving",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.2"
+      }
+    },
     "com.lowdefmustard.uibox": {
       "version": "file:com.lowdefmustard.uibox",
       "depth": 0,
