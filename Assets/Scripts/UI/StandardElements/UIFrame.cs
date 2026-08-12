@@ -19,7 +19,7 @@ namespace Frankie.Utils.UI
         private static bool _isFrameFlavourSet = false;
         private static Color _frameFlavourColour = Color.white;
         
-        // Static Methods
+        #region Static
         private static void InitializeFrameFlavour()
         {
             _isFrameFlavourSet = true;
@@ -31,25 +31,21 @@ namespace Frankie.Utils.UI
             _frameFlavourColour = PlayerPrefsController.GetFrameFlavourColour();
         }
         private static void SetGlobalFrameFlavour(Color frameFlavourColor) => _frameFlavourColour = frameFlavourColor;
+        #endregion
         
-        // Local Methods
+        #region UnityMethods
         private void OnEnable()
         {
             if (!_isFrameFlavourSet) { InitializeFrameFlavour(); }
             UpdateCurrentColour();
         }
-
-        private void UpdateCurrentColour()
-        {
-            if (!TryGetComponent(out frame)) { return;  }
-            currentColour = new Color(_frameFlavourColour.r * colourModifyFactor, _frameFlavourColour.g * colourModifyFactor, _frameFlavourColour.b * colourModifyFactor, _frameFlavourColour.a);
-            frame.color = currentColour;
-        }
+        #endregion
         
+        #region PublicMethods
         public void OverwriteLocalFrameFlavour(Color overwriteColour)
         {
             if (frame == null) { return; }
-            frame.color = new Color(overwriteColour.r * colourModifyFactor, overwriteColour.g * colourModifyFactor, overwriteColour.b * colourModifyFactor, _frameFlavourColour.a);
+            frame.color = GetScaledColour(overwriteColour);
         }
 
         public void ResetToDefaultFrameFlavour()
@@ -57,5 +53,22 @@ namespace Frankie.Utils.UI
             if (frame == null) { return; }
             frame.color = currentColour;
         }
+        #endregion
+        
+        #region PrivateMethods
+        private void UpdateCurrentColour()
+        {
+            if (!TryGetComponent(out frame)) { return;  }
+            currentColour = GetScaledColour(_frameFlavourColour);
+            frame.color = currentColour;
+        }
+
+        private Color GetScaledColour(Color color)
+        {
+            // Prevent clipping >1 (no HDR support) while maintaining uniform scaling 
+            float maxScaling = Mathf.Min(colourModifyFactor, 1 / color.r, 1 / color.g, 1 / color.b);
+            return new Color(color.r * maxScaling, color.g * maxScaling, color.b * maxScaling, color.a);
+        }
+        #endregion
     }
 }
