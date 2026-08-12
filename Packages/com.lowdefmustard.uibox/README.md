@@ -1,63 +1,87 @@
-# UIBox
+# Low Def Mustard UIBox
 
-## Overview
+Reusable input-driven UI box architecture: a state-based strategy pattern for cursor-navigable menus/dialogue boxes, a set of cursor-movement strategies (linear, fixed-grid, and screen-space spatial), a `UIChoice` widget family (buttons, sliders, toggles, sub-option containers), and a ready-made `TextScanBox` for scrolling/typewriter text.
 
-The [UIBox](./Runtime/UIBox.cs) abstract class serves as the standard building block for most UI elements in Frankie.   To this end, all UI windows/boxes that act as [input receivers](../com.lowdefmustard.control/Runtime/InputReceiver/IInputReceiver.cs) should extend this class, since it contains all the necessary hooks to work with Frankie's [controllers](../../Assets/Game/Controllers/).
+- **Package name:** `com.lowdefmustard.uibox`
+- **Version:** 0.1.0
+- **Unity:** 6000.5+
+- **Dependencies:** 
+  - `com.unity.ugui` 2.5.0
+  - `com.lowdefmustard.control` 0.1.0
+  - `com.lowdefmustard.utils` 0.1.0
 
-## State-Based Strategy Pattern
+## Installation
 
-[UIBox](./Runtime/UIBox.cs) is defined with a generic `TBoxState`, which should be defined as an enum that can be used for unique state-dependent UIBox behaviours.   If the UIBox is simple in nature, it can be defined with the generic [UIBoxState](./Runtime/UIBoxState.cs) enum (though, in practice, any enum will work).
+Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or reference locally with `"com.lowdefmustard.uibox": "file:../path/to/com.lowdefmustard.uibox"` in your project's `manifest.json`. `com.lowdefmustard.control` and `com.lowdefmustard.utils` must also be present.
 
-The state-based strategies for each UI box are managed through two internal state variables:
-```C#
-private Enum internalUIState; // current box state
-private EnumLookupBase<UIBoxStateBehaviour> stateLookup; // state-dependent UIBox strategies
-```
-, which are accessed via protected attributes/methods:
-```C#
-protected TBoxState uiState
-{
-    get => (TBoxState)internalUIState;
-    set => internalUIState = value;
-} 
-protected virtual EnumLookup<TBoxState,UIBoxStateBehaviour> BuildStateBehaviours();
-```
+## Assembly Structure
 
-Child classes of UIBox can override `BuildStateBehaviours()` to return their specific state-dependent strategies through instances of [UIBoxStateBehaviour](./Runtime/UIBoxStateBehaviour.cs).  UIBoxStateBehaviours allow alternate implementations for things like `MoveCursor()`, `HandleGlobalInput()`, `Choose()`, etc.  Naturally, since each UIBox child class defines its own `TBoxState` enum, the child class itself is responsible for updating and managing its `uiState`.
+| Assembly | Root Namespace | Platform | References |
+|---|---|---|---|
+| `LowDefMustard.UIBox` | `LowDefMustard.UIBox` | Runtime | `LowDefMustard.Control`, `LowDefMustard.Utils`, `Unity.TextMeshPro` |
 
-See:
-* [DialogueBox](../../Assets/Scripts/UI/Speech/DialogueBox.cs):  for an example of a single-state strategy
-* [InventoryBox](../../Assets/Scripts/UI/Inventory/Inventory/InventoryBox.cs):  for an example of a multi-state strategy
+This package ships Runtime-only — there's no custom inspector here; every box is configured via the standard inspector and `BuildStateBehaviours()`.
 
-## Unity Methods / Overrides
+## Contents
 
-Since the [UIBox](./Runtime/UIBox.cs) is an [IInputReceiver](../com.lowdefmustard.control/Runtime/InputReceiver/IInputReceiver.cs), which intercepts user input, it is necessary to strictly control and manage its lifecycle.  Failure to do so could result in a game lock-up, where a UIBox child is silently receiving and disposing of user input.  As such, enabling free access to override standard Unity methods (Awake, Start, OnEnable/Disable, Destroy) is particularly risky.
+### Core Architecture — `UIBoxBase` / `UIBox<TBoxState>` (`Runtime/UIBoxBase.cs`, `Runtime/UIBox.cs`)
 
-As such, all Unity methods are sealed as private in the UIBox abstract class.  Access to these methods is provided via `_____Triggered()` virtual methods, which are called at the end of the corresponding Unity methods.  This ensures that standard UIBox Unity methods are always called and the UIBoxes are always safely disposed.
+`UIBox<TBoxState>` is the abstract base every input-driven UI window/box in the game should extend — it implements `com.lowdefmustard.control`'s `IInputReceiver`, so it plugs directly into a `BaseController`. `UIBoxBase` holds the state-independent plumbing (choice-option bookkeeping, cursor-movement math); `UIBox<TBoxState>` layers the generic per-state strategy system and the sealed Unity lifecycle on top.
 
-## Fallback Safety Destruction Mechanisms
+- **State-based strategy pattern:** `TBoxState` is any `enum` (the trivial `UIBoxState.Default` is provided for single-state boxes). 
+  - A child class overrides `BuildStateBehaviours()` to return an `EnumLookup<TBoxState, UIBoxStateBehaviour>` mapping each state to a `UIBoxStateBehaviour` — effectively a set of nullable delegates:
+    - `moveCursor`, 
+    - `handleGlobalInput`, 
+    - `choose`, 
+    - `prepareChooseAction`, 
+    - `setupChoiceOptions`, 
+    - `reconcileChoiceOptions`, 
+    - `isBackInput`, 
+    - `tryHandleBackNavigation` 
+  - Any delegate left `null` for a state falls back to the corresponding `Standard*` implementation, so a box only needs to supply the behaviours that actually diverge per-state, rather than re-implementing everything. 
+  - The active state's behaviour is looked up fresh on every call via `uiState`, which a child class sets directly (of type `TBoxState`, backed by an internal `Enum` field).
+- **Sealed Unity lifecycle:** because a `UIBox` is silently receiving/consuming input, an uncontrolled override of `Awake`/`Start`/`OnEnable`/`OnDisable`/`OnDestroy` risks leaving input silently swallowed or the box's lifecycle bookkeeping skipped. 
+  - All of these are `private` (sealed in effect) on `UIBox<TBoxState>`; a child class hooks in via the corresponding `virtual void ...Triggered()` method (`AwakeTriggered`, `StartTriggered`, `EnableTriggered`, `DisableTriggered`, `DestroyTriggered`), called at the end of the real Unity method after the base bookkeeping has already run.
+- **Back-navigation hooks:** `IsBackInput(ControllerInputType)` (default: `Cancel`/`Option`) and `TryHandleBackNavigation(ControllerInputType)` (default: `false`) run first in `StandardHandleGlobalInput`, ahead of `TryEarlyExit` — letting a box intercept and consume "back" input for its own purposes (e.g. stepping back a sub-state) before falling through to the default exit-and-destroy behaviour.
+- **Fallback safety/destruction mechanisms:** a `UIBox` that never gets linked to a controller can lock up input entirely, so two independent guards exist:
+  - `TryAcquireDependencies()` (virtual, default `true`) — override for any box that self-acquires a controller/dependency in `Awake`; returning `false` destroys the box immediately, before `OnEnable`/`Start` ever run.
+  - A `Start()`-launched coroutine gives a one-frame grace period, then destroys the box if `controller` is still `null` while `handleGlobalInput` is true — catching the case where a *parent* forgets to call `controller.AddInputReceiver(...)` after spawning a child box. Because of this, any box **must** have its controller link established by the end of `Start()` — in practice, this means instantiating and calling `AddInputReceiver` in the same synchronous block, before the new box's own `Start()` runs.
 
-### Key Dependencies
+### Cursor Movement (`Runtime/UIBoxBase.cs`, `Runtime/CursorMovementStyle.cs`, `Runtime/IUIMoveInterceptor.cs`)
 
-[UIBox](./Runtime/UIBox.cs) provides a virtual method `TryAcquireDependencies()` that should be overridden for any child classes that have critical dependencies that **must** exist in order for the UIBox to function correctly.  This may include, e.g., acquiring a relevant [controller](../../Assets/Game/Controllers/) and establishing a controller link through its `AddInputReceiver(IInputReceiver inputReceiver, Action disableCallbacks)` method. 
+Three interchangeable cursor-movement strategies are available to plug into a `UIBoxStateBehaviour.moveCursor`:
 
-Failure to establish these dependencies will result in destruction of the UIBox in the following `LateUpdate()` after its `Awake()`.
+- **`StandardMoveCursor`** — linear next/prev cycling through `choiceOptions`, filtered by `CursorMovementStyle` (`Horizontal`, `Vertical`, or `Combined`) so a box can restrict which input directions actually move the cursor.
+- **`MoveCursor2D`** — linear cycling assuming a fixed 2-column layout (up/down jump by 2, left/right by 1, with wraparound), for simple two-column choice lists without real per-row bookkeeping.
+- **`StandardMoveCursorSpatial`** — screen-space navigation for arbitrary (non-linear) layouts: casts a ray from the highlighted choice's screen rect in the input direction and picks the closest AABB hit; if nothing is hit directly, falls back to scoring every candidate by `alignment / distance²` within an ~85° acceptance cone of the input direction (the same heuristic Unity's built-in gamepad/keyboard UI navigation uses), so an off-axis-but-clearly-"that way" element still gets picked.
+- **`IUIMoveInterceptor`** — implemented by composite/self-navigating choices (`UIChoiceContainer`, `UIChoiceSlider`) so any of the above strategies defers movement input to the highlighted choice itself before falling through to normal cursor movement.
 
-### Controller Check Coroutine
+### Choice Widgets (`Runtime/UIChoice.cs`, `Runtime/UIChoiceButton.cs`, `Runtime/UIChoiceContainer.cs`, `Runtime/UIChoiceSlider.cs`, `Runtime/UIChoiceToggle.cs`)
 
-As a final stop-gap to ensure a controller is properly linked, the UIBox kicks off a controller check coroutine in `Start()`.  After a one-frame delay, if the UIBox is set to `handleGlobalInput`, this coroutine will check for existence of a controller. Failure to establish a controller will result in destruction of the UIBox in the following `LateUpdate()`.
+- **`UIChoice`** (abstract) — Base for anything selectable by cursor: highlight visuals (marker + optional color/bold "selected" styling, optional dimming for invalid choices), an `itemHighlighted` `UnityEvent`, and `choiceOrder` for deterministic ordering when choices are auto-discovered from `optionParent`.
+- **`UIChoiceButton`** — Standard clickable choice; `UseChoice()` invokes the underlying `Button`'s `onClick`.
+- **`UIChoiceContainer`** — Groups several `UIChoice`s (e.g. a row of sub-buttons) behind a single top-level choice slot; implements `IUIMoveInterceptor` to navigate within the group before yielding back to the parent box's cursor movement. `UIBoxBase.FilterOutSubOptions` excludes a container's children from the box's own flat `choiceOptions` list so they aren't double-counted.
+- **`UIChoiceSlider`** — Wraps a `Slider`; `IUIMoveInterceptor.TryMove` adjusts the value by `sliderAdjustmentStep` on left/right input instead of moving the cursor away.
+- **`UIChoiceToggle`** — Wraps a `Toggle`; `UseChoice()` flips it, with a silent setter (`SetToggleValueSilently`) for programmatic updates that shouldn't fire listeners.
 
-### Requirements on UIBox Controller Link
+### `UIBackExit` (`Runtime/UIBackExit.cs`)
 
-Note that the above destruction mechanisms place a hard restriction on the initial setup of a UIBox.  Notably, any UIBox element **must** be properly configured with a controller by the end of its `Start()` (or ideally during `Awake()`).
+Thin wrapper around a `UIChoiceButton` that a box can instantiate as an explicit on-screen "back/exit" button, wired to route its click through the same input path (`HandleInputWrapper(ControllerInputType.Escape)`) as a controller Escape press. Skipped automatically when `preventEscapeOptionExit` is set.
 
-In most cases, this is simply accomplished by instantiating and then immediately adding the UIBox as an input receiver to its corresponding controller.  Script execution is such that the UIBox will complete its `Awake()` method, but hold `Start()` until the function call that instantiated it has finished its execution.  
+### `TextScanBox` + `SimpleTextLink` (`Runtime/TextScanBox.cs`, `Runtime/SimpleTextLink.cs`)
 
-Or, as a specific example:
-* someObject calls `SpawnUIBox()`, which:
-  * instantiates a UIBox -- UIBox's `Awake()` and `OnEnable()` are called
-  * passes the UIBox to a controller via `controller.AddInputReceiver(uiBox, null)`
-* some time after someObject's SpawnUIBox() is completed -- UIBox's `Start()` is called, which:
-  * kicks off the coroutine to check for a controller after 1-frame delay
+A concrete `UIBox<UIBoxState>` implementation for scrolling/typewriter-style text — the base a dialogue or message box would build on:
 
-In this case, since the controller link was established after `Awake()`, but before `Start()`, the check passes and the UIBox is not destroyed.
+- Queues text/speech entries (`AddText`, `AddSpeech`) and page breaks (`AddPageBreak`) for sequential display, printing one character at a time (`delayBetweenCharacters`) via `SimpleTextLink` (a thin `TextMeshProUGUI` wrapper that self-disables when empty).
+- `Execute` input skips remaining characters on the current page (`SkipToEndOfPage`/`TryFastForwardActiveText`) rather than always advancing immediately, so mashing through dialogue feels responsive without accidentally skipping unread text.
+- `UnescapeText` resolves common C#-style escape sequences (`\n`, `\t`, `\uXXXX`, `\xH`-`\xHHHH`, etc.) in authored text.
+- `initialInputDelay` briefly blocks input right after the box appears, to absorb the same button-press that opened it.
+
+## Design Notes
+
+- Unity lifecycle methods are sealed private specifically to prevent the "silently eats input forever" failure mode — see **Fallback safety/destruction mechanisms** above. This is a deliberate constraint on all `UIBox<TBoxState>` subclasses, not an oversight.
+- `MoveCursor2D` and `StandardMoveCursorSpatial` are kept as separate, independently-selectable strategies rather than one replacing the other: 2D is cheaper and predictable for a genuinely tabular layout, while spatial handles arbitrary/irregular layouts (e.g. a keyboard) correctly.
+
+## License
+
+Internal package — Low Def Mustard Games. See GIT LICENSE file for further details.
