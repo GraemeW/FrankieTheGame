@@ -32,7 +32,7 @@ namespace Frankie.Menu.UI
         public void ReloadStartScreen() // Called via Unity Events
         {
             SetActiveInput(false);
-            SavingWrapper.LoadStartScene();
+            SaveFileManager.LoadStartScene();
         }
 
         public void LoadGame() // Called via Unity Events
@@ -45,14 +45,14 @@ namespace Frankie.Menu.UI
         public void Continue() // Called via Unity Events -- Standard Continue
         {
             SetActiveInput(false);
-            SavingWrapper.Continue();
+            SaveFileManager.Continue();
         }
 
         public void SaveCorePlayerStateAndContinue() // Called via Unity Events -- GameOver Continue
         {
             SetActiveInput(false);
-            SavingWrapper.SaveCorePlayerStateToSave();
-            SavingWrapper.Continue();
+            SaveFileManager.SaveCorePlayerStateToSave();
+            SaveFileManager.Continue();
         }
 
         public void LoadOptions() // Called via Unity Events

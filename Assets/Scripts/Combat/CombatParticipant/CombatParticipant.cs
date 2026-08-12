@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Core.Predicates;
@@ -446,7 +447,7 @@ namespace Frankie.Combat
             
             if (shouldSaveStateOnDeath && TryGetComponent(out SaveableEntity saveableEntity))
             {
-                SavingWrapper.AppendToSession(saveableEntity);
+                SaveFileManager.AppendToSession(saveableEntity);
             }
             if (!isDestructionTriggeredBySave) { onDeathEvent?.Invoke(); }
 

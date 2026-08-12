@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace Frankie.Saving
+namespace LowDefMustard.Saving
 {
     public static class JTokenExtensions
     {

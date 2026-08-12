@@ -121,7 +121,7 @@ namespace Frankie.Menu.UI
 
         public void QuitGame() // Called via Unity Events
         {
-            SavingWrapper.LoadStartScene();
+            SaveFileManager.LoadStartScene();
         }
         #endregion
         

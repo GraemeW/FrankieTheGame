@@ -113,7 +113,7 @@ namespace Frankie.Menu.UI
                         continue;
                 }
             }
-            var sceneQueueData = new SceneQueueData(() => SavingWrapper.Save(), 0f, false);
+            var sceneQueueData = new SceneQueueData(() => SaveFileManager.Save(), 0f, false);
             SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
         }
         #endregion

@@ -1,4 +1,4 @@
-namespace Frankie.Saving
+namespace LowDefMustard.Saving
 {
     public interface ISaveableBase
     {

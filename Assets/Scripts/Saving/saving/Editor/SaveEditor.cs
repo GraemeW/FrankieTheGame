@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -7,11 +8,8 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditor.UIElements;
-using LowDefMustard.Zones;
-using Frankie.Core;
 
-namespace Frankie.Saving.Editor
+namespace LowDefMustard.Saving.Editor
 {
     public class SaveEditor : EditorWindow
     {
@@ -36,6 +34,9 @@ namespace Frankie.Saving.Editor
         private JObject cachedFullSaveState;
         private readonly List<SaveableEntityCardData> cachedSaveableEntityCardData = new();
         private readonly HashSet<string> saveableEntityGUIDs = new();
+        
+        // Static Hooks
+        public static Func<SceneSelectorContext, VisualElement> SceneSelectorFactory;
         
         // UI Cached References
         private Box saveHeaderBox;
@@ -71,12 +72,12 @@ namespace Frankie.Saving.Editor
 
         private void SubscribeListeners(bool enable)
         {
-            SavingWrapper.gameListUpdated -= ReDrawUI;
+            SaveFileManagerProvider.current.gameListUpdated -= ReDrawUI;
             EditorSceneManager.sceneOpened -= OnSceneOpened;
             if (saveEntries != null) { saveEntries.selectionChanged -= OnSaveSelectionChanged;  }
             if (!enable) { return; }
             
-            SavingWrapper.gameListUpdated += ReDrawUI;
+            SaveFileManagerProvider.current.gameListUpdated += ReDrawUI;
             EditorSceneManager.sceneOpened += OnSceneOpened;
             if (saveEntries != null) { saveEntries.selectionChanged += OnSaveSelectionChanged;  }
         }
@@ -178,10 +179,10 @@ namespace Frankie.Saving.Editor
             
             saveHeaderBox.Add(MakeTitleLabel("Save Editor Tool"));
             
-            string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
+            string currentSaveName = SaveFileManagerProvider.current.GetCurrentSaveName() ?? _noSaveLabel;
             saveHeaderBox.Add(new Label($"Current Save:  {currentSaveName}"));
             
-            if (SavingWrapper.GetInfoFromSave(currentSaveName, out string characterName, out int level))
+            if (SaveFileManagerProvider.current.GetInfoFromSave(currentSaveName, out string characterName, out int level))
             {
                 saveHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
                 saveHeaderBox.Add(new Label($"Level:   {level}"));
@@ -221,9 +222,9 @@ namespace Frankie.Saving.Editor
             string selectedSaveLabel = selectedSave ?? _noSaveLabel;
             selectionHeaderBox.Add(new Label($"Selected Save:  {selectedSaveLabel}"));
 
-            if (!string.IsNullOrWhiteSpace(selectedSave) && SavingWrapper.HasSave(selectedSave))
+            if (!string.IsNullOrWhiteSpace(selectedSave) && SaveFileManagerProvider.current.HasSave(selectedSave))
             {
-                if (SavingWrapper.GetInfoFromSave(selectedSave, out string characterName, out int level))
+                if (SaveFileManagerProvider.current.GetInfoFromSave(selectedSave, out string characterName, out int level))
                 {
                     selectionHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
                     selectionHeaderBox.Add(new Label($"Level:   {level}"));
@@ -251,7 +252,7 @@ namespace Frankie.Saving.Editor
             if (saveEntries == null) { return; }
             saveEntries.Clear();
             
-            List<string> saveList = SavingWrapper.ListSaves(false).ToList();
+            List<string> saveList = SaveFileManagerProvider.current.ListSaves(false).ToList();
             saveEntries.makeItem = () => new Label();
             saveEntries.bindItem = (item, index) =>
             {
@@ -265,7 +266,7 @@ namespace Frankie.Saving.Editor
             if (saveControlHeaderBox == null) { return; }
             saveControlHeaderBox.Clear();
 
-            string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
+            string currentSaveName = SaveFileManagerProvider.current.GetCurrentSaveName() ?? _noSaveLabel;
             saveControlHeaderBox.Add(new Label($"Save:  {currentSaveName}"));
 
             string currentSceneName = SceneManager.GetActiveScene().name;
@@ -300,61 +301,22 @@ namespace Frankie.Saving.Editor
 
         private void DrawSceneSelectBox()
         {
-            if (sceneSelectBox == null) { return;  }
+            if (sceneSelectBox == null) { return; }
             sceneSelectBox.Clear();
-            
             sceneSelectBox.Add(new Label("Last Saved Scene:"));
-            
-            string currentLastScene = SavingSystem.ManualGetLastScene(cachedFullSaveState);
-            Zone lastZone = Zone.GetFromName(currentLastScene);
-            var zoneField = new ObjectField { objectType = typeof(Zone), value = lastZone, style = { width = _largeButtonWidth } };
-            zoneField.SetEnabled(cachedFullSaveState != null);
-            sceneSelectBox.Add(zoneField);
-            
-            var openSceneButton = new Button { text = "Open Scene", style = { width = _largeButtonWidth } };
-            openSceneButton.SetEnabled(lastZone != null);
-            sceneSelectBox.Add(openSceneButton);
 
-            zoneField.RegisterValueChangedCallback(changeEvent =>
-            {
-                Zone testZone = changeEvent.newValue as Zone;
-                string testSceneName = string.Empty;
-                if (testZone != null)
-                {
-                    SceneReference sceneReference = testZone.GetSceneReference();
-                    if (!string.IsNullOrEmpty(sceneReference.SceneName)) { testSceneName = sceneReference.SceneName; }
-                }
+            var context = new SceneSelectorContext(cachedFullSaveState,
+                onSceneDataChanged: () => SavingSystem.ManualSave(SaveFileManagerProvider.current.GetCurrentSaveName(), cachedFullSaveState),
+                onReloadRequested: () => LoadSaveControlData(null));
 
-                if (testSceneName == string.Empty)
-                {
-                    zoneField.SetValueWithoutNotify(changeEvent.previousValue as Zone);
-                    return;
-                }
-                
-                lastZone = testZone;
-                openSceneButton.SetEnabled(lastZone != null);
-                SavingSystem.ManualUpdateLastScene(cachedFullSaveState, testSceneName);
-                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
-                
-                Debug.LogWarning($"Saved last scene updated to {lastZone} - ensure that player mover is updated!");
-            });
-            
-            openSceneButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                if (lastZone == null) { return; }
-                if (SceneManager.GetActiveScene().name == lastZone.GetSceneReference().SceneName) { return;}
-                if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
+            VisualElement selector = SceneSelectorFactory?.Invoke(context) ?? CreateDefaultSceneSelector(context);
+            sceneSelectBox.Add(selector);
+        }
 
-                string scenePath = lastZone.GetSceneReference().GetScenePath();
-                if (string.IsNullOrEmpty(scenePath))
-                {
-                    Debug.LogWarning($"Last Scene not found: {lastZone}");
-                    return;
-                }
-                
-                EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
-                LoadSaveControlData(null);
-            });
+        private static VisualElement CreateDefaultSceneSelector(SceneSelectorContext context)
+        {
+            string currentLastScene = SavingSystem.ManualGetLastScene(context.SaveState);
+            return new TextField { value = currentLastScene, isReadOnly = true, style = { width = _largeButtonWidth } };
         }
 
         private void DrawSaveControlEntityList()
@@ -394,50 +356,50 @@ namespace Frankie.Saving.Editor
         {
             if (string.IsNullOrWhiteSpace(newSave)) { return; }
             
-            SavingWrapper.CopySave(newSave, false);
-            SavingWrapper.Delete(false);
-            SavingWrapper.SetCurrentSave(newSave, true);
+            SaveFileManagerProvider.current.CopySave(newSave, false);
+            SaveFileManagerProvider.current.Delete(false);
+            SaveFileManagerProvider.current.SetCurrentSave(newSave, true);
         }
 
         private void DuplicateCurrentSave(ClickEvent clickEvent)
         {
             if (string.IsNullOrWhiteSpace(newSave)) { return; }
             
-            SavingWrapper.CopySave(newSave);
+            SaveFileManagerProvider.current.CopySave(newSave);
         }
 
         private void DeleteCurrentSave(ClickEvent clickEvent)
         {
-            SavingWrapper.Delete();
+            SaveFileManagerProvider.current.Delete();
         }
         
         private void SetSelectedSaveToCurrent(ClickEvent clickEvent)
         {
-            if (string.IsNullOrWhiteSpace(selectedSave) || !SavingWrapper.HasSave(selectedSave)) { return; }
+            if (string.IsNullOrWhiteSpace(selectedSave) || !SaveFileManagerProvider.current.HasSave(selectedSave)) { return; }
             
-            SavingWrapper.SetCurrentSave(selectedSave);
+            SaveFileManagerProvider.current.SetCurrentSave(selectedSave);
             UnloadSaveControlData();
         }
 
         private void CopySelectedSaveToNextOpen(ClickEvent clickEvent)
         {
-            if (string.IsNullOrWhiteSpace(selectedSave) || !SavingWrapper.HasSave(selectedSave)) { return; }
+            if (string.IsNullOrWhiteSpace(selectedSave) || !SaveFileManagerProvider.current.HasSave(selectedSave)) { return; }
             
             for (int index = 0; index < _maxSaves; index++)
             {
-                string trySave = SavingWrapper.GetSaveNameForIndex(index);
-                if (SavingWrapper.HasSave(trySave)) { continue; }
+                string trySave = SaveFileManagerProvider.current.GetSaveNameForIndex(index);
+                if (SaveFileManagerProvider.current.HasSave(trySave)) { continue; }
 
-                SavingWrapper.CopySave(selectedSave, trySave);
+                SaveFileManagerProvider.current.CopySave(selectedSave, trySave);
                 break;
             }
         }
 
         private void DeleteSelectedSave(ClickEvent clickEvent)
         {
-            if (string.IsNullOrWhiteSpace(selectedSave) || !SavingWrapper.HasSave(selectedSave)) { return; }
+            if (string.IsNullOrWhiteSpace(selectedSave) || !SaveFileManagerProvider.current.HasSave(selectedSave)) { return; }
             
-            SavingWrapper.Delete(selectedSave);
+            SaveFileManagerProvider.current.Delete(selectedSave);
         }
         #endregion
         
@@ -446,7 +408,7 @@ namespace Frankie.Saving.Editor
         {
             while (parent != null)
             {
-                if (parent.GetComponent<Player>() != null) { return true; }
+                if (parent.GetComponent<ISaveableGroupRoot>() != null) { return true; }
                 parent = parent.parent;
             }
             return false;
@@ -460,15 +422,15 @@ namespace Frankie.Saving.Editor
             
             Debug.Log($"Saved last scene updated to {sceneName}.");
             SavingSystem.ManualUpdateLastScene(cachedFullSaveState, sceneName);
-            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
+            SavingSystem.ManualSave(SaveFileManagerProvider.current.GetCurrentSaveName(), cachedFullSaveState);
             
             DrawSceneSelectBox();
         }
         
         private void LoadSaveControlData(ClickEvent _)
         {
-            string currentSave = SavingWrapper.GetCurrentSaveName();
-            if (string.IsNullOrEmpty(currentSave) || !SavingWrapper.HasSave(currentSave))
+            string currentSave = SaveFileManagerProvider.current.GetCurrentSaveName();
+            if (string.IsNullOrEmpty(currentSave) || !SaveFileManagerProvider.current.HasSave(currentSave))
             {
                 Debug.LogWarning($"Save file not found.");
                 return;
@@ -489,7 +451,7 @@ namespace Frankie.Saving.Editor
                 if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container
                 if (saveableEntityGUIDs.Contains(saveableEntity.GetUniqueIdentifier())) { continue; } // Avoid re-drawing dupe elements
                 
-                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedFullSaveState, saveableEntityGUIDs, DrawSaveControlEntityList);
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedFullSaveState, saveableEntityGUIDs, DrawSaveControlEntityList, SaveFileManagerProvider.current.GetCurrentSaveName);
                 saveableEntityCardData.SelfReferenceInSubCards();
                 cachedSaveableEntityCardData.Add(saveableEntityCardData);
             }
@@ -518,7 +480,7 @@ namespace Frankie.Saving.Editor
                 saveableEntityCardData.SaveSaveableEntity(false, SetLastSceneToCurrent);
                 saveableEntityCardData.ResetSaveableSyncFlag();
             }
-            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
+            SavingSystem.ManualSave(SaveFileManagerProvider.current.GetCurrentSaveName(), cachedFullSaveState);
             DrawSaveControlEntityList(); // Safety to draw in case any updates triggering repaint (ignored otherwise)
         }
 

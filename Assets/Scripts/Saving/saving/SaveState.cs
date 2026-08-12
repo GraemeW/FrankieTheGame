@@ -1,7 +1,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace Frankie.Saving
+namespace LowDefMustard.Saving
 {
     [Serializable]
     public class SaveState

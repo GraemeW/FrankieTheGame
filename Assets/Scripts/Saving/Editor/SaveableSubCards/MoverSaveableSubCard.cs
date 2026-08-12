@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
 using LowDefMustard.Utils;
 using Frankie.Control;
 
@@ -26,7 +28,7 @@ namespace Frankie.Saving.Editor
             this.saveState = saveState;
         }
         
-        public bool IsPlayerMoverSubCard() => saveable is PlayerMover;
+        public override bool IsPlayerMoverSubCard() => saveable is PlayerMover;
 
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {

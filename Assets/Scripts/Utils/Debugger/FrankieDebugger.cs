@@ -125,8 +125,7 @@ namespace Frankie.Utils
         private void OnEnable()
         {
             _frankieDebugger = this;
-            SceneLoader.DemoZoneOverrideProvider -= GetDemoZoneOverride;
-            SceneLoader.DemoZoneOverrideProvider += GetDemoZoneOverride;
+            SceneLoader.DemoZoneOverrideProvider = GetDemoZoneOverride;
             
             playerInput.Admin.Enable();
             SceneManager.sceneLoaded += ResetReferences;
@@ -145,20 +144,20 @@ namespace Frankie.Utils
         private void Save()
         {
             Debug.Log($"Frankie Debugger:  Saving Game...");
-            SavingWrapper.Save();
+            SaveFileManager.Save();
         }
 
         private void Continue()
         {
             Debug.Log($"Frankie Debugger:  Loading Game...");
-            SavingWrapper.Continue();
+            SaveFileManager.Continue();
         }
 
         private void Delete()
         {
             Debug.Log($"Frankie Debugger:  Deleting Game...");
-            SavingWrapper.DeleteSession();
-            SavingWrapper.Delete();
+            SaveFileManager.DeleteSession();
+            SaveFileManager.Delete();
         }
 
         private void NewSave()

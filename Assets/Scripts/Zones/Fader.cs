@@ -26,8 +26,8 @@ namespace Frankie.ZoneManagement
         protected override bool IsSkipFade(TransitionType transitionType) => transitionType == TransitionType.None;
         protected override bool IsSceneLoadFade(TransitionType transitionType) => transitionType == TransitionType.Zone;
         protected override TransitionType GetSceneLoadTransitionType() => TransitionType.Zone;
-        protected override void TriggerSave() => SavingWrapper.SaveSession();
-        protected override void TriggerLoad() => SavingWrapper.LoadSession();
+        protected override void TriggerSave() => SaveFileManager.SaveSession();
+        protected override void TriggerLoad() => SaveFileManager.LoadSession();
         
         protected override bool PreFadeSetup(TransitionType transitionType)
         {

@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Frankie.Saving
+namespace LowDefMustard.Saving
 {
     public static class SymmetricEncryptor
     {

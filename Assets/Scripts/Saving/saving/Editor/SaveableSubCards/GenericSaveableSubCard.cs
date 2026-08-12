@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace Frankie.Saving.Editor
+namespace LowDefMustard.Saving.Editor
 {
     public class GenericSaveableSubCard : SaveableSubCardData
     {

@@ -5,12 +5,8 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
-using Frankie.Core;
-using Frankie.Core.GameStateModifiers;
-using Frankie.Rendering;
-using Frankie.Stats;
 
-namespace Frankie.Saving.Editor
+namespace LowDefMustard.Saving.Editor
 {
     public class SaveableEntityCardData
     {
@@ -22,6 +18,7 @@ namespace Frankie.Saving.Editor
         
         // State
         private readonly string entityName;
+        private readonly Func<string> getCurrentSaveName;
         public string entityID { get; private set; }
         private JObject saveableEntityStateDict;        
         private readonly Dictionary<string, SaveableSubCardData> subCards = new();
@@ -44,13 +41,20 @@ namespace Frankie.Saving.Editor
         private static readonly Color _gameObjectSelectedColor = Color.steelBlue / 1.5f;
         private static readonly Color _desyncColor = Color.paleVioletRed / 1.5f;
 
-        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs, Action repaintCallback)
+        #region StaticRegistration
+        private static readonly PriorityRegistry<SaveableEntity> _entitySortRegistry = new();
+        public static void RegisterEntityCardPriority(Func<SaveableEntity, bool> match, int priority) => _entitySortRegistry.Register(match, priority);
+        public static int GetEntitySortPriority(SaveableEntity saveableEntity) => _entitySortRegistry.GetPriority(saveableEntity);
+        #endregion
+        
+        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs, Action repaintCallback, Func<string> getCurrentSaveName)
         {
             // Cached References
             this.saveableEntity = saveableEntity;
             this.cachedFullSaveState = cachedFullSaveState;
             this.saveableEntityGUIDs = saveableEntityGUIDs;
             this.repaintCallback = repaintCallback;
+            this.getCurrentSaveName = getCurrentSaveName;
             
             if (saveableEntity == null) { return; }
             saveableEntityStateDict = new JObject();
@@ -78,19 +82,18 @@ namespace Frankie.Saving.Editor
         }
         
         #region FactoryMethods
-        public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties)
+        public SaveableEntityCardData BuildFromCharacterPrefabWithCache(GameObject characterPrefab)
         {
-            return BuildFromCharacterProperties(characterProperties, cachedFullSaveState, saveableEntityGUIDs, repaintCallback);
+            return BuildFromCharacterPrefab(characterPrefab, cachedFullSaveState, saveableEntityGUIDs, repaintCallback, getCurrentSaveName);
         }
         
-        private static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs, Action repaintCallback)
+        private static SaveableEntityCardData BuildFromCharacterPrefab(GameObject characterPrefab, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs, Action repaintCallback, Func<string> getCurrentSaveName)
         {
-            GameObject characterPrefab = characterProperties.GetCharacterPrefab();
             if (characterPrefab == null) { return null; }
             var characterSaveableEntity = characterPrefab.GetComponent<SaveableEntity>();
             if (characterSaveableEntity == null || saveableEntityGUIDs.Contains(characterSaveableEntity.GetUniqueIdentifier())) { return null; }
             
-            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, cachedFullSaveState, saveableEntityGUIDs, repaintCallback);
+            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, cachedFullSaveState, saveableEntityGUIDs, repaintCallback, getCurrentSaveName);
             characterSaveableEntityCardData.SelfReferenceInSubCards();
             characterSaveableEntityCardData.isChildCard = true;
             return characterSaveableEntityCardData;
@@ -112,14 +115,7 @@ namespace Frankie.Saving.Editor
 
         private bool HasPlayerMoverWithAlteredPosition()
         {
-            foreach (SaveableSubCardData subCardData in subCards.Values)
-            {
-                if (subCardData is not MoverSaveableSubCard moverSaveableSubCard || !moverSaveableSubCard.IsPlayerMoverSubCard()) { continue; }
-                if (moverSaveableSubCard.IsSaveStateSynced()) { continue; }
-                
-                return true;
-            }
-            return false;
+            return subCards.Values.Any(subCardData => subCardData.IsPlayerMoverSubCard() && !subCardData.IsSaveStateSynced());
         }
         #endregion
         
@@ -168,10 +164,10 @@ namespace Frankie.Saving.Editor
             bool hasPlayerMoved = HasPlayerMoverWithAlteredPosition();
             UpdateSaveableEntityCardData();
             SavingSystem.ManualAddOverWriteToState(cachedFullSaveState, stateToAdd, uniqueIdentifier);
-            if (saveCachedStateToFile)
+            if (saveCachedStateToFile && getCurrentSaveName != null)
             {
                 ResetSaveableSyncFlag();
-                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
+                SavingSystem.ManualSave(getCurrentSaveName.Invoke(), cachedFullSaveState);
             }
             
             if (hasPlayerMoved) { playerPositionChangeCallback?.Invoke(); }
@@ -267,23 +263,6 @@ namespace Frankie.Saving.Editor
         {
             isSaveStateSynced = isSynced;
             UpdateSelectedColor();
-        }
-        
-        public static int GetEntitySortPriority(SaveableEntity saveableEntity)
-        {
-            GameObject go = saveableEntity.gameObject;
-
-            int sortOrder = 0;
-            if (go.TryGetComponent(out CinematicTrigger _)) { return sortOrder; }
-            sortOrder++;
-            if (go.TryGetComponent(out Player _)) { return sortOrder; }
-            sortOrder++;
-            if (go.TryGetComponent(out IGameStateModifierHandler gameStateModifierHandler) && gameStateModifierHandler.hasGameStateModifiers) { return sortOrder; }
-            sortOrder++;
-            if (go.TryGetComponent(out BaseStats _)) { return sortOrder; }
-            sortOrder++;
-            
-            return sortOrder;
         }
         #endregion
     }

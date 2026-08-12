@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
-namespace Frankie.Saving
+namespace LowDefMustard.Saving
 {
     public static class SavingSystem
     {

@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Frankie.Saving
+namespace LowDefMustard.Saving
 {
     [ExecuteAlways]
     public class SaveableEntity : MonoBehaviour

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
 using Frankie.Inventory;
 
 namespace Frankie.Saving.Editor
