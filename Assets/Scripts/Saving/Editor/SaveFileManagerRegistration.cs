@@ -1,5 +1,5 @@
 using UnityEditor;
-using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
 
 namespace Frankie.Saving.Editor
 {
