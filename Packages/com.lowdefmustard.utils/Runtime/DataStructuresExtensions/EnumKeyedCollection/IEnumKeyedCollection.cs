@@ -6,5 +6,6 @@ namespace LowDefMustard.Utils
     {
         Type GetEnumType();
         string GetListName();
+        void SyncEntriesToEnum();
     }
 }
