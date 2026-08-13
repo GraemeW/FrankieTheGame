@@ -147,8 +147,8 @@ namespace LowDefMustard.Zones
         #endregion
         
         #region ProtectedAbstractMethods
-        protected virtual bool IsNewGameSceneType(TSceneType sceneType) => true;
-        protected virtual bool IsGameOverSceneType(TSceneType sceneType)  => true;
+        protected virtual bool IsNewGameSceneType(TSceneType sceneType) => false;
+        protected virtual bool IsGameOverSceneType(TSceneType sceneType)  => false;
         protected virtual bool ShouldSaveSessionOnGameOver() => false;
         #endregion
         
@@ -192,9 +192,9 @@ namespace LowDefMustard.Zones
                 if (zone != null) { return zone; }
             }
 
-            foreach ((TSceneType sceneType, Zone zone) zoneSceneTypePair in zoneSceneTypeLookup)
+            foreach ((TSceneType candidateType, Zone candidateZone) in zoneSceneTypeLookup)
             {
-                if (EqualityComparer<TSceneType>.Default.Equals(sceneType, zoneSceneTypePair.sceneType)) { return zoneSceneTypePair.zone; }
+                if (EqualityComparer<TSceneType>.Default.Equals(sceneType, candidateType)) { return candidateZone; }
             }
             return zone;
         }
