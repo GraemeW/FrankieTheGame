@@ -4,7 +4,7 @@ using LowDefMustard.Zones;
 using Frankie.Rendering;
 using Frankie.Saving;
 
-namespace Frankie.ZoneManagement
+namespace Frankie.Zones
 {
     [RequireComponent(typeof(BattleEntryShaderControl))]
     public class Fader : FaderBase<TransitionType>

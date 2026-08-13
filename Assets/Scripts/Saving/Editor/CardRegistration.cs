@@ -12,7 +12,7 @@ using Frankie.Quests;
 using Frankie.Rendering;
 using Frankie.Speech;
 using Frankie.World;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Saving.Editor
 {

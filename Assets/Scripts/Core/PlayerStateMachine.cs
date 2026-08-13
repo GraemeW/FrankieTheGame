@@ -13,7 +13,7 @@ using Frankie.Speech;
 using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.World;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Core
 {

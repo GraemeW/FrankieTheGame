@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using LowDefMustard.Control;
 using LowDefMustard.Localization;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.World
 {

@@ -39,13 +39,13 @@ namespace Frankie.Rendering
 
         private void OnEnable()
         {
-            SceneLoader.zoneUpdated += TriggerResolutionAnnounce;
+            SceneLoaderBase.zoneUpdated += TriggerResolutionAnnounce;
 
         }
 
         private void OnDisable()
         {
-            SceneLoader.zoneUpdated -= TriggerResolutionAnnounce;
+            SceneLoaderBase.zoneUpdated -= TriggerResolutionAnnounce;
         }
 
         private void OnDestroy()

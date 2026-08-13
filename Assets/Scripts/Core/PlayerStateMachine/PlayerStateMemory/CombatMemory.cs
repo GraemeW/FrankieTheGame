@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using LowDefMustard.Zones;
 using Frankie.Combat;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Core.PlayerStateMemory
 {

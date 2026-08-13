@@ -1,4 +1,4 @@
-namespace LowDefMustard.Zones
+namespace Frankie.Zones
 {
     public enum SceneQueueType
     {

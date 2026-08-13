@@ -10,7 +10,7 @@ using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 
-namespace Frankie.ZoneManagement
+namespace Frankie.Zones
 {
     [ExecuteInEditMode]
     public class ZoneHandler : ZoneHandlerBase, IRaycastable, ILocalizable

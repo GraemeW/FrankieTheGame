@@ -13,6 +13,7 @@ using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Speech.UI;
 using Frankie.Stats;
+using Frankie.Zones;
 
 namespace Frankie.Menu.UI
 {

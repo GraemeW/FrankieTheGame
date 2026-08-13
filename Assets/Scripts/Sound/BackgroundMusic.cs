@@ -64,7 +64,7 @@ namespace Frankie.Sound
                 audioSource.outputAudioMixerGroup = audioMixerGroup;
             }
             
-            Zone currentZone = SceneLoader.GetCurrentZone();
+            Zone currentZone = SceneLoaderBase.GetCurrentZone();
             if (currentZone == null) { Debug.Log("Zone load failed");  return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
@@ -72,13 +72,13 @@ namespace Frankie.Sound
         private void OnEnable()
         {
             RefreshVolume();
-            SceneLoader.zoneUpdated += ParseZoneUpdate;
+            SceneLoaderBase.zoneUpdated += ParseZoneUpdate;
             BattleEventBus<BattleStagingEvent>.SubscribeToEvent(HandleBattleStagingEvent);
         }
 
         private void OnDisable()
         {
-            SceneLoader.zoneUpdated -= ParseZoneUpdate;
+            SceneLoaderBase.zoneUpdated -= ParseZoneUpdate;
             BattleEventBus<BattleStagingEvent>.UnsubscribeFromEvent(HandleBattleStagingEvent);
         }
 

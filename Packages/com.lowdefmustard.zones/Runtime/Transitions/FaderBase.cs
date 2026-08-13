@@ -6,12 +6,12 @@ using LowDefMustard.Utils;
 
 namespace LowDefMustard.Zones
 {
-    public abstract class FaderBase<T> : MonoBehaviour where T : struct, Enum
+    public abstract class FaderBase<TTransitionType> : MonoBehaviour where TTransitionType : struct, Enum
     {
         // Tunables
         [Header("Hookups")]
         [SerializeField] protected Image nodeEntry;
-        [SerializeField] private SceneLoader sceneLoader;
+        [SerializeField] private SceneLoaderBase sceneLoader;
         [Header("Fader Properties")]
         [SerializeField] private float fadeInTimer = 2.0f;
         [SerializeField] private float fadeOutTimer = 1.0f;
@@ -21,7 +21,7 @@ namespace LowDefMustard.Zones
         private const string _faderTag = "Fader";
         
         // Static State
-        private static FaderBase<T> _activeFader;
+        private static FaderBase<TTransitionType> _activeFader;
         
         // State
         protected bool fading;
@@ -29,13 +29,13 @@ namespace LowDefMustard.Zones
         private Coroutine activeFade;
         
         // Cached References
-        private ReInitLazyValue<SceneLoader> activeSceneLoader;
+        private ReInitLazyValue<SceneLoaderBase> activeSceneLoader;
 
         // Events
-        public event Action<T> fadingIn;
+        public event Action<TTransitionType> fadingIn;
 
         #region StaticCallers
-        public static bool StartStandardFade(T transitionType, FaderEventTriggers<T> faderEventTriggers)
+        public static bool StartStandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
             if (_activeFader == null) { _activeFader = TryFindFader(); }
             if (_activeFader == null || _activeFader.IsFading()) { return false; }
@@ -44,7 +44,7 @@ namespace LowDefMustard.Zones
             return true;
         }
         
-        public static bool StartBlipFade(float holdSeconds, FaderEventTriggers<T> faderEventTriggers)
+        public static bool StartBlipFade(float holdSeconds, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
             if (_activeFader == null) { _activeFader = TryFindFader(); }
             if (_activeFader == null || _activeFader.IsFading()) { return false; }
@@ -55,11 +55,11 @@ namespace LowDefMustard.Zones
 
         public static bool StartSceneLoadFade(Zone nextZone, bool saveSession = true)
         {
-            var faderEventTriggers = new FaderEventTriggers<T>();
+            var faderEventTriggers = new FaderEventTriggers<TTransitionType>();
             return StartSceneLoadFade(nextZone, faderEventTriggers, saveSession);
         }
 
-        public static bool StartSceneLoadFade(Zone nextZone, FaderEventTriggers<T> faderEventTriggers, bool saveSession = true)
+        public static bool StartSceneLoadFade(Zone nextZone, FaderEventTriggers<TTransitionType> faderEventTriggers, bool saveSession = true)
         {
             if (_activeFader == null) { _activeFader = TryFindFader(); }
             if (_activeFader == null || _activeFader.IsFading()) { return false; }
@@ -77,10 +77,10 @@ namespace LowDefMustard.Zones
             return true;
         }
 
-        private static FaderBase<T> TryFindFader()
+        private static FaderBase<TTransitionType> TryFindFader()
         {
             var faderGameObject = GameObject.FindGameObjectWithTag(_faderTag);
-            return faderGameObject != null ? faderGameObject.GetComponent<FaderBase<T>>() : null;
+            return faderGameObject != null ? faderGameObject.GetComponent<FaderBase<TTransitionType>>() : null;
         }
         #endregion
 
@@ -88,7 +88,7 @@ namespace LowDefMustard.Zones
 
         private void Awake()
         {
-            activeSceneLoader ??= new ReInitLazyValue<SceneLoader>(FindSceneLoader);
+            activeSceneLoader ??= new ReInitLazyValue<SceneLoaderBase>(FindSceneLoader);
         }
 
         private void Start()
@@ -112,11 +112,11 @@ namespace LowDefMustard.Zones
         }
 
         // Ideally, just hook up the scene loader directly in persistent objects - if for some reason this doesn't work, fallback to finder
-        private SceneLoader FindSceneLoader() => sceneLoader != null ? sceneLoader : SceneLoader.FindSceneLoader();
+        private SceneLoaderBase FindSceneLoader() => sceneLoader != null ? sceneLoader : SceneLoaderBase.FindSceneLoader();
 
         private void TrySubscribeToSceneLoader(bool enable)
         {
-            activeSceneLoader ??= new ReInitLazyValue<SceneLoader>(FindSceneLoader);
+            activeSceneLoader ??= new ReInitLazyValue<SceneLoaderBase>(FindSceneLoader);
             if (activeSceneLoader.value == null) { activeSceneLoader.ForceInit(); }
             if (activeSceneLoader.value == null) { return; }
 
@@ -127,9 +127,9 @@ namespace LowDefMustard.Zones
 
         #region Getters
         private bool IsFading() => fading;
-        protected virtual bool IsSceneLoadFade(T transitionType) => true;
+        protected virtual bool IsSceneLoadFade(TTransitionType transitionType) => true;
         
-        protected float GetFadeTime(bool isFadeIn, T transitionType)
+        protected float GetFadeTime(bool isFadeIn, TTransitionType transitionType)
         {
             float fadeTime = 1.0f;
             if (isFadeIn) { fadeTime *= fadeInTimer; }
@@ -141,7 +141,7 @@ namespace LowDefMustard.Zones
         #endregion
         
         #region CoroutineInitiators
-        private void InitiateStandardFadeCoroutine(T transitionType, FaderEventTriggers<T> faderEventTriggers)
+        private void InitiateStandardFadeCoroutine(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
             if (activeFade != null) { StopCoroutine(activeFade); }
             activeFade = StartCoroutine(StandardFade(transitionType, faderEventTriggers));
@@ -149,11 +149,11 @@ namespace LowDefMustard.Zones
 
         private void InitiateSceneLoadFadeCoroutine(Zone nextZone, bool saveSession = true)
         {
-            var faderEventTriggers = new FaderEventTriggers<T>();
+            var faderEventTriggers = new FaderEventTriggers<TTransitionType>();
             InitiateSceneLoadFadeCoroutine(nextZone, faderEventTriggers, saveSession);
         }
         
-        private void InitiateSceneLoadFadeCoroutine(Zone nextZone, FaderEventTriggers<T> faderEventTriggers, bool saveSession = true)
+        private void InitiateSceneLoadFadeCoroutine(Zone nextZone, FaderEventTriggers<TTransitionType> faderEventTriggers, bool saveSession = true)
         {
             if (activeFade != null) { StopCoroutine(activeFade); }
             activeFade = StartCoroutine(ZoneFade(nextZone, faderEventTriggers, saveSession));
@@ -165,7 +165,7 @@ namespace LowDefMustard.Zones
             activeFade = StartCoroutine(QuickFade());
         }
 
-        private void InitiateBlipFadeCoroutine(float holdSeconds, FaderEventTriggers<T> faderEventTriggers)
+        private void InitiateBlipFadeCoroutine(float holdSeconds, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
             if (activeFade != null) { StopCoroutine(activeFade); }
             activeFade = StartCoroutine(BlipFade(holdSeconds, faderEventTriggers));
@@ -173,30 +173,30 @@ namespace LowDefMustard.Zones
         #endregion
 
         #region Coroutines
-        protected abstract T GetSceneLoadTransitionType();
+        protected abstract TTransitionType GetSceneLoadTransitionType();
         protected abstract void TriggerSave();
         protected abstract void TriggerLoad();
         
-        protected virtual bool PreFadeSetup(T transitionType)
+        protected virtual bool PreFadeSetup(TTransitionType transitionType)
         {
             nodeEntry.gameObject.SetActive(true);
             currentTransitionImage = nodeEntry;
             return true;
         }
         
-        private IEnumerator StandardFade(T transitionType, FaderEventTriggers<T> faderEventTriggers)
+        private IEnumerator StandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
             yield return QueueFadeEntry(transitionType, faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
             yield return QueueFadeExit(transitionType, faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
         }
         
-        private IEnumerator ZoneFade(Zone zone, FaderEventTriggers<T> faderEventTriggers, bool shouldSaveSession = true)
+        private IEnumerator ZoneFade(Zone zone, FaderEventTriggers<TTransitionType> faderEventTriggers, bool shouldSaveSession = true)
         {
             fading = true;
             yield return QueueFadeEntry(GetSceneLoadTransitionType(), faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
             if (shouldSaveSession) { TriggerSave(); }
             
-            yield return SceneLoader.LoadNewSceneAsync(zone);
+            yield return SceneLoaderBase.LoadNewSceneAsync(zone);
             
             if (shouldSaveSession) { TriggerLoad(); }
             yield return QueueFadeExit(GetSceneLoadTransitionType(), faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
@@ -213,7 +213,7 @@ namespace LowDefMustard.Zones
             yield return QueueFadeExit(GetSceneLoadTransitionType(), null, null);
         }
 
-        private IEnumerator BlipFade(float holdSeconds, FaderEventTriggers<T> faderEventTriggers)
+        private IEnumerator BlipFade(float holdSeconds, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
             // Re-use Zone-based fading (black screen)
             fading = true;
@@ -222,7 +222,7 @@ namespace LowDefMustard.Zones
             yield return QueueFadeExit(GetSceneLoadTransitionType(), faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
         }
         
-        private IEnumerator QueueFadeEntry(T transitionType, Action<T> onFadeIn, Action onFadePeak)
+        private IEnumerator QueueFadeEntry(TTransitionType transitionType, Action<TTransitionType> onFadeIn, Action onFadePeak)
         {
             if (!PreFadeSetup(transitionType)) { yield break; }
 
@@ -233,7 +233,7 @@ namespace LowDefMustard.Zones
             onFadePeak?.Invoke();
         }
         
-        private IEnumerator QueueFadeExit(T transitionType, Action onFadeOut, Action onFadeComplete)
+        private IEnumerator QueueFadeExit(TTransitionType transitionType, Action onFadeOut, Action onFadeComplete)
         {
             // Note:  order of operations for alpha fading slightly different on zone fades
             if (IsSceneLoadFade(transitionType)) { onFadeOut?.Invoke(); }
@@ -253,16 +253,16 @@ namespace LowDefMustard.Zones
             nodeEntry?.gameObject.SetActive(false);
         }
 
-        protected virtual bool IsSkipFade(T transitionType) => false;
-        protected virtual bool TransitionUsesStandaloneFadeControl(T transitionType) => false;
+        protected virtual bool IsSkipFade(TTransitionType transitionType) => false;
+        protected virtual bool TransitionUsesStandaloneFadeControl(TTransitionType transitionType) => false;
 
-        protected virtual void TriggerStandaloneFadeIn(T transitionType) { } 
+        protected virtual void TriggerStandaloneFadeIn(TTransitionType transitionType) { } 
         
-        protected virtual void TriggerStandaloneFadeOut(T transitionType) { }
+        protected virtual void TriggerStandaloneFadeOut(TTransitionType transitionType) { }
         
         protected virtual void TriggerStandaloneFadeCleanup() { }
         
-        private void AlphaFadeIn(T transitionType)
+        private void AlphaFadeIn(TTransitionType transitionType)
         {
             if (IsSkipFade(transitionType)) { return; }
             if (TransitionUsesStandaloneFadeControl(transitionType)) { TriggerStandaloneFadeIn(transitionType); return; }
@@ -271,14 +271,14 @@ namespace LowDefMustard.Zones
             currentTransitionImage.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
         }
 
-        private void AlphaFadeOut(T transitionType)
+        private void AlphaFadeOut(TTransitionType transitionType)
         {
             if (IsSkipFade(transitionType)) { return; }
             if (TransitionUsesStandaloneFadeControl(transitionType)) { TriggerStandaloneFadeOut(transitionType); return; }
             
             currentTransitionImage.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
         }
-        private void CleanUpTransitionBlends(T transitionType)
+        private void CleanUpTransitionBlends(TTransitionType transitionType)
         {
             if (IsSkipFade(transitionType)) { return; }
             if (TransitionUsesStandaloneFadeControl(transitionType)) { TriggerStandaloneFadeCleanup(); }

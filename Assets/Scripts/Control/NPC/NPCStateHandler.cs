@@ -4,7 +4,7 @@ using UnityEngine;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Speech;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Control
 {

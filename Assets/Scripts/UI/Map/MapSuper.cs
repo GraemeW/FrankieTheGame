@@ -7,7 +7,7 @@ using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Rendering;
 
-namespace Frankie.ZoneManagement.UI
+namespace Frankie.Zones.UI
 {
     public class MapSuper : UIBox<UIBoxState>, ILocalizable
     {

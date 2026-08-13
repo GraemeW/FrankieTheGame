@@ -125,7 +125,7 @@ namespace Frankie.Utils
         private void OnEnable()
         {
             _frankieDebugger = this;
-            SceneLoader.DemoZoneOverrideProvider = GetDemoZoneOverride;
+            SceneLoaderBase.DemoZoneOverrideProvider = GetDemoZoneOverride;
             
             playerInput.Admin.Enable();
             SceneManager.sceneLoaded += ResetReferences;
@@ -133,7 +133,7 @@ namespace Frankie.Utils
 
         private void OnDisable()
         {
-            if (SceneLoader.DemoZoneOverrideProvider == GetDemoZoneOverride) { SceneLoader.DemoZoneOverrideProvider = null; }
+            if (SceneLoaderBase.DemoZoneOverrideProvider == GetDemoZoneOverride) { SceneLoaderBase.DemoZoneOverrideProvider = null; }
             
             playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;

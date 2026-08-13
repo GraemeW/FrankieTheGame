@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.ZoneManagement
+namespace Frankie.Zones
 {
     [RequireComponent(typeof(ZoneHandler))]
     public class Door : MonoBehaviour

@@ -1,7 +1,7 @@
 using UnityEngine;
 using LowDefMustard.Zones;
 using Frankie.Core;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.World
 {

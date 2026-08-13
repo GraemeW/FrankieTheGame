@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Rendering
 {

@@ -2,6 +2,7 @@ using UnityEngine;
 using LowDefMustard.Saving;
 using LowDefMustard.Zones;
 using Frankie.Stats;
+using Frankie.Zones;
 
 namespace Frankie.Core
 {

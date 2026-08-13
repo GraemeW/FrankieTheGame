@@ -30,7 +30,7 @@ namespace Frankie.Combat.Spawner
 
         private void OnDisable()
         {
-            SceneLoader.QueueDelayedDestroy(spawnedEnemies.ToList());
+            SceneLoaderBase.QueueDelayedDestroy(spawnedEnemies.ToList());
         }
 
         private void OnBecameVisible()

@@ -6,7 +6,7 @@ using System.Linq;
 using LowDefMustard.Saving;
 using LowDefMustard.Zones;
 using Frankie.Core;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 using Frankie.Stats;
 
 namespace Frankie.Saving
@@ -82,7 +82,7 @@ namespace Frankie.Saving
             DeleteSession();
             
             // Need a MonoBehaviour to kick off a Coroutine, SceneLoader is safe to use 
-            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
+            SceneLoaderBase sceneLoader = SceneLoaderBase.FindSceneLoader();
             if (sceneLoader == null) { return; }
             sceneLoader.StartCoroutine(LoadFromSave(saveName));
             

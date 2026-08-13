@@ -1,4 +1,4 @@
-namespace Frankie.ZoneManagement
+namespace Frankie.Zones
 {
     public enum TransitionType
     {

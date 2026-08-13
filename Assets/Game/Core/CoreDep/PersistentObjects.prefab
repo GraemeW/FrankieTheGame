@@ -287,17 +287,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8736134526423809368, guid: b9a8b8ba02a1eb741922544531ce6419, type: 3}
   m_PrefabInstance: {fileID: 4492096966013136313}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7716908626532877412 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6143145056148744669, guid: b9a8b8ba02a1eb741922544531ce6419, type: 3}
-  m_PrefabInstance: {fileID: 4492096966013136313}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5608c15388ccc1b4ba4977e1286c7e58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4823746012123582066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -397,7 +386,7 @@ PrefabInstance:
     - target: {fileID: 8756463170632450072, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
       propertyPath: sceneLoader
       value: 
-      objectReference: {fileID: 7716908626532877412}
+      objectReference: {fileID: 0}
     - target: {fileID: 8756463170632450072, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
       propertyPath: battleCanvas
       value: 

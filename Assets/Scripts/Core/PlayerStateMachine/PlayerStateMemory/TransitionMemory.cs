@@ -1,4 +1,4 @@
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Core.PlayerStateMemory
 {
