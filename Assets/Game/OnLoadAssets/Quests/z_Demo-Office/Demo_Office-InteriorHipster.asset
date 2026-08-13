@@ -74,7 +74,7 @@ MonoBehaviour:
     m_LocalVariables: []
   questObjectiveNames:
   - HipsterChattedOnce
-  cachedName: 
+  cachedName: Demo_Office-InteriorHipster
   questObjectives:
   - {fileID: -8469063289627637362}
   references:

@@ -120,7 +120,7 @@ MonoBehaviour:
   - HorseOpenedFirepole
   - HorsePickedUpTheDocuments
   - HorseReceivedTheDocuments
-  cachedName: 
+  cachedName: Demo_Office-InteriorHorse
   questObjectives:
   - {fileID: 3354754754222314555}
   - {fileID: -8720720264288702615}

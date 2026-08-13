@@ -114,6 +114,8 @@ namespace Frankie.Menu.UI
                         continue;
                 }
             }
+            
+            SetState(NameScreenState.Exit);
             var sceneQueueData = new SceneQueueData(() => SaveFileManager.Save(), 0f, false);
             SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
         }
