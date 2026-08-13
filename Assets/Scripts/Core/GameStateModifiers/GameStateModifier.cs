@@ -153,21 +153,13 @@ namespace Frankie.Core.GameStateModifiers
                 string handlerName = handlerLinkData.gameObjectName;
                 string handlerGUID = handlerLinkData.guid;
 
-                bool sceneFound = false;
                 if (string.IsNullOrEmpty(handlerGUID))
                 {
                     Debug.Log($"GameStateModifier {name} :: Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — Empty GUID.");
                 }
                 else
                 {
-                    Zone zone = Zone.GetFromName(zoneName);
-                    string scenePath = string.Empty;
-                    if (zone != null)
-                    {
-                        scenePath = zone.GetSceneReference().GetScenePath();
-                        sceneFound = !string.IsNullOrWhiteSpace(scenePath);
-                    }
-
+                    bool sceneFound = GetScenePath(zoneName, out string scenePath);
                     IGameStateModifierHandler gameStateModifierHandler = null;
                     bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID, out gameStateModifierHandler);
                     bool isModifierLinked = objectFound && gameStateModifierHandler != null && gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier.guid == guid);
@@ -184,6 +176,16 @@ namespace Frankie.Core.GameStateModifiers
                 removedCount++;
             }
             return removedCount;
+        }
+
+        private bool GetScenePath(string zoneName, out string scenePath)
+        {
+            scenePath = string.Empty;
+            Zone zone = Zone.GetFromName(zoneName);
+            if (zone == null) { return false; }
+            
+            scenePath = zone.GetSceneReference().GetScenePath();
+            return !string.IsNullOrWhiteSpace(scenePath);
         }
         
         private int RemoveDuplicateEntries()
