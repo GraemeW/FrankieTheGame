@@ -7,9 +7,8 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
-using LowDefMustard.Zones;
 
-namespace Frankie.Core.GameStateModifiers
+namespace LowDefMustard.GameStateModifiers
 {
     public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
@@ -17,6 +16,10 @@ namespace Frankie.Core.GameStateModifiers
         [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid;
         public string GetGUID() => guid;
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
+        
+        // Handles
+        public delegate bool HasScenePathDelegate(string input, out string scenePath);
+        public static HasScenePathDelegate ScenePathProvider;
         
         // Static State
 #if UNITY_EDITOR
@@ -144,7 +147,6 @@ namespace Frankie.Core.GameStateModifiers
         private int RemoveNonExistentEntries()
         {
             int removedCount = 0;
-            Zone.BuildCacheIfEmpty();
             for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
             {
                 ZoneToGameObjectLinkData handlerLinkData = gameStateModifierHandlerData[i];
@@ -159,7 +161,7 @@ namespace Frankie.Core.GameStateModifiers
                 }
                 else
                 {
-                    bool sceneFound = GetScenePath(zoneName, out string scenePath);
+                    bool sceneFound = ScenePathProvider != null ? ScenePathProvider.Invoke(zoneName, out string scenePath) : DefaultGetScenePath(zoneName, out scenePath);
                     IGameStateModifierHandler gameStateModifierHandler = null;
                     bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID, out gameStateModifierHandler);
                     bool isModifierLinked = objectFound && gameStateModifierHandler != null && gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier.guid == guid);
@@ -178,13 +180,14 @@ namespace Frankie.Core.GameStateModifiers
             return removedCount;
         }
 
-        private bool GetScenePath(string zoneName, out string scenePath)
+        public static bool DefaultGetScenePath(string zoneName, out string scenePath)
         {
             scenePath = string.Empty;
-            Zone zone = Zone.GetFromName(zoneName);
-            if (zone == null) { return false; }
+            if (string.IsNullOrEmpty(zoneName)) { return false; }
+            string[] guids = AssetDatabase.FindAssets($"{zoneName} t:Scene");
             
-            scenePath = zone.GetSceneReference().GetScenePath();
+            if (guids.Length == 0) { return false; }
+            scenePath = AssetDatabase.GUIDToAssetPath(guids[0]);
             return !string.IsNullOrWhiteSpace(scenePath);
         }
         

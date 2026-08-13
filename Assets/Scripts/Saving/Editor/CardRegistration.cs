@@ -1,8 +1,8 @@
 using UnityEditor;
+using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Saving.Editor;
 using Frankie.Core;
 using Frankie.Core.Predicates;
-using Frankie.Core.GameStateModifiers;
 using Frankie.Control;
 using Frankie.Sound;
 using Frankie.Stats;

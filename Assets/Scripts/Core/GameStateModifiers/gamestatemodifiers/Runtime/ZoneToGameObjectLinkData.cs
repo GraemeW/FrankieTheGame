@@ -1,6 +1,6 @@
 using System;
 
-namespace Frankie.Core.GameStateModifiers
+namespace LowDefMustard.GameStateModifiers
 {
     [Serializable]
     public struct ZoneToGameObjectLinkData : IEquatable<ZoneToGameObjectLinkData>

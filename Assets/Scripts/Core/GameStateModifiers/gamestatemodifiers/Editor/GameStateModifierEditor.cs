@@ -1,16 +1,17 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using LowDefMustard.Zones.Editor;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEditor.UIElements;
 
-namespace Frankie.Core.GameStateModifiers
+namespace LowDefMustard.GameStateModifiers.Editor
 {
     [CustomEditor(typeof(GameStateModifier), true)]
-    public class GameStateModifierEditor : Editor
+    public class GameStateModifierEditor : UnityEditor.Editor
     {
         #region Tunables
         private const string _headerTitle = "Modifier Handler Data";
@@ -53,6 +54,9 @@ namespace Frankie.Core.GameStateModifiers
         private const float _smallButtonHeight = 18f;
         #endregion
 
+        // Handles
+        public static Action<string, Action> OpenSceneAndActProvider;
+        
         // Functional State
         private GameStateModifier selectedGameStateModifier;
         private SerializedProperty gameStateModifierHandlerDataProperty;
@@ -311,10 +315,19 @@ namespace Frankie.Core.GameStateModifiers
             Button openButton = MakeStandardButton(_buttonOpenSceneText);
             openButton.RegisterCallback<ClickEvent>(_ =>
             {
-                EditorApplication.delayCall += () => ZoneTools.OpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName));
+                if (OpenSceneAndActProvider != null) { EditorApplication.delayCall += () => OpenSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
+                else { DefaultOpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
             });
             openButton.SetEnabled(viableSceneLoad);
             return openButton;
+        }
+
+        private static void DefaultOpenSceneAndAct(string zoneName, Action action)
+        {
+            if (!GameStateModifier.DefaultGetScenePath(zoneName, out string scenePath)) { return; }
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
+            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+            action?.Invoke();
         }
 
         private Button MakeDeleteButton(int gameStateModifierHandlerIndex)

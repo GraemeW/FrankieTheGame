@@ -6,9 +6,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
-using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Quests
 {

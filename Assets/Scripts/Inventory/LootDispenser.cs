@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
-using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Inventory
 {

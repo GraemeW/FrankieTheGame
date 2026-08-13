@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Quests
 {

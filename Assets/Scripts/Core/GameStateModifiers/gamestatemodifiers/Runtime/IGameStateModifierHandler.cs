@@ -9,7 +9,7 @@ using UnityEditor;
 #endif
 using LowDefMustard.Utils;
 
-namespace Frankie.Core.GameStateModifiers
+namespace LowDefMustard.GameStateModifiers
 {
     public interface IGameStateModifierHandler : ISerializationCallbackReceiver
     {
