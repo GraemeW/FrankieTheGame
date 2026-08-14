@@ -27,8 +27,8 @@ namespace Frankie.Saving
         {
             characterName = "Frankie";
             level = 0;
-            if (PlayerPrefsController.CurrentSaveLeaderKeyExists(saveName)) { characterName = PlayerPrefsController.GetCurrentSaveLeader(); }
-            if (PlayerPrefsController.CurrentSaveLevelKeyExists(saveName)) { level = PlayerPrefsController.GetCurrentSaveLevel(); }
+            if (PlayerPrefsController.CurrentSaveLeaderKeyExists(saveName)) { characterName = PlayerPrefsController.GetCurrentSaveLeader(saveName); }
+            if (PlayerPrefsController.CurrentSaveLevelKeyExists(saveName)) { level = PlayerPrefsController.GetCurrentSaveLevel(saveName); }
             return true;
         }
 
@@ -46,6 +46,7 @@ namespace Frankie.Saving
         {
             if (string.IsNullOrEmpty(saveName)) { return; }
             PlayerPrefsController.SetCurrentSave(saveName);
+            PlayerPrefsController.AnnounceFrameColour(saveName);
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
         
@@ -186,7 +187,7 @@ namespace Frankie.Saving
         private static IEnumerator LoadFromSave(string saveFile)
         {
             yield return SavingSystem.LoadLastScene(saveFile);
-            SceneLoader.SetCurrentZoneToCurrentScene();
+            SceneLoaderBase.SetCurrentZoneToCurrentScene();
             Fader.StartQuickSceneLoadFade();
         }
         #endregion

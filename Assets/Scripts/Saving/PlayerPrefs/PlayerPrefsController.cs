@@ -146,7 +146,12 @@ namespace Frankie.Saving
         #region Saving
         public static bool CurrentSaveKeyExists() => PlayerPrefs.HasKey(_currentSaveKey);
         public static string GetCurrentSave() => PlayerPrefs.GetString(_currentSaveKey);
-        public static void SetCurrentSave(string saveName) => PlayerPrefs.SetString(_currentSaveKey, saveName);
+
+        public static void SetCurrentSave(string saveName)
+        {
+            wereCharacterNamesDirtied = true; // Force re-builds character names cache on CharacterProperties
+            PlayerPrefs.SetString(_currentSaveKey, saveName);
+        }
         
         private static bool TryGetCurrentSaveLeaderKey(out string key, string saveName = null)
         {
@@ -346,6 +351,14 @@ namespace Frankie.Saving
             string frameFlavourColourHex = ColorUtility.ToHtmlStringRGBA(frameFlavourColour);
             PlayerPrefs.SetString(key, frameFlavourColourHex);
             
+            frameFlavourUpdated?.Invoke(frameFlavourColour);
+        }
+
+        public static void AnnounceFrameColour(string saveName = null)
+        {
+            if (!FrameFlavourColourKeyExists(saveName)) { return; }
+            
+            Color frameFlavourColour = GetFrameFlavourColour(saveName);
             frameFlavourUpdated?.Invoke(frameFlavourColour);
         }
         #endregion
