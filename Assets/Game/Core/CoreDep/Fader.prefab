@@ -196,10 +196,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeEntry: {fileID: 8528937459681249331}
-  battleComplete: {fileID: 8453829634185128961}
+  sceneLoader: {fileID: 0}
   fadeInTimer: 3.5
   fadeOutTimer: 0.75
   zoneFadeTimerMultiplier: 0.25
+  battleComplete: {fileID: 8453829634185128961}
 --- !u!114 &1057464560947514851
 MonoBehaviour:
   m_ObjectHideFlags: 0
