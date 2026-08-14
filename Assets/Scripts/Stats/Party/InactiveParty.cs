@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Frankie.Core;
 using UnityEngine;
+using LowDefMustard.Saving;
 using Frankie.Saving;
 
 namespace Frankie.Stats
@@ -22,7 +22,7 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
             
-            SavingWrapper.AppendToSession(saveableEntity);
+            SaveFileManager.AppendToSession(saveableEntity);
             inactiveCharacters.Add(characterProperties);
         }
 
@@ -37,7 +37,7 @@ namespace Frankie.Stats
             SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
             
-            SavingWrapper.RestorePropertiesFromSession(saveableEntity);
+            SaveFileManager.RestorePropertiesFromSession(saveableEntity);
             inactiveCharacters.Remove(characterProperties);
         }
         #endregion

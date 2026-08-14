@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Frankie.Stats;
-using Frankie.Utils.Editor;
+using LowDefMustard.Utils.Editor;
 
 namespace Frankie.Speech.Editor
 {

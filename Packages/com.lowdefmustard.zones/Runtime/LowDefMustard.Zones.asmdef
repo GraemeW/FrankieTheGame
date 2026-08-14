@@ -1,0 +1,21 @@
+{
+  "name": "LowDefMustard.Zones",
+  "rootNamespace": "LowDefMustard.Zones",
+  "references": [
+    "LowDefMustard.Utils",
+    "LowDefMustard.Localization",
+    "Unity.Addressables",
+    "Unity.ResourceManager",
+    "Unity.Localization",
+    "UnityEngine.UI"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

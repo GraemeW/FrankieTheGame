@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
+using LowDefMustard.Control;
+using LowDefMustard.Saving;
+using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Stats;
-using Frankie.Saving;
-using Frankie.Utils;
 
 namespace Frankie.Control
 {
     [RequireComponent(typeof(PlayerController))]
     [RequireComponent(typeof(PlayerStateMachine))]
     [RequireComponent(typeof(Party))]
-    public class PlayerMover : Mover
+    public class PlayerMover : Mover, ISaveable<SerializableVector2>
     {
         // Tunables
         [SerializeField] private bool snapPlayerToPixelPerfect = false;
@@ -188,12 +189,14 @@ namespace Frankie.Control
         #endregion
         
         #region SaveInterface
-        public override SaveState CaptureState()
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
+
+        public SaveState CaptureState()
         {
             return partyLeader != null ? ManualGetStateFromData(new SerializableVector2(partyLeader.transform.position)) : null;
         }
 
-        public override void RestoreState(SaveState saveState)
+        public void RestoreState(SaveState saveState)
         {
             if (!TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition)) { return; }
 
@@ -202,6 +205,15 @@ namespace Frankie.Control
             SetupInitialState();
             if (partyLeader != null) { partyLeader.transform.position = savedPosition.ToVector(); }
             SetLookDirection(Vector2.down);
+        }
+
+        public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
+
+        public bool TryManualGetDataFromState(SaveState saveState, out SerializableVector2 serializableVector2)
+        {
+            if (saveState != null && saveState.TryGetState(out serializableVector2)) { return true; }
+            serializableVector2 = null;
+            return false;
         }
         #endregion
     }

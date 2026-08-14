@@ -384,6 +384,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8756463170632450072, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
+      propertyPath: sceneLoader
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8756463170632450072, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
       propertyPath: battleCanvas
       value: 
       objectReference: {fileID: 0}

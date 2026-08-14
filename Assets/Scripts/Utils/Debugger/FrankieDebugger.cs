@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Zones;
+using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
-using Frankie.ZoneManagement;
 using Frankie.Saving;
 
 namespace Frankie.Utils
@@ -52,13 +53,6 @@ namespace Frankie.Utils
             FrankieDebugger frankieDebugger = FindDebugger();
             return frankieDebugger != null && frankieDebugger.isDemo;
         }
-
-        public static Zone GetDemoZoneOverride()
-        {
-            FrankieDebugger frankieDebugger = FindDebugger();
-            if (!frankieDebugger.isDemo) { return null; }
-            return frankieDebugger != null ? frankieDebugger.demoZoneOverride : null;
-        }
         
         private static FrankieDebugger FindDebugger()
         {
@@ -84,6 +78,13 @@ namespace Frankie.Utils
         {
             GameObject playerObject = Player.FindPlayerObject();
             return playerObject !=null ? playerObject.GetComponent<Wallet>() : null;
+        }
+        
+        private static Zone GetDemoZoneOverride()
+        {
+            FrankieDebugger frankieDebugger = FindDebugger();
+            if (!frankieDebugger.isDemo) { return null; }
+            return frankieDebugger != null ? frankieDebugger.demoZoneOverride : null;
         }
         #endregion
         
@@ -123,12 +124,17 @@ namespace Frankie.Utils
 
         private void OnEnable()
         {
+            _frankieDebugger = this;
+            SceneLoaderBase.DemoZoneOverrideProvider = GetDemoZoneOverride;
+            
             playerInput.Admin.Enable();
             SceneManager.sceneLoaded += ResetReferences;
         }
 
         private void OnDisable()
         {
+            if (SceneLoaderBase.DemoZoneOverrideProvider == GetDemoZoneOverride) { SceneLoaderBase.DemoZoneOverrideProvider = null; }
+            
             playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;
         }
@@ -138,20 +144,20 @@ namespace Frankie.Utils
         private void Save()
         {
             Debug.Log($"Frankie Debugger:  Saving Game...");
-            SavingWrapper.Save();
+            SaveFileManager.Save();
         }
 
         private void Continue()
         {
             Debug.Log($"Frankie Debugger:  Loading Game...");
-            SavingWrapper.Continue();
+            SaveFileManager.Continue();
         }
 
         private void Delete()
         {
             Debug.Log($"Frankie Debugger:  Deleting Game...");
-            SavingWrapper.DeleteSession();
-            SavingWrapper.Delete();
+            SaveFileManager.DeleteSession();
+            SaveFileManager.Delete();
         }
 
         private void NewSave()

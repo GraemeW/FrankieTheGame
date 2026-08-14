@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
 using Frankie.Stats;
 
 namespace Frankie.Saving.Editor

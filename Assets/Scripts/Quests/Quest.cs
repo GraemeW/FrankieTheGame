@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization;
-using Frankie.Core.GameStateModifiers;
-using Frankie.Utils.Addressables;
-using Frankie.Utils.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.GameStateModifiers;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 
 namespace Frankie.Quests
 {

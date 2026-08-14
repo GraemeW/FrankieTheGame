@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
-using Frankie.Control;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Saving;
-using Frankie.Utils;
-using Frankie.Utils.Localization;
 using Frankie.Speech.UI;
-using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
@@ -78,13 +78,13 @@ namespace Frankie.Menu.UI
             choiceOptions.Clear();
             for (int index = 0; index < maxSaves; index++)
             {
-                string saveName = SavingWrapper.GetSaveNameForIndex(index);
+                string saveName = SaveFileManager.GetSaveNameForIndex(index);
 
                 GameObject loadGameEntryObject = Instantiate(optionButtonPrefab, optionParent);
                 var loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
-                if (SavingWrapper.HasSave(saveName))
+                if (SaveFileManager.HasSave(saveName))
                 {
-                    SavingWrapper.GetInfoFromSave(saveName, out string characterName, out int level);
+                    SaveFileManager.GetInfoFromSave(saveName, out string characterName, out int level);
                     loadGameEntry.Setup(index, characterName, level, () => SpawnGameSelectOptions(saveName));
                 }
                 else
@@ -92,7 +92,7 @@ namespace Frankie.Menu.UI
                     loadGameEntry.Setup(index, localizedOptionNewGameText.GetSafeLocalizedString(), 0, () =>
                     {
                         SetActiveInput(false);
-                        SavingWrapper.NewGame(saveName);
+                        SaveFileManager.NewGame(saveName);
                     });
                 }
                 loadGameEntry.SetChoiceOrder(choiceOptions.Count + 1);
@@ -114,7 +114,7 @@ namespace Frankie.Menu.UI
                     SetActiveInput(false);
                     // Prevent LoadGameMenu from re-enablement after dialogueOptionBox disappears
                     TriggerUIBoxModified(ReceiverModifiedType.ClientDisable, new ReceiverModifiedData(this));
-                    SavingWrapper.LoadGame(saveName);
+                    SaveFileManager.LoadGame(saveName);
                 }),
                 new(localizedOptionDeleteGameText.GetSafeLocalizedString(), () =>
                 {
@@ -134,7 +134,7 @@ namespace Frankie.Menu.UI
             {
                 new(localizedMessageAffirmative.GetSafeLocalizedString(), () =>
                 {
-                    SavingWrapper.Delete(saveName);
+                    SaveFileManager.Delete(saveName);
                     Destroy(dialogueOptionBox.gameObject);
                     ResetUI();
                 }),

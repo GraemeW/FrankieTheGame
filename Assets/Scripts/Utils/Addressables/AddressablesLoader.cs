@@ -1,9 +1,9 @@
 using UnityEngine;
+using LowDefMustard.Zones;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Quests;
 using Frankie.Stats;
-using Frankie.ZoneManagement;
 
 namespace Frankie.Utils.Addressables
 {

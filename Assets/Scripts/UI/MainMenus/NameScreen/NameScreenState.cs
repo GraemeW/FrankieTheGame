@@ -6,6 +6,7 @@ namespace Frankie.Menu.UI
         Naming,
         NamingComplete,
         FrameFlavouring,
-        Confirm
+        Confirm,
+        Exit
     }
 }

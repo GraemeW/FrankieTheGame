@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Control;
 using Frankie.Combat.UI;
-using Frankie.Control;
 using Frankie.Stats;
 
 namespace Frankie.Inventory.UI

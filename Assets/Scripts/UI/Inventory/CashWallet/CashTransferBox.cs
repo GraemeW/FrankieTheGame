@@ -6,12 +6,13 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.World;
-using Frankie.Utils;
-using Frankie.Utils.UI;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

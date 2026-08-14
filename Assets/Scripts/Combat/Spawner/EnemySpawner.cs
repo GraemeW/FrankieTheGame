@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Saving;
+using LowDefMustard.Zones;
+using LowDefMustard.Utils;
 using Frankie.Stats;
-using Frankie.Saving;
-using Frankie.Utils;
-using Frankie.ZoneManagement;
 
 namespace Frankie.Combat.Spawner
 {
@@ -30,7 +30,7 @@ namespace Frankie.Combat.Spawner
 
         private void OnDisable()
         {
-            SceneLoader.QueueDelayedDestroy(spawnedEnemies.ToList());
+            SceneLoaderBase.QueueDelayedDestroy(spawnedEnemies.ToList());
         }
 
         private void OnBecameVisible()

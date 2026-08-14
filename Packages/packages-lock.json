@@ -1,5 +1,76 @@
 {
   "dependencies": {
+    "com.lowdefmustard.control": {
+      "version": "file:com.lowdefmustard.control",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.lowdefmustard.utils": "0.1.0"
+      }
+    },
+    "com.lowdefmustard.gamestatemodifiers": {
+      "version": "file:com.lowdefmustard.gamestatemodifiers",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.lowdefmustard.utils": "0.1.0"
+      }
+    },
+    "com.lowdefmustard.localization": {
+      "version": "file:com.lowdefmustard.localization",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.localization": "1.5.12",
+        "com.unity.addressables": "2.9.1",
+        "com.lowdefmustard.utils": "0.1.0"
+      }
+    },
+    "com.lowdefmustard.ruletiles": {
+      "version": "file:com.lowdefmustard.ruletiles",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.2d.tilemap": "1.0.0",
+        "com.unity.2d.tilemap.extras": "8.0.3"
+      }
+    },
+    "com.lowdefmustard.saving": {
+      "version": "file:com.lowdefmustard.saving",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.2"
+      }
+    },
+    "com.lowdefmustard.uibox": {
+      "version": "file:com.lowdefmustard.uibox",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.ugui": "2.5.0",
+        "com.lowdefmustard.control": "0.1.0",
+        "com.lowdefmustard.utils": "0.1.0"
+      }
+    },
+    "com.lowdefmustard.utils": {
+      "version": "file:com.lowdefmustard.utils",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.lowdefmustard.zones": {
+      "version": "file:com.lowdefmustard.zones",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.localization": "1.5.12",
+        "com.unity.addressables": "2.9.1",
+        "com.unity.ugui": "2.5.0",
+        "com.lowdefmustard.utils": "0.1.0",
+        "com.lowdefmustard.localization": "0.1.0"
+      }
+    },
     "com.unity.2d.animation": {
       "version": "15.1.0",
       "depth": 0,
@@ -99,7 +170,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
-      "version": "3.1.6",
+      "version": "3.1.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {

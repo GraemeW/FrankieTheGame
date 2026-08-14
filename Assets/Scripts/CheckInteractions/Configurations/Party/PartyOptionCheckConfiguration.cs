@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Core;
-using Frankie.Utils;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {

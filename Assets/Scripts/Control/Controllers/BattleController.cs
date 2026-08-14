@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.ZoneManagement;
+using LowDefMustard.Control;
+using Frankie.Zones;
 using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
@@ -75,6 +76,9 @@ namespace Frankie.Combat
 
         #region ProtectedLifeCycle
         protected override bool HasAlternateReceiversActive() => battleInput != null || battleState != BattleState.Inactive;
+
+        protected override void OnNoReceiversIdentified() => this.StandardOnNoReceiversIdentified();
+
         #endregion
         
         #region UnityMethods

@@ -1,6 +1,6 @@
 # Assets:  Game - Predicates
 
-Predicates are a flexible system to answer the "if {this} then {that}" game logic throughout Frankie.  They are lightweight scriptable objects (SOs) that are consumed by [IPredicateEvaluators](../../Scripts/Predicates/IPredicateEvaluator.cs) to return `true`, `false` or `don't know` to:
+Predicates are a flexible system to answer the "if {this} then {that}" game logic throughout Frankie.  They are lightweight scriptable objects (SOs) that are consumed by [IPredicateEvaluators](../../../Packages/com.lowdefmustard.utils/Runtime/Predicates/IPredicateEvaluator.cs) to return `true`, `false` or `don't know` to:
 
 ```bool? Evaluate(Predicate predicate);```
 
@@ -119,16 +119,16 @@ For example, see below to check if the objective `HorseReceivedTheDocuments` has
 
 ## Predicate Evaluation
 
-Predicate evaluation is initiated by a [Condition](../../Scripts/Predicates/Condition.cs), which follows the [conjunctive normal form](https://en.wikipedia.org/wiki/Conjunctive_normal_form) to logically stitch together a series of predicates.  
+Predicate evaluation is initiated by a [Condition](../../../Packages/com.lowdefmustard.utils/Runtime/Predicates/Condition.cs), which follows the [conjunctive normal form](https://en.wikipedia.org/wiki/Conjunctive_normal_form) to logically stitch together a series of predicates.  
 
-The [Condition](../../Scripts/Predicates/Condition.cs) makes use of `IPredicateEvaluator`s, which (in practice) are pulled off of the [Player](../Core/Player.prefab) game object and its children, as well as any interacting object (e.g. an NPC talking to the player).  Given this description, conditions for predicate evaluation can be easily implemented on any component that can get access to the active [Player](../Core/Player.prefab) (or any of its components -- such as the [PlayerStateMachine](../Core/)).
+The [Condition](../../../Packages/com.lowdefmustard.utils/Runtime/Predicates/Condition.cs) makes use of `IPredicateEvaluator`s, which (in practice) are pulled off of the [Player](../Core/Player.prefab) game object and its children, as well as any interacting object (e.g. an NPC talking to the player).  Given this description, conditions for predicate evaluation can be easily implemented on any component that can get access to the active [Player](../Core/Player.prefab) (or any of its components -- such as the [PlayerStateMachine](../Core/)).
 
 ### Use-Cases to Evaluate Predicates
 
-The most common instances to evaluate predicates (i.e. scripts that have a [Condition](../../Scripts/Predicates/Condition.cs) for execution) include:
+The most common instances to evaluate predicates (i.e. scripts that have a [Condition](../../../Packages/com.lowdefmustard.utils/Runtime/Predicates/Condition.cs) for execution) include:
 * [Dialogue Nodes](../../Scripts/Speech/DialogueNode.cs), living on the Dialogue SOs in [Speech](../Speech/)
   * , to conditionally enable/disable various branches of a character's dialogue
-* [Zone Nodes](../../Scripts/Zones/ZoneNode.cs), living on the Zone SOs in [OnLoadAssets/Zones](../OnLoadAssets/Zones/)
+* [Zone Nodes](../../../Packages/com.lowdefmustard.zones/Runtime/ZoneNode.cs), living on the Zone SOs in [OnLoadAssets/Zones](../OnLoadAssets/Zones/)
   * , to conditionally enable/disable access to zones (scenes) or specific areas within a zone
 * [Equipable Item](../OnLoadAssets/Inventory/EquipableItems/) SOs
   * , to add stat or level requirements on equipment

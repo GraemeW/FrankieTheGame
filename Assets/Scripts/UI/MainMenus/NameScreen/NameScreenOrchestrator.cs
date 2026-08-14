@@ -4,14 +4,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
+using LowDefMustard.Zones;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Control;
 using Frankie.Saving;
-using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using Frankie.Stats;
-using Frankie.Utils;
-using Frankie.Utils.UI;
-using Frankie.Utils.Localization;
+using Frankie.Zones;
 
 namespace Frankie.Menu.UI
 {
@@ -112,7 +114,9 @@ namespace Frankie.Menu.UI
                         continue;
                 }
             }
-            var sceneQueueData = new SceneQueueData(() => SavingWrapper.Save(), 0f, false);
+            
+            SetState(NameScreenState.Exit);
+            var sceneQueueData = new SceneQueueData(() => SaveFileManager.Save(), 0f, false);
             SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
         }
         #endregion

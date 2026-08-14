@@ -14,7 +14,7 @@ namespace Frankie.World
         public void Save(PlayerStateMachine playerStateMachine)
         {
             onSaveEvent?.Invoke(playerStateMachine);
-            SavingWrapper.Save();
+            SaveFileManager.Save();
         }
         #endregion
     }

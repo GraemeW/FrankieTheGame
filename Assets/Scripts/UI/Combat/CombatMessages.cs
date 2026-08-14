@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Localization;
 using Frankie.Combat;
 using Frankie.Speech.UI;
-using Frankie.Utils.Localization;
 
 public class CombatMessages : MonoBehaviour, ILocalizable
 {

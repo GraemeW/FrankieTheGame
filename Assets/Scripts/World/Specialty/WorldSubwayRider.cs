@@ -4,11 +4,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Rendering;
-using Frankie.Utils;
-using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

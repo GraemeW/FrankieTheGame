@@ -1,13 +1,14 @@
 using UnityEngine;
+using LowDefMustard.Saving;
+using LowDefMustard.Zones;
 using Frankie.Stats;
-using Frankie.Control;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Core
 {
     [RequireComponent(typeof(PlayerStateMachine))]
     [RequireComponent(typeof(PartyCombatConduit))]
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, ISaveableGroupRoot
     {
         // Cached References
         private PlayerStateMachine playerStateMachine;

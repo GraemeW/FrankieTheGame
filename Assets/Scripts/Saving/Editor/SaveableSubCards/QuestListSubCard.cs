@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
 using Frankie.Quests;
 
 namespace Frankie.Saving.Editor

@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
-using Frankie.Utils.Localization;
-using Frankie.Utils.UI;
+using LowDefMustard.UIBox;
+using LowDefMustard.Localization;
 
 namespace Frankie.Menu.UI
 {

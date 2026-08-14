@@ -84,13 +84,13 @@ On the palette itself, smart tiles should be placed 2 rows above (i.e. with 1 ro
 
 Several custom smart tiles were made to extend the functionality of the basic Unity Rule Tile, and can be created by via Right Click:  Create -> CustomRuleTiles.  
 
-These are:
-* [Sibling Rule Tiles](../../Scripts/CustomRuleTiles/RuleTileSibling.cs):  Same functionality as Rule Tiles, but can define 'sibling' tiles that are treated as if they belong to the Sibling Rule Tile from the standpoint of rule execution
+These are part of the [com.lowdefmustard.ruletiles](../../../Packages/com.lowdefmustard.ruletiles) package, and include:
+* [Sibling Rule Tiles](../../../Packages/com.lowdefmustard.ruletiles/Runtime/RuleTileSibling.cs):  Same functionality as Rule Tiles, but can define 'sibling' tiles that are treated as if they belong to the Sibling Rule Tile from the standpoint of rule execution
   * As an example, see [PathSlantLeft](./ExteriorLandscape/SmartTiles-Paths/PathSlantLeftSibling.asset) + [PathSlantRight](./ExteriorLandscape/SmartTiles-Paths/PathSlantRightSibling.asset)
-* [Random Animation Rule Tile](../../Scripts/CustomRuleTiles/RuleTileRandomAnimation.cs):  Same functionality as Rule Tiles, but allows individual rules to be assigned to animated tiles (instead of selection from only static tiles)
-  * As an example, see [RandomWaterAnimation](./ExteriorLandscape/SmartTiles-Water/RandomWaterAnimation.asset)
-* [Random from Siblings Rule Tile](../../Scripts/CustomRuleTiles/RuleTileRandomFromSiblings.cs):  Instead of painting from the tile itself, selects a random tile from its defined siblings
+* [Random from Siblings Rule Tile](../../../Packages/com.lowdefmustard.ruletiles/Runtime/RuleTileRandomFromSiblings.cs):  Instead of painting from the tile itself, selects a random tile from its defined siblings
   * As an example, see [CliffCenterAnimated](./ExteriorLandscape/SmartTiles-Cliffs/CliffCenterAnimated.asset)
+* [Random Animation Rule Tile](../../../Packages/com.lowdefmustard.ruletiles/Runtime/RuleTileRandomAnimation.cs) [_DEPRECATED_]:  Same functionality as Rule Tiles, but allows individual rules to be assigned to animated tiles (instead of selection from only static tiles)
+  _* Preferred approach is to generate animation tiles and pull them randomly using [Random from Siblings Rule Tile](../../../Packages/com.lowdefmustard.ruletiles/Runtime/RuleTileRandomFromSiblings.cs)_
 
 ## Painting Tiles in the Scene
 

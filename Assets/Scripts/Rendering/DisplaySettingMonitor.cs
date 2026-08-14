@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using LowDefMustard.Zones;
 using Frankie.Saving;
-using Frankie.ZoneManagement;
 
 namespace Frankie.Rendering
 {
@@ -39,13 +39,13 @@ namespace Frankie.Rendering
 
         private void OnEnable()
         {
-            SceneLoader.zoneUpdated += TriggerResolutionAnnounce;
+            SceneLoaderBase.zoneUpdated += TriggerResolutionAnnounce;
 
         }
 
         private void OnDisable()
         {
-            SceneLoader.zoneUpdated -= TriggerResolutionAnnounce;
+            SceneLoaderBase.zoneUpdated -= TriggerResolutionAnnounce;
         }
 
         private void OnDestroy()

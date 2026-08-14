@@ -1,0 +1,19 @@
+{
+  "name": "LowDefMustard.Saving.Editor",
+  "rootNamespace": "LowDefMustard.Saving.Editor",
+  "references": [
+    "LowDefMustard.Saving",
+    "Newtonsoft.Json"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

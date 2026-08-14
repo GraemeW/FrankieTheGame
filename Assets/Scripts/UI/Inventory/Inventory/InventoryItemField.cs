@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Frankie.Utils.UI;
+using LowDefMustard.UIBox;
 
 namespace Frankie.Inventory.UI
 {

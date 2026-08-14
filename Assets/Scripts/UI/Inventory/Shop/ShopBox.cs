@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
+using LowDefMustard.UIBox;
+using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Stats;
 using Frankie.World;
-using Frankie.Utils.Localization;
-using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 
 namespace Frankie.Inventory.UI

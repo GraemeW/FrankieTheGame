@@ -1,0 +1,11 @@
+{
+  "name": "com.lowdefmustard.utils",
+  "version": "0.1.0",
+  "displayName": "Low Def Mustard Utils",
+  "description": "General-purpose data structures, editor tooling, and attribute drawers for LDM Games.",
+  "unity": "6000.5",
+  "author": {
+    "name": "Low Def Mustard Games"
+  },
+  "dependencies": {}
+}

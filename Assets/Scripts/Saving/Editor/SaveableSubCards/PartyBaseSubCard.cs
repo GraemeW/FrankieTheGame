@@ -3,6 +3,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
 using Frankie.Stats;
 
 namespace Frankie.Saving.Editor
@@ -85,7 +87,9 @@ namespace Frankie.Saving.Editor
                 if (characterProperties == null || characterProperties.GetCharacterPrefab() == null) { continue; }
                 if (characterSaveableEntityCards.ContainsKey(characterProperties)) { continue; }
                 
-                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData.BuildFromCharacterPropertiesWithCache(characterProperties);
+                GameObject characterPrefab = characterProperties.GetCharacterPrefab();
+                if (characterPrefab == null) { continue; }
+                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData.BuildFromCharacterPrefabWithCache(characterPrefab);
                 if (characterSaveableEntityCard == null) { continue; }
                 
                 characterSaveableEntityCards[characterProperties] = characterSaveableEntityCard;

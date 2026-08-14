@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using LowDefMustard.Control;
 using Frankie.Core;
 using Frankie.Stats;
 
@@ -117,7 +118,9 @@ namespace Frankie.Control
         }
         #endregion
         
-        #region PrivateMethods
+        #region ProtectedPrivateMethods
+        protected override void OnNoReceiversIdentified() => this.StandardOnNoReceiversIdentified();
+
         private void HandlePartyUpdate(PartyAlteredData partyAlteredData)
         {
             if (partyAlteredData == null) { return; }

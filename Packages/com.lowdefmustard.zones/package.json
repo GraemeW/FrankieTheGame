@@ -1,0 +1,17 @@
+{
+  "name": "com.lowdefmustard.zones",
+  "version": "0.1.0",
+  "displayName": "Low Def Mustard Zones",
+  "description": "Zone/scene graph, addressable-scene loading, and transition system (including ZoneEditor and MultiZoneViewer editor tooling).",
+  "unity": "6000.5",
+  "author": {
+    "name": "Low Def Mustard Games"
+  },  
+  "dependencies": {
+    "com.unity.localization": "1.5.12",
+    "com.unity.addressables": "2.9.1",
+    "com.unity.ugui": "2.5.0",
+    "com.lowdefmustard.utils": "0.1.0",
+    "com.lowdefmustard.localization": "0.1.0"
+  }
+}

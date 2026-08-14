@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Utils;
+using LowDefMustard.Utils;
 
 namespace Frankie.Combat.Spawner
 {

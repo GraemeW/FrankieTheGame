@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using TMPro;
+using LowDefMustard.UIBox;
+using LowDefMustard.Localization;
 using Frankie.Combat;
-using Frankie.Utils.Localization;
-using Frankie.Utils.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 

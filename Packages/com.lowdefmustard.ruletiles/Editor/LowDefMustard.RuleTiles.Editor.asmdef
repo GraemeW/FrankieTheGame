@@ -1,0 +1,20 @@
+{
+  "name": "LowDefMustard.RuleTiles.Editor",
+  "rootNamespace": "LowDefMustard.RuleTiles.Editor",
+  "references": [
+    "Unity.2D.Tilemap",
+    "Unity.2D.Tilemap.Extras",
+    "LowDefMustard.RuleTiles"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

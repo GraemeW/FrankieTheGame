@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
-using Frankie.Control;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Speech.UI;
 using Frankie.Stats;
-using Frankie.Utils;
-using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI

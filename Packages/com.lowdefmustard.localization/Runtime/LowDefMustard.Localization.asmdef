@@ -1,0 +1,19 @@
+{
+  "name": "LowDefMustard.Localization",
+  "rootNamespace": "LowDefMustard.Localization",
+  "references": [
+    "LowDefMustard.Utils",
+    "Unity.ResourceManager",
+    "Unity.Localization",
+    "Unity.Localization.Editor"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

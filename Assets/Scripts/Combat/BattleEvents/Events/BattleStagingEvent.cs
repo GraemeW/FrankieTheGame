@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Combat
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Combat
 {

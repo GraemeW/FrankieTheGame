@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Frankie.Utils.Localization;
 using UnityEngine;
-using Frankie.Utils.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.UIBox;
+using LowDefMustard.Localization;
 
 namespace Frankie.Combat.UI
 {

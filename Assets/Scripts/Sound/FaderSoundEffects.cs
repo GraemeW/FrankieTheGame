@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using Frankie.ZoneManagement;
+using Frankie.Zones;
 
 namespace Frankie.Sound
 {

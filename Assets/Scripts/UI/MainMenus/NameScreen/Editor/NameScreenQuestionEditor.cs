@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using Frankie.Utils.Localization;
+using LowDefMustard.Localization;
 
 namespace Frankie.Menu.UI.Editor
 {

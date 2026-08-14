@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Utils;
-using Frankie.Control;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Stats;
 using Frankie.Speech.UI;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Frankie.Utils;
+using LowDefMustard.Utils;
 
 namespace Frankie.Stats
 {

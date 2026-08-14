@@ -1,0 +1,16 @@
+{
+  "name": "LowDefMustard.Control",
+  "rootNamespace": "LowDefMustard.Control",
+  "references": [
+    "LowDefMustard.Utils"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

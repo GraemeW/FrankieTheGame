@@ -26,12 +26,12 @@ The key scripts attached to [PersistentObjects](./CoreDep/PersistentObjects.pref
 * [InputSystemUIInputModule](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/UISupport.html):  for use with Unity's new input system + UI elements
 
 The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
-* [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/Transitions/SceneLoader.cs) script to transition across scenes (zones)
-* [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Transitions/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
+* [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/SceneLoader.cs) script to transition across scenes (zones)
+* [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [CoreAudio](../Sound/CoreAudio.prefab):  contains the sole reference to the audio mixer to manage audio levels
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)
 * [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Rendering/Camera/MapCamera.cs) to generate the mini-map
-* [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Utils/FrankieDebugger.cs) for debug functionality (not for release)
+* [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Utils/Debugger/FrankieDebugger.cs) for debug functionality (not for release)
 
 ### Addressables Loader (Singleton)
 
@@ -74,7 +74,7 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs):  primary game state machine for different [IPlayerState](../../Scripts/Core/PlayerStateMachine/PlayerStates/IPlayerState.cs)
   * e.g. including hand-off from the [PlayerController](../../Scripts/Control/Controllers/PlayerController.cs) to alternate [Controllers](../Controllers/)
 * [PlayerMover](../../Scripts/Control/Movement/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Controllers/PlayerController.cs))
-  * [PathFinder](../../Scripts/Control/Movement/PathFinding/PathFinder.cs):  interfaces with PlayerMover to allow for A* pathfinding (as-needed for cutscenes, where player control is handled by the game engine instead of player input)
+  * [PathFinder](../../../Packages/com.lowdefmustard.control/Runtime/Movement/PathFinding/PathFinder.cs):  interfaces with PlayerMover to allow for A* pathfinding (as-needed for cutscenes, where player control is handled by the game engine instead of player input)
 * [Party](../../Scripts/Stats/Party/Party.cs):  add/remove characters to active party & queries for associated party state
   * [InactiveParty](../../Scripts/Stats/Party/InactiveParty.cs):  manages save state for characters not currently in party
   * [PartyAssist](../../Scripts/Stats/Party/PartyAssist.cs):  handles add/remove for 'assisting' characters (i.e. not official party members)
@@ -83,7 +83,7 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [Wallet](../../Scripts/Inventory/Wallet.cs):  add/remove funds to the player & queries for associated wallet state
 * [Shopper](../../Scripts/Inventory/Shopper.cs):  interfacing with [Shops](../../Scripts/Inventory/Shop.cs) to purchase/sell [items](../OnLoadAssets/Inventory/)
 * [QuestList](../../Scripts/Quests/QuestList.cs):  add/remove quests, complete quest objectives/disburse rewards & queries for associated quest state
-* [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
+* [SaveableEntity](../../../Packages/com.lowdefmustard.saving/Runtime/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
 
 Notes:
 1. Further detail on input/control and interfacing with the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) is provided in [Controllers](../Controllers/)

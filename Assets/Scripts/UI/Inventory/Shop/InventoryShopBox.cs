@@ -3,14 +3,14 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Control;
+using LowDefMustard.Utils;
+using LowDefMustard.UIBox;
+using LowDefMustard.Localization;
 using Frankie.Core;
-using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Stats;
-using Frankie.Utils;
 using Frankie.Speech.UI;
-using Frankie.Utils.UI;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

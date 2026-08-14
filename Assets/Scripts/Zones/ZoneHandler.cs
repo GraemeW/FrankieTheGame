@@ -3,25 +3,25 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Control;
+using LowDefMustard.Zones;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Core;
-using Frankie.Core.Predicates;
-using Frankie.Utils;
 using Frankie.Control;
-using Frankie.Utils.Localization;
 
-namespace Frankie.ZoneManagement
+namespace Frankie.Zones
 {
     [ExecuteInEditMode]
-    public class ZoneHandler : MonoBehaviour, IRaycastable, ILocalizable
+    public class ZoneHandler : ZoneHandlerBase, IRaycastable, ILocalizable
     {
         // Localization Properties
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
         
         // Tunables 
-        [SerializeField] private ZoneNode zoneNode;
+        [Header("Zone Handler-Implemented Parameters")]
         [SerializeField] private bool overrideDefaultInteractionDistance = false;
         [SerializeField] private float interactionDistance = 0.3f;
-        [SerializeField] private Transform warpTransform;
         [SerializeField] private float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
         [SerializeField] [Tooltip("If left null, will attempt to auto-populate from parent")] private Room roomParent;
@@ -50,10 +50,6 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PublicMethods
-        public ZoneNode GetZoneNode() => zoneNode;
-        private bool HasWarpPosition() => warpTransform != null;
-        public Vector3 GetWarpPosition() => warpTransform != null ? warpTransform.position : transform.position;
-
         private void ToggleRoomParent(bool enable)
         {
             if (roomParent == null)
@@ -241,8 +237,8 @@ namespace Frankie.ZoneManagement
         private bool TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
             queuedZoneNodeID = nextNode.GetNodeID();
-            var faderEventTriggers = new FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
-            return Fader.StartZoneFade(nextZone, faderEventTriggers, true);
+            var faderEventTriggers = new FaderEventTriggers<TransitionType>(null, HandleFadingPeak, QueuedMoveToNextNode, null);
+            return Fader.StartSceneLoadFade(nextZone, faderEventTriggers, true);
         }
 
         private void RemoveZoneHandler()

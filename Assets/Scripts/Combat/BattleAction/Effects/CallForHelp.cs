@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.Utils;
 using Frankie.Combat.Spawner;
 using Frankie.Control;
 using Frankie.Stats;
-using Frankie.Utils;
 
 namespace Frankie.Combat
 {

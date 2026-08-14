@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using Frankie.Control;
-using Frankie.Utils.UI;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 
 namespace Frankie.Sound
 {

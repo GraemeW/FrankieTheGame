@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Saving;
+using LowDefMustard.Saving.Editor;
+using LowDefMustard.Utils;
 using Frankie.Control;
-using Frankie.Utils;
 
 namespace Frankie.Saving.Editor
 {
@@ -26,14 +28,19 @@ namespace Frankie.Saving.Editor
             this.saveState = saveState;
         }
         
-        public bool IsPlayerMoverSubCard() => saveable is PlayerMover;
+        public override bool IsPlayerMoverSubCard() => saveable is PlayerMover;
 
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             CancelPickingIfActive();
-            if (saveable is not Mover mover) { return; }
+            var playerMover = saveable as PlayerMover;
+            var npcMover = saveable as NPCMover;
+            if (playerMover == null && npcMover == null) { return; }
 
-            if (!mover.TryManualGetDataFromState(saveState, out SerializableVector2 savedPosition))
+            SerializableVector2 savedPosition = null;
+            if ((playerMover != null && !playerMover.TryManualGetDataFromState(saveState, out savedPosition))
+                || (npcMover != null && !npcMover.TryManualGetDataFromState(saveState, out savedPosition))
+                || savedPosition == null)
             {
                 subCardView.Add(new Label("No position currently available"));
                 return;
@@ -112,7 +119,10 @@ namespace Frankie.Saving.Editor
             {
                 Vector3 updatedPosition = new(xPosition, yPosition, 0f);
                 var serializablePosition = new SerializableVector2(updatedPosition);
-                saveState = mover.ManualGetStateFromData(serializablePosition);
+                
+                if (playerMover != null) { saveState = playerMover.ManualGetStateFromData(serializablePosition); }
+                else if (npcMover != null) { saveState = npcMover.ManualGetStateFromData(serializablePosition); }
+                else { return; }
                 RaiseSaveStateChanged();
             }
         }

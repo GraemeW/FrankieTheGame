@@ -1,7 +1,7 @@
 using Frankie.Control;
 using UnityEngine;
+using LowDefMustard.Zones;
 using Frankie.Core;
-using Frankie.ZoneManagement;
 
 namespace Frankie.Rendering
 {
@@ -36,13 +36,13 @@ namespace Frankie.Rendering
 
             if (enable)
             {
-                SceneLoader.leavingZone += UpdateMap;
-                SceneLoader.zoneUpdated += UpdateMap;
+                SceneLoaderBase.leavingZone += UpdateMap;
+                SceneLoaderBase.zoneUpdated += UpdateMap;
             }
             else
             {
-                SceneLoader.leavingZone -= UpdateMap;
-                SceneLoader.zoneUpdated -= UpdateMap;
+                SceneLoaderBase.leavingZone -= UpdateMap;
+                SceneLoaderBase.zoneUpdated -= UpdateMap;
             }
         }
 
@@ -60,7 +60,7 @@ namespace Frankie.Rendering
         
         public void UpdateMap()
         {
-            Zone zone = SceneLoader.GetCurrentZone();
+            Zone zone = SceneLoaderBase.GetCurrentZone();
             UpdateMap(zone);
         }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
 using Frankie.Menu.UI;
-using Frankie.Utils.UI;
 
 namespace Frankie.Control
 {
@@ -56,5 +57,6 @@ namespace Frankie.Control
         }
 
         private void HandleUserInput(ControllerInputType controllerInputType) => TriggerGlobalInput(controllerInputType);
+        protected override void OnNoReceiversIdentified() => this.StandardOnNoReceiversIdentified();
     }
 }

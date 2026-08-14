@@ -4,7 +4,7 @@ using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Utils.Editor;
+using LowDefMustard.Utils.Editor;
 
 namespace Frankie.Combat.Editor
 {
