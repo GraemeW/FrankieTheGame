@@ -2,10 +2,12 @@
   "name": "com.lowdefmustard.gamestatemodifiers",
   "version": "0.1.0",
   "displayName": "Low Def Mustard Game State Modifiers",
-  "description": "TBD",
+  "description": "Editor-authored, self-maintaining linkage between GameStateModifier assets and the in-scene handler MonoBehaviours that reference them, with a custom inspector and automatic dangling-entry cleanup.",
   "unity": "6000.5",
   "author": {
     "name": "Low Def Mustard Games"
   },
-  "dependencies": { }
+  "dependencies": {
+    "com.lowdefmustard.utils": "0.1.0"
+  }
 }

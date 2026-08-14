@@ -12,7 +12,9 @@
       "version": "file:com.lowdefmustard.gamestatemodifiers",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.lowdefmustard.utils": "0.1.0"
+      }
     },
     "com.lowdefmustard.localization": {
       "version": "file:com.lowdefmustard.localization",

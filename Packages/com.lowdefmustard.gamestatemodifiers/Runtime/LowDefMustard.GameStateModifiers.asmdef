@@ -1,0 +1,16 @@
+{
+  "name": "LowDefMustard.GameStateModifiers",
+  "rootNamespace": "LowDefMustard.GameStateModifiers",
+  "references": [
+    "LowDefMustard.Utils"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
