@@ -9,7 +9,7 @@ There are three UI canvases employed in Frankie:
 
 ## UIBox UI Elements
 
-The majority of UI elements make use of the [UIBox](../../Scripts/UI/UIBox/) abstract base class, which is a flexible system to display arbitrary information, with built-in capabilities for various standard 2D RPG functions (e.g. textscan, 1D/2D option selection, hand-off/call-back to other UI elements, etc.).  
+The majority of UI elements make use of the [UIBox](../../../Packages/com.lowdefmustard.uibox/) abstract base class, which is a flexible system to display arbitrary information, with built-in capabilities for various standard 2D RPG functions (e.g. textscan, 1D/2D option selection, hand-off/call-back to other UI elements, etc.).  
 
 The simplest example of the UIBox is the dialogue box, shown below:
 

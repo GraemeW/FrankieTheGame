@@ -16,9 +16,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Assembly Structure
 
-| Assembly | Root Namespace | Platform | References |
-|---|---|---|---|
-| `LowDefMustard.Localization` | `LowDefMustard.Localization` | Runtime | `LowDefMustard.Utils`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor` |
+| Assembly                            | Root Namespace                      | Platform    | References                                                                                             |
+|-------------------------------------|-------------------------------------|-------------|--------------------------------------------------------------------------------------------------------|
+| `LowDefMustard.Localization`        | `LowDefMustard.Localization`        | Runtime     | `LowDefMustard.Utils`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor`      |
 | `LowDefMustard.Localization.Editor` | `LowDefMustard.Localization.Editor` | Editor only | `LowDefMustard.Localization`, `LowDefMustard.Utils`, `Unity.Localization`, `Unity.Localization.Editor` |
 
 **Note:** the Runtime assembly references `Unity.Localization.Editor`. This is a deliberate choice — most of `LocalizationTool`'s implementation is wrapped in `#if UNITY_EDITOR`, so the editor-only APIs it calls (`LocalizationEditorSettings`, `StringTableCollection` creation/lookup, etc.) need to compile there, while the runtime-safe surface (`MakeLocalizedString`, `GetCurrentLocalization`, `SetLocale`, ...) stays available at runtime with no compile-time split needed between two assemblies.

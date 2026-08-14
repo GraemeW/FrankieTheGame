@@ -24,9 +24,9 @@ As shown below, the Save Editor has three main sections:
 
 In order to edit a save file, ensure the relevant save is currently selected in PlayerPrefs (via the `Set to Current` button), and then click the `Load Scene Data` button.  The save editor will display all saveable entities in the currently open scene view in the right panel.  
 
-Note that as long as a [player object](../../Assets/Game/Core/Player.prefab) exists in the scene view, the save editor will show all key player properties (aside from start menu scenes, the player object should always be present in the scene view).  Player properties include player mover, party - including all party member equipment/knapsack/stats, quest list, wallet, etc. 
+Note that as long as a [player object](../../../Assets/Game/Core/Player.prefab) exists in the scene view, the save editor will show all key player properties (aside from start menu scenes, the player object should always be present in the scene view).  Player properties include player mover, party - including all party member equipment/knapsack/stats, quest list, wallet, etc. 
 
-All other saveable entities in the current scene, such as NPC properties, check interaction (presents, doors, etc.) state, room visibility state, etc. are listed below the player cards, sorted first by any entities that are [GameStateModifiers](../../Assets/Scripts/Core/GameStateModifiers).
+All other saveable entities in the current scene, such as NPC properties, check interaction (presents, doors, etc.) state, room visibility state, etc. are listed below the player cards, sorted first by any entities that are [GameStateModifiers](../../../Packages/com.lowdefmustard.gamestatemodifiers/).
 
 The Save Editor functionality is relatively straightforward:  edit a parameter, save the appropriate entity (or click apply all data to save all entities).  When a parameter has been adjusted, but not yet saved, the entity's card will appear red, and the specific saveable component will show `Data Sync:  Volatile` until it is saved (or the save file reloaded)
 

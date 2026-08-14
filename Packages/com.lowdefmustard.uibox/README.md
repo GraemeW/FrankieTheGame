@@ -16,9 +16,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Assembly Structure
 
-| Assembly | Root Namespace | Platform | References |
-|---|---|---|---|
-| `LowDefMustard.UIBox` | `LowDefMustard.UIBox` | Runtime | `LowDefMustard.Control`, `LowDefMustard.Utils`, `Unity.TextMeshPro` |
+| Assembly              | Root Namespace        | Platform  | References                                                          |
+|-----------------------|-----------------------|-----------|---------------------------------------------------------------------|
+| `LowDefMustard.UIBox` | `LowDefMustard.UIBox` | Runtime   | `LowDefMustard.Control`, `LowDefMustard.Utils`, `Unity.TextMeshPro` |
 
 This package ships Runtime-only — there's no custom inspector here; every box is configured via the standard inspector and `BuildStateBehaviours()`.
 

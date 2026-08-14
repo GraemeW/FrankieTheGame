@@ -26,7 +26,7 @@ The key scripts attached to [PersistentObjects](./CoreDep/PersistentObjects.pref
 * [InputSystemUIInputModule](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/UISupport.html):  for use with Unity's new input system + UI elements
 
 The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
-* [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../../Packages/com.lowdefmustard.zones/Runtime/Transitions/SceneLoader.cs) script to transition across scenes (zones)
+* [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/SceneLoader.cs) script to transition across scenes (zones)
 * [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [CoreAudio](../Sound/CoreAudio.prefab):  contains the sole reference to the audio mixer to manage audio levels
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)

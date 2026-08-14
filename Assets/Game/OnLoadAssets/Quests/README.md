@@ -74,13 +74,13 @@ In addition to being completed via the Quest Completer component, quest objectiv
 
 ## Quests as Game State Modifiers
 
-Quests implement the [GameStateModifier](../../../Scripts/Core/GameStateModifiers/GameStateModifier.cs) abstract base class, indicating that they can alter the game state in a volatile/unrecoverable manner.
+Quests implement the [GameStateModifier](../../../../Packages/com.lowdefmustard.gamestatemodifiers/) abstract base class, indicating that they can alter the game state in a volatile/unrecoverable manner.
 
 As a Game State Modifier, the following custom editor behaviours are in effect:
 
 ### Tracking Handlers that Modify Quests
 
-When selecting a Quest scriptable object in Unity, its inspector properties show a list of game objects across the project that both A) implement the [IGameStateModifierHandler](../../../Scripts/Core/GameStateModifiers/IGameStateModifierHandler.cs) interface and B) reference the selected Quest scriptable object.  This interface indicates that these game objects can modify the quest state (e.g. such as by giving quests or completing quest objectives).  These handlers are automatically linked to the Quest whenever its scriptable object is referenced by the corresponding [IGameStateModifierHandler](../../../Scripts/Core/GameStateModifiers/IGameStateModifierHandler.cs) via serialization callbacks.
+When selecting a Quest scriptable object in Unity, its inspector properties show a list of game objects across the project that both A) implement the [IGameStateModifierHandler](../../../../Packages/com.lowdefmustard.gamestatemodifiers/) interface and B) reference the selected Quest scriptable object.  This interface indicates that these game objects can modify the quest state (e.g. such as by giving quests or completing quest objectives).  These handlers are automatically linked to the Quest whenever its scriptable object is referenced by the corresponding [IGameStateModifierHandler](../../../../Packages/com.lowdefmustard.gamestatemodifiers/) via serialization callbacks.
 
 As an example, see below:
 
@@ -90,6 +90,6 @@ Linked handlers are noted with corresponding `Open & Select` buttons, which can 
 
 ### Editor Gizmos for Game State Modifier Handlers
 
-When viewing any [IGameStateModifierHandler](../../../Scripts/Core/GameStateModifiers/IGameStateModifierHandler.cs) in the editor that is currently configured with a valid GameStateModifier (such as a Quest or a Key Item), a Gizmo marker will be drawn at its GameObject location.  The default gizmo is a red circle with a yellow star, as below:
+When viewing any [IGameStateModifierHandler](../../../../Packages/com.lowdefmustard.gamestatemodifiers/) in the editor that is currently configured with a valid GameStateModifier (such as a Quest or a Key Item), a Gizmo marker will be drawn at its GameObject location.  The default gizmo is a red circle with a yellow star, as below:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Quests/CustomEditorHandlerGizmos.png" width="350">

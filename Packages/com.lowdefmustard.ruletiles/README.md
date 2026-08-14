@@ -15,9 +15,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Assembly Structure
 
-| Assembly | Root Namespace | Platform | References |
-|---|---|---|---|
-| `LowDefMustard.RuleTiles` | `LowDefMustard.RuleTiles` | Runtime | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras` |
+| Assembly                         | Root Namespace                   | Platform    | References                                                               |
+|----------------------------------|----------------------------------|-------------|--------------------------------------------------------------------------|
+| `LowDefMustard.RuleTiles`        | `LowDefMustard.RuleTiles`        | Runtime     | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`                            |
 | `LowDefMustard.RuleTiles.Editor` | `LowDefMustard.RuleTiles.Editor` | Editor only | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`, `LowDefMustard.RuleTiles` |
 
 ## Contents

@@ -14,9 +14,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Assembly Structure
 
-| Assembly | Root Namespace | Platform | References |
-|---|---|---|---|
-| `LowDefMustard.Saving` | `LowDefMustard.Saving` | Runtime | `Newtonsoft.Json` |
+| Assembly                      | Root Namespace                | Platform    | References                                |
+|-------------------------------|-------------------------------|-------------|-------------------------------------------|
+| `LowDefMustard.Saving`        | `LowDefMustard.Saving`        | Runtime     | `Newtonsoft.Json`                         |
 | `LowDefMustard.Saving.Editor` | `LowDefMustard.Saving.Editor` | Editor only | `LowDefMustard.Saving`, `Newtonsoft.Json` |
 
 This package is intentionally decoupled from any project-specific save-slot management or game data model — see **Extension Hooks** below for how a consuming project wires itself in.

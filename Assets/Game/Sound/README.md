@@ -37,7 +37,7 @@ Set:
 
 As described in [Zones->Configuration](../OnLoadAssets/Zones/README.md#configure-the-zone), each zone (scene) has a specific `zoneAudio` (AKA world background music).  This music is played once the player enters the zone.
 
-In order to load the correct zone music, [BackgroundMusic](./BackgroundMusic.prefab) listens for `zoneUpdated` events from the [SceneLoader](../../../Packages/com.lowdefmustard.zones/Runtime/Transitions/SceneLoader.cs), which carries a reference to the new zone.  That reference is used to pull the relevant audio clip to transition the audio accordingly.
+In order to load the correct zone music, [BackgroundMusic](./BackgroundMusic.prefab) listens for `zoneUpdated` events from the [SceneLoader](../../Scripts/Zones/SceneLoader.cs), which carries a reference to the new zone.  That reference is used to pull the relevant audio clip to transition the audio accordingly.
 
 ### Handling Combat Music
 
@@ -76,7 +76,7 @@ Several key architectural game objects require more regular/tightly coupled inte
 
 #### UIBox Soundbox
 
-The [UIBoxSoundbox](./SpecializedSoundboxes/uiBoxSoundbox.prefab) helps to provide sound effects for [UI elements](../UI/) based on the [UIBox](../../Scripts/UI/UIBox/).
+The [UIBoxSoundbox](./SpecializedSoundboxes/uiBoxSoundbox.prefab) helps to provide sound effects for [UI elements](../UI/) based on the [UIBox](../../../Packages/com.lowdefmustard.uibox/).
 
 <img src="../../../InfoTools/Documentation/Game/Sound/UIBoxSoundbox.png" width="300">
 

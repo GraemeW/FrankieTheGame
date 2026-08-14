@@ -14,9 +14,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Assembly Structure
 
-| Assembly | Root Namespace | Platform | References |
-|---|---|---|---|
-| `LowDefMustard.Control` | `LowDefMustard.Control` | Runtime | `LowDefMustard.Utils` |
+| Assembly                       | Root Namespace                 | Platform    | References              |
+|--------------------------------|--------------------------------|-------------|-------------------------|
+| `LowDefMustard.Control`        | `LowDefMustard.Control`        | Runtime     | `LowDefMustard.Utils`   |
 | `LowDefMustard.Control.Editor` | `LowDefMustard.Control.Editor` | Editor only | `LowDefMustard.Control` |
 
 ## Contents
@@ -32,7 +32,7 @@ A generic framework for routing directional/action input through a stack of rece
     - `ParseDirectionalInput` / `NavigationVectorToInputType` — converts a `Vector2` into a `ControllerInputType`, picking the dominant axis.
     - `TryInputTypeToNavigationVector` — inverse conversion.
     - `VerifyUnique()` — singleton guard, intended for use in `Awake`.
-- **`IInputReceiver`** — Contract a receiver to plug into a `BaseController` (get an input handler delegate, subscribe to receiver-modified events, accept active/inactive toggling, bind to a controller).
+- **`IInputReceiver`** — Contracts a receiver to plug into a `BaseController` (get an input handler delegate, subscribe to receiver-modified events, accept active/inactive toggling, bind to a controller).
 - **`ActiveInputReceiver`** — Internal bookkeeping wrapper pairing a receiver with its disable callback and enabled state.
 - **`ReceiverModifiedType`** / **`ReceiverModifiedData`** — Event enum/payload a receiver uses to notify its controller of state changes (`ClientEnable`, `ClientDisable`, `ClientExit`, `ClearDisableCallbacks`, `WritingStateChanged`, `ItemSelected`).
 
