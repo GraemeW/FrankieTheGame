@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 5426194815115264
-    m_Localized: Bro Office Worker
+    m_Localized: "Employ\xE9 de Bureau Bro"
     m_Metadata:
       m_Items: []
   - m_Id: 5426195180019712
@@ -27,11 +27,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426195398123520
-    m_Localized: Generic Office Worker Fran
+    m_Localized: "Employ\xE9 de Bureau G\xE9n\xE9rique Fran"
     m_Metadata:
       m_Items: []
   - m_Id: 5426195612033024
-    m_Localized: Generic Office Worker Glen
+    m_Localized: "Employ\xE9 de Bureau G\xE9n\xE9rique Glen"
     m_Metadata:
       m_Items: []
   - m_Id: 5426195825942528
@@ -39,7 +39,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426196044046336
-    m_Localized: Hipster Office Worker
+    m_Localized: "Employ\xE9 de Bureau Hipster"
     m_Metadata:
       m_Items: []
   - m_Id: 5426196253761536
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426196681580544
-    m_Localized: Generic Office Worker Dan
+    m_Localized: "Employ\xE9 de Bureau G\xE9n\xE9rique Dan"
     m_Metadata:
       m_Items: []
   - m_Id: 5426196895490048
@@ -59,11 +59,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426197109399552
-    m_Localized: Clever Office Worker
+    m_Localized: "Employ\xE9 de Bureau Fut\xE9"
     m_Metadata:
       m_Items: []
   - m_Id: 5426197323309056
-    m_Localized: Generic Office Worker Stan
+    m_Localized: "Employ\xE9 de Bureau G\xE9n\xE9rique Stan"
     m_Metadata:
       m_Items: []
   - m_Id: 5426197537218560
@@ -99,7 +99,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426199256883200
-    m_Localized: Skilled Office Worker
+    m_Localized: "Employ\xE9 de Bureau Qualifi\xE9"
     m_Metadata:
       m_Items: []
   - m_Id: 5426199470792704

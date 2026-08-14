@@ -127,7 +127,7 @@ namespace Frankie.Speech.Editor
 
         private void AddNodeView(DialogueNode dialogueNode)
         {
-            if (nodeViews == null) { return; }
+            if (nodeViews == null || nodesLayer == null) { return; }
             var view = new DialogueNodeView(dialogueNode, selectedDialogue, MarkConnectionsDirty, () => zoomManipulator.zoomFactor);
             view.speakerNameChanged += HandleSpeakerNameChanged;
             view.speakerTypeChanged += HandleSpeakerTypeChanged;

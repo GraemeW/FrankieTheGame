@@ -84,7 +84,7 @@ namespace Frankie.Speech
         {
             if (characterProperties == null) { return; }
             isSpeakerOverridden = true;
-            overriddenSpeakerName = characterProperties.GetCharacterID();
+            overriddenSpeakerName = CharacterProperties.GetCharacterDisplayName(characterProperties);
         }
         #endregion
 
