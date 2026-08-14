@@ -48,5 +48,5 @@ MonoBehaviour:
   resetSaveOnStart: 0
   isCinematicAutoplayDisabled: 1
   shouldEnableAllRooms: 0
-  isDemo: 0
+  isDemo: 1
   demoZoneOverride: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
