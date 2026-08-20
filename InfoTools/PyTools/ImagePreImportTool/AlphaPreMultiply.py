@@ -118,7 +118,9 @@ class AlphaPreMultiply:
                 image = AlphaPreMultiply.AddPadding(image, paddingRequirements)
                 
                 preMultipliedImage = AlphaPreMultiply.PreMultiplyAlpha(image)
-                output = os.path.join(outputPath, os.path.basename(entry.path))
+                folderName = os.path.basename(os.path.dirname(entry.path))
+                outputFileName = f'{folderName} - {os.path.basename(entry.path)}'
+                output = os.path.join(outputPath, outputFileName)
                 preMultipliedImage.save(output)
         return
 
