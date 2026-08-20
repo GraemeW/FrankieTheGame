@@ -91,6 +91,9 @@ The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/Pix
 ### Artwork Format:
 
 * art must be exported as Portable Network Graphic format (.png)
+* individual art PNG files must map to individual sprite objects (except for tilemaps) - i.e.
+  * all art must be pre-sliced before importing to Unity
+  * multiple standalone objects must never be packaged together inside a single PNG file
 
 ### Sprite Edge Features:
 
