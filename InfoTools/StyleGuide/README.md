@@ -95,6 +95,10 @@ The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/Pix
   * all art must be pre-sliced before importing to Unity
   * multiple standalone objects must never be packaged together inside a single PNG file
 
+### Light Source
+
+* Unless a scene has a specific/explicit requirement, all artwork should be drawn as though a single point light source exists in the west/north-west of the art canvas
+
 ### Sprite Edge Features:
 
 * **Exterior Sprite Edges/Borders** should be drawn with darker (non-black) colours
