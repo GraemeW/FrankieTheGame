@@ -80,30 +80,44 @@
 
 ## Artwork
 
-### Game Object / World Artwork (Pixel Art)
+### Rendering Notes
 
-* Artwork Format:
-  * art must be exported as Portable Network Graphic format (.png)
-* Artwork Edge Features:
-  * art must be drawn with high contrast exterior borders
-    * exterior borders should be drawn using black or near-black colours
-    * exterior borders may be drawn using alternative colours, such as a low-lightness variant of the feature's edge colour
-  * art should be drawn with sufficiently high contrast interior borders
-    * interior borders should be drawn using low-lightness variants of the feature's interior colour
-    * interior borders should NOT be drawn using black or near-black colours
-* Artwork Divisibility:
-  * art should be drawn such that the width (horizontal) pixel count is divisible by 2
-  * this allows for simple anchor placement in the centre of the object, otherwise anchoring will bias either left or right by 0.5px
+Frankie uses a custom shader [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.shader), as described in [Rendering](../../Assets/Scripts/Rendering/).
+
+The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.shader) allows pixel-perfect game artwork to render properly on any screen resolution, monitor/display pipeline scaling or window resolution.  It, notably, also assumes pre-multiplied alpha for any rendered artwork, as well as specific artwork construction + alpha/transparency padding (as described below).  Failure to adhere to the requirements described below **will** result in visual glitches for certain window resolutions or display configurations (such as flicker, shimmer, jutter, etc.).
 
 *Note:  For sprite import/configuration and placement guidance, see [Game/WorldObjects](../../Assets/Game/WorldObjects/README.md#sprite-import--setup)*
 
-### Additional Rendering Requirements
+### Artwork Format:
 
-Frankie uses a custom shader [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.shader), as described in [Rendering](../../Assets/Scripts/Rendering/).  
+* art must be exported as Portable Network Graphic format (.png)
+* individual art PNG files must map to individual sprite objects (except for tilemaps) - i.e.
+  * all art must be pre-sliced before importing to Unity
+  * multiple standalone objects must never be packaged together inside a single PNG file
 
-The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.shader) allows pixel-perfect game artwork to render properly on any screen resolution, monitor/display pipeline scaling or window resolution.  It, notably, also assumes pre-multiplied alpha for any rendered artwork.  Further, due to the manner in which Unity treats asset edges (i.e. mirroring/extruding at pixel edges) additional considerations must be made in the design/construction of artwork.  Failure to adhere to these requirements will result in visual glitches for certain window resolutions or display configurations (such as flicker, shimmer, jutter, etc.).
+### Light Source
 
-#### World Artwork Considerations
+* Unless a scene has a specific/explicit requirement, all artwork should be drawn as though a single point light source exists in the west/north-west of the art canvas
+
+### Sprite Edge Features:
+
+* **Exterior Sprite Edges/Borders** should be drawn with darker (non-black) colours
+  * this is usually accomplished by taking a a low-lightness variant of the feature's edge colour (e.g. red shirt -> dark red edge, pale skin -> slightly tanned edge, etc.)
+  * exceptions to this rule include:
+    * buildings + large furniture - generally use black or near-black borders to better guide player pathing
+    * low readability - if the typical approach leads to visual muddiness, edges may be drawn with much lower lightness or higher lightness
+      * e.g. white shirts - occasionally use black borders (for dress shirts) or bright boarders (for party shirts) instead of a dark gray colour
+      * e.g. skin tones - occasionally needs higher contrast, especially if adjacent clothing colour would muddy 
+* **Interior Sprite Edges/Borders** must be drawn with sufficiently high contrast interior borders to avoid muddiness
+  * interior borders should be drawn using low-lightness variants of the feature's interior colour
+  * interior borders should NOT be drawn using black or near-black colours
+
+### Artwork Divisibility:
+
+* art should be drawn such that the width (horizontal) pixel count is divisible by 2
+* this allows for simple anchor placement in the centre of the object, otherwise anchoring will bias either left or right by 0.5px
+
+### Alpha and Padding
 
 * Art must have its content pre-multiplied by alpha
 * Art must NOT have any content bordering the edges of its canvas
@@ -111,7 +125,14 @@ The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/Pix
 
 *For simplicity, see [AlphaPreMultiply.py](../PyTools/ImagePreImportTool/AlphaPreMultiply.py) python tool, which can be applied to any as-drawn artwork to ensure it adheres to requirements*
 
-#### Tilemap Artwork Considerations
+### Character Animation Pixel Offsetting
+
+* When animating character movement, 1px offsetting in the artwork should be applied as follows:
+  * Front/Back Motion:  Wobble 1px left/right
+  * Left/Right Motion:  Wobble 1px up/down
+  * BackLeft/Right && FrontLeft/Right Motion:  Wobble 1px up/down
+
+### Tilemap Artwork - Additional Considerations
 
 * Tile artwork should be packed using 1px edge border transparency with 2px transparent buffer between tiles
 * Tiles should be constructed in such a manner that tile content is continuous across edges

@@ -84,7 +84,7 @@ As detailed in [Rendering](../../Scripts/Rendering/), Frankie employs a custom s
 
 Art assets must conform to the rules defined in the [StyleGuide](../../../InfoTools/StyleGuide/).  
 
-The following adjustments must be made to the asset's settings in Unity (otherwise, apply default settings):
+The following adjustments are automagically made to the asset's settings in Unity once its .meta file is generated via [DefaultSpriteImportSettings](../../Scripts/Utils/Editor/ImportDefaults/DefaultSpriteImportSettings.cs):
 * `Pixels Per Unit (PPU)`:  `100`
 * `Alpha Is Transparency`:  `Disable`
 * `Generate Mipmap`:  `Enable`
@@ -92,7 +92,7 @@ The following adjustments must be made to the asset's settings in Unity (otherwi
 * `Aniso Level`:  `16`
 * `Compression`:  `None`
 
-As an example, see below:
+In the event that these settings are not set or altered, they can be updated manually. As an example, see below:
 
 <img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleSpriteImport.png" width="400">
 
