@@ -100,9 +100,10 @@ The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/Pix
 * **Exterior Sprite Edges/Borders** should be drawn with darker (non-black) colours
   * this is usually accomplished by taking a a low-lightness variant of the feature's edge colour (e.g. red shirt -> dark red edge, pale skin -> slightly tanned edge, etc.)
   * exceptions to this rule include:
-    * white features - occasionally it looks cleaner to use black borders (e.g. for dress shirts) instead of e.g. a gray colour
-    * low readability - if the typical approach leads to low readability, the edge may be drawn with much lower lightness or higher lightness as-needed to reduce visual muddiness
-  * note that these exceptions should be RARE and only employed sparingly
+    * buildings + large furniture - generally use black or near-black borders to better guide player pathing
+    * low readability - if the typical approach leads to visual muddiness, edges may be drawn with much lower lightness or higher lightness
+      * e.g. white shirts - occasionally use black borders (for dress shirts) or bright boarders (for party shirts) instead of a dark gray colour
+      * e.g. skin tones - occasionally needs higher contrast, especially if adjacent clothing colour would muddy 
 * **Interior Sprite Edges/Borders** must be drawn with sufficiently high contrast interior borders to avoid muddiness
   * interior borders should be drawn using low-lightness variants of the feature's interior colour
   * interior borders should NOT be drawn using black or near-black colours
