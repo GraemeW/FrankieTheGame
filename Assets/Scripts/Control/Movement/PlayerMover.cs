@@ -16,7 +16,7 @@ namespace Frankie.Control
         // Tunables
         [SerializeField] private bool snapPlayerToPixelPerfect = false;
         [SerializeField] private float speedMoveThreshold = 0.05f;
-        [SerializeField] private int playerMovementHistoryLength = 128;
+        [SerializeField] private int playerMovementHistoryLength = 256;
         [SerializeField] private float speedPollingPeriod = 0.25f;
 
         // State
