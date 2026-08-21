@@ -19,7 +19,7 @@ namespace Frankie.World
     {
         // Tunables
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedRideMessage;
-        [SerializeField] private GameObject conductorToggleObject;
+        [SerializeField] private Transform conductorsRoot;
         [SerializeField] private Transform followTarget;
         [SerializeField] private List<SubwayRide> subwayRides = new();
         [SerializeField] private List<WorldSubwayRider> sisterRidersToDisable = new();
@@ -74,11 +74,21 @@ namespace Frankie.World
         #endregion
 
         #region UtilityMethods
-        public void ToggleConductor(bool enable)
+        private void DisableAllConductors()
         {
-            if (conductorToggleObject == null) { return; }
+            foreach (Transform childTransform in conductorsRoot)
+            {
+                childTransform.gameObject.SetActive(false);
+            }
+        }
 
-            conductorToggleObject.SetActive(enable);
+        private void DisableSisterRides()
+        {
+            if (sisterRidersToDisable is not { Count: > 0 }) { return; }
+            foreach (WorldSubwayRider sisterRider in sisterRidersToDisable)
+            {
+                sisterRider.gameObject.SetActive(false);
+            }
         }
 
         private void StartRide(PlayerStateMachine playerStateMachine, SubwayRide subwayRide)
@@ -88,38 +98,24 @@ namespace Frankie.World
             var interactionEvent = new InteractionEvent();
             interactionEvent.AddListener((_) => HandleRideStart(subwayRide, playerStateMachine));
             playerStateMachine.SetPostDialogueCallbackActions(interactionEvent);
-            Debug.Log("Butts");
         }
 
         private void HandleRideStart(SubwayRide subwayRide, PlayerStateMachine playerStateMachine)
         {
-            // Check for camera controller
             cameraController = CameraController.GetCameraController();
             if (cameraController == null) { return; }
             
-            // Disable Stuff
-            ToggleConductor(false);
-            if (sisterRidersToDisable is { Count: > 0 })
-            {
-                foreach (WorldSubwayRider sisterRider in sisterRidersToDisable)
-                {
-                    sisterRider.gameObject.SetActive(false);
-                }
-            }
-
-            // Pass camera control to train
-            cameraController.OverrideCameraFollower(animator, followTarget == null ? transform : followTarget);
-
-            // Warp player -- must be called after camera on train to avoid camera jump
-            subwayRide.zoneHandler.AttemptToWarpPlayer(playerStateMachine);
-
-            // Start to move Train && set up delegate to handle end of ride
+            DisableAllConductors();
+            DisableSisterRides();
+            
+            cameraController.OverrideCameraFollower(animator, followTarget == null ? transform : followTarget); // Pass camera control to train
+            subwayRide.zoneHandler.AttemptToWarpPlayer(playerStateMachine); // Warp player -- must be called after camera on train to avoid camera jump
+            
             npcMover.SetPatrolPath(subwayRide.path);
             handleRideEndDelegate = () => HandleRideEnd(playerStateMachine);
             npcMover.arrivedAtFinalWaypoint += handleRideEndDelegate;
-
-            // Remove player control -- Call this after warping player, or ZoneHandler will force exit cutscene
-            playerStateMachine.EnterCutscene(false);
+            
+            playerStateMachine.EnterCutscene(false); // Remove player control -- Call this after warping player, or ZoneHandler will force exit cutscene
         }
         
         private void HandleRideEnd(PlayerStateMachine playerStateMachine)
