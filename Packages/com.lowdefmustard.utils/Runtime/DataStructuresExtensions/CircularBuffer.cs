@@ -58,7 +58,7 @@ namespace LowDefMustard.Utils
         
         public T GetEntryAtPosition(int position)
         {
-            if (position >= count) return default(T);
+            if (position >= count) { return default(T); }
             int index = (MostRecentIndex() - position) & mask;
             return buffer[index];
         }
@@ -70,6 +70,8 @@ namespace LowDefMustard.Utils
             tail = 0;
             count = 0;
         }
+        
+        private int MostRecentIndex() => (tail - 1) & mask;
         #endregion
         
         #region IEnumerableAndSpan
@@ -93,13 +95,18 @@ namespace LowDefMustard.Utils
         }
         #endregion
         
-        #region PrivateMethods
-        private int MostRecentIndex() => (tail - 1) & mask;
-        
+        #region StaticMethods
         private static int CeilToPowerOf2(int size)
         {
             if ((size & (size - 1)) == 0) { return size; }
-            
+            switch (size)
+            {
+                case <= 1:
+                    return 2;
+                case > 1073741824:
+                    return 1073741824; // highest viable power of 2
+            }
+
             size--;
             size |= size >> 1;
             size |= size >> 2;
