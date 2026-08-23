@@ -89,8 +89,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void ReInitLazyValue_WhenCachedValueBecomesNull_ReInitializesOnNextAccess()
         {
-            // Models the Unity "destroyed reference" scenario ReInitLazyValue is meant for:
-            // The cached object becomes null behind the scenes, and access should trigger a fresh Initialize() call rather than returning the stale null
+            // Covers the plain-C#-null case only: a real null reference should trigger re-initialization
+            // The Unity "destroyed reference" (fake-null) case can't be modelled with a plain object
+            // See the Play Mode test ReInitLazyValue_AfterCachedUnityObjectIsDestroyed_ReInitializesOnForceInit for that scenario, which needs a real Destroy() to exercise
             int callCount = 0;
             var lazy = new ReInitLazyValue<object>(() =>
             {
@@ -101,7 +102,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             _ = lazy.value; // first init, callCount == 1
             lazy.value = null; // simulate the cached reference becoming null
 
-            object result = lazy.value;
+            var result = lazy.value;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(2, callCount);

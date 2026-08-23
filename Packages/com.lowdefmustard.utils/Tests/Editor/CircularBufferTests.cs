@@ -9,7 +9,6 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void Add_BelowCapacity_IncreasesCount()
         {
             var buffer = new CircularBuffer<int>(size: 4);
-
             buffer.Add(1);
             buffer.Add(2);
 
@@ -34,7 +33,6 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void Add_NewestEntry_BecomesFirstEntry()
         {
             var buffer = new CircularBuffer<int>(size: 4);
-
             buffer.Add(1);
             buffer.Add(2);
 
