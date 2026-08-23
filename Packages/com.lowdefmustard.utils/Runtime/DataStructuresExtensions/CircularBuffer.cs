@@ -39,7 +39,7 @@ namespace LowDefMustard.Utils
         {
             if (count == size)
             {
-                // Full: overwrite oldest slot (== tail when full), advance both.
+                // Full: overwrite oldest slot (== tail when full), advance both
                 buffer[head] = obj;
                 head = (head + 1) & mask;
                 tail = (tail + 1) & mask;
