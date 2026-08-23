@@ -43,8 +43,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             collection.Set(SampleEnum.Beta, 10);
             collection.Set(SampleEnum.Beta, 20);
 
-            // Every enum value yields exactly one entry from the enumerator,
-            // so a duplicate entry for Beta would show up as a repeated key here.
+            // Every enum value yields exactly one entry from the enumerator, so a duplicate entry for Beta would show up as a repeated key here
             var betaEntries = collection.Where(pair => pair.key == SampleEnum.Beta).ToList();
 
             Assert.AreEqual(1, betaEntries.Count);
@@ -76,9 +75,8 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void IEnumKeyedCollection_GetListName_ReturnsBackingFieldName()
         {
-            // This couples the test to the private field name "entries" - if that
-            // field is ever renamed, this test (and SyncEntriesToEnum's SerializedProperty
-            // lookups in the drawer) both need updating together.
+            // This couples the test to the private field name "entries" (FIXED DEFINITION)
+            // If that field is ever renamed, this test (and SyncEntriesToEnum's SerializedProperty lookups in the drawer) both need updating together
             var collection = new EnumKeyedCollection<SampleEnum, int>();
             IEnumKeyedCollection asInterface = collection;
 
@@ -99,11 +97,9 @@ namespace LowDefMustard.Utils.Tests.Editor
             Assert.AreEqual(5, value);
         }
 
-        // NOTE: SyncEntriesToEnum's "drop orphaned entries for removed enum members"
-        // path isn't covered here - reaching it needs an entry whose key isn't a member
-        // of the current enum, which isn't easy to construct from outside the class
-        // without reflection. Worth a follow-up test (e.g. via a second EnumKeyedCollection
-        // built against a wider enum, or a small reflection helper) if that reconciliation
-        // logic is ever touched.
+        // TESTING NOTE:
+        // SyncEntriesToEnum's "drop orphaned entries for removed enum members" path isn't covered here
+        // Reaching it needs an entry whose key isn't a member of the current enum, which isn't easy to construct from outside the class without reflection.
+        // Potential consideration - testing e.g. via a second EnumKeyedCollection built against a wider enum, or a small reflection helper
     }
 }
