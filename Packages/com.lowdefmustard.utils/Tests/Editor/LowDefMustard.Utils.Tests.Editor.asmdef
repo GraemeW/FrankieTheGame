@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "LowDefMustard.Utils"
+        "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Editor"
     ],
     "includePlatforms": [
         "Editor"
