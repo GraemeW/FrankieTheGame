@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6761616658632847994, guid: b5af2032c911aed459b1700f2ff86951, type: 3}
       propertyPath: m_Name
-      value: SubwayTrain2
+      value: SubwayTrainGreen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

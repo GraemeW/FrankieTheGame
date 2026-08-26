@@ -95,6 +95,72 @@ An `EditorWindow` that batch-generates `AnimationClip` assets from a folder of s
 - `EnumKeyedCollection<TEnum, TData>` stores an explicit key per entry (rather than relying on list position) specifically so the guaranteed-complete, force-enumerated inspector UX doesn't come at the cost of silent data corruption if an enum gets reordered or extended in the middle.
 - `EnumKeyedCollectionDrawer`'s reconciliation (`SyncEntriesToEnum`) assumes a plain (non-`[Flags]`) enum, matching the one-entry-per-member model. Using it with a `[Flags]` enum isn't guarded against and isn't a supported configuration.
 
+## Tests
+
+Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), run manually through the Test Runner.
+
+| Assembly                             | Root Namespace                       | Platform                     |
+|--------------------------------------|--------------------------------------|------------------------------|
+| `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                       |
+| `LowDefMustard.Utils.Tests.PlayMode` | `LowDefMustard.Utils.Tests.PlayMode` | All (Editor-run in practice) |
+
+### Coverage at a glance
+
+| Category                       | Types | Tested | Notes                                                                                 |
+|--------------------------------|:-----:|:------:|---------------------------------------------------------------------------------------|
+| Data Structures & Extensions   | 16    |   15   | `IStandardGraphNode` has no concrete implementation in this package to test against   |
+| Custom Attribute Drawers       | 3     |   3†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered |
+| Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                           |
+| Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                 |
+| Addressables                   | 1     |   0    | `IAddressablesCache` has no concrete implementation in this package to test against   |
+| Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                 |
+| Standard Editor Tools          | 4     |   4†   | `StandardBackgroundLayer`'s actual pixel rendering isn't reachable                    |
+| Sprite Animation Generator     | 8     |   6    | `OverrideDirectionLookup` and the full `Generate()` pipeline aren't covered           |
+
+\* Interface covered only via a test double standing in for a real implementation, not a concrete type of its own
+
+† Partial coverage — see the relevant row(s) in **Detail by type** below for what is / isn't reachable
+
+### Detail by type
+
+| Type                                                   | Tested?  | Test file(s)                                                   | Notes                                                                                                                                                |
+|--------------------------------------------------------|----------|----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `LazyValue<T>`                                         | Yes      | `LazyValueTests.cs`                                            |                                                                                                                                                      |
+| `ReInitLazyValue<T>`                                   | Yes      | `LazyValueTests.cs`, `LazyValueLifecycleTests.cs`              | Play Mode coverage exercises it against a real destroyed `UnityEngine.Object` reference                                                              |
+| `CircularBuffer<T>`                                    | Yes      | `CircularBufferTests.cs`                                       |                                                                                                                                                      |
+| `EnumLookup<TEnum, TValue>` / `EnumLookupBase<TValue>` | Yes      | `EnumLookupTests.cs`                                           |                                                                                                                                                      |
+| `EnumKeyedCollection<TEnum, TData>`                    | Yes      | `EnumKeyedCollectionTests.cs`                                  | `SyncEntriesToEnum`'s orphaned-entry removal isn't covered — awkward to reach without reflection                                                     |
+| `EnumExtensions.NextClamped<T>()`                      | Yes      | `EnumExtensionsTests.cs`                                       |                                                                                                                                                      |
+| `ListExtensions.Shuffle<T>()`                          | Yes      | `ListExtensionsTests.cs`                                       |                                                                                                                                                      |
+| `ApproximateFloatComparer`                             | Yes      | `ApproximateFloatComparerTests.cs`                             |                                                                                                                                                      |
+| `SmartVector2.CheckDistance(...)`                      | Yes      | `SmartVector2Tests.cs`                                         |                                                                                                                                                      |
+| `SerializableVector2` / `SerializableVector3`          | Yes      | `SerializableDataTests.cs`                                     |                                                                                                                                                      |
+| `SerializablePolygon`                                  | Yes      | `SerializableDataTests.cs`                                     |                                                                                                                                                      |
+| `ChoiceActionPair`                                     | Yes      | `ChoiceActionPairTests.cs`                                     |                                                                                                                                                      |
+| `IStandardGraphNode`                                   | No       | —                                                              | No concrete implementation                                                                                                                           |
+| `[ReadOnly]`                                           | Yes      | `ReadOnlyDrawerTests.cs`                                       |                                                                                                                                                      |
+| `[RestrictedEnum(...)]`                                | Partial  | `RestrictedEnumDrawerTests.cs`                                 | `RegisterValueChangedCallback`/`TrackPropertyValue` write-back & prefab-override not covered (requires UI Toolkit panel or prefab instance) |
+| `[EnumKeyedCollection]` drawer                         | Yes      | `EnumKeyedCollectionDrawerTests.cs`                            |                                                                                                                                                      |
+| `Predicate`                                            | Indirect | `ConditionTests.cs` (via `TestPredicate` stand-in)             | Abstract with no members of its own to test directly                                                                                                 |
+| `IPredicateEvaluator`                                  | Indirect | `ConditionTests.cs` (via test-double evaluators)               | No concrete implementation                                                                                                                           |
+| `Condition` / `Disjunction` / `PredicateWrapper`       | Yes      | `ConditionTests.cs`                                            | See `Runtime/Predicates/README.md` for the full CNF/evaluation semantics this suite covers                                                           |
+| `IObjectProbabilityPair<T>`                            | Indirect | `ProbabilityPairOperationTests.cs` (via a test double)         | No concrete implementation                                                                                                                           |
+| `ProbabilityPairOperation<T>.GetRandomObject(...)`     | Yes      | `ProbabilityPairOperationTests.cs`                             |                                                                                                                                                      |
+| `IAddressablesCache`                                   | No       | —                                                              | No concrete implementation                                                                                                                           |
+| `EditorStateCheck.IsStandardEditorState(...)`          | Partial  | `EditorStateCheckTests.cs`, `EditorStateCheckPlayModeTests.cs` | 6 of 8 internal guards covered; `isCompiling`/`isUpdating` and the play-mode transition window aren't reliably testable                              |
+| `StandardBackgroundLayer`                              | Partial  | `StandardBackgroundLayerTests.cs`                              | The `Painter2D` drawing isn't testable — `MeshGenerationContext` has no public constructor                                                           |
+| `StandardCanvasPanManipulator`                         | Yes      | `StandardCanvasPanManipulatorTests.cs`                         |                                                                                                                                                      |
+| `StandardCanvasZoomManipulator`                        | Yes      | `StandardCanvasZoomManipulatorTests.cs`                        |                                                                                                                                                      |
+| `StandardNodeDragManipulator`                          | Yes      | `StandardNodeDragManipulatorTests.cs`                          |                                                                                                                                                      |
+| `SpriteAnimationGenerator` (bits below)                |          |                                                                |                                                                                                                                                      | 
+| ^-`.ClassifyAction(...)`                               | Yes      | `ClassifyActionTests.cs`                                       | 
+| ^-`.OverrideConfiguration.IsOverrideMatch(...)`        | Yes      | `OverrideConfigurationIsOverrideMatchTests.cs`                 |                                                                                                                                                      |
+| ^-`.Generate()` / `ProcessNextBuildStep()`             | No       | —                                                              | Out of scope (requires sprite asset files on disk matching the filename patterns, pumping the deferred `EditorApplication.update` build queue. etc.) |
+| ^-`AnimationBuildLog`                                  | Yes      | `AnimationBuildLogTests.cs`                                    |                                                                                                                                                      |
+| ^-`{x}AnimationData`                                   | Yes      | `AnimationDataTests.cs`                                        |                                                                                                                                                      |
+| ^-`OverrideDirectionLookup`                            | No       | —                                                              | Out of scope (requires `AnimatorController` + `AnimatorOverrideController` pair to construct meaningfully                                            |
+
+
 ## License
 
 Internal package — Low Def Mustard Games. See GIT LICENSE file for further details.

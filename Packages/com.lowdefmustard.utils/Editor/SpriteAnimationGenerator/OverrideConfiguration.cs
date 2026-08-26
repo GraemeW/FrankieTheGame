@@ -70,7 +70,8 @@ namespace LowDefMustard.Utils.Editor
             EditorUtility.SetDirty(overrideController);
         }
         
-        private static bool IsOverrideMatch(string overrideSlotName, string action, bool isIdle, bool isStandStill)
+        // Note:  marked internal so string-matching logic is directly testable
+        internal static bool IsOverrideMatch(string overrideSlotName, string action, bool isIdle, bool isStandStill)
         {
             bool slotHasStandStill = overrideSlotName.IndexOf(SpriteAnimationGenerator.standStillOverrideToken, StringComparison.OrdinalIgnoreCase) >= 0;
             if (isStandStill) { return slotHasStandStill; }

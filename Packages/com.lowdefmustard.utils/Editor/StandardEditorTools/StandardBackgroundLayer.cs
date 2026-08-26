@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +16,7 @@ namespace LowDefMustard.Utils.Editor
 
         // State
         private readonly StandardBackgroundType backgroundType;
-        
+
         public StandardBackgroundLayer(StandardBackgroundType standardBackgroundType)
         {
             name = "background-layer";
@@ -52,15 +53,10 @@ namespace LowDefMustard.Utils.Editor
             painter.lineWidth = _lineWidth;
 
             painter.BeginPath();
-            for (float x = 0f; x <= size; x += _cellSize)
+            foreach (var (start, end) in GenerateGridLines(size, _cellSize))
             {
-                painter.MoveTo(new Vector2(x, 0f));
-                painter.LineTo(new Vector2(x, size));
-            }
-            for (float y = 0f; y <= size; y += _cellSize)
-            {
-                painter.MoveTo(new Vector2(0f, y));
-                painter.LineTo(new Vector2(size, y));
+                painter.MoveTo(start);
+                painter.LineTo(end);
             }
             painter.Stroke();
         }
@@ -68,24 +64,57 @@ namespace LowDefMustard.Utils.Editor
         private static void DrawDotBackground(MeshGenerationContext context)
         {
             const float size = _backgroundExtents * 2f;
-            
+
             Painter2D painter = context.painter2D;
             painter.fillColor = _backgroundDotColour;
-            
-            for (float x = 0; x <= size; x += _cellSize)
+
+            foreach (var quad in GenerateDotQuads(size, _cellSize, _backgroundDotRadius))
             {
-                for (float y = 0; y <= size; y += _cellSize)
-                {
-                    painter.BeginPath();
-                    painter.MoveTo(new Vector2(x - _backgroundDotRadius, y - _backgroundDotRadius));
-                    painter.LineTo(new Vector2(x + _backgroundDotRadius, y - _backgroundDotRadius));
-                    painter.LineTo(new Vector2(x + _backgroundDotRadius, y + _backgroundDotRadius));
-                    painter.LineTo(new Vector2(x - _backgroundDotRadius, y + _backgroundDotRadius));
-                    painter.ClosePath();
-                    painter.Fill();
-                }
+                painter.BeginPath();
+                painter.MoveTo(quad.bottomLeft);
+                painter.LineTo(quad.bottomRight);
+                painter.LineTo(quad.topRight);
+                painter.LineTo(quad.topLeft);
+                painter.ClosePath();
+                painter.Fill();
             }
             painter.Stroke();
         }
+
+        #region InternalHelpers
+        // Note:  marked internal so the geometry math is directly testable
+        internal static List<(Vector2 start, Vector2 end)> GenerateGridLines(float size, float cellSize)
+        {
+            var lines = new List<(Vector2, Vector2)>();
+            for (float x = 0f; x <= size; x += cellSize)
+            {
+                lines.Add((new Vector2(x, 0f), new Vector2(x, size)));
+            }
+            for (float y = 0f; y <= size; y += cellSize)
+            {
+                lines.Add((new Vector2(0f, y), new Vector2(size, y)));
+            }
+            return lines;
+        }
+
+        internal static List<(Vector2 bottomLeft, Vector2 bottomRight, Vector2 topRight, Vector2 topLeft)> GenerateDotQuads(float size, float cellSize, float radius)
+        {
+            var quads = new List<(Vector2, Vector2, Vector2, Vector2)>();
+            for (float x = 0f; x <= size; x += cellSize)
+            {
+                for (float y = 0f; y <= size; y += cellSize)
+                {
+                    var center = new Vector2(x, y);
+                    quads.Add((
+                        center + new Vector2(-radius, -radius),
+                        center + new Vector2(radius, -radius),
+                        center + new Vector2(radius, radius),
+                        center + new Vector2(-radius, radius)
+                    ));
+                }
+            }
+            return quads;
+        }
+        #endregion
     }
 }

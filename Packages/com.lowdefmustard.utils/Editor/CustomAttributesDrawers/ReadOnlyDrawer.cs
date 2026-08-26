@@ -1,15 +1,18 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace LowDefMustard.Utils.Editor
 {
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute), true)]
     public class ReadOnlyDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-            GUI.enabled = false;
-            EditorGUI.PropertyField(position, property, label, true);
-            GUI.enabled = true;
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var field = new PropertyField(property, property.displayName);
+            field.SetEnabled(false);
+            field.BindProperty(property);
+            return field;
         }
     }
 }

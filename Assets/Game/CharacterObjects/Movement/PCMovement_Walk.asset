@@ -15,7 +15,7 @@ MonoBehaviour:
   <movementStyle>k__BackingField: 0
   <usingPathFinding>k__BackingField: 0
   <baseMovementSpeed>k__BackingField: 1
-  <targetMovementHistoryLength>k__BackingField: 10
+  <targetMovementHistoryLength>k__BackingField: 8
   <warpDelay>k__BackingField: 1.25
   <warpPostTargetDelay>k__BackingField: 0.25
   <warpPathfindingTravelDistance>k__BackingField: 2

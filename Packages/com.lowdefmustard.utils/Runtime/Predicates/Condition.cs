@@ -14,8 +14,11 @@ namespace LowDefMustard.Utils
             return and.All(disjunction => disjunction.Check(evaluators));
         }
 
+        public void AddDisjunction(Disjunction disjunction) => and.Add(disjunction);
+        public IReadOnlyList<Disjunction> GetDisjunctions() => and;
+
         [System.Serializable]
-        private class Disjunction
+        public class Disjunction
         {
             [NonReorderable] [SerializeField] private List<PredicateWrapper> or = new();
 
@@ -23,19 +26,36 @@ namespace LowDefMustard.Utils
             {
                 return or.Any(predicateWrapper => predicateWrapper.Check(evaluators));
             }
+
+            public void AddPredicateWrapper(PredicateWrapper predicateWrapper) => or.Add(predicateWrapper);
+            public IReadOnlyList<PredicateWrapper> GetPredicateWrappers() => or;
         }
 
         [System.Serializable]
-        private class PredicateWrapper
+        public class PredicateWrapper
         {
             [SerializeField] private Predicate predicate;
             [SerializeField] private bool negate;
+
+            // Parameterless constructor kept for Unity's serializer (Inspector-created entries still get default field values)
+            public PredicateWrapper()
+            {
+            }
+
+            public PredicateWrapper(Predicate predicate, bool negate = false)
+            {
+                this.predicate = predicate;
+                this.negate = negate;
+            }
 
             public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
             {
                 if (predicate == null) { return true; }
                 return evaluators.Select(evaluator => evaluator.Evaluate(predicate)).All(result => result != negate);
             }
+
+            public Predicate GetPredicate() => predicate;
+            public bool GetNegate() => negate;
         }
     }
 }

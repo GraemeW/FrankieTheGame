@@ -343,7 +343,8 @@ namespace LowDefMustard.Utils.Editor
         #endregion
         
         #region StaticHelpers
-        private static ActionClassification ClassifyAction(string rawAction)
+        // Note:  marked internal so the classification logic is directly testable
+        internal static ActionClassification ClassifyAction(string rawAction)
         {
             if (rawAction.IndexOf(standStillToken, StringComparison.OrdinalIgnoreCase) >= 0)
             {
