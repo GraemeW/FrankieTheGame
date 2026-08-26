@@ -8,7 +8,7 @@ namespace LowDefMustard.Utils.Editor
     public class AnimationBuildLog
     {
         // Tunables - marked internal for test access
-        internal const string summarizeMessage = "$\"Done. {0} clip(s) written, {1} skipped.\\n\\n\"";
+        internal const string summarizeMessage = "Done. {0} clip(s) written, {1} skipped.\n \n";
         private const string _passThroughActionMessage = "Non-standard actions used as-is (not in DirectionAliasMap):";
         private const string _ambiguousActionMessage = "Ambiguous actions identified in OverrideController:";
         internal const string skipNoSpriteMessage = "Skipped {0}: no loadable sprites found.";
