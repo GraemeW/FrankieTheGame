@@ -7,6 +7,14 @@ namespace LowDefMustard.Utils.Editor
 {
     public class AnimationBuildLog
     {
+        // Tunables - marked internal for test access
+        internal const string summarizeMessage = "$\"Done. {0} clip(s) written, {1} skipped.\\n\\n\"";
+        private const string _passThroughActionMessage = "Non-standard actions used as-is (not in DirectionAliasMap):";
+        private const string _ambiguousActionMessage = "Ambiguous actions identified in OverrideController:";
+        internal const string skipNoSpriteMessage = "Skipped {0}: no loadable sprites found.";
+        internal const string skipAlreadyExistsMessage = "Skipped {0}: already exists (overwrite disabled).";
+
+        // State
         private readonly StringBuilder log = new();
         public int createdCount = 0;
         private int skippedCount = 0;
@@ -31,7 +39,7 @@ namespace LowDefMustard.Utils.Editor
 
         public void SummarizeGeneration()
         {
-            log.Insert(0, $"Done. {createdCount} clip(s) written, {skippedCount} skipped.\n\n");
+            log.Insert(0, string.Format(summarizeMessage, createdCount, skippedCount));
             Publish();
         }
 
@@ -39,7 +47,7 @@ namespace LowDefMustard.Utils.Editor
         {
             if (passthroughActions.Count <= 0) { return; }
             log.AppendLine();
-            log.AppendLine("Non-standard actions used as-is (not in DirectionAliasMap):");
+            log.AppendLine(_passThroughActionMessage);
             foreach (string action in passthroughActions.OrderBy(s => s))
             {
                 log.AppendLine($"  {action}");
@@ -51,7 +59,7 @@ namespace LowDefMustard.Utils.Editor
         {
             if (ambiguousActions.Count <= 0) { return; }
             log.AppendLine();
-            log.AppendLine("Ambiguous actions identified in OverrideController:");
+            log.AppendLine(_ambiguousActionMessage);
             foreach (string action in ambiguousActions.OrderBy(s => s))
             {
                 log.AppendLine($"  {action}");
@@ -61,14 +69,14 @@ namespace LowDefMustard.Utils.Editor
 
         public void SkipNoSprite(string clipName)
         {
-            log.AppendLine($"Skipped {clipName}: no loadable sprites found.");
+            log.AppendLine(string.Format(skipNoSpriteMessage, clipName));
             skippedCount++;
             Publish();
         }
 
         public void SkipAlreadyExists(string clipName)
         {
-            log.AppendLine($"Skipped {clipName}: already exists (overwrite disabled).");
+            log.AppendLine(string.Format(skipAlreadyExistsMessage, clipName));
             skippedCount++;
             Publish();
         }
