@@ -77,7 +77,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         [Test]
         public void RuleMatch_NotThis_PlainTileInSiblingsList_ReturnsTrue()
         {
-            // Same confirmed-intended gap, NotThis side
+            // Same, NotThis side
             Assert.IsTrue(m_Tile.RuleMatch((int)RuleTile.TilingRuleOutput.Neighbor.NotThis, m_PlainTile));
         }
 
