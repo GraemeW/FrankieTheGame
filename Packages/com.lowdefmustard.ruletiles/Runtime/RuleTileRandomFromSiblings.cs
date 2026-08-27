@@ -14,10 +14,7 @@ namespace LowDefMustard.RuleTiles
         public override bool RuleMatch(int neighbor, TileBase tile)
         {
             var ruleTileSibling = tile as RuleTileSibling;
-            if (ruleTileSibling == null)
-            {
-                return base.RuleMatch(neighbor, tile);
-            }
+            if (ruleTileSibling == null) { return base.RuleMatch(neighbor, tile); }
 
             return neighbor switch
             {
