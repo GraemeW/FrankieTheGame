@@ -39,6 +39,20 @@ Unity's built-in smart tiles support random tiles *or* animated tiles, but not b
   - **`Editor/RuleTileRandomFromSiblingsEditor`** — Custom inspector labeling the tile as "Random Tile from Siblings" and surfacing `m_DefaultSprite` (palette-only, unused when painting), `m_PerlinScale`, and `siblings` with explanatory tooltips.
 - **`RuleTileRandomAnimation`** — **Deprecated**, kept for reference/back-compat only (no `CreateAssetMenu`, so it can no longer be created fresh from the asset menu). Instead of using sibling tiles, it force-overrides every tiling rule's output to `Animation` and picks a rule at random (same Perlin-hash approach) to source the tile/animation data.
 
+### Rule Tile → Sibling Rule Tile Converter (`Editor/RuleTileToSiblingConverter.cs`)
+
+- **`RuleTileToSiblingConverter`** 
+  - — Editor utility under `Assets > LowDefMustard > RuleTiles > Convert to Sibling Rule Tile` (+ in the right-click context menu)
+    - Select one or more plain `RuleTile` assets to create `RuleTileSibling` copy alongside each one (`<Name>Sibling.asset`)
+      - Carries over the default sprite/gameObject/collider type and the full tiling-rule list, with an empty `siblings` list
+    - Uses `JsonUtility.ToJson`/`FromJsonOverwrite` to transplant fields (future-proofs if `RuleTile` gains new serialized fields later)
+    - Only handles the base `RuleTile` type — extend the type check if a project-specific `RuleTile<T>` subtype needs the same treatment
+  - — Editor utility under `Assets > LowDefMustard > RuleTiles > Convert to Sibling Rule Tile (In-Place)` (+ in the right-click context menu)
+    - Second, more dangerous option on the same selection 
+    - Swaps the *existing* asset's own `m_Script` reference from `RuleTile` to `RuleTileSibling` via `SerializedObject`
+      - so the asset keeps its GUID/fileID and any `Tilemap` already painted with it picks up the change immediately 
+    - Gated behind an `EditorUtility.DisplayDialog` confirmation recommending a commit/stash first
+
 ## Design Notes
 
 - `RuleTileRandomAnimation` is deprecated in favor of `RuleTileRandomFromSiblings`. 
@@ -58,21 +72,23 @@ Both `RuleTileSibling.RuleMatch` and `RuleTileRandomFromSiblings.RuleMatch` only
 
 ### Coverage at a glance
 
-| Category                                   | Tested | Total |
-|--------------------------------------------|--------|-------|
-| `RuleTileSibling` members                  | 1/1    | 1     |
-| `RuleTileRandomFromSiblings` members       | 3/3    | 3     |
-| `RuleTileRandomFromSiblingsEditor` members | 1/1    | 1     |
-| `RuleTileRandomAnimation` members          | 0/2    | 2     |
+| Category                                   | Tested  | Total |
+|--------------------------------------------|---------|-------|
+| `RuleTileSibling` members                  | 1/1     | 1     |
+| `RuleTileRandomFromSiblings` members       | 3/3     | 3     |
+| `RuleTileRandomFromSiblingsEditor` members | 1/1     | 1     |
+| `RuleTileRandomAnimation` members          | 0/2     | 2     |
+| `RuleTileToSiblingConverter` members       | 4/4     | 4     |
 
 ### Detail by type
 
-| Type                               | Status | Test file(s)                               | Notes                                       |
-|------------------------------------|--------|--------------------------------------------|---------------------------------------------|
-| `RuleTileSibling`                  | Yes    | `RuleTileSiblingTests.cs`                  |                                             |
-| `RuleTileRandomFromSiblings`       | Yes    | `RuleTileRandomFromSiblingsTests.cs`       |                                             |
-| `RuleTileRandomFromSiblingsEditor` | Yes    | `RuleTileRandomFromSiblingsEditorTests.cs` |                                             |
-| `RuleTileRandomAnimation`          | No     | —                                          | Deprecated, kept for back-compat reference  |
+| Type                               | Status | Test file(s)                               | Notes                                      |
+|------------------------------------|--------|--------------------------------------------|--------------------------------------------|
+| `RuleTileSibling`                  | Yes    | `RuleTileSiblingTests.cs`                  |                                            |
+| `RuleTileRandomFromSiblings`       | Yes    | `RuleTileRandomFromSiblingsTests.cs`       |                                            |
+| `RuleTileRandomFromSiblingsEditor` | Yes    | `RuleTileRandomFromSiblingsEditorTests.cs` |                                            |
+| `RuleTileToSiblingConverter`       | Yes    | `RuleTileToSiblingConverter.cs`            | `Convert`/`ConvertInPlace` menu entry points not tested directly — thin wrappers already covered by the above   | 
+| `RuleTileRandomAnimation`          | No     | —                                          | Deprecated, kept for back-compat reference |
 
 ## License
 
