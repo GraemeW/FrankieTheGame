@@ -19,6 +19,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 |----------------------------------|----------------------------------|-------------|--------------------------------------------------------------------------|
 | `LowDefMustard.RuleTiles`        | `LowDefMustard.RuleTiles`        | Runtime     | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`                            |
 | `LowDefMustard.RuleTiles.Editor` | `LowDefMustard.RuleTiles.Editor` | Editor only | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`, `LowDefMustard.RuleTiles` |
+| `LowDefMustard.RuleTiles.Tests.Editor` | `LowDefMustard.RuleTiles.Tests.Editor` | Editor only, test-only | `UnityEngine.TestRunner`, `UnityEditor.TestRunner`, `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`, `LowDefMustard.RuleTiles`, `LowDefMustard.RuleTiles.Editor` |
 
 ## Contents
 
@@ -44,6 +45,34 @@ Unity's built-in smart tiles support random tiles *or* animated tiles, but not b
 - The rule-based approach was less desirable for two reasons: 
   - it recalculates a randomized animation speed per-tile/per-call (extra overhead)
   - it can't mix animated and non-animated (or otherwise more complex) tiles into the same random set the way a sibling list can
+
+## Tests
+
+Edit Mode tests only — every tested member here is a plain `ScriptableObject` or custom-editor method
+
+`RuleTileRandomFromSiblings.GetTileData`/`GetTileAnimationData` tests compute their expected sibling index in the test, using the same public `RuleTile.GetPerlinValue(position, scale, offset)` call from the tile itself.
+
+**Behavioural Note:** 
+
+Both `RuleTileSibling.RuleMatch` and `RuleTileRandomFromSiblings.RuleMatch` only consult the `siblings` list when the neighboring tile is itself a `RuleTileSibling` (or subclass) instance — a plain `Tile` placed in `siblings` will never match via the sibling mechanism as a tilemap neighbor, falling through to the base rule tile's reference-equality check instead. This is intended to avoid anomalous behaviour where tile-painting follows rules in one direction and not the other due to a mis-configuration.
+
+### Coverage at a glance
+
+| Category                                   | Tested | Total |
+|--------------------------------------------|--------|-------|
+| `RuleTileSibling` members                  | 1/1    | 1     |
+| `RuleTileRandomFromSiblings` members       | 3/3    | 3     |
+| `RuleTileRandomFromSiblingsEditor` members | 1/1    | 1     |
+| `RuleTileRandomAnimation` members          | 0/2    | 2     |
+
+### Detail by type
+
+| Type                               | Status | Test file(s)                               | Notes                                       |
+|------------------------------------|--------|--------------------------------------------|---------------------------------------------|
+| `RuleTileSibling`                  | Yes    | `RuleTileSiblingTests.cs`                  |                                             |
+| `RuleTileRandomFromSiblings`       | Yes    | `RuleTileRandomFromSiblingsTests.cs`       |                                             |
+| `RuleTileRandomFromSiblingsEditor` | Yes    | `RuleTileRandomFromSiblingsEditorTests.cs` |                                             |
+| `RuleTileRandomAnimation`          | No     | —                                          | Deprecated, kept for back-compat reference  |
 
 ## License
 

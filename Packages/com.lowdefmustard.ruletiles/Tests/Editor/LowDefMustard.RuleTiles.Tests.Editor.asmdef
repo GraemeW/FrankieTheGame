@@ -1,0 +1,27 @@
+{
+    "name": "LowDefMustard.RuleTiles.Tests.Editor",
+    "rootNamespace": "LowDefMustard.RuleTiles.Tests.Editor",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "LowDefMustard.RuleTiles",
+        "LowDefMustard.RuleTiles.Editor",
+        "Unity.2D.Tilemap",
+        "Unity.2D.Tilemap.Extras"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
