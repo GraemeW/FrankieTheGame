@@ -1,17 +1,14 @@
 {
-  "name": "LowDefMustard.Saving.Tests.Editor",
-  "rootNamespace": "LowDefMustard.Saving.Tests.Editor",
+  "name": "LowDefMustard.Saving.Tests",
+  "rootNamespace": "LowDefMustard.Saving.Tests",
   "references": [
     "Newtonsoft.Json",
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
     "LowDefMustard.Saving",
-    "LowDefMustard.Saving.Editor",
-    "LowDefMustard.Saving.Tests"
+    "LowDefMustard.Saving.Editor"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
