@@ -97,6 +97,40 @@ The package ships no project-specific save-slot logic or game-data knowledge —
   - Any future runtime code needing save-file info should go through the consuming project's own save-file manager directly, not through this editor-tooling seam.
 - `SaveableEntityCardData` and its factory methods take a `GameObject` prefab directly (rather than any richer project-specific data type) to keep this package free of dependencies on a particular game's data model.
 
+## Tests
+
+| Assembly                            | Root Namespace                      | Platform     | References                                                               |
+|-------------------------------------|-------------------------------------|--------------|--------------------------------------------------------------------------|
+| `LowDefMustard.Saving.Tests.Editor` | `LowDefMustard.Saving.Tests.Editor` | Editor only  | `LowDefMustard.Saving`, `LowDefMustard.Saving.Editor`, `Newtonsoft.Json` |
+
+### Coverage at a glance
+
+| Category                            | Tested / Total   | Notes                                                                           |
+|-------------------------------------|------------------|---------------------------------------------------------------------------------|
+| Runtime pure-logic types            | 3 / 3            | `JTokenExtensions`, `SaveState`, `SymmetricEncryptor`                           |
+| Editor pure-logic types             | 2 / 2            | `PriorityRegistry<T>`, `NullSaveFileManagerAdapter` / `SaveFileManagerProvider` |
+| `SaveableEntity` / `SavingSystem`   | 0 / 2            | TBU                                                                             |
+| `SaveableEntityCardData` / SubCards | 0 / 6            | TBU                                                                             |
+| `SaveEditor` (EditorWindow)         | 0 / 1            | Deferred -- see Detail by type below                                            |
+
+### Detail by type
+
+| Type                               | Status | Test file(s)                     | Notes                      |
+|------------------------------------|--------|----------------------------------|----------------------------|
+| `JTokenExtensions`                 | Yes    | `JTokenExtensionsTests.cs`       |                            |
+| `SaveState`                        | Yes    | `SaveStateTests.cs`              |                            |
+| `SymmetricEncryptor`               | Yes    | `SymmetricEncryptorTests.cs`     |                            |
+| `PriorityRegistry<T>`              | Yes    | `PriorityRegistryTests.cs`       |                            |
+| `NullSaveFileManagerAdapter`       | Yes    | `SaveFileManagerAdapterTests.cs` |                            |
+| `SaveFileManagerProvider`          | Yes    | `SaveFileManagerAdapterTests.cs` |                            |
+| `LoadPriority`                     | N/A    | --                               | Bare enum, nothing to test |
+| `SaveableEntity`                   | No     | --                               | Next up                    |
+| `SavingSystem`                     | No     | --                               | Next up                    |
+| `SaveableEntityCardData`           | No     | --                               | Next up                    |
+| `SaveableSubCardData` + subclasses | No     | --                               | Next up                    |
+| `SceneSelectorContext`             | No     | --                               | TBD                        |
+| `SaveEditor`                       | No     | --                               | TBD                        |
+
 ## License
 
 Internal package — Low Def Mustard Games. See GIT LICENSE file for further details.
