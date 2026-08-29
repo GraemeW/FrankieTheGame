@@ -105,31 +105,41 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 
 ### Coverage at a glance
 
-| Category                            | Tested / Total   | Notes                                                                           |
-|-------------------------------------|------------------|---------------------------------------------------------------------------------|
-| Runtime pure-logic types            | 3 / 3            | `JTokenExtensions`, `SaveState`, `SymmetricEncryptor`                           |
-| Editor pure-logic types             | 2 / 2            | `PriorityRegistry<T>`, `NullSaveFileManagerAdapter` / `SaveFileManagerProvider` |
-| `SaveableEntity` / `SavingSystem`   | 0 / 2            | TBU                                                                             |
-| `SaveableEntityCardData` / SubCards | 0 / 6            | TBU                                                                             |
-| `SaveEditor` (EditorWindow)         | 0 / 1            | Deferred -- see Detail by type below                                            |
+| Category                            | Tested / Total | Notes                                                                                                                                                 |
+|-------------------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Runtime pure-logic types            | 3 / 3          | `JTokenExtensions`, `SaveState`, `SymmetricEncryptor`                                                                                                 |
+| Editor pure-logic types             | 3 / 3          | `PriorityRegistry<T>`, `NullSaveFileManagerAdapter` / `SaveFileManagerProvider`, `SceneSelectorContext` (N/A, trivial)                                |
+| `SaveableEntity` / `SavingSystem`   | 2 / 2          | `ISaveable` test doubles (`TestSaveableComponent`, `TestGenericSaveable<T>`), file I/O, `LoadWithinScene` restore -> mid-restore entity instantiation |
+| `SaveableEntityCardData` / SubCards | 6 / 6          | Static registries, sync-state, Generic/Bool/Float/Int subcard views via `HeadlessEditorWindowTestHelper`, card constructor/save/UI                    |
+| `SaveEditor` (EditorWindow)         | 0 / 1          | Deferred -- see Detail by type below                                                                                                                  |
 
 ### Detail by type
 
-| Type                               | Status | Test file(s)                     | Notes                      |
-|------------------------------------|--------|----------------------------------|----------------------------|
-| `JTokenExtensions`                 | Yes    | `JTokenExtensionsTests.cs`       |                            |
-| `SaveState`                        | Yes    | `SaveStateTests.cs`              |                            |
-| `SymmetricEncryptor`               | Yes    | `SymmetricEncryptorTests.cs`     |                            |
-| `PriorityRegistry<T>`              | Yes    | `PriorityRegistryTests.cs`       |                            |
-| `NullSaveFileManagerAdapter`       | Yes    | `SaveFileManagerAdapterTests.cs` |                            |
-| `SaveFileManagerProvider`          | Yes    | `SaveFileManagerAdapterTests.cs` |                            |
-| `LoadPriority`                     | N/A    | --                               | Bare enum, nothing to test |
-| `SaveableEntity`                   | No     | --                               | Next up                    |
-| `SavingSystem`                     | No     | --                               | Next up                    |
-| `SaveableEntityCardData`           | No     | --                               | Next up                    |
-| `SaveableSubCardData` + subclasses | No     | --                               | Next up                    |
-| `SceneSelectorContext`             | No     | --                               | TBD                        |
-| `SaveEditor`                       | No     | --                               | TBD                        |
+| Type                               | Status | Test file(s)                           | Notes                                |
+|------------------------------------|--------|----------------------------------------|--------------------------------------|
+| `JTokenExtensions`                 | Yes    | `JTokenExtensionsTests.cs`             |                                      |
+| `SaveState`                        | Yes    | `SaveStateTests.cs`                    |                                      |
+| `SymmetricEncryptor`               | Yes    | `SymmetricEncryptorTests.cs`           |                                      |
+| `PriorityRegistry<T>`              | Yes    | `PriorityRegistryTests.cs`             |                                      |
+| `NullSaveFileManagerAdapter`       | Yes    | `SaveFileManagerAdapterTests.cs`       |                                      |
+| `SaveFileManagerProvider`          | Yes    | `SaveFileManagerAdapterTests.cs`       |                                      |
+| `LoadPriority`                     | N/A    | --                                     | Bare enum, nothing to test           |
+| `SceneSelectorContext`             | N/A    | --                                     | Trivial data holder, nothing to test |
+| `SaveableEntity`                   | Yes    | `SaveableEntityTests.cs`               |                                      |
+| `SavingSystem`                     | Yes    | `SavingSystemFileIOPocTests.cs`,       |                                      |
+| ^-                                 | Yes    | `SavingSystemFileOperationsTests.cs`   |                                      |
+| ^-                                 | Yes    | `SavingSystemStateHelpersTests.cs`     |                                      |
+| ^-                                 | Yes    | `SavingSystemSceneIntegrationTests.cs` |                                      |
+| `SaveableEntityCardData`           | Yes    | `SaveableEntityCardDataTests.cs`       |                                      |
+| `SaveableSubCardData` + subclasses | Yes    | `SaveableSubCardDataTests.cs`          |                                      |
+| `SaveEditor`                       | No     | --                                     | TBD                                  |
+
+### Test infrastructure
+
+- `TestSaveableComponent.cs` -- scriptable `MonoBehaviour, ISaveableBase` test double
+- `TestGenericSaveable.cs` -- scriptable `ISaveable<T>` test double (plain C#, no `MonoBehaviour`)
+- `HeadlessEditorWindowTestHelper.cs` -- attaches a `VisualElement` tree to an off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires
+  - unattached elements silently skip dispatch on `.value` assignment and `SendEvent`
 
 ## License
 
