@@ -30,18 +30,20 @@ namespace LowDefMustard.Saving.Editor
         private Label syncStateLabel;
         
         #region StaticRegistries
-        private static readonly List<(Func<ISaveableBase, bool> match, Func<ISaveableBase, SaveState, SaveableSubCardData> factory)> _subCardFactories = new();
+        private static readonly List<(Type type, Func<ISaveableBase, bool> match, Func<ISaveableBase, SaveState, SaveableSubCardData> factory)> _subCardFactories = new();
         private static readonly PriorityRegistry<ISaveableBase> _subCardSortRegistry = new();
         
         public static void RegisterSubCard<T>(Func<T, SaveState, SaveableSubCardData> factory) where T : ISaveableBase
         {
-            _subCardFactories.Add((saveable => saveable is T, (saveable, state) => factory((T)saveable, state)));
+            _subCardFactories.Add((typeof(T), saveable => saveable is T, (saveable, state) => factory((T)saveable, state)));
         }
+        public static void UnregisterSubCard<T>() where T : ISaveableBase => _subCardFactories.RemoveAll(entry => entry.type == typeof(T));
         public static void RegisterSubCardPriority(Func<ISaveableBase, bool> match, int priority) => _subCardSortRegistry.Register(match, priority);
+        public static void UnregisterSubCardPriority(Func<ISaveableBase, bool> match) => _subCardSortRegistry.Unregister(match);
         
         public static SaveableSubCardData CreateTypeSpecificSubCard(ISaveableBase saveable, SaveState saveState)
         {
-            foreach (var (match, factory) in _subCardFactories)
+            foreach ((Type _, var match, var factory) in _subCardFactories)
             {
                 if (match(saveable)) { return factory(saveable, saveState); }
             }

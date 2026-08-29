@@ -44,6 +44,7 @@ namespace LowDefMustard.Saving.Editor
         #region StaticRegistration
         private static readonly PriorityRegistry<SaveableEntity> _entitySortRegistry = new();
         public static void RegisterEntityCardPriority(Func<SaveableEntity, bool> match, int priority) => _entitySortRegistry.Register(match, priority);
+        public static void UnregisterEntityCardPriority(Func<SaveableEntity, bool> match) => _entitySortRegistry.Unregister(match);
         public static int GetEntitySortPriority(SaveableEntity saveableEntity) => _entitySortRegistry.GetPriority(saveableEntity);
         #endregion
         
@@ -78,7 +79,7 @@ namespace LowDefMustard.Saving.Editor
             
             Selection.selectionChanged -= OnEntitySelected;
             Selection.selectionChanged += OnEntitySelected;
-            saveableEntityGUIDs.Add(entityID);
+            this.saveableEntityGUIDs.Add(entityID);
         }
         
         #region FactoryMethods
