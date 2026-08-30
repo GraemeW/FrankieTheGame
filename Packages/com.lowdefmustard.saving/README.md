@@ -97,6 +97,54 @@ The package ships no project-specific save-slot logic or game-data knowledge —
   - Any future runtime code needing save-file info should go through the consuming project's own save-file manager directly, not through this editor-tooling seam.
 - `SaveableEntityCardData` and its factory methods take a `GameObject` prefab directly (rather than any richer project-specific data type) to keep this package free of dependencies on a particular game's data model.
 
+## Tests
+
+| Assembly                            | Root Namespace                      | Platform     | References                                                               |
+|-------------------------------------|-------------------------------------|--------------|--------------------------------------------------------------------------|
+| `LowDefMustard.Saving.Tests.Editor` | `LowDefMustard.Saving.Tests.Editor` | Editor only  | `LowDefMustard.Saving`, `LowDefMustard.Saving.Editor`, `Newtonsoft.Json` |
+
+### Coverage at a glance
+
+| Category                            | Tested / Total | Notes                                                                                                                                                 |
+|-------------------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Runtime pure-logic types            | 3 / 3          | `JTokenExtensions`, `SaveState`, `SymmetricEncryptor`                                                                                                 |
+| Editor pure-logic types             | 3 / 3          | `PriorityRegistry<T>`, `NullSaveFileManagerAdapter` / `SaveFileManagerProvider`, `SceneSelectorContext` (N/A, trivial)                                |
+| `SaveableEntity` / `SavingSystem`   | 2 / 2          | `ISaveable` test doubles (`TestSaveableComponent`, `TestGenericSaveable<T>`), file I/O, `LoadWithinScene` restore -> mid-restore entity instantiation |
+| `SaveableEntityCardData` / SubCards | 6 / 6          | Static registries, sync-state, Generic/Bool/Float/Int subcard views via `HeadlessEditorWindowTestHelper`, card constructor/save/UI                    |
+| `SaveEditor` (EditorWindow)         | 1 / 1          | Header/selection/save-list rendering/button wiring, LoadSceneData/ApplyAllData, group-root parent filter, and lifecycle callbacks                     |
+
+### Detail by type
+
+| Type                               | Status | Test file(s)                           | Notes                                |
+|------------------------------------|--------|----------------------------------------|--------------------------------------|
+| `JTokenExtensions`                 | Yes    | `JTokenExtensionsTests.cs`             |                                      |
+| `SaveState`                        | Yes    | `SaveStateTests.cs`                    |                                      |
+| `SymmetricEncryptor`               | Yes    | `SymmetricEncryptorTests.cs`           |                                      |
+| `PriorityRegistry<T>`              | Yes    | `PriorityRegistryTests.cs`             |                                      |
+| `NullSaveFileManagerAdapter`       | Yes    | `SaveFileManagerAdapterTests.cs`       |                                      |
+| `SaveFileManagerProvider`          | Yes    | `SaveFileManagerAdapterTests.cs`       |                                      |
+| `LoadPriority`                     | N/A    | --                                     | Bare enum, nothing to test           |
+| `SceneSelectorContext`             | N/A    | --                                     | Trivial data holder, nothing to test |
+| `SaveableEntity`                   | Yes    | `SaveableEntityTests.cs`               |                                      |
+| `SavingSystem`                     | Yes    | `SavingSystemFileIOPocTests.cs`,       |                                      |
+| ^-                                 | Yes    | `SavingSystemFileOperationsTests.cs`   |                                      |
+| ^-                                 | Yes    | `SavingSystemStateHelpersTests.cs`     |                                      |
+| ^-                                 | Yes    | `SavingSystemSceneIntegrationTests.cs` |                                      |
+| `SaveableEntityCardData`           | Yes    | `SaveableEntityCardDataTests.cs`       |                                      |
+| `SaveableSubCardData` + subclasses | Yes    | `SaveableSubCardDataTests.cs`          |                                      |
+| `SaveEditor`                       | Yes    | `SaveEditorTests.cs`                   |                                      |
+
+### Test infrastructure
+
+- `TestSaveableComponent.cs` -- scriptable `MonoBehaviour, ISaveableBase` test double
+- `TestGenericSaveable.cs` -- scriptable `ISaveable<T>` test double (plain C#, no `MonoBehaviour`)
+- `HeadlessEditorWindowTestHelper.cs` -- attaches a `VisualElement` tree to an off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires
+  - unattached elements silently skip dispatch on `.value` assignment and `SendEvent`
+
+### Design Notes (testability)
+
+- `PriorityRegistry<T>`, `SaveableSubCardData`, and `SaveableEntityCardData`'s static registries all expose paired `Unregister*` methods (alongside `Register*`), so tests can leave process-wide static state clean
+
 ## License
 
 Internal package — Low Def Mustard Games. See GIT LICENSE file for further details.

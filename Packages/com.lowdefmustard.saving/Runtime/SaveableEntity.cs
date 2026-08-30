@@ -41,7 +41,7 @@ namespace LowDefMustard.Saving
             if (state == null) { return false; }
 
             stateDictionary = state.ToObject<JObject>();
-            if (stateDictionary == null) { Debug.LogError("Malformed data in save file"); return false; }
+            if (stateDictionary == null) { Debug.LogWarning("Malformed data in save file"); return false; }
             return true;
         }
         #endregion

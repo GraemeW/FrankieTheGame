@@ -1,0 +1,22 @@
+{
+  "name": "LowDefMustard.Saving.Tests",
+  "rootNamespace": "LowDefMustard.Saving.Tests",
+  "references": [
+    "Newtonsoft.Json",
+    "UnityEngine.TestRunner",
+    "UnityEditor.TestRunner",
+    "LowDefMustard.Saving",
+    "LowDefMustard.Saving.Editor"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
