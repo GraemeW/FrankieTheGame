@@ -30,10 +30,11 @@ namespace LowDefMustard.Saving.Editor
         // State
         private string newSave;
         private string selectedSave;
-        private bool saveControlBoxLoaded = false;
-        private JObject cachedFullSaveState;
         private readonly List<SaveableEntityCardData> cachedSaveableEntityCardData = new();
         private readonly HashSet<string> saveableEntityGUIDs = new();
+        // Note:  internal for below for test visibility (as needed for OnFocus verification)
+        internal bool saveControlBoxLoaded = false;
+        internal JObject cachedFullSaveState;
         
         // Static Hooks
         public static Func<SceneSelectorContext, VisualElement> SceneSelectorFactory;
@@ -55,7 +56,8 @@ namespace LowDefMustard.Saving.Editor
             window.Show();
         }
         
-        private void OnFocus()
+        // Internal for test visibility (window-focus events aren't otherwise triggerable from EditMode tests practically)
+        internal void OnFocus()
         {
             if (saveControlBoxLoaded && cachedFullSaveState == null) { UnloadSaveControlData(); }
         }
@@ -504,7 +506,8 @@ namespace LowDefMustard.Saving.Editor
             }
         }
         
-        private void OnSceneOpened(Scene scene, OpenSceneMode mode)
+        // Internal for test visibility (scene-open events aren't otheriwse triggerable from EditMode tests practically)
+        internal void OnSceneOpened(Scene scene, OpenSceneMode mode)
         {
             UnloadSaveControlData();
         }
