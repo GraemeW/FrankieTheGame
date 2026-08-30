@@ -111,7 +111,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 | Editor pure-logic types             | 3 / 3          | `PriorityRegistry<T>`, `NullSaveFileManagerAdapter` / `SaveFileManagerProvider`, `SceneSelectorContext` (N/A, trivial)                                |
 | `SaveableEntity` / `SavingSystem`   | 2 / 2          | `ISaveable` test doubles (`TestSaveableComponent`, `TestGenericSaveable<T>`), file I/O, `LoadWithinScene` restore -> mid-restore entity instantiation |
 | `SaveableEntityCardData` / SubCards | 6 / 6          | Static registries, sync-state, Generic/Bool/Float/Int subcard views via `HeadlessEditorWindowTestHelper`, card constructor/save/UI                    |
-| `SaveEditor` (EditorWindow)         | 0 / 1          | Deferred -- see Detail by type below                                                                                                                  |
+| `SaveEditor` (EditorWindow)         | 1 / 1          | Header/selection/save-list rendering/button wiring, LoadSceneData/ApplyAllData, group-root parent filter, and lifecycle callbacks                     |
 
 ### Detail by type
 
@@ -132,7 +132,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 | ^-                                 | Yes    | `SavingSystemSceneIntegrationTests.cs` |                                      |
 | `SaveableEntityCardData`           | Yes    | `SaveableEntityCardDataTests.cs`       |                                      |
 | `SaveableSubCardData` + subclasses | Yes    | `SaveableSubCardDataTests.cs`          |                                      |
-| `SaveEditor`                       | No     | --                                     | TBD                                  |
+| `SaveEditor`                       | Yes    | `SaveEditorTests.cs`                   |                                      |
 
 ### Test infrastructure
 
@@ -140,6 +140,10 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 - `TestGenericSaveable.cs` -- scriptable `ISaveable<T>` test double (plain C#, no `MonoBehaviour`)
 - `HeadlessEditorWindowTestHelper.cs` -- attaches a `VisualElement` tree to an off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires
   - unattached elements silently skip dispatch on `.value` assignment and `SendEvent`
+
+### Design Notes (testability)
+
+- `PriorityRegistry<T>`, `SaveableSubCardData`, and `SaveableEntityCardData`'s static registries all expose paired `Unregister*` methods (alongside `Register*`), so tests can leave process-wide static state clean
 
 ## License
 
