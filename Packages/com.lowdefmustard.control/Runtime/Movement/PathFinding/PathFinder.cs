@@ -6,6 +6,9 @@ namespace LowDefMustard.Control
 {
     public class PathFinder : MonoBehaviour
     {
+        // Note:
+        //  - Methods that are marked internal below -> for test visibility
+        
         // Tunables
         [Header("Initialization and Mesh Setup")]
         [SerializeField][Tooltip("Circle cast to find move mesh that pathfinder sits on")] private float moveMeshFinderSize = 0.1f;
@@ -310,7 +313,7 @@ namespace LowDefMustard.Control
         #endregion
 
         #region StaticMethods
-        private static List<Vector2> StringPull(Vector2 initialPosition, List<Vector2> path, float deltaSquaredThreshold, float crossThreshold)
+        internal static List<Vector2> StringPull(Vector2 initialPosition, List<Vector2> path, float deltaSquaredThreshold, float crossThreshold)
         {
             if (path.Count <= 1) { return path; }
 
@@ -350,14 +353,14 @@ namespace LowDefMustard.Control
             return result;
         }
         
-        private static float DistanceEquivalentHeuristic(int aColumn, int aRow, int bColumn, int bRow)
+        internal static float DistanceEquivalentHeuristic(int aColumn, int aRow, int bColumn, int bRow)
         {
             int deltaColumn = Mathf.Abs(aColumn - bColumn);
             int deltaRow = Mathf.Abs(aRow - bRow);
             return (deltaColumn + deltaRow) + (1.41421f - 2f) * Mathf.Min(deltaColumn, deltaRow);
         }
         
-        private static void HeapPush(List<AStarNode> heap, AStarNode node)
+        internal static void HeapPush(List<AStarNode> heap, AStarNode node)
         {
             heap.Add(node);
             int i = heap.Count - 1;
@@ -369,8 +372,8 @@ namespace LowDefMustard.Control
                 i = parent;
             }
         }
-
-        private static AStarNode HeapPop(List<AStarNode> heap)
+        
+        internal static AStarNode HeapPop(List<AStarNode> heap)
         {
             AStarNode top = heap[0];
             int last = heap.Count - 1;

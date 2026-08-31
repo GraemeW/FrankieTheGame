@@ -27,7 +27,8 @@ namespace LowDefMustard.Control
         #endregion
         
         #region StaticMethods
-        protected static bool ParseDirectionalInput(Vector2 directionalInput, ControllerInputType lastControllerInputType, out ControllerInputType newControllerInputType)
+        // Note:  Internal for test visibility
+        protected internal static bool ParseDirectionalInput(Vector2 directionalInput, ControllerInputType lastControllerInputType, out ControllerInputType newControllerInputType)
         {
             newControllerInputType = NavigationVectorToInputType(directionalInput);
             return newControllerInputType != lastControllerInputType;

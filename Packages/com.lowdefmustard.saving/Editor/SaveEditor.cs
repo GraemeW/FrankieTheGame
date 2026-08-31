@@ -506,7 +506,7 @@ namespace LowDefMustard.Saving.Editor
             }
         }
         
-        // Internal for test visibility (scene-open events aren't otheriwse triggerable from EditMode tests practically)
+        // Internal for test visibility (scene-open events aren't otherwise triggerable from EditMode tests practically)
         internal void OnSceneOpened(Scene scene, OpenSceneMode mode)
         {
             UnloadSaveControlData();
