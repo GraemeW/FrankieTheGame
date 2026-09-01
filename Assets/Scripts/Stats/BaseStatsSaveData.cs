@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Frankie.Stats
 {
@@ -7,10 +8,8 @@ namespace Frankie.Stats
     public class BaseStatsSaveData
     {
         public int level;
-#pragma warning disable UAC1009
-        // Unity serialization error, but serialization is OK by Newtonsoft
-        public Dictionary<Stat, float> statSheet;
-#pragma warning restore UAC1009
+        // ReSharper disable once Unity.RedundantSerializeFieldAttribute - Required Dictionary (even if public) 
+        [SerializeField] public Dictionary<Stat, float> statSheet;
 
         public BaseStatsSaveData(int level, Dictionary<Stat, float> statSheet)
         {

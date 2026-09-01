@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.GameStateModifiers;
@@ -10,7 +11,7 @@ using LowDefMustard.Localization;
 
 namespace Frankie.Inventory
 {
-    public abstract class InventoryItem : GameStateModifier, IAddressablesCache, ILocalizable
+    public abstract partial class InventoryItem : GameStateModifier, IAddressablesCache, ILocalizable
     {
         // Config Data
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedDisplayName;
@@ -21,8 +22,8 @@ namespace Frankie.Inventory
         // State
         [HideInInspector] [SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }
-        private static AsyncOperationHandle<IList<InventoryItem>> _addressablesLoadHandle;
-        private static Dictionary<string, InventoryItem> _itemLookupCache;
+        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<InventoryItem>> _addressablesLoadHandle;
+        [AutoStaticsCleanup] private static Dictionary<string, InventoryItem> _itemLookupCache;
 
         #region Getters
         public string GetDisplayName() => localizedDisplayName.GetLocalizedString();
@@ -85,7 +86,7 @@ namespace Frankie.Inventory
 
         public static void ReleaseCache()
         {
-            Addressables.Release(_addressablesLoadHandle);
+            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
         #endregion
     }

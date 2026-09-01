@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using Unity.Scripting.LifecycleManagement;
 
 namespace Frankie.Core
 {
-    public class PersistentObjectSpawner : MonoBehaviour
+    public partial class PersistentObjectSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject persistentObjectPrefab;
 
         // State
-        private static bool _hasSpawned = false;
+        [AutoStaticsCleanup] private static bool _hasSpawned = false;
 
         private void Awake()
         {

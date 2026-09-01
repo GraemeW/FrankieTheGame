@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Saving;
 
 namespace Frankie.Sound
 {
-    public class BackgroundMusicOverride : MonoBehaviour, ISaveable<bool>
+    public partial class BackgroundMusicOverride : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
         [SerializeField] private AudioClip audioClip;
@@ -16,8 +17,8 @@ namespace Frankie.Sound
         private bool isOverrideActive = false;
 
         // Static
-        private static BackgroundMusicOverride _currentBackgroundMusicOverride;
-        private static readonly List<BackgroundMusicOverride> _backgroundMusicOverrides = new();
+        [AutoStaticsCleanup] private static BackgroundMusicOverride _currentBackgroundMusicOverride;
+        [AutoStaticsCleanup] private static readonly List<BackgroundMusicOverride> _backgroundMusicOverrides = new();
 
         #region StaticMethods
         private static void SubscribeOverride(BackgroundMusicOverride backgroundMusicOverride)

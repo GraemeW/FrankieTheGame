@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
@@ -11,7 +12,7 @@ using Frankie.Saving;
 namespace Frankie.Stats
 {
     [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character", order = 1)]
-    public class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable
+    public partial class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable
     {
         // Properties
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedDisplayName;
@@ -28,9 +29,9 @@ namespace Frankie.Stats
         public string iCachedName { get => cachedName; set => cachedName = value; }
         
         // Static State
-        private static Dictionary<string, string> personalizedNameLookup = new();
-        private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
-        private static Dictionary<string, CharacterProperties> _characterLookupCache;
+        [AutoStaticsCleanup] private static readonly Dictionary<string, string> _personalizedNameLookup = new();
+        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
+        [AutoStaticsCleanup] private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
         #region Getters
         public string GetCharacterID() => name;
@@ -75,7 +76,7 @@ namespace Frankie.Stats
             string characterID = characterProperties.GetCharacterID();
             SyncToPersonalizedNameLookup(characterID);
             
-            if (personalizedNameLookup.ContainsKey(characterID) && personalizedNameLookup[characterID] != null) { return personalizedNameLookup[characterID]; }
+            if (_personalizedNameLookup.ContainsKey(characterID) && _personalizedNameLookup[characterID] != null) { return _personalizedNameLookup[characterID]; }
             return characterProperties.GetStandardCharacterDisplayName();
         }
 
@@ -83,11 +84,11 @@ namespace Frankie.Stats
 
         private static void SyncToPersonalizedNameLookup(string characterID)
         {
-            if (PlayerPrefsController.wereCharacterNamesDirtied) { personalizedNameLookup.Clear(); PlayerPrefsController.wereCharacterNamesDirtied = false; }
-            if (personalizedNameLookup.ContainsKey(characterID)) { return; }
+            if (PlayerPrefsController.wereCharacterNamesDirtied) { _personalizedNameLookup.Clear(); PlayerPrefsController.wereCharacterNamesDirtied = false; }
+            if (_personalizedNameLookup.ContainsKey(characterID)) { return; }
             
-            if (PlayerPrefsController.CharacterNameKeyExists(characterID)) { personalizedNameLookup[characterID] = PlayerPrefsController.GetCharacterName(characterID); }
-            else { personalizedNameLookup[characterID] = null; }
+            if (PlayerPrefsController.CharacterNameKeyExists(characterID)) { _personalizedNameLookup[characterID] = PlayerPrefsController.GetCharacterName(characterID); }
+            else { _personalizedNameLookup[characterID] = null; }
         }
         #endregion
         
@@ -132,7 +133,7 @@ namespace Frankie.Stats
 
         public static void ReleaseCache()
         {
-            Addressables.Release(_addressablesLoadHandle);
+            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
         #endregion
     }

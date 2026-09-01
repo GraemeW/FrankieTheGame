@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Unity.Scripting.LifecycleManagement;
 using Frankie.Zones;
 
 namespace Frankie.Combat
@@ -19,8 +20,9 @@ namespace Frankie.Combat
         private readonly Dictionary<BattleRow, int> enemyMap = new() { {BattleRow.Middle, 0}, {BattleRow.Top, 0}, {BattleRow.Bottom, 0} };
 
         #region Static
-        private static readonly HashSet<BattleRow> _defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
-        private static readonly List<BattleRow> _battleRowSortOrder = new() { BattleRow.Top, BattleRow.Middle, BattleRow.Bottom };
+        // Defaults
+        [NoAutoStaticsCleanup] private static readonly HashSet<BattleRow> _defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
+        [NoAutoStaticsCleanup] private static readonly List<BattleRow> _battleRowSortOrder = new() { BattleRow.Top, BattleRow.Middle, BattleRow.Bottom };
         private const int _maxEnemiesPerRow = 5;
         
         public static int GetBattleRowCount() => _battleRowSortOrder.Count;

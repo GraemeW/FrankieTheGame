@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Saving;
 using LowDefMustard.Zones;
 using Frankie.Core;
@@ -11,14 +12,14 @@ using Frankie.Stats;
 
 namespace Frankie.Saving
 {
-    public static class SaveFileManager
+    public static partial class SaveFileManager
     {
         // Constants
         private const string _defaultSaveFile = "save";
         private const string _sessionFile = "session";
         
         // Events
-        public static event Action gameListUpdated;
+        [AutoStaticsCleanup] public static event Action gameListUpdated;
 
         #region StaticMethods
         public static string GetSaveNameForIndex(int index) => string.Concat(_defaultSaveFile, "_", index.ToString(CultureInfo.InvariantCulture));
