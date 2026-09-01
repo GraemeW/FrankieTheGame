@@ -717,7 +717,9 @@ namespace LowDefMustard.Control
                     continue;
                 }
 
-                float normDist = maxDist > 0f ? Mathf.Clamp01(distanceCells[i] / maxDist) : 1f;
+                // maxDist can itself be Infinity when the grid has zero unwalkable cells  ~ i.e. nothing ever seeds a finite distance
+                // --> this would divide Infinity/Infinity into NaN below (so check and handle)
+                float normDist = maxDist > 0f && !float.IsPositiveInfinity(maxDist) ? Mathf.Clamp01(distanceCells[i] / maxDist) : 1f;
                 costs[i] = 1f + edgeCostPenalty * Mathf.Pow(1f - normDist, edgeCostFalloff);
             }
 

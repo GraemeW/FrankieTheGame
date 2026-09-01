@@ -318,7 +318,7 @@ namespace LowDefMustard.Control
             if (path.Count <= 1) { return path; }
 
             // Insert initial position so we can check path and prevent returning a path entry immediately adjacent
-            // Note:  Next check below will be viable since path >=2 and we add a third entry here
+            // Note:  Next check below will be viable since path >=2, and we add a third entry here
             path.Insert(0, initialPosition);
             
             var result = new List<Vector2> { path[0] };
