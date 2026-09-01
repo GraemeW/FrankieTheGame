@@ -307,8 +307,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: b7efe8af9f2d9445cade3c50c9614a57, type: 2}
         negate: 0
   cachedSpeakerName: Maya
-  cachedText: I got these neat refurbished portable sheds on discount!  Can you believe
-    it?
+  cachedText: I got these neat refurbished portable sheds on discount!  Can you believe it?
   references:
     version: 2
     RefIds: []

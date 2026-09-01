@@ -307,8 +307,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: b7efe8af9f2d9445cade3c50c9614a57, type: 2}
         negate: 0
   cachedSpeakerName: Maya
-  cachedText: ' I got this car freshener tree here to help freshen things up!  So,
-    do you feel FRESH?'
+  cachedText: ' I got this car freshener tree here to help freshen things up!  So, do you feel FRESH?'
   references:
     version: 2
     RefIds: []

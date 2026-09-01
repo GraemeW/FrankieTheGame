@@ -52,8 +52,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Have you ever been in combat and noticed you lost access to certain
-    skills?
+  cachedText: Have you ever been in combat and noticed you lost access to certain skills?
   references:
     version: 2
     RefIds: []
@@ -109,8 +108,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: That's because every skill is tied to a STAT, and requires a certain
-    STAT VALUE to use.
+  cachedText: That's because every skill is tied to a STAT, and requires a certain STAT VALUE to use.
   references:
     version: 2
     RefIds: []
@@ -250,8 +248,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Keep an eye on the STATUS EFFECTS being applied to your character. 
-    Use a RESTORATIVE SKILL or ITEM if you need.
+  cachedText: Keep an eye on the STATUS EFFECTS being applied to your character.  Use a RESTORATIVE SKILL or ITEM if you need.
   references:
     version: 2
     RefIds: []
@@ -306,8 +303,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: I hope this makes sense -- I learned all this from the Official Frankie
-    Game Manual (TM).  You should check it out!
+  cachedText: I hope this makes sense -- I learned all this from the Official Frankie Game Manual (TM).  You should check it out!
   references:
     version: 2
     RefIds: []
@@ -363,8 +359,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: If your enemy lowers the STAT linked to your skill, it can lock that
-    skill out until your STAT recovers!
+  cachedText: If your enemy lowers the STAT linked to your skill, it can lock that skill out until your STAT recovers!
   references:
     version: 2
     RefIds: []

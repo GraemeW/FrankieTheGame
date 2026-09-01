@@ -51,8 +51,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Porta Attendant
-  cachedText: I got these neat refurbished portable sheds on discount!  Can you believe
-    it?
+  cachedText: I got these neat refurbished portable sheds on discount!  Can you believe it?
   references:
     version: 2
     RefIds: []

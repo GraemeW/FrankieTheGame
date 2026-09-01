@@ -51,8 +51,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Clever Office Worker
-  cachedText: You shouldn't spoil me too much, I'll never build up a real work ethic
-    if you keep going on like this.
+  cachedText: You shouldn't spoil me too much, I'll never build up a real work ethic if you keep going on like this.
   references:
     version: 2
     RefIds: []

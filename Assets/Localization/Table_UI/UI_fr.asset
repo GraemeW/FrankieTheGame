@@ -67,8 +67,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7997945612853248
-    m_Localized: "{0} a l\xE2ch\xE9 {1}, mais tu n'as plus de place. Tu veux jeter
-      quelque chose ?"
+    m_Localized: "{0} a l\xE2ch\xE9 {1}, mais tu n'as plus de place. Tu veux jeter quelque chose ?"
     m_Metadata:
       m_Items: []
   - m_Id: 7997972309598208
@@ -88,8 +87,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7998057474940928
-    m_Localized: "On dirait que les choses ne se sont pas tout \xE0 fait pass\xE9es
-      comme pr\xE9vu."
+    m_Localized: "On dirait que les choses ne se sont pas tout \xE0 fait pass\xE9es comme pr\xE9vu."
     m_Metadata:
       m_Items: []
   - m_Id: 7998077553074176

@@ -220,8 +220,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Phil Ramen
-  cachedText: Finally you've arrived.  My name is Phil, and I come bearing an urgent
-    message.
+  cachedText: Finally you've arrived.  My name is Phil, and I come bearing an urgent message.
   references:
     version: 2
     RefIds: []
@@ -277,8 +276,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Phil Ramen
-  cachedText: They must be moving faster than I thought.  We need to find some chopsticks
-    immediately.
+  cachedText: They must be moving faster than I thought.  We need to find some chopsticks immediately.
   references:
     version: 2
     RefIds: []
@@ -394,8 +392,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Phil Ramen
-  cachedText: 'I may look like a delicious cup of noodles, but I''m actually a sophisticated
-    artificial intelligence.  '
+  cachedText: 'I may look like a delicious cup of noodles, but I''m actually a sophisticated artificial intelligence.  '
   references:
     version: 2
     RefIds: []
@@ -655,8 +652,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Phil Ramen
-  cachedText: Once you find the chopsticks, you need to pour some hot water onto
-    me and mush my noodles around.
+  cachedText: Once you find the chopsticks, you need to pour some hot water onto me and mush my noodles around.
   references:
     version: 2
     RefIds: []

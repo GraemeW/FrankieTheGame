@@ -52,8 +52,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: So study up before your fights -- you can see what you can do by pressing
-    Tab and selecting Abilities.
+  cachedText: So study up before your fights -- you can see what you can do by pressing Tab and selecting Abilities.
   references:
     version: 2
     RefIds: []
@@ -276,8 +275,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Now, down to business.  You -- yes YOU, behind the keyboard -- you
-    should be aware that your enemies won't wait for their turn.
+  cachedText: Now, down to business.  You -- yes YOU, behind the keyboard -- you should be aware that your enemies won't wait for their turn.
   references:
     version: 2
     RefIds: []
@@ -361,8 +359,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: 'I hope this makes sense -- I don''t actually speak your language. 
-    I''m just reciting what I read by reading the Official Frankie Game Manual (TM).  '
+  cachedText: 'I hope this makes sense -- I don''t actually speak your language.  I''m just reciting what I read by reading the Official Frankie Game Manual (TM).  '
   references:
     version: 2
     RefIds: []
@@ -418,8 +415,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: In battle, select which ability you want with your "W-A-S-D" keys and
-    then lock it in with "E".
+  cachedText: In battle, select which ability you want with your "W-A-S-D" keys and then lock it in with "E".
   references:
     version: 2
     RefIds: []

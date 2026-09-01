@@ -243,8 +243,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Estelle
-  cachedText: Oh, you're really fresh aren't you.  Access player menus by pressing
-    the `TAB` key.
+  cachedText: Oh, you're really fresh aren't you.  Access player menus by pressing the `TAB` key.
   references:
     version: 2
     RefIds: []
@@ -300,8 +299,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Estelle
-  cachedText: Make sure you equip it in the Outfit menu!  It won't do any good just
-    sitting in your knapsack unequipped!
+  cachedText: Make sure you equip it in the Outfit menu!  It won't do any good just sitting in your knapsack unequipped!
   references:
     version: 2
     RefIds: []

@@ -218,8 +218,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Some Guy
-  cachedText: My parents said I'd grow up to be famous.  I only have a modest social
-    media presence though.
+  cachedText: My parents said I'd grow up to be famous.  I only have a modest social media presence though.
   references:
     version: 2
     RefIds: []

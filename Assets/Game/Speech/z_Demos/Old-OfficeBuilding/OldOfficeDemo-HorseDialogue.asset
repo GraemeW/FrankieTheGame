@@ -173,8 +173,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: 69e801767cf748441b9658a6c1d8345c, type: 2}
         negate: 0
   cachedSpeakerName: Horse
-  cachedText: Whinny.  Neigh. (congratulations Frankie, you did it, you really did
-    it, you son of a bitch)
+  cachedText: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it, you son of a bitch)
   references:
     version: 2
     RefIds: []

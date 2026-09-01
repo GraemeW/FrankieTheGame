@@ -55,8 +55,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889049244164096
-    m_Localized: What's that?  You say you saw me at the PortaBank (TM)?  I don't
-      know what you're talking about, I work here.
+    m_Localized: What's that?  You say you saw me at the PortaBank (TM)?  I don't know what you're talking about, I work here.
     m_Metadata:
       m_Items: []
   - m_Id: 2889049344827392
@@ -64,8 +63,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889049441296384
-    m_Localized: Aside from you and Horse, I'm literally the only person who does
-      work around here
+    m_Localized: Aside from you and Horse, I'm literally the only person who does work around here
     m_Metadata:
       m_Items: []
   - m_Id: 2889049541959680
@@ -81,8 +79,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889049835560960
-    m_Localized: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did
-      you want to hang out this weekend?
+    m_Localized: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did you want to hang out this weekend?
     m_Metadata:
       m_Items: []
   - m_Id: 2889049936224256
@@ -114,8 +111,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889050624090112
-    m_Localized: Did you forget your key card again?  You can borrow mine, I'm just
-      on my way out.
+    m_Localized: Did you forget your key card again?  You can borrow mine, I'm just on my way out.
     m_Metadata:
       m_Items: []
   - m_Id: 2889050720559104
@@ -123,8 +119,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889050821222400
-    m_Localized: Hey, look -- before you go in there, you should know -- the interns
-      have been acting really weird.
+    m_Localized: Hey, look -- before you go in there, you should know -- the interns have been acting really weird.
     m_Metadata:
       m_Items: []
   - m_Id: 2889050917691392
@@ -140,8 +135,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889051215486976
-    m_Localized: Not sure what you're talkin' about buddy!  Why don't you get in
-      there and show them who's boss?
+    m_Localized: Not sure what you're talkin' about buddy!  Why don't you get in there and show them who's boss?
     m_Metadata:
       m_Items: []
   - m_Id: 2889051316150272
@@ -165,8 +159,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889051806883840
-    m_Localized: I think the electrical breaker tripped and needs to be reset, but
-      it's in the basement and the workers here have kinda gone mad.
+    m_Localized: I think the electrical breaker tripped and needs to be reset, but it's in the basement and the workers here have kinda gone mad.
     m_Metadata:
       m_Items: []
   - m_Id: 2889051903352832
@@ -198,8 +191,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889052628967424
-    m_Localized: I got these neat refurbished portable sheds on discount!  Can you
-      believe it?
+    m_Localized: I got these neat refurbished portable sheds on discount!  Can you believe it?
     m_Metadata:
       m_Items: []
   - m_Id: 2889052729630720
@@ -295,8 +287,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889055229435904
-    m_Localized: I may be a small rodent, but my mind is vast and my experiences
-      multitudinous.
+    m_Localized: I may be a small rodent, but my mind is vast and my experiences multitudinous.
     m_Metadata:
       m_Items: []
   - m_Id: 2889055338487808
@@ -304,8 +295,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889055451734016
-    m_Localized: Now, down to business.  You -- yes YOU, behind the keyboard -- you
-      should be aware that your enemies won't wait for their turn.
+    m_Localized: Now, down to business.  You -- yes YOU, behind the keyboard -- you should be aware that your enemies won't wait for their turn.
     m_Metadata:
       m_Items: []
   - m_Id: 2889055564980224
@@ -313,8 +303,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889055678226432
-    m_Localized: So study up before your fights -- you can see what you can do by
-      pressing Tab and selecting Abilities.
+    m_Localized: So study up before your fights -- you can see what you can do by pressing Tab and selecting Abilities.
     m_Metadata:
       m_Items: []
   - m_Id: 2889055791472640
@@ -322,8 +311,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889055900524544
-    m_Localized: In battle, select which ability you want with your "W-A-S-D" keys
-      and then lock it in with "E".
+    m_Localized: In battle, select which ability you want with your "W-A-S-D" keys and then lock it in with "E".
     m_Metadata:
       m_Items: []
   - m_Id: 2889056017965056
@@ -331,9 +319,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889056131211264
-    m_Localized: 'I hope this makes sense -- I don''t actually speak your language. 
-      I''m just reciting what I read by reading the Official Frankie Game Manual
-      (TM).  '
+    m_Localized: 'I hope this makes sense -- I don''t actually speak your language.  I''m just reciting what I read by reading the Official Frankie Game Manual (TM).  '
     m_Metadata:
       m_Items: []
   - m_Id: 2889056248651776
@@ -365,8 +351,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889057020403712
-    m_Localized: ' I got this car freshener tree here to help freshen things up! 
-      So, do you feel FRESH?'
+    m_Localized: ' I got this car freshener tree here to help freshen things up!  So, do you feel FRESH?'
     m_Metadata:
       m_Items: []
   - m_Id: 2889057133649920
@@ -430,8 +415,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889058702319616
-    m_Localized: HI!  Welcome to PortaBank (TM)!  Your number one portable banking
-      solution!
+    m_Localized: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
     m_Metadata:
       m_Items: []
   - m_Id: 2889058802982912
@@ -471,8 +455,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889059717341184
-    m_Localized: A squirrel looked at me weird.  Now I'm too scared to even step
-      foot in there.
+    m_Localized: A squirrel looked at me weird.  Now I'm too scared to even step foot in there.
     m_Metadata:
       m_Items: []
   - m_Id: 2889059818004480
@@ -536,8 +519,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889061311176704
-    m_Localized: Listen, this world - your world - is not what it appears to be. 
-      You must have noticed by now.
+    m_Localized: Listen, this world - your world - is not what it appears to be.  You must have noticed by now.
     m_Metadata:
       m_Items: []
   - m_Id: 2889061411840000
@@ -545,8 +527,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889061512503296
-    m_Localized: This miasma threatens everything you know.  You must find out what,
-      or who, is behind it.
+    m_Localized: This miasma threatens everything you know.  You must find out what, or who, is behind it.
     m_Metadata:
       m_Items: []
   - m_Id: 2889061613166592
@@ -554,8 +535,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889061709635584
-    m_Localized: The answer lies in your own memories.  You must go on a journey
-      in search of your 10 curios of power to unlock the truth.
+    m_Localized: The answer lies in your own memories.  You must go on a journey in search of your 10 curios of power to unlock the truth.
     m_Metadata:
       m_Items: []
   - m_Id: 2889061810298880
@@ -563,8 +543,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889061915156480
-    m_Localized: You'll meet many friends along the way.  Trust in them, rely on
-      them.  You need their help to make it through this.
+    m_Localized: You'll meet many friends along the way.  Trust in them, rely on them.  You need their help to make it through this.
     m_Metadata:
       m_Items: []
   - m_Id: 2889062015819776
@@ -572,8 +551,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889062116483072
-    m_Localized: Go now.  Your first curio, I sense that it is close.  Somewhere
-      in the nearby suburb of Prim.
+    m_Localized: Go now.  Your first curio, I sense that it is close.  Somewhere in the nearby suburb of Prim.
     m_Metadata:
       m_Items: []
   - m_Id: 2889062217146368
@@ -581,8 +559,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889062317809664
-    m_Localized: The subway should take you there.  Wait, you should know this, you
-      live in Prim, DON'T YOU?
+    m_Localized: The subway should take you there.  Wait, you should know this, you live in Prim, DON'T YOU?
     m_Metadata:
       m_Items: []
   - m_Id: 2889062418472960
@@ -590,8 +567,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889062519136256
-    m_Localized: Oh man, oh boy, I see the light.  This is really it now.  Before
-      I go, did you listen closely enough, or do you want me to repeat this?
+    m_Localized: Oh man, oh boy, I see the light.  This is really it now.  Before I go, did you listen closely enough, or do you want me to repeat this?
     m_Metadata:
       m_Items: []
   - m_Id: 2889062623993856
@@ -615,8 +591,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889063139893248
-    m_Localized: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess,
-      here goes.
+    m_Localized: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess, here goes.
     m_Metadata:
       m_Items: []
   - m_Id: 2889063240556544
@@ -624,8 +599,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889063345414144
-    m_Localized: Alright.  Well, you're a smart, capable, and brave man, Frankie. 
-      Remember that.
+    m_Localized: Alright.  Well, you're a smart, capable, and brave man, Frankie.  Remember that.
     m_Metadata:
       m_Items: []
   - m_Id: 2889063446077440
@@ -689,8 +663,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889065035718656
-    m_Localized: My parents said I'd grow up to be famous.  I only have a modest
-      social media presence though.
+    m_Localized: My parents said I'd grow up to be famous.  I only have a modest social media presence though.
     m_Metadata:
       m_Items: []
   - m_Id: 2889065140576256
@@ -890,8 +863,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889070094049280
-    m_Localized: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably
-      won''t even talk to you if you aren''t carrying Hay.'
+    m_Localized: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably won''t even talk to you if you aren''t carrying Hay.'
     m_Metadata:
       m_Items: []
   - m_Id: 2889070190518272
@@ -995,8 +967,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889072698712064
-    m_Localized: Have you ever been in combat and noticed you lost access to certain
-      skills?
+    m_Localized: Have you ever been in combat and noticed you lost access to certain skills?
     m_Metadata:
       m_Items: []
   - m_Id: 2889072799375360
@@ -1004,8 +975,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889072900038656
-    m_Localized: That's because every skill is tied to a STAT, and requires a certain
-      STAT VALUE to use.
+    m_Localized: That's because every skill is tied to a STAT, and requires a certain STAT VALUE to use.
     m_Metadata:
       m_Items: []
   - m_Id: 2889073000701952
@@ -1013,8 +983,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889073101365248
-    m_Localized: If your enemy lowers the STAT linked to your skill, it can lock
-      that skill out until your STAT recovers!
+    m_Localized: If your enemy lowers the STAT linked to your skill, it can lock that skill out until your STAT recovers!
     m_Metadata:
       m_Items: []
   - m_Id: 2889073202028544
@@ -1022,8 +991,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889073306886144
-    m_Localized: Keep an eye on the STATUS EFFECTS being applied to your character. 
-      Use a RESTORATIVE SKILL or ITEM if you need.
+    m_Localized: Keep an eye on the STATUS EFFECTS being applied to your character.  Use a RESTORATIVE SKILL or ITEM if you need.
     m_Metadata:
       m_Items: []
   - m_Id: 2889073403355136
@@ -1031,8 +999,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889073504018432
-    m_Localized: I hope this makes sense -- I learned all this from the Official
-      Frankie Game Manual (TM).  You should check it out!
+    m_Localized: I hope this makes sense -- I learned all this from the Official Frankie Game Manual (TM).  You should check it out!
     m_Metadata:
       m_Items: []
   - m_Id: 2889073604681728
@@ -1056,8 +1023,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889074103803904
-    m_Localized: Your vibe is pretty gnarled isn't it?  Try improving your Beauty,
-      Frankie!
+    m_Localized: Your vibe is pretty gnarled isn't it?  Try improving your Beauty, Frankie!
     m_Metadata:
       m_Items: []
   - m_Id: 2889074204467200
@@ -1073,8 +1039,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889074502262784
-    m_Localized: 'I''m going to tell you this since you don''t already know:  pay
-      attention to your stats!  '
+    m_Localized: 'I''m going to tell you this since you don''t already know:  pay attention to your stats!  '
     m_Metadata:
       m_Items: []
   - m_Id: 2889074602926080
@@ -1082,8 +1047,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889074703589376
-    m_Localized: As you your stat values increase, you might unlock new abilities. 
-      I bet you have a new ability to check out right now.
+    m_Localized: As you your stat values increase, you might unlock new abilities.  I bet you have a new ability to check out right now.
     m_Metadata:
       m_Items: []
   - m_Id: 2889074804252672
@@ -1123,8 +1087,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889075710222336
-    m_Localized: Whinny.  Neigh. (congratulations Frankie, you did it, you really
-      did it, you son of a bitch)
+    m_Localized: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it, you son of a bitch)
     m_Metadata:
       m_Items: []
   - m_Id: 2889075810885632
@@ -1148,8 +1111,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889076310007808
-    m_Localized: This hallway is a great place to get your cardio in.  I'm really
-      building up an appetite.
+    m_Localized: This hallway is a great place to get your cardio in.  I'm really building up an appetite.
     m_Metadata:
       m_Items: []
   - m_Id: 2889076410671104
@@ -1205,8 +1167,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889077744459776
-    m_Localized: I wanna get a slushie from the Chug'n'Slurp (TM), but mom says the
-      forest is too dangerous
+    m_Localized: I wanna get a slushie from the Chug'n'Slurp (TM), but mom says the forest is too dangerous
     m_Metadata:
       m_Items: []
   - m_Id: 2889077845123072
@@ -1214,8 +1175,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889077945786368
-    m_Localized: It's a little cramped, but you can have a nap in our bed with us
-      if you want?
+    m_Localized: It's a little cramped, but you can have a nap in our bed with us if you want?
     m_Metadata:
       m_Items: []
   - m_Id: 2889078046449664
@@ -1263,8 +1223,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889079174717440
-    m_Localized: I'm really hungry from all that cardio!  Luckily someone made this
-      delicious ramen and just left it here!
+    m_Localized: I'm really hungry from all that cardio!  Luckily someone made this delicious ramen and just left it here!
     m_Metadata:
       m_Items: []
   - m_Id: 2889079275380736
@@ -1328,8 +1287,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889080789524480
-    m_Localized: HI!  Welcome to PortaBank (TM)!  Your number one portable banking
-      solution!
+    m_Localized: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
     m_Metadata:
       m_Items: []
   - m_Id: 2889080894382080
@@ -1345,8 +1303,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889081196371968
-    m_Localized: I got these neat refurbished portable sheds on discount!  Can you
-      believe it?
+    m_Localized: I got these neat refurbished portable sheds on discount!  Can you believe it?
     m_Metadata:
       m_Items: []
   - m_Id: 2889081297035264
@@ -1426,8 +1383,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889083222220800
-    m_Localized: I'm thinking of getting one of those little robots to clean the
-      house.
+    m_Localized: I'm thinking of getting one of those little robots to clean the house.
     m_Metadata:
       m_Items: []
   - m_Id: 2889083327078400
@@ -1443,8 +1399,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889083641651200
-    m_Localized: I heard a cute new coffee shop opened up in town.  We should check
-      it out sometime!
+    m_Localized: I heard a cute new coffee shop opened up in town.  We should check it out sometime!
     m_Metadata:
       m_Items: []
   - m_Id: 2889083746508800
@@ -1452,8 +1407,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889083851366400
-    m_Localized: Make sure you watch out for wild animals.  They've been straying
-      closer to the paths lately.  Scary!
+    m_Localized: Make sure you watch out for wild animals.  They've been straying closer to the paths lately.  Scary!
     m_Metadata:
       m_Items: []
   - m_Id: 2889083956224000
@@ -1549,8 +1503,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889086607024128
-    m_Localized: Finally you've arrived.  My name is Phil, and I come bearing an
-      urgent message.
+    m_Localized: Finally you've arrived.  My name is Phil, and I come bearing an urgent message.
     m_Metadata:
       m_Items: []
   - m_Id: 2889086716076032
@@ -1566,8 +1519,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889087080980480
-    m_Localized: 'I may look like a delicious cup of noodles, but I''m actually a
-      sophisticated artificial intelligence.  '
+    m_Localized: 'I may look like a delicious cup of noodles, but I''m actually a sophisticated artificial intelligence.  '
     m_Metadata:
       m_Items: []
   - m_Id: 2889087198420992
@@ -1599,8 +1551,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889087974367232
-    m_Localized: They must be moving faster than I thought.  We need to find some
-      chopsticks immediately.
+    m_Localized: They must be moving faster than I thought.  We need to find some chopsticks immediately.
     m_Metadata:
       m_Items: []
   - m_Id: 2889088087613440
@@ -1608,8 +1559,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889088196665344
-    m_Localized: Once you find the chopsticks, you need to pour some hot water onto
-      me and mush my noodles around.
+    m_Localized: Once you find the chopsticks, you need to pour some hot water onto me and mush my noodles around.
     m_Metadata:
       m_Items: []
   - m_Id: 2889088314105856
@@ -1657,8 +1607,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889089463345152
-    m_Localized: There's one last step to the incantation.  You must find some extremely
-      spicy hot sauce.
+    m_Localized: There's one last step to the incantation.  You must find some extremely spicy hot sauce.
     m_Metadata:
       m_Items: []
   - m_Id: 2889089568202752
@@ -1738,8 +1687,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889091543719936
-    m_Localized: Anyway, let's get out of here Frankie, we have some work to do with
-      Maya upstairs.
+    m_Localized: Anyway, let's get out of here Frankie, we have some work to do with Maya upstairs.
     m_Metadata:
       m_Items: []
   - m_Id: 2889091644383232
@@ -1755,8 +1703,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889091954761728
-    m_Localized: Hey, uh, if you want down those stairs to the electrical room, you're
-      gonna have to wrastle me.
+    m_Localized: Hey, uh, if you want down those stairs to the electrical room, you're gonna have to wrastle me.
     m_Metadata:
       m_Items: []
   - m_Id: 2889092059619328
@@ -1860,8 +1807,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889094647504896
-    m_Localized: '*squeak* I agree, Frankie.  We need to overthrow our capitalist
-      overlords.  '
+    m_Localized: '*squeak* I agree, Frankie.  We need to overthrow our capitalist overlords.  '
     m_Metadata:
       m_Items: []
   - m_Id: 2889094748168192
@@ -1885,8 +1831,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889095268261888
-    m_Localized: Thanks for giving me this great advice.  *happy squeak* You're a
-      real pal.
+    m_Localized: Thanks for giving me this great advice.  *happy squeak* You're a real pal.
     m_Metadata:
       m_Items: []
   - m_Id: 2889095373119488
@@ -1950,8 +1895,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889096983732224
-    m_Localized: Hey, listen, if you need a way out of here, I can get you back to
-      the PortaBank just outside the church.
+    m_Localized: Hey, listen, if you need a way out of here, I can get you back to the PortaBank just outside the church.
     m_Metadata:
       m_Items: []
   - m_Id: 2889097088589824
@@ -2143,8 +2087,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889102046257152
-    m_Localized: You shouldn't spoil me too much, I'll never build up a real work
-      ethic if you keep going on like this.
+    m_Localized: You shouldn't spoil me too much, I'll never build up a real work ethic if you keep going on like this.
     m_Metadata:
       m_Items: []
   - m_Id: 2889102151114752
@@ -2168,8 +2111,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889102683791360
-    m_Localized: Hi there!  I'm not your enemy, merely a vole who wants to give you
-      some advice!
+    m_Localized: Hi there!  I'm not your enemy, merely a vole who wants to give you some advice!
     m_Metadata:
       m_Items: []
   - m_Id: 2889102788648960
@@ -2177,8 +2119,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889102893506560
-    m_Localized: In this demo you will face enemies of varying difficulty in order
-      to gauge your combat prowess
+    m_Localized: In this demo you will face enemies of varying difficulty in order to gauge your combat prowess
     m_Metadata:
       m_Items: []
   - m_Id: 2889102998364160
@@ -2194,8 +2135,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889103312936960
-    m_Localized: Yes, well, be warned!  Combat does not pause in Frankie!  Once an
-      enemy can attack, they will!
+    m_Localized: Yes, well, be warned!  Combat does not pause in Frankie!  Once an enemy can attack, they will!
     m_Metadata:
       m_Items: []
   - m_Id: 2889103417794560
@@ -2203,9 +2143,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889103526846464
-    m_Localized: To defeat your enemy, quickly select a skill using the directional
-      UP-DOWN-LEFT-RIGHT or W-A-S-D keys, and lock it in using 'E'.  Then simply
-      select your target and press 'E' again!
+    m_Localized: To defeat your enemy, quickly select a skill using the directional UP-DOWN-LEFT-RIGHT or W-A-S-D keys, and lock it in using 'E'.  Then simply select your target and press 'E' again!
     m_Metadata:
       m_Items: []
   - m_Id: 2889103627509760
@@ -2213,9 +2151,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889103736561664
-    m_Localized: As you gain new skills, you'll need to traverse deeper into your
-      skill tree using the same directional keys.  Let's cross that bridge when we
-      get there though!
+    m_Localized: As you gain new skills, you'll need to traverse deeper into your skill tree using the same directional keys.  Let's cross that bridge when we get there though!
     m_Metadata:
       m_Items: []
   - m_Id: 2889103841419264
@@ -2391,8 +2327,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889108560011264
-    m_Localized: 'Hey, if you find yourself with a new piece for your outfit . .
-      . '
+    m_Localized: 'Hey, if you find yourself with a new piece for your outfit . . . '
     m_Metadata:
       m_Items: []
   - m_Id: 2889108669063168
@@ -2408,8 +2343,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889108996218880
-    m_Localized: Make sure you equip it in the Outfit menu!  It won't do any good
-      just sitting in your knapsack unequipped!
+    m_Localized: Make sure you equip it in the Outfit menu!  It won't do any good just sitting in your knapsack unequipped!
     m_Metadata:
       m_Items: []
   - m_Id: 2889109105270784
@@ -2425,8 +2359,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889109432426496
-    m_Localized: Oh, you're really fresh aren't you.  Access player menus by pressing
-      the `TAB` key.
+    m_Localized: Oh, you're really fresh aren't you.  Access player menus by pressing the `TAB` key.
     m_Metadata:
       m_Items: []
   - m_Id: 2889109537284096
@@ -2490,8 +2423,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889111173062656
-    m_Localized: After you've adventured a little, check your bank account.  You
-      may be surprised to see your stocks have paid some dividends.
+    m_Localized: After you've adventured a little, check your bank account.  You may be surprised to see your stocks have paid some dividends.
     m_Metadata:
       m_Items: []
   - m_Id: 2889111277920256
@@ -2611,8 +2543,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889114453008384
-    m_Localized: Here's another tip!  You can change party order and add or remove
-      party members by using the restroom in the office!
+    m_Localized: Here's another tip!  You can change party order and add or remove party members by using the restroom in the office!
     m_Metadata:
       m_Items: []
   - m_Id: 2889114562060288
@@ -2652,8 +2583,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889115560304640
-    m_Localized: We're so proud of what you've accomplished here.  You're really
-      an A++ Worker.
+    m_Localized: We're so proud of what you've accomplished here.  You're really an A++ Worker.
     m_Metadata:
       m_Items: []
   - m_Id: 2889115673550848
@@ -2669,8 +2599,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889116000706560
-    m_Localized: Now that I've sufficiently complimented you, I need you to do me
-      a favor.  Maya has some *VERY IMPORTANT DOCUMENTS*.
+    m_Localized: Now that I've sufficiently complimented you, I need you to do me a favor.  Maya has some *VERY IMPORTANT DOCUMENTS*.
     m_Metadata:
       m_Items: []
   - m_Id: 2889116109758464
@@ -2694,8 +2623,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889116659212288
-    m_Localized: You may take your 15 minute break -- I've enabled elevator access
-      to the kitchen.
+    m_Localized: You may take your 15 minute break -- I've enabled elevator access to the kitchen.
     m_Metadata:
       m_Items: []
   - m_Id: 2889116768264192
@@ -2703,8 +2631,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889116877316096
-    m_Localized: Please hop down that firepole -- yes, the one that says DANGER on
-      it -- and find the documents.
+    m_Localized: Please hop down that firepole -- yes, the one that says DANGER on it -- and find the documents.
     m_Metadata:
       m_Items: []
   - m_Id: 2889116990562304
@@ -2776,8 +2703,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889118852833280
-    m_Localized: I dared Tilly to hop down the fireman's pole in the ballpit room
-      and SHE DID.  Now she's trapped with the interns.
+    m_Localized: I dared Tilly to hop down the fireman's pole in the ballpit room and SHE DID.  Now she's trapped with the interns.
     m_Metadata:
       m_Items: []
   - m_Id: 2889118961885184
@@ -2785,8 +2711,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889119075131392
-    m_Localized: Look, Horse locked the door to the ballpit room, but you can make
-      your way down to Tilly in the basement with the elevator.
+    m_Localized: Look, Horse locked the door to the ballpit room, but you can make your way down to Tilly in the basement with the elevator.
     m_Metadata:
       m_Items: []
   - m_Id: 2889119184183296
@@ -2794,8 +2719,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889119293235200
-    m_Localized: Come on Frankie, please go find Tilly.  She'll kill me if we just
-      leave her down there.
+    m_Localized: Come on Frankie, please go find Tilly.  She'll kill me if we just leave her down there.
     m_Metadata:
       m_Items: []
   - m_Id: 2889119406481408
@@ -2803,8 +2727,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2889119515533312
-    m_Localized: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good
-      spirits.
+    m_Localized: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good spirits.
     m_Metadata:
       m_Items: []
   - m_Id: 2889119624585216
@@ -2836,8 +2759,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10064850876096512
-    m_Localized: Frankie is inexplicably drawn to the forest \n . . . to find and
-      stop the Bald Monk Cult
+    m_Localized: Frankie is inexplicably drawn to the forest \n . . . to find and stop the Bald Monk Cult
     m_Metadata:
       m_Items: []
   - m_Id: 10122967047462912
@@ -2863,8 +2785,7 @@ MonoBehaviour:
   - m_Id: 29263639864139776
     m_Localized: 'This is a test if \n newline characters will work \n or how they
 
-      should
-      be
+      should be
 
       formatted?'
     m_Metadata:

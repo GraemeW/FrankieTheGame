@@ -59,8 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764653417652224
-    m_Localized: "\xC7a ressemble exactement \xE0 celui que j'avais quand j'\xE9tais
-      petit"
+    m_Localized: "\xC7a ressemble exactement \xE0 celui que j'avais quand j'\xE9tais petit"
     m_Metadata:
       m_Items: []
   - m_Id: 4764654109712384
@@ -80,8 +79,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764655871320064
-    m_Localized: "Il est \xE9crit : \xAB Attention, trou d'effondrement \xBB. Bizarre,
-      je ne me souviens pas qu'il y avait un trou ici."
+    m_Localized: "Il est \xE9crit : \xAB Attention, trou d'effondrement \xBB. Bizarre, je ne me souviens pas qu'il y avait un trou ici."
     m_Metadata:
       m_Items: []
   - m_Id: 4764656307527680
@@ -93,8 +91,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764657192525824
-    m_Localized: "{0} a actionn\xE9 le disjoncteur. Un bourdonnement \xE9lectrique
-      se fait entendre."
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Un bourdonnement \xE9lectrique se fait entendre."
     m_Metadata:
       m_Items: []
   - m_Id: 4764657641316352
@@ -102,8 +99,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764658081718272
-    m_Localized: "Il n'y a qu'une prise et elle est occup\xE9e par le four \xE0 micro-ondes
-      en panne"
+    m_Localized: "Il n'y a qu'une prise et elle est occup\xE9e par le four \xE0 micro-ondes en panne"
     m_Metadata:
       m_Items: []
   - m_Id: 4764658517925888
@@ -115,8 +111,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764659671359488
-    m_Localized: C'est le bureau de {0}. Voulez-vous sauvegarder votre progression
-      ?
+    m_Localized: C'est le bureau de {0}. Voulez-vous sauvegarder votre progression ?
     m_Metadata:
       m_Items: []
   - m_Id: 4764660367613952
@@ -152,23 +147,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764664331231232
-    m_Localized: C'est le bureau de {0}. Voulez-vous sauvegarder votre progression
-      ?
+    m_Localized: C'est le bureau de {0}. Voulez-vous sauvegarder votre progression ?
     m_Metadata:
       m_Items: []
   - m_Id: 4765847351451648
-    m_Localized: Si seulement j'avais quelque chose dans quoi verser cette eau chaude
-      . . .
+    m_Localized: Si seulement j'avais quelque chose dans quoi verser cette eau chaude . . .
     m_Metadata:
       m_Items: []
   - m_Id: 4765847586332672
-    m_Localized: C'est une pub pour Sleep Mattress Canada. (Pourquoi acheter un matelas
-      ailleurs ?)
+    m_Localized: C'est une pub pour Sleep Mattress Canada. (Pourquoi acheter un matelas ailleurs ?)
     m_Metadata:
       m_Items: []
   - m_Id: 4765847699578880
-    m_Localized: "Il est \xE9crit \xAB Je parie que tu aimerais savoir ce qu'il y
-      a derri\xE8re cette porte. \xBB En effet, {0} aussi."
+    m_Localized: "Il est \xE9crit \xAB Je parie que tu aimerais savoir ce qu'il y a derri\xE8re cette porte. \xBB En effet, {0} aussi."
     m_Metadata:
       m_Items: []
   - m_Id: 4765847800242176
@@ -184,8 +175,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766546927804416
-    m_Localized: "Impossible de rentrer, encore une journ\xE9e de travail devant
-      soi"
+    m_Localized: "Impossible de rentrer, encore une journ\xE9e de travail devant soi"
     m_Metadata:
       m_Items: []
   - m_Id: 4766547263348736
@@ -197,8 +187,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766547464675328
-    m_Localized: "Il est \xE9crit : Tacos du c\xE9l\xE8bre Zak - FERM\xC9, en raison
-      d'une infestation de campagnols"
+    m_Localized: "Il est \xE9crit : Tacos du c\xE9l\xE8bre Zak - FERM\xC9, en raison d'une infestation de campagnols"
     m_Metadata:
       m_Items: []
   - m_Id: 4766547569532928
@@ -222,13 +211,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766608449855488
-    m_Localized: Quand la pizza est sur un bagel, tu peux manger de la pizza n'importe
-      quand !
+    m_Localized: Quand la pizza est sur un bagel, tu peux manger de la pizza n'importe quand !
     m_Metadata:
       m_Items: []
   - m_Id: 4766608550518784
-    m_Localized: "*Chaaaasse d'eau* \xC7a doit aller dans l'autre sens au sud de
-      l'\xE9quateur."
+    m_Localized: "*Chaaaasse d'eau* \xC7a doit aller dans l'autre sens au sud de l'\xE9quateur."
     m_Metadata:
       m_Items: []
   - m_Id: 4766608646987776
@@ -248,24 +235,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766876734316544
-    m_Localized: "Prim Maisons de Luxe : \xAB Vivez dans le plus grand immeuble de
-      Prim, pourquoi pas ? \xBB - Prim Immobilier"
+    m_Localized: "Prim Maisons de Luxe : \xAB Vivez dans le plus grand immeuble de Prim, pourquoi pas ? \xBB - Prim Immobilier"
     m_Metadata:
       m_Items: []
   - m_Id: 4766876839174144
-    m_Localized: "Venez visiter la PortaBank ! \\nMaintenant ouverte dans le sud
-      de Prim !  \\n\\n - ce message vous est pr\xE9sent\xE9 par le Comit\xE9 d'infrastructure
-      et de d\xE9veloppement \xE9conomique de Prim"
+    m_Localized: "Venez visiter la PortaBank ! \\nMaintenant ouverte dans le sud de Prim !  \\n\\n - ce message vous est pr\xE9sent\xE9 par le Comit\xE9 d'infrastructure et de d\xE9veloppement \xE9conomique de Prim"
     m_Metadata:
       m_Items: []
   - m_Id: 4766876944031744
-    m_Localized: "Ne sautez pas !  \\n\\n  - ce message vous est pr\xE9sent\xE9 par
-      le Comit\xE9 de sant\xE9 mentale et de sanctit\xE9 de la vie de Prim"
+    m_Localized: "Ne sautez pas !  \\n\\n  - ce message vous est pr\xE9sent\xE9 par le Comit\xE9 de sant\xE9 mentale et de sanctit\xE9 de la vie de Prim"
     m_Metadata:
       m_Items: []
   - m_Id: 4766877044695040
-    m_Localized: "Personnel autoris\xE9 seulement ! Les contrevenants seront poursuivis.
-      - Prim Hydro\xE9lectrique"
+    m_Localized: "Personnel autoris\xE9 seulement ! Les contrevenants seront poursuivis. - Prim Hydro\xE9lectrique"
     m_Metadata:
       m_Items: []
   - m_Id: 4766877149552640
@@ -309,13 +291,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766979670925312
-    m_Localized: ". . . {0} entend de la bossa nova jouer doucement \xE0 travers
-      la porte"
+    m_Localized: ". . . {0} entend de la bossa nova jouer doucement \xE0 travers la porte"
     m_Metadata:
       m_Items: []
   - m_Id: 4766979771588608
-    m_Localized: "F\xE9licitations ! Vous avez atteint le sommet du plus grand immeuble
-      de Prim. Profitez de cette vue."
+    m_Localized: "F\xE9licitations ! Vous avez atteint le sommet du plus grand immeuble de Prim. Profitez de cette vue."
     m_Metadata:
       m_Items: []
   - m_Id: 4767071324856320
@@ -331,34 +311,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767217911586816
-    m_Localized: "Avertissement : Faune dangereuse en avant. Peut-\xEAtre regarder
-      d'abord la vid\xE9o Lacklustre ? \\n  -sign\xE9 Les Personnes En Charge (PEC)"
+    m_Localized: "Avertissement : Faune dangereuse en avant. Peut-\xEAtre regarder d'abord la vid\xE9o Lacklustre ? \\n  -sign\xE9 Les Personnes En Charge (PEC)"
     m_Metadata:
       m_Items: []
   - m_Id: 4767218112913408
-    m_Localized: "Profitez de ce distributeur automatique ! \\n  -offert par l'\xC9quipe
-      de modernisation de la for\xEAt"
+    m_Localized: "Profitez de ce distributeur automatique ! \\n  -offert par l'\xC9quipe de modernisation de la for\xEAt"
     m_Metadata:
       m_Items: []
   - m_Id: 4767218226159616
-    m_Localized: "Acc\xE8s interdit en raison d'affaires polici\xE8res officielles.
-      \\n  -sign\xE9 Les Personnes En Charge (PEC)"
+    m_Localized: "Acc\xE8s interdit en raison d'affaires polici\xE8res officielles. \\n  -sign\xE9 Les Personnes En Charge (PEC)"
     m_Metadata:
       m_Items: []
   - m_Id: 4767218331017216
-    m_Localized: "Vos imp\xF4ts au travail ! Profitez de ce tunnel ! \\n  -offert
-      par l'\xC9quipe de modernisation de la for\xEAt"
+    m_Localized: "Vos imp\xF4ts au travail ! Profitez de ce tunnel ! \\n  -offert par l'\xC9quipe de modernisation de la for\xEAt"
     m_Metadata:
       m_Items: []
   - m_Id: 4767218431680512
-    m_Localized: "Vos imp\xF4ts au travail ! Vous avez demand\xE9, nous avons \xE9cout\xE9
-      ! Cet arbre tomb\xE9 doit \xEAtre retir\xE9 en hiver 2014 ! \\n  -offert par
-      l'\xC9quipe de modernisation de la for\xEAt"
+    m_Localized: "Vos imp\xF4ts au travail ! Vous avez demand\xE9, nous avons \xE9cout\xE9 ! Cet arbre tomb\xE9 doit \xEAtre retir\xE9 en hiver 2014 ! \\n  -offert par l'\xC9quipe de modernisation de la for\xEAt"
     m_Metadata:
       m_Items: []
   - m_Id: 4767356197789696
-    m_Localized: "On dirait que les ouvriers ici ont griffonn\xE9 un plan de domination
-      mondiale. \xC7a commence par... les yeux de {0} se voilent."
+    m_Localized: "On dirait que les ouvriers ici ont griffonn\xE9 un plan de domination mondiale. \xC7a commence par... les yeux de {0} se voilent."
     m_Metadata:
       m_Items: []
   - m_Id: 4767356466225152
@@ -366,9 +339,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767356575277056
-    m_Localized: "Avant, c'\xE9tait vraiment difficile de respirer ici, alors on
-      a ajout\xE9 des ventilateurs en avant. \\n  -offert par les D\xE9fenseurs de
-      l'asthme en tunnel"
+    m_Localized: "Avant, c'\xE9tait vraiment difficile de respirer ici, alors on a ajout\xE9 des ventilateurs en avant. \\n  -offert par les D\xE9fenseurs de l'asthme en tunnel"
     m_Metadata:
       m_Items: []
   - m_Id: 4767356675940352
@@ -716,8 +687,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5042679833419776
-    m_Localized: "C'est un fouillis l\xE0-dedans... des baguettes enfouies dans une
-      vieille nourriture gluante. Mieux vaut ne pas l'ouvrir."
+    m_Localized: "C'est un fouillis l\xE0-dedans... des baguettes enfouies dans une vieille nourriture gluante. Mieux vaut ne pas l'ouvrir."
     m_Metadata:
       m_Items: []
   - m_Id: 5042679980220416
@@ -725,13 +695,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5043163763826688
-    m_Localized: "{0} a vers\xE9 l'eau chaude sur Phil Ramen, a m\xE9lang\xE9 ses
-      nouilles et l'a plac\xE9 sur la table."
+    m_Localized: "{0} a vers\xE9 l'eau chaude sur Phil Ramen, a m\xE9lang\xE9 ses nouilles et l'a plac\xE9 sur la table."
     m_Metadata:
       m_Items: []
   - m_Id: 5043164174868480
-    m_Localized: Si seulement {0} avait quelque chose sur quoi verser cette eau chaude
-      . . .
+    m_Localized: Si seulement {0} avait quelque chose sur quoi verser cette eau chaude . . .
     m_Metadata:
       m_Items: []
   - m_Id: 5043802816372736
@@ -755,8 +723,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5044616532320256
-    m_Localized: Il manque une marche dans cet escalier ! Ce serait dangereux de
-      descendre !
+    m_Localized: Il manque une marche dans cet escalier ! Ce serait dangereux de descendre !
     m_Metadata:
       m_Items: []
   - m_Id: 5044852419977216
@@ -764,8 +731,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5044852642275328
-    m_Localized: "Hmm, il y a un verrou \xE0 cha\xEEne sur l'entr\xE9e du toboggan
-      de pompier"
+    m_Localized: "Hmm, il y a un verrou \xE0 cha\xEEne sur l'entr\xE9e du toboggan de pompier"
     m_Metadata:
       m_Items: []
   - m_Id: 5081826824544256

@@ -52,8 +52,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Bro Office Worker
-  cachedText: I'm really hungry from all that cardio!  Luckily someone made this
-    delicious ramen and just left it here!
+  cachedText: I'm really hungry from all that cardio!  Luckily someone made this delicious ramen and just left it here!
   references:
     version: 2
     RefIds: []

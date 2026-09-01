@@ -887,8 +887,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Thanks for giving me this great advice.  *happy squeak* You're a real
-    pal.
+  cachedText: Thanks for giving me this great advice.  *happy squeak* You're a real pal.
   references:
     version: 2
     RefIds: []

@@ -51,8 +51,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Bro Office Worker
-  cachedText: This hallway is a great place to get your cardio in.  I'm really building
-    up an appetite.
+  cachedText: This hallway is a great place to get your cardio in.  I'm really building up an appetite.
   references:
     version: 2
     RefIds: []

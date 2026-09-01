@@ -72740,8 +72740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkMessage
-      value: Congratulations!  You have reached the top of the tallest building in
-        Prim.  Please enjoy this view.
+      value: Congratulations!  You have reached the top of the tallest building in Prim.  Please enjoy this view.
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId

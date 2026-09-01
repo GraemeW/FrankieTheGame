@@ -591,8 +591,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: b7efe8af9f2d9445cade3c50c9614a57, type: 2}
         negate: 0
   cachedSpeakerName: Ron
-  cachedText: Hey, listen, if you need a way out of here, I can get you back to the
-    PortaBank just outside the church.
+  cachedText: Hey, listen, if you need a way out of here, I can get you back to the PortaBank just outside the church.
   references:
     version: 2
     RefIds: []

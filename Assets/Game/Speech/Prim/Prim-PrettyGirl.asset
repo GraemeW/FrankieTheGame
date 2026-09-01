@@ -128,8 +128,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Pretty Girl
-  cachedText: A squirrel looked at me weird.  Now I'm too scared to even step foot
-    in there.
+  cachedText: A squirrel looked at me weird.  Now I'm too scared to even step foot in there.
   references:
     version: 2
     RefIds: []

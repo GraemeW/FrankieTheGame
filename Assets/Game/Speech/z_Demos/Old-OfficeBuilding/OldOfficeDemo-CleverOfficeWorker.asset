@@ -362,8 +362,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Clever Office Worker
-  cachedText: After you've adventured a little, check your bank account.  You may
-    be surprised to see your stocks have paid some dividends.
+  cachedText: After you've adventured a little, check your bank account.  You may be surprised to see your stocks have paid some dividends.
   references:
     version: 2
     RefIds: []

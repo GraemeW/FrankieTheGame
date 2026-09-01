@@ -52,8 +52,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Here's another tip!  You can change party order and add or remove party
-    members by using the restroom in the office!
+  cachedText: Here's another tip!  You can change party order and add or remove party members by using the restroom in the office!
   references:
     version: 2
     RefIds: []

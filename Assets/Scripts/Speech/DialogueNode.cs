@@ -5,7 +5,6 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
-using Frankie.Core.Predicates;
 using Frankie.Stats;
 #if UNITY_EDITOR
 using UnityEditor;

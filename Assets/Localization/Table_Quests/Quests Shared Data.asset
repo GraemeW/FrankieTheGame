@@ -24,13 +24,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959406074388480
-    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Objective.Frankie proves himself in
-      a wrastle
+    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Objective.Frankie proves himself in a wrastle
     m_Metadata:
       m_Items: []
   - m_Id: 7959406183440384
-    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Objective.Frankie proves himself in
-      a wrastle.Detail
+    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Objective.Frankie proves himself in a wrastle.Detail
     m_Metadata:
       m_Items: []
   - m_Id: 7959504988659712
@@ -42,13 +40,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959505311621120
-    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Objective.Flip the electrical
-      breaker
+    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Objective.Flip the electrical breaker
     m_Metadata:
       m_Items: []
   - m_Id: 7959505416478720
-    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Objective.Flip the electrical
-      breaker.Detail
+    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Objective.Flip the electrical breaker.Detail
     m_Metadata:
       m_Items: []
   - m_Id: 7959505626193920

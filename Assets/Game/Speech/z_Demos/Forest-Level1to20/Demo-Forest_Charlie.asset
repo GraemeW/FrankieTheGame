@@ -131,8 +131,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Charlie
-  cachedText: It's a little cramped, but you can have a nap in our bed with us if
-    you want?
+  cachedText: It's a little cramped, but you can have a nap in our bed with us if you want?
   references:
     version: 2
     RefIds: []

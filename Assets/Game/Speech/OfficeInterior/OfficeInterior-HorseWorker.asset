@@ -173,8 +173,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: ae4edaf74c20eda49816fbfc752a4ee1, type: 2}
         negate: 1
   cachedSpeakerName: Horse
-  cachedText: We're so proud of what you've accomplished here.  You're really an
-    A++ Worker.
+  cachedText: We're so proud of what you've accomplished here.  You're really an A++ Worker.
   references:
     version: 2
     RefIds: []
@@ -259,8 +258,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Horse
-  cachedText: Now that I've sufficiently complimented you, I need you to do me a
-    favor.  Maya has some *VERY IMPORTANT DOCUMENTS*.
+  cachedText: Now that I've sufficiently complimented you, I need you to do me a favor.  Maya has some *VERY IMPORTANT DOCUMENTS*.
   references:
     version: 2
     RefIds: []
@@ -315,8 +313,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Horse
-  cachedText: Please hop down that firepole -- yes, the one that says DANGER on it
-    -- and find the documents.
+  cachedText: Please hop down that firepole -- yes, the one that says DANGER on it -- and find the documents.
   references:
     version: 2
     RefIds: []
@@ -494,8 +491,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Horse
-  cachedText: You may take your 15 minute break -- I've enabled elevator access to
-    the kitchen.
+  cachedText: You may take your 15 minute break -- I've enabled elevator access to the kitchen.
   references:
     version: 2
     RefIds: []

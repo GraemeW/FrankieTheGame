@@ -47,8 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5043163763826688
-    m_Localized: '{0} poured the hot water onto Phil Ramen, mushed his noodles around
-      and placed him on the table.'
+    m_Localized: '{0} poured the hot water onto Phil Ramen, mushed his noodles around and placed him on the table.'
     m_Metadata:
       m_Items: []
   - m_Id: 4764210545287168
@@ -84,8 +83,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4764655871320064
-    m_Localized: 'It says:  "Caution Sinkhole".  Weird, I don''t remember there being
-      a hole here.'
+    m_Localized: 'It says:  "Caution Sinkhole".  Weird, I don''t remember there being a hole here.'
     m_Metadata:
       m_Items: []
   - m_Id: 4764656307527680
@@ -161,13 +159,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4765847586332672
-    m_Localized: It's an ad for a Sleep Mattress Canada.  (why buy a mattress anywhere
-      else?)
+    m_Localized: It's an ad for a Sleep Mattress Canada.  (why buy a mattress anywhere else?)
     m_Metadata:
       m_Items: []
   - m_Id: 4765847699578880
-    m_Localized: It says "I bet you wish you knew what's behind this door."  Indeed,
-      {0} does.
+    m_Localized: It says "I bet you wish you knew what's behind this door."  Indeed, {0} does.
     m_Metadata:
       m_Items: []
   - m_Id: 4765847800242176
@@ -247,24 +243,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766876734316544
-    m_Localized: 'Prim Luxury Homes:  "Live in the tallest building in Prim, why
-      don''t''cha?"  - Prim Real Estate'
+    m_Localized: 'Prim Luxury Homes:  "Live in the tallest building in Prim, why don''t''cha?"  - Prim Real Estate'
     m_Metadata:
       m_Items: []
   - m_Id: 4766876839174144
-    m_Localized: Come visit the PortaBank! \nNow open in Prim South!  \n\n - this
-      message brought to you by the Prim Infrastructure and Economic Development
-      Committee
+    m_Localized: Come visit the PortaBank! \nNow open in Prim South!  \n\n - this message brought to you by the Prim Infrastructure and Economic Development Committee
     m_Metadata:
       m_Items: []
   - m_Id: 4766876944031744
-    m_Localized: Don't jump!  \n\n  - this message brought to you by the Prim Mental
-      Health and Sanctity of Life Committee
+    m_Localized: Don't jump!  \n\n  - this message brought to you by the Prim Mental Health and Sanctity of Life Committee
     m_Metadata:
       m_Items: []
   - m_Id: 4766877044695040
-    m_Localized: Authorized Personnel Only!  Trespassers will be prosecuted. - Prim
-      Hydroelectric
+    m_Localized: Authorized Personnel Only!  Trespassers will be prosecuted. - Prim Hydroelectric
     m_Metadata:
       m_Items: []
   - m_Id: 4766877149552640
@@ -312,8 +303,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766979771588608
-    m_Localized: Congratulations!  You have reached the top of the tallest building
-      in Prim.  Please enjoy this view.
+    m_Localized: Congratulations!  You have reached the top of the tallest building in Prim.  Please enjoy this view.
     m_Metadata:
       m_Items: []
   - m_Id: 4767071324856320
@@ -329,34 +319,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767217911586816
-    m_Localized: 'Warning:  Dangerous wildlife ahead.  Maybe check out the Lacklustre
-      Video first? \n  -signed People In Charge (PIC)'
+    m_Localized: 'Warning:  Dangerous wildlife ahead.  Maybe check out the Lacklustre Video first? \n  -signed People In Charge (PIC)'
     m_Metadata:
       m_Items: []
   - m_Id: 4767218112913408
-    m_Localized: Enjoy this vending machine! \n  -courtesy of Forest Modernization
-      Team
+    m_Localized: Enjoy this vending machine! \n  -courtesy of Forest Modernization Team
     m_Metadata:
       m_Items: []
   - m_Id: 4767218226159616
-    m_Localized: No Entry due to Official Police Business Stuff. \n  -signed People
-      In Charge (PIC)
+    m_Localized: No Entry due to Official Police Business Stuff. \n  -signed People In Charge (PIC)
     m_Metadata:
       m_Items: []
   - m_Id: 4767218331017216
-    m_Localized: Your tax dollars at work!  Enjoy this tunnel! \n  -courtesy of Forest
-      Modernization Team
+    m_Localized: Your tax dollars at work!  Enjoy this tunnel! \n  -courtesy of Forest Modernization Team
     m_Metadata:
       m_Items: []
   - m_Id: 4767218431680512
-    m_Localized: Your tax dollars at work!  You asked, we listened!  This fallen
-      tree slated to be removed in Winter 2014! \n  -courtesy of Forest Modernization
-      Team
+    m_Localized: Your tax dollars at work!  You asked, we listened!  This fallen tree slated to be removed in Winter 2014! \n  -courtesy of Forest Modernization Team
     m_Metadata:
       m_Items: []
   - m_Id: 4767356197789696
-    m_Localized: It looks like the workers here have scrawled a plan to take over
-      the world.  It starts with . . . {0}'s eyes glaze over.
+    m_Localized: It looks like the workers here have scrawled a plan to take over the world.  It starts with . . . {0}'s eyes glaze over.
     m_Metadata:
       m_Items: []
   - m_Id: 4767356466225152
@@ -364,8 +347,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4767356575277056
-    m_Localized: It used to be really hard to breathe in here, so we added some fans
-      ahead. \n  -courtesy of Tunnel Asthma Advocates
+    m_Localized: It used to be really hard to breathe in here, so we added some fans ahead. \n  -courtesy of Tunnel Asthma Advocates
     m_Metadata:
       m_Items: []
   - m_Id: 4767356675940352
@@ -701,8 +683,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5042679833419776
-    m_Localized: It's a mess in here . . . chopsticks buried in old slimey food. 
-      Better not open it.
+    m_Localized: It's a mess in here . . . chopsticks buried in old slimey food.  Better not open it.
     m_Metadata:
       m_Items: []
   - m_Id: 5031161611935744
@@ -742,8 +723,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5044616532320256
-    m_Localized: There's a step missing in this staircase!  It would be dangerous
-      to go down!
+    m_Localized: There's a step missing in this staircase!  It would be dangerous to go down!
     m_Metadata:
       m_Items: []
   - m_Id: 5044852419977216

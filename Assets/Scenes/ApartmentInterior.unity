@@ -27618,7 +27618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  backingListHashCheck: -658349688
+  backingListHashCheck: -1937508149
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - b3f7fb4a-3295-4b70-95ac-59a716a281b2
@@ -27975,8 +27975,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1532315460}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
           m_MethodName: ReviveAndHealParty
           m_Mode: 0
           m_Arguments:
@@ -28367,8 +28366,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1532315463}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion, Assembly-CSharp
           m_MethodName: TriggerGameOver
           m_Mode: 0
           m_Arguments:
