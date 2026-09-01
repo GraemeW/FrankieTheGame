@@ -51,7 +51,7 @@ namespace LowDefMustard.Control
             return waypointIndex + incrementDirection;
         }
 
-        public bool IsFinalWaypoint(int waypointIndex) => waypointIndex == waypoints.Length - 1;
+        public bool IsFinalWaypoint(int waypointIndex) => waypoints == null || waypointIndex == waypoints.Length - 1;
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
