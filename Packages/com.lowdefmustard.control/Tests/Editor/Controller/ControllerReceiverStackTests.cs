@@ -18,7 +18,7 @@ namespace LowDefMustard.Control.Tests.Editor
         private readonly List<GameObject> spawnedGameObjects = new();
 
         #region DataStructures
-        // Fuller double than ReceiverStateTests' - tracks call history and captures the OnReceiverModified callback so tests can invoke it directly
+        // Fuller double vs. ReceiverStateTests' - tracks call history and captures the OnReceiverModified callback so tests can invoke it directly
         private class FakeInputReceiver : IInputReceiver
         {
             public GameObject gameObject { get; }
@@ -54,7 +54,7 @@ namespace LowDefMustard.Control.Tests.Editor
             public bool hasAlternateReceiversActiveValue;
             public bool shouldDestroyForNoReceiversValue;
 
-            // destroyQueued is a protected field on BaseController - readable directly from a subclass
+            // Widen access protected -> public in subclass
             public bool destroyQueuedValue => destroyQueued;
 
             protected override void OnNoReceiversIdentified() => onNoReceiversIdentifiedCalled = true;
@@ -163,6 +163,7 @@ namespace LowDefMustard.Control.Tests.Editor
             Assert.That(fake1.setActiveInputCalls, Is.EqualTo(new[] { true, false, true }));
             // HandleReceiverDisable never calls EnableInput(false) on the receiver disabling itself
             //  - the receiver's own client is expected to already have turned off its own input
+            //  - or, in a real use case, ClientDisable would be called during OnDisable
             Assert.That(fake2.setActiveInputCalls, Is.EqualTo(new[] { true }));
         }
 
@@ -302,7 +303,6 @@ namespace LowDefMustard.Control.Tests.Editor
         [Test]
         public void PollForReceivers_AccumulatesAcrossCallsPastThreshold_TriggersOnce()
         {
-            // Debug.LogWarning fires as part of this path
             TestController controller = CreateController();
             controller.PollForReceivers(0.05f);
             controller.PollForReceivers(0.06f);
