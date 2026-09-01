@@ -210,7 +210,8 @@ namespace LowDefMustard.Control
         #endregion
         
         #region PrivateMethods
-        private void PollForReceivers(float deltaTime)
+        // Note:  Internal for test visibility
+        internal void PollForReceivers(float deltaTime)
         {
             timeSinceLastPolled += deltaTime;
             if (timeSinceLastPolled < listenerPollingInterval) { return; }
