@@ -502,6 +502,18 @@ PrefabInstance:
       propertyPath: m_ChildAlignment
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8616589413736200079, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616589413736200079, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616589413736200079, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2653761137607708041, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
     - {fileID: 5257144902321780821, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
