@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "com.unity.2d.animation": "16.0.0",
+    "com.unity.2d.animation": "16.0.1",
     "com.unity.2d.pixel-perfect": "6.0.0",
     "com.unity.2d.tilemap": "1.0.0",
-    "com.unity.2d.tilemap.extras": "9.0.0",
+    "com.unity.2d.tilemap.extras": "9.0.1",
     "com.unity.addressables": "2.11.2",
     "com.unity.ai.navigation": "2.0.14",
     "com.unity.cinemachine": "6.6.0",
