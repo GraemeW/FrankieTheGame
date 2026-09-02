@@ -7,7 +7,7 @@ namespace LowDefMustard.Control
     public class PathFinder : MonoBehaviour
     {
         // Note:
-        //  - Methods that are marked internal below -> for test visibility
+        //  - Methods/properties that are marked internal below -> for test visibility
         
         // Tunables
         [Header("Initialization and Mesh Setup")]
@@ -30,7 +30,7 @@ namespace LowDefMustard.Control
         private float timeSinceLastPath;
         private float timeSinceLastTarget;
         private Vector2? lastViableTarget = null;
-        private readonly List<Vector2> currentPath = new();
+        internal readonly List<Vector2> currentPath = new();
         
         private bool[] erodedCells;
         private bool[] closed;
@@ -39,7 +39,7 @@ namespace LowDefMustard.Control
         private List<AStarNode> openHeap;
 
         // Cached References
-        private MoveMesh cachedMoveMesh;
+        internal MoveMesh cachedMoveMesh;
         private int cachedColumns;
         private int cachedRows;
         private float cachedCellSize;

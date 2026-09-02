@@ -10,7 +10,7 @@ namespace LowDefMustard.Control
     public class MoveMesh : MonoBehaviour
     {
         // Note:
-        //  - Methods that are marked internal below -> for test visibility
+        //  - Methods/properties that are marked internal below -> for test visibility
         
         // Tunables
         [Header("Functional Input")]
@@ -26,7 +26,7 @@ namespace LowDefMustard.Control
         [SerializeField] private Color gizmoColor = new(0.2f, 0.5f, 1.0f, 0.35f);
         
         // State
-        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; private set; } = new();
+        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; internal set; } = new();
         [field: SerializeField, HideInInspector] private bool isMeshOutlineInitialized;
         [NonSerialized] private readonly List<SerializablePolygon> enclosedRegions = new();
         [NonSerialized] private readonly List<SerializablePolygon> additionalColliderPolygons = new();
@@ -74,6 +74,7 @@ namespace LowDefMustard.Control
         
         #region MeshAccessMethods
         public static int GetMoveMeshLayerMask() => LayerMask.GetMask(_moveMeshLayer);
+        public static int GetMoveMeshLayer() => LayerMask.NameToLayer(_moveMeshLayer);
         
         public bool WorldToCell(Vector2 worldPos, out int column, out int row)
         {
