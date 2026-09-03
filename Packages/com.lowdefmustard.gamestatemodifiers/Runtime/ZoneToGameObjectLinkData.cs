@@ -29,8 +29,8 @@ namespace LowDefMustard.GameStateModifiers
             gameObjectName = setGameObjectName;
             parentObjectName = setParentObjectName;
         }
-
-        public string GetParentLabelStem() => parentObjectName != null ? $"{parentObjectName}." : ""; 
+        
+        public string GetParentLabelStem() => !string.IsNullOrEmpty(parentObjectName) ? $"{parentObjectName}." : ""; 
 
         public bool Equals(ZoneToGameObjectLinkData other) => guid == other.guid;
         public override bool Equals(object obj) => obj is ZoneToGameObjectLinkData other && Equals(other); 
