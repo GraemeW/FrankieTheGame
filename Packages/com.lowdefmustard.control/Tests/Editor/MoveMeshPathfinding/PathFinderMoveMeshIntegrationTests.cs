@@ -38,6 +38,8 @@ namespace LowDefMustard.Control.Tests.Editor
         private MoveMesh CreateMoveMesh(int columns, int rows, float cellSize, bool[] cells)
         {
             var moveMesh = CreateGameObject().AddComponent<MoveMesh>();
+            // Manually set layer since Awake not reliably called in Edit mode
+            moveMesh.gameObject.layer = MoveMesh.GetMoveMeshLayer();
             moveMesh.walkabilityGrid = new WalkabilityGrid
             {
                 columns = columns,
@@ -48,7 +50,6 @@ namespace LowDefMustard.Control.Tests.Editor
                 cells = new List<bool>(cells),
                 traversalCosts = Enumerable.Repeat(1f, columns * rows).ToList()
             };
-            moveMesh.gameObject.layer = MoveMesh.GetMoveMeshLayer();
             return moveMesh;
         }
 

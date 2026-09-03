@@ -6,13 +6,14 @@ namespace LowDefMustard.Control
     public class MovementConfiguration : ScriptableObject
     {
         // Tunables
-        [field: SerializeField] public MovementStyle movementStyle { get; private set; } = MovementStyle.Walk;
-        [field: SerializeField] public bool usingPathFinding { get; private set; } = false;
-        [field: SerializeField] public float baseMovementSpeed { get; private set; } = 1.0f;
-        [field: SerializeField] public int targetMovementHistoryLength { get; private set; } = 15;
-        [field: SerializeField] public float warpDelay { get; private set; } = 1.25f;
-        [field: SerializeField] public float warpPostTargetDelay { get; private set; } = 0.25f;
-        [field: SerializeField] public float warpPathfindingTravelDistance { get; private set; } = 2f;
+        // Note:  Setters are internal for test visibility
+        [field: SerializeField] public MovementStyle movementStyle { get; internal set; } = MovementStyle.Walk;
+        [field: SerializeField] public bool usingPathFinding { get; internal set; } = false;
+        [field: SerializeField] public float baseMovementSpeed { get; internal set; } = 1.0f;
+        [field: SerializeField] public int targetMovementHistoryLength { get; internal set; } = 15;
+        [field: SerializeField] public float warpDelay { get; internal set; } = 1.25f;
+        [field: SerializeField] public float warpPostTargetDelay { get; internal set; } = 0.25f;
+        [field: SerializeField] public float warpPathfindingTravelDistance { get; internal set; } = 2f;
 
         // Call for no target (e.g. input movement)
         public bool MoveToTarget(Mover mover, float deltaTime, out Vector2 newPosition)
