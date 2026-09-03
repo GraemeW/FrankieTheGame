@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using Frankie.Core;
@@ -11,7 +12,7 @@ using Frankie.Saving;
 
 namespace Frankie.Utils
 {
-    public class FrankieDebugger : MonoBehaviour
+    public partial class FrankieDebugger : MonoBehaviour
     {
         // Tunables
         [SerializeField] private int fundsToAddToWallet = 100;
@@ -33,7 +34,7 @@ namespace Frankie.Utils
         private const string _debuggerTag = "Debugger";
         
         // Static State
-        private static FrankieDebugger _frankieDebugger;
+        [AutoStaticsCleanup] private static FrankieDebugger _frankieDebugger;
 
         #region StaticMethods
         public static bool IsCinematicAutoplayDisabled()

@@ -39,8 +39,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901477669855232
-    m_Localized: It's a lot easier to see and hit the target when you're right beside
-      them!  Buffs brawn and pluck.
+    m_Localized: It's a lot easier to see and hit the target when you're right beside them!  Buffs brawn and pluck.
     m_Metadata:
       m_Items: []
   - m_Id: 6901478005399552
@@ -160,8 +159,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901484498182144
-    m_Localized: Your foe fixates.  Stops action until damage taken.  May not always
-      be successful, dependent on Luck.
+    m_Localized: Your foe fixates.  Stops action until damage taken.  May not always be successful, dependent on Luck.
     m_Metadata:
       m_Items: []
   - m_Id: 6901484699508736
@@ -297,8 +295,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901489875279872
-    m_Localized: This disturbing presence reduces brawn and beauty, but raises nimble
-      substantially.
+    m_Localized: This disturbing presence reduces brawn and beauty, but raises nimble substantially.
     m_Metadata:
       m_Items: []
   - m_Id: 6901490093383680

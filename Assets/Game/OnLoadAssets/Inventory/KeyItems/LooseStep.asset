@@ -16,7 +16,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: SkilledOfficeWorker
-    parentObjectName: 
+    parentObjectName: LackLustreVideo_B3-SideRoom
     guid: 4109c743-aaf4-4f42-a384-153a7e1e2833
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: _StandardItemGiverTaker

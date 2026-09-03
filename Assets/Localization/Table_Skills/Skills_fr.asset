@@ -39,8 +39,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901477669855232
-    m_Localized: "C'est bien plus facile de voir et de frapper la cible quand on
-      est juste \xE0 c\xF4t\xE9 ! Augmente la Force et le Cran."
+    m_Localized: "C'est bien plus facile de voir et de frapper la cible quand on est juste \xE0 c\xF4t\xE9 ! Augmente la Force et le Cran."
     m_Metadata:
       m_Items: []
   - m_Id: 6901478005399552
@@ -48,8 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901478160588800
-    m_Localized: "L'agression la plus agressive est passive. R\xE9duit l'Agilit\xE9
-      temporairement."
+    m_Localized: "L'agression la plus agressive est passive. R\xE9duit l'Agilit\xE9 temporairement."
     m_Metadata:
       m_Items: []
   - m_Id: 6901478475161600
@@ -65,8 +63,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901479112695808
-    m_Localized: "A\xEFe ! Inflige des d\xE9g\xE2ts imm\xE9diats et des d\xE9g\xE2ts
-      continus."
+    m_Localized: "A\xEFe ! Inflige des d\xE9g\xE2ts imm\xE9diats et des d\xE9g\xE2ts continus."
     m_Metadata:
       m_Items: []
   - m_Id: 6901479427268608
@@ -74,8 +71,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901479586652160
-    m_Localized: "D\xE9brancher tes EarPods et prendre l'appel en direct. R\xE9duit
-      l'Agilit\xE9 temporairement."
+    m_Localized: "D\xE9brancher tes EarPods et prendre l'appel en direct. R\xE9duit l'Agilit\xE9 temporairement."
     m_Metadata:
       m_Items: []
   - m_Id: 6901479897030656
@@ -99,8 +95,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901481163710464
-    m_Localized: "Le travail acharn\xE9 porte ses fruits \u2014 l'ennemi subit des
-      d\xE9g\xE2ts continus."
+    m_Localized: "Le travail acharn\xE9 porte ses fruits \u2014 l'ennemi subit des d\xE9g\xE2ts continus."
     m_Metadata:
       m_Items: []
   - m_Id: 6901481478283264
@@ -164,8 +159,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901484498182144
-    m_Localized: "L'ennemi se fixe. Arr\xEAte d'agir jusqu'\xE0 ce qu'il subisse
-      des d\xE9g\xE2ts. Pas toujours r\xE9ussi, d\xE9pend de la Chance."
+    m_Localized: "L'ennemi se fixe. Arr\xEAte d'agir jusqu'\xE0 ce qu'il subisse des d\xE9g\xE2ts. Pas toujours r\xE9ussi, d\xE9pend de la Chance."
     m_Metadata:
       m_Items: []
   - m_Id: 6901484699508736
@@ -181,8 +175,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901485102161920
-    m_Localized: "\xC7a fait pas mal de vacarme \u2014 les moines \xE0 proximit\xE9
-      sont alert\xE9s"
+    m_Localized: "\xC7a fait pas mal de vacarme \u2014 les moines \xE0 proximit\xE9 sont alert\xE9s"
     m_Metadata:
       m_Items: []
   - m_Id: 6901485303488512
@@ -198,8 +191,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901485706141696
-    m_Localized: "Facile pour l'ennemi de se cogner l'orteil quand on se roule par
-      terre comme \xE7a."
+    m_Localized: "Facile pour l'ennemi de se cogner l'orteil quand on se roule par terre comme \xE7a."
     m_Metadata:
       m_Items: []
   - m_Id: 6901485915856896
@@ -207,8 +199,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901486020714496
-    m_Localized: "Faire le geek pour distraire l'ennemi. R\xE9duit son attribut d'Agilit\xE9
-      !"
+    m_Localized: "Faire le geek pour distraire l'ennemi. R\xE9duit son attribut d'Agilit\xE9 !"
     m_Metadata:
       m_Items: []
   - m_Id: 6901486238818304
@@ -236,8 +227,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901487161565184
-    m_Localized: "Tr\xE8s fort et tr\xE8s puissant, procurant un boost significatif
-      \xE0 la Force"
+    m_Localized: "Tr\xE8s fort et tr\xE8s puissant, procurant un boost significatif \xE0 la Force"
     m_Metadata:
       m_Items: []
   - m_Id: 6901487367086080
@@ -265,8 +255,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901488285638656
-    m_Localized: "Frappe avec le syndrome de l'imposteur en un seul coup pour des
-      d\xE9g\xE2ts uniques"
+    m_Localized: "Frappe avec le syndrome de l'imposteur en un seul coup pour des d\xE9g\xE2ts uniques"
     m_Metadata:
       m_Items: []
   - m_Id: 6901488491159552
@@ -290,8 +279,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901489216774144
-    m_Localized: "Tout est sur une ligne \u2014 d\xE9g\xE2t unique qui peut faire
-      un coup critique."
+    m_Localized: "Tout est sur une ligne \u2014 d\xE9g\xE2t unique qui peut faire un coup critique."
     m_Metadata:
       m_Items: []
   - m_Id: 6901489434877952
@@ -307,8 +295,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901489875279872
-    m_Localized: "Cette pr\xE9sence troublante r\xE9duit la Force et le Charme, mais
-      augmente consid\xE9rablement l'Agilit\xE9."
+    m_Localized: "Cette pr\xE9sence troublante r\xE9duit la Force et le Charme, mais augmente consid\xE9rablement l'Agilit\xE9."
     m_Metadata:
       m_Items: []
   - m_Id: 6901490093383680
@@ -316,8 +303,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901490202435584
-    m_Localized: "Ce beau cr\xE2ne chauve fait perdre la concentration et donc des
-      PA"
+    m_Localized: "Ce beau cr\xE2ne chauve fait perdre la concentration et donc des PA"
     m_Metadata:
       m_Items: []
   - m_Id: 6901490416345088

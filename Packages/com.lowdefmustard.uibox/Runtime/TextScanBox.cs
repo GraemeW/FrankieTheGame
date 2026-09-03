@@ -125,14 +125,15 @@ namespace LowDefMustard.UIBox
             ClearPrintedJobs();
             foreach (Transform child in dialogueParent)
             {
-                Destroy(child.gameObject);
+                if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); }
             }
             if (optionParent == null) { return; }
             
             foreach (Transform child in optionParent)
             {
-                child.GetComponent<Button>().onClick.RemoveAllListeners();
-                Destroy(child.gameObject);
+                if (child == null) { continue; }
+                if (child.TryGetComponent(out Button button)) { button.onClick.RemoveAllListeners(); }
+                if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); }
             }
         }
 

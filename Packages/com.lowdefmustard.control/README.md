@@ -71,7 +71,51 @@ Runtime navmesh generation for 2D scenes, driven entirely by existing colliders 
 ## Design Notes
 
 - `Mover` has a hard `RequireComponent(PathFinder)` dependency, even when `usingPathFinding` is disabled on the `MovementConfiguration`. This is intentional: every `Mover` gets pathfinding capability out of the box, so callers never need to remember to add `PathFinder` separately or worry about it being missed.
+- Pathfinding only engages for `SetMoveTarget(GameObject)` - or, not `SetMoveTarget(Vector2)`, as coordinate target short-circuits `ReckonTarget`
 - `MoveMesh` regeneration is editor-triggered (via `MoveMeshEditor`'s "Run Detection" button) and not automatic — obstacle layout changes require manually re-running detection.
+
+## Tests
+
+| Assembly                               | Root Namespace                         | Platform                | References              |
+|----------------------------------------|----------------------------------------|-------------------------|--------------------------|
+| `LowDefMustard.Control.Tests.Editor`   | `LowDefMustard.Control.Tests.Editor`   | Editor only             | `LowDefMustard.Control` |
+| `LowDefMustard.Control.Tests.PlayMode` | `LowDefMustard.Control.Tests.PlayMode` | Unrestricted (PlayMode) | `LowDefMustard.Control` |
+
+### Coverage at a glance
+
+| Category                    | Tested / Total | Notes                                                           |
+|-----------------------------|----------------|-----------------------------------------------------------------|
+| Controller / Input Receiver | 3 / 3          | `BaseController`, `ActiveInputReceiver`, `ReceiverModifiedData` |
+| Pathfinding                 | 2 / 2          | `PathFinder`, `AStarNode`                                       |
+| MoveMesh                    | 2 / 2          | `MoveMesh` (partial), `WalkabilityGrid`                         |
+| Movement                    | 2 / 2          | `Mover`, `MovementConfiguration` (indirect)                     |
+| Patrol                      | 2 / 2          | `PatrolPath`, `PatrolPathWaypoint`                              |
+| Editor tooling              | 0 / 1          | `MoveMeshEditor` (skipped)                                      |
+
+### Detail by type
+
+| Type                         | Status   | Test file(s)                                                           | Notes                                                             |
+|------------------------------|----------|------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `BaseController`             | Yes      | `ControllerNavigationTests.cs`                                         |                                                                   |
+| ^-                           | Yes      | `ControllerReceiverStackTests.cs`,                                     |                                                                   |
+| ^-                           | Yes      | `ControllerSingletonTests.cs`                                          |                                                                   |
+| `IInputReceiver`             | N/A      | --                                                                     | Interface contract only                                           |
+| `ActiveInputReceiver`        | Yes      | `ReceiverStateTests.cs`                                                |                                                                   |
+| `ReceiverModifiedData`       | Yes      | `ReceiverStateTests.cs`                                                |                                                                   |
+| `PathFinder`                 | Yes      | `PathFinderAlgorithmTests.cs`, `PathFinderMoveMeshIntegrationTests.cs` |                                                                   |
+| `AStarNode`                  | Yes      | `AStarNodeTests.cs`                                                    |                                                                   |
+| `MoveMesh`                   | Partial  | `MoveMeshGeometryTests.cs`, `PathFinderMoveMeshIntegrationTests.cs`    | Geometry/grid statics and `PathFinder` only, RunDetection skipped |
+| `WalkabilityGrid`            | Yes      | `WalkabilityGridTests.cs`                                              |                                                                   |
+| `Mover`                      | Yes      | `MoverStaticMathTests.cs`, `MoverMovementTests.cs`                     |                                                                   |
+| `MovementConfiguration`      | Indirect | `MoverMovementTests.cs`                                                | Walk/Warp branching exercised through `Mover`                     |
+| `PatrolPath`                 | Yes      | `PatrolPathTests.cs`                                                   |                                                                   |
+| `PatrolPathWaypoint`         | Yes      | `PatrolPathTests.cs`                                                   |                                                                   |
+| `MoveMeshEditor`             | No       | --                                                                     | Skipped (linked to RunDetection, high complexity, low payoff)     |
+| Enums: `ControllerInputType` | N/A      | --                                                                     | Bare enums, nothing to test                                       |
+| ^- `ReceiverModifiedType`    | N/A      | --                                                                     | ^                                                                 |
+| ^- `MovementStyle`           | N/A      | --                                                                     | ^                                                                 |
+| ^- `PathFindingCheckType`    | N/A      | --                                                                     | ^                                                                 |
+| ^- `WaypointType`)           | N/A      | --                                                                     | ^                                                                 |
 
 ## License
 

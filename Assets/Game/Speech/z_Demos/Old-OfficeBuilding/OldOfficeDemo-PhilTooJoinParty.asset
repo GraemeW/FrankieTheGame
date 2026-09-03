@@ -171,8 +171,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Phil Too
-  cachedText: As you your stat values increase, you might unlock new abilities. 
-    I bet you have a new ability to check out right now.
+  cachedText: As you your stat values increase, you might unlock new abilities.  I bet you have a new ability to check out right now.
   references:
     version: 2
     RefIds: []
@@ -228,8 +227,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Phil Too
-  cachedText: 'I''m going to tell you this since you don''t already know:  pay attention
-    to your stats!  '
+  cachedText: 'I''m going to tell you this since you don''t already know:  pay attention to your stats!  '
   references:
     version: 2
     RefIds: []

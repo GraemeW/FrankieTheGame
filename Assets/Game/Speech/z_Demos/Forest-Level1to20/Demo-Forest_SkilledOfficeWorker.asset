@@ -168,8 +168,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 1
   cachedSpeakerName: Skilled Office Worker
-  cachedText: Hey, uh, if you want down those stairs to the electrical room, you're
-    gonna have to wrastle me.
+  cachedText: Hey, uh, if you want down those stairs to the electrical room, you're gonna have to wrastle me.
   references:
     version: 2
     RefIds: []

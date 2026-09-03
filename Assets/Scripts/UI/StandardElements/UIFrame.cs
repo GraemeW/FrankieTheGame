@@ -1,11 +1,12 @@
-using Frankie.Saving;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Scripting.LifecycleManagement;
+using Frankie.Saving;
 
 namespace Frankie.Utils.UI
 {
     [RequireComponent(typeof(Image))]
-    public class UIFrame : MonoBehaviour
+    public partial class UIFrame : MonoBehaviour
     {
         [SerializeField] [Range(.5f, 1.5f)] private float colourModifyFactor = 1.0f; 
         
@@ -15,11 +16,10 @@ namespace Frankie.Utils.UI
         // Cached References
         private Image frame;
         
-        // Static
-        private static bool _isFrameFlavourSet = false;
-        private static Color _frameFlavourColour = Color.white;
-        
         #region Static
+        [AutoStaticsCleanup] private static bool _isFrameFlavourSet = false;
+        [AutoStaticsCleanup] private static Color _frameFlavourColour = Color.white;
+        
         private static void InitializeFrameFlavour()
         {
             _isFrameFlavourSet = true;

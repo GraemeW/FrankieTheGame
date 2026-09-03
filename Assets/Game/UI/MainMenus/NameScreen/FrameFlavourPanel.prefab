@@ -56,6 +56,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &5177889694456118574
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +114,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &5997546588090122847
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +200,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &9183498217472748540
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,6 +501,18 @@ PrefabInstance:
     - target: {fileID: 8416335845131680279, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
       propertyPath: m_ChildAlignment
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616589413736200079, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616589413736200079, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8616589413736200079, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2653761137607708041, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}

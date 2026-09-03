@@ -6617,8 +6617,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1920257136}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion, Assembly-CSharp
           m_MethodName: TriggerGameWin
           m_Mode: 0
           m_Arguments:
@@ -22990,8 +22989,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1184047893}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
           m_MethodName: AdjustPartyLeaderHP
           m_Mode: 0
           m_Arguments:
@@ -23022,8 +23020,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1184047893}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
           m_MethodName: AdjustPartyLeaderHP
           m_Mode: 0
           m_Arguments:
@@ -126011,8 +126008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4439310067753489194, guid: 75add4a78679b452ea8aac0046173971, type: 3}
       propertyPath: checkMessage
-      value: It looks like the workers here have scrawled a plan to take over the
-        world.  It starts with . . . {0}'s eyes glaze over.
+      value: It looks like the workers here have scrawled a plan to take over the world.  It starts with . . . {0}'s eyes glaze over.
       objectReference: {fileID: 0}
     - target: {fileID: 4439310067753489194, guid: 75add4a78679b452ea8aac0046173971, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
@@ -192169,8 +192165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkMessage
-      value: It used to be really hard to breathe in here, so we added some fans
-        ahead. \n  -courtesy of Tunnel Asthma Advocates
+      value: It used to be really hard to breathe in here, so we added some fans ahead. \n  -courtesy of Tunnel Asthma Advocates
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
@@ -207006,7 +207001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
-  backingListHashCheck: -616875930
+  backingListHashCheck: -1617580520
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 5e78e614-19df-4719-8a5e-bc16139e86ee
@@ -244946,8 +244941,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1999920213}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldFaderInterface,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldFaderInterface, Assembly-CSharp
           m_MethodName: StartBlipFade
           m_Mode: 0
           m_Arguments:
@@ -244959,8 +244953,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1999920198}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
           m_MethodName: ReviveAndHealParty
           m_Mode: 0
           m_Arguments:
@@ -244972,8 +244965,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1999920198}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
-            Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
           m_MethodName: RestorePartyAP
           m_Mode: 0
           m_Arguments:
@@ -259451,8 +259443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: messageOnConditionNotMet
-      value: There's a step missing in this staircase!  It would be dangerous to
-        go down!
+      value: There's a step missing in this staircase!  It would be dangerous to go down!
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size

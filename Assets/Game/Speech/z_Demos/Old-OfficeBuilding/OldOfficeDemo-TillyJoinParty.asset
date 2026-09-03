@@ -186,8 +186,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Tilly
-  cachedText: Anyway, let's get out of here Frankie, we have some work to do with
-    Maya upstairs.
+  cachedText: Anyway, let's get out of here Frankie, we have some work to do with Maya upstairs.
   references:
     version: 2
     RefIds: []

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Unity.Scripting.LifecycleManagement;
 using Object = UnityEngine.Object;
 using LowDefMustard.Zones;
 using LowDefMustard.Localization;
@@ -16,11 +17,11 @@ namespace Frankie.Utils.Localization
     public static class LocalizationNames
     {
         // Enum Translation Layer
-        private static Dictionary<Stat, LocalizedString> _statNameCache;
-        private static Dictionary<EquipLocation, LocalizedString> _equipLocationNameCache;
+        [NoAutoStaticsCleanup] private static Dictionary<Stat, LocalizedString> _statNameCache;
+        [NoAutoStaticsCleanup] private static Dictionary<EquipLocation, LocalizedString> _equipLocationNameCache;
         // Status Effect Translation Layer
-        private static Dictionary<Stat, LocalizedString> _statusEffectIncreaseNameCache;
-        private static Dictionary<Stat, LocalizedString> _statusEffectDecreaseNameCache;
+        [NoAutoStaticsCleanup] private static Dictionary<Stat, LocalizedString> _statusEffectIncreaseNameCache;
+        [NoAutoStaticsCleanup] private static Dictionary<Stat, LocalizedString> _statusEffectDecreaseNameCache;
         
         #region PublicMethods
         // Enum Translations

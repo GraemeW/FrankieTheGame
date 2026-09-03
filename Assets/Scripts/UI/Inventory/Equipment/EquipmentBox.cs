@@ -309,8 +309,8 @@ namespace Frankie.Inventory.UI
         private void CleanUpOldEquipment()
         {
             equipableItemChoiceOptions.Clear();
-            foreach (Transform child in leftEquipment) { Destroy(child.gameObject); }
-            foreach (Transform child in rightEquipment) { Destroy(child.gameObject); }
+            foreach (Transform child in leftEquipment) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
+            foreach (Transform child in rightEquipment) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
             SetSelectedEquipment(null);
         }
 
@@ -330,7 +330,7 @@ namespace Frankie.Inventory.UI
         {
             foreach (Transform child in statSheetParent)
             {
-                Destroy(child.gameObject);
+                { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
             }
         }
         #endregion

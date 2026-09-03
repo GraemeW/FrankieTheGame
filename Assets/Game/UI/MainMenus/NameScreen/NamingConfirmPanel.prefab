@@ -143,6 +143,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!114 &7848146327212860546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +318,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &6754537268418279883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1025,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1001 &5246225311650481992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1029,6 +1035,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2888635241744738263}
     m_Modifications:
+    - target: {fileID: 1161153479492207868, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1161153479492207868, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1161153479492207868, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1161153479492207868, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2227106547557423765, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1245,6 +1267,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!224 &6207670829796056541 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2227106547557423765, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}

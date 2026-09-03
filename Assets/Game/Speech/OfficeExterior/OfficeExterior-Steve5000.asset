@@ -163,8 +163,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Steve5000
-  cachedText: Not sure what you're talkin' about buddy!  Why don't you get in there
-    and show them who's boss?
+  cachedText: Not sure what you're talkin' about buddy!  Why don't you get in there and show them who's boss?
   references:
     version: 2
     RefIds: []
@@ -220,8 +219,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Steve5000
-  cachedText: Hey, look -- before you go in there, you should know -- the interns
-    have been acting really weird.
+  cachedText: Hey, look -- before you go in there, you should know -- the interns have been acting really weird.
   references:
     version: 2
     RefIds: []
@@ -423,8 +421,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Steve5000
-  cachedText: Did you forget your key card again?  You can borrow mine, I'm just
-    on my way out.
+  cachedText: Did you forget your key card again?  You can borrow mine, I'm just on my way out.
   references:
     version: 2
     RefIds: []

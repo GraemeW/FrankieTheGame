@@ -89,8 +89,8 @@ namespace Frankie.Stats.UI
 
         private void CleanUpOldStats()
         {
-            foreach (Transform child in leftStatParent) { Destroy(child.gameObject); }
-            foreach (Transform child in rightStatParent) { Destroy(child.gameObject); }
+            foreach (Transform child in leftStatParent) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
+            foreach (Transform child in rightStatParent) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
         }
 
         private void GenerateLevel(CombatParticipant character)

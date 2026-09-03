@@ -14,6 +14,7 @@ using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.World;
 using Frankie.Zones;
+using Unity.Scripting.LifecycleManagement;
 
 namespace Frankie.Core
 {
@@ -71,13 +72,13 @@ namespace Frankie.Core
         public event Action<int, int, bool> playerLayerChanged;
 
         #region Static
-        public static readonly TransitionState transitionState = new();
-        public static readonly CombatState combatState = new();
-        public static readonly DialogueState dialogueState = new();
-        public static readonly TradeState tradeState = new();
-        public static readonly OptionState optionState = new();
-        public static readonly CutSceneState cutSceneState = new();
-        public static readonly WorldState worldState = new();
+        [NoAutoStaticsCleanup] public static readonly TransitionState transitionState = new();
+        [NoAutoStaticsCleanup] public static readonly CombatState combatState = new();
+        [NoAutoStaticsCleanup] public static readonly DialogueState dialogueState = new();
+        [NoAutoStaticsCleanup] public static readonly TradeState tradeState = new();
+        [NoAutoStaticsCleanup] public static readonly OptionState optionState = new();
+        [NoAutoStaticsCleanup] public static readonly CutSceneState cutSceneState = new();
+        [NoAutoStaticsCleanup] public static readonly WorldState worldState = new();
         #endregion
 
         #region UnityStandardMethods

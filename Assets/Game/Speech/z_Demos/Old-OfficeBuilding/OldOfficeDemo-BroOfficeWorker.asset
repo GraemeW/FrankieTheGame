@@ -230,8 +230,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Bro Office Worker
-  cachedText: Look, Horse locked the door to the ballpit room, but you can make your
-    way down to Tilly in the basement with the elevator.
+  cachedText: Look, Horse locked the door to the ballpit room, but you can make your way down to Tilly in the basement with the elevator.
   references:
     version: 2
     RefIds: []
@@ -435,8 +434,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: 155aad549decfe04794ff6d113eb9221, type: 2}
         negate: 1
   cachedSpeakerName: Bro Office Worker
-  cachedText: Come on Frankie, please go find Tilly.  She'll kill me if we just leave
-    her down there.
+  cachedText: Come on Frankie, please go find Tilly.  She'll kill me if we just leave her down there.
   references:
     version: 2
     RefIds: []
@@ -551,8 +549,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Bro Office Worker
-  cachedText: I dared Tilly to hop down the fireman's pole in the ballpit room and
-    SHE DID.  Now she's trapped with the interns.
+  cachedText: I dared Tilly to hop down the fireman's pole in the ballpit room and SHE DID.  Now she's trapped with the interns.
   references:
     version: 2
     RefIds: []

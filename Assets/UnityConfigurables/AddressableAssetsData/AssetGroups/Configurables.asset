@@ -16,8 +16,7 @@ MonoBehaviour:
   m_GUID: 75c2a811ded86403e9e8398ba70a8ab2
   m_SerializeEntries:
   - m_GUID: a35cd5316b74041e2952ef4e9cab6002
-    m_Address: Assets/UnityConfigurables/RenderPipeline/Universal Render Pipeline
-      Asset_Renderer.asset
+    m_Address: Assets/UnityConfigurables/RenderPipeline/Universal Render Pipeline Asset_Renderer.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Configurable
@@ -29,8 +28,7 @@ MonoBehaviour:
     - Configurable
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b629b561e42024d108ef05968c6574b8
-    m_Address: Assets/UnityConfigurables/RenderPipeline/Universal Render Pipeline
-      Asset.asset
+    m_Address: Assets/UnityConfigurables/RenderPipeline/Universal Render Pipeline Asset.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Configurable

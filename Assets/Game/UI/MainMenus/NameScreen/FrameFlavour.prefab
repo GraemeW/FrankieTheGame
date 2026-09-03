@@ -115,7 +115,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -304,8 +304,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8477436632496774270}
-        m_TargetAssemblyTypeName: Frankie.Menu.UI.FrameFlavourPanel.FrameFlavourChoice,
-          Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Menu.UI.FrameFlavourPanel.FrameFlavourChoice, Assembly-CSharp
         m_MethodName: OverwriteUIFrameColour
         m_Mode: 1
         m_Arguments:
@@ -447,7 +446,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 00000000u
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -489,6 +488,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1001 &1196427927244481397
 PrefabInstance:
   m_ObjectHideFlags: 0

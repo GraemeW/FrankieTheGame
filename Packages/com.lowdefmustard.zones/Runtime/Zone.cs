@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
@@ -13,7 +14,7 @@ using LowDefMustard.Localization;
 namespace LowDefMustard.Zones
 {
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
-    public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
+    public partial class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
     {
         // Tunables
         [Header("Zone Properties")]
@@ -42,9 +43,9 @@ namespace LowDefMustard.Zones
         private Dictionary<string, ZoneNode> nodeEditorLookup = new();
 #endif
 
-        private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
-        private static Dictionary<string, Zone> _zoneLookupCache;
-        private static Dictionary<string, Zone> _sceneReferenceCache;
+        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
+        [AutoStaticsCleanup] private static Dictionary<string, Zone> _zoneLookupCache;
+        [AutoStaticsCleanup] private static Dictionary<string, Zone> _sceneReferenceCache;
         
         #region AddressablesCaching
         public static Zone GetFromName(string zoneName)

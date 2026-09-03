@@ -180,7 +180,8 @@ namespace LowDefMustard.Control
             if (includeAnimationUpdate) { UpdateAnimatorParameters(); }
         }
 
-        protected static Vector2 RoundToPixelPerfect(Vector2 position)
+        // Note:  Internal for test visibility
+        protected internal static Vector2 RoundToPixelPerfect(Vector2 position)
         {
             return new Vector2(
                 Mathf.Round(_pixelsPerUnit * position.x) / _pixelsPerUnit, 

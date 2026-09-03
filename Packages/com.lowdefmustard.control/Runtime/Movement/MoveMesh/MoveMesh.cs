@@ -9,6 +9,9 @@ namespace LowDefMustard.Control
     [RequireComponent(typeof(BoxCollider2D))]
     public class MoveMesh : MonoBehaviour
     {
+        // Note:
+        //  - Methods/properties that are marked internal below -> for test visibility
+        
         // Tunables
         [Header("Functional Input")]
         [SerializeField, Tooltip("Add parent game objects to check for child colliders")] private List<GameObject> additionalColliderSources = new();
@@ -23,7 +26,7 @@ namespace LowDefMustard.Control
         [SerializeField] private Color gizmoColor = new(0.2f, 0.5f, 1.0f, 0.35f);
         
         // State
-        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; private set; } = new();
+        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; internal set; } = new();
         [field: SerializeField, HideInInspector] private bool isMeshOutlineInitialized;
         [NonSerialized] private readonly List<SerializablePolygon> enclosedRegions = new();
         [NonSerialized] private readonly List<SerializablePolygon> additionalColliderPolygons = new();
@@ -71,6 +74,7 @@ namespace LowDefMustard.Control
         
         #region MeshAccessMethods
         public static int GetMoveMeshLayerMask() => LayerMask.GetMask(_moveMeshLayer);
+        public static int GetMoveMeshLayer() => LayerMask.NameToLayer(_moveMeshLayer);
         
         public bool WorldToCell(Vector2 worldPos, out int column, out int row)
         {
@@ -604,7 +608,7 @@ namespace LowDefMustard.Control
         #endregion
 
         #region StaticMethods
-        private static bool[] BakeErodedGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
+        internal static bool[] BakeErodedGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
         {
             bool[] cells = walkabilityGrid.cells.ToArray();
             if (erosionRadius <= 0f) { return cells; }
@@ -646,8 +650,8 @@ namespace LowDefMustard.Control
             }
             return erodedCells;
         }
-
-        private static float[] BakeTraversalCosts(WalkabilityGrid walkabilityGrid, float edgeCostPenalty, float edgeCostFalloff)
+        
+        internal static float[] BakeTraversalCosts(WalkabilityGrid walkabilityGrid, float edgeCostPenalty, float edgeCostFalloff)
         {
             bool[] cells = walkabilityGrid.cells.ToArray();
             int rows = walkabilityGrid.rows;
@@ -714,7 +718,9 @@ namespace LowDefMustard.Control
                     continue;
                 }
 
-                float normDist = maxDist > 0f ? Mathf.Clamp01(distanceCells[i] / maxDist) : 1f;
+                // maxDist can itself be Infinity when the grid has zero unwalkable cells  ~ i.e. nothing ever seeds a finite distance
+                // --> this would divide Infinity/Infinity into NaN below (so check and handle)
+                float normDist = maxDist > 0f && !float.IsPositiveInfinity(maxDist) ? Mathf.Clamp01(distanceCells[i] / maxDist) : 1f;
                 costs[i] = 1f + edgeCostPenalty * Mathf.Pow(1f - normDist, edgeCostFalloff);
             }
 
@@ -723,7 +729,7 @@ namespace LowDefMustard.Control
         
         private static Vector2 TransformPoint(Transform t, Vector2 localPoint) => t.TransformPoint(localPoint);
         
-        private static (int dx, int dy) DirectionalDelta(int direction) => direction switch
+        internal static (int dx, int dy) DirectionalDelta(int direction) => direction switch
         {
             0 => (1, 0),
             1 => (0, 1),
@@ -731,7 +737,7 @@ namespace LowDefMustard.Control
             _ => (0, -1)
         };
         
-        private static float ComputeSignedArea(List<Vector2> pts)
+        internal static float ComputeSignedArea(List<Vector2> pts)
         {
             float area = 0f;
             int n = pts.Count;
@@ -741,8 +747,8 @@ namespace LowDefMustard.Control
             }
             return area * 0.5f;
         }
-
-        private static List<Vector2> EnsureCounterClockwise(List<Vector2> pts)
+        
+        internal static List<Vector2> EnsureCounterClockwise(List<Vector2> pts)
         {
             if (!(ComputeSignedArea(pts) < 0f)) { return pts; }
             var copy = new List<Vector2>(pts);
@@ -750,7 +756,7 @@ namespace LowDefMustard.Control
             return copy;
         }
         
-        private static bool[] FloodFillOutside(bool[] grid, int columns, int rows)
+        internal static bool[] FloodFillOutside(bool[] grid, int columns, int rows)
         {
             var outside = new bool[columns * rows];
             var queue = new Queue<int>();
@@ -787,8 +793,8 @@ namespace LowDefMustard.Control
                 queue.Enqueue(index);
             }
         }
-
-        private static bool[] BuildEnclosedGrid(bool[] grid, bool[] outside, int columns, int rows)
+        
+        internal static bool[] BuildEnclosedGrid(bool[] grid, bool[] outside, int columns, int rows)
         {
             var enclosed = new bool[columns * rows];
             for (int i = 0; i < grid.Length; i++)
@@ -797,8 +803,8 @@ namespace LowDefMustard.Control
             }
             return enclosed;
         }
-
-        private static List<Vector2> SimplifyPolygon(List<Vector2> points, float epsilon)
+        
+        internal static List<Vector2> SimplifyPolygon(List<Vector2> points, float epsilon)
         {
             if (points.Count < 3) { return points; }
             
@@ -836,8 +842,8 @@ namespace LowDefMustard.Control
                 result.Add(pts[start]);
             }
         }
-
-        private static float PointToSegmentDist(Vector2 p, Vector2 a, Vector2 b)
+        
+        internal static float PointToSegmentDist(Vector2 p, Vector2 a, Vector2 b)
         {
             Vector2 ab = b - a;
             Vector2 ap = p - a;
@@ -907,8 +913,8 @@ namespace LowDefMustard.Control
             mesh.RecalculateBounds();
             return mesh;
         }
-
-        private static List<(float left, float right)> GetScanlineSpans(List<Vector2> polygon, float y)
+        
+        internal static List<(float left, float right)> GetScanlineSpans(List<Vector2> polygon, float y)
         {
             var result = new List<(float, float)>();
             var xs = new List<float>();
@@ -928,8 +934,8 @@ namespace LowDefMustard.Control
 
             return result;
         }
-
-        private static List<(float left, float right)> SubtractSpans( List<(float left, float right)> fill, List<(float left, float right)> carve)
+        
+        internal static List<(float left, float right)> SubtractSpans( List<(float left, float right)> fill, List<(float left, float right)> carve)
         {
             var result = new List<(float, float)>(fill);
 

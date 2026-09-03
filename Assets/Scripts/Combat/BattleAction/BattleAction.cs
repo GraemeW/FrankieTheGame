@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Utils;
 
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Battle Action", menuName = "BattleAction/New Battle Action", order = 15)]
-    public class BattleAction : ScriptableObject, IAddressablesCache
+    public partial class BattleAction : ScriptableObject, IAddressablesCache
     {
         [Header("Scriptable Object Inputs")]
         [SerializeField] private TargetingStrategy targetingStrategy;
@@ -20,8 +21,8 @@ namespace Frankie.Combat
         [SerializeField] private float apCost;
 
         // State
-        private static AsyncOperationHandle<IList<BattleAction>> _addressablesLoadHandle;
-        private static Dictionary<string, BattleAction> _battleActionLookupCache;
+        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<BattleAction>> _addressablesLoadHandle;
+        [AutoStaticsCleanup] private static Dictionary<string, BattleAction> _battleActionLookupCache;
 
         #region AddressablesCaching
         public static BattleAction GetBattleActionFromName(string name)
@@ -53,7 +54,7 @@ namespace Frankie.Combat
 
         public static void ReleaseCache()
         {
-            Addressables.Release(_addressablesLoadHandle);
+            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
         #endregion
 

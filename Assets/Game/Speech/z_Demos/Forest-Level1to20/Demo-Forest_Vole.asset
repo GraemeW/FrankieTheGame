@@ -52,8 +52,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: In this demo you will face enemies of varying difficulty in order to
-    gauge your combat prowess
+  cachedText: In this demo you will face enemies of varying difficulty in order to gauge your combat prowess
   references:
     version: 2
     RefIds: []
@@ -221,8 +220,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Yes, well, be warned!  Combat does not pause in Frankie!  Once an enemy
-    can attack, they will!
+  cachedText: Yes, well, be warned!  Combat does not pause in Frankie!  Once an enemy can attack, they will!
   references:
     version: 2
     RefIds: []
@@ -363,8 +361,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: Hi there!  I'm not your enemy, merely a vole who wants to give you
-    some advice!
+  cachedText: Hi there!  I'm not your enemy, merely a vole who wants to give you some advice!
   references:
     version: 2
     RefIds: []
@@ -533,9 +530,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: To defeat your enemy, quickly select a skill using the directional
-    UP-DOWN-LEFT-RIGHT or W-A-S-D keys, and lock it in using 'E'.  Then simply select
-    your target and press 'E' again!
+  cachedText: To defeat your enemy, quickly select a skill using the directional UP-DOWN-LEFT-RIGHT or W-A-S-D keys, and lock it in using 'E'.  Then simply select your target and press 'E' again!
   references:
     version: 2
     RefIds: []
@@ -591,9 +586,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Helpful Vole
-  cachedText: As you gain new skills, you'll need to traverse deeper into your skill
-    tree using the same directional keys.  Let's cross that bridge when we get there
-    though!
+  cachedText: As you gain new skills, you'll need to traverse deeper into your skill tree using the same directional keys.  Let's cross that bridge when we get there though!
   references:
     version: 2
     RefIds: []

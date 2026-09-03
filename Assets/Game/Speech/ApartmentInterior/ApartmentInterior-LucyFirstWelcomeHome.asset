@@ -369,8 +369,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
   cachedSpeakerName: Lucy
-  cachedText: I heard a cute new coffee shop opened up in town.  We should check
-    it out sometime!
+  cachedText: I heard a cute new coffee shop opened up in town.  We should check it out sometime!
   references:
     version: 2
     RefIds: []
@@ -484,8 +483,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Lucy
-  cachedText: Make sure you watch out for wild animals.  They've been straying closer
-    to the paths lately.  Scary!
+  cachedText: Make sure you watch out for wild animals.  They've been straying closer to the paths lately.  Scary!
   references:
     version: 2
     RefIds: []

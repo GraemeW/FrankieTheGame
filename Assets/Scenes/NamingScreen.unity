@@ -254,6 +254,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &425247997
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +369,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!224 &507390241 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5097252295571766511, guid: 0df1af86d29bf48aa8d616f989f58b0f, type: 3}
@@ -650,6 +654,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &1370260538
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,6 +926,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1001 &1595349927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1101,6 +1109,8 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &1667454545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1207,8 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &2050758506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1265,8 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!114 &2095366728 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}

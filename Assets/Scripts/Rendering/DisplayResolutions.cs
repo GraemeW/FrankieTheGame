@@ -2,25 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Scripting.LifecycleManagement;
 
 namespace Frankie.Rendering
 {
-    public static class DisplayResolutions
+    public static partial class DisplayResolutions
     {
         // Default Static Parameters
-        private static readonly ResolutionSetting _targetDefaultResolution = new(FullScreenMode.Windowed, 848, 477);
+        [NoAutoStaticsCleanup] private static readonly ResolutionSetting _targetDefaultResolution = new(FullScreenMode.Windowed, 848, 477);
         private const int _bestResolutionTryCount = 20;
         private const float _ultraWideThreshold = 16.0f / 9.0f;
-        private static readonly ResolutionScaler _windowedResolutionScaler = new(4, 3);
-        private static readonly int[] _fineZoomThresholds = { 960, 540 }; // width, height
+        [NoAutoStaticsCleanup] private static readonly ResolutionScaler _windowedResolutionScaler = new(4, 3);
+        [NoAutoStaticsCleanup] private static readonly int[] _fineZoomThresholds = { 960, 540 }; // width, height
 
         // State
-        private static FullScreenMode _currentFullScreenMode = FullScreenMode.Windowed;
-        private static int _currentScreenWidth = 848;
-        private static int _currentScreenHeight = 477;
+        [AutoStaticsCleanup] private static FullScreenMode _currentFullScreenMode = FullScreenMode.Windowed;
+        [AutoStaticsCleanup] private static int _currentScreenWidth = 848;
+        [AutoStaticsCleanup] private static int _currentScreenHeight = 477;
 
         // Events
-        public static event Action<ResolutionScaler, float> resolutionUpdated;
+        [AutoStaticsCleanup] public static event Action<ResolutionScaler, float> resolutionUpdated;
 
         #region PrivateMethods
         private static ResolutionScaler GetResolutionScaler()

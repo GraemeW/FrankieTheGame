@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Unity.Scripting.LifecycleManagement;
 
 namespace Frankie.Stats
 {
@@ -25,7 +26,7 @@ namespace Frankie.Stats
 
         // Constants & Static Variables
         private const int _maxLevel = 99;
-        private static readonly List<float[]> _levelUpStatScalerLerpPoints = new()
+        [NoAutoStaticsCleanup] private static readonly List<float[]> _levelUpStatScalerLerpPoints = new()
         {
             // Ensure LERP points match in length
             // Ensure incrementing in a logical manner

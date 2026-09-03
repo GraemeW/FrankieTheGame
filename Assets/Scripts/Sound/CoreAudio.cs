@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using Unity.Scripting.LifecycleManagement;
 using Frankie.Saving;
 
 namespace Frankie.Sound
 {
-    public class CoreAudio : MonoBehaviour
+    public partial class CoreAudio : MonoBehaviour
     {
         [Header("Defaults")]
         [SerializeField] private float defaultMasterVolume = 0.5f;
@@ -23,8 +24,8 @@ namespace Frankie.Sound
         private const string _mixerVolumeReference = "masterVolume";
         
         // Static State
-        private static CoreAudio _coreAudioInstance;
-        private static BackgroundMusic _backgroundMusicInstance;
+        [AutoStaticsCleanup] private static CoreAudio _coreAudioInstance;
+        [AutoStaticsCleanup] private static BackgroundMusic _backgroundMusicInstance;
         
         // Instance State
         private float volume = 0.4f;

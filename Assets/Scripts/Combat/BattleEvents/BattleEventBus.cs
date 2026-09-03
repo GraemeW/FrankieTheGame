@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 
 namespace Frankie.Combat
 {
-    public static class BattleEventBus<T> where T : IBattleEvent
+    public static partial class BattleEventBus<T> where T : IBattleEvent
     {
-        private static readonly List<Event> _activeSubscriptions = new();
+        [AutoStaticsCleanup] private static readonly List<Event> _activeSubscriptions = new();
 
         public delegate void Event(T args);
-        public static event Event onEvent;
+        [AutoStaticsCleanup] public static event Event onEvent;
         public static void Raise(T battleEvent)
         {
             UpdateBattleEventBusState(battleEvent);
@@ -64,11 +65,11 @@ namespace Frankie.Combat
         }
     }
 
-    public static class BattleEventBus
+    public static partial class BattleEventBus
     {
         #region BattleHandlerState
-        public static bool inBattle { get; private set; } = false;
-        public static BattleState battleState { get; private set; } = BattleState.Inactive;
+        [AutoStaticsCleanup] public static bool inBattle { get; private set; } = false;
+        [AutoStaticsCleanup] public static BattleState battleState { get; private set; } = BattleState.Inactive;
 
         public static void SetBattleState(BattleState setBattleState)
         {

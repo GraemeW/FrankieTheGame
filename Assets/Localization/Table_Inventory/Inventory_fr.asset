@@ -23,8 +23,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257224605851648
-    m_Localized: C'est une cuisse de dinde massive. Elle est vraiment, vraiment grande.
-      Non, vraiment.
+    m_Localized: C'est une cuisse de dinde massive. Elle est vraiment, vraiment grande. Non, vraiment.
     m_Metadata:
       m_Items: []
   - m_Id: 7257224811372544
@@ -32,8 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257224912035840
-    m_Localized: "M\xE9lange de noix de macadamia et de noix ap\xE9ritives... et
-      un peu de ficelle ?"
+    m_Localized: "M\xE9lange de noix de macadamia et de noix ap\xE9ritives... et un peu de ficelle ?"
     m_Metadata:
       m_Items: []
   - m_Id: 7257225113362432
@@ -57,8 +55,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257225801228288
-    m_Localized: "La touche F colle et la barre d'espace est tomb\xE9e. Utilisable
-      uniquement par Frankie."
+    m_Localized: "La touche F colle et la barre d'espace est tomb\xE9e. Utilisable uniquement par Frankie."
     m_Metadata:
       m_Items: []
   - m_Id: 7257226002554880
@@ -74,8 +71,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257226392625152
-    m_Localized: "Clic clic. \xC7a ne fait pas trop mal, mais c'est rouge et joli,
-      bon pour la mode. Utilisable uniquement par Phil Too."
+    m_Localized: "Clic clic. \xC7a ne fait pas trop mal, mais c'est rouge et joli, bon pour la mode. Utilisable uniquement par Phil Too."
     m_Metadata:
       m_Items: []
   - m_Id: 7257226589757440
@@ -91,8 +87,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257226979827712
-    m_Localized: "Pleine de SODIUM et d'\xC9NERGIE. Restaure une bonne portion de
-      PA."
+    m_Localized: "Pleine de SODIUM et d'\xC9NERGIE. Restaure une bonne portion de PA."
     m_Metadata:
       m_Items: []
   - m_Id: 7257227176960000
@@ -100,8 +95,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257227273428992
-    m_Localized: "Bont\xE9 chocolat\xE9e et fromag\xE8re (MC). Restaure quelques
-      PV."
+    m_Localized: "Bont\xE9 chocolat\xE9e et fromag\xE8re (MC). Restaure quelques PV."
     m_Metadata:
       m_Items: []
   - m_Id: 7257227470561280
@@ -109,8 +103,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257227579613184
-    m_Localized: "Pour m\xE2cher, j'imagine ? C'est le seul aliment sain (?) disponible
-      au bureau."
+    m_Localized: "Pour m\xE2cher, j'imagine ? C'est le seul aliment sain (?) disponible au bureau."
     m_Metadata:
       m_Items: []
   - m_Id: 7257227776745472
@@ -118,8 +111,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257227873214464
-    m_Localized: "C'est un clavier vraiment basique. Pas de pav\xE9 num\xE9rique.
-      Utilisable uniquement par Frankie."
+    m_Localized: "C'est un clavier vraiment basique. Pas de pav\xE9 num\xE9rique. Utilisable uniquement par Frankie."
     m_Metadata:
       m_Items: []
   - m_Id: 7257228070346752
@@ -127,8 +119,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257228166815744
-    m_Localized: Elle fait exactement 30 cm et elle CLAQUE. Utilisable uniquement
-      par Tilly.
+    m_Localized: Elle fait exactement 30 cm et elle CLAQUE. Utilisable uniquement par Tilly.
     m_Metadata:
       m_Items: []
   - m_Id: 7257228363948032
@@ -136,8 +127,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257228460417024
-    m_Localized: "C'est une barre consistante. Faite d'ingr\xE9dients consistants.
-      Restaure une bonne portion de PV."
+    m_Localized: "C'est une barre consistante. Faite d'ingr\xE9dients consistants. Restaure une bonne portion de PV."
     m_Metadata:
       m_Items: []
   - m_Id: 7257228657549312
@@ -153,8 +143,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257229047619584
-    m_Localized: "Il a un beau d\xE9calque de tr\xE8fle dessus ! Utilisable uniquement
-      par Frankie."
+    m_Localized: "Il a un beau d\xE9calque de tr\xE8fle dessus ! Utilisable uniquement par Frankie."
     m_Metadata:
       m_Items: []
   - m_Id: 7257229240557568
@@ -170,8 +159,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257229639016448
-    m_Localized: "Extr\xEAmement pr\xE9cieuse -- remise uniquement aux ing\xE9nieurs
-      seniors. Ne la perdez pas."
+    m_Localized: "Extr\xEAmement pr\xE9cieuse -- remise uniquement aux ing\xE9nieurs seniors. Ne la perdez pas."
     m_Metadata:
       m_Items: []
   - m_Id: 7257229836148736
@@ -195,8 +183,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257230519820288
-    m_Localized: Wow, c'est exactement la marche manquante de l'escalier vers le
-      sous-sol de Lacklustre Video !
+    m_Localized: Wow, c'est exactement la marche manquante de l'escalier vers le sous-sol de Lacklustre Video !
     m_Metadata:
       m_Items: []
   - m_Id: 7257230716952576
@@ -284,8 +271,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7280905679790080
-    m_Localized: "Tu t'attends \xE0 ce que je te vende \xE7a, alors que tu transportes
-      d\xE9j\xE0 tout \xE7a ?!"
+    m_Localized: "Tu t'attends \xE0 ce que je te vende \xE7a, alors que tu transportes d\xE9j\xE0 tout \xE7a ?!"
     m_Metadata:
       m_Items: []
   - m_Id: 7281028736475136

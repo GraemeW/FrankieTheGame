@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
+using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Stats;
@@ -343,9 +344,9 @@ namespace Frankie.Combat.UI
         private void ClearBattleCanvas()
         {
             foreach (Transform child in playerPanelParent) { Destroy(child.gameObject); }
-            foreach (Transform columnEntry in topRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
-            foreach (Transform columnEntry in midRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
-            foreach (Transform columnEntry in bottomRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in topRowColumns) { foreach (Transform child in columnEntry) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } } }
+            foreach (Transform columnEntry in midRowColumns) { foreach (Transform child in columnEntry) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } } }
+            foreach (Transform columnEntry in bottomRowColumns) { foreach (Transform child in columnEntry) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } } }
         }
         #endregion
 

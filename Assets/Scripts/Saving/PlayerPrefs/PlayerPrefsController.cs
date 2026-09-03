@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using UnityEngine;
+using Unity.Scripting.LifecycleManagement;
 using Frankie.Rendering;
 
 namespace Frankie.Saving
 {
-    public static class PlayerPrefsController
+    public static partial class PlayerPrefsController
     {
         // Keys
         // Note:  Update KeyEnumeration below when adding new keys to be able to view/edit them in PlayerPrefsEditor
@@ -33,13 +34,13 @@ namespace Frankie.Saving
 
         // Parameters
         private const float _audioMappingCurveFactor = 2.0f;
-        private static readonly float _audioMappingDenominator = Mathf.Exp(_audioMappingCurveFactor) - 1.0f;
+        [NoAutoStaticsCleanup] private static readonly float _audioMappingDenominator = Mathf.Exp(_audioMappingCurveFactor) - 1.0f;
 
         // Static State
-        public static bool wereCharacterNamesDirtied { get; set; } = false;
+        [AutoStaticsCleanup] public static bool wereCharacterNamesDirtied { get; set; } = false;
         
         // Events
-        public static event Action<Color> frameFlavourUpdated;
+        [AutoStaticsCleanup] public static event Action<Color> frameFlavourUpdated;
         
         #region KeyEnumeration
         private static List<PrefsKeyInfo> GetAllDefinedKeys(List<string> characterPropertiesNames = null, bool includeCurrentSave = false)

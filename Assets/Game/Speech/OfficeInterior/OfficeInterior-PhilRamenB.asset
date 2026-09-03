@@ -364,8 +364,7 @@ MonoBehaviour:
       - predicate: {fileID: 11400000, guid: 23f56d3da5b6e194089fcddf0b4292aa, type: 2}
         negate: 1
   cachedSpeakerName: Phil Ramen
-  cachedText: There's one last step to the incantation.  You must find some extremely
-    spicy hot sauce.
+  cachedText: There's one last step to the incantation.  You must find some extremely spicy hot sauce.
   references:
     version: 2
     RefIds: []

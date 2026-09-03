@@ -67,8 +67,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7997945612853248
-    m_Localized: '{0} dropped {1}, but you don''t have any room.  Do you want to
-      throw something out?'
+    m_Localized: '{0} dropped {1}, but you don''t have any room.  Do you want to throw something out?'
     m_Metadata:
       m_Items: []
   - m_Id: 7997972309598208
@@ -164,8 +163,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9042015114223616
-    m_Localized: You currently have {0} in the bank.  How much do you want to take
-      out?
+    m_Localized: You currently have {0} in the bank.  How much do you want to take out?
     m_Metadata:
       m_Items: []
   - m_Id: 9043485888864256

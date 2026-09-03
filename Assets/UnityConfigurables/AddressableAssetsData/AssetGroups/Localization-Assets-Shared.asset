@@ -51,8 +51,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e01518a4d82d5485e9b0e7f466ecf01d
-    m_Address: Assets/Localization/Table_ChecksWorldObjects/ChecksWorldObjects Shared
-      Data.asset
+    m_Address: Assets/Localization/Table_ChecksWorldObjects/ChecksWorldObjects Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

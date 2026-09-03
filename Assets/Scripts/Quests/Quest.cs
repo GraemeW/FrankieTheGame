@@ -4,16 +4,18 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 
+
 namespace Frankie.Quests
 {
     [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest", order = 10)]
-    public class Quest : GameStateModifier, IAddressablesCache, ILocalizable
+    public partial class Quest : GameStateModifier, IAddressablesCache, ILocalizable
     {
         // Tunables
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Quests, true)] private LocalizedString localizedDisplayName; 
@@ -27,8 +29,8 @@ namespace Frankie.Quests
         [HideInInspector][SerializeField] private List<QuestObjective> questObjectives = new();
         private Dictionary<string, QuestObjective> objectiveNameEditorLookup = new();
         // Quest
-        private static AsyncOperationHandle<IList<Quest>> _addressablesLoadHandle;
-        private static Dictionary<string, Quest> _questLookupCache;
+        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Quest>> _addressablesLoadHandle;
+        [AutoStaticsCleanup] private static Dictionary<string, Quest> _questLookupCache;
 
         #region UnityMethods
         private void OnValidate()
@@ -175,7 +177,7 @@ namespace Frankie.Quests
 
         public static void ReleaseCache()
         {
-            Addressables.Release(_addressablesLoadHandle);
+            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
         #endregion
     }

@@ -164,8 +164,7 @@ MonoBehaviour:
   condition:
     and: []
   cachedSpeakerName: Hipster
-  cachedText: I think the electrical breaker tripped and needs to be reset, but it's
-    in the basement and the workers here have kinda gone mad.
+  cachedText: I think the electrical breaker tripped and needs to be reset, but it's in the basement and the workers here have kinda gone mad.
   references:
     version: 2
     RefIds: []

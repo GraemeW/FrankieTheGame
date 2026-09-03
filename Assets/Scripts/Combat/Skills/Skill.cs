@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
@@ -12,7 +13,7 @@ using Frankie.Stats;
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill", order = 10)]
-    public class Skill : ScriptableObject, IBattleActionSuper, IAddressablesCache, ILocalizable
+    public partial class Skill : ScriptableObject, IBattleActionSuper, IAddressablesCache, ILocalizable
     {
         // Tunables
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Skills, true)] private LocalizedString localizedDisplayName; 
@@ -23,8 +24,9 @@ namespace Frankie.Combat
         // State
         [HideInInspector][SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }
-        private static AsyncOperationHandle<IList<Skill>> _addressablesLoadHandle;
-        private static Dictionary<string, Skill> _skillLookupCache;
+        
+        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Skill>> _addressablesLoadHandle;
+        [AutoStaticsCleanup] private static Dictionary<string, Skill> _skillLookupCache;
 
         // NOTE:
         // Skill necessarily uses name as id -- i.e. use .name for lookups
@@ -96,7 +98,7 @@ namespace Frankie.Combat
 
         public static void ReleaseCache()
         {
-            Addressables.Release(_addressablesLoadHandle);
+            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
         #endregion
     }

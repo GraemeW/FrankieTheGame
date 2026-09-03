@@ -438,8 +438,8 @@ namespace Frankie.Inventory.UI
             if (leftItemContainer == null || rightItemContainer == null) { return false; } // Error handling for message received during deconstruction
 
             inventoryItemChoiceOptions.Clear();
-            foreach (Transform child in leftItemContainer) { Destroy(child.gameObject); }
-            foreach (Transform child in rightItemContainer) { Destroy(child.gameObject); }
+            foreach (Transform child in leftItemContainer) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
+            foreach (Transform child in rightItemContainer) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
             return true;
         }
 
