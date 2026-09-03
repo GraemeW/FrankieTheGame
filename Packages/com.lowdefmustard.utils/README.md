@@ -102,7 +102,7 @@ Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), ru
 | Assembly                             | Root Namespace                       | Platform                     |
 |--------------------------------------|--------------------------------------|------------------------------|
 | `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                       |
-| `LowDefMustard.Utils.Tests.PlayMode` | `LowDefMustard.Utils.Tests.PlayMode` | All (Editor-run in practice) |
+| `LowDefMustard.Utils.Tests.PlayMode` | `LowDefMustard.Utils.Tests.PlayMode` | Unrestricted (PlayMode) |
 
 ### Coverage at a glance
 
