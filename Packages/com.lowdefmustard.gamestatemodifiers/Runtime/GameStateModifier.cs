@@ -114,9 +114,14 @@ namespace LowDefMustard.GameStateModifiers
         #region EditorPublicMethods
         public void AddOrUpdateGameStateModifierHandler(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
         {
-            foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
+            for (int i = 0; i < gameStateModifierHandlerData.Count; i++)
             {
-                checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
+                if (!gameStateModifierHandlerData[i].Equals(zoneToGameObjectLinkData)) { continue; }
+
+                ZoneToGameObjectLinkData existingLinkData = gameStateModifierHandlerData[i];
+                existingLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
+                gameStateModifierHandlerData[i] = existingLinkData; // struct copy, write back explicitly
+                EditorUtility.SetDirty(this);
                 return;
             }
 
