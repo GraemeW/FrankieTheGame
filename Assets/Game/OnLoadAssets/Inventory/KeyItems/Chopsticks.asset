@@ -15,7 +15,7 @@ MonoBehaviour:
   guid: ce52abf0-68ce-4d57-9be8-589004547c0e
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
-    gameObjectName: RemoveChopsticks
+    gameObjectName: SIGT-RemoveChopsticks
     parentObjectName: BroOfficeWorker (1)
     guid: 751442d0-ee69-4f1e-9362-9a83d6fbb7a3
   - zoneName: OfficeInterior
