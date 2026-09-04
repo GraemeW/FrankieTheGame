@@ -13,7 +13,7 @@ namespace LowDefMustard.GameStateModifiers
     public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
         // Standard Properties
-        [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid;
+        [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid = string.Empty;
         public string GetGUID() => guid;
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
         
@@ -196,7 +196,8 @@ namespace LowDefMustard.GameStateModifiers
             return !string.IsNullOrWhiteSpace(scenePath);
         }
         
-        private int RemoveDuplicateEntries()
+        // Note:  Internal for test visibility
+        internal int RemoveDuplicateEntries()
         {
             int initialCount = gameStateModifierHandlerData.Count;
             gameStateModifierHandlerData = gameStateModifierHandlerData.Distinct().ToList();

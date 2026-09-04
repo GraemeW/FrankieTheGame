@@ -4,7 +4,9 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "LowDefMustard.GameStateModifiers"
+        "LowDefMustard.GameStateModifiers",
+        "LowDefMustard.GameStateModifiers.Editor",
+        "LowDefMustard.Utils"
     ],
     "includePlatforms": [
         "Editor"

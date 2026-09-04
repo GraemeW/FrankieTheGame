@@ -107,21 +107,23 @@ namespace LowDefMustard.GameStateModifiers
                 if (x == null || y == null) { return false; }
                 return x.GetGUID() == y.GetGUID();
             }
-            public int GetHashCode(GameStateModifier obj) => obj == null ? 0 : obj.GetGUID().GetHashCode();
+            public int GetHashCode(GameStateModifier obj) => obj == null ? 0 : obj.GetGUID() == null ? 0 : obj.GetGUID().GetHashCode();
         }
         #endregion
         
         #region EditorMethods
+        // Note:  Internal methods below for test visibility
+        
         public IList<GameStateModifier> GetGameStateModifiers();
 
-        private void ForceSerializeGameObject()
+        internal void ForceSerializeGameObject()
         {
             if (gameObject == null) { return; }
             using var serializedObject = new SerializedObject(gameObject);
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
         
-        private ZoneToGameObjectLinkData MakeZoneToGameObjectLinkData()
+        internal ZoneToGameObjectLinkData MakeZoneToGameObjectLinkData()
         {
             // Note: Must ensure zoneName == sceneName
             string zoneName = SceneManager.GetActiveScene().name;
@@ -132,7 +134,7 @@ namespace LowDefMustard.GameStateModifiers
             return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
         }
         
-        private List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
+        internal List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
         {
             hasGameStateModifiers = false;
             var newGameStateModifierGUIDs = new List<string>();
@@ -148,7 +150,7 @@ namespace LowDefMustard.GameStateModifiers
             return newGameStateModifierGUIDs;
         }
         
-        private void RemoveStateGameStateModifiers(List<string> newGameStateModifierGUIDs)
+        internal void RemoveStateGameStateModifiers(List<string> newGameStateModifierGUIDs)
         {
             if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
             else
@@ -164,7 +166,7 @@ namespace LowDefMustard.GameStateModifiers
             }
         }
         
-        private int GetModifierListHashCheck(string zoneName, string gameObjectName)
+        internal int GetModifierListHashCheck(string zoneName, string gameObjectName)
         {
             var hash = new HashCode();
             hash.Add(zoneName);
@@ -177,7 +179,7 @@ namespace LowDefMustard.GameStateModifiers
             return hash.ToHashCode();
         }
         
-        private void RemoveSelfFromGameStateModifiers()
+        internal void RemoveSelfFromGameStateModifiers()
         {
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {

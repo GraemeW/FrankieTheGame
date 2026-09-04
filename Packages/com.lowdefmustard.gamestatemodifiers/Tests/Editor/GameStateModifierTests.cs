@@ -158,6 +158,33 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         }
         #endregion
 
+        #region RemoveDuplicateEntries
+        [Test]
+        public void RemoveDuplicateEntries_DuplicateGuids_KeepsFirstOccurrence_RemovesRest()
+        {
+            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "ObjectA", "Parent", "guid-1"));
+            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "ObjectB", "Parent", "guid-1")); // same guid, later entry
+
+            int removedCount = modifier.RemoveDuplicateEntries();
+
+            Assert.AreEqual(1, removedCount);
+            Assert.AreEqual(1, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual("ZoneA", modifier.gameStateModifierHandlerData[0].zoneName); // Distinct() keeps the first occurrence
+        }
+
+        [Test]
+        public void RemoveDuplicateEntries_NoDuplicates_RemovesNothing()
+        {
+            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "Object", "Parent", "guid-1"));
+            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "Object", "Parent", "guid-2"));
+
+            int removedCount = modifier.RemoveDuplicateEntries();
+
+            Assert.AreEqual(0, removedCount);
+            Assert.AreEqual(2, modifier.gameStateModifierHandlerData.Count);
+        }
+        #endregion
+        
         #region StaticHelpers
         [Test]
         public void GetGameStateModifierHandlerDataRef_MatchesActualFieldName()
