@@ -7,6 +7,7 @@ Shader "CustomRenderTexture/PixelArtShader"
     Properties
     {
         _MainTex("Texture", 2D) = "" {}
+        [HideInInspector] _Color ("Tint", Color) = (1,1,1,1)
     }
 
     SubShader
@@ -36,6 +37,10 @@ Shader "CustomRenderTexture/PixelArtShader"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
+            
+            CBUFFER_START( UnityPerMaterial )
+                half4 _Color;
+            CBUFFER_END
 
             struct vertexInput
             {
@@ -76,7 +81,7 @@ Shader "CustomRenderTexture/PixelArtShader"
                 // compute bilinear sample uv coordinates
                 float2 uv = (floor(tx) + 0.5 + txOffset) * texelSize.xy;
                 // return
-                return SAMPLE_TEXTURE2D_GRAD(_MainTex, sampler_MainTex, uv, ddx(input.uv), ddy(input.uv)) * input.color;
+                return SAMPLE_TEXTURE2D_GRAD(_MainTex, sampler_MainTex, uv, ddx(input.uv), ddy(input.uv)) * input.color * _Color * unity_SpriteColor;
             }
 
             ENDHLSL
