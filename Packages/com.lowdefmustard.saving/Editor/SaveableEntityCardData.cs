@@ -228,7 +228,7 @@ namespace LowDefMustard.Saving.Editor
             }
             
             saveEntityButton.RegisterCallback<ClickEvent>(_ => saveCallback?.Invoke());
-            isGameObjectSelected = Selection.activeGameObject == saveableEntity.gameObject;
+            isGameObjectSelected = saveableEntity != null && Selection.activeGameObject == saveableEntity.gameObject;
             UpdateSelectedColor();
             
             return cardView;
