@@ -16,7 +16,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeExterior
     gameObjectName: Steve5000
-    parentObjectName: 
+    parentObjectName: Street
     guid: 5fddb528-cd60-4f94-a12e-9b185fe5c4f8
   localizedDisplayName:
     m_TableReference:

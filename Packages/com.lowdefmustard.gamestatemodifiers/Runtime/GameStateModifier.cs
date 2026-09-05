@@ -13,7 +13,7 @@ namespace LowDefMustard.GameStateModifiers
     public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
         // Standard Properties
-        [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid;
+        [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid = string.Empty;
         public string GetGUID() => guid;
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
         
@@ -114,9 +114,14 @@ namespace LowDefMustard.GameStateModifiers
         #region EditorPublicMethods
         public void AddOrUpdateGameStateModifierHandler(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
         {
-            foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
+            for (int i = 0; i < gameStateModifierHandlerData.Count; i++)
             {
-                checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
+                if (!gameStateModifierHandlerData[i].Equals(zoneToGameObjectLinkData)) { continue; }
+
+                ZoneToGameObjectLinkData existingLinkData = gameStateModifierHandlerData[i];
+                existingLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
+                gameStateModifierHandlerData[i] = existingLinkData; // struct copy, write back explicitly
+                EditorUtility.SetDirty(this);
                 return;
             }
 
@@ -191,7 +196,8 @@ namespace LowDefMustard.GameStateModifiers
             return !string.IsNullOrWhiteSpace(scenePath);
         }
         
-        private int RemoveDuplicateEntries()
+        // Note:  Internal for test visibility
+        internal int RemoveDuplicateEntries()
         {
             int initialCount = gameStateModifierHandlerData.Count;
             gameStateModifierHandlerData = gameStateModifierHandlerData.Distinct().ToList();

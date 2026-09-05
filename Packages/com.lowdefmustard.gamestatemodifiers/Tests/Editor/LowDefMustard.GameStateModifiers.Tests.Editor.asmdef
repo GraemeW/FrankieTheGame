@@ -1,0 +1,25 @@
+{
+    "name": "LowDefMustard.GameStateModifiers.Tests.Editor",
+    "rootNamespace": "LowDefMustard.GameStateModifiers.Tests.Editor",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "LowDefMustard.GameStateModifiers",
+        "LowDefMustard.GameStateModifiers.Editor",
+        "LowDefMustard.Utils"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "resourcesPath": "",
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
