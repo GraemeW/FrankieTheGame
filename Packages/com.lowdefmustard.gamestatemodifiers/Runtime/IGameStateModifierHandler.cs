@@ -84,7 +84,7 @@ namespace LowDefMustard.GameStateModifiers
             modifierListHashCheck = newModifierListHashCheck;
             
             var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData);
-            RemoveStateGameStateModifiers(newGameStateModifierGUIDs);
+            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs);
             
             ForceSerializeGameObject();
 #endif
@@ -150,7 +150,7 @@ namespace LowDefMustard.GameStateModifiers
             return newGameStateModifierGUIDs;
         }
         
-        internal void RemoveStateGameStateModifiers(List<string> newGameStateModifierGUIDs)
+        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs)
         {
             if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
             else
