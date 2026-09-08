@@ -10,6 +10,7 @@ using Frankie.Control;
 using Frankie.Stats;
 using Frankie.World;
 using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

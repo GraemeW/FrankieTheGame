@@ -9,6 +9,7 @@ using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Zones
 {

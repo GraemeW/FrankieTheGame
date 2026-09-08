@@ -13,6 +13,7 @@ using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.World;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

@@ -2,6 +2,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.Editor
 {
@@ -10,7 +11,7 @@ namespace Frankie.Combat.Editor
     {
         private void OnEnable()
         {
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.InitializeEnglishLocale();
             var skill = (Skill)target;
             if (skill is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(skill, skill.GetPropertyLinkedLocalizationEntries());

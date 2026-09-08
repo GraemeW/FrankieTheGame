@@ -1,4 +1,4 @@
-namespace LowDefMustard.Localization
+namespace Frankie.Utils.Localization
 {
     public enum LocalizationTableType
     {

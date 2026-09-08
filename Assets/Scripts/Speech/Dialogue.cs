@@ -5,8 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
 using Frankie.Stats;
-using LowDefMustard.Localization;
-using UnityEngine.Serialization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Speech
 {

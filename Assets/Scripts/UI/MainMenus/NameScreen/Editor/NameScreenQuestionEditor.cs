@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI.Editor
 {
@@ -10,7 +11,7 @@ namespace Frankie.Menu.UI.Editor
     {
         private void OnEnable()
         {
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.InitializeEnglishLocale();
             var nameScreenQuestion = (NameScreenQuestion)target;
             if (nameScreenQuestion is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(nameScreenQuestion, nameScreenQuestion.GetPropertyLinkedLocalizationEntries());

@@ -9,6 +9,7 @@ using Frankie.Core;
 using Frankie.Control;
 using Frankie.Stats;
 using Frankie.World;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

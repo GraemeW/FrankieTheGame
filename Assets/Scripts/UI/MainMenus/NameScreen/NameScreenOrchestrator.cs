@@ -14,6 +14,7 @@ using Frankie.Saving;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Zones;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

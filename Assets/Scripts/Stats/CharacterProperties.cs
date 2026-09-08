@@ -8,6 +8,7 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Saving;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Stats
 {

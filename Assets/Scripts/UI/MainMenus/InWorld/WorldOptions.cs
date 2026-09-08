@@ -15,6 +15,7 @@ using Frankie.Combat.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
 using Frankie.Zones.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

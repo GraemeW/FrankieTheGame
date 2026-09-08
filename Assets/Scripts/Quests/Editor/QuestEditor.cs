@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using LowDefMustard.GameStateModifiers.Editor;
 using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Quests.Editor
 {
@@ -19,7 +20,7 @@ namespace Frankie.Quests.Editor
         {
             base.OnEnable();
             
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.InitializeEnglishLocale();
             var quest = (Quest)target;
             if (quest is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(quest, quest.GetPropertyLinkedLocalizationEntries(), quest.TriggerOnRename);

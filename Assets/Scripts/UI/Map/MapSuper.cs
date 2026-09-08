@@ -6,6 +6,7 @@ using TMPro;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Rendering;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Zones.UI
 {

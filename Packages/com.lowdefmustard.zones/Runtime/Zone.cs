@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,11 +15,11 @@ using LowDefMustard.Localization;
 namespace LowDefMustard.Zones
 {
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
-    public partial class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
+    public partial class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizableCore
     {
         // Tunables
         [Header("Zone Properties")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
+        [SerializeField][SimpleLocalizedString(false)] private LocalizedString localizedDisplayName;
         [SerializeField] private SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
         [SerializeField] private AudioClip zoneAudio;
@@ -128,7 +129,8 @@ namespace LowDefMustard.Zones
         public ZoneNode GetRootNode() => zoneNodes[0];
         public static bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
         public ZoneNode GetNodeFromID(string zoneNodeName) => zoneNodes.FirstOrDefault(zoneNode => zoneNode.name == zoneNodeName);
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
+        Enum ILocalizableCore.localizationTableTypeValue => LocalizableClassTableTypeRegistry.GetTableType(GetType());
+
         public List<TableEntryReference> GetLocalizationEntries()
         {
             var entries = new List<TableEntryReference> { localizedDisplayName.TableEntryReference };
@@ -174,7 +176,7 @@ namespace LowDefMustard.Zones
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(_defaultNodeWidth, _defaultNodeHeight);
             zoneNode.SetZoneName(name);
-            zoneNode.SetNodeID(System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture));
+            zoneNode.SetNodeID(Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture));
 
             Undo.RecordObject(this, "Add Zone Node");
             zoneNodes.Add(zoneNode);

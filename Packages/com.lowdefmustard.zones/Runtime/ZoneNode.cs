@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -8,12 +9,12 @@ using LowDefMustard.Localization;
 
 namespace LowDefMustard.Zones
 {
-    [System.Serializable]
-    public class ZoneNode : ScriptableObject, IStandardGraphNode
+    [Serializable]
+    public class ZoneNode : ScriptableObject, IStandardGraphNode, ILocalizableCore
     {
         // Tunables
         [Header("Zone Node Properties")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
+        [SerializeField][SimpleLocalizedString(false)] private LocalizedString localizedDisplayName;
         [SerializeField] private List<string> children = new();
         [SerializeField] private ZoneNode externalZoneLinkToZoneNode;
         [SerializeField] private Rect rect = new(30, 30, 350, 125);
@@ -37,7 +38,9 @@ namespace LowDefMustard.Zones
         
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
         private string GetNameLocalizationKey(string id) => $"Zone.{zoneName ?? ""}.Node.{id}";
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
+
+        Enum ILocalizableCore.localizationTableTypeValue => LocalizableClassTableTypeRegistry.GetTableType(GetType());
+
         public List<TableEntryReference> GetLocalizationEntries()
         {
             return new List<TableEntryReference>
@@ -84,7 +87,10 @@ namespace LowDefMustard.Zones
             TableEntryReference oldKey =  GetNameLocalizationKey();
             zoneName = setZoneName;
             string newKey = GetNameLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
+            if (TryGetLocalizationBridge(out Enum tableType, out ILocalizationToolBridge localizationToolBridge))
+            {
+                localizationToolBridge.MakeOrRenameKey(tableType, oldKey, newKey);
+            }
             EditorUtility.SetDirty(this);
         }
 
@@ -97,7 +103,10 @@ namespace LowDefMustard.Zones
             name = id;
             
             string key = GetNameLocalizationKey();
-            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name);
+            if (TryGetLocalizationBridge(out Enum tableType, out ILocalizationToolBridge localizationToolBridge))
+            {
+                localizationToolBridge.TryLocalizeEntry(tableType, localizedDisplayName, key, name);
+            }
             EditorUtility.SetDirty(this);
             return true;
         }
@@ -155,16 +164,33 @@ namespace LowDefMustard.Zones
         #endregion
         
         #region LocalizationUtility
+        private bool TryGetLocalizationBridge(out Enum tableType, out ILocalizationToolBridge localizationToolBridge)
+        {
+            tableType = ((ILocalizableCore)this).localizationTableTypeValue;
+            localizationToolBridge = null;
+
+            if (tableType == null) { Debug.LogWarning($"{name} ({nameof(ZoneNode)}) has no table type registered - skipping localization operation."); return false; }
+            if (!LocalizationToolBridgeRegistry.TryGetBridge(tableType.GetType(), out localizationToolBridge)) { Debug.LogWarning($"No localization bridge registered for table type - skipping localization operation for {name}"); return false; }
+
+            return true;
+        }
+
         private void TryRenameExistingKey(string id)
         {
             TableEntryReference oldKey = GetNameLocalizationKey();
             string newKey = GetNameLocalizationKey(id);
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
+            if (TryGetLocalizationBridge(out Enum tableType, out ILocalizationToolBridge localizationToolBridge))
+            {
+                localizationToolBridge.MakeOrRenameKey(tableType, oldKey, newKey);
+            }
         }
         
         private void TryDeleteLocalization()
         {
-            LocalizationTool.RemoveEntry(localizationTableType, GetNameLocalizationKey());
+            if (TryGetLocalizationBridge(out Enum tableType, out ILocalizationToolBridge localizationToolBridge))
+            {
+                localizationToolBridge.RemoveEntry(tableType, GetNameLocalizationKey());
+            }
             localizedDisplayName.SetReference("", "");
         }
         #endregion

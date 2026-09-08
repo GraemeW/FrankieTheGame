@@ -13,6 +13,7 @@ using Frankie.Rendering;
 using Frankie.Speech.UI;
 using Frankie.Sound;
 using Frankie.Saving;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
@@ -233,7 +234,7 @@ namespace Frankie.Menu.UI
 
         private void InitializeLanguageSelection(ref int choiceIndex)
         {
-            openingLocalizationType = LocalizationTool.GetCurrentLocalization();
+            openingLocalizationType = LocalizationLocale.GetCurrentLocalization();
             Transform languageOptionsTransform = languageOptionsContainer.transform;
             
             foreach (SupportedLocalizationType supportedLocalizationType in Enum.GetValues(typeof(SupportedLocalizationType)))
@@ -241,7 +242,7 @@ namespace Frankie.Menu.UI
                 GameObject languageOption = Instantiate(optionButtonPrefab, languageOptionsTransform);
                 if (languageOption.TryGetComponent(out UIChoiceButton languageChoiceButton))
                 {
-                    languageChoiceButton.SetText(LocalizationTool.GetLocaleCode(supportedLocalizationType));
+                    languageChoiceButton.SetText(LocalizationLocale.GetLocaleCode(supportedLocalizationType));
                     languageChoiceButton.AddOnClickListener(delegate { ConfirmLocalizationChange(supportedLocalizationType); });
                     languageOptionsContainer.Add(languageChoiceButton);
                 }
@@ -334,9 +335,9 @@ namespace Frankie.Menu.UI
         private void ConfirmLocalizationChange(SupportedLocalizationType supportedLocalizationType)
         {
             wasChangeMade = true;
-            Debug.Log($"Current locale is {LocalizationTool.GetLocaleCode(LocalizationTool.GetCurrentLocalization())} - updating to {LocalizationTool.GetLocaleCode(supportedLocalizationType)}");
+            Debug.Log($"Current locale is {LocalizationLocale.GetLocaleCode(LocalizationLocale.GetCurrentLocalization())} - updating to {LocalizationLocale.GetLocaleCode(supportedLocalizationType)}");
             
-            LocalizationTool.SetLocale(supportedLocalizationType);
+            LocalizationLocale.SetLocale(supportedLocalizationType);
             InitializeLocalization();
             WriteLocalizationToPlayerPrefs(supportedLocalizationType);
             
@@ -358,7 +359,7 @@ namespace Frankie.Menu.UI
         
         private void WriteLocalizationToPlayerPrefs(SupportedLocalizationType supportedLocalizationType)
         {
-            string localeCode = LocalizationTool.GetLocaleCode(supportedLocalizationType);
+            string localeCode = LocalizationLocale.GetLocaleCode(supportedLocalizationType);
             PlayerPrefsController.SetLanguageCode(localeCode);
         }
 

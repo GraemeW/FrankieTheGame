@@ -7,6 +7,7 @@ using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Stats;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
