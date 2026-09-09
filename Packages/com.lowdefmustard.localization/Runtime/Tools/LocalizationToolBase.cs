@@ -85,15 +85,18 @@ namespace LowDefMustard.Localization
         #endregion
 
         #region LocalizationTableInteraction
-        private static bool HasTableEntry(TTableType tableType, ref TableEntryReference tableEntryReference) => HasTableEntry(tableType, ref tableEntryReference, out _);
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool HasTableEntry(TTableType tableType, ref TableEntryReference tableEntryReference) => HasTableEntry(tableType, ref tableEntryReference, out _);
 
-        private static bool HasTableEntry(TTableType tableType, string key)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool HasTableEntry(TTableType tableType, string key)
         {
             TableEntryReference tableEntryReference = key;
             return HasTableEntry(tableType, ref tableEntryReference, out _);
         }
         
-        private static bool HasTableEntry(TTableType tableType, ref TableEntryReference tableEntryReference, out StringTable englishStringTable)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool HasTableEntry(TTableType tableType, ref TableEntryReference tableEntryReference, out StringTable englishStringTable)
         {
             bool englishTableFound = GetCachedEnglishTable(tableType, out englishStringTable);
             if (!englishTableFound) { return false; }
@@ -102,13 +105,15 @@ namespace LowDefMustard.Localization
             return tableEntryReference.ReferenceType != TableEntryReference.Type.Empty && tableEntryReference.KeyId != SharedTableData.EmptyId;
         }
 
-        private static TableEntryReference GetTableEntryReferencedByID(TTableType tableType, TableEntryReference ambiguousTableEntryReference)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static TableEntryReference GetTableEntryReferencedByID(TTableType tableType, TableEntryReference ambiguousTableEntryReference)
         {
             if (!GetCachedTableCollection(tableType, out StringTableCollection stringTableCollection)) { return SharedTableData.EmptyId; }
             return GetTableEntryReferencedByID(stringTableCollection.SharedData, ambiguousTableEntryReference);
         }
         
-        private static TableEntryReference GetTableEntryReferencedByID(SharedTableData sharedTableData, TableEntryReference ambiguousTableEntryReference)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static TableEntryReference GetTableEntryReferencedByID(SharedTableData sharedTableData, TableEntryReference ambiguousTableEntryReference)
         {
             TableEntryReference tableEntryReferencedByID = new();
             switch (ambiguousTableEntryReference.ReferenceType)
@@ -124,7 +129,8 @@ namespace LowDefMustard.Localization
             return tableEntryReferencedByID;
         }
 
-        private static TableEntryReference GetSerializedTableEntryKeyID(TTableType tableType, SerializedProperty serializedProperty)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static TableEntryReference GetSerializedTableEntryKeyID(TTableType tableType, SerializedProperty serializedProperty)
         {
             // KeyID Route
             SerializedProperty keyIDProperty = serializedProperty.FindPropertyRelative(_localizedStringSerializedKeyID);
@@ -142,7 +148,8 @@ namespace LowDefMustard.Localization
             return GetTableEntryReferencedByID(tableType, tableEntryReference);
         }
 
-        private static bool GetOrMakeTableCollection(TTableType tableType, out StringTableCollection stringTableCollection)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool GetOrMakeTableCollection(TTableType tableType, out StringTableCollection stringTableCollection)
         {
             stringTableCollection = null;
             if (GetCachedTableCollection(tableType, out stringTableCollection)) { return true; }
@@ -159,6 +166,7 @@ namespace LowDefMustard.Localization
             return stringTableCollection != null;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static bool MakeOrRenameKey(TTableType tableType, TableEntryReference tableEntryReference, string newKey)
         {
             if (!GetCachedEnglishTable(tableType, out StringTable englishStringTable)) { return false; }
@@ -195,21 +203,25 @@ namespace LowDefMustard.Localization
             return true;
         }
 
-        private static string GetEnglishEntry(TTableType tableType, TableEntryReference tableEntryReference)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static string GetEnglishEntry(TTableType tableType, TableEntryReference tableEntryReference)
         {
             if (!HasTableEntry(tableType, ref tableEntryReference, out StringTable englishStringTable)) { return ""; }
             StringTableEntry stringTableEntry = englishStringTable.GetEntry(tableEntryReference.KeyId);
             return stringTableEntry?.Value ?? "";
         }
 
-        private static bool HasEnglishEntry(TTableType tableType, TableEntryReference tableEntryReference) => !string.IsNullOrWhiteSpace(GetEnglishEntry(tableType, tableEntryReference));
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool HasEnglishEntry(TTableType tableType, TableEntryReference tableEntryReference) => !string.IsNullOrWhiteSpace(GetEnglishEntry(tableType, tableEntryReference));
 
-        private static bool AddUpdateEnglishEntry(TTableType tableType, string keyName, string replacementText)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool AddUpdateEnglishEntry(TTableType tableType, string keyName, string replacementText)
         {
             TableEntryReference tableEntryReference = keyName;
             return AddUpdateEnglishEntry(tableType, tableEntryReference, replacementText);
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static bool AddUpdateEnglishEntry(TTableType tableType, TableEntryReference tableEntryReference, string replacementText)
         {
             if (!GetCachedEnglishTable(tableType, out StringTable englishStringTable)) { return false; }
@@ -249,6 +261,7 @@ namespace LowDefMustard.Localization
             return true;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static bool RemoveEntry(TTableType tableType, TableEntryReference tableEntryReference)
         {
             if (!GetCachedTableCollection(tableType, out StringTableCollection stringTableCollection)) { return false; }
@@ -286,7 +299,8 @@ namespace LowDefMustard.Localization
         #endregion
 
         #region LocalizedStringInteraction
-        private static string ResolveKeyName(TTableType tableType, LocalizedString localizedString, out TableEntryReference tableEntryReference)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static string ResolveKeyName(TTableType tableType, LocalizedString localizedString, out TableEntryReference tableEntryReference)
         {
             bool englishTableFound = GetCachedEnglishTable(tableType, out StringTable englishStringTable);
 
@@ -307,6 +321,7 @@ namespace LowDefMustard.Localization
             return keyName;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static bool TryLocalizeEntry(TTableType tableType, LocalizedString localizedString, string key, string value)
         {
             TableEntryReference tableEntryReference = key;
@@ -317,6 +332,7 @@ namespace LowDefMustard.Localization
             return true;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static bool InitializeLocalEntry(TTableType tableType, LocalizedString localizedString, string key)
         {
             localizedString ??= MakeLocalizedString(tableType, key);
@@ -328,7 +344,8 @@ namespace LowDefMustard.Localization
             return true;
         }
 
-        private static bool SafelyUpdateReference(TTableType tableType, LocalizedString localizedString, string newKey)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool SafelyUpdateReference(TTableType tableType, LocalizedString localizedString, string newKey)
         {
             if (localizedString == null) { return false; }
 
@@ -343,7 +360,8 @@ namespace LowDefMustard.Localization
         #endregion
 
         #region ILocalizableInteraction
-        private static List<TableEntryReference> GetStandardTableEntryReferences(TTableType tableType, ILocalizableCore localizable)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static List<TableEntryReference> GetStandardTableEntryReferences(TTableType tableType, ILocalizableCore localizable)
         {
             List<TableEntryReference> tableEntryReferences = new();
             foreach (TableEntryReference ambiguousTableEntryReference in localizable.GetLocalizationEntries())
