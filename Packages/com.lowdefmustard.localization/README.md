@@ -28,17 +28,18 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Getting Started (per-project setup)
 
-1. Define your own table-type enum, e.g.:
+1. Define your own table-type enum && supported locale enum, e.g.:
    ```c#
    public enum LocalizationTableType { Core, Inventory, Quests, UI, /* ... */ }
+   public enum SupportedLocalizationType { English, French, Japanese, /* ... */ }
    ```
-2. Define your project's `LocalizationTool`/`ILocalizable` aliases, closing each package `...Base<T>` type over your enum, e.g.:
+2. Define your project's `ILocalizable`/`LocalizationLocale`/`LocalizationTool` aliases, closing each package `...Base<T>` type over your enum, e.g.:
    ```c#
-   public sealed class LocalizationTool : LocalizationToolBase<LocalizationTableType> { }
    public interface ILocalizable : ILocalizableBase<LocalizationTableType> { }
+   public sealed class LocalizationLocale : LocalizationLocaleBase<SupportedLocalizationType> { }
+   public sealed class LocalizationTool : LocalizationToolBase<LocalizationTableType> { }
    ```
-   (`SimpleLocalizedStringAttribute` needs no alias — use the package's own directly, see below.)
-3. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register the table-collection-name mapping:
+3. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register the table-collection-name mapping, (if any) relevant ClassTableTypes and (if using) a custom key generator:
    ```c#
    LocalizationTool.RegisterTableCollectionNames(new Dictionary<LocalizationTableType, string>
    {
@@ -46,10 +47,29 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
        { LocalizationTableType.Inventory, "Inventory" },
        // ...
    });
+   
+   LocalizableClassTableTypeRegistry.Register(typeof(Zone), LocalizationTableType.Zones);
+   LocalizableClassTableTypeRegistry.Register(typeof(ZoneNode), LocalizationTableType.Zones);
+  
+   SimpleLocalizedStringDrawer.typeSpecificKeyGenerator = LocalizationNames.GenerateTypeSpecificKey;
    ```
-4. Implement `ILocalizable` on your `MonoBehaviour`s/`ScriptableObject`s, and use the package's `[SimpleLocalizedString(LocalizationTableType.Quests, isKeyEditable: true)]` on `LocalizedString` fields
+4. Once, at runtime start, register the locale-code mapping and default locale:
+   ```c#
+   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+   private static void Register()
+   {
+       LocalizationLocale.RegisterLocaleCodes(new Dictionary<SupportedLocalizationType, string>
+       {
+           { SupportedLocalizationType.English, "en" },
+           { SupportedLocalizationType.French, "fr" },
+           { SupportedLocalizationType.Japanese, "ja" },
+           // ...
+       }, SupportedLocalizationType.English);
+    }
+   ```
+   _Note that the locale code mapping should correspond to the supported locales defined in the project's Unity asset: "Localization Settings"._
 
-A project only needs one enum/alias set in the common case; a project that genuinely wants two independent table-type enums can define a second set of aliases over a second enum with no conflict.
+5. Implement `ILocalizable` on your `MonoBehaviour`s/`ScriptableObject`s, and use the package's `[SimpleLocalizedString(LocalizationTableType.Quests, isKeyEditable: true)]` on `LocalizedString` fields
 
 ## Assembly Structure
 
@@ -58,7 +78,7 @@ A project only needs one enum/alias set in the common case; a project that genui
 | `LowDefMustard.Localization`        | `LowDefMustard.Localization`        | Runtime     | `LowDefMustard.Utils`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor`      |
 | `LowDefMustard.Localization.Editor` | `LowDefMustard.Localization.Editor` | Editor only | `LowDefMustard.Localization`, `LowDefMustard.Utils`, `Unity.Localization`, `Unity.Localization.Editor` |
 
-**Note:** the Runtime assembly references `Unity.Localization.Editor`. This is a deliberate choice — most of `LocalizationToolBase<T>`'s implementation (and the bridge/registry) are wrapped in `#if UNITY_EDITOR`, so the editor-only APIs they call (`LocalizationEditorSettings`, `StringTableCollection` creation/lookup, etc.) need to compile there, while the runtime-safe surface (`MakeLocalizedString`, and locale switching via `LocalizationLocale`) stays available at runtime.
+**Note:** the Runtime assembly references `Unity.Localization.Editor`. This is a deliberate choice — most of `LocalizationToolBase<T>`'s implementation (and the bridge/registry) are wrapped in `#if UNITY_EDITOR`, so the editor-only APIs they call (`LocalizationEditorSettings`, `StringTableCollection` creation/lookup, etc.) need to compile there, while the runtime-safe surface (`MakeLocalizedString`, and locale switching via `LocalizationLocaleBase<TLocaleType>`) stays available at runtime.
 
 ## Contents
 
@@ -75,10 +95,13 @@ A project only needs one enum/alias set in the common case; a project that genui
   - **`Bridge`** — Editor-only. Exposes this closed `LocalizationToolBase<T>` as a non-generic `ILocalizationToolBridge`, so editor infrastructure that can't be generic itself (`LocalizationDeletionHandler`, `SimpleLocalizedStringDrawer`) can still call into it
     - Resolved via `LocalizationToolBridgeRegistry`
   - A project's alias, e.g. `public sealed class LocalizationTool : LocalizationToolBase<LocalizationTableType> { }`, lets project code write `LocalizationTool.MakeLocalizedString(...)`
-- **`LocalizationLocale`** — Locale selection (`English`/`French`), independent of `TTableType`: `GetCurrentLocalization`/`GetLocalizationByCode`, `GetLocaleCode`, `SetLocale`, and editor-only `InitializeEnglishLocale`
+- **`LocalizationLocaleBase<TLocaleType>`** (`TLocaleType : struct, Enum`, `abstract class` — locale selection, a project defines its own alias (e.g. `LocalizationLocale : LocalizationLocaleBase<SupportedLocalizationType>`)
+  - **`RegisterLocaleCodes(IReadOnlyDictionary<TLocaleType, string>, TLocaleType defaultLocale)`** — Caller-supplied mapping (e.g. `{ English, "en" }`) plus a fallback default. **Must run in actual builds, not just the editor** — `GetCurrentLocalization`/`SetLocale` are used at runtime (e.g. applying a saved language preference on boot), so (**critically**) register this via `[RuntimeInitializeOnLoadMethod]`
+  - `GetCurrentLocalization`/`GetLocalizationByCode`, `GetLocaleCode`, `SetLocale` — runtime-safe
+  - Editor-only `InitializeDefaultLocale` — forces the localization system's async init to complete and switches the active preview locale to the registered default, for editor authoring workflows
+  - Core (non-generic) `TriggerLocalizationSettingsInitialization` is used as an alias to force the localization system's async init to complete for (e.g.) editor scripts
 - **`LocalizableClassTableTypeRegistry`** — A plain `Dictionary<Type, Enum>`, `Register(Type owningType, Enum tableType)` / `GetTableType(Type owningType)`
   - For `ILocalizableCore` implementers, with no project-specific `TTableType` at all, maps the implementing *class* directly to a table-type value, so `MyClass.localizationTableTypeValue` can be `LocalizableClassTableTypeRegistry.GetTableType(GetType())` instead of a compile-time-typed field
-- **`SupportedLocalizationType`** — `English` / `French`
   - _To-be-extracted out_
 - **`LocalizationTool`** — Static hub for all table/entry interaction:
   - **Runtime-safe:** `MakeLocalizedString`, `GetCurrentLocalization`/`GetLocalizationByCode`, `GetLocaleCode`, `SetLocale`

@@ -11,7 +11,7 @@ namespace Frankie.Combat.Editor
     {
         private void OnEnable()
         {
-            LocalizationLocale.InitializeEnglishLocale();
+            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
             var skill = (Skill)target;
             if (skill is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(skill, skill.GetPropertyLinkedLocalizationEntries());

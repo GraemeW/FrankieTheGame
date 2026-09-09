@@ -76,7 +76,7 @@ namespace LowDefMustard.Localization.Editor
         #region UnityMethods
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            LocalizationLocale.InitializeEnglishLocale();
+            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
 
             // Per-Element State (see Note above)
             var state = new ElementState(property, fieldInfo);

@@ -1,5 +1,4 @@
 using UnityEngine;
-using LowDefMustard.Localization;
 using Frankie.Saving;
 
 namespace Frankie.Utils.Localization

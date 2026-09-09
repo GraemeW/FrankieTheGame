@@ -11,7 +11,7 @@ namespace Frankie.Menu.UI.Editor
     {
         private void OnEnable()
         {
-            LocalizationLocale.InitializeEnglishLocale();
+            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
             var nameScreenQuestion = (NameScreenQuestion)target;
             if (nameScreenQuestion is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(nameScreenQuestion, nameScreenQuestion.GetPropertyLinkedLocalizationEntries());

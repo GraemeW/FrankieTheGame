@@ -1,8 +1,9 @@
-namespace LowDefMustard.Localization
+namespace Frankie.Utils.Localization
 {
     public enum SupportedLocalizationType
     {
         English,
-        French
+        French,
+        Japanese,
     }
 }
