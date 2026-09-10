@@ -173,6 +173,45 @@ Since each closed `LocalizationToolBase<TTableType>`/`ILocalizableBase<TTableTyp
   - Other locales (e.g. French) are populated via the string table assets/CSV workflow rather than through this package's editor tooling
 - `LocalizationToolBase<TTableType>` requires `RegisterTableCollectionNames(...)` to be called for a given `TTableType` before other members are used; unregistered lookups log an error and return an empty table-collection name
 
+## Tests
+
+### Testing Notes
+
+`LocalizationToolBase<T>`/`ILocalizableBase<T>`'s static state is per closed generic type, so tests use their own dummy `TestTableType` enum + `TestLocalizationTool : LocalizationToolBase<TestTableType>` alias (`Tests/Editor/TestLocalizationDoubles.cs`) to fully isolate from any real project's `LocalizationTableType`.
+
+### Assemblies
+
+| Assembly                                  | Root Namespace                            | Platform    | References                                                                                                                      |
+|-------------------------------------------|-------------------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `LowDefMustard.Localization.Tests.Editor` | `LowDefMustard.Localization.Tests.Editor` | Editor only | `LowDefMustard.Localization`, `LowDefMustard.Utils`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor` |
+
+### Coverage at a glance
+
+| Category                                                               | Tested / Total   | Notes                                                          |
+|------------------------------------------------------------------------|:----------------:|----------------------------------------------------------------|
+| `LocalizationToolBase<T>` runtime-safe surface                         |       1/1        | `MakeLocalizedString`, via `TestLocalizationTool`              |
+| `ILocalizableCore` static helper                                       |       1/1        | `GetStandardLocalizationKey`                                   |
+| `LocalizedStringExtensions`                                            |       1/2        | Null/empty branch only; real resolution needs a live table     |
+| `DefaultKeyGenerator`                                                  |       1/2        | Non-prefab paths only; prefab-asset/PrefabStage deferred       |
+| `LocalizationToolBase<T>` editor asset/table methods                   |       1/9        | `GetOrMakeTableCollection` PoC only, unconfirmed               |
+| `ILocalizableCore` instance methods                                    |       0/2        | `TryLocalizeStandardEntries`, `ReconcileCachedName` deferred   |
+| `LocalizationLocale`                                                   |       0/1        | Deferred — new tier, see below                                 |
+| `LocalizationDeletionHandler`                                          |       0/1        | Deferred                                                       |
+| `SimpleLocalizedStringDrawer`                                          |       0/1        | Deferred, heaviest tier                                        |
+| `LocalizableClassTableTypeRegistry` / `LocalizationToolBridgeRegistry` |       0/2        | Not attempted yet — pure dictionaries, likely quick wins later |
+
+### Detail by type
+
+| Type                            | Status  | Test file(s)                                                              | Notes                                |
+|---------------------------------|---------|---------------------------------------------------------------------------|--------------------------------------|
+| `LocalizationToolBase<T>`       | Partial | `LocalizationToolTests.cs`, `LocalizationToolAssetCreationTests.cs` (PoC) | Editor-asset methods mostly deferred |
+| `ILocalizableCore`              | Partial | `ILocalizableCoreTests.cs`                                                | Static helper only                   |
+| `LocalizedStringExtensions`     | Partial | `LocalizedStringExtensionsTests.cs`                                       | Null/empty only                      |
+| `DefaultKeyGenerator`           | Partial | `DefaultKeyGeneratorTests.cs`                                             | Non-prefab paths only                |
+| `LocalizationLocale`            | No      | —                                                                         | Deferred                             |
+| `LocalizationDeletionHandler`   | No      | —                                                                         | Deferred                             |
+| `SimpleLocalizedStringDrawer`   | No      | —                                                                         | Deferred                             |
+
 ## License
 
 Internal package — Low Def Mustard Games. See GIT LICENSE file for further details.
