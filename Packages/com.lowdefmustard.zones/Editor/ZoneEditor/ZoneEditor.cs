@@ -44,7 +44,7 @@ namespace LowDefMustard.Zones.Editor
 
         private void OnEnable()
         {
-            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             Selection.selectionChanged -= OnSelectionChanged;
             Selection.selectionChanged += OnSelectionChanged;
         }

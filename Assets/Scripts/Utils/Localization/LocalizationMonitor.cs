@@ -1,4 +1,5 @@
 using UnityEngine;
+using LowDefMustard.Localization;
 using Frankie.Saving;
 
 namespace Frankie.Utils.Localization
@@ -10,8 +11,7 @@ namespace Frankie.Utils.Localization
             if (!PlayerPrefsController.LanguageKeyExists()) { return; }
             
             string languageCode = PlayerPrefsController.GetLanguageCode();
-            SupportedLocalizationType currentLocale = LocalizationLocale.GetLocalizationByCode(languageCode);
-            LocalizationLocale.SetLocale(currentLocale);
+            LocalizationLocale.SetLocale(languageCode);
         }
     }
 }

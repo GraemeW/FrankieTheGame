@@ -11,7 +11,7 @@ namespace Frankie.Stats.Editor
     {
         private void OnEnable()
         {
-            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             var characterProperties = (CharacterProperties)target;
             if (characterProperties is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(characterProperties, characterProperties.GetPropertyLinkedLocalizationEntries());

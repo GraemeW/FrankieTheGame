@@ -20,7 +20,7 @@ namespace Frankie.Quests.Editor
         {
             base.OnEnable();
             
-            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             var quest = (Quest)target;
             if (quest is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(quest, quest.GetPropertyLinkedLocalizationEntries(), quest.TriggerOnRename);

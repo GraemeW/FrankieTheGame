@@ -28,10 +28,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ## Getting Started (per-project setup)
 
-1. Define your own table-type enum && supported locale enum, e.g.:
+1. Define your own table-type enum e.g.:
    ```c#
    public enum LocalizationTableType { Core, Inventory, Quests, UI, /* ... */ }
-   public enum SupportedLocalizationType { English, French, Japanese, /* ... */ }
    ```
 2. Define your project's `ILocalizable`/`LocalizationLocale`/`LocalizationTool` aliases, closing each package `...Base<T>` type over your enum, e.g.:
    ```c#
@@ -53,22 +52,6 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
   
    SimpleLocalizedStringDrawer.typeSpecificKeyGenerator = LocalizationNames.GenerateTypeSpecificKey;
    ```
-4. Once, at runtime start, register the locale-code mapping and default locale:
-   ```c#
-   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-   private static void Register()
-   {
-       LocalizationLocale.RegisterLocaleCodes(new Dictionary<SupportedLocalizationType, string>
-       {
-           { SupportedLocalizationType.English, "en" },
-           { SupportedLocalizationType.French, "fr" },
-           { SupportedLocalizationType.Japanese, "ja" },
-           // ...
-       }, SupportedLocalizationType.English);
-    }
-   ```
-   _Note that the locale code mapping should correspond to the supported locales defined in the project's Unity asset: "Localization Settings"._
-
 5. Implement `ILocalizable` on your `MonoBehaviour`s/`ScriptableObject`s, and use the package's `[SimpleLocalizedString(LocalizationTableType.Quests, isKeyEditable: true)]` on `LocalizedString` fields
 
 ## Assembly Structure

@@ -12,7 +12,7 @@ namespace Frankie.Inventory.Editor
         {
             base.OnEnable();
             
-            LocalizationLocaleCore.TriggerLocalizationSettingsInitialization();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             var inventoryItem = (InventoryItem)target;
             if (inventoryItem is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(inventoryItem, inventoryItem.GetPropertyLinkedLocalizationEntries());
