@@ -32,10 +32,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
    ```c#
    public enum LocalizationTableType { Core, Inventory, Quests, UI, /* ... */ }
    ```
-2. Define your project's `ILocalizable`/`LocalizationLocale`/`LocalizationTool` aliases, closing each package `...Base<T>` type over your enum, e.g.:
+2. Define your project's `ILocalizable`/`LocalizationTool` aliases, closing each package `...Base<T>` type over your enum, e.g.:
    ```c#
    public interface ILocalizable : ILocalizableBase<LocalizationTableType> { }
-   public sealed class LocalizationLocale : LocalizationLocaleBase<SupportedLocalizationType> { }
    public sealed class LocalizationTool : LocalizationToolBase<LocalizationTableType> { }
    ```
 3. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register the table-collection-name mapping, (if any) relevant ClassTableTypes and (if using) a custom key generator:
@@ -61,7 +60,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | `LowDefMustard.Localization`        | `LowDefMustard.Localization`        | Runtime     | `LowDefMustard.Utils`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor`      |
 | `LowDefMustard.Localization.Editor` | `LowDefMustard.Localization.Editor` | Editor only | `LowDefMustard.Localization`, `LowDefMustard.Utils`, `Unity.Localization`, `Unity.Localization.Editor` |
 
-**Note:** the Runtime assembly references `Unity.Localization.Editor`. This is a deliberate choice — most of `LocalizationToolBase<T>`'s implementation (and the bridge/registry) are wrapped in `#if UNITY_EDITOR`, so the editor-only APIs they call (`LocalizationEditorSettings`, `StringTableCollection` creation/lookup, etc.) need to compile there, while the runtime-safe surface (`MakeLocalizedString`, and locale switching via `LocalizationLocaleBase<TLocaleType>`) stays available at runtime.
+**Note:** the Runtime assembly references `Unity.Localization.Editor`. This is a deliberate choice — most of `LocalizationToolBase<T>`'s implementation (and the bridge/registry) are wrapped in `#if UNITY_EDITOR`, so the editor-only APIs they call (`LocalizationEditorSettings`, `StringTableCollection` creation/lookup, etc.) need to compile there, while the runtime-safe surface (`MakeLocalizedString`, and locale switching via `LocalizationLocale`) stays available at runtime.
 
 ## Contents
 
@@ -78,18 +77,13 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
   - **`Bridge`** — Editor-only. Exposes this closed `LocalizationToolBase<T>` as a non-generic `ILocalizationToolBridge`, so editor infrastructure that can't be generic itself (`LocalizationDeletionHandler`, `SimpleLocalizedStringDrawer`) can still call into it
     - Resolved via `LocalizationToolBridgeRegistry`
   - A project's alias, e.g. `public sealed class LocalizationTool : LocalizationToolBase<LocalizationTableType> { }`, lets project code write `LocalizationTool.MakeLocalizedString(...)`
-- **`LocalizationLocaleBase<TLocaleType>`** (`TLocaleType : struct, Enum`, `abstract class` — locale selection, a project defines its own alias (e.g. `LocalizationLocale : LocalizationLocaleBase<SupportedLocalizationType>`)
-  - **`RegisterLocaleCodes(IReadOnlyDictionary<TLocaleType, string>, TLocaleType defaultLocale)`** — Caller-supplied mapping (e.g. `{ English, "en" }`) plus a fallback default. **Must run in actual builds, not just the editor** — `GetCurrentLocalization`/`SetLocale` are used at runtime (e.g. applying a saved language preference on boot), so (**critically**) register this via `[RuntimeInitializeOnLoadMethod]`
-  - `GetCurrentLocalization`/`GetLocalizationByCode`, `GetLocaleCode`, `SetLocale` — runtime-safe
-  - Editor-only `InitializeDefaultLocale` — forces the localization system's async init to complete and switches the active preview locale to the registered default, for editor authoring workflows
-  - Core (non-generic) `TriggerLocalizationSettingsInitialization` is used as an alias to force the localization system's async init to complete for (e.g.) editor scripts
+- **`LocalizationLocale`** — Waps Unity's own Localization Settings
+  - **Runtime-safe:** `GetCurrentLocaleCode()`, `GetSupportedLocaleCodes()` (from `LocalizationSettings.AvailableLocales`), `SetLocale(string localeCode)` — falls back to `LocalizationSettings.ProjectLocale`'s code (with a warning) if the given code isn't found, and warns-and-no-ops if that isn't found
+  - **Editor-only:** `InitializeDefaultLocale()` — forces the localization system's async init to complete and switches the active preview locale to `LocalizationSettings.ProjectLocale`, for editor authoring workflows
+  - `TriggerLocalizationSettingsInitialization()` — just the "wait for init" half of the above, for any other editor script that needs the async init to complete without also switching the active locale
 - **`LocalizableClassTableTypeRegistry`** — A plain `Dictionary<Type, Enum>`, `Register(Type owningType, Enum tableType)` / `GetTableType(Type owningType)`
   - For `ILocalizableCore` implementers, with no project-specific `TTableType` at all, maps the implementing *class* directly to a table-type value, so `MyClass.localizationTableTypeValue` can be `LocalizableClassTableTypeRegistry.GetTableType(GetType())` instead of a compile-time-typed field
   - _To-be-extracted out_
-- **`LocalizationTool`** — Static hub for all table/entry interaction:
-  - **Runtime-safe:** `MakeLocalizedString`, `GetCurrentLocalization`/`GetLocalizationByCode`, `GetLocaleCode`, `SetLocale`
-  - **Editor-only:** create-or-fetch a `StringTableCollection` per `LocalizationTableType` (auto-creating the asset under `Assets/Localization` on first use), add/update/remove English entries, rename/create keys, resolve a `LocalizedString`'s current key name, and safely rebind a `LocalizedString` to a new key by ID (never by name, to avoid stale-name drift)
-    - Caches table collections and the English `StringTable` per `LocalizationTableType` to avoid repeated asset lookups
 - **`LocalizedStringExtensions.GetSafeLocalizedString()`** — Null/empty-safe wrapper around `LocalizedString.GetLocalizedString()`
 - **`DefaultKeyGenerator.GenerateKindaUniqueKey(...)`** — Key generator producing a semi-readable, semi-random key from an object's type, parent name (with a Canvas-name skip for UI), prefab/scene context, and property name, suffixed with a short random hex string
   - Intended to be called from Editor

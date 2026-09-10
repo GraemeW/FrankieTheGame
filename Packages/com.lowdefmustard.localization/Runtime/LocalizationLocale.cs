@@ -9,7 +9,6 @@ namespace LowDefMustard.Localization
     public static class LocalizationLocale
     {
         // State
-        // ReSharper disable once StaticMemberInGenericType
         private static bool _isLocaleInitialized;
 
         #region RuntimeCompliant
