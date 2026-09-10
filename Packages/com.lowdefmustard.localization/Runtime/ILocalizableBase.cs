@@ -67,6 +67,7 @@ namespace LowDefMustard.Localization
 
 #if UNITY_EDITOR
         public static event Action<Enum, Object, ILocalizableCore> onBeforeDestroyedInEditor;
+        public static void TriggerOnBeforeDestroyedInEditor(Enum localizationTableType, Object targetObject, ILocalizableCore target) => onBeforeDestroyedInEditor?.Invoke(localizationTableType, targetObject, target); 
 #endif
 
         public static void TriggerOnDestroy(ILocalizableCore localizable)

@@ -187,30 +187,30 @@ Since each closed `LocalizationToolBase<TTableType>`/`ILocalizableBase<TTableTyp
 
 ### Coverage at a glance
 
-| Category                                                               | Tested / Total   | Notes                                                          |
-|------------------------------------------------------------------------|:----------------:|----------------------------------------------------------------|
-| `LocalizationToolBase<T>` runtime-safe surface                         |       1/1        | `MakeLocalizedString`, via `TestLocalizationTool`              |
-| `ILocalizableCore` static helper                                       |       1/1        | `GetStandardLocalizationKey`                                   |
-| `LocalizedStringExtensions`                                            |       1/2        | Null/empty branch only; real resolution needs a live table     |
-| `DefaultKeyGenerator`                                                  |       1/2        | Non-prefab paths only; prefab-asset/PrefabStage deferred       |
-| `LocalizationToolBase<T>` editor asset/table methods                   |       1/9        | `GetOrMakeTableCollection` PoC only, unconfirmed               |
-| `ILocalizableCore` instance methods                                    |       0/2        | `TryLocalizeStandardEntries`, `ReconcileCachedName` deferred   |
-| `LocalizationLocale`                                                   |       0/1        | Deferred — new tier, see below                                 |
-| `LocalizationDeletionHandler`                                          |       0/1        | Deferred                                                       |
-| `SimpleLocalizedStringDrawer`                                          |       0/1        | Deferred, heaviest tier                                        |
-| `LocalizableClassTableTypeRegistry` / `LocalizationToolBridgeRegistry` |       0/2        | Not attempted yet — pure dictionaries, likely quick wins later |
+| Category                                                               | Tested / Total | Notes                                                                                          |
+|------------------------------------------------------------------------|:--------------:|------------------------------------------------------------------------------------------------|
+| `LocalizationToolBase<T>` runtime-safe surface                         |      1/1       | `MakeLocalizedString`, via `TestLocalizationTool`                                              |
+| `ILocalizableCore` static helper                                       |      1/1       | `GetStandardLocalizationKey`                                                                   |
+| `LocalizedStringExtensions`                                            |      1/2       | Null/empty branch only; real resolution needs a live table                                     |
+| `DefaultKeyGenerator`                                                  |      1/2       | Non-prefab paths only; prefab-asset/PrefabStage skipped                                        |
+| `LocalizationToolBase<T>` editor asset/table methods                   |      9/9       | Collection creation + entry CRUD, confirmed                                                    |
+| `ILocalizableCore` instance methods                                    |      2/2       | `TryLocalizeStandardEntries`, `ReconcileCachedName`, confirmed                                 |
+| `LocalizationDeletionHandler`                                          |      1/2       | Pass-through paths (ScriptableObject, non-prefab MonoBehaviour); real-prefab-diff path skipped |
+| `LocalizationLocale`                                                   |      0/1       | Deferred — new tier, see below                                                                 |
+| `SimpleLocalizedStringDrawer`                                          |      0/1       | Deferred, heaviest tier                                                                        |
+| `LocalizableClassTableTypeRegistry` / `LocalizationToolBridgeRegistry` |      0/2       | Not attempted yet — pure dictionaries, likely quick wins later                                 |
 
 ### Detail by type
 
-| Type                            | Status  | Test file(s)                                                              | Notes                                |
-|---------------------------------|---------|---------------------------------------------------------------------------|--------------------------------------|
-| `LocalizationToolBase<T>`       | Partial | `LocalizationToolTests.cs`, `LocalizationToolAssetCreationTests.cs` (PoC) | Editor-asset methods mostly deferred |
-| `ILocalizableCore`              | Partial | `ILocalizableCoreTests.cs`                                                | Static helper only                   |
-| `LocalizedStringExtensions`     | Partial | `LocalizedStringExtensionsTests.cs`                                       | Null/empty only                      |
-| `DefaultKeyGenerator`           | Partial | `DefaultKeyGeneratorTests.cs`                                             | Non-prefab paths only                |
-| `LocalizationLocale`            | No      | —                                                                         | Deferred                             |
-| `LocalizationDeletionHandler`   | No      | —                                                                         | Deferred                             |
-| `SimpleLocalizedStringDrawer`   | No      | —                                                                         | Deferred                             |
+| Type                              | Status  | Test file(s)                                                                                               | Notes                 |
+|-----------------------------------|---------|------------------------------------------------------------------------------------------------------------|-----------------------|
+| `LocalizationToolBase<T>`         | Partial | `LocalizationToolTests.cs`, `LocalizationToolAssetCreationTests.cs`, `LocalizationToolEditorAssetTests.cs` |                       |
+| `ILocalizableCore`                | Partial | `ILocalizableCoreTests.cs`, `ILocalizableCoreInstanceMethodTests.cs`                                       |                       |
+| `LocalizedStringExtensions`       | Partial | `LocalizedStringExtensionsTests.cs`                                                                        | Null/empty only       |
+| `DefaultKeyGenerator`             | Partial | `DefaultKeyGeneratorTests.cs`                                                                              | Non-prefab paths only |
+| `LocalizationDeletionHandler`     | Partial | `LocalizationDeletionHandlerTests.cs` (unconfirmed)                                                        | Non-prefab paths only |
+| `LocalizationLocale`              | No      | —                                                                                                          | Deferred              |
+| `SimpleLocalizedStringDrawer`     | No      | —                                                                                                          | Deferred              |
 
 ## License
 
