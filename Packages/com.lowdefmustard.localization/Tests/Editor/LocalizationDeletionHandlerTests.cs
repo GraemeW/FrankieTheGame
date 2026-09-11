@@ -19,9 +19,10 @@ namespace LowDefMustard.Localization.Tests.Editor
         // Const Tunables
         private const string _scratchTableName = "ScratchTest_Deletion_SafeToDelete";
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
+        private const string _prefabFolder = "Assets/_TEMP_LocalizationDeletionPrefabTests_SafeToDelete";
 
-        // State
         private readonly List<Object> createdObjects = new();
+        private readonly List<string> createdAssetPaths = new();
 
         #region DataStructures
         private sealed class TestDeletionLocalizableTarget : ScriptableObject, ILocalizableCore
@@ -73,6 +74,13 @@ namespace LowDefMustard.Localization.Tests.Editor
                 Object.DestroyImmediate(createdObject);
             }
             createdObjects.Clear();
+
+            foreach (var assetPath in createdAssetPaths.Where(assetPath => AssetDatabase.LoadAssetAtPath<Object>(assetPath) != null))
+            {
+                AssetDatabase.DeleteAsset(assetPath);
+            }
+            if (AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.DeleteAsset(_prefabFolder); }
+            createdAssetPaths.Clear();
         }
         #endregion
 
@@ -86,7 +94,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         }
         #endregion
 
-        #region OnBeforeDestroyedInvocations
+        #region Tests
         [Test]
         public void OnBeforeDestroyedInEditor_ScriptableObjectWithEntries_RemovesEveryStandardEntry()
         {
@@ -139,6 +147,34 @@ namespace LowDefMustard.Localization.Tests.Editor
             ILocalizableCore.TriggerOnBeforeDestroyedInEditor(target.localizationTableTypeValue, gameObject, target);
 
             Assert.IsFalse(TestLocalizationTool.HasTableEntry(TestTableType.ScratchAssetDeletion, "Deletion.MB.Key"));
+        }
+
+        [Test]
+        public void OnBeforeDestroyedInEditor_PrefabInstanceWithInstanceOnlyEntry_KeepsEntrySharedWithPrefabButRemovesInstanceOnlyOne()
+        {
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetDeletion, "Deletion.Prefab.Shared", "Shared Value");
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetDeletion, "Deletion.Prefab.InstanceOnly", "Instance Value");
+
+            // Build the prefab source (baseline: only the always-present "Shared" entry)
+            var sourceGameObject = new GameObject("PrefabDeletionSource");
+            sourceGameObject.AddComponent<TestDeletionPrefabLocalizable>();
+            if (!AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.CreateFolder("Assets", "_TEMP_LocalizationDeletionPrefabTests_SafeToDelete"); }
+            string prefabPath = $"{_prefabFolder}/TestDeletionPrefab.prefab";
+            createdAssetPaths.Add(prefabPath);
+            GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(sourceGameObject, prefabPath);
+            Object.DestroyImmediate(sourceGameObject);
+            Assert.IsNotNull(prefabAsset, "Failed to save the test prefab asset");
+
+            // Instantiate it and give the INSTANCE an extra entry the prefab source doesn't have
+            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefabAsset);
+            createdObjects.Add(instance);
+            TestDeletionPrefabLocalizable instanceComponent = instance.GetComponent<TestDeletionPrefabLocalizable>();
+            instanceComponent.extraKeys = new List<string> { "Deletion.Prefab.InstanceOnly" };
+
+            ILocalizableCore.TriggerOnBeforeDestroyedInEditor(instanceComponent.localizationTableTypeValue, instance, instanceComponent);
+
+            Assert.IsTrue(TestLocalizationTool.HasTableEntry(TestTableType.ScratchAssetDeletion, "Deletion.Prefab.Shared"), "Entry shared with the prefab source should survive");
+            Assert.IsFalse(TestLocalizationTool.HasTableEntry(TestTableType.ScratchAssetDeletion, "Deletion.Prefab.InstanceOnly"), "Instance-only entry should be deleted");
         }
         #endregion
     }

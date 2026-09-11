@@ -1,19 +1,15 @@
 {
-  "name": "LowDefMustard.Localization.Tests.Editor",
-  "rootNamespace": "LowDefMustard.Localization.Tests.Editor",
+  "name": "LowDefMustard.Localization.Tests",
+  "rootNamespace": "LowDefMustard.Localization.Tests",
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
     "LowDefMustard.Localization",
-    "LowDefMustard.Localization.Tests",
     "LowDefMustard.Utils",
     "Unity.ResourceManager",
-    "Unity.Localization",
-    "Unity.Localization.Editor"
+    "Unity.Localization"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
