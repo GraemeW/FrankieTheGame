@@ -45,6 +45,23 @@ namespace LowDefMustard.Localization
             Debug.LogWarning($"No table collection name registered for '{typeof(TTableType).Name}.{tableType}'");
             return "";
         }
+        
+        public static void RefreshTableCache()
+        {
+            List<TTableType> tablesToRemove = new List<TTableType>();
+            foreach (KeyValuePair<TTableType, StringTableCollection> keyValuePair in _cachedTableCollections)
+            {
+                if (TryGetTableCollection(keyValuePair.Key, out StringTableCollection _)) { continue; }
+                tablesToRemove.Add(keyValuePair.Key);
+            }
+            
+            foreach (TTableType tableType in tablesToRemove)
+            {
+                _cachedTableCollections.Remove(tableType);
+                _cachedEnglishTables.Remove(tableType);
+                _tableCollectionNames.Remove(tableType);
+            }
+        }
         #endregion
         
         #region RuntimeCompliant

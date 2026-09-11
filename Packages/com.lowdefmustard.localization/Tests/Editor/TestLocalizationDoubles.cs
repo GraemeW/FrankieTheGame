@@ -9,7 +9,8 @@ namespace LowDefMustard.Localization.Tests.Editor
         ScratchAsset,
         ScratchAssetEditor,
         ScratchAssetLocalizable,
-        ScratchAssetDeletion
+        ScratchAssetDeletion,
+        ScratchAssetDrawer
     }
 
     // ReSharper disable once ClassNeverInstantiated.Global

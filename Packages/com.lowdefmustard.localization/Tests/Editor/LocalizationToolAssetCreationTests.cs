@@ -28,6 +28,7 @@ namespace LowDefMustard.Localization.Tests.Editor
             {
                 AssetDatabase.DeleteAsset(_scratchTablePath);
             }
+            TestLocalizationTool.RefreshTableCache();
         }
 
         [Test]

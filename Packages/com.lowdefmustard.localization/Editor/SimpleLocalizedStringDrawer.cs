@@ -50,13 +50,19 @@ namespace LowDefMustard.Localization.Editor
 
         #region UIProperties
         private const string _keyLabel = "Key";
+        private const string _keyFieldName = "keyField";
         private const string _textLabel = "Content";
+        private const string _textFieldName = "contentField";
         private const string _newKeyButtonLabel = "Generate New Key-Entry";
+        private const string _newKeyButtonName = "newKeyButton";
         private const string _renameKeyButtonLabel = "Auto-Rename Key-Entry";
+        private const string _renameKeyButtonName = "renameKeyButton";
         private const string _deleteKeyButtonLabel = "Delete Key-Entry";
+        private const string _deleteKeyButtonName = "deleteKeyButton";
         private const string _lockLabel = "🔒";
         private const string _unlockLabel = "🔓";
         private const string _lockTooltip = "Unlock to allow editing the localization key.";
+        private const string _lockToggleName = "lockToggle";
 
         private const int _labelFontSize = 10;
         private const int _headerFontSize = 11;
@@ -113,11 +119,11 @@ namespace LowDefMustard.Localization.Editor
             root.Add(lockToggleRow);
             VisualElement contentsRow = BuildContentsRow(state);
             root.Add(contentsRow);
-            VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.newKeyButton);
+            VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, _newKeyButtonName, out state.newKeyButton);
             root.Add(newKeyButtonRow);
-            VisualElement renameKeyButtonRow = BuildButtonRow(_renameKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.renameKeyButton);
+            VisualElement renameKeyButtonRow = BuildButtonRow(_renameKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, _renameKeyButtonName, out state.renameKeyButton);
             root.Add(renameKeyButtonRow);
-            VisualElement deleteKeyButtonRow = BuildButtonRow(_deleteKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, out state.deleteKeyButton);
+            VisualElement deleteKeyButtonRow = BuildButtonRow(_deleteKeyButtonLabel, state.isKeyEditable && state.isKeyUnlocked, _deleteKeyButtonName, out state.deleteKeyButton);
             root.Add(deleteKeyButtonRow);
 
             // Assign callbacks
@@ -396,7 +402,7 @@ namespace LowDefMustard.Localization.Editor
         #region RowBuilders
         private static VisualElement BuildKeyRow(ElementState state)
         {
-            VisualElement keyRow = MakeLabeledRow(_keyLabel, out state.keyTextField);
+            VisualElement keyRow = MakeLabeledRow(_keyLabel, _keyFieldName, out state.keyTextField);
             bool isEnabled = state.isKeyEditable && state.isKeyUnlocked;
             SetKeyFromLocalization(state, isEnabled, true);
             state.keyTextField.isDelayed = true;
@@ -406,7 +412,7 @@ namespace LowDefMustard.Localization.Editor
         private static VisualElement BuildLockToggleRow(ElementState state)
         {
             VisualElement lockToggleRow = MakeLockToggleBaseRow();
-            state.lockToggle = MakeToggle(state.isKeyUnlocked);
+            state.lockToggle = MakeToggle(state.isKeyUnlocked, _lockToggleName);
             state.lockToggle.SetEnabled(state.isKeyEditable);
             lockToggleRow.Add(state.lockToggle);
             return lockToggleRow;
@@ -414,17 +420,18 @@ namespace LowDefMustard.Localization.Editor
 
         private static VisualElement BuildContentsRow(ElementState state)
         {
-            VisualElement contentsRow = MakeLabeledRow(_textLabel, out state.contentsTextField);
+            VisualElement contentsRow = MakeLabeledRow(_textLabel, _textFieldName, out state.contentsTextField);
             SetContentsFromLocalization(state, true);
             state.contentsTextField.isDelayed = true;
             return contentsRow;
         }
 
-        private static VisualElement BuildButtonRow(string buttonLabel, bool isEnabled, out Button button)
+        private static VisualElement BuildButtonRow(string buttonLabel, bool isEnabled, string buttonName, out Button button)
         {
             VisualElement buttonRow = MakeButtonBaseRow();
             button = new Button
             {
+                name = buttonName,
                 text = buttonLabel,
                 style = { width = _buttonWidth }
             };
@@ -464,7 +471,7 @@ namespace LowDefMustard.Localization.Editor
             return root;
         }
 
-        private static VisualElement MakeLabeledRow(string labelText, out TextField textField)
+        private static VisualElement MakeLabeledRow(string labelText, string fieldName, out TextField textField)
         {
             var labeledRow = new VisualElement
             {
@@ -489,6 +496,7 @@ namespace LowDefMustard.Localization.Editor
 
             textField = new TextField
             {
+                name = fieldName,
                 isDelayed = true,
                 style = { flexGrow = 1 }
             };
@@ -534,10 +542,11 @@ namespace LowDefMustard.Localization.Editor
             return lockToggleBaseRow;
         }
 
-        private static Toggle MakeToggle(bool isUnlocked)
+        private static Toggle MakeToggle(bool isUnlocked, string toggleName)
         {
             return new Toggle
             {
+                name = toggleName,
                 label = isUnlocked ? _unlockLabel : _lockLabel,
                 labelElement = {
                     style =
