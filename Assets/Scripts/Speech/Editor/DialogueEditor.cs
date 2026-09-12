@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Localization;
 using LowDefMustard.Localization;
 using LowDefMustard.Utils.Editor;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Speech.Editor
 {
@@ -56,7 +57,7 @@ namespace Frankie.Speech.Editor
 
         private void OnEnable()
         {
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             Selection.selectionChanged -= OnSelectionChanged;
             Selection.selectionChanged += OnSelectionChanged;
         }

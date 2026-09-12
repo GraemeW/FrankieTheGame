@@ -1,6 +1,7 @@
 using UnityEditor;
 using LowDefMustard.GameStateModifiers.Editor;
 using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.Editor
 {
@@ -11,7 +12,7 @@ namespace Frankie.Inventory.Editor
         {
             base.OnEnable();
             
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             var inventoryItem = (InventoryItem)target;
             if (inventoryItem is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(inventoryItem, inventoryItem.GetPropertyLinkedLocalizationEntries());

@@ -9,6 +9,7 @@ using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Saving;
 using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

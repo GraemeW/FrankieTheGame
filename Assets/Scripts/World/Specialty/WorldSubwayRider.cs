@@ -9,6 +9,7 @@ using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Rendering;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

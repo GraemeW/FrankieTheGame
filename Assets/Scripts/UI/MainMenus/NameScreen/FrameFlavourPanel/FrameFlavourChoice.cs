@@ -5,6 +5,7 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {

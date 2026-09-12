@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization.Tables;
 using TMPro;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
-using LowDefMustard.Localization;
 using Frankie.Stats;
-using UnityEngine.Localization.Tables;
+using Frankie.Utils.Localization;
+
 
 namespace Frankie.Combat.UI
 {

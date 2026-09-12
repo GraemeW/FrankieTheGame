@@ -32,9 +32,9 @@ namespace LowDefMustard.Zones.Editor
             var zone = EditorUtility.EntityIdToObject(instanceID) as Zone;
             if (zone == null) { return false; }
 
-            if (zone is ILocalizable localizable)
+            if (zone is ILocalizableCore localizable)
             {
-                localizable.TryLocalizeStandardEntries(zone, zone.GetPropertyLinkedLocalizationEntries(), zone.TriggerOnRename);
+                ILocalizableCore.TryLocalizeStandardEntries(localizable, zone, zone.GetPropertyLinkedLocalizationEntries(), zone.TriggerOnRename);
             }
 
             zone.CreateRootNodeIfMissing();
@@ -44,7 +44,7 @@ namespace LowDefMustard.Zones.Editor
 
         private void OnEnable()
         {
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             Selection.selectionChanged -= OnSelectionChanged;
             Selection.selectionChanged += OnSelectionChanged;
         }

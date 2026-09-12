@@ -6,6 +6,7 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Localization;
 using Frankie.Core;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory
 {

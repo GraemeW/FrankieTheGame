@@ -11,8 +11,7 @@ namespace Frankie.Utils.Localization
             if (!PlayerPrefsController.LanguageKeyExists()) { return; }
             
             string languageCode = PlayerPrefsController.GetLanguageCode();
-            SupportedLocalizationType currentLocale = LocalizationTool.GetLocalizationByCode(languageCode);
-            LocalizationTool.SetLocale(currentLocale);
+            LocalizationLocale.SetLocale(languageCode);
         }
     }
 }

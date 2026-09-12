@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using LowDefMustard.UIBox;
-using LowDefMustard.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.UIBox;
+using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Utils.UI
 {

@@ -10,6 +10,7 @@ using Frankie.Core;
 using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Inventory;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

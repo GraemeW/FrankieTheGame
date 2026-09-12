@@ -7,6 +7,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {

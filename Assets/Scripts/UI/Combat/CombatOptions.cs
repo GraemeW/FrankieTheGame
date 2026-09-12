@@ -8,6 +8,7 @@ using LowDefMustard.Localization;
 using Frankie.Stats;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {

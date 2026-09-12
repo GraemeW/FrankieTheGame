@@ -13,6 +13,7 @@ using Frankie.Combat;
 using Frankie.Speech.UI;
 using Frankie.Combat.UI;
 using Frankie.Stats;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

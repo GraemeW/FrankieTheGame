@@ -13,6 +13,7 @@ using Frankie.Rendering;
 using Frankie.Speech.UI;
 using Frankie.Sound;
 using Frankie.Saving;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
@@ -62,7 +63,7 @@ namespace Frankie.Menu.UI
         private float openingBackgroundVolume;
         private float openingSoundEffectsVolume;
         private ResolutionSetting openingResolutionSetting;
-        private SupportedLocalizationType openingLocalizationType;
+        private string openingLocale;
         
         // UIBox Configuration
         protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
@@ -233,16 +234,16 @@ namespace Frankie.Menu.UI
 
         private void InitializeLanguageSelection(ref int choiceIndex)
         {
-            openingLocalizationType = LocalizationTool.GetCurrentLocalization();
+            openingLocale = LocalizationLocale.GetCurrentLocaleCode();
             Transform languageOptionsTransform = languageOptionsContainer.transform;
             
-            foreach (SupportedLocalizationType supportedLocalizationType in Enum.GetValues(typeof(SupportedLocalizationType)))
+            foreach (string localeCode in LocalizationLocale.GetSupportedLocaleCodes())
             {
                 GameObject languageOption = Instantiate(optionButtonPrefab, languageOptionsTransform);
                 if (languageOption.TryGetComponent(out UIChoiceButton languageChoiceButton))
                 {
-                    languageChoiceButton.SetText(LocalizationTool.GetLocaleCode(supportedLocalizationType));
-                    languageChoiceButton.AddOnClickListener(delegate { ConfirmLocalizationChange(supportedLocalizationType); });
+                    languageChoiceButton.SetText(localeCode);
+                    languageChoiceButton.AddOnClickListener(delegate { ConfirmLocalizationChange(localeCode); });
                     languageOptionsContainer.Add(languageChoiceButton);
                 }
                 else { Destroy(languageOption); } // incorrect input type
@@ -263,7 +264,7 @@ namespace Frankie.Menu.UI
             masterVolumeSlider.SetSliderValue(openingMasterVolume);
             backgroundVolumeSlider.SetSliderValue(openingBackgroundVolume);
             soundEffectsVolumeSlider.SetSliderValue(openingSoundEffectsVolume);
-            ConfirmLocalizationChange(openingLocalizationType);
+            ConfirmLocalizationChange(openingLocale);
         }
 
         private void Save()
@@ -331,14 +332,14 @@ namespace Frankie.Menu.UI
             WriteScreenResolutionToPlayerPrefs();
         }
         
-        private void ConfirmLocalizationChange(SupportedLocalizationType supportedLocalizationType)
+        private void ConfirmLocalizationChange(string localeCode)
         {
             wasChangeMade = true;
-            Debug.Log($"Current locale is {LocalizationTool.GetLocaleCode(LocalizationTool.GetCurrentLocalization())} - updating to {LocalizationTool.GetLocaleCode(supportedLocalizationType)}");
+            Debug.Log($"Current locale is {LocalizationLocale.GetCurrentLocaleCode()} - updating to {localeCode}");
             
-            LocalizationTool.SetLocale(supportedLocalizationType);
+            LocalizationLocale.SetLocale(localeCode);
             InitializeLocalization();
-            WriteLocalizationToPlayerPrefs(supportedLocalizationType);
+            WriteLocalizationToPlayerPrefs(localeCode);
             
             if (cachedStartMenu != null) { cachedStartMenu.ResetAllTextElements(); }
             if (cachedEscapeMenu != null) { { cachedEscapeMenu.ResetAllTextElements(); } }
@@ -356,9 +357,8 @@ namespace Frankie.Menu.UI
             WriteScreenResolutionToPlayerPrefs();
         }
         
-        private void WriteLocalizationToPlayerPrefs(SupportedLocalizationType supportedLocalizationType)
+        private void WriteLocalizationToPlayerPrefs(string localeCode)
         {
-            string localeCode = LocalizationTool.GetLocaleCode(supportedLocalizationType);
             PlayerPrefsController.SetLanguageCode(localeCode);
         }
 

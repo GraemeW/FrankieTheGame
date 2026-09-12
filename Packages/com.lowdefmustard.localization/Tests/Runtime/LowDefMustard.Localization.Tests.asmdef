@@ -1,0 +1,21 @@
+{
+  "name": "LowDefMustard.Localization.Tests",
+  "rootNamespace": "LowDefMustard.Localization.Tests",
+  "references": [
+    "UnityEngine.TestRunner",
+    "UnityEditor.TestRunner",
+    "LowDefMustard.Localization",
+    "LowDefMustard.Utils",
+    "Unity.ResourceManager",
+    "Unity.Localization"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

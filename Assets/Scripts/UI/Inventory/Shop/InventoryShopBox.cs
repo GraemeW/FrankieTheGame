@@ -11,6 +11,7 @@ using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

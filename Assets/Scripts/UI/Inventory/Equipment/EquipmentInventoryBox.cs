@@ -9,6 +9,7 @@ using LowDefMustard.Localization;
 using Frankie.Combat;
 using Frankie.Combat.UI;
 using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {

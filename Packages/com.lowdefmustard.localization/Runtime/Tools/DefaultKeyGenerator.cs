@@ -24,8 +24,8 @@ namespace LowDefMustard.Localization
             string componentStem = declaringType != null ? $"{declaringType.Name}." : $"{targetObject.GetType().Name}.";
             string targetStem = "";
             string nameStem = targetObject.name;
-            
-            if (targetObject is GameObject castGameObject) { targetObject = castGameObject.GetComponent<MonoBehaviour>(); }
+
+            if (targetObject is GameObject castGameObject && castGameObject.TryGetComponent(out MonoBehaviour swapToMono)) { targetObject = swapToMono; }
             if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
             {
                 string parentName = castMonoBehaviour.transform.parent.name;
@@ -46,20 +46,12 @@ namespace LowDefMustard.Localization
                         targetStem += $"Prefab.{nameStem}.";
                         break;
                     case MonoBehaviour targetMonoBehaviour:
-                    {
-                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
-                        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-                        if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
-                        {
-                            targetStem += $"Prefab.{nameStem}.";
-                            break;
-                        }
-                        
-                        targetStem += "GO.";
-                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{nameStem}."; }
-                        else { targetStem += $"{nameStem}."; }
+                        targetStem += BuildGameObjectMonoSuffix(nameStem, targetMonoBehaviour.gameObject);
                         break;
-                    }
+                    case GameObject fallbackGameObject:
+                        // Edge Case: unexpected path since, if it's localizable, it should have some sort of MonoBehaviour
+                        targetStem += BuildGameObjectMonoSuffix(nameStem, fallbackGameObject);
+                        break;
                 }
             }
 
@@ -68,6 +60,24 @@ namespace LowDefMustard.Localization
 #endif
             
             return kindaUniqueKey;
+        }
+
+        private static string BuildGameObjectMonoSuffix(string nameStem, GameObject targetGameObject)
+        {
+            string suffix = string.Empty;
+            
+            // Secondary check on Prefab - within prefab stage utility, game object / mono will fall through
+            PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+            if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
+            {
+                suffix += $"Prefab.{nameStem}.";
+            }
+                        
+            suffix += "GO.";
+            if (targetGameObject != null) { suffix += $"{targetGameObject.scene.name}.{nameStem}."; }
+            else { suffix += $"{nameStem}."; }
+
+            return suffix;
         }
     }
 }

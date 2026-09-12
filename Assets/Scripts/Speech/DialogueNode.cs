@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using LowDefMustard.Utils;
-using LowDefMustard.Localization;
-using Frankie.Stats;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
+using Frankie.Stats;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Speech
 {

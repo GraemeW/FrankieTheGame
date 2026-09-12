@@ -13,6 +13,7 @@ using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat
 {

@@ -2,6 +2,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using LowDefMustard.Localization;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Stats.Editor
 {
@@ -10,7 +11,7 @@ namespace Frankie.Stats.Editor
     {
         private void OnEnable()
         {
-            LocalizationTool.InitializeEnglishLocale();
+            LocalizationLocale.TriggerLocalizationSettingsInitialization();
             var characterProperties = (CharacterProperties)target;
             if (characterProperties is not ILocalizable localizable) { return; }
             localizable.TryLocalizeStandardEntries(characterProperties, characterProperties.GetPropertyLinkedLocalizationEntries());
