@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -18,11 +19,14 @@ namespace LowDefMustard.Localization.Tests.Editor
         // Const Tunables
         private const string _scratchTableName = "ScratchTest_Drawer_SafeToDelete";
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
+        private const string _prefabFolder = "Assets/_TEMP_LocalizationDrawerPrefabTests_SafeToDelete";
 
         // State
         private HeadlessEditorWindowTestHelper window;
         private TestDrawerTarget target;
         private SerializedObject serializedObject;
+        private readonly List<Object> createdPrefabObjects = new();
+        private readonly List<string> createdAssetPaths = new();
 
         #region DataStructures
         private class TestDrawerTarget : ScriptableObject
@@ -86,6 +90,13 @@ namespace LowDefMustard.Localization.Tests.Editor
         {
             window?.Close();
             if (target != null) { Object.DestroyImmediate(target); }
+            
+            foreach (Object createdObject in createdPrefabObjects.Where(createdObject => createdObject != null)) { Object.DestroyImmediate(createdObject); }
+            createdPrefabObjects.Clear();
+            
+            foreach (var assetPath in createdAssetPaths.Where(assetPath => AssetDatabase.LoadAssetAtPath<Object>(assetPath) != null)) { AssetDatabase.DeleteAsset(assetPath); }
+            if (AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.DeleteAsset(_prefabFolder); }
+            createdAssetPaths.Clear();
         }
         #endregion
 
@@ -108,6 +119,37 @@ namespace LowDefMustard.Localization.Tests.Editor
         private static void Unlock(DrawerElements elements)
         {
             elements.lockToggle.value = true;
+        }
+
+        private (GameObject instance, TestDrawerPrefabTarget instanceComponent) CreatePrefabInstanceWithKey(string key, string contents)
+        {
+            var sourceGameObject = new GameObject("DrawerPrefabSource");
+            var sourceComponent = sourceGameObject.AddComponent<TestDrawerPrefabTarget>();
+
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetDrawer, key, contents);
+            LocalizedString localizedString = TestLocalizationTool.MakeLocalizedString(TestTableType.ScratchAssetDrawer, key);
+            TestLocalizationTool.SafelyUpdateReference(TestTableType.ScratchAssetDrawer, localizedString, key);
+            sourceComponent.localizedField = localizedString;
+
+            if (!AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.CreateFolder("Assets", "_TEMP_LocalizationDrawerPrefabTests_SafeToDelete"); }
+            string prefabPath = $"{_prefabFolder}/TestDrawerPrefab_{System.Guid.NewGuid():N}.prefab";
+            createdAssetPaths.Add(prefabPath);
+            GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(sourceGameObject, prefabPath);
+            Object.DestroyImmediate(sourceGameObject);
+            Assert.IsNotNull(prefabAsset, "Failed to save the test prefab asset");
+
+            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefabAsset);
+            createdPrefabObjects.Add(instance);
+            var instanceComponent = instance.GetComponent<TestDrawerPrefabTarget>();
+            return (instance, instanceComponent);
+        }
+
+        private DrawerElements BuildDrawerUIFor(Object componentOrScriptableObject)
+        {
+            serializedObject = new SerializedObject(componentOrScriptableObject);
+            var inspectorElement = new InspectorElement(serializedObject);
+            window.root.Add(inspectorElement);
+            return new DrawerElements(window.root);
         }
         #endregion
 
@@ -190,7 +232,7 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.AreEqual("Some Text", TestLocalizationTool.GetEnglishEntry(TestTableType.ScratchAssetDrawer, "Drawer.Renamed.Key"));
 
             var localizedString = serializedObject.FindProperty(nameof(TestDrawerTarget.localizedField)).boxedValue as LocalizedString;
-            Assert.AreEqual(TableEntryReference.Type.Id, localizedString.TableEntryReference.ReferenceType);
+            Assert.AreEqual(TableEntryReference.Type.Id, localizedString?.TableEntryReference.ReferenceType);
         }
 
         [Test]
@@ -221,6 +263,40 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.AreEqual("", elements.keyField.value);
             Assert.AreEqual("", elements.contentsField.value);
             Assert.IsFalse(elements.lockToggle.value, "Delete should re-lock the key fields");
+        }
+
+        [Test]
+        public void CreatePropertyGUI_PrefabInstanceWithEmptyOverride_AutoResetsToPrefabValue()
+        {
+            (GameObject _, TestDrawerPrefabTarget instanceComponent) = CreatePrefabInstanceWithKey("Drawer.Prefab.AutoReset", "Prefab Value");
+
+            // Override the instance's field to empty before the drawer ever sees it - Unity registers it as a prefab-instance property override
+            var overrideSetup = new SerializedObject(instanceComponent);
+            SerializedProperty overrideProperty = overrideSetup.FindProperty(nameof(TestDrawerPrefabTarget.localizedField));
+            overrideProperty.boxedValue = new LocalizedString();
+            overrideSetup.ApplyModifiedProperties();
+
+            DrawerElements elements = BuildDrawerUIFor(instanceComponent);
+
+            Assert.AreEqual("Drawer.Prefab.AutoReset", elements.keyField.value, "Expected the empty override to auto-reset back to the prefab's key on open");
+            Assert.AreEqual("Prefab Value", elements.contentsField.value);
+        }
+
+        [Test]
+        public void DeleteButtonState_SharedKeyWithPrefab_DisabledUntilKeyBecomesUnique()
+        {
+            (GameObject _, TestDrawerPrefabTarget instanceComponent) = CreatePrefabInstanceWithKey("Drawer.Prefab.Shared", "Shared Value");
+
+            DrawerElements elements = BuildDrawerUIFor(instanceComponent);
+            Unlock(elements);
+
+            // Instance still points at the prefab source - shared, so delete stays disabled
+            Assert.IsFalse(elements.deleteKeyButton.enabledInHierarchy, "Button delete should be disabled while the key is shared with the prefab source");
+
+            Click(elements.newKeyButton);
+
+            // Fresh key is different from the prefab's - now unique, so delete enables
+            Assert.IsTrue(elements.deleteKeyButton.enabledInHierarchy, "Button delete should enable once the key differs from the prefab source");
         }
         #endregion
     }
