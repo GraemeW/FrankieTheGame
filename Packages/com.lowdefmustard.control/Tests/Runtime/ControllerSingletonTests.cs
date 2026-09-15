@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace LowDefMustard.Control.Tests.PlayMode
+namespace LowDefMustard.Control.Tests
 {
     public class ControllerSingletonTests
     {

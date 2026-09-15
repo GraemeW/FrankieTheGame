@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LowDefMustard.Utils.Tests.PlayMode
+namespace LowDefMustard.Utils.Tests
 {
     public class DummyFindableTarget : MonoBehaviour
     {

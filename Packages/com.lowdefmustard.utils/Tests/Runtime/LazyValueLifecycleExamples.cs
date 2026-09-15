@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LowDefMustard.Utils.Tests.PlayMode
+namespace LowDefMustard.Utils.Tests
 {
     // Case A: LazyValue is defined in Awake(), and - also in Awake() - immediately overwritten with a "loaded from save" value
     // This is the pattern for values that come from a save system: the initializer exists as a fallback default, but in the normal flow it should never actually run

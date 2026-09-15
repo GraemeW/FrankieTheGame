@@ -1,13 +1,10 @@
 {
-  "name": "LowDefMustard.Localization.Tests",
-  "rootNamespace": "LowDefMustard.Localization.Tests",
+  "name": "LowDefMustard.Control.Tests",
+  "rootNamespace": "LowDefMustard.Control.Tests",
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
-    "LowDefMustard.Localization",
-    "LowDefMustard.Utils",
-    "Unity.ResourceManager",
-    "Unity.Localization"
+    "LowDefMustard.Control"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -1,12 +1,18 @@
 {
-  "name": "LowDefMustard.Control.Tests.PlayMode",
-  "rootNamespace": "LowDefMustard.Control.Tests.PlayMode",
+  "name": "LowDefMustard.UIBox.Tests.Editor",
+  "rootNamespace": "LowDefMustard.UIBox.Tests.Editor",
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
-    "LowDefMustard.Control"
+    "LowDefMustard.UIBox",
+    "LowDefMustard.UIBox.Tests",
+    "LowDefMustard.Control",
+    "LowDefMustard.Utils",
+    "Unity.TextMeshPro"
   ],
-  "includePlatforms": [],
+  "includePlatforms": [
+    "Editor"
+  ],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,

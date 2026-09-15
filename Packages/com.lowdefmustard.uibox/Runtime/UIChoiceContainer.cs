@@ -30,15 +30,15 @@ namespace LowDefMustard.UIBox
             {
                 case ControllerInputType.NavigateLeft when isMoveHorizontal:
                 case ControllerInputType.NavigateUp when !isMoveHorizontal:
-                    highlightedChoiceOption.Highlight(false);
+                    if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(false); }
                     highlightedChoiceOption = GetNextChoice(false);
-                    highlightedChoiceOption.Highlight(true);
+                    if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(true); }
                     return true;
                 case ControllerInputType.NavigateRight when isMoveHorizontal:
                 case ControllerInputType.NavigateDown when !isMoveHorizontal:
-                    highlightedChoiceOption.Highlight(false);
+                    if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(false); }
                     highlightedChoiceOption = GetNextChoice(true);
-                    highlightedChoiceOption.Highlight(true);
+                    if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(true); }
                     return true;
                 default:
                     return false;

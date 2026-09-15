@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace LowDefMustard.Control.Tests.PlayMode
+namespace LowDefMustard.Control.Tests
 {
     // Covered:
     //  - Mover.MoveToTarget (Walk and Warp styles)

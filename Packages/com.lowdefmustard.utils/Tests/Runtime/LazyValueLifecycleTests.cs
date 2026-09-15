@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace LowDefMustard.Utils.Tests.PlayMode
+namespace LowDefMustard.Utils.Tests
 {
     public class LazyValueLifecycleTests
     {

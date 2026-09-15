@@ -8,6 +8,8 @@ namespace LowDefMustard.UIBox
 {
     public abstract class UIBoxBase : MonoBehaviour
     {
+        // Note:  Methods marked internal are for test visibility
+        
         // Tunables
         [Header("UI Box Hookups")]
         [SerializeField] protected CanvasGroup canvasGroup;
@@ -214,7 +216,7 @@ namespace LowDefMustard.UIBox
             return true;
         }
 
-        private static bool TryExecuteMove(ControllerInputType controllerInputType, ref int currentSelectionIndex, int optionsCount, CursorMovementStyle cursorMovementStyle)
+        internal static bool TryExecuteMove(ControllerInputType controllerInputType, ref int currentSelectionIndex, int optionsCount, CursorMovementStyle cursorMovementStyle)
         {
             bool validInput = false;
             switch (controllerInputType)
@@ -242,7 +244,7 @@ namespace LowDefMustard.UIBox
         #endregion
 
         #region PrivateStaticMethods
-        private static bool TryExecuteMove2D(ControllerInputType controllerInputType, ref int choiceIndex, int optionsCount)
+        internal static bool TryExecuteMove2D(ControllerInputType controllerInputType, ref int choiceIndex, int optionsCount)
         {
             bool validInput = false;
             if (optionsCount == 1)
@@ -284,7 +286,7 @@ namespace LowDefMustard.UIBox
             return validInput;
         }
         
-        private static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice closestChoice)
+        internal static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice closestChoice)
         {
             closestChoice = null;
 
@@ -301,7 +303,7 @@ namespace LowDefMustard.UIBox
             return closestChoice != null;
         }
         
-        private static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice bestChoice)
+        internal static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice bestChoice)
         {
             bestChoice = null;
             
@@ -327,7 +329,7 @@ namespace LowDefMustard.UIBox
             return bestChoice != null;
         }
         
-        private static bool TryGetScreenRect(Camera renderCamera, RectTransform rectTransform, out Rect screenRect)
+        internal static bool TryGetScreenRect(Camera renderCamera, RectTransform rectTransform, out Rect screenRect)
         {
             screenRect = default;
             if (rectTransform == null) { return false; }
@@ -347,7 +349,7 @@ namespace LowDefMustard.UIBox
             return true;
         }
         
-        private static bool TryRayIntersectsRect(Vector2 origin, Vector2 direction, Rect rect, out float distance)
+        internal static bool TryRayIntersectsRect(Vector2 origin, Vector2 direction, Rect rect, out float distance)
         {
             // Ray parameterizes as:
             // point(t) = origin + t * direction

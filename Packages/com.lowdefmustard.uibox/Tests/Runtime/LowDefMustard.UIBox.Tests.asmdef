@@ -1,10 +1,13 @@
 {
-    "name": "LowDefMustard.Utils.Tests.PlayMode",
-    "rootNamespace": "LowDefMustard.Utils.Tests.PlayMode",
+    "name": "LowDefMustard.UIBox.Tests",
+    "rootNamespace": "LowDefMustard.UIBox.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "LowDefMustard.Utils"
+        "LowDefMustard.UIBox",
+        "LowDefMustard.Control",
+        "LowDefMustard.Utils",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
