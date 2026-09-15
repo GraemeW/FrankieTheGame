@@ -194,15 +194,19 @@ namespace LowDefMustard.UIBox
 
         private IEnumerator PrintText(ReceptacleTextPair receptacleTextPair)
         {
-            if (string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
+            // ~ Note:  Early returns (yield breaks) BEFORE SetBusyWriting, or potential for lock-up
+            if (receptacleTextPair.receptacle == null || string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
+            
             receptacleTextPair.receptacle.SetActive(true);
-
-            SetBusyWriting(true);
-            SimpleTextLink simpleTextLink = receptacleTextPair.receptacle.GetComponent<SimpleTextLink>();
+            var simpleTextLink = receptacleTextPair.receptacle.GetComponent<SimpleTextLink>();
             if (simpleTextLink == null) { yield break; }
             string fullText = UnescapeText(receptacleTextPair.text);
             if (string.IsNullOrEmpty(fullText)) { yield break; }
-
+            // ~ End of early returns
+            
+            
+            SetBusyWriting(true);
+            
             int letterIndex = 0;
             string textFragment = "";
             while (letterIndex < fullText.Length - 1)
@@ -214,7 +218,7 @@ namespace LowDefMustard.UIBox
                 letterIndex++;
                 yield return new WaitForSeconds(delayBetweenCharacters);
             }
-            if (simpleTextLink != null) { simpleTextLink.Setup(receptacleTextPair.text); }
+            if (simpleTextLink != null) { simpleTextLink.Setup(fullText); }
             printedJobs.Add(receptacleTextPair.receptacle);
             SetBusyWriting(false);
             interruptWriting = false;
@@ -246,7 +250,8 @@ namespace LowDefMustard.UIBox
         #endregion
         
         #region StringPreParse
-        private static string UnescapeText(string inputString)
+        // Note:  Internal for test visibility
+        internal static string UnescapeText(string inputString)
         {
             if (string.IsNullOrEmpty(inputString)) { return inputString; }
 

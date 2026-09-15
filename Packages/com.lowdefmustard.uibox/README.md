@@ -20,7 +20,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 |-----------------------|-----------------------|-----------|---------------------------------------------------------------------|
 | `LowDefMustard.UIBox` | `LowDefMustard.UIBox` | Runtime   | `LowDefMustard.Control`, `LowDefMustard.Utils`, `Unity.TextMeshPro` |
 
-This package ships Runtime-only — there's no custom inspector here; every box is configured via the standard inspector and `BuildStateBehaviours()`.
+This package ships Runtime-only (no custom inspector required). Every box is configured via the standard inspector and `BuildStateBehaviours()`.
 
 ## Contents
 
@@ -76,6 +76,46 @@ A concrete `UIBox<UIBoxState>` implementation for scrolling/typewriter-style tex
 - `Execute` input skips remaining characters on the current page (`SkipToEndOfPage`/`TryFastForwardActiveText`) rather than always advancing immediately, so mashing through dialogue feels responsive without accidentally skipping unread text.
 - `UnescapeText` resolves common C#-style escape sequences (`\n`, `\t`, `\uXXXX`, `\xH`-`\xHHHH`, etc.) in authored text.
 - `initialInputDelay` briefly blocks input right after the box appears, to absorb the same button-press that opened it.
+
+## Tests
+
+### Testing Notes
+
+Any test activating a `UIBox<TBoxState>` double needs a controller set via `TrySetController` first, or the missing-controller destroy coroutine kills it mid-test.
+
+### Assemblies
+
+| Assembly                            | Root Namespace                      | Platform    | References                                                                                                                                                                  |
+|--------------------------------------|--------------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `LowDefMustard.UIBox.Tests.Editor`  | `LowDefMustard.UIBox.Tests.Editor`  | Editor only | `LowDefMustard.UIBox`, `LowDefMustard.UIBox.Tests`, `LowDefMustard.Control`, `LowDefMustard.Utils`, `Unity.TextMeshPro`, `UnityEditor.TestRunner`, `UnityEngine.TestRunner` |
+| `LowDefMustard.UIBox.Tests` | `LowDefMustard.UIBox.Tests` | Runtime     | Same as above                                                                                                                                                               |
+
+### Coverage at a glance
+
+| Category                                                    | Tested / Total | Notes                                                          |
+|--------------------------------------------------------------|:--------------:|----------------------------------------------------------------|
+| Cursor/ray/screen-space math (`UIBoxBase` internals) + `UnescapeText` |       7/7       |                                                                |
+| `UIChoice` family                                             |       5/6       | `DisableHighlightListeners`'s persistent-listener path skipped |
+| `UIBackExit`                                                   |       1/1       |                                                                |
+| `UIBoxBase` / `UIBox<TBoxState>`                               |       6/7       | `AddChoiceOption`'s click-through-destroy skipped              |
+| `SimpleTextLink`                                               |       2/2       |                                                                |
+| `TextScanBox`                                                  |       7/8       | `PrintChoices`/`isChoice` path skipped                         |
+
+### Detail by type
+
+| Type                                        | Status  | Test file(s)                                                                                                                      | Notes                                                                                                                                          |
+|---------------------------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `UIBoxBase` (static cursor/ray/screen math) | Yes     | `UIBoxBaseCursorMathTests.cs`, `UIBoxBaseScreenSpaceTests.cs`                                                                     |                                                                                                                                                |
+| `UIBoxBase` / `UIBox<TBoxState>` (instance) | Partial | `UIBoxChoiceAndCursorTests.cs`, `UIBoxHandleGlobalInputTests.cs`, `UIBoxLifecycleTests.cs`, `UIBoxStateBehaviourDispatchTests.cs` | `AddChoiceOption` click-through-destroy skipped — `Destroy()` timing inside a click callback is unreliable to assert                           |
+| `UIBoxStateBehaviour`                       | Yes     | `UIBoxStateBehaviourTests.cs`                                                                                                     |                                                                                                                                                |
+| `UIChoice`                                  | Partial | `UIChoiceTests.cs`, `UIChoiceListenerLifecycleTests.cs`                                                                           | `DisableHighlightListeners` persistent-listener path skipped — only relevant for Inspector-serialized listeners (in-memory doubles never have) |
+| `UIChoiceButton`                            | Yes     | `UIChoiceButtonTests.cs`                                                                                                          |                                                                                                                                                |
+| `UIChoiceToggle`                            | Yes     | `UIChoiceToggleTests.cs`                                                                                                          |                                                                                                                                                |
+| `UIChoiceSlider`                            | Yes     | `UIChoiceSliderTests.cs`                                                                                                          |                                                                                                                                                |
+| `UIChoiceContainer`                         | Yes     | `UIChoiceContainerTests.cs`                                                                                                       |                                                                                                                                                |
+| `UIBackExit`                                | Yes     | `UIBackExitTests.cs`                                                                                                              |                                                                                                                                                |
+| `TextScanBox`                               | Partial | `TextScanBoxTests.cs`                                                                                                             | `PrintChoices`/`isChoice` branch skipped — no public API + minimal value                                                                       |
+| `SimpleTextLink`                            | Yes     | `SimpleTextLinkTests.cs`                                                                                                          |                                                                                                                                                |
 
 ## Design Notes
 

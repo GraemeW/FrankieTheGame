@@ -1,0 +1,23 @@
+{
+    "name": "LowDefMustard.UIBox.Tests",
+    "rootNamespace": "LowDefMustard.UIBox.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "LowDefMustard.UIBox",
+        "LowDefMustard.Control",
+        "LowDefMustard.Utils",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
