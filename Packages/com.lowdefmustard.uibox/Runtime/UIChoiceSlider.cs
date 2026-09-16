@@ -7,8 +7,10 @@ namespace LowDefMustard.UIBox
 {
     public class UIChoiceSlider : UIChoice, IUIMoveInterceptor
     {
+        // Note:  Internal fields for test visibility
+        
         // Tunables
-        [SerializeField] private Slider slider;
+        [SerializeField] internal Slider slider;
         [SerializeField] protected float sliderAdjustmentStep = 0.1f;
 
         // Methods

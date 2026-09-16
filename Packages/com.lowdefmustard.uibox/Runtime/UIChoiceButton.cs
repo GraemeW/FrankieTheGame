@@ -6,8 +6,10 @@ namespace LowDefMustard.UIBox
 {
     public class UIChoiceButton : UIChoice
     {
+        // Note:  Internal fields for test visibility
+        
         // Tunables
-        [SerializeField] protected Button button;
+        [SerializeField] protected internal Button button;
 
         #region UnityMethods
         protected override void OnDestroy()
