@@ -25,10 +25,10 @@ namespace LowDefMustard.Zones
         private static SceneLoaderBase _activeSceneLoaderBase;
         private static Zone _lastZone;
         private static Zone _currentZone;
-        protected static bool IsCurrentlyLoading = false;
+        protected static bool isCurrentlyLoading = false;
         
         // External Hooks
-        public static Func<Zone> DemoZoneOverrideProvider;
+        public static Func<Zone> demoZoneOverrideProvider;
         
         // Events
         public static event Action<Zone> leavingZone;
@@ -72,13 +72,13 @@ namespace LowDefMustard.Zones
         #region PublicMethods
         public static IEnumerator LoadNewSceneAsync(Zone zone)
         {
-            if (IsCurrentlyLoading) { yield break; }
+            if (isCurrentlyLoading) { yield break; }
             
-            IsCurrentlyLoading = true;
+            isCurrentlyLoading = true;
             SetLastZone();
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
-            IsCurrentlyLoading = false;
+            isCurrentlyLoading = false;
         }
         
         public static void QueueDelayedDestroy(IList<GameObject> entries)
@@ -99,11 +99,11 @@ namespace LowDefMustard.Zones
         {
             if (zone == null) { yield break; }
 
-            IsCurrentlyLoading = true;
+            isCurrentlyLoading = true;
             yield return new WaitForSeconds(delayTime);
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
-            IsCurrentlyLoading = false;
+            isCurrentlyLoading = false;
             sceneLoadedCallback?.Invoke();
         }
 
@@ -155,7 +155,7 @@ namespace LowDefMustard.Zones
         #region PublicMethods
         public static void QueueScene(TSceneType sceneType, SceneQueueData sceneQueueData)
         {
-            if (IsCurrentlyLoading) { return; }
+            if (isCurrentlyLoading) { return; }
             
             if (_activeSceneLoader == null) { _activeSceneLoader = FindSceneLoader<TSceneType>(); }
             if (_activeSceneLoader == null) { return; }
@@ -188,7 +188,7 @@ namespace LowDefMustard.Zones
             Zone zone = null;
             if (IsNewGameSceneType(sceneType))
             {
-                zone = DemoZoneOverrideProvider?.Invoke();
+                zone = demoZoneOverrideProvider?.Invoke();
                 if (zone != null) { return zone; }
             }
 

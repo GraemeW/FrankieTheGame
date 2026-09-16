@@ -22,12 +22,12 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            playerStateMachine.value?.EnterCutscene();
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.EnterCutscene(); }
         }
 
         private void OnDisable()
         {
-            playerStateMachine.value?.EnterWorld();
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.EnterWorld(); }
         }
         #endregion
     }

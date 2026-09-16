@@ -118,10 +118,10 @@ namespace LowDefMustard.Zones
         {
             activeSceneLoader ??= new ReInitLazyValue<SceneLoaderBase>(FindSceneLoader);
             if (activeSceneLoader.value == null) { activeSceneLoader.ForceInit(); }
-            if (activeSceneLoader.value == null) { return; }
+            if (!activeSceneLoader.TryGetSafely(out SceneLoaderBase sceneLoaderInstance)) { return; }
 
-            activeSceneLoader.value.sceneLoadFadeProvider -= InitiateSceneLoadFadeCoroutine;
-            if (enable) { activeSceneLoader.value.sceneLoadFadeProvider += InitiateSceneLoadFadeCoroutine; }
+            sceneLoaderInstance.sceneLoadFadeProvider -= InitiateSceneLoadFadeCoroutine;
+            if (enable) { sceneLoaderInstance.sceneLoadFadeProvider += InitiateSceneLoadFadeCoroutine; }
         }
         #endregion
 
@@ -186,6 +186,7 @@ namespace LowDefMustard.Zones
         
         private IEnumerator StandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
+            fading = true;
             yield return QueueFadeEntry(transitionType, faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
             yield return QueueFadeExit(transitionType, faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
         }

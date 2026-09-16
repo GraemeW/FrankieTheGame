@@ -11,9 +11,15 @@ namespace LowDefMustard.Utils
         public override bool ForceInit()
         {
             // Access cachedValue directly (otherwise recursion)
-            if (base.ForceInit() || IsCachedValueStillValid()) return false;
+            if (base.ForceInit() || IsCachedValueStillValid()) { return false; }
             Initialize();
             return true;
+        }
+
+        public bool TryGetSafely(out T passValue)
+        {
+            passValue = value;
+            return IsCachedValueStillValid();
         }
 
         private bool IsCachedValueStillValid()
