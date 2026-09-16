@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8896237604876974601}
   - component: {fileID: 8896237604876974600}
   m_Layer: 2
-  m_Name: SignInfo-L
+  m_Name: SignInfo-R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: cd2497a05b6b74a3bacae4034248d60b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fd454a15e29344ce3ac7805752459931, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -156,17 +156,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0007519722, y: 0.085860394}
+  m_Offset: {x: -0.003242962, y: 0.07187809}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.18, y: 0.6}
+    oldSize: {x: 0.18, y: 0.58}
     newSize: {x: 1.7, y: 3.39}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.18925142, y: 0.15915136}
+  m_Size: {x: 0.15329696, y: 0.14117417}
   m_EdgeRadius: 0
 --- !u!1001 &1084771765465316422
 PrefabInstance:
@@ -182,15 +182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.y
-      value: 0.48166782
+      value: 0.46768552
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.x
-      value: -0.00042044
+      value: -0.00042043626
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.y
-      value: 0.34508
+      value: 0.33808884
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name

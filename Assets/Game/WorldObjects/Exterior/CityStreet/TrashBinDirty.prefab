@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2379782531950367098}
   - component: {fileID: 2379782531950367093}
   m_Layer: 2
-  m_Name: TrashBinCut
+  m_Name: TrashBinDirty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7917729359081139123, guid: d02a3f5a161df8147939349918ace1ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6aa0c1d9b28ba4eaf8458acecd29d104, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,15 +155,15 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0043102503, y: 0.060755134}
+  m_Offset: {x: 0.004749626, y: 0.060755134}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.22, y: 0.39}
+    oldSize: {x: 0.34, y: 0.46}
     newSize: {x: 1.7, y: 3.39}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.25784326, y: 0.1085155}
+  m_Size: {x: 0.29035747, y: 0.1085155}
   m_EdgeRadius: 0

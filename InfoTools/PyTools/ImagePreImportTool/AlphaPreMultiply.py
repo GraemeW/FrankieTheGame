@@ -106,10 +106,10 @@ class AlphaPreMultiply:
                 preMultipliedImage.save(output)
         return
 
-    def PreMultiplyRecursively(directory : str, outputPath : str, fileTypes : list[str]) -> None:
+    def PreMultiplyRecursively(directory : str, outputPath : str, fileTypes : list[str], addFolderName : bool = False) -> None:
         for entry in os.scandir(directory):
             if entry.is_dir():
-                AlphaPreMultiply.PreMultiplyRecursively(entry.path, outputPath, fileTypes)
+                AlphaPreMultiply.PreMultiplyRecursively(entry.path, outputPath, fileTypes, addFolderName)
             elif entry.is_file() and any(entry.name.endswith(fileType) for fileType in fileTypes):
                 print(f'On image: {entry.path}')
                 image = Image.open(entry.path).convert("RGBA")
@@ -119,7 +119,7 @@ class AlphaPreMultiply:
                 
                 preMultipliedImage = AlphaPreMultiply.PreMultiplyAlpha(image)
                 folderName = os.path.basename(os.path.dirname(entry.path))
-                outputFileName = f'{folderName} - {os.path.basename(entry.path)}'
+                outputFileName = f'{folderName} - {os.path.basename(entry.path)}' if addFolderName else os.path.basename(entry.path)
                 output = os.path.join(outputPath, outputFileName)
                 preMultipliedImage.save(output)
         return
@@ -132,9 +132,10 @@ if __name__ == "__main__":
     resursiveInputPath = './InputDirectory'
     outputPath = './Output'
     fileTypes = list([".png", ".PNG", ".Png"])
+    addFolderName = False
 
     match programSelector:
         case ProgramSelector.TestSingleInput:
             AlphaPreMultiply.PreMultiplySingle(singleImageInputPath, outputPath, fileTypes, True)
         case ProgramSelector.RunRecursively:
-            AlphaPreMultiply.PreMultiplyRecursively(resursiveInputPath, outputPath, fileTypes)
+            AlphaPreMultiply.PreMultiplyRecursively(resursiveInputPath, outputPath, fileTypes, addFolderName)
