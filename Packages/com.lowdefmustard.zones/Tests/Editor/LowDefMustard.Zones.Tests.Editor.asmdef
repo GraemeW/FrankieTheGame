@@ -6,6 +6,7 @@
     "UnityEngine.TestRunner",
     "LowDefMustard.Zones",
     "LowDefMustard.Zones.Editor",
+    "LowDefMustard.Zones.Tests",
     "LowDefMustard.Utils",
     "LowDefMustard.Utils.Editor",
     "LowDefMustard.Localization",

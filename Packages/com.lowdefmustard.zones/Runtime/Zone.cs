@@ -17,12 +17,14 @@ namespace LowDefMustard.Zones
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
     public partial class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizableCore
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // Tunables
         [Header("Zone Properties")]
         [SerializeField][SimpleLocalizedString(false)] private LocalizedString localizedDisplayName;
-        [SerializeField] private SceneReference sceneReference;
+        [SerializeField] internal SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
-        [SerializeField] private AudioClip zoneAudio;
+        [SerializeField] internal AudioClip zoneAudio;
         [SerializeField] private bool isZoneAudioLooping = true;
 
         // Const / Static UI Tunables

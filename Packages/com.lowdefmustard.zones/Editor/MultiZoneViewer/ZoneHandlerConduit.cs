@@ -8,6 +8,8 @@ namespace LowDefMustard.Zones.Editor
 {
     public static class ZoneHandlerConduit
     {
+        // Note:  Internal fields/methods for test visibility
+        
         #region PublicMethods
         public static IEnumerable<string> OpenLinkedScenePaths(Zone rootZone, int maxZoneCount, HashSet<string> existingViewScenePaths)
         {
@@ -110,7 +112,7 @@ namespace LowDefMustard.Zones.Editor
             return zoneNodeDataByZoneName;
         }
 
-        private static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
+        internal static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
         {
             Vector2 topLeft = new Vector2(bounds.min.x, bounds.max.y);
             float xRelative = Mathf.Clamp01((position.x - topLeft.x) / bounds.size.x);
