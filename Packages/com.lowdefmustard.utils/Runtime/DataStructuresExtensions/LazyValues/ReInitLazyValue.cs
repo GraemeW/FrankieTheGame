@@ -2,6 +2,13 @@ namespace LowDefMustard.Utils
 {
     public class ReInitLazyValue<T> : LazyValue<T>
     {
+        // Usage:
+        // ReInitLazyValues are appropriate for reference-type variables
+        // Note on Access:
+        //      For safe null checking, use `TryGetSafely`
+        //      Standard `get` access remains if skipping null check or requiring manual null check
+        // For primitives / value-type variables, use the standard LazyValue
+        
         public ReInitLazyValue(InitializerDelegate setInitializer) : base(setInitializer)
         {
             initializer = setInitializer;
