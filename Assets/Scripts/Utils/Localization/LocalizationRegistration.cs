@@ -1,15 +1,12 @@
 using System.Collections.Generic;
-using UnityEditor;
-using LowDefMustard.Zones;
-using LowDefMustard.Localization;
-using LowDefMustard.Localization.Editor;
+using UnityEngine;
 
-namespace Frankie.Utils.Localization.Editor
+namespace Frankie.Utils.Localization
 {
-    [InitializeOnLoad]
     public static class LocalizationRegistration
     {
-        static LocalizationRegistration()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Register()
         {
             LocalizationTool.RegisterTableCollectionNames(new Dictionary<LocalizationTableType, string>
             {
@@ -22,11 +19,6 @@ namespace Frankie.Utils.Localization.Editor
                 { LocalizationTableType.UI, "UI" },
                 { LocalizationTableType.Zones, "Zones" },
             });
-            
-            LocalizableClassTableTypeRegistry.Register(typeof(Zone), LocalizationTableType.Zones);
-            LocalizableClassTableTypeRegistry.Register(typeof(ZoneNode), LocalizationTableType.Zones);
-            
-            SimpleLocalizedStringDrawer.typeSpecificKeyGenerator = LocalizationNames.GenerateTypeSpecificKey;
         }
     }
 }

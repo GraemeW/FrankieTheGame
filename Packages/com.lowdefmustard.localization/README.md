@@ -37,20 +37,47 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
    public interface ILocalizable : ILocalizableBase<LocalizationTableType> { }
    public sealed class LocalizationTool : LocalizationToolBase<LocalizationTableType> { }
    ```
-3. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register the table-collection-name mapping, (if any) relevant ClassTableTypes and (if using) a custom key generator:
+3. Once, via `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]`, register the table-collection-name mapping.  Note that this MUST be done in a Runtime-compliant manner if any of the LocalizationTool RuntimeCompliant methods are used outside of Editor-pragma'd code. 
+
+e.g.
    ```c#
-   LocalizationTool.RegisterTableCollectionNames(new Dictionary<LocalizationTableType, string>
-   {
-       { LocalizationTableType.Core, "Core" },
-       { LocalizationTableType.Inventory, "Inventory" },
-       // ...
-   });
-   
-   LocalizableClassTableTypeRegistry.Register(typeof(Zone), LocalizationTableType.Zones);
-   LocalizableClassTableTypeRegistry.Register(typeof(ZoneNode), LocalizationTableType.Zones);
-  
-   SimpleLocalizedStringDrawer.typeSpecificKeyGenerator = LocalizationNames.GenerateTypeSpecificKey;
+    public static class LocalizationRegistration
+    {
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Register()
+        {
+            LocalizationTool.RegisterTableCollectionNames(new Dictionary<LocalizationTableType, string>
+            {
+                { LocalizationTableType.ChecksWorldObjects, "ChecksWorldObjects" },
+                { LocalizationTableType.Core, "Core" },
+                { LocalizationTableType.Inventory, "Inventory" },
+                { LocalizationTableType.Quests, "Quests" },
+                { LocalizationTableType.Skills, "Skills" },
+                { LocalizationTableType.Speech, "Speech" },
+                { LocalizationTableType.UI, "UI" },
+                { LocalizationTableType.Zones, "Zones" },
+                ...
+            });
+        }
+    }
    ```
+4. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register (if any) relevant ClassTableTypes and (if using) a custom key generator:
+
+e.g.
+   ```c#
+    [InitializeOnLoad]
+    public static class LocalizationEditorRegistration
+    {
+        static LocalizationEditorRegistration()
+        {
+            LocalizableClassTableTypeRegistry.Register(typeof(Zone), LocalizationTableType.Zones);
+            LocalizableClassTableTypeRegistry.Register(typeof(ZoneNode), LocalizationTableType.Zones);
+            
+            SimpleLocalizedStringDrawer.typeSpecificKeyGenerator = LocalizationNames.GenerateTypeSpecificKey;
+        }
+    }
+   ```
+
 5. Implement `ILocalizable` on your `MonoBehaviour`s/`ScriptableObject`s, and use the package's `[SimpleLocalizedString(LocalizationTableType.Quests, isKeyEditable: true)]` on `LocalizedString` fields
 
 ## Assembly Structure
