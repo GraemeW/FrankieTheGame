@@ -8,6 +8,13 @@ namespace Frankie.Utils.Localization
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Register()
         {
+#if !UNITY_EDITOR
+            ManualRegister();
+#endif
+        }
+
+        public static void ManualRegister()
+        {
             LocalizationTool.RegisterTableCollectionNames(new Dictionary<LocalizationTableType, string>
             {
                 { LocalizationTableType.ChecksWorldObjects, "ChecksWorldObjects" },

@@ -10,6 +10,8 @@ namespace Frankie.Utils.Localization.Editor
     {
         static LocalizationEditorRegistration()
         {
+            LocalizationRegistration.ManualRegister();
+            
             LocalizableClassTableTypeRegistry.Register(typeof(Zone), LocalizationTableType.Zones);
             LocalizableClassTableTypeRegistry.Register(typeof(ZoneNode), LocalizationTableType.Zones);
             

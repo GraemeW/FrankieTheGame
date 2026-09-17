@@ -16,13 +16,13 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         public void SetUp()
         {
             modifier = ScriptableObject.CreateInstance<TestGameStateModifier>();
-            originalScenePathProvider = GameStateModifier.ScenePathProvider;
+            originalScenePathProvider = GameStateModifier.scenePathProvider;
         }
 
         [TearDown]
         public void TearDown()
         {
-            GameStateModifier.ScenePathProvider = originalScenePathProvider;
+            GameStateModifier.scenePathProvider = originalScenePathProvider;
             Object.DestroyImmediate(modifier);
         }
 
@@ -120,7 +120,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void CleanDanglingModifierHandlerData_ScenePathProviderReturnsFalse_EntryRemoved()
         {
-            GameStateModifier.ScenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
+            GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
             modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("MissingZone", "Object", "Parent", "guid-1"));
 
             LogAssert.Expect(LogType.Log, new Regex("Removing entry MissingZone.*not found")); // loose match, only pins the branch that fired
@@ -134,7 +134,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         public void CleanDanglingModifierHandlerData_SceneFoundButHandlerNameBlank_EntryRemoved()
         {
             // sceneFound=true short-circuits straight to "object not found" without ever calling DoesGameStateModifierHandlerExist
-            GameStateModifier.ScenePathProvider = (string _, out string scenePath) => { scenePath = "Assets/Fake.unity"; return true; };
+            GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = "Assets/Fake.unity"; return true; };
             modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("Zone", "", "Parent", "guid-1"));
 
             int removedCount = modifier.CleanDanglingModifierHandlerData();
@@ -146,7 +146,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void CleanDanglingModifierHandlerData_ReturnsCombinedRemovedCount()
         {
-            GameStateModifier.ScenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
+            GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
             modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "Object", "Parent", "guid-1"));
             modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "Object", "Parent", "guid-2"));
             modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneC", "Object", "Parent", "")); // empty-guid branch too
