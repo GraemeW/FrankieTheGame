@@ -173,10 +173,9 @@ namespace LowDefMustard.GameStateModifiers
 
                     // Found -- Skip Removal
                     if (isModifierLinked) { continue; }
-
-                    // Debug:
-                    // string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
-                    // Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");
+                    
+                    string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
+                    Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");
                 }
 
                 gameStateModifierHandlerData.RemoveAt(i);

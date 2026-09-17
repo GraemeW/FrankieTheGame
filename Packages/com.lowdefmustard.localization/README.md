@@ -46,6 +46,11 @@ e.g.
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Register()
         {
+            ManualRegister();
+        }
+        
+        public static void ManualRegister()
+        {
             LocalizationTool.RegisterTableCollectionNames(new Dictionary<LocalizationTableType, string>
             {
                 { LocalizationTableType.ChecksWorldObjects, "ChecksWorldObjects" },
@@ -61,7 +66,7 @@ e.g.
         }
     }
    ```
-4. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register (if any) relevant ClassTableTypes and (if using) a custom key generator:
+4. Once, before any table-type-aware API is used (e.g. from an `[InitializeOnLoad]` static constructor), register the above (same), as well as (if any) relevant ClassTableTypes and (if using) a custom key generator:
 
 e.g.
    ```c#
@@ -70,6 +75,8 @@ e.g.
     {
         static LocalizationEditorRegistration()
         {
+            LocalizationRegistration.ManualRegister();
+            
             LocalizableClassTableTypeRegistry.Register(typeof(Zone), LocalizationTableType.Zones);
             LocalizableClassTableTypeRegistry.Register(typeof(ZoneNode), LocalizationTableType.Zones);
             
