@@ -119,8 +119,7 @@ namespace LowDefMustard.Zones
         private void TrySubscribeToSceneLoader(bool enable)
         {
             activeSceneLoader ??= new ReInitLazyValue<SceneLoaderBase>(FindSceneLoader);
-            if (activeSceneLoader.value == null) { activeSceneLoader.ForceInit(); }
-            if (!activeSceneLoader.TryGetSafely(out SceneLoaderBase sceneLoaderInstance)) { return; }
+            if (!activeSceneLoader.TryGetSafely(out SceneLoaderBase sceneLoaderInstance, allowReInit: enable)) { return; }
 
             sceneLoaderInstance.sceneLoadFadeProvider -= InitiateSceneLoadFadeCoroutine;
             if (enable) { sceneLoaderInstance.sceneLoadFadeProvider += InitiateSceneLoadFadeCoroutine; }

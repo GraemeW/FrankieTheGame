@@ -8,7 +8,7 @@ namespace LowDefMustard.Utils.Tests
     public class LazyValueLifecycleTests
     {
         // NOTE ON TECHNIQUE:
-        // AddComponent() runs Awake() synchronously if the GameObject is already active.
+        // AddComponent() runs Awake() synchronously if the GameObject is already active
         // To configure fields *before* Awake fires (mirroring setting values in the Inspector before pressing Play), create the GameObject inactive, AddComponent, configure fields, then SetActive(true)
 
         [UnityTest]
@@ -100,6 +100,82 @@ namespace LowDefMustard.Utils.Tests
 
             Object.Destroy(host.gameObject);
             Object.Destroy(respawnedTargetGo);
+        }
+
+        [UnityTest]
+        public IEnumerator TryGetSafely_AllowReInitTrue_AfterCachedUnityObjectDestroyed_RespawnScenario_ReturnsTrueWithNewValue()
+        {
+            var originalTargetGo = new GameObject("OriginalTarget");
+            originalTargetGo.AddComponent<DummyFindableTarget>();
+            var host = new GameObject("Host").AddComponent<ReInitLazyValueCachedReferenceExample>();
+
+            bool firstResult = host.cachedTarget.TryGetSafely(out var firstValue);
+            Assert.IsTrue(firstResult);
+            Assert.AreSame(originalTargetGo.transform, firstValue);
+
+            Object.Destroy(originalTargetGo);
+            yield return null; // Destroy() is deferred to end of frame
+
+            var respawnedTargetGo = new GameObject("RespawnedTarget");
+            respawnedTargetGo.AddComponent<DummyFindableTarget>();
+
+            bool secondResult = host.cachedTarget.TryGetSafely(out var secondValue);
+
+            Assert.IsTrue(secondResult);
+            Assert.AreSame(respawnedTargetGo.transform, secondValue);
+            Assert.AreEqual(2, host.initializerCallCount);
+
+            Object.Destroy(host.gameObject);
+            Object.Destroy(respawnedTargetGo);
+        }
+
+        [UnityTest]
+        public IEnumerator TryGetSafely_AllowReInitFalse_AfterCachedUnityObjectDestroyed_ReturnsFalseWithoutReInitializing()
+        {
+            // This is the actual motivating case: allowReInit: false must never attempt a fresh lookup
+            var targetGo = new GameObject("Target");
+            targetGo.AddComponent<DummyFindableTarget>();
+            var host = new GameObject("Host").AddComponent<ReInitLazyValueCachedReferenceExample>();
+
+            _ = host.cachedTarget.TryGetSafely(out _);
+            Assert.AreEqual(1, host.initializerCallCount);
+
+            Object.Destroy(targetGo);
+            yield return null; // Destroy() is deferred to end of frame
+
+            bool result = host.cachedTarget.TryGetSafely(out var passValue, allowReInit: false);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(1, host.initializerCallCount, "allowReInit: false should never trigger a fresh initializer call");
+
+            Object.Destroy(host.gameObject);
+        }
+
+        [UnityTest]
+        public IEnumerator SubscribeInOnEnable_TargetDestroyedBeforeOnDisable_UnsubscribesSafelyWithoutReinitializing()
+        {
+            var sourceGo = new GameObject("Source");
+            var eventSource = sourceGo.AddComponent<DummyEventSource>();
+            var host = new GameObject("Host").AddComponent<ReInitLazyValueSubscribeUnsubscribeExample>();
+            yield return null; // let OnEnable run and subscribe
+
+            Assert.AreEqual(1, host.initializerCallCount);
+
+            eventSource.Fire();
+            Assert.AreEqual(1, host.eventReceivedCount);
+
+            Object.Destroy(sourceGo);
+            yield return null; // Destroy deferred to end of frame
+            Assert.IsTrue(eventSource == null); // confirms it's really gone (fake-null)
+
+            // OnEnable/OnDisable triggered via SetActive() aren't reliably synchronous (yield after the call, and confirm OnDisable actually ran)
+            host.gameObject.SetActive(false);
+            yield return null;
+
+            Assert.IsTrue(host.onDisableRan, "OnDisable should have run by now");
+            Assert.AreEqual(1, host.initializerCallCount, "OnDisable's safe unsubscribe should not have triggered a re-init attempt");
+
+            Object.Destroy(host.gameObject);
         }
     }
 }

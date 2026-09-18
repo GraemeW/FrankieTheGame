@@ -7,8 +7,8 @@
         // For reference variables, use ReInitLazyValue with TryGetSafely for safe null checking
         
         private bool isInitialized = false;
-        protected T cachedValue;
-        protected InitializerDelegate initializer;
+        private T cachedValue;
+        private readonly InitializerDelegate initializer;
 
         public delegate T InitializerDelegate();
         

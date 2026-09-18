@@ -31,7 +31,7 @@ namespace Frankie.Core
 
         private void OnDisable()
         {
-            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.playerStateChanged -= HandlePlayerStateChanged; }
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance, allowReInit: false)) { playerStateMachineInstance.playerStateChanged -= HandlePlayerStateChanged; }
         }
         #endregion
 

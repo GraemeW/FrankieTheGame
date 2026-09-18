@@ -27,7 +27,7 @@ namespace Frankie.Core
 
         private void OnDisable()
         {
-            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.EnterWorld(); }
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance, allowReInit: false)) { playerStateMachineInstance.EnterWorld(); }
         }
         #endregion
     }

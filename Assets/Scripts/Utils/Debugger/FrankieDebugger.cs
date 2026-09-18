@@ -197,8 +197,10 @@ namespace Frankie.Utils
 
         private void PrintQuests()
         {
+            if (!questList.TryGetSafely(out QuestList questListInstance)) { Debug.LogWarning("Quest list could not be found."); return; }
+            
             Debug.Log("Printing Quests:");
-            foreach (QuestStatus questStatus in questList.value.GetActiveQuests())
+            foreach (QuestStatus questStatus in questListInstance.GetActiveQuests())
             {
                 Quest quest = questStatus.GetQuest();
                 Debug.Log($"Quest: {quest.GetName()} - {quest.GetDetail()}");
@@ -211,8 +213,10 @@ namespace Frankie.Utils
         #region PartyDebug
         private void LevelUpParty()
         {
+            if (!party.TryGetSafely(out Party partyInstance)) { Debug.LogWarning("Party could not be found."); return; }
+            
             Debug.Log("Leveling up party:");
-            foreach (BaseStats character in party.value.GetMembers())
+            foreach (BaseStats character in partyInstance.GetMembers())
             {
                 Debug.Log($"{CharacterProperties.GetCharacterDisplayName(character)} has gained a level");
                 character.IncrementLevel();
@@ -223,8 +227,10 @@ namespace Frankie.Utils
         #region WalletDebug
         private void AddFundsToWallet()
         {
+            if (!wallet.TryGetSafely(out Wallet walletInstance)) { Debug.LogWarning("Wallet could not be found."); return; }
+            
             Debug.Log($"Adding ${fundsToAddToWallet} to wallet");
-            wallet.value.UpdateCash(fundsToAddToWallet);
+            walletInstance.UpdateCash(fundsToAddToWallet);
         }
         #endregion
     }

@@ -145,18 +145,18 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
             if (characterProperties == null) { return; }
             
-            if (party.value != null)
+            if (party.TryGetSafely(out Party partyInstance))
             {
-                BaseStats characterInParty = party.value.GetMember(characterProperties);
+                BaseStats characterInParty = partyInstance.GetMember(characterProperties);
                 if (characterInParty != null && characterInParty != baseStats)
                 {
                     gameObject.SetActive(false);
                 }
             }
 
-            if (partyAssist.value != null)
+            if (partyAssist.TryGetSafely(out PartyAssist partyAssistInstance))
             {
-                BaseStats characterInPartyAssist = partyAssist.value.GetMember(characterProperties);
+                BaseStats characterInPartyAssist = partyAssistInstance.GetMember(characterProperties);
                 if (characterInPartyAssist != null && characterInPartyAssist != baseStats)
                 {
                     gameObject.SetActive(false);
