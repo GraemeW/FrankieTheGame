@@ -19,7 +19,7 @@ namespace LowDefMustard.GameStateModifiers
         
         // Handles
         public delegate bool HasScenePathDelegate(string input, out string scenePath);
-        public static HasScenePathDelegate ScenePathProvider;
+        public static HasScenePathDelegate scenePathProvider;
         
         // Static State
 #if UNITY_EDITOR
@@ -166,14 +166,14 @@ namespace LowDefMustard.GameStateModifiers
                 }
                 else
                 {
-                    bool sceneFound = ScenePathProvider != null ? ScenePathProvider.Invoke(zoneName, out string scenePath) : DefaultGetScenePath(zoneName, out scenePath);
+                    bool sceneFound = scenePathProvider != null ? scenePathProvider.Invoke(zoneName, out string scenePath) : DefaultGetScenePath(zoneName, out scenePath);
                     IGameStateModifierHandler gameStateModifierHandler = null;
                     bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID, out gameStateModifierHandler);
                     bool isModifierLinked = objectFound && gameStateModifierHandler != null && gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier.guid == guid);
 
                     // Found -- Skip Removal
                     if (isModifierLinked) { continue; }
-
+                    
                     string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
                     Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");
                 }

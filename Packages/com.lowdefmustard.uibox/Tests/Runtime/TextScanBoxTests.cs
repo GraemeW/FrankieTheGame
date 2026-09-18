@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
@@ -27,20 +26,14 @@ namespace LowDefMustard.UIBox.Tests
         }
 
         #region PrivateMethods
-        private static void SetPrivateField(object target, string fieldName, object value)
-        {
-            FieldInfo field = target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-            if (field != null) { field.SetValue(target, value); }
-        }
-
         private GameObject CreateSimpleTextPrefabTemplate()
         {
             var go = new GameObject("SimpleTextTemplate", typeof(RectTransform));
             spawned.Add(go);
             var textField = go.AddComponent<TextMeshProUGUI>();
             var link = go.AddComponent<SimpleTextLink>();
-            SetPrivateField(link, "textField", textField);
-            SetPrivateField(link, "disableOnLoad", false);
+            link.textField = textField;
+            link.disableOnLoad = false;
             return go;
         }
 
@@ -53,7 +46,9 @@ namespace LowDefMustard.UIBox.Tests
             var dialogueParentGo = new GameObject("DialogueParent", typeof(RectTransform));
             spawned.Add(dialogueParentGo);
             textScanBox.SetDialogueParent(dialogueParentGo.transform);
-            textScanBox.SetTunables(simpleTextPrefabRef: simpleTextPrefab, initialInputDelay: initialInputDelay, delayBetweenCharacters: delayBetweenCharacters);
+            textScanBox.simpleTextPrefab = simpleTextPrefab;
+            textScanBox.initialInputDelay = initialInputDelay;
+            textScanBox.delayBetweenCharacters = delayBetweenCharacters;
 
             var controllerGo = new GameObject("Controller");
             spawned.Add(controllerGo);
@@ -118,7 +113,7 @@ namespace LowDefMustard.UIBox.Tests
             yield return null;
             var printedJob = new GameObject("PrintedJob");
             spawned.Add(printedJob);
-            textScanBox.SetPrintedJobsDirectly(new List<GameObject> { printedJob });
+            textScanBox.printedJobs = new List<GameObject> { printedJob };
 
             textScanBox.ClearOldDialogue();
             yield return null;

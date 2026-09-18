@@ -5,8 +5,9 @@ namespace LowDefMustard.UIBox
 {
     public class SimpleTextLink : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI textField;
-        [SerializeField] private bool disableOnLoad = true;
+        // Note:  Internal fields for test visibility
+        [SerializeField] internal TextMeshProUGUI textField;
+        [SerializeField] internal bool disableOnLoad = true;
 
         private void Start()
         {

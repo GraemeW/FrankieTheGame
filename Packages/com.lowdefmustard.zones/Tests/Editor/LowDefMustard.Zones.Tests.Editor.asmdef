@@ -1,0 +1,31 @@
+{
+  "name": "LowDefMustard.Zones.Tests.Editor",
+  "rootNamespace": "LowDefMustard.Zones.Tests.Editor",
+  "references": [
+    "UnityEditor.TestRunner",
+    "UnityEngine.TestRunner",
+    "LowDefMustard.Zones",
+    "LowDefMustard.Zones.Editor",
+    "LowDefMustard.Zones.Tests",
+    "LowDefMustard.Utils",
+    "LowDefMustard.Utils.Editor",
+    "LowDefMustard.Localization",
+    "Unity.Addressables",
+    "Unity.ResourceManager",
+    "Unity.Localization",
+    "UnityEngine.UI"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

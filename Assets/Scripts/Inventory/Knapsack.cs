@@ -287,6 +287,8 @@ namespace Frankie.Inventory
         // Quest Evaluator
         public void CompleteObjective()
         {
+            if (!questList.TryGetSafely(out QuestList questListInstance)) { return; }
+            
             foreach (KeyItem keyItem in GetKeyItems())
             {
                 if (keyItem == null) { continue; }
@@ -294,7 +296,7 @@ namespace Frankie.Inventory
                 foreach (QuestObjective questObjective in keyItem.GetQuestObjectives())
                 {
                     if (questObjective == null) { continue; }
-                    questList.value.CompleteObjective(questObjective);
+                    questListInstance.CompleteObjective(questObjective);
                 }
             }
         }

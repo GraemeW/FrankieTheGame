@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -37,9 +36,9 @@ namespace LowDefMustard.Control.Tests
                 rigidBody2D = GetComponent<Rigidbody2D>();
                 isRigidBodyInitialized = true;
             }
-
             public override float GetCurrentSpeed() => movementConfiguration.baseMovementSpeed;
             protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false) { }
+            public void OverrideMovementConfiguration(MovementConfiguration setMovementConfiguration) => movementConfiguration = setMovementConfiguration;
 
             public bool? CallMoveToTarget() => MoveToTarget();
         }
@@ -88,9 +87,7 @@ namespace LowDefMustard.Control.Tests
             var rigidBody2D = go.AddComponent<Rigidbody2D>();
             rigidBody2D.gravityScale = 0f;
 
-            var serializedMover = new SerializedObject(testMover);
-            serializedMover.FindProperty("movementConfiguration").objectReferenceValue = config;
-            serializedMover.ApplyModifiedPropertiesWithoutUndo();
+            testMover.OverrideMovementConfiguration(config);
 
             beforeActivate?.Invoke(go.GetComponent<PathFinder>());
 

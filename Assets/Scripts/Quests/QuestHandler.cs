@@ -63,14 +63,14 @@ namespace Frankie.Quests
         #region PublicMethods
         public void GiveConfiguredQuest()
         {
-            if (quest == null) { return; }
-            questList.value.TryAddQuest(quest);
+            if (quest == null || !questList.TryGetSafely(out QuestList questListInstance)) { return; }
+            questListInstance.TryAddQuest(quest);
         }
         
         public void CompleteConfiguredObjective()
         {
-            if (questObjective == null) { return; }
-            questList.value.CompleteObjective(questObjective);
+            if (questObjective == null || !questList.TryGetSafely(out QuestList questListInstance)) { return; }
+            questListInstance.CompleteObjective(questObjective);
         }
         #endregion
         

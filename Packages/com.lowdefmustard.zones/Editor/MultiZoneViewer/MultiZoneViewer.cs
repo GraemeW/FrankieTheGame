@@ -15,6 +15,8 @@ namespace LowDefMustard.Zones.Editor
 {
     public class MultiZoneViewer : EditorWindow
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // Path Tunables
         private const string _assetsFolder = "Assets";
         private const string _multiZoneViewSubFolder = "MultiZoneViewer";
@@ -75,7 +77,7 @@ namespace LowDefMustard.Zones.Editor
         };
         
         // Editable Configurations
-        [SerializeField] private MultiZoneView activeMultiZoneView;
+        [SerializeField] internal MultiZoneView activeMultiZoneView;
         [SerializeField] private Vector2 panOffset = Vector2.zero;
         [SerializeField] private float zoomScale = 1.0f;
         [SerializeField] private bool useZoneHandlerCrawl = true;
@@ -889,7 +891,7 @@ namespace LowDefMustard.Zones.Editor
             return zoneBounds;
         }
         
-        private Texture2D CaptureZone(Bounds zoneBounds)
+        internal Texture2D CaptureZone(Bounds zoneBounds)
         {
             if (activeMultiZoneView == null) { return null; }
 
@@ -903,7 +905,7 @@ namespace LowDefMustard.Zones.Editor
             return snapshotTexture;
         }
 
-        private Vector2 PositionCameraToFrameScene(Camera camera, Bounds zoneBounds)
+        internal Vector2 PositionCameraToFrameScene(Camera camera, Bounds zoneBounds)
         {
             camera.transform.position = new Vector3(zoneBounds.center.x, zoneBounds.center.y, camera.transform.position.z);
             Vector2 snapshotDimensions = GetIdealSnapshotDimensions(zoneBounds.extents.x, zoneBounds.extents.y);
@@ -917,7 +919,7 @@ namespace LowDefMustard.Zones.Editor
             return snapshotDimensions;
         }
         
-        private static Texture2D CameraClick(Camera captureCamera, Vector2 snapshotDimensions)
+        internal static Texture2D CameraClick(Camera captureCamera, Vector2 snapshotDimensions)
         {
             int snapshotWidth = Mathf.RoundToInt(snapshotDimensions.x);
             int snapshotHeight = Mathf.RoundToInt(snapshotDimensions.y);
@@ -938,7 +940,7 @@ namespace LowDefMustard.Zones.Editor
             return snapshotTexture;
         }
 
-        private Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
+        internal Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
         {
             if (Mathf.Approximately(xWorldSize, 0f) || Mathf.Approximately(yWorldSize, 0f)) { return _dummySnapshotDimensions; }
             

@@ -17,12 +17,14 @@ namespace LowDefMustard.Zones
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
     public partial class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizableCore
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // Tunables
         [Header("Zone Properties")]
         [SerializeField][SimpleLocalizedString(false)] private LocalizedString localizedDisplayName;
-        [SerializeField] private SceneReference sceneReference;
+        [SerializeField] internal SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
-        [SerializeField] private AudioClip zoneAudio;
+        [SerializeField] internal AudioClip zoneAudio;
         [SerializeField] private bool isZoneAudioLooping = true;
 
         // Const / Static UI Tunables
@@ -45,15 +47,15 @@ namespace LowDefMustard.Zones
 #endif
 
         [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] private static Dictionary<string, Zone> _zoneLookupCache;
-        [AutoStaticsCleanup] private static Dictionary<string, Zone> _sceneReferenceCache;
+        [AutoStaticsCleanup] internal static Dictionary<string, Zone> zoneLookupCache;
+        [AutoStaticsCleanup] internal static Dictionary<string, Zone> sceneReferenceCache;
         
         #region AddressablesCaching
         public static Zone GetFromName(string zoneName)
         {
             if (string.IsNullOrWhiteSpace(zoneName)) { return null; }
             BuildCacheIfEmpty();
-            return _zoneLookupCache.GetValueOrDefault(zoneName);
+            return zoneLookupCache.GetValueOrDefault(zoneName);
         }
 
         public static Zone GetFromSceneReference(string sceneReference)
@@ -62,32 +64,32 @@ namespace LowDefMustard.Zones
 
             Debug.Log($"Attempting to load zone from scene reference {sceneReference}");
             BuildCacheIfEmpty();
-            return _sceneReferenceCache.GetValueOrDefault(sceneReference);
+            return sceneReferenceCache.GetValueOrDefault(sceneReference);
         }
 
         public static void BuildCacheIfEmpty()
         {
-            if (_sceneReferenceCache != null) { return; }
+            if (sceneReferenceCache != null) { return; }
             BuildZoneCache();
         }
 
         private static void BuildZoneCache()
         {
-            _zoneLookupCache = new Dictionary<string, Zone>();
-            _sceneReferenceCache = new Dictionary<string, Zone>();
-            //Debug.Log("Zone:  Building static Zone cache");
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) =>
-            {
-                if (_zoneLookupCache.ContainsKey(zone.name) || _sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
-                {
-                    Debug.LogError($"Looks like there's a duplicate ID for objects: {_zoneLookupCache[zone.name]} and {zone}");
-                }
-
-                _zoneLookupCache[zone.name] = zone;
-                _sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
-            }
-            );
+            zoneLookupCache = new Dictionary<string, Zone>();
+            sceneReferenceCache = new Dictionary<string, Zone>();
+            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) => AddZoneToCache(zone));
             _addressablesLoadHandle.WaitForCompletion();
+        }
+
+        internal static void AddZoneToCache(Zone zone)
+        {
+            if (zoneLookupCache.ContainsKey(zone.name) || sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
+            {
+                Debug.LogError($"Looks like there's a duplicate ID for objects: {zoneLookupCache[zone.name]} and {zone}");
+            }
+
+            zoneLookupCache[zone.name] = zone;
+            sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
         }
 
         public static void ReleaseCache()

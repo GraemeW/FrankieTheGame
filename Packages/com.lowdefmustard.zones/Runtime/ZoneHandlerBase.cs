@@ -4,10 +4,12 @@ namespace LowDefMustard.Zones
 {
     public class ZoneHandlerBase : MonoBehaviour
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // Tunables
         [Header("Zone Handler Base Parameters")]
-        [SerializeField] protected ZoneNode zoneNode;
-        [SerializeField] protected Transform warpTransform;
+        [SerializeField] protected internal ZoneNode zoneNode;
+        [SerializeField] protected internal Transform warpTransform;
         
         // Methods
         public ZoneNode GetZoneNode() => zoneNode;

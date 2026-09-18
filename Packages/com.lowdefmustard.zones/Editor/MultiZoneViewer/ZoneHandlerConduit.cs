@@ -8,8 +8,10 @@ namespace LowDefMustard.Zones.Editor
 {
     public static class ZoneHandlerConduit
     {
+        // Note:  Internal fields/methods for test visibility
+        
         #region PublicMethods
-        public static IEnumerable<string> OpenLinkedScenePaths(Zone rootZone, int maxZoneCount, HashSet<string> existingViewScenePaths)
+        public static IEnumerable<string> OpenLinkedScenePaths(Zone rootZone, int maxZoneCount, HashSet<string> existingViewScenePaths, bool showProgressBar = true)
         {
             if (rootZone == null || rootZone.GetSceneReference().SceneName == null) { yield break; }
             string rootScenePath = rootZone.GetSceneReference().GetScenePath();
@@ -27,7 +29,7 @@ namespace LowDefMustard.Zones.Editor
                 
                 // Skip any scenes we've already been on -- needed since existingSceneViews can cause dupes with ZoneHandler-added scenes
                 if (string.IsNullOrEmpty(currentScenePath) || uniqueScenePaths.Contains(currentScenePath)) { continue; }
-                EditorUtility.DisplayProgressBar("MultiZone Viewer", "Capturing all linked zones", (float)currentZoneCount / maxZoneCount);
+                if (showProgressBar) { EditorUtility.DisplayProgressBar("MultiZone Viewer", "Capturing all linked zones", (float)currentZoneCount / maxZoneCount); }
                 
                 // Open scene, then yield back for camera capture 
                 EditorSceneManager.OpenScene(currentScenePath, OpenSceneMode.Single);
@@ -110,7 +112,7 @@ namespace LowDefMustard.Zones.Editor
             return zoneNodeDataByZoneName;
         }
 
-        private static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
+        internal static Vector2 GetRelativePosition(Vector2 position, Bounds bounds)
         {
             Vector2 topLeft = new Vector2(bounds.min.x, bounds.max.y);
             float xRelative = Mathf.Clamp01((position.x - topLeft.x) / bounds.size.x);

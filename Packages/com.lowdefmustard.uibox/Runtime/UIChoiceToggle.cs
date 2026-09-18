@@ -6,8 +6,10 @@ namespace LowDefMustard.UIBox
 {
     public class UIChoiceToggle : UIChoice
     {
+        // Note:  Internal fields for test visibility
+        
         // Tunables
-        [SerializeField] private Toggle toggle;
+        [SerializeField] internal Toggle toggle;
 
         // Methods
         #region UnityMethods

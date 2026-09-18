@@ -48,6 +48,7 @@ namespace LowDefMustard.Localization
         
         public static void RefreshTableCache()
         {
+#if UNITY_EDITOR
             List<TTableType> tablesToRemove = new List<TTableType>();
             foreach (KeyValuePair<TTableType, StringTableCollection> keyValuePair in _cachedTableCollections)
             {
@@ -61,6 +62,7 @@ namespace LowDefMustard.Localization
                 _cachedEnglishTables.Remove(tableType);
                 _tableCollectionNames.Remove(tableType);
             }
+#endif
         }
         #endregion
         
