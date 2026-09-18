@@ -109,7 +109,7 @@ namespace LowDefMustard.Utils.Tests
             originalTargetGo.AddComponent<DummyFindableTarget>();
             var host = new GameObject("Host").AddComponent<ReInitLazyValueCachedReferenceExample>();
 
-            bool firstResult = host.cachedTarget.TryGetSafely(out var firstValue);
+            bool firstResult = host.cachedTarget.TryGetSafely(out Transform firstValue);
             Assert.IsTrue(firstResult);
             Assert.AreSame(originalTargetGo.transform, firstValue);
 
@@ -119,7 +119,7 @@ namespace LowDefMustard.Utils.Tests
             var respawnedTargetGo = new GameObject("RespawnedTarget");
             respawnedTargetGo.AddComponent<DummyFindableTarget>();
 
-            bool secondResult = host.cachedTarget.TryGetSafely(out var secondValue);
+            bool secondResult = host.cachedTarget.TryGetSafely(out Transform secondValue);
 
             Assert.IsTrue(secondResult);
             Assert.AreSame(respawnedTargetGo.transform, secondValue);
@@ -143,7 +143,7 @@ namespace LowDefMustard.Utils.Tests
             Object.Destroy(targetGo);
             yield return null; // Destroy() is deferred to end of frame
 
-            bool result = host.cachedTarget.TryGetSafely(out var passValue, allowReInit: false);
+            bool result = host.cachedTarget.TryGetSafely(out Transform _, allowReInit: false);
 
             Assert.IsFalse(result);
             Assert.AreEqual(1, host.initializerCallCount, "allowReInit: false should never trigger a fresh initializer call");
@@ -151,6 +151,42 @@ namespace LowDefMustard.Utils.Tests
             Object.Destroy(host.gameObject);
         }
 
+        [UnityTest]
+        public IEnumerator SubscribeInOnEnable_UnSubscribeInOnDisable_CycleTests()
+        {
+            var sourceGo = new GameObject("Source");
+            var eventSource = sourceGo.AddComponent<DummyEventSource>();
+            var host = new GameObject("Host").AddComponent<ReInitLazyValueSubscribeUnsubscribeExample>();
+            yield return null; // let OnEnable run and subscribe
+
+            Assert.AreEqual(1, host.initializerCallCount);
+
+            eventSource.Fire();
+            Assert.AreEqual(1, host.eventReceivedCount);
+
+            // OnEnable/OnDisable triggered via SetActive() aren't reliably synchronous (yield after the call, and confirm OnDisable actually ran)
+            host.gameObject.SetActive(false);
+            yield return null;
+
+            Assert.IsTrue(host.onDisableRan, "OnDisable should have run by now");
+            Assert.AreEqual(1, host.initializerCallCount, "OnDisable's safe unsubscribe should not have triggered a re-init attempt");
+            
+            for (int i = 0; i < 5; i++)
+            {
+                host.gameObject.SetActive(true);
+                yield return null;
+                eventSource.Fire(); // Fire - will receive
+                host.gameObject.SetActive(false);
+                yield return null;
+                eventSource.Fire(); // Fire - will not receive (if unsub successful)
+            }
+            Assert.AreEqual(1, host.initializerCallCount); // Should not lose reference during OnDisable/OnEnable cycles
+            Assert.AreEqual(6, host.eventReceivedCount); // Initial call (1) + loop count (5) = 6
+            
+            Object.Destroy(sourceGo);
+            Object.Destroy(host.gameObject);
+        }
+        
         [UnityTest]
         public IEnumerator SubscribeInOnEnable_TargetDestroyedBeforeOnDisable_UnsubscribesSafelyWithoutReinitializing()
         {
