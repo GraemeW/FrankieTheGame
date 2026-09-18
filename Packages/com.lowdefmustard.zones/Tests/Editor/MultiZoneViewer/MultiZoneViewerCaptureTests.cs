@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using LowDefMustard.Zones.Editor;
 
@@ -6,11 +7,17 @@ namespace LowDefMustard.Zones.Tests.Editor
 {
     public class MultiZoneViewerCaptureTests
     {
+        // Const Tunables
+        private const float _tolerance = 0.01f;
+
         // State
         private MultiZoneViewer viewer;
         private GameObject cameraGameObject;
         private Texture2D resultTexture;
         private MultiZoneView multiZoneView;
+        private GameObject cubeA;
+        private GameObject cubeB;
+        private bool createdScratchScene;
 
         #region Setup
         [SetUp]
@@ -25,7 +32,29 @@ namespace LowDefMustard.Zones.Tests.Editor
             if (resultTexture != null) { Object.DestroyImmediate(resultTexture); }
             if (cameraGameObject != null) { Object.DestroyImmediate(cameraGameObject); }
             if (multiZoneView != null) { Object.DestroyImmediate(multiZoneView); }
+            if (cubeA != null) { Object.DestroyImmediate(cubeA); }
+            if (cubeB != null) { Object.DestroyImmediate(cubeB); }
             Object.DestroyImmediate(viewer);
+
+            // Discards the scratch scene (and anything left in it) by replacing it with a fresh one
+            if (createdScratchScene)
+            {
+                EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                createdScratchScene = false;
+            }
+        }
+
+        private static void AssertVector2Approximately(Vector2 expected, Vector2 actual)
+        {
+            Assert.AreEqual(expected.x, actual.x, _tolerance);
+            Assert.AreEqual(expected.y, actual.y, _tolerance);
+        }
+
+        private static void AssertVector3Approximately(Vector3 expected, Vector3 actual)
+        {
+            Assert.AreEqual(expected.x, actual.x, _tolerance);
+            Assert.AreEqual(expected.y, actual.y, _tolerance);
+            Assert.AreEqual(expected.z, actual.z, _tolerance);
         }
         #endregion
 
@@ -47,7 +76,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             Vector2 result = viewer.GetIdealSnapshotDimensions(0f, 5f);
 
-            Assert.AreEqual(new Vector2(10f, 10f), result);
+            AssertVector2Approximately(new Vector2(10f, 10f), result);
         }
 
         [Test]
@@ -56,7 +85,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             // 10x10 world size * 80 scaling = 800x800, below the 1920x1080 minimum on both axes
             Vector2 result = viewer.GetIdealSnapshotDimensions(10f, 10f);
 
-            Assert.AreEqual(new Vector2(1920f, 1920f), result);
+            AssertVector2Approximately(new Vector2(1920f, 1920f), result);
         }
 
         [Test]
@@ -65,7 +94,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             // 200x200 world size * 80 scaling = 16000x16000, above the 7680x4320 maximum on both axes
             Vector2 result = viewer.GetIdealSnapshotDimensions(200f, 200f);
 
-            Assert.AreEqual(new Vector2(7680f, 4320f), result);
+            AssertVector2Approximately(new Vector2(7680f, 4320f), result);
         }
 
         [Test]
@@ -78,8 +107,8 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             viewer.PositionCameraToFrameScene(camera, zoneBounds);
 
-            Assert.AreEqual(new Vector3(5f, 7f, -10f), camera.transform.position);
-            Assert.AreEqual(10f, camera.orthographicSize);
+            AssertVector3Approximately(new Vector3(5f, 7f, -10f), camera.transform.position);
+            Assert.AreEqual(10f, camera.orthographicSize, _tolerance);
         }
 
         [Test]
@@ -106,6 +135,27 @@ namespace LowDefMustard.Zones.Tests.Editor
             Assert.IsNotNull(resultTexture);
             Assert.AreEqual(1920, resultTexture.width);
             Assert.AreEqual(1920, resultTexture.height);
+        }
+
+        [Test]
+        public void CalculateZoneBounds_WithRenderers_EncapsulatesAllRendererBounds()
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            createdScratchScene = true;
+
+            cubeA = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cubeA.transform.position = Vector3.zero;
+            cubeB = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cubeB.transform.position = new Vector3(10f, 0f, 0f);
+
+            // Default Cube primitives are unit cubes, so each renderer's world-space bounds are exactly (position, (1,1,1))
+            //  - the union of a cube at (0,0,0) and one at (10,0,0) is center (5,0,0) -> size (11,1,1)
+            var expected = new Bounds(new Vector3(5f, 0f, 0f), new Vector3(11f, 1f, 1f));
+
+            Bounds result = MultiZoneViewer.CalculateZoneBounds();
+
+            AssertVector3Approximately(expected.center, result.center);
+            AssertVector3Approximately(expected.size, result.size);
         }
         #endregion
     }

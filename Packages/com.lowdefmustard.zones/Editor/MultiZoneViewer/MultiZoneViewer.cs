@@ -845,7 +845,7 @@ namespace LowDefMustard.Zones.Editor
             return newPosition;
         }
         
-        private static Bounds CalculateZoneBounds()
+        internal static Bounds CalculateZoneBounds()
         {
             Bounds zoneBounds = new Bounds();
             

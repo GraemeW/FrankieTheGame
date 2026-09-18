@@ -49,13 +49,13 @@ namespace LowDefMustard.Zones.Tests.Editor
         }
 
         [Test]
-        public void OpenLinkedScenePaths_RootAlreadyInExistingViews_YieldsNothing()
+        public void OpenLinkedScenePaths_RootAlreadyInExistingViews_StillYieldsItExactlyOnce()
         {
             var existingViewScenePaths = new HashSet<string> { _scratchScenePath };
 
             List<string> result = ZoneHandlerConduit.OpenLinkedScenePaths(rootZone, maxZoneCount: 1, existingViewScenePaths, showProgressBar: false).ToList();
 
-            CollectionAssert.IsEmpty(result);
+            CollectionAssert.AreEqual(new[] { _scratchScenePath }, result);
         }
 
         [Test]
