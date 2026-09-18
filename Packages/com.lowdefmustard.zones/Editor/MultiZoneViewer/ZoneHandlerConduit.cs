@@ -11,7 +11,7 @@ namespace LowDefMustard.Zones.Editor
         // Note:  Internal fields/methods for test visibility
         
         #region PublicMethods
-        public static IEnumerable<string> OpenLinkedScenePaths(Zone rootZone, int maxZoneCount, HashSet<string> existingViewScenePaths)
+        public static IEnumerable<string> OpenLinkedScenePaths(Zone rootZone, int maxZoneCount, HashSet<string> existingViewScenePaths, bool showProgressBar = true)
         {
             if (rootZone == null || rootZone.GetSceneReference().SceneName == null) { yield break; }
             string rootScenePath = rootZone.GetSceneReference().GetScenePath();
@@ -29,7 +29,7 @@ namespace LowDefMustard.Zones.Editor
                 
                 // Skip any scenes we've already been on -- needed since existingSceneViews can cause dupes with ZoneHandler-added scenes
                 if (string.IsNullOrEmpty(currentScenePath) || uniqueScenePaths.Contains(currentScenePath)) { continue; }
-                EditorUtility.DisplayProgressBar("MultiZone Viewer", "Capturing all linked zones", (float)currentZoneCount / maxZoneCount);
+                if (showProgressBar) { EditorUtility.DisplayProgressBar("MultiZone Viewer", "Capturing all linked zones", (float)currentZoneCount / maxZoneCount); }
                 
                 // Open scene, then yield back for camera capture 
                 EditorSceneManager.OpenScene(currentScenePath, OpenSceneMode.Single);
