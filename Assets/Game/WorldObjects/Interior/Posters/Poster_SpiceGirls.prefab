@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6748012768298087332}
   - component: {fileID: 6748012768298087333}
   m_Layer: 2
-  m_Name: HansonPoster
+  m_Name: Poster_SpiceGirls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 219284958589100329, guid: 74eab2f4c74391e4ead9d556d16ce455, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2f8a2a39b9fa43bfbf6423324323cf9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
