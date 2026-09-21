@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 3578435516547435565}
   - component: {fileID: 3578435516547435554}
   - component: {fileID: 3578435516547435552}
-  - component: {fileID: 4387638615955217307}
-  - component: {fileID: 4915118705629744579}
+  - component: {fileID: 7060725784131790507}
   m_Layer: 2
-  m_Name: TVHomeOnStand
+  m_Name: Table_BedSide-R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,8 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7405935481574908681}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3578435516547435554
@@ -85,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1384861438749457378, guid: 05ed1501d75c84fb39a9a8650a569e42, type: 3}
+  m_Sprite: {fileID: -1074062459709952706, guid: 7910741bd65c94f7b9438225efd14438, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -123,7 +121,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &4387638615955217307
+--- !u!60 &7060725784131790507
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,8 +158,8 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.0121951215, y: 0.5074627}
-    oldSize: {x: 0.82, y: 0.67}
+    pivot: {x: 0.023809524, y: 0.27272728}
+    oldSize: {x: 0.42, y: 0.33}
     newSize: {x: 0.84, y: 0.34}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -169,90 +167,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.79969823, y: -0.16468777}
-      - {x: 0.80093265, y: -0.092382014}
-      - {x: 0.2670702, y: 0.1915202}
-      - {x: 0.16260314, y: 0.18964946}
-      - {x: -0.00079517346, y: 0.062329106}
-      - {x: -0.0018518447, y: -0.018608667}
-      - {x: 0.6320367, y: -0.32932737}
+    - - {x: 0.4009676, y: -0.038369462}
+      - {x: 0.3908002, y: 0.037766837}
+      - {x: 0.00918892, y: 0.043710683}
+      - {x: -0.005492702, y: -0.024509639}
+      - {x: 0.05334401, y: -0.081973165}
+      - {x: 0.39999998, y: -0.08059999}
   m_UseDelaunayMesh: 0
---- !u!210 &4915118705629744579
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578435516547435564}
-  m_Enabled: 1
-  m_SortingLayerID: 1098151181
-  m_SortingLayer: 2
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
---- !u!1001 &7828083281766287366
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3578435516547435565}
-    m_Modifications:
-    - target: {fileID: 749246050096737038, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_Name
-      value: TVHome
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3057035205605020312, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
-      value: 4764655435112448
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
---- !u!4 &7405935481574908681 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
-  m_PrefabInstance: {fileID: 7828083281766287366}
-  m_PrefabAsset: {fileID: 0}
