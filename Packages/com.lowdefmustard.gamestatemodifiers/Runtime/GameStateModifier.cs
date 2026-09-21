@@ -138,10 +138,10 @@ namespace LowDefMustard.GameStateModifiers
             EditorUtility.SetDirty(this);
         }
 
-        public int CleanDanglingModifierHandlerData()
+        public int CleanDanglingModifierHandlerData(bool removeOnSceneCheck = true)
         {
             int removedCount = 0;
-            removedCount += RemoveNonExistentEntries();
+            removedCount += RemoveNonExistentEntries(removeOnSceneCheck);
             removedCount += RemoveDuplicateEntries();
             EditorUtility.SetDirty(this);
             return removedCount;
@@ -149,7 +149,7 @@ namespace LowDefMustard.GameStateModifiers
         #endregion
 
         #region EditorPrivateMethods
-        private int RemoveNonExistentEntries()
+        private int RemoveNonExistentEntries(bool removeOnSceneCheck = true)
         {
             int removedCount = 0;
             for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
@@ -173,6 +173,7 @@ namespace LowDefMustard.GameStateModifiers
 
                     // Found -- Skip Removal
                     if (isModifierLinked) { continue; }
+                    if (!sceneFound && !removeOnSceneCheck) { continue; }
                     
                     string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
                     Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");

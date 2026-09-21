@@ -69,7 +69,7 @@ namespace LowDefMustard.Zones
 
         public static void BuildCacheIfEmpty()
         {
-            if (sceneReferenceCache != null) { return; }
+            if (sceneReferenceCache is { Count: > 0 }) { return; }
             BuildZoneCache();
         }
 
