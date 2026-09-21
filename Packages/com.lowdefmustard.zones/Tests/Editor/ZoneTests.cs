@@ -16,6 +16,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void SetUp()
         {
             zone = ScriptableObject.CreateInstance<Zone>();
+            zone.preventLocalizationForTests = true;
             originalIgnoreFailingMessages = LogAssert.ignoreFailingMessages;
         }
 
@@ -97,6 +98,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             zone.CreateRootNodeIfMissing();
             ZoneNode root = zone.GetRootNode();
             var unrelated = ScriptableObject.CreateInstance<ZoneNode>();
+            unrelated.preventLocalizationForTests = true;
             unrelated.name = "unrelated";
 
             Assert.IsFalse(Zone.IsRelated(root, unrelated));
@@ -108,7 +110,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void ToggleRelation_AddsThenRemovesRelation()
         {
             var parent = ScriptableObject.CreateInstance<ZoneNode>();
+            parent.preventLocalizationForTests = true;
             var child = ScriptableObject.CreateInstance<ZoneNode>();
+            child.preventLocalizationForTests = true;
+            
             parent.name = "parent";
             child.name = "child";
 

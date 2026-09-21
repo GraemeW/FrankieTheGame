@@ -22,7 +22,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         
         // State
         private readonly List<GameObject> spawnedGameObjects = new();
-        private HeadlessEditorWindowTestHelper windowHelper;
+        private HeadlessEditorWindow windowHelper;
         
         #region DataStructures
         private class TestBoolSaveableComponent : MonoBehaviour, ISaveable<bool>
@@ -224,7 +224,7 @@ namespace LowDefMustard.Saving.Tests.Editor
 
             // Force a desync the same way a real edit would - through the live UI field
             Box card = cardData.DrawSaveableEntityCard(null);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(card);
             Toggle toggle = card.Query<Toggle>().First();
             toggle.value = !toggle.value;
@@ -277,7 +277,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var cachedFullSaveState = new JObject();
             var cardData = new SaveableEntityCardData(entity, cachedFullSaveState, new HashSet<string>(), null, null);
             Box card = cardData.DrawSaveableEntityCard(null);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(card);
             Toggle toggle = card.Query<Toggle>().First();
             toggle.value = true; // simulate an edited-but-unsaved sub-card value through the real UI field
@@ -298,7 +298,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var cachedFullSaveState = new JObject();
             var cardData = new SaveableEntityCardData(entity, cachedFullSaveState, new HashSet<string>(), null, () => _tempSaveFile);
             Box card = cardData.DrawSaveableEntityCard(null);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(card);
             Toggle toggle = card.Query<Toggle>().First();
             toggle.value = true;
@@ -371,7 +371,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var cardData = new SaveableEntityCardData(entity, new JObject(), new HashSet<string>(), null, null);
             bool saveCallbackInvoked = false;
             Box card = cardData.DrawSaveableEntityCard(() => saveCallbackInvoked = true);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(card);
 
             Button saveButton = card.Query<Button>().ToList().First(button => button.text == "Save Entity");

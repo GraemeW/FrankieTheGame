@@ -6,11 +6,11 @@ namespace LowDefMustard.Saving.Tests.Editor
 {
     // Attached panel so that value-changed/click event dispatch fires
     // Caller is responsible for disposing via Close() in [TearDown]
-    public class HeadlessEditorWindowTestHelper
+    public class HeadlessEditorWindow
     {
         private readonly EditorWindow window;
 
-        public HeadlessEditorWindowTestHelper()
+        public HeadlessEditorWindow()
         {
             window = ScriptableObject.CreateInstance<EditorWindow>();
             window.ShowUtility();

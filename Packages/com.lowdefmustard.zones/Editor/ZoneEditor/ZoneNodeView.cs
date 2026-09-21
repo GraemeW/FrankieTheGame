@@ -20,10 +20,10 @@ namespace LowDefMustard.Zones.Editor
         // State
         private readonly ZoneNode zoneNode;
         private readonly Zone zone;
-        private readonly ZoneGraphView zoneGraphView;
+        private readonly IZoneGraphView zoneGraphView;
         private readonly Button linkButton;
 
-        public ZoneNodeView(ZoneNode zoneNode, Zone zone, ZoneGraphView zoneGraphView)
+        public ZoneNodeView(ZoneNode zoneNode, Zone zone, IZoneGraphView zoneGraphView)
         {
             this.zoneNode = zoneNode;
             this.zone = zone;
@@ -206,6 +206,7 @@ namespace LowDefMustard.Zones.Editor
         {
             return new Button()
             {
+                name = "linkButton",
                 text = "link",
                 style =
                 {
@@ -218,6 +219,7 @@ namespace LowDefMustard.Zones.Editor
         {
             return new Button()
             {
+                name = add ? "addButton" : "removeButton",
                 text = add ? "+" : "-",
                 style =
                 {

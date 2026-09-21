@@ -48,6 +48,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             handlerGameObject = new GameObject("Handler");
             var handler = handlerGameObject.AddComponent<ZoneHandlerBase>();
             zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
+            zoneNode.preventLocalizationForTests = true;
             handler.zoneNode = zoneNode;
 
             Assert.AreSame(zoneNode, handler.GetZoneNode());

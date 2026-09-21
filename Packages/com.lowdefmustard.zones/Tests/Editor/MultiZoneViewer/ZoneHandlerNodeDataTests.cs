@@ -14,6 +14,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void SetUp()
         {
             zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
+            zoneNode.preventLocalizationForTests = true;
         }
 
         [TearDown]

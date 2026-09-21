@@ -85,6 +85,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void RecomputeGroupRect_SingleContainedNode_ProducesPaddedBounds()
         {
             zone = ScriptableObject.CreateInstance<Zone>();
+            zone.preventLocalizationForTests = true;
             zone.CreateRootNodeIfMissing();
             ZoneNode rootNode = zone.GetRootNode();
             createdNodes.Add(rootNode);

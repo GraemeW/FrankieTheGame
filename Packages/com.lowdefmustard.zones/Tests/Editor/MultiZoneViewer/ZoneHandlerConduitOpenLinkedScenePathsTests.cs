@@ -26,6 +26,8 @@ namespace LowDefMustard.Zones.Tests.Editor
             EditorSceneManager.SaveScene(scratchScene, _scratchScenePath);
 
             rootZone = ScriptableObject.CreateInstance<Zone>();
+            rootZone.preventLocalizationForTests = true;
+            rootZone.hideFlags = HideFlags.HideAndDontSave; // Loading a scene can unload loose unreferenced objects (HideAndDontSave to keep it alive across)
             rootZone.sceneReference = _scratchSceneName;
             rootZone.sceneReference.scenePath = _scratchScenePath;
         }

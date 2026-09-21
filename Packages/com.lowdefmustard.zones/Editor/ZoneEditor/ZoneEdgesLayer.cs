@@ -13,7 +13,7 @@ namespace LowDefMustard.Zones.Editor
         private static readonly Color _arrivingColor = Color.blue;
 
         // State
-        private List<(Rect from, Rect to)> edges = new();
+        internal List<(Rect from, Rect to)> edges = new(); // Note:  Internal for test visibility
         private static readonly Gradient _edgeGradient = new()
         {
             colorKeys = new[]

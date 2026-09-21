@@ -32,6 +32,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         private ZoneNode CreateNode(string zoneName, string nodeName)
         {
             var node = ScriptableObject.CreateInstance<ZoneNode>();
+            node.preventLocalizationForTests = true;
+            
             LogAssert.ignoreFailingMessages = true;
             node.SetZoneName(zoneName);
             node.SetNodeID(nodeName); // Need to set ID/name manually when creating instance

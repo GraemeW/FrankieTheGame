@@ -18,6 +18,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void OneTimeSetUp()
         {
             zone = ScriptableObject.CreateInstance<Zone>();
+            zone.preventLocalizationForTests = true;
             AssetDatabase.CreateAsset(zone, _scratchAssetPath);
             AssetDatabase.SaveAssets();
         }

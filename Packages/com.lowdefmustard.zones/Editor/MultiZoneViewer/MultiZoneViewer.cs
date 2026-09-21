@@ -78,8 +78,8 @@ namespace LowDefMustard.Zones.Editor
         
         // Editable Configurations
         [SerializeField] internal MultiZoneView activeMultiZoneView;
-        [SerializeField] private Vector2 panOffset = Vector2.zero;
-        [SerializeField] private float zoomScale = 1.0f;
+        [SerializeField] internal Vector2 panOffset = Vector2.zero;
+        [SerializeField] internal float zoomScale = 1.0f;
         [SerializeField] private bool useZoneHandlerCrawl = true;
         [SerializeField] private Zone rootZone;
         [SerializeField] private bool drawConnections = true;
@@ -90,9 +90,9 @@ namespace LowDefMustard.Zones.Editor
         [SerializeField] private float additionalMaxScalingFactor = 5.0f;
         
         // State
-        private bool isToolAvailable = true;
-        private readonly List<ZoneView> zoneViews = new();
-        private readonly Dictionary<string, ZoneView> zoneViewLookup = new();
+        internal bool isToolAvailable = true;
+        internal readonly List<ZoneView> zoneViews = new();
+        internal readonly Dictionary<string, ZoneView> zoneViewLookup = new();
 
         // Node Dot State
         private readonly List<(string zoneName, string zoneNodeID, Rect canvasRect)> nodeDotElements = new();
@@ -102,15 +102,15 @@ namespace LowDefMustard.Zones.Editor
         private Vector2 dragCurrentCanvasPosition;
         
         // UI State
-        private VisualElement canvas;
-        private VisualElement zoneViewLayer;
-        private VisualElement curvesLayer;
-        private VisualElement nodeDotsLayer;
-        private ObjectField multiZoneViewField;
-        private ObjectField startingZoneField;
-        private Label statusLabel;
-        private Button clearButton;
-        private Label zoomLabel;
+        internal VisualElement canvas;
+        internal VisualElement zoneViewLayer;
+        internal VisualElement curvesLayer;
+        internal VisualElement nodeDotsLayer;
+        internal ObjectField multiZoneViewField;
+        internal ObjectField startingZoneField;
+        internal Label statusLabel;
+        internal Button clearButton;
+        internal Label zoomLabel;
         
         #region UnityMethods
         [MenuItem("Tools/Multi-Zone Viewer", false, 200)]
@@ -166,7 +166,7 @@ namespace LowDefMustard.Zones.Editor
         #region SetupCallbacks
         private void OnSceneOpened(Scene scene, OpenSceneMode mode) => OnRefreshClicked(false);
 
-        private void OnPlayModeStateChanged(PlayModeStateChange state)
+        internal void OnPlayModeStateChanged(PlayModeStateChange state)
         {
             switch (state)
             {
@@ -223,7 +223,7 @@ namespace LowDefMustard.Zones.Editor
             if (enable) { Undo.undoRedoPerformed += OnUndoRedoPerformed; }
         }
 
-        private void OnUndoRedoPerformed()
+        internal void OnUndoRedoPerformed()
         {
             if (!isToolAvailable) { return; }
             RefreshZoneViews(false);
@@ -235,7 +235,7 @@ namespace LowDefMustard.Zones.Editor
             if (enable) { Selection.selectionChanged += OnSelectionChanged; }
         }
 
-        private void OnSelectionChanged()
+        internal void OnSelectionChanged()
         {
             if (!isToolAvailable) { return; }
 
@@ -250,7 +250,7 @@ namespace LowDefMustard.Zones.Editor
             }
         }
 
-        private void CenterViewOnZone(Zone zone)
+        internal void CenterViewOnZone(Zone zone)
         {
             if (!zoneViewLookup.TryGetValue(zone.name, out ZoneView zoneView) || zoneView?.data == null) { return; }
 
@@ -258,7 +258,7 @@ namespace LowDefMustard.Zones.Editor
             CenterViewOnWorldPosition(boxCentre);
         }
 
-        private void CenterViewOnZoneNode(ZoneNode zoneNode)
+        internal void CenterViewOnZoneNode(ZoneNode zoneNode)
         {
             if (!zoneViewLookup.TryGetValue(zoneNode.GetZoneName(), out ZoneView zoneView) || zoneView?.data == null) { return; }
             if (!zoneView.data.TryGetZoneNodeData(zoneNode.GetNodeID(), out ZoneNodeData zoneNodeData)) { return; }
@@ -352,7 +352,7 @@ namespace LowDefMustard.Zones.Editor
             toolbarBottomRow.Add(keepDimensionsToggle);
         }
 
-        private void RefreshToolbarState()
+        internal void RefreshToolbarState()
         {
             bool hasZoneViews = zoneViews.Count > 0;
             if (clearButton != null) { clearButton.SetEnabled(hasZoneViews); }

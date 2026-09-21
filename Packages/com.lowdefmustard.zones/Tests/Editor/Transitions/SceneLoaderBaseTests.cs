@@ -19,6 +19,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void SetUp()
         {
             zoneA = ScriptableObject.CreateInstance<Zone>();
+            zoneA.preventLocalizationForTests = true;
             originalCurrentZone = SceneLoaderBase.currentZone;
             originalLastZone = SceneLoaderBase.lastZone;
         }

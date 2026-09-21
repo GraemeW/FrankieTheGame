@@ -6,20 +6,22 @@ using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Zones.Editor
 {
-    public class ZoneGraphView : VisualElement
+    public class ZoneGraphView : VisualElement, IZoneGraphView
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // State
-        private Zone zone;
-        private readonly VisualElement canvasContent;
-        private readonly VisualElement groupLayer;
-        private readonly ZoneEdgesLayer edgesLayer;
-        private readonly VisualElement nodeLayer;
+        internal Zone zone;
+        internal readonly VisualElement canvasContent;
+        internal readonly VisualElement groupLayer;
+        internal readonly ZoneEdgesLayer edgesLayer;
+        internal readonly VisualElement nodeLayer;
         private readonly StandardCanvasPanManipulator panManipulator;
         private readonly StandardCanvasZoomManipulator zoomManipulator;
-        private readonly Dictionary<string, ZoneNodeView> nodeViewLookup = new();
-        private readonly Dictionary<ZoneNodeGroup, ZoneNodeGroupView> groupViewLookup = new();
-        private ZoneNode linkingParentNode;
-        private bool isPlacingGroup;
+        internal readonly Dictionary<string, ZoneNodeView> nodeViewLookup = new();
+        internal readonly Dictionary<ZoneNodeGroup, ZoneNodeGroupView> groupViewLookup = new();
+        internal ZoneNode linkingParentNode;
+        internal bool isPlacingGroup;
 
         public ZoneGraphView()
         {

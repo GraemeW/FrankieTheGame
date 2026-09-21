@@ -1,5 +1,8 @@
 using NUnit.Framework;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -8,6 +11,21 @@ namespace LowDefMustard.Zones.Tests.Editor
     {
         // Const Tunables
         private const string _noPathWarning = "Scene path is not configured!  Please re-link the scene reference in editor";
+        private const string _scratchScenePath = "Assets/ScratchTest_SceneReferenceGetScenePath_SafeToDelete.unity";
+
+        // State
+        private bool createdScratchSceneAsset;
+
+        #region Setup
+        [TearDown]
+        public void TearDown()
+        {
+            if (!createdScratchSceneAsset) { return; }
+            AssetDatabase.DeleteAsset(_scratchScenePath);
+            AssetDatabase.Refresh();
+            createdScratchSceneAsset = false;
+        }
+        #endregion
 
         #region Tests
         [Test]
@@ -81,6 +99,20 @@ namespace LowDefMustard.Zones.Tests.Editor
             string result = reference;
 
             Assert.AreEqual("SomeSceneName", result);
+        }
+
+        [Test]
+        public void GetScenePath_WithRealSceneAssetAndNoCachedPath_ReturnsAssetPath()
+        {
+            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            EditorSceneManager.SaveScene(scratchScene, _scratchScenePath);
+            EditorSceneManager.CloseScene(scratchScene, true);
+            createdScratchSceneAsset = true;
+
+            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(_scratchScenePath);
+            var reference = new SceneReference("MyScene") { sceneAsset = sceneAsset };
+
+            Assert.AreEqual(_scratchScenePath, reference.GetScenePath());
         }
         #endregion
     }

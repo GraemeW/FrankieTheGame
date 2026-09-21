@@ -150,6 +150,7 @@ namespace LowDefMustard.Zones
                 (nameof(localizedDisplayName), localizedDisplayName, true)
             };
         }
+        public bool preventLocalizationForTests { get; set; } = false;
         #endregion
         
 #if UNITY_EDITOR
@@ -175,6 +176,7 @@ namespace LowDefMustard.Zones
         private ZoneNode CreateNode()
         {
             var zoneNode = CreateInstance<ZoneNode>();
+            if (preventLocalizationForTests) { zoneNode.preventLocalizationForTests = true; }
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(_defaultNodeWidth, _defaultNodeHeight);
             zoneNode.SetZoneName(name);

@@ -8,30 +8,30 @@ namespace LowDefMustard.Zones.Editor
 {
     public static class ZoneTools
     {
-        public static void OpenSceneAndAct(string zoneName, Action onSceneOpen)
+        public static void OpenSceneAndAct(string zoneName, Action onSceneOpen, bool suppressDialogs = false)
         {
             Zone zone = Zone.GetFromName(zoneName);
-            OpenSceneAndAct(zone, onSceneOpen);
+            OpenSceneAndAct(zone, onSceneOpen, suppressDialogs);
         }
 
-        public static void OpenSceneAndAct(Zone zone, Action onSceneOpen)
+        public static void OpenSceneAndAct(Zone zone, Action onSceneOpen, bool suppressDialogs = false)
         {
             if (zone == null) { return; }
             
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
-            bool didZoneOpen = OpenZone(zone);
+            if (!suppressDialogs && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
+            bool didZoneOpen = OpenZone(zone, suppressDialogs);
             if (!didZoneOpen) { return; }
             onSceneOpen?.Invoke();
         }
 
-        private static bool OpenZone(Zone zone)
+        private static bool OpenZone(Zone zone, bool suppressDialogs)
         {
             if (zone == null) { return false; }
 
             string scenePath = zone.GetSceneReference().GetScenePath();
             if (string.IsNullOrEmpty(scenePath))
             {
-                EditorUtility.DisplayDialog("Scene Not Found", $"Could not locate {zone.name} in the project.", "OK");
+                if (!suppressDialogs) { EditorUtility.DisplayDialog("Scene Not Found", $"Could not locate {zone.name} in the project.", "OK"); }
                 return false;
             }
             EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);

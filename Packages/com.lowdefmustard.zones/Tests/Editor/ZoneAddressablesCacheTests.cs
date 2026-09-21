@@ -33,6 +33,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         private Zone CreateZone(string zoneName, string sceneName)
         {
             var zone = ScriptableObject.CreateInstance<Zone>();
+            zone.preventLocalizationForTests = true;
             zone.name = zoneName;
             zone.sceneReference = sceneName;
             createdZones.Add(zone);
