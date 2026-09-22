@@ -72,6 +72,7 @@ namespace LowDefMustard.Localization
             if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
             {
                 suffix += $"Prefab.{nameStem}.";
+                return suffix;
             }
 #endif
                         
