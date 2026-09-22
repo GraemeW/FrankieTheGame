@@ -88,7 +88,7 @@ namespace LowDefMustard.Zones
             TableEntryReference oldKey =  GetNameLocalizationKey();
             zoneName = setZoneName;
             string newKey = GetNameLocalizationKey();
-            TryLocalizeEntry(oldKey, newKey);
+            TryRenameExistingKey(oldKey, newKey);
             EditorUtility.SetDirty(this);
         }
 
@@ -191,7 +191,7 @@ namespace LowDefMustard.Zones
         {
             TableEntryReference oldKey = GetNameLocalizationKey();
             string newKey = GetNameLocalizationKey(newKeyID);
-            TryRenameExistingKey(newKey, oldKey);
+            TryRenameExistingKey(oldKey, newKey);
         }
         
         private void TryDeleteLocalization()

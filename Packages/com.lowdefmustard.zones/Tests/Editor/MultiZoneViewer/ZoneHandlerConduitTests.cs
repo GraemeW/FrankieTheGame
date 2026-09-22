@@ -10,19 +10,11 @@ namespace LowDefMustard.Zones.Tests.Editor
     {
         // State
         private readonly List<ZoneNode> createdNodes = new();
-        private bool originalIgnoreFailingMessages;
 
         #region Setup
-        [SetUp]
-        public void SetUp()
-        {
-            originalIgnoreFailingMessages = LogAssert.ignoreFailingMessages;
-        }
-
         [TearDown]
         public void TearDown()
         {
-            LogAssert.ignoreFailingMessages = originalIgnoreFailingMessages;
             foreach (ZoneNode node in createdNodes) { Object.DestroyImmediate(node); }
             createdNodes.Clear();
         }

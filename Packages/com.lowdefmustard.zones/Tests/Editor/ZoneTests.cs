@@ -9,7 +9,6 @@ namespace LowDefMustard.Zones.Tests.Editor
     {
         // State
         private Zone zone;
-        private bool originalIgnoreFailingMessages;
 
         #region Setup
         [SetUp]
@@ -17,13 +16,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             zone = ScriptableObject.CreateInstance<Zone>();
             zone.preventLocalizationForTests = true;
-            originalIgnoreFailingMessages = LogAssert.ignoreFailingMessages;
         }
 
         [TearDown]
         public void TearDown()
         {
-            LogAssert.ignoreFailingMessages = originalIgnoreFailingMessages;
             foreach (ZoneNode node in zone.GetAllNodes()) { Object.DestroyImmediate(node); }
             Object.DestroyImmediate(zone);
         }

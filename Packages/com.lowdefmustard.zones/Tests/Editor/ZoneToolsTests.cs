@@ -101,7 +101,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             zone.name = "ZoneA";
             zone.sceneReference = new SceneReference("ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete") { sceneAsset = sceneAsset };
             Zone.zoneLookupCache = new Dictionary<string, Zone> { { "ZoneA", zone } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.sceneReferenceCache = new Dictionary<string, Zone>() { { "ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete", zone } };
 
             bool invoked = false;
             ZoneTools.OpenSceneAndAct("ZoneA", () => invoked = true, suppressDialogs: true);

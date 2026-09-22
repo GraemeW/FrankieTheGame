@@ -31,6 +31,8 @@ namespace LowDefMustard.Zones.Tests
         {
             zone = ScriptableObject.CreateInstance<Zone>();
             zone.preventLocalizationForTests = true;
+            zone.hideFlags = HideFlags.HideAndDontSave;
+            
             zone.sceneReference = ScratchSceneFixtureSetup.scratchSceneName;
             originalIsCurrentlyLoading = SceneLoaderBase.isCurrentlyLoading;
             originalCurrentZone = SceneLoaderBase.currentZone;

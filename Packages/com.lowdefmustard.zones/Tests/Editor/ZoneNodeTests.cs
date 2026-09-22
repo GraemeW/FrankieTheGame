@@ -9,19 +9,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         // State
         private ZoneNode node;
         private ZoneNode otherNode;
-        private bool originalIgnoreFailingMessages;
 
         #region Setup
-        [SetUp]
-        public void SetUp()
-        {
-            originalIgnoreFailingMessages = LogAssert.ignoreFailingMessages;
-        }
-
         [TearDown]
         public void TearDown()
         {
-            LogAssert.ignoreFailingMessages = originalIgnoreFailingMessages;
             if (node != null) { Object.DestroyImmediate(node); }
             if (otherNode != null) { Object.DestroyImmediate(otherNode); }
         }

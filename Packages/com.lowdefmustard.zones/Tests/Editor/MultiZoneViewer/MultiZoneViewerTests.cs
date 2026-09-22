@@ -171,9 +171,7 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             var zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
             zoneNode.preventLocalizationForTests = true;
-            LogAssert.ignoreFailingMessages = true; // SetZoneName's localization-bridge lookup
             zoneNode.SetZoneName("ZoneA");
-            LogAssert.ignoreFailingMessages = false;
             zoneNode.name = "node-1";
 
             zoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();

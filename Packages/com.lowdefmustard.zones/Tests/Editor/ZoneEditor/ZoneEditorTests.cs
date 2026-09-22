@@ -1,10 +1,11 @@
 using System.Collections;
-using LowDefMustard.Zones.Editor;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
@@ -118,14 +119,12 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             var zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
             zoneNode.preventLocalizationForTests = true;
-            LogAssert.ignoreFailingMessages = true; // SetZoneName's localization-bridge lookup
             zoneNode.SetZoneName("MyZone");
-            LogAssert.ignoreFailingMessages = false;
 
-            var originalZoneLookupCache = Zone.zoneLookupCache;
-            var originalSceneReferenceCache = Zone.sceneReferenceCache;
-            Zone.zoneLookupCache = new System.Collections.Generic.Dictionary<string, Zone> { { "MyZone", zone } };
-            Zone.sceneReferenceCache = new System.Collections.Generic.Dictionary<string, Zone>();
+            Dictionary<string, Zone> originalZoneLookupCache = Zone.zoneLookupCache;
+            Dictionary<string, Zone> originalSceneReferenceCache = Zone.sceneReferenceCache;
+            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "MyZone", zone } };
+            Zone.sceneReferenceCache = new Dictionary<string, Zone> { { "MyZone", zone } };
 
             Selection.activeObject = zoneNode;
             editor.OnSelectionChanged();

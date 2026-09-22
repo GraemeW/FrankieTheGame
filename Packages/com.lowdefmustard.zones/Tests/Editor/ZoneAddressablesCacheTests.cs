@@ -74,14 +74,15 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void BuildCacheIfEmpty_AlreadyBuilt_LeavesCacheUntouched()
         {
-            var seededCache = new Dictionary<string, Zone>();
+            var seededCache = new Dictionary<string, Zone> { { "ZoneA", null } };
+            Zone.zoneLookupCache = seededCache;
             Zone.sceneReferenceCache = seededCache;
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
 
             Zone.BuildCacheIfEmpty();
 
             // If BuildZoneCache had actually run, sceneReferenceCache would be a new dictionary
             Assert.AreSame(seededCache, Zone.sceneReferenceCache);
+            Assert.AreSame(seededCache, Zone.zoneLookupCache);
         }
 
         [Test]
