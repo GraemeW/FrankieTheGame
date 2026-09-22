@@ -55,7 +55,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
         #endregion
 
         // Handles
-        public static Action<string, Action> OpenSceneAndActProvider;
+        public static Action<string, Action> openSceneAndActProvider;
         
         // Functional State
         private GameStateModifier selectedGameStateModifier;
@@ -315,7 +315,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
             Button openButton = MakeStandardButton(_buttonOpenSceneText);
             openButton.RegisterCallback<ClickEvent>(_ =>
             {
-                if (OpenSceneAndActProvider != null) { EditorApplication.delayCall += () => OpenSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
+                if (openSceneAndActProvider != null) { EditorApplication.delayCall += () => openSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
                 else { DefaultOpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
             });
             openButton.SetEnabled(viableSceneLoad);
