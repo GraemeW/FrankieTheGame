@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 293807529762125964}
   - component: {fileID: 293807529762125962}
   m_Layer: 2
-  m_Name: Microwave
+  m_Name: Microwave-L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 33cc67eca09494c1dbb35d108e98ce30, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e746e36a8607c41d5b9e07df39c341d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

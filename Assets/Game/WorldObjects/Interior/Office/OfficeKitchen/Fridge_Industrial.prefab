@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4484117035451051701}
   - component: {fileID: 325982031}
   m_Layer: 2
-  m_Name: Fridge
+  m_Name: Fridge_Industrial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -787681131013791189, guid: aa4af676f59943744bdb261095b84b15, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7fc58b6336b254d899ce4c3ce20d2c18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -157,17 +157,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.08407855}
+  m_Offset: {x: 0, y: 0.07739228}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.4827586, y: -0}
-    oldSize: {x: 0.29, y: 0.59}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.4, y: 0.72}
     newSize: {x: 0.74, y: 0.42}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.29, y: 0.1681571}
+  m_Size: {x: 0.39454883, y: 0.15478456}
   m_EdgeRadius: 0
 --- !u!114 &325982031
 MonoBehaviour:
@@ -229,19 +229,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x
-      value: 0.2820596
+      value: 0.35986343
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.y
-      value: 0.4308451
+      value: 0.3870805
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.x
-      value: -0.0008621216
+      value: 0.0015692562
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.y
-      value: 0.3737371
+      value: 0.39561942
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name
