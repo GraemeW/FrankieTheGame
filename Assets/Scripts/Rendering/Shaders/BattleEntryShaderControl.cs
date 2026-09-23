@@ -9,9 +9,9 @@ namespace Frankie.Rendering
         // Tunables
         [SerializeField] private Renderer2DData renderer2DData;
         [SerializeField] private Material battleEntryMaterial;
-        [SerializeField] private Texture2D goodEntryTexture;
-        [SerializeField] private Texture2D badEntryTexture;
-        [SerializeField] private Texture2D neutralEntryTexture;
+        [SerializeField] private Color goodEntryColor = Color.lightGreen;
+        [SerializeField] private Color badEntryColor = Color.softRed;
+        [SerializeField] private Color neutralEntryColor = Color.mediumPurple;
         [SerializeField] private float twirlStrength = 5.0f;
 
         private void OnEnable()
@@ -29,13 +29,13 @@ namespace Frankie.Rendering
             switch (transitionType)
             {
                 case TransitionType.BattleGood:
-                    ShaderPropertyRefs.SetMainTexture(battleEntryMaterial, goodEntryTexture);
+                    ShaderPropertyRefs.SetTint(battleEntryMaterial, goodEntryColor);
                     break;
                 case TransitionType.BattleBad:
-                    ShaderPropertyRefs.SetMainTexture(battleEntryMaterial, badEntryTexture);
+                    ShaderPropertyRefs.SetTint(battleEntryMaterial, badEntryColor);
                     break;
                 case TransitionType.BattleNeutral:
-                    ShaderPropertyRefs.SetMainTexture(battleEntryMaterial, neutralEntryTexture);
+                    ShaderPropertyRefs.SetTint(battleEntryMaterial, neutralEntryColor);
                     break;
                 case TransitionType.BattleComplete:
                 case TransitionType.Zone:
