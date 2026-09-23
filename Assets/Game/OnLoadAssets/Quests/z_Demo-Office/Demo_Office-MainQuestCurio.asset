@@ -227,7 +227,7 @@ MonoBehaviour:
   - CurioEight
   - CurioNine
   - CurioTen
-  cachedName: 
+  cachedName: Demo_Office-MainQuestCurio
   questObjectives:
   - {fileID: -1606810816014409339}
   - {fileID: 4460678901540854653}
