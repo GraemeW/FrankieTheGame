@@ -55,8 +55,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void GetFromName_UnknownName_ReturnsNull()
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "EmptyZone", null } };
+            Zone.sceneReferenceCache = new Dictionary<string, Zone> { { "EmptyScene", null } };
 
             Assert.IsNull(Zone.GetFromName("Missing"));
         }
