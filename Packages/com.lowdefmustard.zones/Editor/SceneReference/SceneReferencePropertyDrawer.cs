@@ -60,18 +60,20 @@ namespace LowDefMustard.Zones.Editor
         }
         
         #region PrivateHelpers
-        private static void ApplyScene(SerializedProperty assetProperty, SerializedProperty nameProperty, SerializedProperty pathProperty, SceneAsset scene)
+        private static void ApplyScene(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty, SceneAsset scene, bool recordUndo = true)
         {
             string sceneName = scene != null ? scene.name : string.Empty;
             string scenePath = scene != null ? AssetDatabase.GetAssetPath(scene) : string.Empty;
 
-            bool isUnchanged = !assetProperty.hasMultipleDifferentValues && assetProperty.objectReferenceValue == scene && nameProperty.stringValue == sceneName && pathProperty.stringValue == scenePath;
+            bool isUnchanged = !assetProperty.hasMultipleDifferentValues && assetProperty.objectReferenceValue == scene && sceneNameProperty.stringValue == sceneName && scenePathProperty.stringValue == scenePath;
             if (isUnchanged) { return; }
 
             assetProperty.objectReferenceValue = scene;
-            nameProperty.stringValue = sceneName;
-            pathProperty.stringValue = scenePath;
-            assetProperty.serializedObject.ApplyModifiedProperties();
+            sceneNameProperty.stringValue = sceneName;
+            scenePathProperty.stringValue = scenePath;
+            
+            if (recordUndo) { assetProperty.serializedObject.ApplyModifiedProperties(); }
+            else { assetProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo(); }
         }
         
         private static void TryRelinkSceneAsset(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty)
@@ -81,13 +83,19 @@ namespace LowDefMustard.Zones.Editor
             if (serializedObject.isEditingMultipleObjects) { return; } // Multi-selection would copy one target's match onto all the others
             if (PrefabUtility.IsPartOfPrefabInstance(serializedObject.targetObject)) { return; } // Instances would gain an override instead of the prefab asset being healed
 
-            Debug.Log($"Scene reference missing for {assetProperty.displayName} - {scenePathProperty.stringValue} : {scenePathProperty.stringValue}.  Attempting to repair asset.");
-            
-            SceneAsset scene = FindSceneAsset(scenePathProperty.stringValue, sceneNameProperty.stringValue);
-            if (scene == null) { return; }
-            
-            assetProperty.objectReferenceValue = scene;
-            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            string sceneName = sceneNameProperty.stringValue;
+            string scenePath = scenePathProperty.stringValue;
+            if (string.IsNullOrWhiteSpace(sceneName) && string.IsNullOrWhiteSpace(scenePath)) { return; } // Never set, nothing to repair
+
+            SceneAsset scene = FindSceneAsset(scenePath, sceneName);
+            if (scene == null)
+            {
+                Debug.LogWarning($"Could not repair scene reference for {assetProperty.displayName} (path: '{scenePath}', name: '{sceneName}')");
+                return;
+            }
+
+            ApplyScene(assetProperty, sceneNameProperty, scenePathProperty, scene, recordUndo: false);
+            Debug.Log($"Repaired scene reference for {assetProperty.displayName}: {AssetDatabase.GetAssetPath(scene)}");
         }
         
         private static SceneAsset FindSceneAsset(string scenePath, string sceneName)
@@ -109,7 +117,7 @@ namespace LowDefMustard.Zones.Editor
 
                 if (match != null)
                 {
-                    Debug.LogWarning($"Attempting to repair scene reference for {sceneName} with {match.name}, but duplicate scene reference found at {path}.  Skipping repair process.");
+                    Debug.LogWarning($"Attempting to repair scene reference for {sceneName}, but duplicate scene references found at 1. {AssetDatabase.GetAssetPath(match)} && 2. {path}.  Skipping repair process.");
                     return null;
                 }
                 match = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
