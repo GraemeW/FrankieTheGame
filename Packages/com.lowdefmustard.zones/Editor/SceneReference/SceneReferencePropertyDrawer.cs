@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -23,6 +24,9 @@ namespace LowDefMustard.Zones.Editor
             SerializedProperty sceneNameProperty = property.FindPropertyRelative(_propertySceneName);
             SerializedProperty scenePathProperty = property.FindPropertyRelative(_propertyScenePath);
 
+            // Safety against loss of Scene reference - should then rebind via Path/Name (stable references)
+            TryRelinkSceneAsset(sceneAssetProperty, sceneNameProperty, scenePathProperty);
+            
             // Build UI
             var root = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             
@@ -33,7 +37,7 @@ namespace LowDefMustard.Zones.Editor
             root.Add(clearButton);
             
             // Callbacks
-            // Note:  field deliberately not bound due to quirk in Unity overwrites
+            // Note:  field deliberately not bound due to potential for quirky Unity overwrites
             assetField.RegisterValueChangedCallback(evt => ApplyScene(sceneAssetProperty, sceneNameProperty, scenePathProperty, evt.newValue as SceneAsset));
             assetField.TrackPropertyValue(sceneAssetProperty, _ => Refresh());
             Refresh();
@@ -55,6 +59,7 @@ namespace LowDefMustard.Zones.Editor
             }
         }
         
+        #region PrivateHelpers
         private static void ApplyScene(SerializedProperty assetProperty, SerializedProperty nameProperty, SerializedProperty pathProperty, SceneAsset scene)
         {
             string sceneName = scene != null ? scene.name : string.Empty;
@@ -68,7 +73,52 @@ namespace LowDefMustard.Zones.Editor
             pathProperty.stringValue = scenePath;
             assetProperty.serializedObject.ApplyModifiedProperties();
         }
+        
+        private static void TryRelinkSceneAsset(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty)
+        {
+            SerializedObject serializedObject = assetProperty.serializedObject;
+            if (assetProperty.objectReferenceValue != null) { return; } // Scene reference already exists
+            if (serializedObject.isEditingMultipleObjects) { return; } // Multi-selection would copy one target's match onto all the others
+            if (PrefabUtility.IsPartOfPrefabInstance(serializedObject.targetObject)) { return; } // Instances would gain an override instead of the prefab asset being healed
 
+            Debug.Log($"Scene reference missing for {assetProperty.displayName} - {scenePathProperty.stringValue} : {scenePathProperty.stringValue}.  Attempting to repair asset.");
+            
+            SceneAsset scene = FindSceneAsset(scenePathProperty.stringValue, sceneNameProperty.stringValue);
+            if (scene == null) { return; }
+            
+            assetProperty.objectReferenceValue = scene;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+        }
+        
+        private static SceneAsset FindSceneAsset(string scenePath, string sceneName)
+        {
+            // Try by Path
+            if (!string.IsNullOrWhiteSpace(scenePath))
+            {
+                var sceneByPath = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+                if (sceneByPath != null) { return sceneByPath; }
+            }
+
+            // Try by Name
+            if (string.IsNullOrWhiteSpace(sceneName)) { return null; }
+            SceneAsset match = null;
+            foreach (string guid in AssetDatabase.FindAssets($"t:SceneAsset {sceneName}"))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                if (Path.GetFileNameWithoutExtension(path) != sceneName) { continue; }
+
+                if (match != null)
+                {
+                    Debug.LogWarning($"Attempting to repair scene reference for {sceneName} with {match.name}, but duplicate scene reference found at {path}.  Skipping repair process.");
+                    return null;
+                }
+                match = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
+            }
+            return match;
+        }
+        #endregion
+
+        #region StaticUIBuilders
         private static ObjectField MakeSceneAssetField(string displayName)
         {
             var assetField = new ObjectField(displayName)
@@ -90,5 +140,6 @@ namespace LowDefMustard.Zones.Editor
                 style = { width = _clearButtonWidth }
             };
         }
+        #endregion
     }
 }
