@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 581977978201141527, guid: f3a508b0dd4fcf946b047d35966c643e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 77035af6600cc4d96b213804561b20d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -156,17 +156,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00075158477, y: 0.07930498}
+  m_Offset: {x: 0.0001686588, y: 0.08571716}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.42, y: 0.66}
+    oldSize: {x: 0.48, y: 0.66}
     newSize: {x: 0.74, y: 0.42}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.41713274, y: 0.15617487}
+  m_Size: {x: 0.43228883, y: 0.14335051}
   m_EdgeRadius: 0
 --- !u!1001 &1748611171206221468
 PrefabInstance:
@@ -180,6 +180,22 @@ PrefabInstance:
       propertyPath: checkConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: f904b2c5cefa5b34c99c573927af16ae, type: 2}
+    - target: {fileID: 6564381309038757639, guid: bba889551c5f31544b36e98e1add3969, type: 3}
+      propertyPath: m_Size.x
+      value: 0.27720553
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: bba889551c5f31544b36e98e1add3969, type: 3}
+      propertyPath: m_Size.y
+      value: 0.38074976
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: bba889551c5f31544b36e98e1add3969, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.00012409687
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: bba889551c5f31544b36e98e1add3969, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.40002164
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: bba889551c5f31544b36e98e1add3969, type: 3}
       propertyPath: m_Name
       value: CheckWithConfiguration

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3578435516547435565}
   - component: {fileID: 3578435516547435554}
   - component: {fileID: 3578435516547435552}
-  - component: {fileID: 8545459618173425084}
+  - component: {fileID: 331521910062950606}
   m_Layer: 2
   m_Name: TableCafeWithFlower
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: ede46bcafcaf0784ea10be1a6c55beb3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6c724a9b5669481e96d7e0252e7a97e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,8 +121,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &8545459618173425084
-BoxCollider2D:
+--- !u!60 &331521910062950606
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -155,15 +155,27 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0040061176, y: 0.05468224}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.020408163}
-    oldSize: {x: 0.4, y: 0.49}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.4, y: 0.5}
     newSize: {x: 0.84, y: 0.34}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.22861344, y: 0.16631791}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.12864754, y: 0.2635691}
+      - {x: 0.05096493, y: 0.24010307}
+      - {x: -0.051254556, y: 0.24541576}
+      - {x: -0.12084357, y: 0.26999998}
+      - {x: -0.19999999, y: 0.31}
+      - {x: -0.19, y: 0.26999998}
+      - {x: -0.17, y: 0.18}
+      - {x: -0.07, y: 0.01}
+      - {x: 0.08, y: 0.01}
+      - {x: 0.17139642, y: 0.17170803}
+      - {x: 0.18999998, y: 0.31}
+  m_UseDelaunayMesh: 1

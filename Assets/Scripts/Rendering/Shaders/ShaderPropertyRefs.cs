@@ -13,6 +13,8 @@ namespace Frankie.Rendering
         // Parameters
         private const string _globalMainTextureReference = "_MainTex";
         private static readonly int _mainTex = Shader.PropertyToID(_globalMainTextureReference);
+        private const string _globalTintReference = "_Tint";
+        private static readonly int _tintReference = Shader.PropertyToID(_globalTintReference);
         private const string _globalWorldTextureReference = "_WorldTex";
         private static readonly int _worldTex = Shader.PropertyToID(_globalWorldTextureReference);
         private const string _globalShaderPhaseReference = "_Phase";
@@ -45,6 +47,12 @@ namespace Frankie.Rendering
         {
             if (material == null || mainTexture == null) { return; }
             material.SetTexture(_mainTex, mainTexture);
+        }
+
+        public static void SetTint(Material material, Color color)
+        {
+            if (material == null) { return; }
+            material.SetColor(_tintReference, color);
         }
 
         public static void SetWorldRenderTexture(Material material, RenderTexture worldRenderTexture)

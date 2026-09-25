@@ -66,12 +66,15 @@ namespace LowDefMustard.Localization
         {
             string suffix = string.Empty;
             
+#if UNITY_EDITOR
             // Secondary check on Prefab - within prefab stage utility, game object / mono will fall through
             PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
             {
                 suffix += $"Prefab.{nameStem}.";
+                return suffix;
             }
+#endif
                         
             suffix += "GO.";
             if (targetGameObject != null) { suffix += $"{targetGameObject.scene.name}.{nameStem}."; }

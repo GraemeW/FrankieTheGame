@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2048483700231421248, guid: d8473bf0183be374cad805bd776d9fb0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3533692fd7f04325b9948fe003c6472, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -157,17 +157,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0009856224, y: 0.08604978}
+  m_Offset: {x: 0.00023829937, y: 0.07687045}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.4827586, y: 0}
-    oldSize: {x: 0.29, y: 0.59}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.44, y: 0.74}
     newSize: {x: 0.74, y: 0.42}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.28014386, y: 0.17209956}
+  m_Size: {x: 0.40253502, y: 0.12191917}
   m_EdgeRadius: 0
 --- !u!1001 &5748107800186790825
 PrefabInstance:
@@ -207,19 +207,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Size.x
-      value: 0.2820596
+      value: 0.36038995
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Size.y
-      value: 0.4383132
+      value: 0.5704956
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Offset.x
-      value: -0.0008621216
+      value: 0.0015856922
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Offset.y
-      value: 0.37000307
+      value: 0.32594222
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Name

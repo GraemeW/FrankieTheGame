@@ -26,12 +26,12 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            playerStateMachine.value.playerStateChanged += HandlePlayerStateChanged;
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.playerStateChanged += HandlePlayerStateChanged; }
         }
 
         private void OnDisable()
         {
-            playerStateMachine.value.playerStateChanged -= HandlePlayerStateChanged;
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance, allowReInit: false)) { playerStateMachineInstance.playerStateChanged -= HandlePlayerStateChanged; }
         }
         #endregion
 

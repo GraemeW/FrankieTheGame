@@ -20,7 +20,7 @@ MonoBehaviour:
     guid: b4b9e1ad-30db-4cda-b7f8-3299eb812275
   - zoneName: OfficeInterior
     gameObjectName: _StandardShop
-    parentObjectName: VendingMachineWIthPredicate
+    parentObjectName: VendingMachineWithPredicate-L
     guid: 82192dc9-0715-46f6-a8a0-47bee0c71a8b
   localizedDisplayName:
     m_TableReference:

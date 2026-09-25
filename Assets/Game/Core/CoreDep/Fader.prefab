@@ -228,9 +228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.BattleEntryShaderControl
   renderer2DData: {fileID: 11400000, guid: a35cd5316b74041e2952ef4e9cab6002, type: 2}
   battleEntryMaterial: {fileID: 2100000, guid: 41fe3e38cb77c4638b24a56a2dec1964, type: 2}
-  goodEntryTexture: {fileID: 2800000, guid: 6103d475d8eebfd4db363ab6d0bba021, type: 3}
-  badEntryTexture: {fileID: 2800000, guid: e1b549b5625cd6c49baa09e79d3f1ef0, type: 3}
-  neutralEntryTexture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
+  goodEntryColor: {r: 0.5647059, g: 0.93333334, b: 0.5647059, a: 1}
+  badEntryColor: {r: 0.8627451, g: 0.19215687, b: 0.19215687, a: 1}
+  neutralEntryColor: {r: 0.5764706, g: 0.4392157, b: 0.85882354, a: 1}
   twirlStrength: 30
 --- !u!1 &8380406030711835112
 GameObject:

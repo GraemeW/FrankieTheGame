@@ -32,7 +32,7 @@ namespace LowDefMustard.UIBox.Tests
             go.SetActive(false);
             var button = go.AddComponent<UnityEngine.UI.Button>();
             var choice = go.AddComponent<UIChoiceButton>();
-            TestChoiceFactory.Wire(choice, "button", button);
+            choice.button = button;
             choice.itemHighlighted = new UnityEngine.Events.UnityEvent();
             bool invoked = false;
 

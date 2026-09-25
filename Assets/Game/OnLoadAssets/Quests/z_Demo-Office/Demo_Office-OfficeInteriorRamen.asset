@@ -92,7 +92,7 @@ MonoBehaviour:
     guid: b12df4e9-c53d-47d3-9dfb-ddd969459176
   - zoneName: OfficeInterior
     gameObjectName: Kettle (1)
-    parentObjectName: Flavour
+    parentObjectName: Cabinets_Steel-R
     guid: 2eaac1ac-4ad8-4a08-b529-89406a48f682
   - zoneName: OfficeInterior
     gameObjectName: PhilRamenNPC

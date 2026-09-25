@@ -10,14 +10,16 @@ namespace LowDefMustard.UIBox
 {
     public class TextScanBox : UIBox<UIBoxState>
     {
-               // Tunables
+        // Note:  Internal fields & state for test visibility
+        
+        // Tunables
         [Header("Links And Prefabs")]
         [SerializeField] protected Transform dialogueParent;
-        [SerializeField] private GameObject simpleTextPrefab;
-        [SerializeField] private GameObject speechTextPrefab;
+        [SerializeField] internal GameObject simpleTextPrefab;
+        [SerializeField] internal GameObject speechTextPrefab;
         [Header("Parameters")]
-        [SerializeField] private float initialInputDelay = 0.1f; // Seconds
-        [SerializeField] private float delayBetweenCharacters = 0.05f; // Seconds
+        [SerializeField] internal float initialInputDelay = 0.1f; // Seconds
+        [SerializeField] internal float delayBetweenCharacters = 0.05f; // Seconds
 
         // State
         private float timeSinceStart = 0f;
@@ -27,7 +29,7 @@ namespace LowDefMustard.UIBox
         private bool queuePageClear = false;
         private Coroutine activeTextScan;
         private readonly Queue<ReceptacleTextPair> printQueue = new();
-        private List<GameObject> printedJobs = new();
+        internal List<GameObject> printedJobs = new();
         
         // UIBox Configuration
         protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()

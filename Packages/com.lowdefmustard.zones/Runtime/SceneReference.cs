@@ -8,15 +8,17 @@ namespace LowDefMustard.Zones
     [System.Serializable]
     public struct SceneReference
     {
+        // Note:  Internal fields for test visibility
+        
         [SerializeField]
 #pragma warning disable CS0414 // Field is assigned but its value is never used
         // sceneAsset used as part of Editor Property Drawer
         // Do NOT delete, even if warning messages encourage you to do so
-        private Object sceneAsset;
+        internal Object sceneAsset;
 #pragma warning restore CS0414 // Field is assigned but its value is never used
 
         [SerializeField] private string sceneName;
-        [SerializeField] private string scenePath;
+        [SerializeField] internal string scenePath;
 
         public SceneReference(string sceneName)
         {

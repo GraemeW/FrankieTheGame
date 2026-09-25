@@ -38,7 +38,7 @@ MonoBehaviour:
     m_LocalVariables: []
   questObjectiveNames:
   - GoToBed
-  cachedName: 
+  cachedName: Demo_Office-IntroQuestComplete
   questObjectives:
   - {fileID: 6232503200084316110}
   references:

@@ -15,7 +15,7 @@ namespace LowDefMustard.Saving.Tests.Editor
     public class SaveableSubCardDataTests
     {
         // State
-        private HeadlessEditorWindowTestHelper windowHelper;
+        private HeadlessEditorWindow windowHelper;
         private static readonly Func<ISaveableBase, bool> _registryOnlyProbePriorityMatch = probe => probe is RegistryOnlyProbe;
         
         #region DataStructures
@@ -118,7 +118,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleBoolSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, false));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(outerBox);
 
             Toggle toggle = outerBox.Query<Toggle>().First();
@@ -156,7 +156,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleBoolSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, false));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(outerBox);
 
             int callCount = 0;
@@ -183,7 +183,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleFloatSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, 1.5f));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(outerBox);
 
             FloatField floatField = outerBox.Query<FloatField>().First();
@@ -205,7 +205,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleIntSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, 3));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindowTestHelper();
+            windowHelper = new HeadlessEditorWindow();
             windowHelper.Attach(outerBox);
 
             IntegerField intField = outerBox.Query<IntegerField>().First();

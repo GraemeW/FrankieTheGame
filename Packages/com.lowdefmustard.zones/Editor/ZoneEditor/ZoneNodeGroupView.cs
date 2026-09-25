@@ -18,11 +18,11 @@ namespace LowDefMustard.Zones.Editor
 
         // State
         public ZoneNodeGroup zoneNodeGroup { get; }
-        private readonly ZoneGraphView zoneGraphView;
+        private readonly IZoneGraphView zoneGraphView;
         private readonly TextField zoneNodeGroupNameField;
         private readonly VisualElement zoneNodeGroupNameInput;
 
-        public ZoneNodeGroupView(ZoneNodeGroup zoneNodeGroup, ZoneGraphView zoneGraphView)
+        public ZoneNodeGroupView(ZoneNodeGroup zoneNodeGroup, IZoneGraphView zoneGraphView)
         {
             this.zoneNodeGroup = zoneNodeGroup;
             this.zoneGraphView = zoneGraphView;

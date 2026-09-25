@@ -39,8 +39,8 @@ namespace Frankie.Core
         [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
         
         // Const
-        private int queuePopFrameSkips = 1;
-        
+        private const int _queuePopFrameSkips = 1;
+
         // State Information
         // Player
         private IPlayerState currentPlayerState = new WorldState();
@@ -111,7 +111,7 @@ namespace Frankie.Core
             if (!actionMemory.ReadyToPopQueue()) { return; }
             
             if (queuePopCoroutine != null) { StopCoroutine(queuePopCoroutine); }
-            queuePopCoroutine = StartCoroutine(actionMemory.TryPopQueue(queuePopFrameSkips));
+            queuePopCoroutine = StartCoroutine(actionMemory.TryPopQueue(_queuePopFrameSkips));
         }
         #endregion
 

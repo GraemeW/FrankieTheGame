@@ -112,7 +112,7 @@ namespace Frankie.Utils.Localization
             {
                 case CharacterProperties or Zone or Dialogue or Skill or InventoryItem or Quest:
                     string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
-                    return ILocalizable.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
+                    return ILocalizableCore.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
                 default:
                     return DefaultKeyGenerator.GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
             }

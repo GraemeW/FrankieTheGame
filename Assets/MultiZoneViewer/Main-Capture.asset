@@ -18,16 +18,16 @@ MonoBehaviour:
   topLeftPosition: {x: 372.86584, y: 222.7799}
   dimensions: {x: 156, y: 120}
   <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: PortaBankOffice
+    relativePosition: {x: 0.4785261, y: 0.21607684}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: OfficePortaBankDoor
+    linkedRelativePosition: {x: 0.2298051, y: 0.73292345}
   - zoneNodeID: PortaBankPrimSouth
     relativePosition: {x: 0.86585003, y: 0.978703}
     linkedZoneName: Prim
     linkedZoneNodeID: PrimSouthPortaBankDoor
     linkedRelativePosition: {x: 0.2381458, y: 0.52544963}
-  - zoneNodeID: PortaBankOffice
-    relativePosition: {x: 0.4785261, y: 0.21607684}
-    linkedZoneName: OfficeExterior
-    linkedZoneNodeID: OfficePortaBankDoor
-    linkedRelativePosition: {x: 0.07109827, y: 0.91342765}
 --- !u!114 &-3212340588349623591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,11 +46,11 @@ MonoBehaviour:
   topLeftPosition: {x: 6.6891174, y: -204.1925}
   dimensions: {x: 288, y: 196.95001}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: PlatformApartment
-    relativePosition: {x: 0.7972644, y: 0.20577773}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: UpStairsOffice
+    relativePosition: {x: 0.6796572, y: 0.83218944}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: SubwayOfficeDownStairs
+    linkedRelativePosition: {x: 0.30718273, y: 0.75745946}
   - zoneNodeID: PlatformOffice
     relativePosition: {x: 0.7529454, y: 0.8727995}
     linkedZoneName: 
@@ -60,12 +60,12 @@ MonoBehaviour:
     relativePosition: {x: 0.95154554, y: 0.15184961}
     linkedZoneName: OfficeExterior
     linkedZoneNodeID: SubwayApartmentDownstairs
-    linkedRelativePosition: {x: 0.47122675, y: 0.46419755}
-  - zoneNodeID: UpStairsOffice
-    relativePosition: {x: 0.6796572, y: 0.83218944}
-    linkedZoneName: OfficeExterior
-    linkedZoneNodeID: SubwayOfficeDownStairs
-    linkedRelativePosition: {x: 0.16434112, y: 0.9432288}
+    linkedRelativePosition: {x: 0.5615699, y: 0.37246656}
+  - zoneNodeID: PlatformApartment
+    relativePosition: {x: 0.7972644, y: 0.20577773}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
 --- !u!114 &-2423536985916262508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,16 +84,16 @@ MonoBehaviour:
   topLeftPosition: {x: 912.317, y: 474.10577}
   dimensions: {x: 555, y: 135}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: TunnelToPrim
-    relativePosition: {x: 0.093056574, y: 0.6865283}
-    linkedZoneName: Prim
-    linkedZoneNodeID: PrimToTunnel
-    linkedRelativePosition: {x: 0.7675273, y: 0.21637215}
   - zoneNodeID: TunnelToProper
     relativePosition: {x: 0.9014832, y: 0.6610955}
     linkedZoneName: Proper
     linkedZoneNodeID: ProperToTunnel
     linkedRelativePosition: {x: 0.30584818, y: 0.69079846}
+  - zoneNodeID: TunnelToPrim
+    relativePosition: {x: 0.093056574, y: 0.6865283}
+    linkedZoneName: Prim
+    linkedZoneNodeID: PrimToTunnel
+    linkedRelativePosition: {x: 0.7675273, y: 0.21637215}
 --- !u!114 &-1478187135376446744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,31 +135,31 @@ MonoBehaviour:
   topLeftPosition: {x: 334.56903, y: 576.6759}
   dimensions: {x: 672, y: 300}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: PS_TallestBuilding_Exterior
-    relativePosition: {x: 0.16656709, y: 0.5908511}
-    linkedZoneName: PrimInterior
-    linkedZoneNodeID: PS_TallestBuilding_Interior
-    linkedRelativePosition: {x: 0.2027027, y: 0.94532627}
-  - zoneNodeID: PS_YellowHouse_Exterior
-    relativePosition: {x: 0.2736745, y: 0.29786506}
-    linkedZoneName: PrimInterior
-    linkedZoneNodeID: PS_YellowHouse_Interior
-    linkedRelativePosition: {x: 0.94972974, y: 0.9653145}
-  - zoneNodeID: PS_RedHouse_Exterior
-    relativePosition: {x: 0.35518533, y: 0.60587937}
-    linkedZoneName: PrimInterior
-    linkedZoneNodeID: PS_RedHouse_Interior
-    linkedRelativePosition: {x: 0.5605695, y: 0.95267487}
-  - zoneNodeID: PrimSouthPortaBankDoor
-    relativePosition: {x: 0.2381458, y: 0.52544963}
-    linkedZoneName: PortaBank
-    linkedZoneNodeID: PortaBankPrimSouth
-    linkedRelativePosition: {x: 0.86585003, y: 0.978703}
   - zoneNodeID: PrimToTunnel
     relativePosition: {x: 0.7675273, y: 0.21637215}
     linkedZoneName: Tunnels
     linkedZoneNodeID: TunnelToPrim
     linkedRelativePosition: {x: 0.093056574, y: 0.6865283}
+  - zoneNodeID: PrimSouthPortaBankDoor
+    relativePosition: {x: 0.2381458, y: 0.52544963}
+    linkedZoneName: PortaBank
+    linkedZoneNodeID: PortaBankPrimSouth
+    linkedRelativePosition: {x: 0.86585003, y: 0.978703}
+  - zoneNodeID: PS_RedHouse_Exterior
+    relativePosition: {x: 0.35518533, y: 0.60587937}
+    linkedZoneName: PrimInterior
+    linkedZoneNodeID: PS_RedHouse_Interior
+    linkedRelativePosition: {x: 0.5605695, y: 0.95267487}
+  - zoneNodeID: PS_YellowHouse_Exterior
+    relativePosition: {x: 0.2736745, y: 0.29786506}
+    linkedZoneName: PrimInterior
+    linkedZoneNodeID: PS_YellowHouse_Interior
+    linkedRelativePosition: {x: 0.94972974, y: 0.9653145}
+  - zoneNodeID: PS_TallestBuilding_Exterior
+    relativePosition: {x: 0.16656709, y: 0.5908511}
+    linkedZoneName: PrimInterior
+    linkedZoneNodeID: PS_TallestBuilding_Interior
+    linkedRelativePosition: {x: 0.2027027, y: 0.94532627}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,68 +200,48 @@ MonoBehaviour:
   topLeftPosition: {x: -234.94202, y: 51.128464}
   dimensions: {x: 288, y: 166.95001}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: OfficeBDoorRight
-    relativePosition: {x: 0.27257094, y: 0.22329378}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: Kitchen
-    relativePosition: {x: 0.8435082, y: 0.402819}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: BasementBDoorRight
-    relativePosition: {x: 0.4217541, y: 0.66172105}
+    relativePosition: {x: 0.41917455, y: 0.6669139}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: DankGreenDoorRight
+    relativePosition: {x: 0.14617367, y: 0.9591988}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: EntranceHallway
+    relativePosition: {x: 0.8435082, y: 0.21810089}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeBElevator
+    relativePosition: {x: 0.15864143, y: 0.1810089}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeADoorRight
+    relativePosition: {x: 0.60103184, y: 0.23219584}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: EntranceHallwayDoor
-    relativePosition: {x: 0.70120376, y: 0.22329378}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: BasementCDoorTop
-    relativePosition: {x: 0.5842648, y: 0.66394657}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: VendingMachineRoom
-    relativePosition: {x: 0.8404987, y: 0.84792286}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: Lobby
-    relativePosition: {x: 0.8422184, y: 0.63501483}
+    relativePosition: {x: 0.70378333, y: 0.22848667}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: BasementDDoorLeft
-    relativePosition: {x: 0.23108341, y: 0.9495549}
+    relativePosition: {x: 0.23409285, y: 0.95178044}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: BasementBDoorLeft
-    relativePosition: {x: 0.3452279, y: 0.69287837}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: OfficeADoorLeft
-    relativePosition: {x: 0.39724854, y: 0.22403564}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: OfficeInteriorDoor
-    relativePosition: {x: 0.89122957, y: 0.6624629}
-    linkedZoneName: OfficeExterior
-    linkedZoneNodeID: OfficeDoor
-    linkedRelativePosition: {x: 0.11387895, y: 0.7950465}
   - zoneNodeID: OfficeBPole
     relativePosition: {x: 0.113031395, y: 0.22971085}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: BasementADoorRight
-    relativePosition: {x: 0.22269993, y: 0.69065285}
+    relativePosition: {x: 0.21711093, y: 0.69065285}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
@@ -270,38 +250,58 @@ MonoBehaviour:
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: BasementCDoorBottom
-    relativePosition: {x: 0.5184867, y: 0.8902077}
+  - zoneNodeID: VendingMachineRoom
+    relativePosition: {x: 0.8404987, y: 0.8486647}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: BasementDDoorRight
-    relativePosition: {x: 0.39705607, y: 0.9020169}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: DankGreenDoorRight
-    relativePosition: {x: 0.15004303, y: 0.9591988}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: OfficeADoorRight
-    relativePosition: {x: 0.60533106, y: 0.22997035}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: EntranceHallway
-    relativePosition: {x: 0.8435082, y: 0.21735907}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: OfficeBElevator
-    relativePosition: {x: 0.15864147, y: 0.18026708}
+  - zoneNodeID: BasementCDoorTop
+    relativePosition: {x: 0.58899397, y: 0.66172105}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: DankGreenElevator
-    relativePosition: {x: 0.06577819, y: 0.9310089}
+    relativePosition: {x: 0.06577819, y: 0.9332344}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementDDoorRight
+    relativePosition: {x: 0.39189696, y: 0.9005332}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementCDoorBottom
+    relativePosition: {x: 0.5214961, y: 0.89317507}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BasementBDoorLeft
+    relativePosition: {x: 0.35683578, y: 0.6824926}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeBDoorRight
+    relativePosition: {x: 0.26913157, y: 0.22551931}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeADoorLeft
+    relativePosition: {x: 0.39810833, y: 0.23219584}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: OfficeInteriorDoor
+    relativePosition: {x: 0.8877902, y: 0.66394657}
+    linkedZoneName: OfficeExterior
+    linkedZoneNodeID: OfficeDoor
+    linkedRelativePosition: {x: 0.26358476, y: 0.6376091}
+  - zoneNodeID: Lobby
+    relativePosition: {x: 0.8422184, y: 0.6357567}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: Kitchen
+    relativePosition: {x: 0.8435082, y: 0.40356085}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
@@ -323,48 +323,8 @@ MonoBehaviour:
   topLeftPosition: {x: 558.6469, y: -145.01982}
   dimensions: {x: 288, y: 193.8}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: Kitchen
-    relativePosition: {x: 0.19615385, y: 0.32571426}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LivingRoomToBedRoom
-    relativePosition: {x: 0.61, y: 0.4925714}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LivingRoomToBathRoom
-    relativePosition: {x: 0.5830769, y: 0.448}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LobbyDoor
-    relativePosition: {x: 0.46153846, y: 0.93142855}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: LivingRoomToKitchen
-    relativePosition: {x: 0.41846153, y: 0.44914287}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: BedRoom
-    relativePosition: {x: 0.8053846, y: 0.5942857}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: BathRoom
-    relativePosition: {x: 0.8069231, y: 0.21714287}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: ApartmentToLobby
-    relativePosition: {x: 0.3923077, y: 0.48914286}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: BedToBedroomRefresh
-    relativePosition: {x: 0.88006425, y: 0.585493}
+    relativePosition: {x: 0.80692303, y: 0.61028576}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
@@ -373,8 +333,48 @@ MonoBehaviour:
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LivingRoomToBedRoom
+    relativePosition: {x: 0.60384613, y: 0.49714288}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BathRoom
+    relativePosition: {x: 0.8069231, y: 0.23199996}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LobbyDoor
+    relativePosition: {x: 0.45769233, y: 0.93942857}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: BedToBedroomRefresh
+    relativePosition: {x: 0.88006425, y: 0.585493}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LivingRoomToBathRoom
+    relativePosition: {x: 0.5746154, y: 0.45028573}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: Kitchen
+    relativePosition: {x: 0.18692307, y: 0.36114287}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: ApartmentBed
     relativePosition: {x: 0.88006425, y: 0.585493}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: LivingRoomToKitchen
+    relativePosition: {x: 0.41846153, y: 0.464}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: ApartmentToLobby
+    relativePosition: {x: 0.3923077, y: 0.50285715}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
@@ -396,33 +396,33 @@ MonoBehaviour:
   topLeftPosition: {x: 203.11153, y: 46.308556}
   dimensions: {x: 288, y: 187.65001}
   <zoneNodeDataSet>k__BackingField:
-  - zoneNodeID: ApartmentDoor
-    relativePosition: {x: 0.5961519, y: 0.34415895}
-    linkedZoneName: ApartmentInterior
-    linkedZoneNodeID: LobbyDoor
-    linkedRelativePosition: {x: 0.46153846, y: 0.93142855}
-  - zoneNodeID: SubwayApartmentDownstairs
-    relativePosition: {x: 0.47122675, y: 0.46419755}
-    linkedZoneName: Subway
-    linkedZoneNodeID: UpStairsApartment
-    linkedRelativePosition: {x: 0.95154554, y: 0.15184961}
   - zoneNodeID: SubwayOfficeDownStairs
-    relativePosition: {x: 0.16434112, y: 0.9432288}
+    relativePosition: {x: 0.30718273, y: 0.75745946}
     linkedZoneName: Subway
     linkedZoneNodeID: UpStairsOffice
     linkedRelativePosition: {x: 0.6796572, y: 0.83218944}
+  - zoneNodeID: ApartmentDoor
+    relativePosition: {x: 0.66515106, y: 0.276149}
+    linkedZoneName: ApartmentInterior
+    linkedZoneNodeID: LobbyDoor
+    linkedRelativePosition: {x: 0.45769233, y: 0.93942857}
+  - zoneNodeID: SubwayApartmentDownstairs
+    relativePosition: {x: 0.5615699, y: 0.37246656}
+    linkedZoneName: Subway
+    linkedZoneNodeID: UpStairsApartment
+    linkedRelativePosition: {x: 0.95154554, y: 0.15184961}
   - zoneNodeID: OfficeDoor
-    relativePosition: {x: 0.11387895, y: 0.7950465}
+    relativePosition: {x: 0.26358476, y: 0.6376091}
     linkedZoneName: OfficeInterior
     linkedZoneNodeID: OfficeInteriorDoor
-    linkedRelativePosition: {x: 0.89122957, y: 0.6624629}
+    linkedRelativePosition: {x: 0.8877902, y: 0.66394657}
   - zoneNodeID: OfficePortaBankDoor
-    relativePosition: {x: 0.07109827, y: 0.91342765}
+    relativePosition: {x: 0.2298051, y: 0.73292345}
     linkedZoneName: PortaBank
     linkedZoneNodeID: PortaBankOffice
     linkedRelativePosition: {x: 0.4785261, y: 0.21607684}
   - zoneNodeID: ApartmentDoor
-    relativePosition: {x: 0.5961519, y: 0.34415895}
+    relativePosition: {x: 0.66515106, y: 0.276149}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
@@ -444,18 +444,53 @@ MonoBehaviour:
   topLeftPosition: {x: 145.54416, y: 389.76456}
   dimensions: {x: 288, y: 264.75}
   <zoneNodeDataSet>k__BackingField:
+  - zoneNodeID: PS_TallestBuilding_3f-down
+    relativePosition: {x: 0.2027027, y: 0.5343915}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_4f-down
+    relativePosition: {x: 0.067567565, y: 0.3286302}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: PS_YellowHouse_Interior
     relativePosition: {x: 0.94972974, y: 0.9653145}
     linkedZoneName: Prim
     linkedZoneNodeID: PS_YellowHouse_Exterior
     linkedRelativePosition: {x: 0.2736745, y: 0.29786506}
-  - zoneNodeID: PS_TallestBuilding_Interior
-    relativePosition: {x: 0.2027027, y: 0.94532627}
+  - zoneNodeID: PS_RedHouse_Interior
+    relativePosition: {x: 0.5605695, y: 0.95267487}
     linkedZoneName: Prim
-    linkedZoneNodeID: PS_TallestBuilding_Exterior
-    linkedRelativePosition: {x: 0.16656709, y: 0.5908511}
+    linkedZoneNodeID: PS_RedHouse_Exterior
+    linkedRelativePosition: {x: 0.35518533, y: 0.60587937}
+  - zoneNodeID: PS_TallestBuilding_2f-down
+    relativePosition: {x: 0.067567565, y: 0.74015284}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_2f-up
+    relativePosition: {x: 0.2027027, y: 0.74015284}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
   - zoneNodeID: PS_YellowHouse_2F
     relativePosition: {x: 0.7610811, y: 0.74955904}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_1f
+    relativePosition: {x: 0.067567565, y: 0.94532627}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_YellowHouse_1F
+    relativePosition: {x: 0.7572973, y: 0.9606114}
+    linkedZoneName: 
+    linkedZoneNodeID: 
+    linkedRelativePosition: {x: 0, y: 0}
+  - zoneNodeID: PS_TallestBuilding_5f
+    relativePosition: {x: 0.2027027, y: 0.12286891}
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
@@ -469,43 +504,8 @@ MonoBehaviour:
     linkedZoneName: 
     linkedZoneNodeID: 
     linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_TallestBuilding_4f-down
-    relativePosition: {x: 0.067567565, y: 0.3286302}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_TallestBuilding_1f
-    relativePosition: {x: 0.067567565, y: 0.94532627}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_TallestBuilding_2f-down
-    relativePosition: {x: 0.067567565, y: 0.74015284}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_YellowHouse_1F
-    relativePosition: {x: 0.7572973, y: 0.9606114}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_RedHouse_Interior
-    relativePosition: {x: 0.5605695, y: 0.95267487}
+  - zoneNodeID: PS_TallestBuilding_Interior
+    relativePosition: {x: 0.2027027, y: 0.94532627}
     linkedZoneName: Prim
-    linkedZoneNodeID: PS_RedHouse_Exterior
-    linkedRelativePosition: {x: 0.35518533, y: 0.60587937}
-  - zoneNodeID: PS_TallestBuilding_5f
-    relativePosition: {x: 0.2027027, y: 0.12286891}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_TallestBuilding_3f-down
-    relativePosition: {x: 0.2027027, y: 0.5343915}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
-  - zoneNodeID: PS_TallestBuilding_2f-up
-    relativePosition: {x: 0.2027027, y: 0.74015284}
-    linkedZoneName: 
-    linkedZoneNodeID: 
-    linkedRelativePosition: {x: 0, y: 0}
+    linkedZoneNodeID: PS_TallestBuilding_Exterior
+    linkedRelativePosition: {x: 0.16656709, y: 0.5908511}

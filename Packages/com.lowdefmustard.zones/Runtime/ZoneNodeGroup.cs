@@ -6,6 +6,8 @@ namespace LowDefMustard.Zones
     [System.Serializable]
     public class ZoneNodeGroup
     {
+        // Note:  Internal fields/methods for test visibility
+        
         [Header("Saved State")]
         [SerializeField] private string zoneNodeGroupName;
         [SerializeField] private Rect rect;
@@ -18,7 +20,7 @@ namespace LowDefMustard.Zones
         private const float _headerOffset = 25f;
         
         // Cached State
-        private Zone cachedZone;
+        internal Zone cachedZone;
         
         public ZoneNodeGroup(string zoneName)
         {

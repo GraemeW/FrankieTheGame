@@ -831,6 +831,10 @@ MonoBehaviour:
     m_Key: CheckWithPredicateEvaluation.GO.OfficeInterior.VendingMachineWIthPredicate.MessageForConditionFailed.370e377
     m_Metadata:
       m_Items: []
+  - m_Id: 57546319026184192
+    m_Key: Check.Prefab.Fridge_Beer-R.CheckMessage.6ee1ca1b
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

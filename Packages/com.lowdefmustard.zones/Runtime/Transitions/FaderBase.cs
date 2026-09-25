@@ -8,20 +8,22 @@ namespace LowDefMustard.Zones
 {
     public abstract class FaderBase<TTransitionType> : MonoBehaviour where TTransitionType : struct, Enum
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // Tunables
         [Header("Hookups")]
         [SerializeField] protected Image nodeEntry;
         [SerializeField] private SceneLoaderBase sceneLoader;
         [Header("Fader Properties")]
-        [SerializeField] private float fadeInTimer = 2.0f;
-        [SerializeField] private float fadeOutTimer = 1.0f;
-        [SerializeField] private float zoneFadeTimerMultiplier = 0.25f;
+        [SerializeField] internal float fadeInTimer = 2.0f;
+        [SerializeField] internal float fadeOutTimer = 1.0f;
+        [SerializeField] internal float zoneFadeTimerMultiplier = 0.25f;
 
         // Const
         private const string _faderTag = "Fader";
         
         // Static State
-        private static FaderBase<TTransitionType> _activeFader;
+        internal static FaderBase<TTransitionType> activeFader;
         
         // State
         protected bool fading;
@@ -37,19 +39,19 @@ namespace LowDefMustard.Zones
         #region StaticCallers
         public static bool StartStandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
-            if (_activeFader == null) { _activeFader = TryFindFader(); }
-            if (_activeFader == null || _activeFader.IsFading()) { return false; }
+            if (activeFader == null) { activeFader = TryFindFader(); }
+            if (activeFader == null || activeFader.IsFading()) { return false; }
             
-            _activeFader.InitiateStandardFadeCoroutine(transitionType, faderEventTriggers);
+            activeFader.InitiateStandardFadeCoroutine(transitionType, faderEventTriggers);
             return true;
         }
         
         public static bool StartBlipFade(float holdSeconds, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
-            if (_activeFader == null) { _activeFader = TryFindFader(); }
-            if (_activeFader == null || _activeFader.IsFading()) { return false; }
+            if (activeFader == null) { activeFader = TryFindFader(); }
+            if (activeFader == null || activeFader.IsFading()) { return false; }
             
-            _activeFader.InitiateBlipFadeCoroutine(holdSeconds, faderEventTriggers);
+            activeFader.InitiateBlipFadeCoroutine(holdSeconds, faderEventTriggers);
             return true;
         }
 
@@ -61,19 +63,19 @@ namespace LowDefMustard.Zones
 
         public static bool StartSceneLoadFade(Zone nextZone, FaderEventTriggers<TTransitionType> faderEventTriggers, bool saveSession = true)
         {
-            if (_activeFader == null) { _activeFader = TryFindFader(); }
-            if (_activeFader == null || _activeFader.IsFading()) { return false; }
+            if (activeFader == null) { activeFader = TryFindFader(); }
+            if (activeFader == null || activeFader.IsFading()) { return false; }
             
-            _activeFader.InitiateSceneLoadFadeCoroutine(nextZone, faderEventTriggers, saveSession);
+            activeFader.InitiateSceneLoadFadeCoroutine(nextZone, faderEventTriggers, saveSession);
             return true;
         }
 
         public static bool StartQuickSceneLoadFade()
         {
-            if (_activeFader == null) { _activeFader = TryFindFader(); }
-            if (_activeFader == null) { return false; }
+            if (activeFader == null) { activeFader = TryFindFader(); }
+            if (activeFader == null) { return false; }
             
-            _activeFader.InitiateSceneLoadZoneFadeCoroutine();
+            activeFader.InitiateSceneLoadZoneFadeCoroutine();
             return true;
         }
 
@@ -101,7 +103,7 @@ namespace LowDefMustard.Zones
         {
             // Fader is included in PersistentObjects and thus a singleton by standard implementation
             // So:  establish fader in static state for public method calls
-            _activeFader = this;
+            activeFader = this;
             TrySubscribeToSceneLoader(true);
         }
 
@@ -117,11 +119,10 @@ namespace LowDefMustard.Zones
         private void TrySubscribeToSceneLoader(bool enable)
         {
             activeSceneLoader ??= new ReInitLazyValue<SceneLoaderBase>(FindSceneLoader);
-            if (activeSceneLoader.value == null) { activeSceneLoader.ForceInit(); }
-            if (activeSceneLoader.value == null) { return; }
+            if (!activeSceneLoader.TryGetSafely(out SceneLoaderBase sceneLoaderInstance, allowReInit: enable)) { return; }
 
-            activeSceneLoader.value.sceneLoadFadeProvider -= InitiateSceneLoadFadeCoroutine;
-            if (enable) { activeSceneLoader.value.sceneLoadFadeProvider += InitiateSceneLoadFadeCoroutine; }
+            sceneLoaderInstance.sceneLoadFadeProvider -= InitiateSceneLoadFadeCoroutine;
+            if (enable) { sceneLoaderInstance.sceneLoadFadeProvider += InitiateSceneLoadFadeCoroutine; }
         }
         #endregion
 
@@ -186,6 +187,7 @@ namespace LowDefMustard.Zones
         
         private IEnumerator StandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
+            fading = true;
             yield return QueueFadeEntry(transitionType, faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
             yield return QueueFadeExit(transitionType, faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
         }

@@ -19,7 +19,7 @@ namespace LowDefMustard.GameStateModifiers
         
         // Handles
         public delegate bool HasScenePathDelegate(string input, out string scenePath);
-        public static HasScenePathDelegate ScenePathProvider;
+        public static HasScenePathDelegate scenePathProvider;
         
         // Static State
 #if UNITY_EDITOR
@@ -138,10 +138,10 @@ namespace LowDefMustard.GameStateModifiers
             EditorUtility.SetDirty(this);
         }
 
-        public int CleanDanglingModifierHandlerData()
+        public int CleanDanglingModifierHandlerData(bool removeOnSceneCheck = true)
         {
             int removedCount = 0;
-            removedCount += RemoveNonExistentEntries();
+            removedCount += RemoveNonExistentEntries(removeOnSceneCheck);
             removedCount += RemoveDuplicateEntries();
             EditorUtility.SetDirty(this);
             return removedCount;
@@ -149,7 +149,7 @@ namespace LowDefMustard.GameStateModifiers
         #endregion
 
         #region EditorPrivateMethods
-        private int RemoveNonExistentEntries()
+        private int RemoveNonExistentEntries(bool removeOnSceneCheck = true)
         {
             int removedCount = 0;
             for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
@@ -166,14 +166,15 @@ namespace LowDefMustard.GameStateModifiers
                 }
                 else
                 {
-                    bool sceneFound = ScenePathProvider != null ? ScenePathProvider.Invoke(zoneName, out string scenePath) : DefaultGetScenePath(zoneName, out scenePath);
+                    bool sceneFound = scenePathProvider != null ? scenePathProvider.Invoke(zoneName, out string scenePath) : DefaultGetScenePath(zoneName, out scenePath);
                     IGameStateModifierHandler gameStateModifierHandler = null;
                     bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID, out gameStateModifierHandler);
                     bool isModifierLinked = objectFound && gameStateModifierHandler != null && gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier.guid == guid);
 
                     // Found -- Skip Removal
                     if (isModifierLinked) { continue; }
-
+                    if (!sceneFound && !removeOnSceneCheck) { continue; }
+                    
                     string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
                     Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");
                 }

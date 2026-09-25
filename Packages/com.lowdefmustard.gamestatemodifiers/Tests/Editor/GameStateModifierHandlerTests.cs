@@ -54,14 +54,14 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         {
             gameObject = new GameObject("TestHandlerObject");
             handler = gameObject.AddComponent<TestGameStateModifierHandler>();
-            originalScenePathProvider = GameStateModifier.ScenePathProvider; // global static, save/restore
-            GameStateModifier.ScenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; }; // keep CleanDanglingModifierHandlerData light throughout this file
+            originalScenePathProvider = GameStateModifier.scenePathProvider; // global static, save/restore
+            GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; }; // keep CleanDanglingModifierHandlerData light throughout this file
         }
 
         [TearDown]
         public void TearDown()
         {
-            GameStateModifier.ScenePathProvider = originalScenePathProvider;
+            GameStateModifier.scenePathProvider = originalScenePathProvider;
             Object.DestroyImmediate(gameObject);
         }
 

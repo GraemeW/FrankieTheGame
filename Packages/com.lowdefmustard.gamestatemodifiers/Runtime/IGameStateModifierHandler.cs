@@ -83,8 +83,9 @@ namespace LowDefMustard.GameStateModifiers
             if (modifierListHashCheck == newModifierListHashCheck) { return; }
             modifierListHashCheck = newModifierListHashCheck;
             
-            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData);
-            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs);
+            // Skip auto-remove on scene failed to be found (serialization quirks)
+            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData, false);
+            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs, false);
             
             ForceSerializeGameObject();
 #endif
@@ -134,7 +135,7 @@ namespace LowDefMustard.GameStateModifiers
             return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
         }
         
-        internal List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
+        internal List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData, bool removeOnSceneCheck = true)
         {
             hasGameStateModifiers = false;
             var newGameStateModifierGUIDs = new List<string>();
@@ -142,7 +143,7 @@ namespace LowDefMustard.GameStateModifiers
             {
                 if (gameStateModifier == null) { continue; }
                 gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
-                gameStateModifier.CleanDanglingModifierHandlerData();
+                gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck);
                 newGameStateModifierGUIDs.Add(gameStateModifier.GetGUID());
                 hasGameStateModifiers = true;
             }
@@ -150,7 +151,7 @@ namespace LowDefMustard.GameStateModifiers
             return newGameStateModifierGUIDs;
         }
         
-        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs)
+        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs, bool removeOnSceneCheck = true)
         {
             if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
             else
@@ -161,7 +162,7 @@ namespace LowDefMustard.GameStateModifiers
 
                 foreach (GameStateModifier gameStateModifier in missingGUIDs.Select(GameStateModifier.GetGameStateModifier).Where(gameStateModifier => gameStateModifier != null))
                 {
-                    gameStateModifier.CleanDanglingModifierHandlerData();
+                    gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck);
                 }
             }
         }

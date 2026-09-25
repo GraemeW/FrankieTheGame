@@ -13,11 +13,7 @@ MonoBehaviour:
   m_Name: KeyToBallPitRoom
   m_EditorClassIdentifier: 
   guid: 129d479f-80bd-40a9-9dc4-74fc3238f074
-  gameStateModifierHandlerData:
-  - zoneName: Demo_OfficeBuilding
-    gameObjectName: Maya
-    parentObjectName: 
-    guid: 64c5af42-be9b-4b5d-9724-5759923e210d
+  gameStateModifierHandlerData: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

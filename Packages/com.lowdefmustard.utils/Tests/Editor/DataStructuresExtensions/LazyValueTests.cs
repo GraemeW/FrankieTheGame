@@ -87,6 +87,105 @@ namespace LowDefMustard.Utils.Tests.Editor
         }
 
         [Test]
+        public void TryGetSafely_FirstAccess_InitializesAndReturnsTrue()
+        {
+            int callCount = 0;
+            var lazy = new ReInitLazyValue<object>(() =>
+            {
+                callCount++;
+                return new object();
+            });
+
+            bool result = lazy.TryGetSafely(out var passValue);
+
+            Assert.IsTrue(result);
+            Assert.IsNotNull(passValue);
+            Assert.AreEqual(1, callCount);
+        }
+
+        [Test]
+        public void TryGetSafely_InitializerReturnsNull_ReturnsFalse()
+        {
+            var lazy = new ReInitLazyValue<object>(() => null);
+
+            bool result = lazy.TryGetSafely(out var passValue);
+
+            Assert.IsFalse(result);
+            Assert.IsNull(passValue);
+        }
+
+        [Test]
+        public void TryGetSafely_CachedValueStillValid_DoesNotReInitialize()
+        {
+            int callCount = 0;
+            var lazy = new ReInitLazyValue<object>(() =>
+            {
+                callCount++;
+                return new object();
+            });
+
+            _ = lazy.TryGetSafely(out _);
+            bool result = lazy.TryGetSafely(out var passValue);
+
+            Assert.IsTrue(result);
+            Assert.IsNotNull(passValue);
+            Assert.AreEqual(1, callCount);
+        }
+
+        [Test]
+        public void TryGetSafely_AllowReInitFalse_NeverInitialized_ReturnsFalseWithoutCallingInitializer()
+        {
+            int callCount = 0;
+            var lazy = new ReInitLazyValue<object>(() =>
+            {
+                callCount++;
+                return new object();
+            });
+
+            bool result = lazy.TryGetSafely(out var passValue, allowReInit: false);
+
+            Assert.IsFalse(result);
+            Assert.IsNull(passValue);
+            Assert.AreEqual(0, callCount); // i.e. never touches the initializer
+        }
+
+        [Test]
+        public void TryGetSafely_AllowReInitFalse_CachedValueStillValid_ReturnsTrueWithoutReInitializing()
+        {
+            int callCount = 0;
+            var lazy = new ReInitLazyValue<object>(() =>
+            {
+                callCount++;
+                return new object();
+            });
+            _ = lazy.TryGetSafely(out var firstValue); // establish a valid cached value first
+
+            bool result = lazy.TryGetSafely(out var passValue, allowReInit: false);
+
+            Assert.IsTrue(result);
+            Assert.AreSame(firstValue, passValue);
+            Assert.AreEqual(1, callCount); // still just the one call from establishing the cache
+        }
+
+        [Test]
+        public void TryGetSafely_AllowReInitFalse_CachedValueIsRealNull_ReturnsFalseWithoutCallingInitializer()
+        {
+            int callCount = 0;
+            var lazy = new ReInitLazyValue<object>(() =>
+            {
+                callCount++;
+                return new object();
+            });
+            lazy.value = null; // simulate a value that was explicitly cleared
+
+            bool result = lazy.TryGetSafely(out var passValue, allowReInit: false);
+
+            Assert.IsFalse(result);
+            Assert.IsNull(passValue);
+            Assert.AreEqual(0, callCount);
+        }
+
+        [Test]
         public void ReInitLazyValue_WhenCachedValueBecomesNull_ReInitializesOnNextAccess()
         {
             // Covers the plain-C#-null case only: a real null reference should trigger re-initialization

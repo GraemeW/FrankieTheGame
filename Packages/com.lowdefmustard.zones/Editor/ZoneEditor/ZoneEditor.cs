@@ -8,16 +8,18 @@ namespace LowDefMustard.Zones.Editor
 {
     public class ZoneEditor : EditorWindow
     {
+        // Note:  Internal fields/methods for test visibility
+        
         // Tunables
         private const string _windowTitle = "Zone Editor";
         private const string _noZoneSelectedMessage = "No zone selected.";
 
         // State
-        private Zone selectedZone;
-        private ZoneGraphView zoneGraphView;
-        private Label headerLabel;
-        private Label noZoneMessage;
-        private Button addGroupButton;
+        internal Zone selectedZone;
+        internal ZoneGraphView zoneGraphView;
+        internal Label headerLabel;
+        internal Label noZoneMessage;
+        internal Button addGroupButton;
 
         #region UnityMethods
         [MenuItem("Window/Zone Editor")]
@@ -67,18 +69,20 @@ namespace LowDefMustard.Zones.Editor
             rootVisualElement.Add(noZoneMessage);
 
             var toolbar = new VisualElement { style = { flexDirection = FlexDirection.Row, paddingLeft = 4, paddingTop = 2, paddingBottom = 2 } };
-            addGroupButton = new Button(() => zoneGraphView.BeginPlacingGroup()) { text = "Add Group" };
+            addGroupButton = new Button { text = "Add Group" };
             toolbar.Add(addGroupButton);
             rootVisualElement.Add(toolbar);
             
             zoneGraphView = new ZoneGraphView { style = { flexGrow = 1, overflow = Overflow.Hidden } };
-            zoneGraphView.RegisterCallback<MouseDownEvent>(_ => Selection.activeObject = selectedZone);
             rootVisualElement.Add(zoneGraphView);
 
+            zoneGraphView.RegisterCallback<MouseDownEvent>(_ => Selection.activeObject = selectedZone);
+            addGroupButton.RegisterCallback<ClickEvent>(_ => zoneGraphView.BeginPlacingGroup());
+            
             RefreshFromSelection();
         }
         
-        private void RefreshFromSelection()
+        internal void RefreshFromSelection()
         {
             if (zoneGraphView == null) { return; } // CreateGUI has not yet run
 
@@ -96,7 +100,7 @@ namespace LowDefMustard.Zones.Editor
         #endregion
 
         #region EventHandlers
-        private void OnSelectionChanged()
+        internal void OnSelectionChanged()
         {
             switch (Selection.activeObject)
             {

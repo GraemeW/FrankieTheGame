@@ -12,8 +12,8 @@ namespace Frankie.Core.GameStateModifiers
     {
         static GameStateModifierRegistration()
         {
-            GameStateModifier.ScenePathProvider = GetScenePath;
-            GameStateModifierEditor.OpenSceneAndActProvider = OpenSceneAndAct;
+            GameStateModifier.scenePathProvider = GetScenePath;
+            GameStateModifierEditor.openSceneAndActProvider = OpenSceneAndAct;
         }
         
         private static bool GetScenePath(string zoneName, out string scenePath)
