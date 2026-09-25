@@ -11,11 +11,17 @@ namespace LowDefMustard.Zones.Editor
     {
         // Tunables
         private const float _clearButtonWidth = 30f;
+        private const float _statusIndicatorDiameter = 10f;
 
         // Constants
         private const string _propertySceneAsset = "sceneAsset";
         private const string _propertySceneName = "sceneName";
         private const string _propertyScenePath = "scenePath";
+
+        private static readonly Color _statusGreen = Color.lightGreen;
+        private static readonly Color _statusOrange = Color.darkOrange;
+        private static readonly Color _statusRed = Color.softRed;
+        private static readonly Color _statusGray = Color.gray;
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
@@ -26,39 +32,43 @@ namespace LowDefMustard.Zones.Editor
 
             // Safety against loss of Scene reference - should then rebind via Path/Name (stable references)
             TryRelinkSceneAsset(sceneAssetProperty, sceneNameProperty, scenePathProperty);
-            
+
             // Build UI
             var root = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-            
+
             ObjectField assetField = MakeSceneAssetField(property.displayName);
             root.Add(assetField);
 
+            VisualElement statusIndicator = MakeStatusIndicator();
+            root.Add(statusIndicator);
+
             Button clearButton = MakeClearButton();
             root.Add(clearButton);
-            
+
             // Callbacks
             // Note:  field deliberately not bound due to potential for quirky Unity overwrites
             assetField.RegisterValueChangedCallback(evt => ApplyScene(sceneAssetProperty, sceneNameProperty, scenePathProperty, evt.newValue as SceneAsset));
-            assetField.TrackPropertyValue(sceneAssetProperty, _ => Refresh());
+            root.TrackSerializedObjectValue(sceneAssetProperty.serializedObject, _ => Refresh());
             Refresh();
-            
+
             clearButton.RegisterCallback<ClickEvent>(_ =>
             {
                 ApplyScene(sceneAssetProperty, sceneNameProperty, scenePathProperty, null);
                 Refresh();
             });
-            
+
             return root;
-            
-            
+
+
             // Local Functions
             void Refresh()
             {
                 assetField.showMixedValue = sceneAssetProperty.hasMultipleDifferentValues;
                 assetField.SetValueWithoutNotify(sceneAssetProperty.objectReferenceValue);
+                RefreshStatusIndicator(statusIndicator, sceneAssetProperty, sceneNameProperty, scenePathProperty);
             }
         }
-        
+
         #region PrivateHelpers
         private static void ApplyScene(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty, SceneAsset scene, bool recordUndo = true)
         {
@@ -71,11 +81,11 @@ namespace LowDefMustard.Zones.Editor
             assetProperty.objectReferenceValue = scene;
             sceneNameProperty.stringValue = sceneName;
             scenePathProperty.stringValue = scenePath;
-            
+
             if (recordUndo) { assetProperty.serializedObject.ApplyModifiedProperties(); }
             else { assetProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo(); }
         }
-        
+
         private static void TryRelinkSceneAsset(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty)
         {
             SerializedObject serializedObject = assetProperty.serializedObject;
@@ -97,7 +107,7 @@ namespace LowDefMustard.Zones.Editor
             ApplyScene(assetProperty, sceneNameProperty, scenePathProperty, scene, recordUndo: false);
             Debug.Log($"Repaired scene reference for {assetProperty.displayName}: {AssetDatabase.GetAssetPath(scene)}");
         }
-        
+
         private static SceneAsset FindSceneAsset(string scenePath, string sceneName)
         {
             // Try by Path
@@ -124,6 +134,33 @@ namespace LowDefMustard.Zones.Editor
             }
             return match;
         }
+        
+        private static void RefreshStatusIndicator(VisualElement indicator, SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty)
+        {
+            if (assetProperty.hasMultipleDifferentValues || sceneNameProperty.hasMultipleDifferentValues || scenePathProperty.hasMultipleDifferentValues) { SetStatus(indicator, _statusGray, "Multiple values"); return; }
+
+            var scene = assetProperty.objectReferenceValue as SceneAsset;
+            string sceneName = sceneNameProperty.stringValue;
+            string scenePath = scenePathProperty.stringValue;
+            bool nameOrPathSet = !string.IsNullOrWhiteSpace(sceneName) || !string.IsNullOrWhiteSpace(scenePath);
+
+            if (scene == null)
+            {
+                if (!nameOrPathSet) { SetStatus(indicator, _statusGray, "Scene not yet configured"); }
+                else { SetStatus(indicator, _statusOrange, $"Scene reference missing for {sceneName} : {scenePath}"); }
+                return;
+            }
+
+            bool matches = scene.name == sceneName && AssetDatabase.GetAssetPath(scene) == scenePath;
+            if (matches) { SetStatus(indicator, _statusGreen, $"Scene configured with {sceneName} : {scenePath}"); }
+            else { SetStatus(indicator, _statusRed, $"Inconsistent scene reference - actual {scene.name} vs. expected {sceneName} : {scenePath}"); }
+        }
+
+        private static void SetStatus(VisualElement indicator, Color color, string tooltip)
+        {
+            indicator.style.backgroundColor = color;
+            indicator.tooltip = tooltip;
+        }
         #endregion
 
         #region StaticUIBuilders
@@ -137,6 +174,21 @@ namespace LowDefMustard.Zones.Editor
             assetField.AddToClassList(BaseField<Object>.alignedFieldUssClassName);
             assetField.style.flexGrow = 1;
             return assetField;
+        }
+
+        private static VisualElement MakeStatusIndicator()
+        {
+            var indicator = new VisualElement();
+            indicator.style.width = _statusIndicatorDiameter;
+            indicator.style.height = _statusIndicatorDiameter;
+            indicator.style.borderTopLeftRadius = _statusIndicatorDiameter / 2f;
+            indicator.style.borderTopRightRadius = _statusIndicatorDiameter / 2f;
+            indicator.style.borderBottomLeftRadius = _statusIndicatorDiameter / 2f;
+            indicator.style.borderBottomRightRadius = _statusIndicatorDiameter / 2f;
+            indicator.style.alignSelf = Align.Center;
+            indicator.style.marginLeft = 4f;
+            indicator.style.marginRight = 4f;
+            return indicator;
         }
 
         private static Button MakeClearButton()

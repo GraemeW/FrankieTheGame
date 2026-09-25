@@ -38,7 +38,7 @@ namespace LowDefMustard.Zones.Editor
         private const float _zoomWheelStepFactor = 1.05f;
         
         // Node Link Tunables
-        private const float _uiNodeDotMinLinkDragDistance = 100f;
+        internal const float _uiNodeDotMinLinkDragDistance = 100f;
  
         // UI Styles
         private static readonly StyleColor _uiCanvasBackgroundColour =  new(Color.gray2 * 0.8f); 
@@ -85,9 +85,9 @@ namespace LowDefMustard.Zones.Editor
         [SerializeField] private bool drawConnections = true;
         [SerializeField] private bool keepExistingPositions = true;
         [SerializeField] private bool keepExistingDimensions = true;
-        [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
-        [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
-        [SerializeField] private float additionalMaxScalingFactor = 5.0f;
+        [SerializeField] internal float worldToSnapshotScalingFactor = 80.0f;
+        [SerializeField] internal float snapshotToZoneViewScalingFactor = 0.15f;
+        [SerializeField] internal float additionalMaxScalingFactor = 5.0f;
         
         // State
         internal bool isToolAvailable = true;
@@ -95,8 +95,8 @@ namespace LowDefMustard.Zones.Editor
         internal readonly Dictionary<string, ZoneView> zoneViewLookup = new();
 
         // Node Dot State
-        private readonly List<(string zoneName, string zoneNodeID, Rect canvasRect)> nodeDotElements = new();
-        private bool isDraggingNodeLink;
+        internal readonly List<(string zoneName, string zoneNodeID, Rect canvasRect)> nodeDotElements = new();
+        internal bool isDraggingNodeLink;
         private (string zoneName, string zoneNodeID) activeDragSource;
         private Vector2 dragStartCanvasPosition;
         private Vector2 dragCurrentCanvasPosition;
@@ -602,7 +602,7 @@ namespace LowDefMustard.Zones.Editor
         }
         private bool IsPastLinkDragThreshold(Vector2 canvasPosition) => Vector2.Distance(dragStartCanvasPosition, canvasPosition) >= _uiNodeDotMinLinkDragDistance;
         
-        private void RefreshNodeDots()
+        internal void RefreshNodeDots()
         {
             if (nodeDotsLayer == null) { return; }
             nodeDotsLayer.Clear();
@@ -637,7 +637,7 @@ namespace LowDefMustard.Zones.Editor
             nodeDotElements.Add((zoneName, zoneNodeID, canvasRect));
         }
         
-        private void OnNodeDotDragStarted(string zoneName, string zoneNodeID)
+        internal void OnNodeDotDragStarted(string zoneName, string zoneNodeID)
         {
             isDraggingNodeLink = true;
             activeDragSource = (zoneName, zoneNodeID);
@@ -646,14 +646,14 @@ namespace LowDefMustard.Zones.Editor
             curvesLayer?.MarkDirtyRepaint();
         }
 
-        private void OnNodeDotDragUpdated(Vector2 canvasPosition)
+        internal void OnNodeDotDragUpdated(Vector2 canvasPosition)
         {
             if (!isDraggingNodeLink) { return; }
             dragCurrentCanvasPosition = canvasPosition;
             curvesLayer?.MarkDirtyRepaint();
         }
 
-        private void OnNodeDotDragEnded(Vector2 canvasPosition)
+        internal void OnNodeDotDragEnded(Vector2 canvasPosition)
         {
             if (!isDraggingNodeLink) { return; }
             isDraggingNodeLink = false;
@@ -832,7 +832,7 @@ namespace LowDefMustard.Zones.Editor
             }
         }
 
-        private static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, float lastZoneViewWidth, bool isyOffset, float yOffset)
+        internal static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, float lastZoneViewWidth, bool isyOffset, float yOffset)
         {
             Vector2 newPosition = new Vector2(currentPosition.x, currentPosition.y);
             newPosition.x += lastZoneViewWidth + _zoneViewPadding;
@@ -966,7 +966,7 @@ namespace LowDefMustard.Zones.Editor
             return new Vector2(xScaled, yScaled);
         }
         
-        private Vector2 GetIdealZoneViewDimensions(Texture2D texture2D, bool bypassChecks)
+        internal Vector2 GetIdealZoneViewDimensions(Texture2D texture2D, bool bypassChecks)
         {
             if (texture2D == null) { return _defaultZoneViewDimensions; }
             
@@ -1238,7 +1238,7 @@ namespace LowDefMustard.Zones.Editor
             return paths;
         }
 
-        private static string GetSafeNameFromPath(string path)
+        internal static string GetSafeNameFromPath(string path)
         {
             string safeName = Path.GetFileNameWithoutExtension(path);
             return Path.GetInvalidFileNameChars().Aggregate(safeName, (current, c) => current.Replace(c, '_'));
