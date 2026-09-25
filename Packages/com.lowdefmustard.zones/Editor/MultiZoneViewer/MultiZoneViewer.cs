@@ -297,22 +297,26 @@ namespace LowDefMustard.Zones.Editor
             VisualElement fieldToButtonSpacer = MakeSpacer(20f, 0f);
             toolbarTopRow.Add(fieldToButtonSpacer);
             
-            var captureButton = new Button(OnCaptureClicked) { text = "Capture Zones" };
+            var captureButton = new Button { text = "Capture Zones" };
+            captureButton.RegisterCallback<ClickEvent>(_ => OnCaptureClicked());
             StyleButton(captureButton);
             toolbarTopRow.Add(captureButton);
             
-            var refreshButton = new Button(OnRefreshClicked) { text = "Refresh" };
+            var refreshButton = new Button { text = "Refresh" };
+            refreshButton.RegisterCallback<ClickEvent>(_ => OnRefreshClicked());
             StyleButton(refreshButton);
             toolbarTopRow.Add(refreshButton);
             
-            clearButton = new Button(OnClearClicked) { text = "Clear" };
+            clearButton = new Button { text = "Clear" };
+            clearButton.RegisterCallback<ClickEvent>(_ => OnClearClicked());
             StyleButton(clearButton);
             toolbarTopRow.Add(clearButton);
 
             VisualElement clearToZoomSpacer = MakeSpacer(20f, 0f);
             toolbarTopRow.Add(clearToZoomSpacer);
 
-            var resetZoomButton = new Button(OnResetZoomClicked) { text = "Reset Zoom" };
+            var resetZoomButton = new Button { text = "Reset Zoom" };
+            resetZoomButton.RegisterCallback<ClickEvent>(_ => OnResetZoomClicked());
             StyleButton(resetZoomButton);
             toolbarTopRow.Add(resetZoomButton);
 
@@ -655,9 +659,11 @@ namespace LowDefMustard.Zones.Editor
 
         internal void OnNodeDotDragEnded(Vector2 canvasPosition)
         {
+            Debug.Log("A");
             if (!isDraggingNodeLink) { return; }
             isDraggingNodeLink = false;
 
+            Debug.Log("B");
             if (!IsPastLinkDragThreshold(canvasPosition))
             {
                 ZoneNode clickedZoneNode = GetZoneNodeByID(activeDragSource.zoneName, activeDragSource.zoneNodeID);
@@ -666,9 +672,11 @@ namespace LowDefMustard.Zones.Editor
                 return;
             }
 
+            Debug.Log("C");
             (string zoneName, string zoneNodeID)? dropTarget = FindNodeDotAtCanvasPosition(canvasPosition, activeDragSource);
             if (dropTarget.HasValue)
             {
+                Debug.Log("D");
                 TryLinkZoneNodes(activeDragSource.zoneName, activeDragSource.zoneNodeID, dropTarget.Value.zoneName, dropTarget.Value.zoneNodeID);
             }
             else

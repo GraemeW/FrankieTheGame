@@ -80,8 +80,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             handlerObject.SetActive(active);
             return handler;
         }
-
-        // Seeds both lookups directly (both must be non-empty, or Zone would fall through to a real Addressables load)
+        
         private static void SeedZoneCache(params Zone[] zones)
         {
             Zone.zoneLookupCache = new Dictionary<string, Zone>();

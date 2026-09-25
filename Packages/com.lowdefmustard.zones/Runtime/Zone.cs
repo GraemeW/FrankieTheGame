@@ -188,9 +188,9 @@ namespace LowDefMustard.Zones
             return zoneNode;
         }
 
-        public void CreateChildNode(ZoneNode parentNode)
+        public ZoneNode CreateChildNode(ZoneNode parentNode)
         {
-            if (parentNode == null) { return; }
+            if (parentNode == null) { return null; }
 
             ZoneNode childNode = CreateNode();
             parentNode.AddChild(childNode.name);
@@ -200,6 +200,7 @@ namespace LowDefMustard.Zones
             childNode.SetPosition(offsetPosition);
 
             OnValidate();
+            return childNode;
         }
 
         public void CreateRootNodeIfMissing()
