@@ -63,7 +63,7 @@ MonoBehaviour:
   leftBranch: 5cae0f40-8c4b-4640-8515-56c0f44a5bff
   rightSkillReference: 
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: SpillHotCoffee
   downBranch: 
   mappedFromBranch: 0
   rect:
