@@ -28,37 +28,85 @@ namespace Frankie.Rendering
         private const string _globalFadeOutToggleReference = "_ToggleFadeOut";
         private static readonly int _toggleFadeOut = Shader.PropertyToID(_globalFadeOutToggleReference);
         #endregion
-
-        #region PrivateMethods
+        
+        #region Static
         private static ScriptableRendererFeature GetRendererFeature(Renderer2DData renderer2DData, string featureName)
         {
             if (renderer2DData == null || renderer2DData.rendererFeatures == null) { return null; }
             return renderer2DData.rendererFeatures.FirstOrDefault(rendererFeature => rendererFeature.name == featureName);
         }
+        
+        // Reused across calls to avoid a per-call allocation (read -> write -> hand-off on every use)
+        private static MaterialPropertyBlock _workingPropertyBlock;
         #endregion
 
-        #region PublicMethods
+        #region PublicUtility
         public static void ToggleBattleEntry(Renderer2DData renderer2DData, bool enable)
         {
             GetRendererFeature(renderer2DData, _globalRendererBattleEntry)?.SetActive(enable);
         }
+        #endregion
 
+        #region PublicRendererProperties
+        // Applicable for SpriteRenderers
+        // Note:  Cannot apply for UI elements (i.e. CanvasRenderer-base) - must use material base (shared property across all materials)
+        public static void SetMainTexture(Renderer renderer, Texture2D mainTexture)
+        {
+            if (renderer == null) { return; }
+            _workingPropertyBlock ??= new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(_workingPropertyBlock);
+            _workingPropertyBlock.SetTexture(_mainTex, mainTexture);
+            renderer.SetPropertyBlock(_workingPropertyBlock);
+        }
+        
+        public static void SetTint(Renderer renderer, Color color)
+        {
+            if (renderer == null) { return; }
+            _workingPropertyBlock ??= new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(_workingPropertyBlock);
+            _workingPropertyBlock.SetColor(_tintReference, color);
+            renderer.SetPropertyBlock(_workingPropertyBlock);
+        }
+        
+        public static void SetShaderPhase(Renderer renderer, float phase)
+        {
+            if (renderer == null) { return; }
+            _workingPropertyBlock ??= new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(_workingPropertyBlock);
+            _workingPropertyBlock.SetFloat(_phase, phase);
+            renderer.SetPropertyBlock(_workingPropertyBlock);
+        }
+        
+        public static void SetStrength(Renderer renderer, float strength)
+        {
+            if (renderer == null) { return; }
+            _workingPropertyBlock ??= new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(_workingPropertyBlock);
+            _workingPropertyBlock.SetFloat(_strength, strength);
+            renderer.SetPropertyBlock(_workingPropertyBlock);
+        }
+        #endregion
+        
+        #region PublicMaterialProperties
+        // Applicable for global renderer effects (e.g. URP renderer pipeline) and UI elements
+        // For in-game elements, use renderer-base calls instead (avoid global parameter overlap issue)
+        
         public static void SetMainTexture(Material material, Texture2D mainTexture)
         {
             if (material == null || mainTexture == null) { return; }
             material.SetTexture(_mainTex, mainTexture);
         }
 
-        public static void SetTint(Material material, Color color)
-        {
-            if (material == null) { return; }
-            material.SetColor(_tintReference, color);
-        }
-
         public static void SetWorldRenderTexture(Material material, RenderTexture worldRenderTexture)
         {
             if (material == null || worldRenderTexture == null) { return; }
             material.SetTexture(_worldTex, worldRenderTexture);
+        }
+        
+        public static void SetTint(Material material, Color color)
+        {
+            if (material == null) { return; }
+            material.SetColor(_tintReference, color);
         }
 
         public static void SetShaderPhase(Material material, float phase)
