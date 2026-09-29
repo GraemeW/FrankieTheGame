@@ -1,0 +1,188 @@
+/* Note:  Units are reference pixels on a 2560x1440 panel (see FrankiePanelSettings) */
+
+:root {
+    -unity-font-definition: var(--font-default);
+    font-size: var(--font-size-default);
+    color: var(--text-colour-default);
+}
+
+/* ~ Box Chrome ~ */
+.uibox {
+    padding: 30px 40px;
+}
+
+.uibox__backing {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    background-color: var(--backing-colour);
+}
+
+.uibox__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* FrameElement: tint is driven at runtime by the global frame flavour; USS value is the edit-time default */
+.frame {
+    background-image: var(--frame-image);
+    -unity-slice-left: var(--frame-slice);
+    -unity-slice-right: var(--frame-slice);
+    -unity-slice-top: var(--frame-slice);
+    -unity-slice-bottom: var(--frame-slice);
+    -unity-background-image-tint-color: var(--frame-flavour-default);
+}
+
+/* ~ Back Exit ~ */
+.uibox-back-exit,
+.uibox-back-exit.unity-button:hover:enabled,
+.uibox-back-exit.unity-button:active:enabled {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 26px;
+    height: 26px;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.uibox-back-exit__backing {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    background-color: var(--backing-colour);
+}
+
+.uibox-back-exit__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    -unity-slice-scale: 0.2px;
+}
+
+.uibox-back-exit__label {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    -unity-text-align: middle-center;
+    transition: color var(--choice-tint-duration);
+}
+
+.uibox-back-exit:hover > .uibox-back-exit__label {
+    color: var(--choice-hover-colour);
+}
+
+.uibox-back-exit:active > .uibox-back-exit__label {
+    color: var(--choice-pressed-colour);
+}
+
+.uibox-back-exit--hidden {
+    display: none;
+}
+
+/* ~ Text Entries ~ */
+.text-entries {
+    flex-direction: column;
+}
+
+.text-entry {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.text-entry--hidden {
+    display: none;
+}
+
+.text-entry__label,
+.text-entry__bullet,
+.choice-entry__label,
+.choice-entry__marker {
+    margin: 0;
+    padding: 0;
+}
+
+.text-entry__label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: normal;
+    -unity-text-align: upper-left;
+}
+
+.text-entry__bullet {
+    font-size: 40px;
+    margin-right: 32px;
+    -unity-text-align: middle-left;
+}
+
+/* ~ Choice Entries ~ */
+.choice-entries {
+    padding: 0 150px;
+}
+
+.choice-entries--horizontal {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.choice-entries--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.choice-entry,
+.choice-entry.unity-button:hover:enabled,
+.choice-entry.unity-button:active:enabled,
+.choice-entry.unity-button:focus {
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 64px;
+    white-space: nowrap;
+}
+
+.choice-entry--hidden {
+    display: none;
+}
+
+/* Marker reserves its width when hidden (avoid text jitter as the cursor moves) */
+.choice-entry__marker {
+    width: 30px;
+    margin-right: 5px;
+    visibility: hidden;
+}
+
+.choice-entry--highlighted > .choice-entry__marker {
+    visibility: visible;
+}
+
+/* Pointer feedback (hover-over tint) */
+.choice-entry__label {
+    transition: color var(--choice-tint-duration);
+}
+
+.choice-entry:hover > .choice-entry__label {
+    color: var(--choice-hover-colour);
+}
+
+.choice-entry:active > .choice-entry__label {
+    color: var(--choice-pressed-colour);
+}

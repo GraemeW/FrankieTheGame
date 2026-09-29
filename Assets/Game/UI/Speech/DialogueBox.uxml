@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" editor-extension-mode="false">
+    <Style src="DialogueBox.uss" />
+    <ui:VisualElement class="dialogue-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox dialogue-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:TextEntryContainer class="dialogue-box__text" picking-mode="Ignore" />
+            <uibox:ChoiceEntryContainer class="dialogue-box__choices" picking-mode="Ignore" />
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

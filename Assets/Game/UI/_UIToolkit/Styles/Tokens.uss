@@ -1,0 +1,24 @@
+/* Design tokens:  home for asset references + shared values used across Frankie's UI Toolkit styles */
+/* Note:  USS asset urls embed path + guid, and moved/renamed assets need their path updated here (only) */
+
+:root {
+    /* Assets */
+    --font-default: url("project://database/Assets/z_ImportedAssets/EB-Fonts/apple_kid.ttf?fileID=12800000&guid=7bd65eb5ffd78954896f033f015e3eaf&type=3#apple_kid");
+    --frame-image: url("project://database/Assets/z_MadeAssets/BattleUI/MenuFrame.png?fileID=21300000&guid=f30d85e6afc224fe9a89251a4c2dab80&type=3#MenuFrame");
+
+    /* Frame */
+    --frame-slice: 18;
+    --frame-flavour-default: rgb(184, 255, 255);
+
+    /* Text */
+    --font-size-default: 64px;
+    --text-colour-default: rgb(255, 255, 255);
+
+    /* Pointer feedback */
+    --choice-hover-colour: rgb(124, 171, 171);
+    --choice-pressed-colour: rgb(51, 70, 70);
+    --choice-tint-duration: 0.1s;
+
+    /* Box */
+    --backing-colour: rgb(0, 0, 0);
+}

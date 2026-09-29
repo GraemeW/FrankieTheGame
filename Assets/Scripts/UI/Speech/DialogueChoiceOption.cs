@@ -2,41 +2,9 @@ using LowDefMustard.UIBox;
 
 namespace Frankie.Speech.UI
 {
+    // Note:  Node-based highlighting is driven by DialogueBox (via ITextScanChoiceEntry) for both uGUI & UI Toolkit views
+    // Retained as the script on the legacy DialogueChoiceOption prefab
     public class DialogueChoiceOption : UIChoiceButton
     {
-        // State
-        private DialogueNode dialogueNode;
-
-        // Cached References
-        private DialogueController dialogueController;
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            if (dialogueController != null)
-            {
-                dialogueController.highlightedNodeChanged -= Highlight;
-            }
-        }
-
-        public void Setup(DialogueController setDialogueController, DialogueNode setDialogueNode)
-        {
-            dialogueController = setDialogueController;
-            dialogueNode = setDialogueNode;
-            setDialogueController.highlightedNodeChanged += Highlight;
-        }
-
-        private void Highlight(DialogueNode dialogueNodeToHighlight)
-        {
-            if (dialogueNode == dialogueNodeToHighlight)
-            {
-                selectionMarker.SetActive(true);
-                itemHighlighted?.Invoke();
-            }
-            else
-            {
-                selectionMarker.SetActive(false);
-            }
-        }
     }
 }

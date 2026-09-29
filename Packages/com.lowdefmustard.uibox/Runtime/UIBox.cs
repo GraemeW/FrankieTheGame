@@ -223,8 +223,16 @@ namespace LowDefMustard.UIBox
         protected void SetupBackExitButton()
         {
             if (isBackExitButtonSetup) { return; }
-            if (preventEscapeOptionExit || backExitPrefab == null) { return; }
+            if (preventEscapeOptionExit) { return; }
+            if (TryGetBoxView(out IUIBoxView view))
+            {
+                view.SetBackExitAction(() => HandleInputWrapper(ControllerInputType.Escape));
+                isBackExitButtonSetup = true;
+                return;
+            }
             
+            // Legacy uGUI approach
+            if (backExitPrefab == null) { return; }
             UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
             backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
             isBackExitButtonSetup = true;

@@ -42,7 +42,9 @@ namespace LowDefMustard.UIBox
 
         // Cached References
         private Camera renderCamera; // Only relevant if canvas != overlay
-        
+        private IUIBoxView boxView; // when null -> uses legacy uGUI hookups
+        private bool isBoxViewResolved = false;
+
         // Event Handles
         private event Action<ReceiverModifiedType, ReceiverModifiedData> receiverModified;
         
@@ -65,7 +67,22 @@ namespace LowDefMustard.UIBox
         
         protected void TriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType, ReceiverModifiedData uiBoxModifiedData) => receiverModified?.Invoke(dialogueBoxModifiedType, uiBoxModifiedData);
         protected abstract void SimpleTriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType); // Implemented via UIBox
-        protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
+        protected void SetVisible(bool enable)
+        {
+            if (TryGetBoxView(out IUIBoxView view)) { view.SetVisible(enable); return; }
+            canvasGroup.alpha = enable ? 1.0f : 0.0f;
+        }
+
+        protected bool TryGetBoxView(out IUIBoxView view)
+        {
+            if (!isBoxViewResolved)
+            {
+                TryGetComponent(out boxView);
+                isBoxViewResolved = true;
+            }
+            view = boxView;
+            return view != null;
+        }
         public void ClearDisableCallbacksOnChoose(bool enable) => clearDisableCallbacksOnChoose = enable;
         public void ClearDisableCallbacks() => SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks);
         #endregion

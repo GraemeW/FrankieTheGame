@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Speech;
@@ -26,6 +27,7 @@ namespace Frankie.Control
         // Cached References
         private SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
         private CombatParticipant combatParticipant;
+        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
 
         // Events
         public event Action<NPCStateType, bool> npcStateChanged;
@@ -36,17 +38,20 @@ namespace Frankie.Control
             // Not strictly necessary -- will fail elegantly
             combatParticipant = GetComponent<CombatParticipant>();
             spriteVisibilityAnnouncer = GetComponentInChildren<SpriteVisibilityAnnouncer>();
+            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
         }
 
         private void Start()
         {
-            // Must init in Start due to object readiness
-            InitializeNPCRunDisposition();
+            playerStateMachine ??= new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
+            playerStateMachine.ForceInit();
+            
+            InitializeNPCRunDisposition(); // Must init in Start due to object readiness
         }
 
         private void OnEnable()
         {
-            SetupPlayerListener(true);
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.playerStateChanged += ParsePlayerStateChange; }
             if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
             SetNPCState(NPCStateType.Idle);
@@ -54,18 +59,9 @@ namespace Frankie.Control
 
         private void OnDisable()
         {
-            SetupPlayerListener(false);
+            if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance, allowReInit: false)) { playerStateMachineInstance.playerStateChanged -= ParsePlayerStateChange; }
             if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
-        }
-
-        private void SetupPlayerListener(bool enable)
-        {
-            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
-            if (playerStateMachine == null) { return; }
-            
-            if (enable) { playerStateMachine.playerStateChanged += ParsePlayerStateChange; }
-            else { playerStateMachine.playerStateChanged -= ParsePlayerStateChange; }
         }
 
         private void Update()

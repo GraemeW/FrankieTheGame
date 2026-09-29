@@ -113,7 +113,7 @@ namespace LowDefMustard.UIBox.Tests
             yield return null;
             var printedJob = new GameObject("PrintedJob");
             spawned.Add(printedJob);
-            textScanBox.printedJobs = new List<GameObject> { printedJob };
+            textScanBox.printedJobs = new List<ITextScanEntry> { new UGUITextScanEntry(printedJob) };
 
             textScanBox.ClearOldDialogue();
             yield return null;

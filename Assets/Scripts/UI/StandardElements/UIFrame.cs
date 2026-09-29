@@ -31,6 +31,19 @@ namespace Frankie.Utils.UI
             _frameFlavourColour = PlayerPrefsController.GetFrameFlavourColour();
         }
         private static void SetGlobalFrameFlavour(Color frameFlavourColor) => _frameFlavourColour = frameFlavourColor;
+        
+        public static Color GetFrameFlavourColour()
+        {
+            if (!_isFrameFlavourSet) { InitializeFrameFlavour(); }
+            return _frameFlavourColour;
+        }
+        
+        public static Color GetScaledColour(Color color, float colourModifyFactor)
+        {
+            // Prevent clipping >1 (no HDR support) while maintaining uniform scaling 
+            float maxScaling = Mathf.Min(colourModifyFactor, 1 / color.r, 1 / color.g, 1 / color.b);
+            return new Color(color.r * maxScaling, color.g * maxScaling, color.b * maxScaling, color.a);
+        }
         #endregion
         
         #region UnityMethods
@@ -63,12 +76,7 @@ namespace Frankie.Utils.UI
             frame.color = currentColour;
         }
 
-        private Color GetScaledColour(Color color)
-        {
-            // Prevent clipping >1 (no HDR support) while maintaining uniform scaling 
-            float maxScaling = Mathf.Min(colourModifyFactor, 1 / color.r, 1 / color.g, 1 / color.b);
-            return new Color(color.r * maxScaling, color.g * maxScaling, color.b * maxScaling, color.a);
-        }
+        private Color GetScaledColour(Color color) => GetScaledColour(color, colourModifyFactor);
         #endregion
     }
 }
