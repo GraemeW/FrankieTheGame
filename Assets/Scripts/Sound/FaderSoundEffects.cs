@@ -22,13 +22,7 @@ namespace Frankie.Sound
             fader.fadingIn -= HandleFadeIn;
         }
 
-        protected override void LinkToAudioMixer()
-        {
-            if (CoreAudio.TryGetFaderAudioMixer(out AudioMixerGroup audioMixerGroup))
-            {
-                audioSource.outputAudioMixerGroup = audioMixerGroup;
-            }
-        }
+        protected override bool TryGetAudioMixerGroup(out AudioMixerGroup audioMixerGroup) => CoreAudio.TryGetFaderAudioMixer(out audioMixerGroup);
 
         private void HandleFadeIn(TransitionType transitionType)
         {

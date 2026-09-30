@@ -143,7 +143,7 @@ PrefabInstance:
       objectReference: {fileID: 4120861931756406875}
     - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: m_Name
-      value: TextScanSoundbox
+      value: uiBoxSoundbox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

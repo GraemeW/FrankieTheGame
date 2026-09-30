@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Saving;
@@ -14,14 +15,15 @@ namespace Frankie.Sound
         // Tunables
         [SerializeField][Range(0f,2f)] private float additionalVolumeScaler = 1.0f;
         [SerializeField] private List<AudioClip> audioClips = new();
-        
+        [Tooltip("Pool for PlayClip - defaults to the attached AudioSource if empty")] [SerializeField] private List<AudioSource> audioSources = new();
+
         // Const
         private const float _defaultVolume = 0.3f;
-        
+
         // State
-        private protected AudioSource audioSource;
+        private readonly List<AudioSource> pooledSources = new();
+        private readonly HashSet<AudioSource> allSources = new();
         private bool isAudioMixerLinked = false;
-        private float volume = _defaultVolume;
         private Coroutine delayedPlayCoroutine;
         private bool destroyAfterPlay = false;
 
@@ -34,7 +36,7 @@ namespace Frankie.Sound
         private void Start()
         {
             LinkToAudioMixer();
-            PreConfigureAudioSource();
+            PreConfigureAudioSources();
         }
 
         protected virtual void OnEnable()
@@ -49,7 +51,7 @@ namespace Frankie.Sound
 
         private void FixedUpdate()
         {
-            if (destroyAfterPlay && audioSource != null && !audioSource.isPlaying)
+            if (destroyAfterPlay && !allSources.Any(source => source != null && source.isPlaying))
             {
                 Destroy(gameObject);
             }
@@ -58,61 +60,85 @@ namespace Frankie.Sound
 
         #region SetupMethods
         private float GetPlayerVolume() => PlayerPrefsController.SoundEffectsVolumeKeyExists() ? Mathf.Clamp01(PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler) : _defaultVolume;
-        protected virtual void InitializeAudioSources() => StandardSetAudioSource();
-        protected virtual void SetAudioSource(AudioClip audioClip = null) => StandardSetAudioSource();
-        protected void StandardSetAudioSource()
+        protected virtual IEnumerable<AudioSource> GetDedicatedAudioSources() => Enumerable.Empty<AudioSource>();
+        protected virtual bool TryGetAudioMixerGroup(out AudioMixerGroup audioMixerGroup) => CoreAudio.TryGetSoundEffectsAudioMixer(out audioMixerGroup);
+
+        private void InitializeAudioSources()
         {
-            if (audioSource != null) { return; }
-            audioSource = GetComponent<AudioSource>();
+            pooledSources.Clear();
+            pooledSources.AddRange(audioSources.Where(source => source != null));
+            if (pooledSources.Count == 0) { pooledSources.Add(GetComponent<AudioSource>()); } // Note: default self-component only added if pooled is empty (need to add to audioSource list if wanted in pool)
+
+            allSources.Clear();
+            allSources.UnionWith(pooledSources);
+            allSources.UnionWith(GetDedicatedAudioSources().Where(source => source != null));
         }
 
-        protected virtual void LinkToAudioMixer()
+        private void LinkToAudioMixer()
         {
             if (isAudioMixerLinked) { return; }
-            if (!CoreAudio.TryGetSoundEffectsAudioMixer(out AudioMixerGroup audioMixerGroup)) { return; }
-            audioSource.outputAudioMixerGroup = audioMixerGroup;
+            if (!TryGetAudioMixerGroup(out AudioMixerGroup audioMixerGroup)) { return; }
+            foreach (AudioSource audioSource in allSources) { audioSource.outputAudioMixerGroup = audioMixerGroup; }
             isAudioMixerLinked = true;
         }
 
-        protected virtual void PreConfigureAudioSource()
+        protected virtual void PreConfigureAudioSources()
         {
-            audioSource.Stop();
-            if (audioSource.clip != null) { audioSource.time = 0f; }
+            foreach (AudioSource audioSource in allSources)
+            {
+                audioSource.Stop();
+                if (audioSource.clip != null) { audioSource.time = 0f; }
+            }
         }
-        
+
         protected void InitializeVolume()
         {
-            if (audioSource == null) { return; }
-            volume = GetPlayerVolume();
-            audioSource.volume = volume;
+            float volume = GetPlayerVolume();
+            foreach (AudioSource audioSource in allSources) { audioSource.volume = volume; }
         }
-        
+
         protected virtual void InitializePersistentSoundEffect()
         {
+            PruneToRootAudioSource();
             LinkToAudioMixer(); // Must link immediately after instantiation to ensure set up in time
             InitializeVolume();
             DontDestroyOnLoad(this);
             destroyAfterPlay = false; // Destroy after play set on DelayedPlay
         }
+
+        private void PruneToRootAudioSource()
+        {
+            AudioSource rootSource = GetComponent<AudioSource>();
+            foreach (AudioSource audioSource in allSources)
+            {
+                if (audioSource == rootSource) { continue; }
+                if (audioSource.gameObject == gameObject) { Destroy(audioSource); }
+                else if (audioSource.transform.IsChildOf(transform)) { Destroy(audioSource.gameObject); }
+            }
+            pooledSources.Clear();
+            pooledSources.Add(rootSource);
+            allSources.Clear();
+            allSources.Add(rootSource);
+        }
         #endregion
-        
+
         #region PersistentSoundEffects
         private void GeneratePersistentSoundEffect(AudioClip audioClip)
         {
             if (audioClip == null) { return; }
             SoundEffects newSoundEffects = Instantiate(this, null, true);
             newSoundEffects.InitializePersistentSoundEffect();
-            
+
             // Note - for reasons, we must delay a frame after instantiation/configuration and before play
             newSoundEffects.StartDelayedPlay(audioClip);
         }
-        
+
         private void StartDelayedPlay(AudioClip audioClip)
         {
             if (delayedPlayCoroutine != null) { StopCoroutine(delayedPlayCoroutine); }
             delayedPlayCoroutine = StartCoroutine(DelayedPlay(audioClip));
         }
-        
+
         private IEnumerator DelayedPlay(AudioClip audioClip)
         {
             yield return null;
@@ -121,21 +147,30 @@ namespace Frankie.Sound
         }
         #endregion
 
+        #region PrivateMethods
+        private bool TryGetIdleAudioSource(AudioClip audioClip, out AudioSource idleSource)
+        {
+            idleSource = null;
+            // Avoid duplicate simultaneous clip plays (impact is otherwise LOUD)
+            if (pooledSources.Any(source => source.isPlaying && source.clip == audioClip)) { return false; }
+            idleSource = pooledSources.FirstOrDefault(source => !source.isPlaying);
+            return idleSource != null;
+        }
+        #endregion
+
         #region PublicMethods
         public void SetLooping(bool isLooping)
         {
-            if (audioSource == null) { return; }
-            audioSource.loop = isLooping;
+            foreach (AudioSource audioSource in pooledSources) { audioSource.loop = isLooping; }
         }
 
         public void PlayClip(AudioClip audioClip)
         {
-            SetAudioSource(audioClip);
-            if (audioSource == null)  { return; }
-            if (audioClip == null || audioSource.isPlaying) { return; }
-            
+            if (audioClip == null) { return; }
+            if (!TryGetIdleAudioSource(audioClip, out AudioSource audioSource)) { return; }
+
             InitializeVolume();
-            
+
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.time = 0f;
@@ -145,7 +180,7 @@ namespace Frankie.Sound
         public void PlayClip()
         {
             if (audioClips.Count == 0) { return; }
-            AudioClip audioClip = audioClips[Random.Range(0, audioClips.Count - 1)];
+            AudioClip audioClip = audioClips[Random.Range(0, audioClips.Count)];
             PlayClip(audioClip);
         }
 
@@ -164,7 +199,7 @@ namespace Frankie.Sound
         public void PlayClipAfterDestroy()
         {
             if (audioClips.Count == 0) { return; }
-            AudioClip currentClip = audioClips[Random.Range(0, audioClips.Count - 1)];
+            AudioClip currentClip = audioClips[Random.Range(0, audioClips.Count)];
             PlayClipAfterDestroy(currentClip);
         }
         #endregion

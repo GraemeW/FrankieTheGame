@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
@@ -9,6 +10,7 @@ namespace Frankie.Sound
     {
         // Tunables
         [SerializeField] private UIBoxBase uiBox;
+        [SerializeField] private AudioSource textScanAudioSource;
         [SerializeField] private AudioClip textScanAudioClip;
         [SerializeField] private AudioClip chooseAudioClip;
         [SerializeField] private AudioClip highlightAudioClip;
@@ -41,11 +43,17 @@ namespace Frankie.Sound
             base.InitializePersistentSoundEffect();
         }
         
-        protected override void PreConfigureAudioSource()
+        protected override IEnumerable<AudioSource> GetDedicatedAudioSources()
         {
-            audioSource.Stop();
-            audioSource.clip = textScanAudioClip;
-            audioSource.time = 0f;
+            yield return textScanAudioSource;
+        }
+
+        protected override void PreConfigureAudioSources()
+        {
+            base.PreConfigureAudioSources();
+            if (textScanAudioSource == null) { return; }
+            textScanAudioSource.clip = textScanAudioClip;
+            textScanAudioSource.time = 0f;
         }
         #endregion
 
@@ -61,7 +69,7 @@ namespace Frankie.Sound
                     PlayClipAfterDestroy(chooseAudioClip); // Selection often destroys the box
                     break;
                 case ReceiverModifiedType.ItemHighlighted:
-                    PlayOneShot(highlightAudioClip); // One-shot to leave the text scan clip on the shared source untouched
+                    PlayClip(highlightAudioClip);
                     break;
                 case ReceiverModifiedType.ClientEnter:
                     PlayClip(enterClip);
@@ -74,19 +82,13 @@ namespace Frankie.Sound
         #endregion
 
         #region PrivateMethods
-        private void PlayOneShot(AudioClip audioClip)
-        {
-            if (audioSource == null || audioClip == null) { return; }
-            InitializeVolume();
-            audioSource.PlayOneShot(audioClip);
-        }
-
         private void ConfigureTextScanAudio(bool enable)
         {
+            if (textScanAudioSource == null) { return; }
             if (enable)
             {
                 InitializeVolume();
-                audioSource.clip = textScanAudioClip;
+                textScanAudioSource.clip = textScanAudioClip;
                 isTextScanActive = true;
                 
                 if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
@@ -95,7 +97,7 @@ namespace Frankie.Sound
             else
             {
                 isTextScanActive = false;
-                audioSource.Stop();
+                textScanAudioSource.Stop();
             }
         }
 
@@ -103,7 +105,7 @@ namespace Frankie.Sound
         {
             while (isTextScanActive)
             {
-                if (!audioSource.isPlaying) { audioSource.Play(); }
+                if (!textScanAudioSource.isPlaying) { textScanAudioSource.Play(); }
                 yield return new WaitForSeconds(textScanLoopDelay);
             }
         }

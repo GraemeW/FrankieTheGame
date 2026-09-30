@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5210498316462871007}
+  - {fileID: 7536890758705033981}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1931382934 &5210498316462871003
@@ -143,14 +143,14 @@ PrefabInstance:
       objectReference: {fileID: 5210498316462871005}
     - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: m_Name
-      value: TextScanSoundbox
+      value: uiBoxSoundbox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
---- !u!4 &5210498316462871007 stripped
+--- !u!4 &7536890758705033981 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
   m_PrefabInstance: {fileID: 5210498316462871006}
