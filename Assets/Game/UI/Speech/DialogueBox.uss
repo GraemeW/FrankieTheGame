@@ -12,3 +12,7 @@
     min-width: 880px;
     max-width: 960px;
 }
+
+.dialogue-box__choices {
+    margin-top: 20px;
+}

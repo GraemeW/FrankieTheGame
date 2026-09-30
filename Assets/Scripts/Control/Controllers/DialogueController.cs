@@ -18,7 +18,6 @@ namespace Frankie.Speech
         [Header("Controller Properties")]
         [SerializeField] private GameObject dialogueBoxPrefab;
         [SerializeField] private GameObject dialogueOptionBox;
-        [SerializeField] private GameObject dialogueOptionBoxVertical;
 
         // State
         private ControllerInputType currentDirectionalInput = ControllerInputType.DefaultNone;
@@ -187,7 +186,7 @@ namespace Frankie.Speech
         public void InitiateSimpleOption(string message, List<ChoiceActionPair> choiceActionPairs)
         {
             isSimpleMessage = true;
-            Instantiate(ReckonDialogueOptionBox(choiceActionPairs), worldCanvas.transform);
+            Instantiate(dialogueOptionBox, worldCanvas.transform);
             simpleMessage = message;
             simpleChoices = choiceActionPairs;
         }
@@ -315,12 +314,6 @@ namespace Frankie.Speech
             List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
             int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
             SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
-        }
-
-        private GameObject ReckonDialogueOptionBox(List<ChoiceActionPair> choiceActionPairs)
-        {
-            if (choiceActionPairs.Count >= GetChoiceNumberThresholdToReconfigureVertical()) { return dialogueOptionBoxVertical; }
-            return choiceActionPairs.Any(choiceActionPair => choiceActionPair.choice.Length >= GetChoiceLengthThresholdToReconfigureVertical()) ? dialogueOptionBoxVertical : dialogueOptionBox;
         }
 
         private void SetHighlightedNodeToDefault(ControllerInputType controllerInputType)

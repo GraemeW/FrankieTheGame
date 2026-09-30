@@ -6,6 +6,9 @@ namespace LowDefMustard.UIBox
     [UxmlElement]
     public sealed partial class ChoiceEntryElement : Button
     {
+        // Note: UxmlAttributes exist for UI Builder previews only - bound model values override them at runtime
+        
+        // Const Tunables
         private const string _ussClassName = "choice-entry";
         private const string _highlightedUssClassName = _ussClassName + "--highlighted";
         private const string _hiddenUssClassName = _ussClassName + "--hidden";
@@ -17,6 +20,9 @@ namespace LowDefMustard.UIBox
         private bool internalRevealed = true;
         private bool internalHighlighted = false;
 
+        // Cached References
+        private readonly Label label;
+
         [CreateProperty] public bool revealed
         {
             get => internalRevealed;
@@ -27,7 +33,7 @@ namespace LowDefMustard.UIBox
             }
         }
 
-        [CreateProperty] public bool highlighted
+        [CreateProperty, UxmlAttribute] public bool highlighted
         {
             get => internalHighlighted;
             set
@@ -35,6 +41,12 @@ namespace LowDefMustard.UIBox
                 internalHighlighted = value;
                 EnableInClassList(_highlightedUssClassName, value);
             }
+        }
+
+        [UxmlAttribute] public string labelText
+        {
+            get => label.text;
+            set => label.text = value;
         }
 
         public ChoiceEntryElement()
@@ -46,7 +58,7 @@ namespace LowDefMustard.UIBox
             marker.AddToClassList(_markerUssClassName);
             Add(marker);
 
-            var label = new Label();
+            label = new Label();
             label.AddToClassList(_labelUssClassName);
             label.SetBinding(nameof(Label.text), UIToolkitBindings.ToTarget(nameof(ChoiceEntryModel.text)));
             Add(label);

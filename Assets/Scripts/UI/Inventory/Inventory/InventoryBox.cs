@@ -246,7 +246,7 @@ namespace Frankie.Inventory.UI
             foreach (UIChoiceButton dialogueChoiceOption in playerSelectChoiceOptions)
             {
                 dialogueChoiceOption.Highlight(false);
-                dialogueChoiceOption.SetValidColor(dialogueChoiceOption == highlightedChoiceOption);
+                dialogueChoiceOption.SetValidColor(ReferenceEquals(dialogueChoiceOption, highlightedChoiceOption));
             }
             foreach (InventoryItemField inventoryItemField in inventoryItemChoiceOptions)
             {

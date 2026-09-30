@@ -148,7 +148,7 @@ namespace Frankie.Speech.UI
         {
             if (!reconfigureLayoutOnOptionSize || choiceCount == 0) { return; }
 
-            bool isVertical = choiceCount > DialogueController.GetChoiceNumberThresholdToReconfigureVertical() || maxChoiceLength > DialogueController.GetChoiceLengthThresholdToReconfigureVertical();
+            bool isVertical = choiceCount >= DialogueController.GetChoiceNumberThresholdToReconfigureVertical() || maxChoiceLength >= DialogueController.GetChoiceLengthThresholdToReconfigureVertical();
             textScanView.SetChoiceLayout(isVertical ? ChoiceLayout.Vertical : ChoiceLayout.Horizontal);
         }
 
@@ -166,6 +166,7 @@ namespace Frankie.Speech.UI
                 if (!choiceEntry.isAlive) { continue; }
                 choiceEntry.Highlight(choiceNode == dialogueNodeToHighlight);
             }
+            if (dialogueNodeToHighlight != null) { TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted); }
         }
 
         private bool DialogueChoose(string nodeID)
@@ -223,8 +224,10 @@ namespace Frankie.Speech.UI
             return false;
         }
         
+        // Note:  Only raised by DialogueController on keyboard choice selection (mouse selection routes via DialogueChoose)
         private void HandleDialogueInput(ControllerInputType controllerInputType)
         {
+            if (controllerInputType == ControllerInputType.Execute) { TriggerChoiceModified(ReceiverModifiedType.ItemSelected); }
             PrepareChooseAction(controllerInputType);
         }
         #endregion

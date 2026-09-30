@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace LowDefMustard.UIBox
 {
-    public abstract class UIChoice : MonoBehaviour
+    public abstract class UIChoice : MonoBehaviour, IUIChoice
     {
         // Tunables
         [SerializeField] protected GameObject selectionMarker;
@@ -51,7 +51,9 @@ namespace LowDefMustard.UIBox
         #endregion
 
         #region PublicMethods
+        public bool isAlive => this != null;
         public abstract void UseChoice();
+        public bool TryGetScreenRect(Camera renderCamera, out Rect screenRect) => UIBoxBase.TryGetScreenRect(renderCamera, transform as RectTransform, out screenRect);
 
         public void SetChoiceOrder(int setChoiceOrder)
         {

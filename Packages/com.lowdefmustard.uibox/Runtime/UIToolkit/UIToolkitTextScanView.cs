@@ -12,8 +12,8 @@ namespace LowDefMustard.UIBox
     {
         // State
         private bool isVisible = true;
-        private Action backExitAction;
         private ChoiceLayout choiceLayout = ChoiceLayout.Horizontal;
+        private Action backExitAction;
         private readonly List<EntryHandle> entries = new();
         private int boundUIVersion = -1;
 
@@ -55,6 +55,14 @@ namespace LowDefMustard.UIBox
             backExitAction = onBackExit;
             ApplyBackExit();
         }
+
+        public IUIChoice CreateChoiceOption(string text, int choiceOrder, Action onChoose)
+        {
+            var choiceEntryModel = new ChoiceEntryModel { text = text, isRevealed = true };
+            var entryHandle = new EntryHandle(this, choiceEntryModel, TextEntryType.Simple, onChoose);
+            AddEntry(entryHandle);
+            return entryHandle;
+        }
         #endregion
 
         #region ITextScanView
@@ -79,6 +87,13 @@ namespace LowDefMustard.UIBox
             ApplyChoiceLayout();
         }
 
+        public void RemoveEntry(EntryHandle entryHandle)
+        {
+            entryHandle.DetachElement();
+            entries.Remove(entryHandle);
+            if (entryHandle.isChoice) { choiceEntryContainer?.RefreshEmptyState(); }
+        }
+        
         public void ClearEntries()
         {
             foreach (EntryHandle entryHandle in entries)
@@ -87,6 +102,7 @@ namespace LowDefMustard.UIBox
                 entryHandle.isRemoved = true;
             }
             entries.Clear();
+            choiceEntryContainer?.RefreshEmptyState();
         }
         #endregion
 
@@ -138,17 +154,12 @@ namespace LowDefMustard.UIBox
             AttachElement(entryHandle);
         }
 
-        private void RemoveEntry(EntryHandle entryHandle)
-        {
-            entryHandle.DetachElement();
-            entries.Remove(entryHandle);
-        }
-
         private void AttachElement(EntryHandle entryHandle)
         {
             // Note:  No-op until bound - entries created before the UI loads are attached in BindRoot
             VisualElement container = entryHandle.isChoice ? choiceEntryContainer : textEntryContainer;
             container?.Add(entryHandle.BuildElement());
+            if (entryHandle.isChoice) { choiceEntryContainer?.RefreshEmptyState(); }
         }
 
         private void ApplyVisibility()
@@ -168,79 +179,6 @@ namespace LowDefMustard.UIBox
         }
 
         private void HandleBackExitClicked() => backExitAction?.Invoke();
-        #endregion
-
-        #region EntryHandle
-        private sealed class EntryHandle : ITextScanChoiceEntry
-        {
-            // State
-            private readonly UIToolkitTextScanView view;
-            private readonly TextEntryModel model;
-            private readonly TextEntryType textEntryType;
-            private readonly Action onChoose;
-            private VisualElement element;
-            public bool isRemoved { get; set; } = false;
-            public bool isChoice => model is ChoiceEntryModel;
-
-            public EntryHandle(UIToolkitTextScanView view, TextEntryModel model, TextEntryType textEntryType, Action onChoose)
-            {
-                this.view = view;
-                this.model = model;
-                this.textEntryType = textEntryType;
-                this.onChoose = onChoose;
-            }
-
-            #region ITextScanChoiceEntry
-            public bool isAlive => !isRemoved && view != null;
-            public bool canDisplayText => true;
-            public void Reveal() => model.isRevealed = true;
-            public void SetText(string text) => model.text = text;
-            public void Highlight(bool enable)
-            {
-                if (model is ChoiceEntryModel choiceEntryModel) { choiceEntryModel.isHighlighted = enable; }
-            }
-
-            public void Remove()
-            {
-                if (isRemoved) { return; }
-                isRemoved = true;
-                if (view != null) { view.RemoveEntry(this); }
-            }
-            #endregion
-
-            #region ElementHandling
-            public VisualElement BuildElement()
-            {
-                DetachElement();
-                if (isChoice)
-                {
-                    var choiceEntryElement = new ChoiceEntryElement();
-                    choiceEntryElement.clicked += HandleClicked;
-                    element = choiceEntryElement;
-                }
-                else
-                {
-                    element = new TextEntryElement(textEntryType);
-                }
-                element.dataSource = model;
-                return element;
-            }
-
-            public void DetachElement()
-            {
-                if (element == null) { return; }
-                if (element is ChoiceEntryElement choiceEntryElement) { choiceEntryElement.clicked -= HandleClicked; }
-                element.RemoveFromHierarchy();
-                element = null;
-            }
-
-            private void HandleClicked()
-            {
-                if (isRemoved) { return; }
-                onChoose?.Invoke();
-            }
-            #endregion
-        }
         #endregion
     }
 }

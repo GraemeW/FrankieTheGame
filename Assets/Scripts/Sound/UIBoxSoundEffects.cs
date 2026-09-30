@@ -11,6 +11,7 @@ namespace Frankie.Sound
         [SerializeField] private UIBoxBase uiBox;
         [SerializeField] private AudioClip textScanAudioClip;
         [SerializeField] private AudioClip chooseAudioClip;
+        [SerializeField] private AudioClip highlightAudioClip;
         [SerializeField] private AudioClip enterClip;
         [SerializeField] private AudioClip exitClip;
         [SerializeField] private float textScanLoopDelay = 0.1f;
@@ -32,6 +33,13 @@ namespace Frankie.Sound
             uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
             if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
         }
+
+        protected override void InitializePersistentSoundEffect()
+        {
+            // Persistent copies play a single clip - detach from the source box's updates
+            uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
+            base.InitializePersistentSoundEffect();
+        }
         
         protected override void PreConfigureAudioSource()
         {
@@ -50,7 +58,10 @@ namespace Frankie.Sound
                     ConfigureTextScanAudio(uiBoxModifiedData.writingState);
                     break;
                 case ReceiverModifiedType.ItemSelected:
-                    PlayClip(chooseAudioClip);
+                    PlayClipAfterDestroy(chooseAudioClip); // Selection often destroys the box
+                    break;
+                case ReceiverModifiedType.ItemHighlighted:
+                    PlayOneShot(highlightAudioClip); // One-shot to leave the text scan clip on the shared source untouched
                     break;
                 case ReceiverModifiedType.ClientEnter:
                     PlayClip(enterClip);
@@ -63,6 +74,13 @@ namespace Frankie.Sound
         #endregion
 
         #region PrivateMethods
+        private void PlayOneShot(AudioClip audioClip)
+        {
+            if (audioSource == null || audioClip == null) { return; }
+            InitializeVolume();
+            audioSource.PlayOneShot(audioClip);
+        }
+
         private void ConfigureTextScanAudio(bool enable)
         {
             if (enable)

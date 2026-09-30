@@ -37,8 +37,8 @@ namespace LowDefMustard.UIBox
         // State -- Choices
         private bool isChoiceAvailable = false;
         private bool clearDisableCallbacksOnChoose = false;
-        protected readonly List<UIChoice> choiceOptions = new();
-        protected UIChoice highlightedChoiceOption;
+        protected readonly List<IUIChoice> choiceOptions = new();
+        protected IUIChoice highlightedChoiceOption;
 
         // Cached References
         private Camera renderCamera; // Only relevant if canvas != overlay
@@ -92,26 +92,46 @@ namespace LowDefMustard.UIBox
         protected bool IsChoiceAvailable() => isChoiceAvailable;
         protected void SetChoiceAvailable(bool enable) => isChoiceAvailable = enable;
 
-        protected void AddChoiceOption(string choiceText, Action action)
+        protected static bool IsChoiceAlive(IUIChoice choice) => choice is { isAlive: true };
+
+        protected void SetHighlightedChoice(IUIChoice choice)
         {
-            UIChoiceButton dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
-            dialogueChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
+            ClearChoiceSelections();
+            highlightedChoiceOption = choice;
+            choice.Highlight(true);
+            TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted);
         }
 
-        private UIChoiceButton AddChoiceOptionTemplate(string choiceText)
+        // Transitional:  legacy uGUI choices play their own highlight/select sounds (per-choice soundboxes)
+        // Remove the view gate alongside the legacy uGUI path
+        protected void TriggerChoiceModified(ReceiverModifiedType receiverModifiedType)
         {
+            if (!TryGetBoxView(out IUIBoxView _)) { return; }
+            SimpleTriggerUIBoxModified(receiverModifiedType);
+        }
+
+        protected void AddChoiceOption(string choiceText, Action action)
+        {
+            int choiceOrder = choiceOptions.Count + 1;
+            if (TryGetBoxView(out IUIBoxView view))
+            {
+                choiceOptions.Add(view.CreateChoiceOption(choiceText, choiceOrder, () => StandardChoiceExecution(action)));
+                return;
+            }
+
+            // Legacy uGUI approach
             GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
             var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
-            uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
+            uiChoiceOption.SetChoiceOrder(choiceOrder);
             uiChoiceOption.SetText(choiceText);
+            uiChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
             choiceOptions.Add(uiChoiceOption);
-            return uiChoiceOption;
         }
 
         protected void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoice choiceOption in choiceOptions.Where(choiceOption => choiceOption != null))
+            foreach (IUIChoice choiceOption in choiceOptions.Where(IsChoiceAlive))
             {
                 choiceOption.Highlight(false);
             }
@@ -136,8 +156,8 @@ namespace LowDefMustard.UIBox
         #region ChoiceExecution
         protected bool StandardChoose(string chooseDetail)
         {
-            // Note:  chooseDetail ignored in standard implementation -- employed in DialogueBox override
-            if (highlightedChoiceOption == null) { return false; }
+            // Note:  chooseDetail ignored in standard implementation - employed in DialogueBox override
+            if (!IsChoiceAlive(highlightedChoiceOption)) { return false; }
             highlightedChoiceOption.UseChoice();
             return true;
         }
@@ -145,6 +165,7 @@ namespace LowDefMustard.UIBox
         private void StandardChoiceExecution(Action action)
         {
             if (clearDisableCallbacksOnChoose) { SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks); }
+            TriggerChoiceModified(ReceiverModifiedType.ItemSelected);
             action?.Invoke();
             Destroy(gameObject);
         }
@@ -162,7 +183,7 @@ namespace LowDefMustard.UIBox
         
         protected bool StandardMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
             // Special objects that require specialty input (sliders, etc.)
             if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
@@ -170,20 +191,16 @@ namespace LowDefMustard.UIBox
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = TryExecuteMove(controllerInputType, ref choiceIndex, choiceOptions.Count, cursorMovementStyle);
-            if (validInput)
-            {
-                ClearChoiceSelections();
-                highlightedChoiceOption = choiceOptions[choiceIndex];
-                choiceOptions[choiceIndex].Highlight(true);
-                return true;
-            }
-            return false;
+            if (!validInput) { return false; }
+
+            SetHighlightedChoice(choiceOptions[choiceIndex]);
+            return true;
         }
 
         protected bool MoveCursor2D(ControllerInputType controllerInputType)
         {
             // Standard implementation
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
             // Special objects that require specialty input (sliders, etc.)
             if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
@@ -191,37 +208,31 @@ namespace LowDefMustard.UIBox
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = TryExecuteMove2D(controllerInputType, ref choiceIndex, choiceOptions.Count);
-            if (validInput)
-            {
-                ClearChoiceSelections();
-                highlightedChoiceOption = choiceOptions[choiceIndex];
-                choiceOptions[choiceIndex].Highlight(true);
-                return true;
-            }
-            return false;
+            if (!validInput) { return false; }
+
+            SetHighlightedChoice(choiceOptions[choiceIndex]);
+            return true;
         }
         
         protected bool StandardMoveCursorSpatial(ControllerInputType controllerInputType)
         {
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
             // Special objects that require specialty input (sliders, etc.)
             if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
 
             // Standard choice handling
             if (!BaseController.TryInputTypeToNavigationVector(controllerInputType, out Vector2 direction)) { return false; }
-            if (!TryGetScreenRect(renderCamera, highlightedChoiceOption.transform as RectTransform, out Rect originRect)) { return false; }
+            if (!highlightedChoiceOption.TryGetScreenRect(renderCamera, out Rect originRect)) { return false; }
 
             Vector2 origin = originRect.center;
-            if (!TryFindClosestRayHit(origin, direction, renderCamera, choiceOptions, highlightedChoiceOption, out UIChoice targetChoice))
+            if (!TryFindClosestRayHit(origin, direction, renderCamera, choiceOptions, highlightedChoiceOption, out IUIChoice targetChoice))
             {
                 TryFindBestAngleMatch(origin, direction, renderCamera, choiceOptions, highlightedChoiceOption, out targetChoice);
             }
-            if (targetChoice == null) { return false; }
+            if (!IsChoiceAlive(targetChoice)) { return false; }
 
-            ClearChoiceSelections();
-            highlightedChoiceOption = targetChoice;
-            targetChoice.Highlight(true);
+            SetHighlightedChoice(targetChoice);
             return true;
         }
         
@@ -303,14 +314,14 @@ namespace LowDefMustard.UIBox
             return validInput;
         }
         
-        internal static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice closestChoice)
+        internal static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, Camera renderCamera, IEnumerable<IUIChoice> choiceOptions, IUIChoice highlightedChoiceOption, out IUIChoice closestChoice)
         {
             closestChoice = null;
 
             float closestDistance = float.PositiveInfinity;
-            foreach (UIChoice candidate in choiceOptions.Where(candidate => candidate != null && candidate != highlightedChoiceOption))
+            foreach (IUIChoice candidate in choiceOptions.Where(candidate => IsChoiceAlive(candidate) && candidate != highlightedChoiceOption))
             {
-                if (!TryGetScreenRect(renderCamera, candidate.transform as RectTransform, out Rect candidateRect)) { continue; }
+                if (!candidate.TryGetScreenRect(renderCamera, out Rect candidateRect)) { continue; }
                 if (!TryRayIntersectsRect(origin, direction, candidateRect, out float distance)) { continue; }
                 if (distance >= closestDistance) { continue; }
 
@@ -320,14 +331,14 @@ namespace LowDefMustard.UIBox
             return closestChoice != null;
         }
         
-        internal static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice bestChoice)
+        internal static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, Camera renderCamera, IEnumerable<IUIChoice> choiceOptions, IUIChoice highlightedChoiceOption, out IUIChoice bestChoice)
         {
             bestChoice = null;
             
             float bestScore = float.NegativeInfinity;
-            foreach (UIChoice candidate in choiceOptions.Where(candidate => candidate != null && candidate != highlightedChoiceOption))
+            foreach (IUIChoice candidate in choiceOptions.Where(candidate => IsChoiceAlive(candidate) && candidate != highlightedChoiceOption))
             {
-                if (!TryGetScreenRect(renderCamera, candidate.transform as RectTransform, out Rect candidateRect)) { continue; }
+                if (!candidate.TryGetScreenRect(renderCamera, out Rect candidateRect)) { continue; }
 
                 Vector2 delta = candidateRect.center - origin;
                 float sqrMagnitude = delta.sqrMagnitude;

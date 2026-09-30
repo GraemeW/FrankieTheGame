@@ -122,7 +122,7 @@ namespace LowDefMustard.UIBox
 
         protected void StandardReconcileChoiceOptions()
         {
-            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            choiceOptions.RemoveAll(choiceOption => !IsChoiceAlive(choiceOption));
             SetChoiceAvailable(choiceOptions.Count > 0);
         }
         
@@ -211,10 +211,9 @@ namespace LowDefMustard.UIBox
             if (!IsChoiceAvailable()) { return false; }
             if (controllerInputType is ControllerInputType.DefaultNone or ControllerInputType.Cancel or ControllerInputType.Option) { return false; }
 
-            if (highlightedChoiceOption == null && choiceOptions.Count > 0)
+            if (!IsChoiceAlive(highlightedChoiceOption) && choiceOptions.Count > 0)
             {
-                highlightedChoiceOption = choiceOptions[0];
-                highlightedChoiceOption.Highlight(true);
+                SetHighlightedChoice(choiceOptions[0]);
                 return true;
             }
             return false;

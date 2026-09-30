@@ -5,6 +5,7 @@ namespace LowDefMustard.UIBox
     [UxmlElement]
     public sealed partial class BackExitButton : Button
     {
+        // Const Tunables
         private const string _ussClassName = "uibox-back-exit";
         private const string _hiddenUssClassName = _ussClassName + "--hidden";
 

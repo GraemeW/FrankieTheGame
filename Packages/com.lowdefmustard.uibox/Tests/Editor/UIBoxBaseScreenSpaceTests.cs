@@ -77,7 +77,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceButton far = CreateChoiceAt(new Vector2(30f, 0f), new Vector2(4f, 4f));
             var options = new List<UIChoice> { near, far };
 
-            bool hit = UIBoxBase.TryFindClosestRayHit(Vector2.zero, Vector2.right, null, options, null, out UIChoice closest);
+            bool hit = UIBoxBase.TryFindClosestRayHit(Vector2.zero, Vector2.right, null, options, null, out IUIChoice closest);
 
             Assert.IsTrue(hit);
             Assert.AreSame(near, closest);
@@ -90,7 +90,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceButton next = CreateChoiceAt(new Vector2(20f, 0f), new Vector2(4f, 4f));
             var options = new List<UIChoice> { highlighted, null, next };
 
-            bool hit = UIBoxBase.TryFindClosestRayHit(Vector2.zero, Vector2.right, null, options, highlighted, out UIChoice closest);
+            bool hit = UIBoxBase.TryFindClosestRayHit(Vector2.zero, Vector2.right, null, options, highlighted, out IUIChoice closest);
 
             Assert.IsTrue(hit);
             Assert.AreSame(next, closest);
@@ -102,7 +102,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceButton offToTheSide = CreateChoiceAt(new Vector2(0f, 50f), new Vector2(4f, 4f));
             var options = new List<UIChoice> { offToTheSide };
 
-            bool hit = UIBoxBase.TryFindClosestRayHit(Vector2.zero, Vector2.right, null, options, null, out UIChoice closest);
+            bool hit = UIBoxBase.TryFindClosestRayHit(Vector2.zero, Vector2.right, null, options, null, out IUIChoice closest);
 
             Assert.IsFalse(hit);
             Assert.IsNull(closest);
@@ -129,7 +129,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceButton farAhead = CreateChoiceAt(new Vector2(30f, 0f), new Vector2(1f, 1f));
             var options = new List<UIChoice> { farAhead, closeAhead };
 
-            bool found = UIBoxBase.TryFindBestAngleMatch(Vector2.zero, Vector2.right, null, options, null, out UIChoice best);
+            bool found = UIBoxBase.TryFindBestAngleMatch(Vector2.zero, Vector2.right, null, options, null, out IUIChoice best);
 
             Assert.IsTrue(found);
             Assert.AreSame(closeAhead, best);
@@ -142,7 +142,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceButton next = CreateChoiceAt(new Vector2(20f, 0f), new Vector2(1f, 1f));
             var options = new List<UIChoice> { highlighted, null, next};
 
-            bool found = UIBoxBase.TryFindBestAngleMatch(Vector2.zero, Vector2.right, null, options, highlighted, out UIChoice closest);
+            bool found = UIBoxBase.TryFindBestAngleMatch(Vector2.zero, Vector2.right, null, options, highlighted, out IUIChoice closest);
 
             Assert.IsTrue(found);
             Assert.AreSame(next, closest);

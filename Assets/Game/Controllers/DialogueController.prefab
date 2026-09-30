@@ -46,5 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listenerPollingInterval: 0.1
   dialogueBoxPrefab: {fileID: 4120861931756406871, guid: 9893a87e7c214b45b0cd02fe0ea76ea5, type: 3}
-  dialogueOptionBox: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
-  dialogueOptionBoxVertical: {fileID: 6413694501190794285, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+  dialogueOptionBox: {fileID: 5210498316462871001, guid: 76496a9a1480478281db2b0436cf29f6, type: 3}

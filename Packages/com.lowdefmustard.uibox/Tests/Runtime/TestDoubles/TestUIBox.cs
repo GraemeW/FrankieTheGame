@@ -56,16 +56,16 @@ namespace LowDefMustard.UIBox.Tests
         public bool publicHandleGlobalInput { get => handleGlobalInput; set => handleGlobalInput = value; }
         public bool publicClearVolatileOptionsOnEnable { get => clearVolatileOptionsOnEnable; set => clearVolatileOptionsOnEnable = value; }
         public bool publicPreventEscapeOptionExit { get => preventEscapeOptionExit; set => preventEscapeOptionExit = value; }
-        public UIChoice publicHighlightedChoiceOption => highlightedChoiceOption;
-        public IReadOnlyList<UIChoice> publicChoiceOptions => choiceOptions;
+        public IUIChoice publicHighlightedChoiceOption => highlightedChoiceOption;
+        public IReadOnlyList<IUIChoice> publicChoiceOptions => choiceOptions;
 
         // Getters
         public bool PublicIsChoiceAvailable() => IsChoiceAvailable();
         
         // Setters
         public void SetControllerDirectly(BaseController value) => controller = value;
-        public void SetHighlightedChoiceOption(UIChoice choice) => highlightedChoiceOption = choice;
-        public void InjectChoiceOptions(IEnumerable<UIChoice> choices)
+        public void SetHighlightedChoiceOption(IUIChoice choice) => highlightedChoiceOption = choice;
+        public void InjectChoiceOptions(IEnumerable<IUIChoice> choices)
         {
             choiceOptions.Clear();
             choiceOptions.AddRange(choices);

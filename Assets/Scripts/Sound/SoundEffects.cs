@@ -87,7 +87,7 @@ namespace Frankie.Sound
             audioSource.volume = volume;
         }
         
-        private void InitializePersistentSoundEffect()
+        protected virtual void InitializePersistentSoundEffect()
         {
             LinkToAudioMixer(); // Must link immediately after instantiation to ensure set up in time
             InitializeVolume();

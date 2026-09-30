@@ -1,0 +1,46 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors DialogueBox.uxml with sample entries -->
+    <!-- Shared styles arrive via FrankieTheme.tss (PanelSettings), which UI Builder doesn't apply by default -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="DialogueBox.uss" />
+    <ui:VisualElement class="dialogue-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox dialogue-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:TextEntryContainer class="dialogue-box__text" picking-mode="Ignore">
+                <uibox:TextEntryElement label-text="Vole Worker:" />
+                <uibox:TextEntryElement entry-type="Speech" label-text="Please take a number. Someone will be with you in 6-8 business weeks." />
+            </uibox:TextEntryContainer>
+            <uibox:ChoiceEntryContainer class="dialogue-box__choices" picking-mode="Ignore" />
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+        <ui:VisualElement class="uibox dialogue-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:TextEntryContainer class="dialogue-box__text" picking-mode="Ignore">
+                <uibox:TextEntryElement label-text="Should Lucy join the party?" />
+            </uibox:TextEntryContainer>
+            <uibox:ChoiceEntryContainer class="dialogue-box__choices" picking-mode="Ignore" choice-layout="Horizontal">
+                <uibox:ChoiceEntryElement label-text="Yah" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Nah" />
+            </uibox:ChoiceEntryContainer>
+        </ui:VisualElement>
+        <ui:VisualElement class="uibox dialogue-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:TextEntryContainer class="dialogue-box__text" picking-mode="Ignore">
+                <uibox:TextEntryElement label-text="Where do you want to go?" />
+            </uibox:TextEntryContainer>
+            <uibox:ChoiceEntryContainer class="dialogue-box__choices" picking-mode="Ignore" choice-layout="Vertical">
+                <uibox:ChoiceEntryElement label-text="Office Interior" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Downtown" />
+                <uibox:ChoiceEntryElement label-text="Nowhere" />
+            </uibox:ChoiceEntryContainer>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

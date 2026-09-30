@@ -22,7 +22,7 @@ namespace Frankie.Utils.UI.Editor
         private const string _testOptionMessage = "Should we be testing this option message?";
 
         #region MenuItems
-        [MenuItem(_menuRoot + "Capture Game View")]
+        [MenuItem(_menuRoot + "Capture Game View", false, 20)]
         private static void CaptureGameView()
         {
             Directory.CreateDirectory(_captureDirectory);
@@ -30,47 +30,9 @@ namespace Frankie.Utils.UI.Editor
             ScreenCapture.CaptureScreenshot(capturePath);
             Debug.Log($"[UIToolkitDevTools] Game view capture queued:  {Path.GetFullPath(capturePath)}");
         }
-
-        [MenuItem(_menuRoot + "Spawn Simple Message")]
-        private static void SpawnSimpleMessage()
-        {
-            if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
-            playerStateMachine.EnterDialogue(_testSimpleMessage);
-        }
-
-        [MenuItem(_menuRoot + "Spawn Simple Option")]
-        private static void SpawnSimpleOption()
-        {
-            if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
-            var choiceActionPairs = new List<ChoiceActionPair>
-            {
-                new("Yah", () => Debug.Log("[UIToolkitDevTools] Yah chosen")),
-                new("Nah", () => Debug.Log("[UIToolkitDevTools] Nah chosen"))
-            };
-            playerStateMachine.EnterDialogue(_testOptionMessage, choiceActionPairs);
-        }
-
-        [MenuItem(_menuRoot + "Spawn Selected Dialogue")]
-        private static void SpawnSelectedDialogue()
-        {
-            if (Selection.activeObject is not Dialogue dialogue)
-            {
-                Debug.LogWarning("[UIToolkitDevTools] Select a Dialogue asset in the Project window first.");
-                return;
-            }
-            if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
-            
-            var aiConversant = Object.FindAnyObjectByType<AIConversant>();
-            if (aiConversant == null)
-            {
-                Debug.LogWarning("[UIToolkitDevTools] No AIConversant found in scene to host the dialogue.");
-                return;
-            }
-            playerStateMachine.EnterDialogue(aiConversant, dialogue);
-        }
-
-        // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick and the EventSystem's raycast priority order
-        [MenuItem(_menuRoot + "Log Pointer Targets %&u")]
+        
+                // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick and the EventSystem's raycast priority order
+        [MenuItem(_menuRoot + "Log Pointer Targets %&u", false, 21)]
         private static void LogPointerTargets()
         {
             if (Mouse.current == null) { return; }
@@ -105,8 +67,46 @@ namespace Frankie.Utils.UI.Editor
             Debug.Log(log.ToString());
         }
 
-        [MenuItem(_menuRoot + "Log Pointer Targets %&u", true)]
+        [MenuItem(_menuRoot + "Spawn Simple Message", false, 31)]
+        private static void SpawnSimpleMessage()
+        {
+            if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
+            playerStateMachine.EnterDialogue(_testSimpleMessage);
+        }
+
+        [MenuItem(_menuRoot + "Spawn Simple Option", false, 32)]
+        private static void SpawnSimpleOption()
+        {
+            if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
+            var choiceActionPairs = new List<ChoiceActionPair>
+            {
+                new("Yah", () => Debug.Log("[UIToolkitDevTools] Yah chosen")),
+                new("Nah", () => Debug.Log("[UIToolkitDevTools] Nah chosen"))
+            };
+            playerStateMachine.EnterDialogue(_testOptionMessage, choiceActionPairs);
+        }
+
+        [MenuItem(_menuRoot + "Spawn Selected Dialogue", false, 33)]
+        private static void SpawnSelectedDialogue()
+        {
+            if (Selection.activeObject is not Dialogue dialogue)
+            {
+                Debug.LogWarning("[UIToolkitDevTools] Select a Dialogue asset in the Project window first.");
+                return;
+            }
+            if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
+            
+            var aiConversant = Object.FindAnyObjectByType<AIConversant>();
+            if (aiConversant == null)
+            {
+                Debug.LogWarning("[UIToolkitDevTools] No AIConversant found in scene to host the dialogue.");
+                return;
+            }
+            playerStateMachine.EnterDialogue(aiConversant, dialogue);
+        }
+        
         [MenuItem(_menuRoot + "Capture Game View", true)]
+        [MenuItem(_menuRoot + "Log Pointer Targets %&u", true)]
         [MenuItem(_menuRoot + "Spawn Simple Message", true)]
         [MenuItem(_menuRoot + "Spawn Simple Option", true)]
         [MenuItem(_menuRoot + "Spawn Selected Dialogue", true)]

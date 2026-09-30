@@ -107,6 +107,11 @@
     display: none;
 }
 
+/* Separates speech from the speaker name above */
+.text-entry--speech {
+    margin-top: 12px;
+}
+
 .text-entry__label,
 .text-entry__bullet,
 .choice-entry__label,
@@ -141,6 +146,10 @@
 .choice-entries--vertical {
     flex-direction: column;
     align-items: flex-start;
+}
+
+.choice-entries--empty {
+    display: none;
 }
 
 .choice-entry,
