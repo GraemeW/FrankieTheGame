@@ -319,14 +319,6 @@ MonoBehaviour:
     m_Key: LoadGameEntry.Prefab.LoadGameEntry.LevelLabelText.2e58fdfd
     m_Metadata:
       m_Items: []
-  - m_Id: 9340453617917952
-    m_Key: StartMenu.Prefab.StartMenu.HeaderText.455d878b
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9340490968195072
-    m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.32f27fea
-    m_Metadata:
-      m_Items: []
   - m_Id: 9340512673718272
     m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.2984ceea
     m_Metadata:
@@ -351,10 +343,6 @@ MonoBehaviour:
     m_Key: GameOverMenu.Prefab.GameOverMenu.GameOverText.4bad4a0e
     m_Metadata:
       m_Items: []
-  - m_Id: 9345572526874624
-    m_Key: GameOverMenu.Prefab.GameOverMenu.DefaultName.6e7167f6
-    m_Metadata:
-      m_Items: []
   - m_Id: 9345612603449344
     m_Key: GameOverMenu.Prefab.GameOverMenu.OptionContinue.27e3baf1
     m_Metadata:
@@ -365,10 +353,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9348140321726464
     m_Key: GameWinMenu.Prefab.GameWinMenu.GameWinText.5a4e19bc
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9348173288955904
-    m_Key: GameWinMenu.Prefab.GameWinMenu.DefaultName.5691e358
     m_Metadata:
       m_Items: []
   - m_Id: 9348623979503616
@@ -725,6 +709,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 40624107111309312
     m_Key: FrameFlavourChoice.Prefab.PlayerChoice.FrameFlavour.Shrimp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60453263546245120
+    m_Key: EscapeMenu.Prefab.EscapeMenu.OptionFlavourText.1fe7cfe7
     m_Metadata:
       m_Items: []
   m_Metadata:

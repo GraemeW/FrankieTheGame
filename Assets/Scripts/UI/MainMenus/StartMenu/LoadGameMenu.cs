@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using TMPro;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
@@ -13,12 +14,14 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class LoadGameMenu : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class LoadGameMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Configuration")]
         [SerializeField] private int maxSaves = 5;
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedLoadHeaderText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedLevelLabelText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionNewGameText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionLoadGameText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionDeleteGameText;
@@ -26,20 +29,33 @@ namespace Frankie.Menu.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageConfirmDeletionText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageAffirmative;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNegative;
-        [Header("Hookups and Prefabs")]
-        [SerializeField] private TMP_Text loadHeaderField;
-        [SerializeField] private UIChoiceButton cancelOption;
-        [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab;
-        
-        #region UnityMethods
-        protected override void StartTriggered()
+        [Header("Prefabs")]
+        [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
+
+        // State
+        private readonly LoadGameMenuModel loadGameMenuModel = new();
+
+        // Cached References
+        private UIToolkitMenuView menuView;
+
+        // UIBox Configuration
+        protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
         {
-            if (loadHeaderField != null) { loadHeaderField.SetText(localizedLoadHeaderText.GetSafeLocalizedString());}
+            var loadGameMenuConfiguration = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
+            loadGameMenuConfiguration.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(setupChoiceOptions: ResetUI));
+            return loadGameMenuConfiguration;
         }
 
-        protected override void EnableTriggered()
+        #region UnityMethods
+        protected override void AwakeTriggered()
         {
-            ResetUI();
+            menuView = GetComponent<UIToolkitMenuView>();
+            menuView.SetDataSource(loadGameMenuModel);
+        }
+
+        protected override void StartTriggered()
+        {
+            loadGameMenuModel.headerText = localizedLoadHeaderText.GetSafeLocalizedString();
         }
         #endregion
         
@@ -50,6 +66,7 @@ namespace Frankie.Menu.UI
             return new List<TableEntryReference>
             {
                 localizedLoadHeaderText.TableEntryReference,
+                localizedLevelLabelText.TableEntryReference,
                 localizedOptionNewGameText.TableEntryReference,
                 localizedOptionLoadGameText.TableEntryReference,
                 localizedOptionDeleteGameText.TableEntryReference,
@@ -61,47 +78,51 @@ namespace Frankie.Menu.UI
         }
         #endregion
         
-        #region PublicMethods
-        public void Cancel()
-        {
-            Destroy(gameObject);
-        }
-        #endregion
-
         #region PrivateMethods
         private void ResetUI()
         {
-            foreach (Transform child in optionParent)
-            {
-                Destroy(child.gameObject);
-            }
-
+            ClearChoiceSelections();
+            menuView.ClearEntries();
             choiceOptions.Clear();
+
             for (int index = 0; index < maxSaves; index++)
             {
                 string saveName = SaveFileManager.GetSaveNameForIndex(index);
+                var saveSlotModel = new SaveSlotModel
+                {
+                    indexText = index.ToString(CultureInfo.InvariantCulture),
+                    levelLabel = localizedLevelLabelText.GetSafeLocalizedString()
+                };
 
-                GameObject loadGameEntryObject = Instantiate(optionButtonPrefab, optionParent);
-                var loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
+                Action onChoose;
                 if (SaveFileManager.HasSave(saveName))
                 {
                     SaveFileManager.GetInfoFromSave(saveName, out string characterName, out int level);
-                    loadGameEntry.Setup(index, characterName, level, () => SpawnGameSelectOptions(saveName));
+                    saveSlotModel.characterName = characterName;
+                    saveSlotModel.levelText = level.ToString(CultureInfo.InvariantCulture);
+                    onChoose = () => SpawnGameSelectOptions(saveName);
                 }
                 else
                 {
-                    loadGameEntry.Setup(index, localizedOptionNewGameText.GetSafeLocalizedString(), 0, () =>
-                    {
-                        SetActiveInput(false);
-                        SaveFileManager.NewGame(saveName);
-                    });
+                    saveSlotModel.characterName = localizedOptionNewGameText.GetSafeLocalizedString();
+                    saveSlotModel.levelText = 0.ToString(CultureInfo.InvariantCulture);
+                    onChoose = () => StartNewGame(saveName);
                 }
-                loadGameEntry.SetChoiceOrder(choiceOptions.Count + 1);
-                choiceOptions.Add(loadGameEntry);
+
+                var saveSlotHandle = new SaveSlotHandle(menuView, saveSlotModel, () => StandardChoiceExecution(onChoose, false));
+                menuView.AddEntry(saveSlotHandle);
+                choiceOptions.Add(saveSlotHandle);
             }
 
-            cancelOption.SetChoiceOrder(maxSaves);
-            choiceOptions.Add(cancelOption);
+            AddSeparator();
+            AddChoiceOption(localizedMessageNegative.GetSafeLocalizedString(), null); // Destroys the menu (cancel)
+            ReconcileChoiceOptions();
+        }
+
+        private void StartNewGame(string saveName)
+        {
+            SetActiveInput(false);
+            SaveFileManager.NewGame(saveName);
         }
 
         private void SpawnGameSelectOptions(string saveName)

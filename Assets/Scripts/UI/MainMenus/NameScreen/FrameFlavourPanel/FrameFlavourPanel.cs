@@ -28,8 +28,7 @@ namespace Frankie.Menu.UI
         {
             var stateBehaviours = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
             stateBehaviours.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(
-                setupChoiceOptions: ImplementSetupChoiceOptions,
-                tryHandleBackNavigation: ImplementTryHandleBackNavigation
+                setupChoiceOptions: ImplementSetupChoiceOptions
                 ));
             return stateBehaviours;
         }
@@ -41,13 +40,6 @@ namespace Frankie.Menu.UI
             {
                 choiceOptions.Add(flavourChoice);
             }
-        }
-        
-        private bool ImplementTryHandleBackNavigation(ControllerInputType inputType)
-        {
-            // Only available if EnableEscapeOptionExit is triggered
-            Destroy(gameObject);
-            return true;
         }
         #endregion
         
@@ -87,7 +79,8 @@ namespace Frankie.Menu.UI
         
         public void EnableEscapeOptionExit()
         {
-            preventEscapeOptionExit = true;
+            preventEscapeOptionExit = false;
+            SetupBackExitButton();
         }
         #endregion
         

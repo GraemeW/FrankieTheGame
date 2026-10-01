@@ -26,20 +26,20 @@ namespace Frankie.Sound
         protected override void OnEnable()
         {
             base.OnEnable();
-            uiBox.SubscribeToReceiverUpdates(true, HandleDialogueBoxUpdate);
+            if (uiBox != null) { uiBox.SubscribeToReceiverUpdates(true, HandleDialogueBoxUpdate); }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
+            if (uiBox != null) { uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate); } // Persistent copies outlive their box
             if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
         }
 
         protected override void InitializePersistentSoundEffect()
         {
             // Persistent copies play a single clip - detach from the source box's updates
-            uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
+            if (uiBox != null) { uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate); }
             base.InitializePersistentSoundEffect();
         }
         

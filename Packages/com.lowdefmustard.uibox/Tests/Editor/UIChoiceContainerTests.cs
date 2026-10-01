@@ -60,7 +60,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
         {
             UIChoiceContainer container = CreateContainer(true);
 
-            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateRight));
+            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateRight, out _));
         }
 
         [Test]
@@ -83,8 +83,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceContainer container = CreateContainer(true, first, second);
             container.Highlight(true); // starts on `first`
 
-            Assert.IsTrue(container.TryMove(ControllerInputType.NavigateRight));
-            Assert.IsTrue(container.TryMove(ControllerInputType.NavigateRight)); // wraps back to `first`
+            Assert.IsTrue(container.TryMove(ControllerInputType.NavigateRight, out _));
+            Assert.IsTrue(container.TryMove(ControllerInputType.NavigateRight, out _)); // wraps back to `first`
         }
 
         [Test]
@@ -95,8 +95,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceContainer container = CreateContainer(true, first, second);
             container.Highlight(true);
 
-            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateUp));
-            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateDown));
+            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateUp, out _));
+            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateDown, out _));
         }
 
         [Test]
@@ -107,9 +107,9 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceContainer container = CreateContainer(false, first, second);
             container.Highlight(true);
 
-            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateLeft));
-            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateRight));
-            Assert.IsTrue(container.TryMove(ControllerInputType.NavigateDown));
+            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateLeft, out _));
+            Assert.IsFalse(container.TryMove(ControllerInputType.NavigateRight, out _));
+            Assert.IsTrue(container.TryMove(ControllerInputType.NavigateDown, out _));
         }
 
         [Test]

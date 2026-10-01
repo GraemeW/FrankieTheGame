@@ -36,7 +36,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceSlider choice = CreateWiredSlider("Choice");
             choice.SetSliderValue(0.5f);
 
-            bool handled = ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateRight);
+            bool handled = ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateRight, out _);
 
             Assert.IsTrue(handled);
             Assert.AreEqual(0.6f, choice.GetSliderValue(), 0.0001f);
@@ -48,7 +48,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceSlider choice = CreateWiredSlider("Choice");
             choice.SetSliderValue(0.5f);
 
-            bool handled = ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateLeft);
+            bool handled = ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateLeft, out _);
 
             Assert.IsTrue(handled);
             Assert.AreEqual(0.4f, choice.GetSliderValue(), 0.0001f);
@@ -60,7 +60,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceSlider choice = CreateWiredSlider("Choice");
             choice.SetSliderValue(0.95f);
 
-            ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateRight);
+            ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateRight, out _);
 
             Assert.AreEqual(1f, choice.GetSliderValue(), 0.0001f);
         }
@@ -71,7 +71,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceSlider choice = CreateWiredSlider("Choice");
             choice.SetSliderValue(0.05f);
 
-            ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateLeft);
+            ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateLeft, out _);
 
             Assert.AreEqual(0f, choice.GetSliderValue(), 0.0001f);
         }
@@ -82,7 +82,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             UIChoiceSlider choice = CreateWiredSlider("Choice");
             choice.SetSliderValue(0.5f);
 
-            bool handled = ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateUp);
+            bool handled = ((IUIMoveInterceptor)choice).TryMove(ControllerInputType.NavigateUp, out _);
 
             Assert.IsFalse(handled);
             Assert.AreEqual(0.5f, choice.GetSliderValue(), 0.0001f);

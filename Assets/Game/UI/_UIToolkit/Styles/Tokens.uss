@@ -4,6 +4,8 @@
 :root {
     /* Assets */
     --font-default: url("project://database/Assets/z_ImportedAssets/EB-Fonts/apple_kid.ttf?fileID=12800000&guid=7bd65eb5ffd78954896f033f015e3eaf&type=3#apple_kid");
+    /* N.B. fourside is a bitmap font (placeholder outlines):  pair with `-unity-text-generator: standard` (see UIBox.uss .text-display) */
+    --font-display: url("project://database/Assets/z_ImportedAssets/EB-Fonts/fourside%20SDF_UITK.asset?fileID=11400000&guid=177b4859d921f4863852fa903b459784&type=2#fourside SDF_UITK");
     --frame-image: url("project://database/Assets/z_MadeAssets/BattleUI/MenuFrame.png?fileID=21300000&guid=f30d85e6afc224fe9a89251a4c2dab80&type=3#MenuFrame");
 
     /* Frame */

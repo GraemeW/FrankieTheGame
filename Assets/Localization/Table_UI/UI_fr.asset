@@ -322,10 +322,6 @@ MonoBehaviour:
     m_Localized: Niveau
     m_Metadata:
       m_Items: []
-  - m_Id: 9340453617917952
-    m_Localized: Frankie
-    m_Metadata:
-      m_Items: []
   - m_Id: 9340512673718272
     m_Localized: "D\xE9mo"
     m_Metadata:
@@ -350,10 +346,6 @@ MonoBehaviour:
     m_Localized: Game Over,
     m_Metadata:
       m_Items: []
-  - m_Id: 9345572526874624
-    m_Localized: Frankie
-    m_Metadata:
-      m_Items: []
   - m_Id: 9345612603449344
     m_Localized: "L\xE2che pas !"
     m_Metadata:
@@ -364,10 +356,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9348140321726464
     m_Localized: Bravo,
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9348173288955904
-    m_Localized: Frankie
     m_Metadata:
       m_Items: []
   - m_Id: 9348623979503616
@@ -724,6 +712,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 40608601721528320
     m_Localized: .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60453263546245120
+    m_Localized: "Saveur Pr\xE9f\xE9r\xE9e"
     m_Metadata:
       m_Items: []
   references:

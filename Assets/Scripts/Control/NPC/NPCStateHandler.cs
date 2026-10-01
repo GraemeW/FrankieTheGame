@@ -23,6 +23,7 @@ namespace Frankie.Control
         private bool isNPCAfraid = false;
         private bool isNPCVisible = true;
         private float timeSinceInvisible;
+        private bool inTeardown = false;
 
         // Cached References
         private SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
@@ -51,6 +52,7 @@ namespace Frankie.Control
 
         private void OnEnable()
         {
+            inTeardown = false;
             if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.playerStateChanged += ParsePlayerStateChange; }
             if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
@@ -59,6 +61,7 @@ namespace Frankie.Control
 
         private void OnDisable()
         {
+            inTeardown = true;
             if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance, allowReInit: false)) { playerStateMachineInstance.playerStateChanged -= ParsePlayerStateChange; }
             if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
@@ -80,9 +83,9 @@ namespace Frankie.Control
         public void SetNPCSuspicious() => SetNPCState(NPCStateType.Suspicious);
         public void SetNPCAggravated() => SetNPCState(NPCStateType.Aggravated);
         public void SetNPCFrenzied() => SetNPCState(NPCStateType.Frenzied);
-        public void InitiateCombat(PlayerStateMachine playerStateMachine) => InitiateCombat(TransitionType.BattleNeutral);
-        public void InitiateCombatAdvantaged(PlayerStateMachine playerStateMachine) => InitiateCombat(TransitionType.BattleGood);
-        public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateMachine) => InitiateCombat(TransitionType.BattleBad);
+        public void InitiateCombat(PlayerStateMachine _) => InitiateCombat(TransitionType.BattleNeutral);
+        public void InitiateCombatAdvantaged(PlayerStateMachine _) => InitiateCombat(TransitionType.BattleGood);
+        public void InitiateCombatDisadvantaged(PlayerStateMachine _) => InitiateCombat(TransitionType.BattleBad);
         public void InitiateCombat(TransitionType transitionType) => InitiateCombat(transitionType, new List<NPCStateHandler>());
         public void InitiateDialogue(TransitionType transitionType) => InitiateDialogue();
         public void SelfDestruct() => Destroy(gameObject);
@@ -93,10 +96,8 @@ namespace Frankie.Control
         
         private void InitializeNPCRunDisposition()
         {
-            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
-            if (playerStateMachine == null) { return; }
-            
-            CheckForNPCAfraid(playerStateMachine, true);
+            if (!playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { return; }
+            CheckForNPCAfraid(playerStateMachineInstance, true);
             SetNPCState(npcState, true);
         }
         
@@ -118,18 +119,17 @@ namespace Frankie.Control
             }
             
             npcStateChanged?.Invoke(npcOccupied ? NPCStateType.Occupied : setNPCState, isNPCAfraid);
-            Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.Occupied : setNPCState)}");
+            if (!inTeardown) { Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.Occupied : setNPCState)}"); }
         }
 
         public void InitiateCombat(TransitionType transitionType, List<NPCStateHandler> npcMob)
         {
             if (combatParticipant == null) { return; }
-            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
-            if (playerStateMachine == null) { return; }
+            if (!playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { return; }
 
             if (combatParticipant.IsDead())
             {
-                playerStateMachine.EnterDialogue(combatParticipant.GetCannotFightMessage());
+                playerStateMachineInstance.EnterDialogue(combatParticipant.GetCannotFightMessage());
                 SetNPCState(NPCStateType.Occupied);
             }
             else
@@ -144,7 +144,7 @@ namespace Frankie.Control
                     }
                 }
 
-                playerStateMachine.EnterCombat(enemies, transitionType);
+                playerStateMachineInstance.EnterCombat(enemies, transitionType);
                 SetNPCState(NPCStateType.Occupied); // Occupy calling NPC as it's entered into combat
             }
         }
@@ -154,10 +154,8 @@ namespace Frankie.Control
             var aiConversant = GetComponentInChildren<AIConversant>();
             if (aiConversant == null) { return; }
             
-            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
-            if (playerStateMachine == null) { return; }
-
-            aiConversant.ForceInteractionEvent(playerStateMachine);
+            if (!playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { return; }
+            aiConversant.ForceInteractionEvent(playerStateMachineInstance);
         }
         
         private void CheckForNPCAfraid(IPlayerStateContext playerStateContext, bool overrideStateCheck = false)

@@ -108,7 +108,7 @@ MonoBehaviour:
   shopSelectPrefab: {fileID: 6413694501190794285, guid: 9b74208be0ef0dc488bb5a574e48fa42, type: 3}
   cashTransferPrefab: {fileID: 6413694501190794285, guid: 28e6cb6ef5c9cf149b31602989d2844c, type: 3}
   worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
-  escapeMenuPrefab: {fileID: 6413694501190794285, guid: d40dace2943729145967e187c1801093, type: 3}
+  escapeMenuPrefab: {fileID: 6541549408681778316, guid: 2f26dfbb25b64aef8bf392ed1aa83268, type: 3}
   maxEnemiesPerCombat: 12
   immunityTimePostCombat: 2.75
 --- !u!114 &9140000498525693429

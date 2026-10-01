@@ -1,0 +1,68 @@
+.load-game-menu-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.load-game-menu {
+    width: 1080px;
+    padding: 30px 40px 50px 40px;
+}
+
+.load-game-menu__header {
+    min-height: 100px;
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.load-game-menu__choices.choice-entries--vertical {
+    padding: 0;
+    align-items: center;
+}
+
+/* Save slots span the list */
+.load-game-menu__choices .save-slot {
+    align-self: stretch;
+    height: 52px;
+    padding: 0 20px 0 30px;
+}
+
+/* Marker sits in the row's left padding (outside the column layout) */
+.load-game-menu__choices .save-slot > .choice-entry__marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    -unity-text-align: middle-left;
+}
+
+/* Fixed index column keeps names aligned (digit widths vary) */
+.load-game-menu__choices .save-slot > .save-slot__index {
+    width: 30px;
+}
+
+/* Button theme centres text by default */
+.load-game-menu__choices .save-slot > .choice-entry__label {
+    -unity-text-align: middle-left;
+}
+
+.load-game-menu__choices .save-slot__name {
+    flex-grow: 1;
+    margin-left: 50px;
+}
+
+.load-game-menu__choices .save-slot > .save-slot__level {
+    min-width: 40px;
+    margin-left: 50px;
+    -unity-text-align: middle-right;
+}
+
+.load-game-menu__choices .choice-separator {
+    height: 170px;
+    background-color: rgba(0, 0, 0, 0);
+}

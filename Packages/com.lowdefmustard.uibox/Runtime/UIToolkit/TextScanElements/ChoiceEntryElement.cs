@@ -8,13 +8,6 @@ namespace LowDefMustard.UIBox
     {
         // Note: UxmlAttributes exist for UI Builder previews only - bound model values override them at runtime
         
-        // Const Tunables
-        private const string _ussClassName = "choice-entry";
-        private const string _highlightedUssClassName = _ussClassName + "--highlighted";
-        private const string _hiddenUssClassName = _ussClassName + "--hidden";
-        private const string _markerUssClassName = _ussClassName + "__marker";
-        private const string _labelUssClassName = _ussClassName + "__label";
-        private const string _selectionMarker = ">";
 
         // State
         private bool internalRevealed = true;
@@ -29,7 +22,7 @@ namespace LowDefMustard.UIBox
             set
             {
                 internalRevealed = value;
-                EnableInClassList(_hiddenUssClassName, !value);
+                EnableInClassList(USSClassNames.ChoiceEntry.hidden, !value);
             }
         }
 
@@ -39,7 +32,7 @@ namespace LowDefMustard.UIBox
             set
             {
                 internalHighlighted = value;
-                EnableInClassList(_highlightedUssClassName, value);
+                ChoiceRowParts.SetHighlighted(this, value);
             }
         }
 
@@ -52,16 +45,8 @@ namespace LowDefMustard.UIBox
         public ChoiceEntryElement()
         {
             focusable = false; // Keyboard/gamepad input handled via IInputReceiver - avoid UITK navigation double-firing
-            AddToClassList(_ussClassName);
-
-            var marker = new Label(_selectionMarker);
-            marker.AddToClassList(_markerUssClassName);
-            Add(marker);
-
-            label = new Label();
-            label.AddToClassList(_labelUssClassName);
-            label.SetBinding(nameof(Label.text), UIToolkitBindings.ToTarget(nameof(ChoiceEntryModel.text)));
-            Add(label);
+            ChoiceRowParts.Initialize(this);
+            label = ChoiceRowParts.AddLabel(this, nameof(ChoiceEntryModel.text));
 
             SetBinding(nameof(revealed), UIToolkitBindings.ToTarget(nameof(ChoiceEntryModel.isRevealed)));
             SetBinding(nameof(highlighted), UIToolkitBindings.ToTarget(nameof(ChoiceEntryModel.isHighlighted)));

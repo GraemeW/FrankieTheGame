@@ -28,8 +28,9 @@ namespace LowDefMustard.UIBox
             // No implementation needed for slider
         }   
         
-        public bool TryMove(ControllerInputType controllerInputType)
+        public bool TryMove(ControllerInputType controllerInputType, out bool isHighlightMove)
         {
+            isHighlightMove = false;
             switch (controllerInputType)
             {
                 case ControllerInputType.NavigateLeft:

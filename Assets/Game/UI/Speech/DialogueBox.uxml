@@ -1,5 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" editor-extension-mode="false">
-    <Style src="DialogueBox.uss" />
     <ui:VisualElement class="dialogue-box-screen" picking-mode="Ignore">
         <ui:VisualElement class="uibox dialogue-box">
             <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />

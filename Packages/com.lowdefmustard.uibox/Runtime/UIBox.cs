@@ -49,8 +49,8 @@ namespace LowDefMustard.UIBox
             }
             stateLookup = BuildStateBehaviours();
 
-            SetupBackExitButton(); 
             AwakeTriggered();
+            SetupBackExitButton(); // Note:  After AwakeTriggered, so overrides can set preventEscapeOptionExit
         }
         
         protected sealed override void Start()
@@ -105,7 +105,11 @@ namespace LowDefMustard.UIBox
         protected void SetUpChoiceOptions()
         {
             if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.setupChoiceOptions != null) { stateBehaviour.setupChoiceOptions(); return; }
-            
+            StandardSetUpChoiceOptions();
+        }
+
+        protected void StandardSetUpChoiceOptions()
+        {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
             if (optionParent == null) { return; }
             List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
@@ -186,6 +190,7 @@ namespace LowDefMustard.UIBox
         {
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
+            if (TryGetBoxView(out IUIBoxView view)) { view.SetPointerInputEnabled(enable); }
         }
         
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);

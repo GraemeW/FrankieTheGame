@@ -93,6 +93,83 @@
     display: none;
 }
 
+/* ~ Slider / Toggle / Group Choices ~ */
+.slider-choice > .choice-entry__label,
+.toggle-choice > .choice-entry__label {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+}
+
+.slider-choice__slider {
+    width: 300px;
+    height: 30px;
+    margin: 0;
+}
+
+.slider-choice__slider .unity-base-slider__tracker {
+    height: 12px;
+    margin-top: -6px;
+    border-width: 0;
+    border-radius: 6px;
+    background-color: var(--text-colour-default);
+}
+
+.slider-choice__slider .unity-base-slider__dragger {
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    border-width: 0;
+    border-radius: 15px;
+    background-color: var(--text-colour-default);
+}
+
+.toggle-choice__box {
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background-color: var(--text-colour-default);
+}
+
+.toggle-choice__check {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: var(--backing-colour);
+    visibility: hidden;
+}
+
+.toggle-choice--on .toggle-choice__check {
+    visibility: visible;
+}
+
+.choice-group {
+    flex-direction: row;
+}
+
+/* ~ Inactive Box ~ */
+/* Pointer input is blocked while another box is on top:  suppress hover/press tint so nothing looks clickable */
+.uibox-view--pointer-input-disabled .choice-entry:hover > .choice-entry__label,
+.uibox-view--pointer-input-disabled .choice-entry:active > .choice-entry__label,
+.uibox-view--pointer-input-disabled .uibox-back-exit:hover > .uibox-back-exit__label,
+.uibox-view--pointer-input-disabled .uibox-back-exit:active > .uibox-back-exit__label {
+    color: var(--text-colour-default);
+}
+
+/* ~ Display Text ~ */
+/* N.B. The advanced generator sizes glyphs from the font's outline table - for bitmap fonts, those are placeholder boxes (stretched glyphs) */
+/* Thus - using standard unity-text-generator (see Unity: USS properties reference for more detail) */
+.text-display {
+    -unity-font-definition: var(--font-display);
+    -unity-text-generator: standard;
+}
+
+/* ~ Model-Bound Labels ~ */
+.model-bound-label--empty {
+    display: none;
+}
+
 /* ~ Text Entries ~ */
 .text-entries {
     flex-direction: column;
@@ -107,7 +184,6 @@
     display: none;
 }
 
-/* Separates speech from the speaker name above */
 .text-entry--speech {
     margin-top: 12px;
 }
@@ -152,10 +228,7 @@
     display: none;
 }
 
-.choice-entry,
-.choice-entry.unity-button:hover:enabled,
-.choice-entry.unity-button:active:enabled,
-.choice-entry.unity-button:focus {
+.choice-entry {
     flex-direction: row;
     align-items: center;
     margin: 0;
@@ -168,11 +241,26 @@
     white-space: nowrap;
 }
 
+/* Neutralise the default button theme's state styling (margins are left alone, so screens can space choices) */
+.choice-entry.unity-button:hover:enabled,
+.choice-entry.unity-button:active:enabled,
+.choice-entry.unity-button:focus {
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
 .choice-entry--hidden {
     display: none;
 }
 
-/* Marker reserves its width when hidden (avoid text jitter as the cursor moves) */
+.choice-separator {
+    align-self: stretch;
+    height: 3px;
+    background-color: var(--text-colour-default);
+}
+
+/* Note: Highlight marker reserves its width when hidden (avoid text jitter as the cursor moves) */
 .choice-entry__marker {
     width: 30px;
     margin-right: 5px;

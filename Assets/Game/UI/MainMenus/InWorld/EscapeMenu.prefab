@@ -537,6 +537,15 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  localizedOptionFlavourText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 60453263546245120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   localizedOptionQuitText:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
@@ -548,8 +557,9 @@ MonoBehaviour:
     m_LocalVariables: []
   escapeHeaderField: {fileID: 7386202970558755593}
   optionOptionsField: {fileID: 2663345996662973235}
+  optionFlavourField: {fileID: 5659525117436445666}
   optionQuitField: {fileID: 8210245807400067709}
-  optionsMenuPrefab: {fileID: 7923113534490889839, guid: ad042c32a9c9fdd4a80f11ae49d15a20, type: 3}
+  optionsMenuPrefab: {fileID: 7674250701885818725, guid: 5720a02cf4e647dbab75e3f4751e4986, type: 3}
   frameFlavourPanelPrefab: {fileID: 7805133161193838278, guid: 0df1af86d29bf48aa8d616f989f58b0f, type: 3}
   references:
     version: 2
@@ -1057,6 +1067,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7488898841496054785, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   m_PrefabInstance: {fileID: 3063965193822112084}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5659525117436445666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7210201464791026358, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  m_PrefabInstance: {fileID: 3063965193822112084}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460190f52a87c3e41a4dc3606bdc35d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3640526504176957914
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22,8 +22,9 @@ namespace LowDefMustard.UIBox
 
         public IList<UIChoice> GetSubOptions() => uiChoices.ToList();
         
-        public bool TryMove(ControllerInputType controllerInputType)
+        public bool TryMove(ControllerInputType controllerInputType, out bool isHighlightMove)
         {
+            isHighlightMove = false;
             if (uiChoices.Count == 0) { return false; }
             
             switch (controllerInputType)
@@ -33,12 +34,14 @@ namespace LowDefMustard.UIBox
                     if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(false); }
                     highlightedChoiceOption = GetNextChoice(false);
                     if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(true); }
+                    isHighlightMove = true;
                     return true;
                 case ControllerInputType.NavigateRight when isMoveHorizontal:
                 case ControllerInputType.NavigateDown when !isMoveHorizontal:
                     if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(false); }
                     highlightedChoiceOption = GetNextChoice(true);
                     if (highlightedChoiceOption != null) { highlightedChoiceOption.Highlight(true); }
+                    isHighlightMove = true;
                     return true;
                 default:
                     return false;

@@ -10,11 +10,6 @@ namespace LowDefMustard.UIBox
         // Note: UxmlAttributes exist for UI Builder previews only - bound model values override them at runtime
         
         // Const Tunables
-        private const string _ussClassName = "text-entry";
-        private const string _speechUssClassName = _ussClassName + "--speech";
-        private const string _hiddenUssClassName = _ussClassName + "--hidden";
-        private const string _bulletUssClassName = _ussClassName + "__bullet";
-        private const string _labelUssClassName = _ussClassName + "__label";
         private const string _speechBullet = "•";
 
         // State
@@ -31,7 +26,7 @@ namespace LowDefMustard.UIBox
             set
             {
                 internalRevealed = value;
-                EnableInClassList(_hiddenUssClassName, !value);
+                EnableInClassList(USSClassNames.TextEntry.hidden, !value);
             }
         }
 
@@ -55,10 +50,10 @@ namespace LowDefMustard.UIBox
 
         public TextEntryElement(TextEntryType textEntryType)
         {
-            AddToClassList(_ussClassName);
+            AddToClassList(USSClassNames.TextEntry.block);
 
             label = new Label();
-            label.AddToClassList(_labelUssClassName);
+            label.AddToClassList(USSClassNames.TextEntry.label);
             label.SetBinding(nameof(Label.text), UIToolkitBindings.ToTarget(nameof(TextEntryModel.text)));
             Add(label);
 
@@ -69,7 +64,7 @@ namespace LowDefMustard.UIBox
         private void ApplyEntryType()
         {
             bool isSpeech = internalEntryType == TextEntryType.Speech;
-            EnableInClassList(_speechUssClassName, isSpeech);
+            EnableInClassList(USSClassNames.TextEntry.speech, isSpeech);
             if (!isSpeech)
             {
                 bullet?.RemoveFromHierarchy();
@@ -79,7 +74,7 @@ namespace LowDefMustard.UIBox
             if (bullet == null)
             {
                 bullet = new Label(_speechBullet);
-                bullet.AddToClassList(_bulletUssClassName);
+                bullet.AddToClassList(USSClassNames.TextEntry.bullet);
             }
             Insert(0, bullet);
         }

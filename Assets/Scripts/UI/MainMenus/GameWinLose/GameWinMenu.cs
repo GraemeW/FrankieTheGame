@@ -1,55 +1,62 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using TMPro;
-using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class GameWinMenu : MonoBehaviour, ILocalizable
+    public sealed class GameWinMenu : Launcher, ILocalizable
     {
+        // Tunables
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedGameWinText;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedDefaultName;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionStartMenu;
-        [Header("CreditsText")]
+        [Header("Credits")]
+        [SerializeField] private Credits credits;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedCreditsHeaderText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedLeadProgrammerText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedGameDesignText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedArtworkText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMusicText;
-        
-        [Header("Hookups")]
-        [SerializeField] private TMP_Text gameOverTextField;
-        [SerializeField] private TMP_Text nameTextField;
-        [SerializeField] private UIChoiceButton startMenuOptionField;
-        [Header("CreditsHookups")]
-        [SerializeField] private TMP_Text creditsHeaderField;
-        [SerializeField] private CreditsEntry creditsLeadProgrammerField;
-        [SerializeField] private CreditsEntry creditsGameDesignField;
-        [SerializeField] private CreditsEntry creditsArtworkField;
-        [SerializeField] private CreditsEntry creditsMusicField;
 
-        #region UnityMethods
+        // State
+        private readonly GameWinMenuModel gameWinMenuModel = new();
 
-        private void Start()
+        #region LauncherMethods
+        protected override LauncherModel launcherModel => gameWinMenuModel;
+
+        protected override void BuildChoiceOptions()
         {
-            // Main Entities
-            if (gameOverTextField != null) { gameOverTextField.SetText(localizedGameWinText.GetSafeLocalizedString()); }
-            if (nameTextField != null) { nameTextField.SetText(localizedDefaultName.GetSafeLocalizedString()); }
-            if (startMenuOptionField != null) { startMenuOptionField.SetText(localizedOptionStartMenu.GetSafeLocalizedString()); }
-            // Credits
-            if (creditsHeaderField != null) { creditsHeaderField.SetText(localizedCreditsHeaderText.GetSafeLocalizedString()); }
-            if (creditsLeadProgrammerField != null) { creditsLeadProgrammerField.SetTitle(localizedLeadProgrammerText.GetSafeLocalizedString()); }
-            if (creditsGameDesignField != null) { creditsGameDesignField.SetTitle(localizedGameDesignText.GetSafeLocalizedString()); }
-            if (creditsArtworkField != null) { creditsArtworkField.SetTitle(localizedArtworkText.GetSafeLocalizedString()); }
-            if (creditsMusicField != null) { creditsMusicField.SetTitle(localizedMusicText.GetSafeLocalizedString()); }
+            AddLocalizedMenuChoice(localizedOptionStartMenu, ReloadStartScreen);
+        }
+
+        protected override void ResetMenuText()
+        {
+            gameWinMenuModel.titleText = localizedGameWinText.GetSafeLocalizedString();
+            gameWinMenuModel.creditsHeaderText = localizedCreditsHeaderText.GetSafeLocalizedString();
+            if (credits != null)
+            {
+                gameWinMenuModel.creditsLines = credits.GetCreditsEntries()
+                    .Select(creditsEntry => new CreditsLine(GetLocalizedRoleTitle(creditsEntry.creditsRole).GetSafeLocalizedString(), creditsEntry.name))
+                    .ToList();
+            }
         }
         #endregion
-        
+
+        #region PrivateMethods
+        private LocalizedString GetLocalizedRoleTitle(CreditsRole creditsRole) => creditsRole switch
+        {
+            CreditsRole.LeadProgrammer => localizedLeadProgrammerText,
+            CreditsRole.GameDesign => localizedGameDesignText,
+            CreditsRole.Artwork => localizedArtworkText,
+            CreditsRole.Music => localizedMusicText,
+            _ => new LocalizedString()
+        };
+        #endregion
+
         #region LocalizationMethods
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
@@ -57,7 +64,6 @@ namespace Frankie.Menu.UI
             return new List<TableEntryReference>
             {
                 localizedGameWinText.TableEntryReference,
-                localizedDefaultName.TableEntryReference,
                 localizedOptionStartMenu.TableEntryReference,
                 localizedCreditsHeaderText.TableEntryReference,
                 localizedLeadProgrammerText.TableEntryReference,

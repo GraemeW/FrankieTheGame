@@ -1,0 +1,80 @@
+.options-menu-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.options-menu {
+    width: 880px;
+    padding: 30px 40px 45px 40px;
+}
+
+.options-menu__header {
+    min-height: 80px;
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.options-menu__body {
+    padding: 0 40px;
+}
+
+/* Markers sit in the body's left inset (outside row layout) */
+.options-menu__body .choice-entry > .choice-entry__marker {
+    position: absolute;
+    left: -35px;
+    top: 0;
+    bottom: 0;
+    -unity-text-align: middle-left;
+}
+
+.options-menu__volume > .choice-entry,
+.options-menu__display > .choice-entry {
+    height: 72px;
+}
+
+.options-menu__display {
+    margin-top: 30px;
+}
+
+.options-menu__section-header {
+    height: 72px;
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-left;
+}
+
+.options-menu__resolutions,
+.options-menu__languages {
+    padding-left: 40px;
+    align-items: flex-start;
+}
+
+.options-menu__resolutions > .choice-entry {
+    height: 52px;
+}
+
+.options-menu__languages .choice-entry {
+    width: 235px;
+    height: 52px;
+}
+
+.options-menu__body .choice-entry > .choice-entry__label {
+    -unity-text-align: middle-left;
+}
+
+.options-menu__confirm {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.options-menu__confirm > .choice-entry {
+    height: 72px;
+    margin: 0 90px;
+}

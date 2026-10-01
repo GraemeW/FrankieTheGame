@@ -1,0 +1,43 @@
+/* Shared styles for scene-level menus (StartMenu, GameOverMenu, GameWinMenu) */
+
+.launcher-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.launcher__title,
+.launcher__name {
+    margin: 0;
+    padding: 0;
+    font-size: 120px;
+    -unity-text-align: middle-center;
+}
+
+.launcher__choices.choice-entries--vertical {
+    padding: 0;
+    align-items: center;
+}
+
+.launcher__choices .choice-entry {
+    margin-bottom: 30px;
+}
+
+/* Right margin balances the selection marker's reserved width, so choice text centres */
+.launcher__choices .choice-entry__label {
+    margin-right: 35px;
+    font-size: 72px;
+}
+
+.launcher__choices .choice-separator {
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.launcher__choices .choice-separator--minor {
+    height: 35px;
+}

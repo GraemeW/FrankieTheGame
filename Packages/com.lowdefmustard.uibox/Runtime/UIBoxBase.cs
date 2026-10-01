@@ -110,13 +110,20 @@ namespace LowDefMustard.UIBox
             SimpleTriggerUIBoxModified(receiverModifiedType);
         }
 
-        protected void AddChoiceOption(string choiceText, Action action)
+        protected IUIChoice AddChoiceOption(string choiceText, Action action) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, true));
+
+        protected IUIChoice AddNonDestroyChoiceOption(string choiceText, Action action) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, false));
+        
+        protected void AddSeparator(ChoiceSeparatorType separatorType = ChoiceSeparatorType.Major) { if (TryGetBoxView(out IUIBoxView view)) { view.CreateChoiceSeparator(separatorType); } }
+
+        private IUIChoice CreateChoiceOption(string choiceText, Action onChoose)
         {
             int choiceOrder = choiceOptions.Count + 1;
             if (TryGetBoxView(out IUIBoxView view))
             {
-                choiceOptions.Add(view.CreateChoiceOption(choiceText, choiceOrder, () => StandardChoiceExecution(action)));
-                return;
+                IUIChoice viewChoice = view.CreateChoiceOption(choiceText, choiceOrder, onChoose);
+                choiceOptions.Add(viewChoice);
+                return viewChoice;
             }
 
             // Legacy uGUI approach
@@ -124,8 +131,9 @@ namespace LowDefMustard.UIBox
             var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
             uiChoiceOption.SetChoiceOrder(choiceOrder);
             uiChoiceOption.SetText(choiceText);
-            uiChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
+            uiChoiceOption.AddOnClickListener(delegate { onChoose(); });
             choiceOptions.Add(uiChoiceOption);
+            return uiChoiceOption;
         }
 
         protected void ClearChoiceSelections()
@@ -162,12 +170,14 @@ namespace LowDefMustard.UIBox
             return true;
         }
        
-        private void StandardChoiceExecution(Action action)
+        protected void StandardChoiceExecution(Action action, bool destroyOnChoose = true)
         {
-            if (clearDisableCallbacksOnChoose) { SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks); }
+            if (destroyOnChoose && clearDisableCallbacksOnChoose) { SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks); }
+            
             TriggerChoiceModified(ReceiverModifiedType.ItemSelected);
             action?.Invoke();
-            Destroy(gameObject);
+            
+            if (destroyOnChoose) { Destroy(gameObject); }
         }
         #endregion
 
@@ -185,8 +195,7 @@ namespace LowDefMustard.UIBox
         {
             if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
-            // Special objects that require specialty input (sliders, etc.)
-            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
+            if (TryInterceptMove(controllerInputType)) { return true; }
             
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
@@ -202,8 +211,7 @@ namespace LowDefMustard.UIBox
             // Standard implementation
             if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
-            // Special objects that require specialty input (sliders, etc.)
-            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
+            if (TryInterceptMove(controllerInputType)) { return true; }
             
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
@@ -218,8 +226,7 @@ namespace LowDefMustard.UIBox
         {
             if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
-            // Special objects that require specialty input (sliders, etc.)
-            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
+            if (TryInterceptMove(controllerInputType)) { return true; }
 
             // Standard choice handling
             if (!BaseController.TryInputTypeToNavigationVector(controllerInputType, out Vector2 direction)) { return false; }
@@ -236,6 +243,14 @@ namespace LowDefMustard.UIBox
             return true;
         }
         
+        // Special objects that require specialty input (sliders, choice groups, etc.)
+        private bool TryInterceptMove(ControllerInputType controllerInputType)
+        {
+            if (highlightedChoiceOption is not IUIMoveInterceptor uiMoveInterceptor || !uiMoveInterceptor.TryMove(controllerInputType, out bool isHighlightMove)) { return false; }
+            if (isHighlightMove) { TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted); }
+            return true;
+        }
+
         protected bool TryEarlyExit(ControllerInputType controllerInputType)
         {
             if (preventEscapeOptionExit) { return false; }

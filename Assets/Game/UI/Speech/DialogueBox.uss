@@ -9,7 +9,7 @@
 
 .dialogue-box {
     margin-top: 50px;
-    min-width: 880px;
+    min-width: 960px;
     max-width: 960px;
 }
 

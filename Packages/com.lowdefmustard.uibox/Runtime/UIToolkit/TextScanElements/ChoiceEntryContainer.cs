@@ -7,11 +7,6 @@ namespace LowDefMustard.UIBox
     {
         // Note: UxmlAttributes exist for UI Builder previews only - bound model values override them at runtime
         
-        // Const Tunables
-        private const string _ussClassName = "choice-entries";
-        private const string _horizontalUssClassName = _ussClassName + "--horizontal";
-        private const string _verticalUssClassName = _ussClassName + "--vertical";
-        private const string _emptyUssClassName = _ussClassName + "--empty";
 
         // State
         private ChoiceLayout internalChoiceLayout = ChoiceLayout.Horizontal;
@@ -24,19 +19,19 @@ namespace LowDefMustard.UIBox
 
         public ChoiceEntryContainer()
         {
-            AddToClassList(_ussClassName);
+            AddToClassList(USSClassNames.ChoiceEntries.block);
             SetLayout(ChoiceLayout.Horizontal);
             RegisterCallback<AttachToPanelEvent>(_ => RefreshEmptyState()); // Catches children added via UXML
         }
 
         // Note:  UI Toolkit raises no child-added event - owners call this after adding/removing entries
-        public void RefreshEmptyState() => EnableInClassList(_emptyUssClassName, childCount == 0);
+        public void RefreshEmptyState() => EnableInClassList(USSClassNames.ChoiceEntries.empty, childCount == 0);
 
         public void SetLayout(ChoiceLayout setChoiceLayout)
         {
             internalChoiceLayout = setChoiceLayout;
-            EnableInClassList(_horizontalUssClassName, setChoiceLayout == ChoiceLayout.Horizontal);
-            EnableInClassList(_verticalUssClassName, setChoiceLayout == ChoiceLayout.Vertical);
+            EnableInClassList(USSClassNames.ChoiceEntries.horizontal, setChoiceLayout == ChoiceLayout.Horizontal);
+            EnableInClassList(USSClassNames.ChoiceEntries.vertical, setChoiceLayout == ChoiceLayout.Vertical);
         }
     }
 }
