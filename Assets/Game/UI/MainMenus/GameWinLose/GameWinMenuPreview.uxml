@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors GameWinMenu.uxml with sample entries - keep in sync -->
+    <!-- Style order matches GameWinMenuUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="../Launcher.uss" />
+    <Style src="GameWinMenu.uss" />
+    <ui:VisualElement class="launcher-screen" picking-mode="Ignore">
+        <menu:LauncherTitleLabel text="Well Done," class="text-display launcher__title game-win-menu__title" picking-mode="Ignore" />
+        <menu:LauncherNameLabel text="Frankie" class="text-display launcher__name game-win-menu__name" picking-mode="Ignore" />
+        <ui:VisualElement class="game-win-menu__credits" picking-mode="Ignore">
+            <menu:CreditsHeaderLabel text="Credits" class="text-display game-win-menu__credits-header" picking-mode="Ignore" />
+            <menu:CreditsListElement picking-mode="Ignore">
+                <menu:CreditsEntryElement title-text="Lead Programmer:  " person-name="Graeme Williams" />
+                <menu:CreditsEntryElement title-text="Game Design:  " person-name="Graeme Williams" />
+                <menu:CreditsEntryElement title-text="Artwork:  " person-name="Graeme Williams" />
+                <menu:CreditsEntryElement title-text="Music:  " person-name="Yusuf Bismilla" />
+            </menu:CreditsListElement>
+        </ui:VisualElement>
+        <uibox:ChoiceEntryContainer choice-layout="Vertical" class="launcher__choices game-win-menu__choices" picking-mode="Ignore">
+            <uibox:ChoiceEntryElement label-text="Start Menu" highlighted="true" />
+        </uibox:ChoiceEntryContainer>
+    </ui:VisualElement>
+</ui:UXML>

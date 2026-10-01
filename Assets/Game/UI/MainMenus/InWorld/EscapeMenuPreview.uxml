@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors EscapeMenu.uxml with sample entries - keep in sync -->
+    <!-- Style order matches EscapeMenuUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="EscapeMenu.uss" />
+    <ui:VisualElement class="escape-menu-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox escape-menu">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <menu:EscapeMenuHeaderLabel text="Escape Menu" class="escape-menu__header" picking-mode="Ignore" />
+            <uibox:ChoiceEntryContainer choice-layout="Vertical" class="escape-menu__choices" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Options" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Favourite Flavour" />
+                <uibox:ChoiceSeparatorElement />
+                <uibox:ChoiceEntryElement label-text="Quit" />
+            </uibox:ChoiceEntryContainer>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

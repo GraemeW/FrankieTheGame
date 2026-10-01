@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors LoadGameMenu.uxml with sample entries - keep in sync -->
+    <!-- Style order matches LoadGameMenuUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="LoadGameMenu.uss" />
+    <ui:VisualElement class="load-game-menu-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox load-game-menu">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <menu:LoadGameHeaderLabel text="Load Game" class="load-game-menu__header" picking-mode="Ignore" />
+            <uibox:ChoiceEntryContainer choice-layout="Vertical" class="load-game-menu__choices" picking-mode="Ignore">
+                <menu:SaveSlotElement index-text="0" name-text="Frankie" level-label-text="Level" level-text="7" highlighted="true" />
+                <menu:SaveSlotElement index-text="1" name-text="Maya" level-label-text="Level" level-text="12" />
+                <menu:SaveSlotElement index-text="2" name-text="New Game" level-label-text="Level" level-text="0" />
+                <menu:SaveSlotElement index-text="3" name-text="New Game" level-label-text="Level" level-text="0" />
+                <menu:SaveSlotElement index-text="4" name-text="New Game" level-label-text="Level" level-text="0" />
+                <uibox:ChoiceSeparatorElement />
+                <uibox:ChoiceEntryElement label-text="Nah" />
+            </uibox:ChoiceEntryContainer>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
