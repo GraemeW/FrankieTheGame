@@ -14,7 +14,7 @@ namespace LowDefMustard.UIBox
         private readonly Action<float> onValueChanged;
 
         // Constructor
-        public SliderChoiceHandle(UIToolkitBoxView view, string text, float value, float step, Action<float> onValueChanged, Type containerType = null) : base(view, null, containerType)
+        public SliderChoiceHandle(UIToolkitBoxView view, string text, float value, float step, Action<float> onValueChanged, Type containerType = null) : base(view, null, null, containerType)
         {
             model = new SliderChoiceModel { text = text, value = Mathf.Clamp01(value) };
             this.step = step;
@@ -47,7 +47,7 @@ namespace LowDefMustard.UIBox
             base.UnhookElement(detachingElement);
         }
 
-        public override void Highlight(bool enable) => model.isHighlighted = enable;
+        protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
         public override void SetText(string text) => model.text = text;
         #endregion
 

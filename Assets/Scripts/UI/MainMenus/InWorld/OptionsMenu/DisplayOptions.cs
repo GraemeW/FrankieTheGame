@@ -61,7 +61,7 @@ namespace Frankie.Menu.UI
             bool isDefaultEntry = true;
             foreach (ResolutionSetting resolutionSetting in DisplayResolutions.GetBestWindowedResolution(windowedResolutionOptionCount))
             {
-                var resolutionChoice = new ChoiceEntryHandle(view, GetResolutionText(resolutionSetting, isDefaultEntry), true, withSelectSound(() => ConfirmResolutionWindowed(resolutionSetting)), typeof(OptionsResolutionSection));
+                var resolutionChoice = new ChoiceEntryHandle(view, GetResolutionText(resolutionSetting, isDefaultEntry), true, withSelectSound(() => ConfirmResolutionWindowed(resolutionSetting)), null, typeof(OptionsResolutionSection));
                 entries.Add(resolutionChoice);
                 if (!isDefaultEntry) { continue; }
 

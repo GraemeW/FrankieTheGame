@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
@@ -10,7 +12,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class CharacterSlide : BattleSlide, ILocalizable
+    public class CharacterSlide : BattleSlide, ICharacterSlide, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedHPText;
@@ -35,8 +37,7 @@ namespace Frankie.Combat.UI
         [SerializeField] private Color deadCharacterFrameColor = Color.red;
 
         // State
-        private SlideState slideState;
-        private SlideState lastSlideState;
+        private readonly CharacterSlideStateTracker stateTracker = new();
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -45,15 +46,6 @@ namespace Frankie.Combat.UI
             hundreds = roundedNumber / 100;
             tens = (roundedNumber % 100) / 10;
             ones = roundedNumber % 10;
-        }
-
-        private enum SlideState
-        {
-            Ready,
-            Selected,
-            Cooldown,
-            Target,
-            Dead
         }
         
         #region Localization
@@ -84,31 +76,11 @@ namespace Frankie.Combat.UI
             UpdateColor();
         }
 
-        protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
+        void ICharacterSlide.AddButtonClickEvent(Action action) => AddButtonClickEvent(new UnityAction(action));
+
+        protected override void SetSelected(BattleEntitySelectionType selectionType, bool enable)
         {
-            switch (combatParticipantType)
-            {
-                case CombatParticipantType.Either:
-                    return;
-                case CombatParticipantType.Friendly when battleEntity.combatParticipant.IsDead():
-                    slideState = SlideState.Dead;
-                    break;
-                case CombatParticipantType.Friendly when battleEntity.combatParticipant.IsInCooldown():
-                    slideState = SlideState.Cooldown;
-                    break;
-                case CombatParticipantType.Friendly when enable:
-                    slideState = SlideState.Selected;
-                    break;
-                case CombatParticipantType.Friendly:
-                    slideState = SlideState.Ready;
-                    break;
-                case CombatParticipantType.Foe when enable:
-                    lastSlideState = slideState; slideState = SlideState.Target;
-                    break;
-                case CombatParticipantType.Foe:
-                    slideState = lastSlideState;
-                    break;
-            }
+            stateTracker.SetSelected(battleEntity.combatParticipant, selectionType, enable);
             UpdateColor();
         }
 
@@ -118,7 +90,7 @@ namespace Frankie.Combat.UI
             {
                 case StateAlteredType.CooldownSet:
                 {
-                    slideState = SlideState.Cooldown;
+                    stateTracker.Set(CharacterSlideState.Cooldown);
                     cooldownTimer.ResetTimer(stateAlteredInfo.points);
                     cooldownTimer.SetPaused(float.IsPositiveInfinity(stateAlteredInfo.points));
                     UpdateColor();
@@ -126,7 +98,7 @@ namespace Frankie.Combat.UI
                 }
                 case StateAlteredType.CooldownExpired:
                 {
-                    slideState = SlideState.Ready;
+                    stateTracker.Set(CharacterSlideState.Ready);
                     cooldownTimer.ResetTimer(0f);
                     UpdateColor();
                     break;
@@ -182,13 +154,13 @@ namespace Frankie.Combat.UI
                     break;
                 case StateAlteredType.Dead:
                 {
-                    slideState = SlideState.Dead;
+                    stateTracker.Set(CharacterSlideState.Dead);
                     UpdateColor();
                     break;
                 }
                 case StateAlteredType.Resurrected:
                 {
-                    slideState = SlideState.Ready;
+                    stateTracker.Set(CharacterSlideState.Ready);
                     UpdateColor();
                     break;
                 }
@@ -212,33 +184,26 @@ namespace Frankie.Combat.UI
             if (!BattleController.IsCombatParticipantAvailableToAct(selectedCharacter)) { return false; }
                 
             List<BattleEntity> selectedBattleEntity = new() { new BattleEntity(selectedCharacter) };
-            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(BattleEntitySelectionType.Actor, selectedBattleEntity));
             return true;
         }
 
         // Private functions
         private void UpdateColor()
         {
-            if (battleEntity.combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
-                slideState is SlideState.Ready or SlideState.Selected or SlideState.Cooldown)
+            switch (stateTracker.GetDisplayState(battleEntity.combatParticipant))
             {
-                foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(deadCharacterFrameColor); }
-                return;
-            }
-
-            switch (slideState)
-            {
-                case SlideState.Selected:
+                case CharacterSlideState.Selected:
                     foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(selectedCharacterFrameColor); }
                     break;
-                case SlideState.Target:
+                case CharacterSlideState.Target:
                     foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(targetedCharacterFrameColor); }
                     break;
-                case SlideState.Dead:
+                case CharacterSlideState.Dead:
                     foreach (UIFrame highlight in highlights) { highlight.OverwriteLocalFrameFlavour(deadCharacterFrameColor); }
                     break;
-                case SlideState.Ready:
-                case SlideState.Cooldown:
+                case CharacterSlideState.Ready:
+                case CharacterSlideState.Cooldown:
                 default:
                     foreach (UIFrame highlight in highlights) { highlight.ResetToDefaultFrameFlavour(); }
                     break;

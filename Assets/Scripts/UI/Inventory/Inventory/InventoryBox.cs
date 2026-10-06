@@ -61,11 +61,11 @@ namespace Frankie.Inventory.UI
         private BattleController battleController;
         private PartyCombatConduit partyCombatConduit;
         private readonly List<BattleEntity> partyBattleEntities = new();
-        private readonly List<CharacterSlide> characterSlides = new();
+        private readonly List<ICharacterSlide> characterSlides = new();
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
-        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
+        public event Action<BattleEntitySelectionType, IEnumerable<BattleEntity>> targetCharacterChanged;
         
         // UIBox Configuration
         protected override EnumLookup<InventoryBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
@@ -133,14 +133,14 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Setup
-        public void Setup(BaseController baseController, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides, bool useSoloAutoSelect = true)
+        public void Setup(BaseController baseController, PartyCombatConduit setPartyCombatConduit, List<ICharacterSlide> setCharacterSlides, bool useSoloAutoSelect = true)
         {
             if (baseController == null || setPartyCombatConduit == null) { destroyQueued = true;  return; }
             
             controller = baseController;
             partyCombatConduit = setPartyCombatConduit;
             isPartySolo = partyCombatConduit.IsPartySolo();
-            setCharacterSlides ??= new List<CharacterSlide>();
+            setCharacterSlides ??= new List<ICharacterSlide>();
 
             if (baseController.GetType() == typeof(BattleController))
             {
@@ -155,7 +155,7 @@ namespace Frankie.Inventory.UI
                 }
 
                 characterSlides.Clear();
-                foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
+                foreach (ICharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
                 SubscribeCharacterSlides(true);
             }
 
@@ -186,10 +186,10 @@ namespace Frankie.Inventory.UI
         }
 
         // For derivative Inventory Boxes w/ single party member instantiation for specific application
-        protected void Setup(CombatParticipant character, List<CharacterSlide> setCharacterSlides)
+        protected void Setup(CombatParticipant character, List<ICharacterSlide> setCharacterSlides)
         {
             characterSlides.Clear();
-            foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
+            foreach (ICharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
             SubscribeCharacterSlides(true);
 
             GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
@@ -206,10 +206,11 @@ namespace Frankie.Inventory.UI
             if (controller != null && controller.GetType() == typeof(BattleController)) { return; } // Battle controller handles slides separately
             if (characterSlides == null) { return; }
             
-            foreach (CharacterSlide characterSlide in characterSlides)
+            foreach (ICharacterSlide characterSlide in characterSlides)
             {
                 targetCharacterChanged -= characterSlide.HighlightSlide;
                 characterSlide.RemoveButtonClickEvents();
+                if (!enable) { characterSlide.HighlightSlide(BattleEntitySelectionType.Target, null); } // Clear any targeting highlight on exit
                 if (enable)
                 {
                     targetCharacterChanged += characterSlide.HighlightSlide;
@@ -352,7 +353,7 @@ namespace Frankie.Inventory.UI
             actionItem.SetTargets(targetingNavigationType, battleActionData, activeCharacters, null);
             if (!battleActionData.HasTargets()) { return false; }
 
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
+            targetCharacterChanged?.Invoke(BattleEntitySelectionType.Target, battleActionData.GetTargets());
             return true;
         }
         
@@ -391,7 +392,7 @@ namespace Frankie.Inventory.UI
         protected void ResetSelectState()
         {
             selectedItemSlot = -1;
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+            targetCharacterChanged?.Invoke(BattleEntitySelectionType.Target, null);
 
             if (selectedCharacter == null || selectedKnapsack == null || selectedKnapsack.IsEmpty())
             {

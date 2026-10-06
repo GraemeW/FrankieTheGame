@@ -18,7 +18,7 @@ namespace Frankie.Combat.UI
         [SerializeField] protected string defaultNoText = "--";
         [Header("Skill Selection Hookups")]
         [SerializeField] private TMP_Text selectedCharacterNameField;
-        [SerializeField] protected TMP_Text skillField;
+        [SerializeField] private TMP_Text skillField;
         [SerializeField] private UIChoice upField;
         [SerializeField] private UIChoice leftField;
         [SerializeField] private UIChoice rightField;
@@ -31,6 +31,7 @@ namespace Frankie.Combat.UI
         // State
         private bool usingBattleController = false;
         protected CombatParticipant selectedCharacter;
+        private SkillSelectionModel skillSelectionModel;
 
         // Cached References
         private BattleController battleController;
@@ -49,15 +50,17 @@ namespace Frankie.Combat.UI
         protected override void AwakeTriggered()
         {
             handleGlobalInput = false;
+            skillSelectionModel = CreateSkillSelectionModel();
+            if (TryGetComponent(out UIToolkitMenuView menuView)) // TODO:  Should be able to remove TryGet and just generalize for both Abilities + SkillSelectionUI once uGUI removed from battle components
+            {
+                menuView.SetDataSource(skillSelectionModel);
+                menuView.AddEntry(new SkillWheelHandle(menuView, skillSelectionModel, HandleInput));
+            }
         }
 
         protected override void StartTriggered()
         {
-            if (skillField != null)
-            {
-                skillField.color = noSkillColor;
-                skillField.SetText(defaultNoText);
-            }
+            SetActiveSkill(null);
         }
 
         protected override void EnableTriggered()
@@ -84,6 +87,31 @@ namespace Frankie.Combat.UI
         public virtual List<TableEntryReference> GetLocalizationEntries() => new();
         #endregion
 
+        #region ModelMethods
+        protected virtual SkillSelectionModel CreateSkillSelectionModel() => new();
+
+        // Transitional:  legacy uGUI fields mirror the model (battle SkillSelection prefab) - remove with the uGUI path
+        private void RefreshLegacyFields()
+        {
+            if (TryGetBoxView(out IUIBoxView _)) { return; }
+
+            selectedCharacterNameField.SetText(skillSelectionModel.characterName);
+            upField.SetText(skillSelectionModel.upSkillText);
+            leftField.SetText(skillSelectionModel.leftSkillText);
+            rightField.SetText(skillSelectionModel.rightSkillText);
+            downField.SetText(skillSelectionModel.downSkillText);
+            skillField.SetText(skillSelectionModel.activeSkillText);
+            skillField.color = skillSelectionModel.hasActiveSkill ? selectedSkillColor : noSkillColor;
+        }
+
+        private void SetActiveSkill(Skill activeSkill)
+        {
+            skillSelectionModel.hasActiveSkill = activeSkill != null;
+            skillSelectionModel.activeSkillText = activeSkill != null ? activeSkill.GetName() : defaultNoText;
+            RefreshLegacyFields();
+        }
+        #endregion
+
         #region InputHandlers
         protected virtual void HandleInput(ControllerInputType input)
         {
@@ -103,7 +131,7 @@ namespace Frankie.Combat.UI
         #region EventHandlers
         private void HandleBattleEntitySelectedEvent(BattleEntitySelectedEvent battleEntitySelectedEvent)
         {
-            RefreshUI(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
+            RefreshUI(battleEntitySelectedEvent.selectionType, battleEntitySelectedEvent.battleEntities);
         }
         #endregion
         
@@ -120,14 +148,17 @@ namespace Frankie.Combat.UI
         
         protected void ResetUI(bool resetAllFields, bool resetAlpha)
         {
-            skillField.color = noSkillColor;
+            skillSelectionModel.hasActiveSkill = false;
             if (resetAllFields) { ResetAllFields(); }
-            if (resetAlpha) { canvasGroup.alpha = 0; }
+            RefreshLegacyFields();
+            if (resetAlpha) { SetVisible(false); }
         }
+
+        protected void ClearActiveSkill() => SetActiveSkill(null);
         
-        protected void RefreshUI(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
+        protected void RefreshUI(BattleEntitySelectionType selectionType, IEnumerable<BattleEntity> battleEntities)
         {
-            if (combatParticipantType != CombatParticipantType.Friendly) { return; }
+            if (selectionType != BattleEntitySelectionType.Actor) { return; }
             if (battleController != null)
             {
                 // Do not pop skill selection if using an item
@@ -144,8 +175,8 @@ namespace Frankie.Combat.UI
         {
             if (selectedCharacter == null) { return; }
 
-            canvasGroup.alpha = 1;
-            selectedCharacterNameField.SetText(selectedCharacter.GetCombatName());
+            SetVisible(true);
+            skillSelectionModel.characterName = selectedCharacter.GetCombatName();
             var skillHandler = selectedCharacter.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
@@ -195,35 +226,28 @@ namespace Frankie.Combat.UI
         #region PrivateUtility
         private void ResetAllFields()
         {
-            selectedCharacterNameField.SetText(defaultNoText);
-            upField.SetText(defaultNoText);
-            leftField.SetText(defaultNoText);
-            rightField.SetText(defaultNoText);
-            downField.SetText(defaultNoText);
-            skillField.SetText(defaultNoText);
+            skillSelectionModel.characterName = defaultNoText;
+            skillSelectionModel.upSkillText = defaultNoText;
+            skillSelectionModel.leftSkillText = defaultNoText;
+            skillSelectionModel.rightSkillText = defaultNoText;
+            skillSelectionModel.downSkillText = defaultNoText;
+            skillSelectionModel.activeSkillText = defaultNoText;
         }
         
         private void UpdateSkills(SkillHandler skillHandler)
         {
             skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
-            upField.SetText(up != null ? up.GetName() : defaultNoText);
-            leftField.SetText(left != null ? left.GetName() : defaultNoText);
-            rightField.SetText(right != null ? right.GetName() : defaultNoText);
-            downField.SetText(down != null ? down.GetName() : defaultNoText);
+            skillSelectionModel.upSkillText = up != null ? up.GetName() : defaultNoText;
+            skillSelectionModel.leftSkillText = left != null ? left.GetName() : defaultNoText;
+            skillSelectionModel.rightSkillText = right != null ? right.GetName() : defaultNoText;
+            skillSelectionModel.downSkillText = down != null ? down.GetName() : defaultNoText;
 
             Skill activeSkill = skillHandler.GetActiveSkill();
-            if (activeSkill != null)
-            {
-                skillField.color = selectedSkillColor;
-                skillField.SetText(activeSkill.GetName());
-                if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
-                TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
-            }
-            else
-            {
-                skillField.color = noSkillColor;
-                skillField.SetText(defaultNoText);
-            }
+            SetActiveSkill(activeSkill);
+            if (activeSkill == null) { return; }
+
+            if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
+            TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this));
         }
         #endregion
     }

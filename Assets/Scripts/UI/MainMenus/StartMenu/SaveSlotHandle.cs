@@ -17,7 +17,7 @@ namespace Frankie.Menu.UI
 
         // Overrides
         protected override VisualElement CreateChoiceElement() => new SaveSlotElement { dataSource = model };
-        public override void Highlight(bool enable) => model.isHighlighted = enable;
+        protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
         public override void SetText(string text) => model.characterName = text;
     }
 }

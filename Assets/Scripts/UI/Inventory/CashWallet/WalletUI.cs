@@ -1,57 +1,33 @@
 using UnityEngine;
-using TMPro;
+using LowDefMustard.UIBox;
 using Frankie.Core;
 
 namespace Frankie.Inventory.UI
 {
-    public class WalletUI : MonoBehaviour
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class WalletUI : MonoBehaviour
     {
-        // Tunables
-        [SerializeField] private TMP_Text walletField;
-
         // State
-        private Wallet wallet;
+        private WalletModel walletModel;
 
         #region UnityMethods
         private void Awake()
         {
-            SetupWallet();
-        }
-
-        private void OnEnable()
-        {
-            if (wallet == null) { return;}
-            wallet.walletUpdated += RefreshUI;
-        }
-
-        private void OnDisable()
-        {
-            if (wallet == null) { return;}
-            wallet.walletUpdated -= RefreshUI;
-        }
-
-        private void Start()
-        {
-            RefreshUI();
-        }
-        #endregion
-
-        private void SetupWallet()
-        {
             GameObject playerObject = Player.FindPlayerObject();
-            if (playerObject == null || !playerObject.TryGetComponent(out wallet))
+            if (playerObject == null || !playerObject.TryGetComponent(out Wallet wallet))
             {
                 Destroy(gameObject);
                 return;
             }
-            
-            wallet.walletUpdated += RefreshUI;
+
+            walletModel = new WalletModel(wallet);
+            GetComponent<UIToolkitMenuView>().SetDataSource(walletModel);
         }
 
-        private void RefreshUI()
+        private void OnDestroy()
         {
-            if (wallet == null) { return; }
-            walletField.text = $"${wallet.GetCash():N0}";
+            walletModel?.Dispose();
         }
+        #endregion
     }
 }

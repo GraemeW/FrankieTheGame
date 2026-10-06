@@ -25,7 +25,7 @@ namespace Frankie.Inventory.UI
         #endregion
         
         #region PublicMethods
-        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, Knapsack setSourceKnapsack, int setSourceSlot, List<CharacterSlide> characterSlides)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, Knapsack setSourceKnapsack, int setSourceSlot, List<ICharacterSlide> characterSlides)
         {
             sourceKnapsack = setSourceKnapsack;
             sourceSlot = setSourceSlot;

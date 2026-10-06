@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -19,7 +20,8 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class WorldOptions : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class WorldOptions : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedKnapsackText;
@@ -27,15 +29,8 @@ namespace Frankie.Menu.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedAbilitiesText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedStatusText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMapText;
-        [Header("Hookups")]
-        [SerializeField] private Transform characterPanelTransform;
-        [SerializeField] private UIChoiceButton knapsackOptionField;
-        [SerializeField] private UIChoiceButton outfitOptionField;
-        [SerializeField] private UIChoiceButton abilitiesOptionField;
-        [SerializeField] private UIChoiceButton statusOptionField;
-        [SerializeField] private UIChoiceButton mapOptionField;
+        [SerializeField] private CharacterSlideText characterSlideText;
         [Header("Prefabs")]
-        [SerializeField] private CharacterSlide characterSlidePrefab;
         [SerializeField] private WalletUI walletUIPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
         [SerializeField] private EquipmentBox equipmentBoxPrefab;
@@ -44,26 +39,28 @@ namespace Frankie.Menu.UI
         [SerializeField] private MapSuper mapSuperPrefab;
 
         // State
-        private readonly List<CharacterSlide> characterSlides = new();
-        private readonly List<BattleEntity> partyBattleEntities = new();
+        private readonly List<CharacterSlideHandle> characterSlides = new();
         private WalletUI walletUI;
         private GameObject childOption;
 
         // Cached References
+        private UIToolkitMenuView menuView;
         private PlayerStateMachine playerStateMachine;
         private PlayerController playerController;
         private WorldCanvas worldCanvas;
         private PartyCombatConduit partyCombatConduit;
-        
+
         // UIBox Configuration
         protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
             var worldOptionsConfiguration =  new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
-            var defaultStateBehaviour = new UIBoxStateBehaviour( tryHandleBackNavigation: ImplementTryHandleBackNavigation );
+            var defaultStateBehaviour = new UIBoxStateBehaviour(
+                setupChoiceOptions: ImplementSetUpChoiceOptions,
+                tryHandleBackNavigation: ImplementTryHandleBackNavigation);
             worldOptionsConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
             return worldOptionsConfiguration;
         }
-        
+
         #region UnityMethods
         protected override bool TryAcquireDependencies()
         {
@@ -79,10 +76,14 @@ namespace Frankie.Menu.UI
             return true;
         }
 
+        protected override void AwakeTriggered()
+        {
+            menuView = GetComponent<UIToolkitMenuView>();
+            keepPointerInputWhenInactive = true; // Choosing another option swaps out the open child box (and slides are click targets for it)
+        }
+
         protected override void StartTriggered()
         {
-            InitializeLocalization();
-            SetupBattleEntities();
             SetupCharacterSlides();
             SetupWallet();
         }
@@ -90,15 +91,13 @@ namespace Frankie.Menu.UI
         protected override void DestroyTriggered()
         {
             if (childOption != null) { Destroy(childOption); }
-            foreach (Transform childCharacterPanel in characterPanelTransform)
-            {
-                Destroy(childCharacterPanel.gameObject);
-            }
+            foreach (CharacterSlideHandle characterSlide in characterSlides) { characterSlide.Release(); }
+            characterSlides.Clear();
             if (walletUI != null) { Destroy(walletUI.gameObject); }
             playerStateMachine?.EnterWorld();
         }
         #endregion
-        
+
         #region LocalizationMethods
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
@@ -112,19 +111,10 @@ namespace Frankie.Menu.UI
                 localizedMapText.TableEntryReference,
             };
         }
-        
-        private void InitializeLocalization()
-        {
-            if (knapsackOptionField != null) { knapsackOptionField.SetText(localizedKnapsackText.GetSafeLocalizedString()); }
-            if (outfitOptionField != null) { outfitOptionField.SetText(localizedOutfitText.GetSafeLocalizedString()); }
-            if (abilitiesOptionField != null) { abilitiesOptionField.SetText(localizedAbilitiesText.GetSafeLocalizedString()); }
-            if (statusOptionField != null) { statusOptionField.SetText(localizedStatusText.GetSafeLocalizedString()); }
-            if (mapOptionField != null) { mapOptionField.SetText(localizedMapText.GetSafeLocalizedString()); }
-        }
         #endregion
 
         #region PublicMethods
-        public void OpenStatus() // Called via Unity Events
+        public void OpenStatus()
         {
             ResetWorldOptions();
             StatusBox statusBox = Instantiate(statusBoxPrefab, worldCanvas.GetWorldOptionsParent());
@@ -133,25 +123,25 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(statusBox, null);
         }
 
-        public void OpenKnapsack() // Called via Unity Events
+        public void OpenKnapsack()
         {
             ResetWorldOptions();
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = inventoryBox.gameObject;
-            inventoryBox.Setup(playerController, partyCombatConduit, characterSlides);
+            inventoryBox.Setup(playerController, partyCombatConduit, GetCharacterSlides());
             controller.AddInputReceiver(inventoryBox, null);
         }
 
-        public void OpenEquipment() // Called via Unity Events
+        public void OpenEquipment()
         {
             ResetWorldOptions();
             EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = equipmentBox.gameObject;
-            equipmentBox.Setup(playerController, partyCombatConduit, characterSlides);
+            equipmentBox.Setup(playerController, partyCombatConduit, GetCharacterSlides());
             controller.AddInputReceiver(equipmentBox, null);
         }
 
-        public void OpenMap() // Called via Unity Events
+        public void OpenMap()
         {
             ResetWorldOptions();
             MapSuper mapSuper = Instantiate(mapSuperPrefab, worldCanvas.GetWorldOptionsParent());
@@ -159,33 +149,38 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(mapSuper, null);
         }
 
-        public void OpenAbilities() // Called via Unity Events
+        public void OpenAbilities()
         {
             ResetWorldOptions();
             AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = abilitiesBox.gameObject;
-            abilitiesBox.Setup(playerController, partyCombatConduit, characterSlides);
+            abilitiesBox.Setup(playerController, partyCombatConduit, GetCharacterSlides());
             controller.AddInputReceiver(abilitiesBox, null);
         }
         #endregion
 
         #region ProtectedPrivateMethods
-        private void SetupBattleEntities()
+        private void ImplementSetUpChoiceOptions()
         {
-            partyBattleEntities.Clear();
-            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
+            if (choiceOptions.Count == 0)
             {
-                partyBattleEntities.Add(new BattleEntity(combatParticipant));
+                AddNonDestroyChoiceOption(localizedKnapsackText.GetSafeLocalizedString(), OpenKnapsack);
+                AddNonDestroyChoiceOption(localizedOutfitText.GetSafeLocalizedString(), OpenEquipment);
+                AddNonDestroyChoiceOption(localizedAbilitiesText.GetSafeLocalizedString(), OpenAbilities);
+                AddNonDestroyChoiceOption(localizedStatusText.GetSafeLocalizedString(), OpenStatus);
+                AddNonDestroyChoiceOption(localizedMapText.GetSafeLocalizedString(), OpenMap);
             }
+            ReconcileChoiceOptions();
         }
 
+        private List<ICharacterSlide> GetCharacterSlides() => characterSlides.Cast<ICharacterSlide>().ToList();
+        
         private void SetupCharacterSlides()
         {
-            characterSlides.Clear();
-            foreach (BattleEntity battleEntity in partyBattleEntities)
+            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
-                CharacterSlide characterSlide = Instantiate(characterSlidePrefab, characterPanelTransform);
-                characterSlide.SetBattleEntity(battleEntity);
+                var characterSlide = new CharacterSlideHandle(menuView, new BattleEntity(combatParticipant), characterSlideText);
+                menuView.AddEntry(characterSlide);
                 characterSlides.Add(characterSlide);
             }
         }
@@ -194,14 +189,14 @@ namespace Frankie.Menu.UI
         {
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
         }
-        
+
         private void ResetWorldOptions()
         {
             childOption = null;
             worldCanvas.DestroyExistingWorldOptions();
-            foreach (CharacterSlide characterSlide in characterSlides)
+            foreach (CharacterSlideHandle characterSlide in characterSlides)
             {
-                characterSlide.HighlightSlide(CombatParticipantType.Friendly, false);
+                characterSlide.HighlightSlide(BattleEntitySelectionType.Actor, false);
             }
         }
         #endregion

@@ -190,7 +190,7 @@ namespace LowDefMustard.UIBox
         {
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
-            if (TryGetBoxView(out IUIBoxView view)) { view.SetPointerInputEnabled(enable); }
+            if (!keepPointerInputWhenInactive && TryGetBoxView(out IUIBoxView view)) { view.SetPointerInputEnabled(enable); }
         }
         
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);

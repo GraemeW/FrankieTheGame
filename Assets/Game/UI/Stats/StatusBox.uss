@@ -1,0 +1,66 @@
+/* Top-centre anchored, offset */
+.status-box-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.status-box {
+    margin-top: 50px;
+    width: 1160px;
+    padding: 30px 40px 40px 40px;
+}
+
+.status-box__divider {
+    height: 2px;
+    margin-top: 20px;
+    background-color: var(--text-colour-default);
+}
+
+.status-box__name {
+    margin: 20px 0 0 0;
+    padding: 0;
+    font-size: 40px;
+    -unity-text-align: middle-left;
+}
+
+.status-box__stats {
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+.status-box__skill-stats {
+    width: 590px;
+}
+
+.status-box__experience {
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.status-box__experience > .unity-label {
+    margin: 0 15px 0 0;
+    padding: 0;
+}
+
+.stat-line {
+    flex-direction: row;
+    height: 60px;
+    align-items: center;
+}
+
+.stat-line__name {
+    width: 300px;
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-left;
+}
+
+.stat-line__value {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-left;
+}

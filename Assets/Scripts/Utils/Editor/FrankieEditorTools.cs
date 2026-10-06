@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using LowDefMustard.Control;
+using Frankie.Combat;
+using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Utils.Editor
 {
@@ -106,9 +109,41 @@ namespace Frankie.Utils.Editor
         }
         #endregion
 
+        #region GameDebugMethods
+        [MenuItem("Tools/GameDebug/StatusEffect/ApplyBrawnEffect", false, 601)]
+        private static void ApplyBrawnEffect() => ApplyStatusEffect(Stat.Brawn);
         
+        [MenuItem("Tools/GameDebug/StatusEffect/ApplyBeautyEffect", false, 601)]
+        private static void ApplyBeautyEffect() => ApplyStatusEffect(Stat.Beauty);
         
-        #region PrivateMethods
+        [MenuItem("Tools/GameDebug/StatusEffect/ApplySmartsEffect", false, 601)]
+        private static void ApplySmartsEffect() => ApplyStatusEffect(Stat.Smarts);
+        
+        [MenuItem("Tools/GameDebug/StatusEffect/ApplyNimbleEffect", false, 601)]
+        private static void ApplyNimbleEffect() => ApplyStatusEffect(Stat.Nimble);
+        [MenuItem("Tools/GameDebug/StatusEffect/ApplyLuckEffect", false, 601)]
+        
+        private static void ApplyLuckEffect() => ApplyStatusEffect(Stat.Luck);
+        [MenuItem("Tools/GameDebug/StatusEffect/ApplyPluckEffect", false, 601)]
+        private static void ApplyPluckEffect() => ApplyStatusEffect(Stat.Pluck);
+        
+        [MenuItem("Tools/GameDebug/KnockOutParty", false, 602)]
+        private static void KnockOutParty()
+        {
+            if (!Application.isPlaying) { return; }
+            
+            Player player = Player.FindPlayer();
+            if (player == null || !player.TryGetComponent(out Party party)) { return; }
+
+            foreach (BaseStats member in party.GetMembers())
+            {
+                if (member == null || !member.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
+                combatParticipant.SelfImplode(true);
+            }
+        }
+        #endregion
+        
+        #region PrivateUtilityMethods
         private static void ProcessMoveMeshes(List<MoveMesh> moveMeshes, string sceneName, int sceneIndex, int totalScenes)
         {
             int moveMeshCount = moveMeshes.Count;
@@ -156,6 +191,28 @@ namespace Frankie.Utils.Editor
                 paths[i] = AssetDatabase.GUIDToAssetPath(guids[i]);
             }
             return paths;
+        }
+        #endregion
+        
+        #region PrivateGameDebugMethods
+        private static void ApplyStatusEffect(Stat stat, float amount = 1f, float duration = 100f, string guid = null)
+        {
+            if (!Application.isPlaying) { return; }
+            
+            Player player = Player.FindPlayer();
+            if (player == null || !player.TryGetComponent(out Party party)) { return; }
+            
+            foreach (BaseStats member in party.GetMembers())
+            {
+                if (member == null || !member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
+                
+                var activeStatusEffect = combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
+                if (activeStatusEffect == null) { continue; }
+
+                guid ??= GUID.Generate().ToString();
+                activeStatusEffect.Setup(guid, duration, stat, amount, true);
+                combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
+            }
         }
         #endregion
     }

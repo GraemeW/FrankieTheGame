@@ -10,7 +10,7 @@ namespace LowDefMustard.UIBox
         private readonly Action<bool> onValueChanged;
 
         // Constructor
-        public ToggleChoiceHandle(UIToolkitBoxView view, string text, bool isOn, Action<bool> onValueChanged, Type containerType = null) : base(view, null, containerType)
+        public ToggleChoiceHandle(UIToolkitBoxView view, string text, bool isOn, Action<bool> onValueChanged, Type containerType = null) : base(view, null, null, containerType)
         {
             model = new ToggleChoiceModel { text = text, isOn = isOn };
             this.onValueChanged = onValueChanged;
@@ -32,7 +32,7 @@ namespace LowDefMustard.UIBox
         #region ChoiceHandle
         protected override VisualElement CreateChoiceElement() => new ToggleChoiceElement { dataSource = model };
         protected override void Choose() => SetValue(!model.isOn);
-        public override void Highlight(bool enable) => model.isHighlighted = enable;
+        protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
         public override void SetText(string text) => model.text = text;
         #endregion
     }

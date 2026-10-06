@@ -78,9 +78,9 @@ namespace LowDefMustard.UIBox
             ApplyBackExit();
         }
 
-        public IUIChoice CreateChoiceOption(string text, int choiceOrder, Action onChoose)
+        public IUIChoice CreateChoiceOption(string text, int choiceOrder, Action onChoose, Action onHighlight = null)
         {
-            var choiceEntryHandle = new ChoiceEntryHandle(this, text, true, onChoose);
+            var choiceEntryHandle = new ChoiceEntryHandle(this, text, true, onChoose, onHighlight);
             AddEntry(choiceEntryHandle);
             return choiceEntryHandle;
         }

@@ -157,6 +157,17 @@
     color: var(--text-colour-default);
 }
 
+/* ~ Party Selector ~ */
+/* Character header row (PartySelector choices):  classes go on the box's ChoiceEntryContainer */
+/* Dimmed variant:  unhighlighted characters are greyed (i.e. the highlighted character owns the content below) */
+.party-selector--dimmed .choice-entry__label {
+    color: var(--choice-dimmed-colour);
+}
+
+.party-selector--dimmed .choice-entry--highlighted > .choice-entry__label {
+    color: var(--text-colour-default);
+}
+
 /* ~ Display Text ~ */
 /* N.B. The advanced generator sizes glyphs from the font's outline table - for bitmap fonts, those are placeholder boxes (stretched glyphs) */
 /* Thus - using standard unity-text-generator (see Unity: USS properties reference for more detail) */

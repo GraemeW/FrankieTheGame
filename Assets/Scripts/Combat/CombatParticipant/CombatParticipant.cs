@@ -330,9 +330,10 @@ namespace Frankie.Combat
             AnnounceStateUpdate(StateAlteredType.AdjustAPNonSpecific, points);
         }
 
-        public void SelfImplode()
+        public void SelfImplode(bool forceDeclareDead)
         {
             AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
+            if (forceDeclareDead) { DeclareDead(); }
         }
 
         public void Revive(float hp, bool announceStateUpdates = true)
@@ -359,6 +360,7 @@ namespace Frankie.Combat
         public void SubscribeToStateUpdates(StateEvent handler)
         {
             // Note:  Obviously do NOT double subscribe to both CombatParticipant and BattleEventBus
+            // UI subscribers should instead use CombatParticipantModel as properties can be handled by UIToolkit directly
             if (stateListeners.Contains(handler)) { return; }
 
             stateListeners.Add(handler);

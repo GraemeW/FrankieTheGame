@@ -191,7 +191,7 @@ namespace Frankie.Combat
 
             selectedCharacter = character;
             List<BattleEntity> selectedBattleEntity = new() { new BattleEntity(selectedCharacter) };
-            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(BattleEntitySelectionType.Actor, selectedBattleEntity));
 
             return true;
         }
@@ -209,7 +209,7 @@ namespace Frankie.Combat
             }
 
             var targets = battleActionData != null ? battleActionData.GetTargets() : new List<BattleEntity>();
-            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, targets));
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(BattleEntitySelectionType.Target, targets));
         }
 
         public void SetActiveBattleAction(IBattleActionSuper battleActionSuper)
@@ -250,7 +250,7 @@ namespace Frankie.Combat
             foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
             {
                 if (enemy == null || enemy.combatParticipant == null) { continue; }
-                enemy.combatParticipant.SelfImplode();
+                enemy.combatParticipant.SelfImplode(false);
             }
         }
         #endregion
@@ -286,7 +286,7 @@ namespace Frankie.Combat
                         SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
                         foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
                         {
-                            enemy.combatParticipant.SelfImplode();
+                            enemy.combatParticipant.SelfImplode(false);
                         }
                         return;
                     }
@@ -310,7 +310,7 @@ namespace Frankie.Combat
         
         private void HandleBattleEntitySelectedEvent(BattleEntitySelectedEvent battleEntitySelectedEvent)
         {
-            if (battleEntitySelectedEvent.combatParticipantType != CombatParticipantType.Friendly) { return; }
+            if (battleEntitySelectedEvent.selectionType != BattleEntitySelectionType.Actor) { return; }
 
             BattleEntity battleEntity = battleEntitySelectedEvent.battleEntities.FirstOrDefault();
             if (battleEntity == null) { return; }
@@ -573,7 +573,7 @@ namespace Frankie.Combat
             selectedCharacter = null;
             battleActionData = null;
             List<BattleEntity> emptyBattleEntity = new() { new BattleEntity(null) };
-            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, emptyBattleEntity));
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(BattleEntitySelectionType.Actor, emptyBattleEntity));
         }
 
         private void AutoSelectCharacter()

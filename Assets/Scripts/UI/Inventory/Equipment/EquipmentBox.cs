@@ -57,7 +57,7 @@ namespace Frankie.Inventory.UI
         private EquipableItemBase selectedItem;
 
         // Cached References
-        private readonly List<CharacterSlide> characterSlides = new();
+        private readonly List<ICharacterSlide> characterSlides = new();
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
@@ -123,7 +123,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Setup
-        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<ICharacterSlide> setCharacterSlides)
         {
             if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
             
@@ -133,7 +133,7 @@ namespace Frankie.Inventory.UI
             SetupPartySelection(partyCombatConduit);
             
             characterSlides.Clear();
-            foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
+            foreach (ICharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
             
             SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);

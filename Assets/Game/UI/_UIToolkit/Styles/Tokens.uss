@@ -8,6 +8,28 @@
     --font-display: url("project://database/Assets/z_ImportedAssets/EB-Fonts/fourside%20SDF_UITK.asset?fileID=11400000&guid=177b4859d921f4863852fa903b459784&type=2#fourside SDF_UITK");
     --frame-image: url("project://database/Assets/z_MadeAssets/BattleUI/MenuFrame.png?fileID=21300000&guid=f30d85e6afc224fe9a89251a4c2dab80&type=3#MenuFrame");
 
+    /* Fonts:  twoson is bitmap-only (pair with `-unity-text-generator: standard`); statusplz has outlines */
+    --font-slide-name: url("project://database/Assets/z_ImportedAssets/EB-Fonts/twoson.ttf?fileID=12800000&guid=1c36ae043cb7ee44ba7ac2e8cc3a4ba3&type=3#twoson");
+    --font-slide-digits: url("project://database/Assets/z_ImportedAssets/EB-Fonts/statusplz.ttf?fileID=12800000&guid=c000ddec05b41574396a4a0ec75ea958&type=3#statusplz");
+
+    /* Character slides */
+    --slide-name-pane-image: url("project://database/Assets/z_MadeAssets/BattleUI/Checker2-Grayscale.png?fileID=21300000&guid=9c5b8914086924e4c80126cee6477e77&type=3#Checker2-Grayscale");
+    --slide-stats-pane-image: url("project://database/Assets/z_MadeAssets/BattleUI/Checker1-Grayscale.png?fileID=21300000&guid=793e28adecf114dc193a16e165547e21&type=3#Checker1-Grayscale");
+    --slide-stat-slot-image: url("project://database/Assets/z_MadeAssets/BattleUI/StatSlot.png?fileID=21300000&guid=a7e18126c57ba4e6991f21b661ff49d9&type=3#StatSlot");
+
+    /* Status effects */
+    --status-healing-image: url("project://database/Assets/z_MadeAssets/StatusEffects/HPAdjustPositive.png?fileID=21300000&guid=d490b2ae44447c6409e83de7546b496c&type=3#HPAdjustPositive");
+    --status-damage-image: url("project://database/Assets/z_MadeAssets/StatusEffects/HPAdjustNegative.png?fileID=21300000&guid=7f1a0e20b55a49c4cb16f889f99b6367&type=3#HPAdjustNegative");
+    --status-brawn-image: url("project://database/Assets/z_MadeAssets/StatusEffects/BrawnAdjust.png?fileID=21300000&guid=eb33630a87c2b024898dadd82295ec5d&type=3#BrawnAdjust");
+    --status-beauty-image: url("project://database/Assets/z_MadeAssets/StatusEffects/BeautyAdjust.png?fileID=21300000&guid=b3d82a531e9d32143a484860eb26dc0a&type=3#BeautyAdjust");
+    --status-smarts-image: url("project://database/Assets/z_MadeAssets/StatusEffects/SmartsAdjust.png?fileID=21300000&guid=191ea053d2e173348a32424eff4ae54f&type=3#SmartsAdjust");
+    --status-nimble-image: url("project://database/Assets/z_MadeAssets/StatusEffects/NimbleAdjust.png?fileID=21300000&guid=e4ad80e5e3c4c8347b81dd8b2821173d&type=3#NimbleAdjust");
+    --status-luck-image: url("project://database/Assets/z_MadeAssets/StatusEffects/LuckAdjust.png?fileID=21300000&guid=9c49405c0e5cc5f4e9e6ca75e69406e6&type=3#LuckAdjust");
+    --status-pluck-image: url("project://database/Assets/z_MadeAssets/StatusEffects/PluckAdjust.png?fileID=21300000&guid=96e739e9dad189a4e994cdf78dffbd46&type=3#PluckAdjust");
+    --status-stoic-image: url("project://database/Assets/z_MadeAssets/StatusEffects/StoicAdjust.png?fileID=21300000&guid=3d71af6cac05941709f3acdfe5a9a253&type=3#StoicAdjust");
+    --status-increase-image: url("project://database/Assets/z_MadeAssets/StatusEffects/Increase.png?fileID=21300000&guid=c57e5cc458f1cec48beac0209efb4e2c&type=3#Increase");
+    --status-decrease-image: url("project://database/Assets/z_MadeAssets/StatusEffects/Decrease.png?fileID=21300000&guid=1d7686a6c7fe4f14397edd84e7c4cfc2&type=3#Decrease");
+
     /* Frame */
     --frame-slice: 18;
     --frame-flavour-default: rgb(184, 255, 255);
@@ -15,6 +37,7 @@
     /* Text */
     --font-size-default: 64px;
     --text-colour-default: rgb(255, 255, 255);
+    --choice-dimmed-colour: rgb(128, 128, 128);
 
     /* Pointer feedback */
     --choice-hover-colour: rgb(124, 171, 171);

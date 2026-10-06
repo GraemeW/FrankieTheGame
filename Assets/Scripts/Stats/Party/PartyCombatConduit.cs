@@ -31,7 +31,7 @@ namespace Frankie.Stats
         private void OnDisable()
         {
             if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, RefreshMembersCache); }
-            if (TryGetComponent(out PartyAssist partyAssist)) { partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshMembersCache); }
+            if (TryGetComponent(out PartyAssist partyAssist)) { partyAssist.SubscribeToMembersAlteredUpdates(false, RefreshMembersCache); }
         }
         #endregion
 

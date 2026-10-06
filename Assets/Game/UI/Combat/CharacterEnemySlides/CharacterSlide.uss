@@ -1,0 +1,224 @@
+/* Character slides:  350x360, pivot bottom-centre for shake/grow */
+
+.character-slides {
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.character-slide,
+.character-slide.unity-button:hover:enabled,
+.character-slide.unity-button:active:enabled,
+.character-slide.unity-button:focus {
+    width: 350px;
+    height: 360px;
+    margin: 0 20px;
+    padding: 22px 23px 20px 22px;
+    flex-direction: column;
+    align-items: stretch;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transform-origin: center bottom;
+    -unity-text-align: middle-center;
+}
+
+/* State highlights:  frames within take these in place of the frame flavour (FrameElement reads --frame-tint-override) */
+/* Note:  Set on the frames themselves since FrameElement isn't re-notified when only an inherited custom property changes */
+.character-slide--selected .frame { --frame-tint-override: rgb(113, 209, 113); }
+.character-slide--target .frame { --frame-tint-override: rgb(113, 161, 238); }
+.character-slide--dead .frame { --frame-tint-override: rgb(255, 114, 114); }
+
+.character-slide__backing {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    background-color: var(--backing-colour);
+}
+
+.character-slide__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Checker panes are FrameElements (flavour tint) with a tiled image */
+.frame.character-slide__name-pane,
+.frame.character-slide__stats-pane {
+    -unity-slice-left: 0;
+    -unity-slice-right: 0;
+    -unity-slice-top: 0;
+    -unity-slice-bottom: 0;
+    background-repeat: repeat repeat;
+}
+
+.frame.character-slide__name-pane {
+    --frame-tint-factor: 1.15;
+    height: 80px;
+    flex-shrink: 0;
+    justify-content: center;
+    background-image: var(--slide-name-pane-image);
+    background-size: 33px 34px;
+}
+
+.frame.character-slide__stats-pane {
+    --frame-tint-factor: 1.25;
+    flex-grow: 1;
+    padding: 20px 10px;
+    justify-content: space-between;
+    background-image: var(--slide-stats-pane-image);
+    background-size: 44px 43px;
+}
+
+.character-slide__name {
+    margin: 0;
+    padding: 0;
+    font-size: 48px;
+    color: rgb(0, 0, 0);
+    -unity-font-definition: var(--font-slide-name);
+    -unity-text-generator: standard;
+    -unity-text-align: middle-center;
+}
+
+.character-slide__stat-line {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.character-slide__stat-label {
+    width: 110px;
+    height: 80px;
+    margin: 0 20px 0 0;
+    padding: 0;
+    padding-top: 10px;
+    font-size: 60px;
+    color: rgb(0, 0, 0);
+    -unity-text-align: middle-center;
+}
+
+.character-slide__black-bar {
+    height: 5px;
+    flex-shrink: 0;
+    background-color: rgb(0, 0, 0);
+}
+
+/* Cooldown dot centred on the top-right corner (5px in) */
+.character-slide__cooldown {
+    position: absolute;
+    top: -27.5px;
+    right: -22.5px;
+    width: 55px;
+    height: 55px;
+
+    --cooldown-foreground-colour: rgb(148, 255, 124);
+    --cooldown-background-colour: rgb(0, 0, 0);
+    --cooldown-paused-colour: rgb(135, 206, 250);
+    --cooldown-foreground-scale: 0.727; /* 40px disc on the 55px backing */
+}
+
+.character-slide__status-effects {
+    position: absolute;
+    left: 20px;
+    top: -15px;
+}
+
+/* Damage text spawns centred 25px above the top edge */
+.character-slide__damage-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -25px;
+    height: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+/* ~ Stat Digits ~ */
+.stat-digits {
+    width: 150px;
+    height: 80px;
+    padding: 2px 0 6px 2px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-image: var(--slide-stat-slot-image);
+}
+
+.stat-digits__digit {
+    width: 50px;
+    margin: 0;
+    padding: 0;
+    font-size: 68px;
+    color: rgb(0, 0, 0);
+    -unity-font-definition: var(--font-slide-digits);
+    -unity-text-align: lower-right;
+}
+
+/* ~ Status Effects ~ */
+.status-effect-panel {
+    flex-direction: row;
+}
+
+.status-effect-bobble {
+    width: 50px;
+    height: 50px;
+    margin-right: -15px;
+}
+
+.status-effect-bobble__icon {
+    position: absolute;
+    left: -2.5px;
+    top: -2.5px;
+    width: 55px;
+    height: 55px;
+}
+
+.status-effect-bobble__modifier {
+    position: absolute;
+    left: -5px;
+    top: -7.5px;
+    width: 30px;
+    height: 30px;
+    background-image: var(--status-decrease-image);
+}
+
+.status-effect-bobble--increase > .status-effect-bobble__modifier { background-image: var(--status-increase-image); }
+.status-effect-bobble--healing > .status-effect-bobble__icon { background-image: var(--status-healing-image); }
+.status-effect-bobble--damage > .status-effect-bobble__icon { background-image: var(--status-damage-image); }
+.status-effect-bobble--brawn > .status-effect-bobble__icon { background-image: var(--status-brawn-image); }
+.status-effect-bobble--beauty > .status-effect-bobble__icon { background-image: var(--status-beauty-image); }
+.status-effect-bobble--smarts > .status-effect-bobble__icon { background-image: var(--status-smarts-image); }
+.status-effect-bobble--nimble > .status-effect-bobble__icon { background-image: var(--status-nimble-image); }
+.status-effect-bobble--luck > .status-effect-bobble__icon { background-image: var(--status-luck-image); }
+.status-effect-bobble--pluck > .status-effect-bobble__icon { background-image: var(--status-pluck-image); }
+.status-effect-bobble--stoic > .status-effect-bobble__icon { background-image: var(--status-stoic-image); }
+
+/* ~ Damage Text ~ */
+.damage-text {
+    position: absolute;
+    width: 250px;
+    height: 150px;
+    margin: -75px 0 0 -125px;
+    left: 50%;
+    top: 0;
+    padding: 0;
+    font-size: 120px;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 4px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+}
+
+.damage-text--hp-loss { color: rgb(229, 109, 109); }
+.damage-text--hp-gain { color: rgb(113, 224, 113); }
+.damage-text--ap-loss { color: rgb(207, 116, 207); }
+.damage-text--ap-gain { color: rgb(124, 124, 255); }
+.damage-text--hit-miss { color: rgb(188, 188, 188); }
+.damage-text--hit-crit { color: rgb(255, 244, 112); }
+.damage-text--informational { color: rgb(125, 58, 168); }

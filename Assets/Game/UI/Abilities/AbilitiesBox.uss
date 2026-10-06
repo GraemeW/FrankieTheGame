@@ -1,0 +1,129 @@
+/* Top-centre, 50px down.  Fixed width. */
+.abilities-box-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.abilities-box {
+    margin-top: 50px;
+    width: 1200px;
+    padding: 20px 40px 30px 40px;
+}
+
+.abilities-box__divider {
+    height: 2px;
+    margin: 15px 0;
+    background-color: var(--text-colour-default);
+}
+
+.abilities-box__selection {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 50px;
+}
+
+.abilities-box__wheel {
+    flex-grow: 1;
+    align-items: center;
+}
+
+.abilities-box__selection-divider {
+    width: 2px;
+    align-self: stretch;
+    margin: 0 50px;
+    background-color: var(--text-colour-default);
+}
+
+.abilities-box__selected {
+    width: 300px;
+    align-items: center;
+}
+
+.abilities-box__selected > .unity-label {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.abilities-box__selected-character {
+    margin-bottom: 38px;
+}
+
+.active-skill-label {
+    color: var(--choice-dimmed-colour);
+}
+
+.active-skill-label--selected {
+    color: rgb(255, 238, 140);
+}
+
+.abilities-box__detail-line {
+    flex-direction: row;
+}
+
+.abilities-box__details .unity-label {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-left;
+}
+
+.abilities-box__detail-label {
+    width: 250px;
+}
+
+.abilities-box__detail-text {
+    white-space: normal;
+}
+
+/* ~ Skill Wheel ~ */
+.skill-wheel {
+    align-items: center;
+}
+
+.skill-wheel__row {
+    flex-direction: row;
+    justify-content: center;
+    margin: 18px 0;
+}
+
+.skill-wheel__direction,
+.skill-wheel__direction.unity-button:hover:enabled,
+.skill-wheel__direction.unity-button:active:enabled,
+.skill-wheel__direction.unity-button:focus {
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 64px;
+    -unity-text-align: middle-center;
+}
+
+/* Note:  Margins stay out of the state-neutralising block above - its higher specificity would reset them on hover */
+.skill-wheel__direction {
+    margin: 0;
+    color: var(--text-colour-default);
+    transition: color var(--choice-tint-duration);
+}
+
+.skill-wheel__row > .skill-wheel__direction {
+    margin: 0 75px;
+}
+
+/* Pointer feedback (as per choice entries); suppressed while another box is on top */
+.skill-wheel__direction.unity-button:hover:enabled {
+    color: var(--choice-hover-colour);
+}
+
+.skill-wheel__direction.unity-button:active:enabled {
+    color: var(--choice-pressed-colour);
+}
+
+.uibox-view--pointer-input-disabled .skill-wheel__direction.unity-button:hover:enabled,
+.uibox-view--pointer-input-disabled .skill-wheel__direction.unity-button:active:enabled {
+    color: var(--text-colour-default);
+}

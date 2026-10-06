@@ -29,6 +29,7 @@ namespace LowDefMustard.UIBox
         protected bool handleGlobalInput { get; set; } = true;
         protected bool clearVolatileOptionsOnEnable { get; set; } = true;
         protected bool preventEscapeOptionExit { get; set; } = false;
+        protected bool keepPointerInputWhenInactive { get; set; } = false; // e.g. for menus whose choices swap out the child box on top
         
         // State -- Standard
         protected BaseController controller;
@@ -102,7 +103,7 @@ namespace LowDefMustard.UIBox
             TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted);
         }
 
-        // Transitional:  legacy uGUI choices play their own highlight/select sounds (per-choice soundboxes)
+        // Transitional:  legacy uGUI choices play their own highlight/select sounds (per-choice SoundBox)
         // Remove the view gate alongside the legacy uGUI path
         protected void TriggerChoiceModified(ReceiverModifiedType receiverModifiedType)
         {
@@ -111,17 +112,17 @@ namespace LowDefMustard.UIBox
         }
 
         protected IUIChoice AddChoiceOption(string choiceText, Action action) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, true));
-
-        protected IUIChoice AddNonDestroyChoiceOption(string choiceText, Action action) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, false));
+        
+        protected IUIChoice AddNonDestroyChoiceOption(string choiceText, Action action, Action onHighlight = null) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, false), onHighlight);
         
         protected void AddSeparator(ChoiceSeparatorType separatorType = ChoiceSeparatorType.Major) { if (TryGetBoxView(out IUIBoxView view)) { view.CreateChoiceSeparator(separatorType); } }
 
-        private IUIChoice CreateChoiceOption(string choiceText, Action onChoose)
+        private IUIChoice CreateChoiceOption(string choiceText, Action onChoose, Action onHighlight = null)
         {
             int choiceOrder = choiceOptions.Count + 1;
             if (TryGetBoxView(out IUIBoxView view))
             {
-                IUIChoice viewChoice = view.CreateChoiceOption(choiceText, choiceOrder, onChoose);
+                IUIChoice viewChoice = view.CreateChoiceOption(choiceText, choiceOrder, onChoose, onHighlight);
                 choiceOptions.Add(viewChoice);
                 return viewChoice;
             }
@@ -132,6 +133,7 @@ namespace LowDefMustard.UIBox
             uiChoiceOption.SetChoiceOrder(choiceOrder);
             uiChoiceOption.SetText(choiceText);
             uiChoiceOption.AddOnClickListener(delegate { onChoose(); });
+            if (onHighlight != null) { uiChoiceOption.AddOnHighlightListener(delegate { onHighlight(); }); }
             choiceOptions.Add(uiChoiceOption);
             return uiChoiceOption;
         }

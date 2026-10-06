@@ -413,7 +413,7 @@ MonoBehaviour:
   itemChoiceOption: {fileID: 7247152634648090547}
   statsChoiceOption: {fileID: 7843285193280389271}
   runawayChoiceOption: {fileID: 4049643125735188801}
-  statusBoxPrefab: {fileID: 3802850994652793957, guid: 7d05b565d2a0bad43827b072d7a67303, type: 3}
+  statusBoxPrefab: {fileID: 5629034172846531005, guid: 36dd03dbb95e4944a79771617cd48beb, type: 3}
   inventoryBoxPrefab: {fileID: 2437136854184657, guid: 45098d9dff6ed3c45a7908991cfceabe, type: 3}
   references:
     version: 2

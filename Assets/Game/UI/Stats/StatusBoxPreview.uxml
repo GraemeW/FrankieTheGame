@@ -1,0 +1,76 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:stats="Frankie.Stats.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors StatusBox.uxml with sample entries - keep in sync -->
+    <!-- Style order matches StatusBoxUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="StatusBox.uss" />
+    <!-- Stat lists are code-built at runtime (StatListElement):  static rows with the same classes stand in here -->
+    <ui:VisualElement class="status-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox status-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="party-selector" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Frankie" />
+                <uibox:ChoiceEntryElement label-text="Tilly" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="PhilToo" />
+            </uibox:ChoiceEntryContainer>
+            <ui:VisualElement class="status-box__divider" picking-mode="Ignore" />
+            <stats:StatusBoxNameLabel text="Tilly" class="status-box__name text-display" picking-mode="Ignore" />
+            <ui:VisualElement class="status-box__stats" picking-mode="Ignore">
+                <ui:VisualElement class="stat-list status-box__skill-stats" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Level" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="1" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Brawn" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="3" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Beauty" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="2" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Smarts" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="2" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Nimble" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="2" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Luck" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="3" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Pluck" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="3" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="Stoic" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="2" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="stat-list status-box__vital-stats" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="HP" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="35/35" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-line" picking-mode="Ignore">
+                        <ui:Label text="AP" class="stat-line__name" picking-mode="Ignore" />
+                        <ui:Label text="10/10" class="stat-line__value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="status-box__experience" picking-mode="Ignore">
+                <stats:StatusBoxExperienceLabel text="999" picking-mode="Ignore" />
+                <stats:StatusBoxExperienceFlavourLabel text="experience for next level" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

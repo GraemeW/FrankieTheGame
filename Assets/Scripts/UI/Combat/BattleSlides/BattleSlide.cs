@@ -93,7 +93,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region AbstractMethods
-        protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
+        protected abstract void SetSelected(BattleEntitySelectionType selectionType, bool enable);
         protected abstract void ParseState(StateAlteredInfo stateAlteredInfo);
         #endregion
 
@@ -121,23 +121,23 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethodsOther
-        public void HighlightSlide(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
+        public void HighlightSlide(BattleEntitySelectionType selectionType, IEnumerable<BattleEntity> battleEntities)
         {
-            SetSelected(combatParticipantType, false);
+            SetSelected(selectionType, false);
             if (battleEntities == null) { return; }
             
             foreach (BattleEntity tempBattleEntity in battleEntities)
             {
                 if (tempBattleEntity.combatParticipant == battleEntity.combatParticipant)
                 {
-                    SetSelected(combatParticipantType, true);
+                    SetSelected(selectionType, true);
                 }
             }
         }
 
-        public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
+        public void HighlightSlide(BattleEntitySelectionType selectionType, bool enable)
         {
-            SetSelected(combatParticipantType, enable);
+            SetSelected(selectionType, enable);
         }
 
         protected void ShakeSlide(bool strongShakeEnable)
@@ -188,7 +188,7 @@ namespace Frankie.Combat.UI
 
         private void HandleBattleEntitySelectedEvent(BattleEntitySelectedEvent battleEntitySelectedEvent)
         {
-            HighlightSlide(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
+            HighlightSlide(battleEntitySelectedEvent.selectionType, battleEntitySelectedEvent.battleEntities);
         }
         #endregion
         

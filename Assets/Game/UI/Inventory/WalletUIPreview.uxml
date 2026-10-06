@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:frankie="Frankie.Utils.UI" xmlns:inventory="Frankie.Inventory.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors WalletUI.uxml with sample entries - keep in sync -->
+    <!-- Style order matches WalletUI.prefab's view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="WalletUI.uss" />
+    <ui:VisualElement class="wallet-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox wallet">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <inventory:WalletCashLabel text="$780" class="wallet__cash" picking-mode="Ignore" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

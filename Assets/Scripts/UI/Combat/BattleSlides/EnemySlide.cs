@@ -132,9 +132,9 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
+        protected override void SetSelected(BattleEntitySelectionType selectionType, bool enable)
         {
-            if (combatParticipantType != CombatParticipantType.Foe) { return; }
+            if (selectionType != BattleEntitySelectionType.Target) { return; }
             shadow.enabled = enable;
             isPulsating = enable;
             

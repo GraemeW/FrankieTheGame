@@ -1,0 +1,54 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:combat="Frankie.Combat.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors AbilitiesBox.uxml with sample entries - keep in sync -->
+    <!-- Style order matches AbilitiesBoxUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="AbilitiesBox.uss" />
+    <!-- The skill wheel is code-built at runtime (SkillWheelElement):  static buttons with the same classes stand in here -->
+    <ui:VisualElement class="abilities-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox abilities-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="party-selector party-selector--dimmed" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Frankie" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Tilly" />
+                <uibox:ChoiceEntryElement label-text="PhilToo" />
+            </uibox:ChoiceEntryContainer>
+            <ui:VisualElement class="abilities-box__divider" picking-mode="Ignore" />
+            <ui:VisualElement class="abilities-box__selection" picking-mode="Ignore">
+                <combat:SkillWheelContainer class="abilities-box__wheel">
+                    <ui:VisualElement class="skill-wheel" picking-mode="Ignore">
+                        <ui:Button text="Wallop" focusable="false" class="skill-wheel__direction" />
+                        <ui:VisualElement class="skill-wheel__row" picking-mode="Ignore">
+                            <ui:Button text="Nerd Out" focusable="false" class="skill-wheel__direction" />
+                            <ui:Button text="Gentle Praise" focusable="false" class="skill-wheel__direction" />
+                        </ui:VisualElement>
+                        <ui:Button text="Spit Take" focusable="false" class="skill-wheel__direction" />
+                    </ui:VisualElement>
+                </combat:SkillWheelContainer>
+                <ui:VisualElement class="abilities-box__selection-divider" picking-mode="Ignore" />
+                <ui:VisualElement class="abilities-box__selected" picking-mode="Ignore">
+                    <combat:SkillSelectionCharacterLabel text="Frankie" class="abilities-box__selected-character" picking-mode="Ignore" />
+                    <combat:SkillSelectionActiveSkillLabel text="Gentle Praise" class="abilities-box__selected-skill active-skill-label--selected" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="abilities-box__divider" picking-mode="Ignore" />
+            <ui:VisualElement class="abilities-box__details" picking-mode="Ignore">
+                <ui:VisualElement class="abilities-box__detail-line" picking-mode="Ignore">
+                    <combat:AbilitiesStatLabel text="Inclination:" class="abilities-box__detail-label" picking-mode="Ignore" />
+                    <combat:AbilitiesStatValueLabel text="Smarts" class="abilities-box__detail-value" picking-mode="Ignore" />
+                </ui:VisualElement>
+                <ui:VisualElement class="abilities-box__detail-line" picking-mode="Ignore">
+                    <combat:AbilitiesAPCostLabel text="AP Cost:" class="abilities-box__detail-label" picking-mode="Ignore" />
+                    <combat:AbilitiesAPCostValueLabel text="5" class="abilities-box__detail-value" picking-mode="Ignore" />
+                </ui:VisualElement>
+                <combat:AbilitiesDetailLabel text="Heal a small amount of hit points for one ally." class="abilities-box__detail-text" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

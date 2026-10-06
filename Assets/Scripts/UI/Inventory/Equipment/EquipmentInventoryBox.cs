@@ -50,7 +50,7 @@ namespace Frankie.Inventory.UI
         #endregion
         
         #region PublicMethods
-        public void Setup(EquipmentBox setEquipmentBox, EquipLocation setEquipLocation, CombatParticipant setSelectedCharacter, List<CharacterSlide> setCharacterSlides)
+        public void Setup(EquipmentBox setEquipmentBox, EquipLocation setEquipLocation, CombatParticipant setSelectedCharacter, List<ICharacterSlide> setCharacterSlides)
         {
             equipmentBox = setEquipmentBox;
             equipLocation = setEquipLocation;

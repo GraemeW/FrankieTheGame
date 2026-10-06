@@ -4,15 +4,23 @@ using Frankie.Saving;
 
 namespace Frankie.Utils.UI
 {
-    // Note: Frame image & slicing are defined in USS (.frame)
-    // This element only drives the tint colour
     [UxmlElement]
     public sealed partial class FrameElement : VisualElement
     {
-        private const string _ussClassName = "frame";
+        // Note: Frame image & slicing are defined in USS (.frame) - this element only drives the tint colour
+        // Tint is the global frame flavour, adjusted by USS custom properties set on the frame itself (e.g. `.my-state .frame { ... }`):
+        //   --frame-tint-factor:  brightness scaling (range 0.5 - 1.5, as per UIFrame)
+        //   --frame-tint-override:  local colour in place of the frame flavour (e.g. a targeted character slide)
 
-        // Tunables
-        [UxmlAttribute] public float colourModifyFactor { get; set; } = 1.0f; // Range 0.5 - 1.5, as per UIFrame
+        // Const
+        private const string _ussClassName = "frame";
+        private static readonly CustomStyleProperty<float> _tintFactorProperty = new("--frame-tint-factor");
+        private static readonly CustomStyleProperty<Color> _tintOverrideProperty = new("--frame-tint-override");
+
+        // State
+        private Color frameFlavourColour = Color.white;
+        private float tintFactor = 1f;
+        private Color? tintOverride;
 
         public FrameElement()
         {
@@ -20,14 +28,16 @@ namespace Frankie.Utils.UI
             pickingMode = PickingMode.Ignore;
             RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
             RegisterCallback<DetachFromPanelEvent>(HandleDetachFromPanel);
+            RegisterCallback<CustomStyleResolvedEvent>(HandleCustomStyleResolved);
         }
 
         #region EventHandlers
         private void HandleAttachToPanel(AttachToPanelEvent attachToPanelEvent)
         {
-            if (!Application.isPlaying) { return; } // Edit-time (UI Builder) previews use the USS default tint
+            if (!Application.isPlaying) { return; }
 
-            SetFrameFlavour(UIFrame.GetFrameFlavourColour());
+            frameFlavourColour = UIFrame.GetFrameFlavourColour();
+            ApplyTint();
             PlayerPrefsController.frameFlavourUpdated -= SetFrameFlavour;
             PlayerPrefsController.frameFlavourUpdated += SetFrameFlavour;
         }
@@ -37,9 +47,26 @@ namespace Frankie.Utils.UI
             PlayerPrefsController.frameFlavourUpdated -= SetFrameFlavour;
         }
 
-        private void SetFrameFlavour(Color frameFlavourColour)
+        private void SetFrameFlavour(Color setFrameFlavourColour)
         {
-            style.unityBackgroundImageTintColor = UIFrame.GetScaledColour(frameFlavourColour, colourModifyFactor);
+            frameFlavourColour = setFrameFlavourColour;
+            ApplyTint();
+        }
+
+        private void HandleCustomStyleResolved(CustomStyleResolvedEvent customStyleResolvedEvent)
+        {
+            ICustomStyle newStyle = customStyleResolvedEvent.customStyle;
+            tintFactor = newStyle.TryGetValue(_tintFactorProperty, out float resolvedTintFactor) ? resolvedTintFactor : 1f;
+            tintOverride = newStyle.TryGetValue(_tintOverrideProperty, out Color resolvedTintOverride) ? resolvedTintOverride : null;
+            ApplyTint();
+        }
+        #endregion
+
+        #region PrivateMethods
+        private void ApplyTint()
+        {
+            if (!Application.isPlaying || panel == null) { return; } // Edit-time (UI Builder) previews use the USS default tint
+            style.unityBackgroundImageTintColor = UIFrame.GetScaledColour(tintOverride ?? frameFlavourColour, tintFactor);
         }
         #endregion
     }

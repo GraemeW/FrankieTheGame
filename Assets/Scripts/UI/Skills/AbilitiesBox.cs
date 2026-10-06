@@ -4,18 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using TMPro;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Speech.UI;
 using Frankie.Stats;
+using Frankie.Stats.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class AbilitiesBox : SkillSelectionUI
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class AbilitiesBox : SkillSelectionUI
     {
         // Tunables
         [Header("Abilities Box Text")]
@@ -25,29 +26,22 @@ namespace Frankie.Combat.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNoValidTarget;
         [Header("Include {0} for user, {1} for skill, {2} for target")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageUseSkillInWorld;
-        [Header("Abilities Box Hookups")]
-        [SerializeField] private TMP_Text statLabelField;
-        [SerializeField] private TMP_Text statTextField;
-        [SerializeField] private TMP_Text apCostLabelField;
-        [SerializeField] private TMP_Text apCostTextField;
-        [SerializeField] private TMP_Text skillDetailTextField;
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
 
         // State -- UI
-        private List<BattleEntity> partyBattleEntities;
-        private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
+        private PartySelector partySelector;
+        private AbilitiesBoxModel abilitiesBoxModel;
 
         // State
-        private bool isPartySolo = false;
         private BattleActionData battleActionData;
         private DialogueBox abilityUseConfirmationBox;
 
         // Cached References
-        private List<CharacterSlide> characterSlides;
+        private List<ICharacterSlide> characterSlides;
 
         // Events
-        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
+        public event Action<BattleEntitySelectionType, IEnumerable<BattleEntity>> targetCharacterChanged;
         
         // UIBox Configuration
         protected override EnumLookup<AbilitiesBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
@@ -89,8 +83,8 @@ namespace Frankie.Combat.UI
         protected override void StartTriggered()
         {
             base.StartTriggered();
-            if (statLabelField != null) { statLabelField.SetText(localizedStatLabel.GetSafeLocalizedString());}
-            if (apCostLabelField != null) { apCostLabelField.SetText(localizedAPCostLabel.GetSafeLocalizedString()); }
+            abilitiesBoxModel.statLabel = localizedStatLabel.GetSafeLocalizedString();
+            abilitiesBoxModel.apCostLabel = localizedAPCostLabel.GetSafeLocalizedString();
         }
 
         protected override void EnableTriggered()
@@ -121,54 +115,39 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region Setup
-        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
+        protected override SkillSelectionModel CreateSkillSelectionModel()
+        {
+            abilitiesBoxModel = new AbilitiesBoxModel();
+            return abilitiesBoxModel;
+        }
+
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<ICharacterSlide> setCharacterSlides)
         {
             if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
             
             controller = baseController;
-            isPartySolo = partyCombatConduit.IsPartySolo();
 
-            SetupPartySelection(partyCombatConduit);
-            RefreshUI(CombatParticipantType.Friendly, partyBattleEntities);
+            // Note:  Choice execution raises ItemSelected (sound) - avoid a second raise from the state change
+            partySelector = new PartySelector(partyCombatConduit, AddNonDestroyChoiceOption, character => ChooseCharacter(character, true, false), SoftChooseCharacter);
+            RefreshUI(BattleEntitySelectionType.Actor, partySelector.battleEntities);
 
             characterSlides = setCharacterSlides;
             SubscribeCharacterSlides(true);
 
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true);
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
-            if (isPartySolo) { Choose(null); }
-        }
-
-        private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
-        {
-            int choiceIndex = 0;
-            partyBattleEntities = new List<BattleEntity>();
-            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
-            {
-                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-                var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
-                uiChoiceOption.SetChoiceOrder(choiceIndex);
-                uiChoiceOption.DisableOnClickListeners();
-                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
-                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
-                uiChoiceOption.SetText(combatParticipant.GetCombatName());
-                uiChoiceOption.SetValidColor(choiceIndex == 0);
-                uiChoiceOption.UseInvalidChoiceDimming(true);
-
-                playerSelectChoiceOptions.Add(uiChoiceOption);
-                partyBattleEntities.Add(new BattleEntity(combatParticipant));
-                choiceIndex++;
-            }
+            if (partySelector.isSolo) { Choose(null); }
         }
 
         private void SubscribeCharacterSlides(bool enable)
         {
             if (characterSlides == null) { return; }
             
-            foreach (CharacterSlide characterSlide in characterSlides)
+            foreach (ICharacterSlide characterSlide in characterSlides)
             {
                 targetCharacterChanged -= characterSlide.HighlightSlide;
                 characterSlide.RemoveButtonClickEvents();
+                if (!enable) { characterSlide.HighlightSlide(BattleEntitySelectionType.Target, null); } // Clear any targeting highlight on exit
                 if (enable)
                 {
                     targetCharacterChanged += characterSlide.HighlightSlide;
@@ -182,7 +161,7 @@ namespace Frankie.Combat.UI
         private void ImplementSetUpChoiceOptions()
         {
             choiceOptions.Clear();
-            if (uiState == AbilitiesBoxState.InCharacterSelection) { choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList()); }
+            if (uiState == AbilitiesBoxState.InCharacterSelection && partySelector != null) { choiceOptions.AddRange(partySelector.choices); }
             ReconcileChoiceOptions();
         }
 
@@ -257,7 +236,7 @@ namespace Frankie.Combat.UI
             HandleInputWithReturn(input);
         }
 
-        private bool GetNextTarget(TargetingNavigationType targetingNavigationType, IList<BattleEntity> activeCharacters = null)
+        private bool GetNextTarget(TargetingNavigationType targetingNavigationType, IEnumerable<BattleEntity> activeCharacters = null)
         {
             if (selectedCharacter == null) { return false; }
 
@@ -266,11 +245,11 @@ namespace Frankie.Combat.UI
             if (activeSkill == null) { return false; }
 
             battleActionData ??= new BattleActionData(selectedCharacter);
-            activeCharacters ??= partyBattleEntities;
+            activeCharacters ??= partySelector.battleEntities;
             activeSkill.SetTargets(targetingNavigationType, battleActionData, activeCharacters, null);
             if (!battleActionData.HasTargets()) {return false; }
 
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
+            targetCharacterChanged?.Invoke(BattleEntitySelectionType.Target, battleActionData.GetTargets());
             return true;
         }
         
@@ -307,12 +286,9 @@ namespace Frankie.Combat.UI
 
         protected override void PassSkillFlavour(Stat skillStat, string detail, float apCost)
         {
-            statTextField.text = LocalizationNames.GetLocalizedName(skillStat);
-            if (detail != null)
-            {
-                skillDetailTextField.text = detail;
-            }
-            apCostTextField.text = $"{apCost:N0}";
+            abilitiesBoxModel.statText = LocalizationNames.GetLocalizedName(skillStat);
+            if (detail != null) { abilitiesBoxModel.detailText = detail; }
+            abilitiesBoxModel.apCostText = $"{apCost:N0}";
         }
 
         private void SpawnAbilityUseConfirmationBox(bool skillUsedSuccessfully, string senderName, string skillName, string targetCharacterNames)
@@ -336,21 +312,21 @@ namespace Frankie.Combat.UI
             switch (uiState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
-                    if (!bypassSoloCheck && isPartySolo)
+                    if (!bypassSoloCheck && partySelector.isSolo)
                     {
                         destroyQueued = true;
                         return;
                     }
                     battleActionData = null; // Reset battle action data on selected character changed
                     ResetUI();
-                    targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+                    targetCharacterChanged?.Invoke(BattleEntitySelectionType.Target, null);
                     break;
                 case AbilitiesBoxState.InAbilitiesSelection:
                     UpdateSkillHandler();
-                    targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+                    targetCharacterChanged?.Invoke(BattleEntitySelectionType.Target, null);
                     break;
                 case AbilitiesBoxState.InCharacterTargeting:
-                    targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets()); // Re-highlight the target character
+                    targetCharacterChanged?.Invoke(BattleEntitySelectionType.Target, battleActionData.GetTargets()); // Re-highlight the target character
                     break;
             }
             SetUpChoiceOptions();
@@ -374,10 +350,10 @@ namespace Frankie.Combat.UI
         private bool TryBackFromAbilitiesSelection(ControllerInputType controllerInputType)
         {
             ResetSkillHandler(selectedCharacter);
-            skillField.SetText(defaultNoText);
-            statTextField.text = "";
-            skillDetailTextField.text = "";
-            apCostTextField.text = "";
+            ClearActiveSkill();
+            abilitiesBoxModel.statText = "";
+            abilitiesBoxModel.detailText = "";
+            abilitiesBoxModel.apCostText = "";
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
             return true;
         }

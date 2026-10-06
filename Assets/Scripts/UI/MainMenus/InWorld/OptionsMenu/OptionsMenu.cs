@@ -141,7 +141,7 @@ namespace Frankie.Menu.UI
 
         private void AddLocalizedChoice(LocalizedString localizedText, Action action)
         {
-            var choiceEntryHandle = new ChoiceEntryHandle(menuView, localizedText.GetSafeLocalizedString(), true, WithSelectSound(action), typeof(OptionsConfirmSection));
+            var choiceEntryHandle = new ChoiceEntryHandle(menuView, localizedText.GetSafeLocalizedString(), true, WithSelectSound(action), null, typeof(OptionsConfirmSection));
             AddEntries(new EntryHandle[] { choiceEntryHandle });
             localizedChoices.Add((choiceEntryHandle, localizedText));
         }
