@@ -13,7 +13,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class EquipmentInventoryBox : InventoryBox
+    public sealed class EquipmentInventoryBox : InventoryBox
     {
         [Header("Equipment-Inventory Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionEquip;
@@ -57,16 +57,16 @@ namespace Frankie.Inventory.UI
             equipment = setSelectedCharacter.GetComponent<Equipment>();
             Setup(setSelectedCharacter, setCharacterSlides);
         }
-        
-        public override InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
-        {
-            InventoryItemField inventoryItemField =  base.SetupItem(setInventoryItemFieldPrefab, container, selector);
-            inventoryItemField.SetValidColor(selectedKnapsack.HasEquipableItemInSlot(selector, equipLocation));
-            return inventoryItemField;
-        }
         #endregion
 
         #region ProtectedPrivateMethods
+        protected override bool ConfigureSlot(InventorySlotModel slotModel, KnapsackSlot knapsackSlot)
+        {
+            bool isSelectable = base.ConfigureSlot(slotModel, knapsackSlot);
+            slotModel.isDimmed = !selectedKnapsack.HasEquipableItemInSlot(knapsackSlot.index, equipLocation);
+            return isSelectable;
+        }
+
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
             var choiceActionPairs = new List<ChoiceActionPair>();

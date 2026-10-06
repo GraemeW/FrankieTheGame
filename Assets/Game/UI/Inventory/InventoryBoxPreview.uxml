@@ -1,0 +1,37 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:inventory="Frankie.Inventory.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors InventoryBox.uxml with sample entries - keep in sync -->
+    <!-- Style order matches the InventoryBox prefabs' view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="InventoryBox.uss" />
+    <!-- Item rows are code-built at runtime (InventorySlotHandle); the stat comparison (StatChangeListElement) only fills when buying equipment in a shop -->
+    <ui:VisualElement class="item-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox item-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="party-selector party-selector--dimmed" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Frankie" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Tilly" />
+                <uibox:ChoiceEntryElement label-text="PhilToo" />
+            </uibox:ChoiceEntryContainer>
+            <ui:VisualElement class="item-box__divider" picking-mode="Ignore" />
+            <inventory:ItemBoxCharacterLabel text="Frankie" class="item-box__name text-display" picking-mode="Ignore" />
+            <ui:VisualElement class="item-box__slots" picking-mode="Ignore">
+                <inventory:InventorySlotLeftColumn class="item-box__slots-left" picking-mode="Ignore">
+                    <inventory:InventorySlotElement label-text="Rough Hay" />
+                    <inventory:InventorySlotElement label-text="Broken Keyboard" equipped="true" />
+                    <inventory:InventorySlotElement label-text="Chocolate Cheese Curds" dimmed="true" />
+                </inventory:InventorySlotLeftColumn>
+                <inventory:InventorySlotRightColumn class="item-box__slots-right" picking-mode="Ignore">
+                    <inventory:InventorySlotElement label-text="Stapler" />
+                    <inventory:InventorySlotElement label-text="One Foot Ruler" highlighted="true" />
+                </inventory:InventorySlotRightColumn>
+            </ui:VisualElement>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

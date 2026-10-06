@@ -108,13 +108,17 @@ namespace LowDefMustard.UIBox
             StandardSetUpChoiceOptions();
         }
 
-        protected void StandardSetUpChoiceOptions()
+        private void StandardSetUpChoiceOptions()
         {
+            // Note:  Boxes that build their own choices (i.e. no optionParent) set clearVolatileOptionsOnEnable false to keep them
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            if (optionParent == null) { return; }
-            List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
-            List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
-            choiceOptions.AddRange(filteredUIChoices);
+            if (optionParent != null)
+            {
+                // Legacy uGUI approach
+                List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
+                List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
+                choiceOptions.AddRange(filteredUIChoices);
+            }
             ReconcileChoiceOptions();
         }
         

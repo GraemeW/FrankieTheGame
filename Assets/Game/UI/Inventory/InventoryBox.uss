@@ -1,0 +1,137 @@
+/* Shared by the knapsack boxes (InventoryBox + variants) and EquipmentBox */
+/* Top-centre anchored, offset */
+.item-box-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.item-box {
+    margin-top: 50px;
+    width: 1160px;
+    padding: 30px 40px 45px 40px;
+}
+
+.item-box__divider {
+    height: 2px;
+    margin-top: 20px;
+    background-color: var(--text-colour-default);
+}
+
+.item-box__name {
+    margin: 20px 0 0 0;
+    padding: 0;
+    font-size: 40px;
+    -unity-text-align: middle-left;
+}
+
+/* ~ Item Rows ~ */
+/* Two columns, filled alternately (left, right, left, ...) */
+.item-box__slots {
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+.item-box__slots-left {
+    width: 590px;
+    align-items: flex-start;
+}
+
+.item-box__slots-right {
+    flex-grow: 1;
+    align-items: flex-start;
+}
+
+.inventory-slot {
+    height: 52px;
+}
+
+/* Equipped marker sits in the highlight marker's column; a highlighted row tints its marker instead */
+.inventory-slot__equipped-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    color: var(--equipped-marker-colour);
+    -unity-text-align: middle-left;
+    display: none;
+}
+
+.inventory-slot--equipped > .inventory-slot__equipped-marker {
+    display: flex;
+}
+
+.inventory-slot--equipped.choice-entry--highlighted > .inventory-slot__equipped-marker {
+    display: none;
+}
+
+.inventory-slot--equipped.choice-entry--highlighted > .choice-entry__marker {
+    color: var(--equipped-marker-colour);
+}
+
+.inventory-slot--dimmed > .choice-entry__label {
+    color: var(--choice-dimmed-colour);
+}
+
+/* ~ Stat Comparison ~ */
+.stat-change-section--empty {
+    display: none;
+}
+
+.stat-change-list {
+    margin-top: 18px;
+}
+
+.stat-change-list--empty {
+    display: none;
+}
+
+.stat-change {
+    flex-direction: row;
+    align-items: center;
+    height: 52px;
+}
+
+.stat-change > .unity-label {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-left;
+}
+
+.stat-change__name,
+.stat-change__old-value {
+    width: 200px;
+}
+
+.stat-change__arrow {
+    width: 100px;
+}
+
+.stat-change__new-value {
+    color: var(--choice-dimmed-colour);
+}
+
+.stat-change--better > .stat-change__new-value {
+    color: var(--stat-better-colour);
+}
+
+.stat-change--worse > .stat-change__new-value {
+    color: var(--stat-worse-colour);
+}
+
+/* ~ Equipment Change Confirmation ~ */
+.equipment-box__divider {
+    margin-top: 4px;
+}
+
+.equipment-box__confirm {
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding: 0 150px;
+}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using TMPro;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
@@ -16,18 +15,14 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class EscapeMenu : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class EscapeMenu : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedEscapeHeaderText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionOptionsText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionFlavourText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionQuitText;
-        [Header("Hookups")]
-        [SerializeField] private TMP_Text escapeHeaderField;
-        [SerializeField] private UIChoiceButton optionOptionsField;
-        [SerializeField] private UIChoiceButton optionFlavourField;
-        [SerializeField] private UIChoiceButton optionQuitField;
         [Header("Prefabs")]
         [SerializeField] private OptionsMenu optionsMenuPrefab;
         [SerializeField] private FrameFlavourPanel frameFlavourPanelPrefab;
@@ -51,7 +46,6 @@ namespace Frankie.Menu.UI
         {
             var escapeMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour( 
-                setupChoiceOptions: ImplementSetUpChoiceOptions,
                 isBackInput: ImplementIsBackInput,
                 tryHandleBackNavigation: ImplementTryHandleBackNavigation);
             escapeMenuConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
@@ -74,7 +68,9 @@ namespace Frankie.Menu.UI
 
         protected override void AwakeTriggered()
         {
-            if (TryGetBoxView(out IUIBoxView view)) { view.SetDataSource(escapeMenuModel); }
+            GetComponent<UIToolkitMenuView>().SetDataSource(escapeMenuModel);
+            clearVolatileOptionsOnEnable = false;
+            BuildChoiceOptions();
         }
 
         protected override void StartTriggered()
@@ -109,15 +105,11 @@ namespace Frankie.Menu.UI
             SetChoiceText(optionsChoice, localizedOptionOptionsText);
             SetChoiceText(flavourChoice, localizedOptionFlavourText);
             SetChoiceText(quitChoice, localizedOptionQuitText);
-            
-            // Legacy uGUI setup, to-be-removed
-            if (escapeHeaderField != null) { escapeHeaderField.SetText(localizedEscapeHeaderText.GetSafeLocalizedString()); }
-            if (optionOptionsField != null) { optionOptionsField.SetText(localizedOptionOptionsText.GetSafeLocalizedString()); }
-            if (optionFlavourField != null) { optionFlavourField.SetText(localizedOptionFlavourText.GetSafeLocalizedString()); }
-            if (optionQuitField != null) { optionQuitField.SetText(localizedOptionQuitText.GetSafeLocalizedString()); }
         }
-        
-        public void OpenOptionsMenu() // Called via Unity Events
+        #endregion
+
+        #region PrivateMethods
+        private void OpenOptionsMenu()
         {
             if (optionsMenuPrefab == null) { return; }
             
@@ -129,7 +121,7 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(optionsMenu, null);
         }
 
-        public void OpenFrameFlavourPanel() // Called via Unity Events
+        private void OpenFrameFlavourPanel()
         {
             if  (frameFlavourPanelPrefab == null) { return; }
             
@@ -142,25 +134,17 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(frameFlavourPanel, null);
         }
 
-        public void QuitGame() // Called via Unity Events
+        private void QuitGame()
         {
             SaveFileManager.LoadStartScene();
         }
-        #endregion
-        
-        #region PrivateMethods
-        private void ImplementSetUpChoiceOptions()
+
+        private void BuildChoiceOptions()
         {
-            if (!TryGetBoxView(out IUIBoxView _)) { StandardSetUpChoiceOptions(); return; }
-            
-            if (choiceOptions.Count == 0)
-            {
-                optionsChoice = AddNonDestroyChoiceOption(localizedOptionOptionsText.GetSafeLocalizedString(), OpenOptionsMenu);
-                flavourChoice = AddNonDestroyChoiceOption(localizedOptionFlavourText.GetSafeLocalizedString(), OpenFrameFlavourPanel);
-                AddSeparator();
-                quitChoice = AddNonDestroyChoiceOption(localizedOptionQuitText.GetSafeLocalizedString(), QuitGame);
-            }
-            ReconcileChoiceOptions();
+            optionsChoice = AddNonDestroyChoiceOption(localizedOptionOptionsText.GetSafeLocalizedString(), OpenOptionsMenu);
+            flavourChoice = AddNonDestroyChoiceOption(localizedOptionFlavourText.GetSafeLocalizedString(), OpenFrameFlavourPanel);
+            AddSeparator();
+            quitChoice = AddNonDestroyChoiceOption(localizedOptionQuitText.GetSafeLocalizedString(), QuitGame);
         }
 
         private static void SetChoiceText(IUIChoice choice, LocalizedString localizedString)

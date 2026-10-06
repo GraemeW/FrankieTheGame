@@ -6,7 +6,6 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using LowDefMustard.UIBox;
-using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Combat;
 using Frankie.Combat.UI;
@@ -25,17 +24,10 @@ namespace Frankie.Stats.UI
         private CombatParticipantModel selectedCharacter;
         private readonly Dictionary<CombatParticipant, CombatParticipantModel> characterModels = new();
 
-        // UIBox Configuration
-        protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
-        {
-            var statusBoxConfiguration = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
-            statusBoxConfiguration.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(setupChoiceOptions: ReconcileChoiceOptions));
-            return statusBoxConfiguration;
-        }
-
         #region UnityMethods
         protected override void AwakeTriggered()
         {
+            clearVolatileOptionsOnEnable = false;
             GetComponent<UIToolkitMenuView>().SetDataSource(statusBoxModel);
         }
 

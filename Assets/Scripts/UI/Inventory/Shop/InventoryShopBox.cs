@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -15,22 +16,20 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryShopBox : InventoryBox
+    public sealed class InventoryShopBox : InventoryBox
     {
         // Tunables
         [Header("Inventory-Shop Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionSell;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionCancelSale;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageEquipItem;
-        [Header("Inventory-Shop Hookups")]
-        [SerializeField] private Transform statSheetParent;
         [Header("Inventory-Shop Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
-        [SerializeField] private StatChangeField statChangeFieldPrefab;
 
         // State
         private ShopType transactionType = ShopType.Both;
         private InventoryItem buyItem;
+        private bool isComparingStats = false;
         
         // UI State
         private DialogueBox equipConfirmBox;
@@ -73,14 +72,12 @@ namespace Frankie.Inventory.UI
         public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, Shopper setShopper, Shop setShop, ShopBox setShopBox, InventoryItem setBuyItem)
         {
             transactionType = ShopType.Buy;
-            
-            base.Setup(baseController, partyCombatConduit, null, false);
             shopper = setShopper;
             shop = setShop;
             shopBox = setShopBox;
             buyItem = setBuyItem;
             
-            RefreshKnapsackContents();
+            base.Setup(baseController, partyCombatConduit, null, false);
         }
 
         private void ImplementReconcileChoiceOptions()
@@ -93,29 +90,35 @@ namespace Frankie.Inventory.UI
         public void Setup(BaseController baseController, PlayerStateMachine setPlayerStateMachine, PartyCombatConduit partyCombatConduit, Shopper setShopper, Shop setShop)
         {
             transactionType = ShopType.Sell;
-
-            base.Setup(baseController, partyCombatConduit, null, false);
             playerStateMachine = setPlayerStateMachine;
             shopper = setShopper;
             shop = setShop;
+
+            base.Setup(baseController, partyCombatConduit, null, false);
 
             SetupWalletUI();
             baseController.AddInputReceiver(this, null);
         }
 
-        protected override void PopulateKnapsackContents()
+        protected override void RefreshKnapsackContents()
         {
-            CleanOldStatSheet();
-            switch (transactionType)
+            // Buying an equipable item:  the stat comparison stands in for the knapsack contents
+            IReadOnlyList<StatChangeLine> statChanges = Array.Empty<StatChangeLine>();
+            if (transactionType == ShopType.Buy && buyItem is EquipableItemBase equipableItem && CanEquipItem(equipableItem, out Equipment equipment) && selectedCharacter.TryGetComponent(out BaseStats baseStats))
             {
-                case ShopType.Buy:
-                    if (buyItem is EquipableItemBase equipableItem && CanEquipItem(equipableItem, out Equipment equipment)) { PopulateStatComparisonPanel(equipableItem, equipment); }
-                    else { base.PopulateKnapsackContents(); }
-                    break;
-                case ShopType.Sell:
-                    base.PopulateKnapsackContents();
-                    break;
+                statChanges = StatChangeLine.GetStatChanges(baseStats, equipment, equipableItem, equipableItem.GetEquipLocation());
             }
+            isComparingStats = statChanges.Count > 0;
+            SetStatChanges(statChanges);
+            base.RefreshKnapsackContents();
+        }
+
+        protected override bool ConfigureSlot(InventorySlotModel slotModel, KnapsackSlot knapsackSlot)
+        {
+            if (!isComparingStats) { return base.ConfigureSlot(slotModel, knapsackSlot); }
+
+            slotModel.isShown = false;
+            return false;
         }
 
         private void SetupWalletUI()
@@ -125,6 +128,7 @@ namespace Frankie.Inventory.UI
 
         protected override void DestroyTriggered()
         {
+            base.DestroyTriggered();
             if (shopBox != null) { shopBox.UpdateShopMessageToSuccess(); }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
             if (equipConfirmBox != null) { Destroy(equipConfirmBox.gameObject); }
@@ -135,7 +139,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region BuySpecificOverrides
-        protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true, bool triggerUIBoxModified = true)
+        protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
         {
             switch (transactionType)
             {
@@ -143,7 +147,7 @@ namespace Frankie.Inventory.UI
                     TryBuyForCharacter(character);
                     break;
                 case ShopType.Sell:
-                    base.ChooseCharacter(character, initializeCursor, triggerUIBoxModified);
+                    base.ChooseCharacter(character, initializeCursor);
                     break;
             }
         }
@@ -194,18 +198,6 @@ namespace Frankie.Inventory.UI
             return selectedCharacter.TryGetComponent(out equipment) && equipableItem.CanUseItem(equipment);
         }
         
-        private void PopulateStatComparisonPanel(EquipableItemBase equipableItem, Equipment equipment)
-        {
-            if (selectedKnapsack == null) { return; }
-            if (!selectedCharacter.TryGetComponent(out BaseStats baseStats)) { return; }
-            
-            foreach (StatComparison statComparison in Equipment.GetStatComparisons(baseStats, equipment, equipableItem, equipableItem.GetEquipLocation()))
-            {
-                StatChangeField statChangeField = Instantiate(statChangeFieldPrefab, statSheetParent);
-                statChangeField.Setup(statComparison);
-            }
-        }
-
         private DialogueBox SpawnEquipItemOptionBox(EquipableItemBase equipableItem, Equipment equipment)
         {
             var choiceActionPairs = new List<ChoiceActionPair>();
@@ -228,13 +220,6 @@ namespace Frankie.Inventory.UI
             return dialogueBox;
         }
         
-        private void CleanOldStatSheet()
-        {
-            foreach (Transform child in statSheetParent)
-            {
-                Destroy(child.gameObject);
-            }
-        }
         #endregion
 
         #region SellSpecificOverrides
@@ -309,11 +294,11 @@ namespace Frankie.Inventory.UI
         private DialogueBox SpawnSellMenu(int inventorySlot, bool destroyOnSale = false)
         {
             InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
-            Shop shop = shopper.GetCurrentShop();
-            if (inventoryItem == null || shop == null) { return null; }
+            Shop currentShop = shopper.GetCurrentShop();
+            if (inventoryItem == null || currentShop == null) { return null; }
 
-            int salePrice = Mathf.RoundToInt(inventoryItem.GetPrice() * shop.GetSaleDiscount());
-            string saleMessage = string.Format(shop.GetMessageForSale(), inventoryItem.GetDisplayName(), salePrice.ToString(CultureInfo.InvariantCulture));
+            int salePrice = Mathf.RoundToInt(inventoryItem.GetPrice() * currentShop.GetSaleDiscount());
+            string saleMessage = string.Format(currentShop.GetMessageForSale(), inventoryItem.GetDisplayName(), salePrice.ToString(CultureInfo.InvariantCulture));
 
             List<ChoiceActionPair> choiceActionPairs = GetChoiceActionPairs(inventorySlot);
             if (choiceActionPairs == null || choiceActionPairs.Count == 0) { return null; }

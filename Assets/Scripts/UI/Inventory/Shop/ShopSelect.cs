@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.UIBox;
@@ -13,22 +12,19 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopSelect : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class ShopSelect : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageIntro;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionBuy;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionSell;
-        [Header("Hookups")]
-        [SerializeField] private TMP_Text introTextField;
-        [SerializeField] private UIChoice choiceBuy;
-        [SerializeField] private UIChoice choiceSell;
-        
         [Header("Shop Prefabs")]
         [SerializeField] private ShopBox shopBoxPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
-        
-        // Bool
+
+        // State
+        private readonly ShopMessageModel shopMessageModel = new();
         private bool exitShopOnDestroy = true;
 
         // Cached Reference
@@ -45,16 +41,18 @@ namespace Frankie.Inventory.UI
         protected override void AwakeTriggered()
         {
             clearVolatileOptionsOnEnable = false;
+            GetComponent<UIToolkitMenuView>().SetDataSource(shopMessageModel);
         }
 
         protected override void StartTriggered()
         {
             shop = shopper.GetCurrentShop();
             if (shop == null || !shop.HasInventory()) { Destroy(gameObject); return; }
-            
-            if (introTextField != null) { introTextField.SetText(localizedMessageIntro.GetSafeLocalizedString()); }
-            if (choiceBuy != null) { choiceBuy.SetText(localizedOptionBuy.GetLocalizedString()); }
-            if (choiceSell != null) { choiceSell.SetText(localizedOptionSell.GetLocalizedString()); }
+
+            shopMessageModel.messageText = localizedMessageIntro.GetSafeLocalizedString();
+            AddNonDestroyChoiceOption(localizedOptionBuy.GetSafeLocalizedString(), SpawnBuyScreen);
+            AddNonDestroyChoiceOption(localizedOptionSell.GetSafeLocalizedString(), SpawnSellScreen);
+            ReconcileChoiceOptions();
 
             ShopType shopType = shop.GetShopType();
             switch (shopType)
@@ -72,7 +70,7 @@ namespace Frankie.Inventory.UI
         {
             if (exitShopOnDestroy && playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
-        
+
         private bool GetPlayerReference()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
@@ -83,23 +81,27 @@ namespace Frankie.Inventory.UI
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
             if (playerController == null) { return false; }
-            
+
             playerController.AddInputReceiver(this, null);
             return true;
         }
         #endregion
-        
-        #region LocalizationMethods
 
+        #region LocalizationMethods
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
         {
-            throw new System.NotImplementedException();
+            return new List<TableEntryReference>
+            {
+                localizedMessageIntro.TableEntryReference,
+                localizedOptionBuy.TableEntryReference,
+                localizedOptionSell.TableEntryReference,
+            };
         }
         #endregion
 
-        #region PublicMethods
-        public void SpawnBuyScreen() // Called by Unity Events
+        #region PrivateMethods
+        private void SpawnBuyScreen()
         {
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
@@ -108,7 +110,7 @@ namespace Frankie.Inventory.UI
             Destroy(gameObject);
         }
 
-        public void SpawnSellScreen() // Called by Unity Events
+        private void SpawnSellScreen()
         {
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 

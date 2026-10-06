@@ -1,42 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using UnityEngine.UIElements;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Combat;
 using Frankie.Stats;
+using Frankie.Stats.UI;
 using Frankie.Combat.UI;
 using Frankie.Speech.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class EquipmentBox : UIBox<EquipmentBoxState>, IUIItemHandler, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class EquipmentBox : UIBox<EquipmentBoxState>, ILocalizable
     {
         // Tunables
-        [Header("Data Links")]
-        [SerializeField] private TextMeshProUGUI selectedCharacterNameField;
-        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")] [SerializeField] private UIChoiceButton[] equipmentChangeConfirmOptions;
-        [Header("Parents")]
-        [SerializeField] private Transform leftEquipment;
-        [SerializeField] private Transform rightEquipment;
-        [SerializeField] private GameObject equipmentChangeMenu;
-        [SerializeField] private Transform statSheetParent;
-        [Header("Hookups")] 
-        [SerializeField] private UIChoiceButton confirmEquipmentChange;
-        [SerializeField] private UIChoiceButton rejectEquipmentChange;
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
         [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
-        [SerializeField] private InventoryItemField inventoryItemFieldPrefab;
         [SerializeField] private EquipmentInventoryBox equipmentInventoryBoxPrefab;
-        [SerializeField] private StatChangeField statChangeFieldPrefab;
         [Header("Info/Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedEmptyEquipmentItem;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNoValidItems;
@@ -44,24 +33,27 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionEquip;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionRemove;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmChoiceAffirmative;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmChoiceNegative;
 
         // State -- UI
-        private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
-        private readonly List<InventoryItemField> equipableItemChoiceOptions = new();
-        
+        private readonly ItemBoxModel itemBoxModel = new();
+        private readonly List<IUIChoice> characterChoices = new();
+        private readonly List<InventorySlotHandle> equipmentSlotHandles = new(); // One per equip location, re-texted as the equipment changes
+        private readonly List<IUIChoice> confirmChoices = new();
+        private readonly Dictionary<Equipment, EquipmentModel> equipmentModels = new();
+
         // State
         private bool isPartySolo = false;
         private CombatParticipant selectedCharacter;
-        private Equipment selectedEquipment;
+        private EquipmentModel selectedEquipmentModel;
         private EquipLocation selectedEquipLocation = EquipLocation.None;
         private EquipableItemBase selectedItem;
 
         // Cached References
+        private UIToolkitMenuView menuView;
         private readonly List<ICharacterSlide> characterSlides = new();
 
-        // Events
-        public event Action<Enum> uiBoxStateChanged;
-        
         // UIBox Configuration
         protected override EnumLookup<EquipmentBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
@@ -85,31 +77,28 @@ namespace Frankie.Inventory.UI
             );
             return equipmentConfiguration;
         }
-        
+
         #region UnityMethods
         protected override void AwakeTriggered()
         {
             uiState = EquipmentBoxState.InCharacterSelection;
-            if (confirmEquipmentChange != null) { confirmEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(true));}
-            if (rejectEquipmentChange != null) { rejectEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(false)); }
+            menuView = GetComponent<UIToolkitMenuView>();
+            menuView.SetDataSource(itemBoxModel);
         }
 
-        protected override void EnableTriggered()
+        protected override void DestroyTriggered()
         {
-            ListenToSelectedEquipment(true);
-        }
-
-        protected override void DisableTriggered()
-        {
-            ListenToSelectedEquipment(false);
+            SetSelectedEquipment(null);
+            foreach (EquipmentModel equipmentModel in equipmentModels.Values) { equipmentModel.Dispose(); }
+            equipmentModels.Clear();
         }
         #endregion
-        
-        #region LocalizationMethods
 
+        #region LocalizationMethods
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
         {
+            // Note:  Confirm choices re-use localization keys from StandardConfirmationMenu (not returned, to prevent deletion of its keys)
             return new List<TableEntryReference>
             {
                 localizedEmptyEquipmentItem.TableEntryReference,
@@ -126,68 +115,40 @@ namespace Frankie.Inventory.UI
         public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<ICharacterSlide> setCharacterSlides)
         {
             if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
-            
+
             controller = baseController;
             isPartySolo = partyCombatConduit.IsPartySolo();
-            
-            SetupPartySelection(partyCombatConduit);
-            
+
+            // Note:  Choice execution raises ItemSelected (sound) - no further raise on choosing a character
+            var partySelector = new PartySelector(partyCombatConduit, AddNonDestroyChoiceOption, character => ChooseCharacter(character), SoftChooseCharacter);
+            characterChoices.AddRange(partySelector.choices);
+            confirmChoices.Add(AddConfirmChoice(localizedConfirmChoiceAffirmative.GetSafeLocalizedString(), () => ConfirmEquipmentChange(true)));
+            confirmChoices.Add(AddConfirmChoice(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => ConfirmEquipmentChange(false)));
+
             characterSlides.Clear();
-            foreach (ICharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
-            
+            if (setCharacterSlides != null) { characterSlides.AddRange(setCharacterSlides); }
+
             SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
             ShowCursorOnAnyInteraction(ControllerInputType.Execute);
             if (isPartySolo) { Choose(null); }
         }
 
-        private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
+        private IUIChoice AddConfirmChoice(string choiceText, Action action)
         {
-            int choiceIndex = 0;
-            foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
-            {
-                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-                var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
-                uiChoiceOption.SetChoiceOrder(choiceIndex);
-                uiChoiceOption.DisableOnClickListeners();
-                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
-                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
-                uiChoiceOption.SetText(character.GetCombatName());
-                uiChoiceOption.SetValidColor(choiceIndex == 0);
-                uiChoiceOption.UseInvalidChoiceDimming(true);
-
-                playerSelectChoiceOptions.Add(uiChoiceOption);
-                choiceIndex++;
-            }
-        }
-
-        private void SetSelectedEquipment(Equipment equipment)
-        {
-            ListenToSelectedEquipment(false); // Remove subscription to current equipment
-            selectedEquipment = equipment;
-            ListenToSelectedEquipment(true); // Attach subscription to new equipment
-        }
-
-        private void ListenToSelectedEquipment(bool enable)
-        {
-            if (selectedEquipment == null) { return; }
-            
-            if (enable) { selectedEquipment.equipmentUpdated += HandleEquipmentUpdated; }
-            else { selectedEquipment.equipmentUpdated -= HandleEquipmentUpdated; }
+            var confirmChoice = new ChoiceEntryHandle(menuView, choiceText, true, () => StandardChoiceExecution(action, false), null, typeof(EquipmentConfirmContainer));
+            menuView.AddEntry(confirmChoice);
+            return confirmChoice;
         }
 
         public void SetSelectedItem(EquipableItemBase equipableItem)
         {
-            if (equipableItem == null) { return; }
+            if (equipableItem == null || selectedEquipmentModel == null) { return; }
+            if (!selectedCharacter.TryGetComponent(out BaseStats baseStats)) { return; }
 
             selectedItem = equipableItem;
-            GenerateStatConfirmationMenu();
             SetEquipmentBoxState(EquipmentBoxState.InStatConfirmation);
-            MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined);
-        }
-
-        private void HandleEquipmentUpdated(EquipableItemBase equipableItem)
-        {
-            ResetEquipmentBox(false);
+            itemBoxModel.statChanges = StatChangeLine.GetStatChanges(baseStats, selectedEquipmentModel.equipment, selectedItem, selectedEquipLocation);
+            SetHighlightedChoice(confirmChoices[0]);
         }
 
         private void ImplementSetUpChoiceOptions()
@@ -196,13 +157,13 @@ namespace Frankie.Inventory.UI
             switch (uiState)
             {
                 case EquipmentBoxState.InEquipmentSelection:
-                    choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
+                    choiceOptions.AddRange(equipmentSlotHandles);
                     break;
                 case EquipmentBoxState.InCharacterSelection:
-                    choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
+                    choiceOptions.AddRange(characterChoices);
                     break;
                 case EquipmentBoxState.InStatConfirmation:
-                    choiceOptions.AddRange(equipmentChangeConfirmOptions);
+                    choiceOptions.AddRange(confirmChoices);
                     break;
             }
 
@@ -213,7 +174,7 @@ namespace Frankie.Inventory.UI
         {
             if (selectedCharacter != null && !clearSelectedCharacter)
             {
-                ChooseCharacter(selectedCharacter, true); // Resets chosen item & slot -> pulls to equipment selection
+                ChooseCharacter(selectedCharacter); // Resets chosen item & slot -> pulls to equipment selection
             }
             else
             {
@@ -224,20 +185,11 @@ namespace Frankie.Inventory.UI
 
         private void ClearAllChoices()
         {
-            foreach (UIChoiceButton dialogueChoiceOption in playerSelectChoiceOptions)
-            {
-                dialogueChoiceOption.Highlight(false);
-                dialogueChoiceOption.SetValidColor(ReferenceEquals(dialogueChoiceOption, highlightedChoiceOption));
-            }
-            foreach (InventoryItemField inventoryItemField in equipableItemChoiceOptions)
-            {
-                inventoryItemField.Highlight(false);
-            }
-            foreach (UIChoiceButton dialogueChoiceOption in equipmentChangeConfirmOptions)
-            {
-                dialogueChoiceOption.Highlight(false);
-            }
-            highlightedChoiceOption = null;
+            // Note:  Covers every list, since only one of them is in choiceOptions at a time
+            foreach (IUIChoice characterChoice in characterChoices) { characterChoice.Highlight(false); }
+            foreach (InventorySlotHandle equipmentSlotHandle in equipmentSlotHandles) { equipmentSlotHandle.Highlight(false); }
+            foreach (IUIChoice confirmChoice in confirmChoices) { confirmChoice.Highlight(false); }
+            ClearChoiceSelections();
         }
 
         private void SetEquipmentBoxState(EquipmentBoxState setEquipmentBoxState, bool bypassSoloCheck = false)
@@ -248,124 +200,143 @@ namespace Frankie.Inventory.UI
                 destroyQueued = true;
                 return;
             }
-            
-            uiState = setEquipmentBoxState;
-            equipmentChangeMenu.SetActive(setEquipmentBoxState == EquipmentBoxState.InStatConfirmation);
-            SetUpChoiceOptions();
 
-            uiBoxStateChanged?.Invoke(setEquipmentBoxState);
+            uiState = setEquipmentBoxState;
+            if (uiState != EquipmentBoxState.InStatConfirmation)
+            {
+                itemBoxModel.statChanges = Array.Empty<StatChangeLine>(); // Collapses the confirmation menu
+                foreach (IUIChoice confirmChoice in confirmChoices) { confirmChoice.Highlight(false); }
+            }
+            SetUpChoiceOptions();
         }
         #endregion
 
         #region Interaction
-        private void ChooseCharacter(CombatParticipant character, bool forceChoose = false, bool initializeCursor = true, bool triggerUIBoxModified = true)
+        private void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
         {
             selectedEquipLocation = EquipLocation.None;
             selectedItem = null;
             if (character == null)
             {
-                SetSelectedEquipment(null);
                 SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection);
                 return;
             }
 
-            if (character != selectedCharacter || forceChoose)
+            if (character != selectedCharacter)
             {
-                if (triggerUIBoxModified) { TriggerUIBoxModified(ReceiverModifiedType.ItemSelected, new ReceiverModifiedData(this)); }
-
                 selectedCharacter = character;
-                selectedCharacterNameField.text = selectedCharacter.GetCombatName();
+                itemBoxModel.characterName = selectedCharacter.GetCombatName();
+                SetSelectedEquipment(selectedCharacter.GetComponent<Equipment>());
+                foreach (InventorySlotHandle equipmentSlotHandle in equipmentSlotHandles) { equipmentSlotHandle.Highlight(false); }
+                if (highlightedChoiceOption is InventorySlotHandle) { ClearChoiceSelections(); } // Cursor restarts for the new character
                 RefreshEquipment();
             }
             SetEquipmentBoxState(EquipmentBoxState.InEquipmentSelection);
 
-            if (initializeCursor) { MoveCursor(ControllerInputType.NavigateRight, CursorMovementStyle.Combined); }
+            if (initializeCursor) { InitializeCursor(); }
         }
 
         private void SoftChooseCharacter(CombatParticipant character)
         {
-            ChooseCharacter(character, false, false, false);
+            ChooseCharacter(character, false);
             SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
+        }
+
+        private void InitializeCursor()
+        {
+            // Note:  Rows persist across equipment changes, so the cursor returns to the row it was last on (e.g. after a confirmation)
+            if (!IsChoiceAvailable() || choiceOptions.Count == 0) { return; }
+            if (IsChoiceAlive(highlightedChoiceOption) && choiceOptions.Contains(highlightedChoiceOption)) { return; }
+
+            IUIChoice lastEquipmentSlot = equipmentSlotHandles.FirstOrDefault(equipmentSlotHandle => equipmentSlotHandle.model.isHighlighted);
+            SetHighlightedChoice(lastEquipmentSlot ?? choiceOptions[0]);
         }
         #endregion
 
         #region EquipmentBehaviour
+        private void SetSelectedEquipment(Equipment equipment)
+        {
+            if (selectedEquipmentModel != null) { selectedEquipmentModel.propertyChanged -= HandleSelectedEquipmentChanged; }
+            selectedEquipmentModel = equipment != null ? GetOrBuildEquipmentModel(equipment) : null;
+            if (selectedEquipmentModel != null) { selectedEquipmentModel.propertyChanged += HandleSelectedEquipmentChanged; }
+        }
+
+        private EquipmentModel GetOrBuildEquipmentModel(Equipment equipment)
+        {
+            if (equipmentModels.TryGetValue(equipment, out EquipmentModel equipmentModel)) { return equipmentModel; }
+
+            equipmentModel = new EquipmentModel(equipment);
+            equipmentModels[equipment] = equipmentModel;
+            return equipmentModel;
+        }
+
+        private void HandleSelectedEquipmentChanged(object sender, BindablePropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            RefreshEquipment();
+            ResetEquipmentBox(false);
+        }
+
         private void RefreshEquipment()
         {
-            CleanUpOldEquipment();
+            if (selectedEquipmentModel == null) { return; }
 
-            if (!selectedCharacter.TryGetComponent(out Equipment selectedCharacterEquipment)) { return; }
-            SetSelectedEquipment(selectedCharacterEquipment);
-
-            int i = 0;
-            foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
+            IReadOnlyList<EquipmentSlot> equipmentSlots = selectedEquipmentModel.slots;
+            for (int slot = 0; slot < equipmentSlots.Count; slot++)
             {
-                if (equipLocation == EquipLocation.None) { continue; }
-                SetupItem(inventoryItemFieldPrefab, i % 2 == 0 ? leftEquipment : rightEquipment, (int)equipLocation);
-                i++;
+                EquipmentSlot equipmentSlot = equipmentSlots[slot];
+                if (slot >= equipmentSlotHandles.Count) { BuildEquipmentSlotHandle(equipmentSlot.equipLocation); }
+
+                string itemName = equipmentSlot.hasItem ? equipmentSlot.item.GetDisplayName() : localizedEmptyEquipmentItem.GetSafeLocalizedString();
+                InventorySlotModel slotModel = equipmentSlotHandles[slot].model;
+                slotModel.text = $"{LocalizationNames.GetLocalizedName(equipmentSlot.equipLocation)}:  {itemName}";
+                slotModel.isShown = true;
             }
         }
 
-        private void CleanUpOldEquipment()
+        private void BuildEquipmentSlotHandle(EquipLocation equipLocation)
         {
-            equipableItemChoiceOptions.Clear();
-            foreach (Transform child in leftEquipment) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
-            foreach (Transform child in rightEquipment) { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
-            SetSelectedEquipment(null);
+            // Note:  Locations alternate columns, so choice order reads left-to-right, top-to-bottom for MoveCursor2D
+            var equipmentSlotHandle = new InventorySlotHandle(menuView, equipmentSlotHandles.Count % 2 == 1, () => HandleEquipLocationChosen(equipLocation));
+            menuView.AddEntry(equipmentSlotHandle);
+            equipmentSlotHandles.Add(equipmentSlotHandle);
         }
 
-        private void GenerateStatConfirmationMenu()
+        private void HandleEquipLocationChosen(EquipLocation equipLocation)
         {
-            CleanOldStatSheet();
-            if (!selectedCharacter.TryGetComponent(out BaseStats baseStats)) { return; }
-            
-            foreach (StatComparison statComparison in Equipment.GetStatComparisons(baseStats, selectedEquipment, selectedItem, selectedEquipLocation))
-            {
-                StatChangeField statChangeField = Instantiate(statChangeFieldPrefab, statSheetParent);
-                statChangeField.Setup(statComparison);
-            }
-        }
-        
-        private void CleanOldStatSheet()
-        {
-            foreach (Transform child in statSheetParent)
-            {
-                { if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); } }
-            }
+            if (uiState is not (EquipmentBoxState.InEquipmentSelection or EquipmentBoxState.InCharacterSelection)) { return; }
+            StandardChoiceExecution(() => ChooseEquipLocation(equipLocation), false);
         }
         #endregion
 
         #region UserBehaviour
-        private void ChooseEquipLocation(int selector)
+        private void ChooseEquipLocation(EquipLocation equipLocation)
         {
-            EquipLocation equipLocation = (EquipLocation)selector;
-            if (equipLocation == EquipLocation.None || selectedEquipment == null) { return; }
+            if (equipLocation == EquipLocation.None || selectedEquipmentModel == null) { return; }
 
-            if (selectedEquipment.HasItemInSlot(equipLocation))
+            if (selectedEquipmentModel.equipment.HasItemInSlot(equipLocation))
             {
                 var choiceActionPairs = new List<ChoiceActionPair>();
-                var equipActionPair = new ChoiceActionPair(localizedOptionEquip.GetSafeLocalizedString(), () => ExecuteChooseEquipLocation(selector));
+                var equipActionPair = new ChoiceActionPair(localizedOptionEquip.GetSafeLocalizedString(), () => ExecuteChooseEquipLocation(equipLocation));
                 choiceActionPairs.Add(equipActionPair);
-                var removeActionPair = new ChoiceActionPair(localizedOptionRemove.GetSafeLocalizedString(), () => ExecuteRemoveEquipment(selector));
+                var removeActionPair = new ChoiceActionPair(localizedOptionRemove.GetSafeLocalizedString(), () => ExecuteRemoveEquipment(equipLocation));
                 choiceActionPairs.Add(removeActionPair);
 
                 DialogueOptionBox equipmentOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 equipmentOptionMenu.Setup(localizedOptionText.GetSafeLocalizedString());
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
-                
+
                 controller.AddInputReceiver(equipmentOptionMenu, () => ResetEquipmentBox(false));
                 equipmentOptionMenu.ClearDisableCallbacksOnChoose(true);
                 SetEquipmentBoxState(EquipmentBoxState.InEquipmentOptionMenu);
             }
             else
             {
-                ExecuteChooseEquipLocation(selector);
+                ExecuteChooseEquipLocation(equipLocation);
             }
         }
 
-        private void ExecuteChooseEquipLocation(int selector)
+        private void ExecuteChooseEquipLocation(EquipLocation equipLocation)
         {
-            EquipLocation equipLocation = (EquipLocation)selector;
             if (!selectedCharacter.TryGetComponent(out Knapsack knapsack)) { return; }
 
             if (knapsack.HasAnyEquipableItem(equipLocation))
@@ -380,13 +351,11 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        private void ExecuteRemoveEquipment(int selector)
+        private void ExecuteRemoveEquipment(EquipLocation equipLocation)
         {
-            if (selectedEquipment == null) { return; }
+            if (selectedEquipmentModel == null) { return; }
 
-            var equipLocation = (EquipLocation)selector;
-            selectedEquipment.RemoveEquipment(equipLocation, true);
-
+            selectedEquipmentModel.equipment.RemoveEquipment(equipLocation, true);
             SpawnMessage(localizedMessageUnequip.GetSafeLocalizedString());
         }
 
@@ -400,10 +369,10 @@ namespace Frankie.Inventory.UI
         private void SpawnInventoryBox()
         {
             if (selectedEquipLocation == EquipLocation.None) { return; }
-            
-            EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
+
+            EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent);
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
-            canvasGroup.alpha = 0.0f;
+            SetVisible(false);
             controller.AddInputReceiver(inventoryBox, () => SetVisible(true));
         }
 
@@ -411,12 +380,12 @@ namespace Frankie.Inventory.UI
         {
             if (confirm)
             {
-                selectedEquipment.AddEquipment(selectedItem, true);
+                selectedEquipmentModel.equipment.AddEquipment(selectedItem, true);
             }
             else
             {
                 // Reset chosen item & slot -> pulls to equipment selection
-                ChooseCharacter(selectedCharacter, true);
+                ChooseCharacter(selectedCharacter);
             }
         }
         #endregion
@@ -432,24 +401,6 @@ namespace Frankie.Inventory.UI
         {
             ResetEquipmentBox(true);
             return true;
-        }
-
-        public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
-        {
-            var equipLocation = (EquipLocation)selector;
-            string itemName = localizedEmptyEquipmentItem.GetSafeLocalizedString();
-            if (selectedEquipment.HasItemInSlot(equipLocation))
-            {
-                itemName = selectedEquipment.GetItemInSlot(equipLocation).GetDisplayName();
-            }
-            string fieldName = $"{LocalizationNames.GetLocalizedName(equipLocation)}:  {itemName}";
-
-            InventoryItemField inventoryItemField = Instantiate(setInventoryItemFieldPrefab, container);
-            inventoryItemField.SetText(fieldName);
-            inventoryItemField.SetupButtonAction(this, ChooseEquipLocation, selector);
-            equipableItemChoiceOptions.Add(inventoryItemField);
-
-            return inventoryItemField;
         }
         #endregion
     }

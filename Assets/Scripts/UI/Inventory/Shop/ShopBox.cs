@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using TMPro;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Core;
@@ -14,23 +14,24 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopBox : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class ShopBox : UIBox<UIBoxState>, ILocalizable
     {
         // Tunables
         [Header("Shop Specific Details")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedShopInfoDefault;
-        [SerializeField] private TMP_Text shopInfoField;
         [Header("Prefabs")]
-        [SerializeField] private ShopStockRow stockRowPrefab;
         [SerializeField] private WalletUI walletUIPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
         [SerializeField] private DialogueBox dialogueBoxPrefab;
-        
+
         // State
+        private readonly ShopMessageModel shopMessageModel = new();
         private WalletUI walletUI;
         private InventoryShopBox activeInventoryShopBox;
 
         // Cached Reference
+        private UIToolkitMenuView menuView;
         private WorldCanvas worldCanvas;
         private PlayerStateMachine playerStateMachine;
         private PlayerController playerController;
@@ -43,12 +44,14 @@ namespace Frankie.Inventory.UI
         protected override void AwakeTriggered()
         {
             clearVolatileOptionsOnEnable = false;
+            menuView = GetComponent<UIToolkitMenuView>();
+            menuView.SetDataSource(shopMessageModel);
         }
 
         protected override void StartTriggered()
         {
             walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
-            if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
+            UpdateShopMessage(localizedShopInfoDefault.GetSafeLocalizedString());
         }
 
         protected override void DestroyTriggered()
@@ -68,7 +71,7 @@ namespace Frankie.Inventory.UI
             };
         }
         #endregion
-        
+
         #region PublicMethods
         public void Setup(WorldCanvas setWorldCanvas, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
         {
@@ -86,12 +89,9 @@ namespace Frankie.Inventory.UI
             playerController.AddInputReceiver(this, null);
         }
 
-        public void UpdateShopMessage(string message) // Callable via Unity Events
-        {
-            shopInfoField.text = message;
-        }
+        private void UpdateShopMessage(string message) => shopMessageModel.messageText = message;
 
-        public void UpdateShopMessageToSuccess() // Callable via Unity Events
+        public void UpdateShopMessageToSuccess()
         {
             if (shop == null) { return; }
             UpdateShopMessage(shop.GetMessageSuccess());
@@ -104,19 +104,22 @@ namespace Frankie.Inventory.UI
             shop = shopper.GetCurrentShop();
             if (shop == null) { destroyQueued = true; return; }
 
-            shopInfoField.text = shop.GetMessageIntro();
+            UpdateShopMessage(shop.GetMessageIntro());
 
-            ClearChoiceSelections();
-            int itemIndex = 0;
             foreach (InventoryItem inventoryItem in shop.GetShopStock())
             {
                 if (inventoryItem == null)  { continue; }
-                
-                ShopStockRow stockRow = Instantiate(stockRowPrefab, optionParent);
-                stockRow.Setup(inventoryItem.GetDisplayName(), itemIndex, inventoryItem.GetPrice(), delegate { TryPurchaseItem(inventoryItem); });
-                itemIndex++;
+
+                var shopStockModel = new ShopStockModel
+                {
+                    itemName = inventoryItem.GetDisplayName(),
+                    priceText = inventoryItem.GetPrice().ToString(CultureInfo.InvariantCulture)
+                };
+                var shopStockHandle = new ShopStockHandle(menuView, shopStockModel, () => StandardChoiceExecution(() => TryPurchaseItem(inventoryItem), false));
+                menuView.AddEntry(shopStockHandle);
+                choiceOptions.Add(shopStockHandle);
             }
-            SetUpChoiceOptions();
+            ReconcileChoiceOptions();
         }
 
         private void TryPurchaseItem(InventoryItem inventoryItem)

@@ -46,7 +46,6 @@ namespace Frankie.Menu.UI
         {
             var optionsMenuConfiguration = new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour(
-                setupChoiceOptions: ImplementSetUpChoiceOptions,
                 isBackInput: ImplementIsBackInput,
                 tryHandleBackNavigation: ImplementTryHandleBackNavigation);
             optionsMenuConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
@@ -58,6 +57,8 @@ namespace Frankie.Menu.UI
         {
             menuView = GetComponent<UIToolkitMenuView>();
             menuView.SetDataSource(optionsMenuModel);
+            clearVolatileOptionsOnEnable = false;
+            BuildChoiceOptions();
         }
 
         protected override void StartTriggered()
@@ -114,12 +115,6 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region ChoiceSetup
-        private void ImplementSetUpChoiceOptions()
-        {
-            if (choiceOptions.Count == 0) { BuildChoiceOptions(); }
-            ReconcileChoiceOptions();
-        }
-
         private void BuildChoiceOptions()
         {
             // Note:  Creation order is navigation order

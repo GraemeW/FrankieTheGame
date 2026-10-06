@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 namespace LowDefMustard.UIBox
 {
     // Base for UI Toolkit data sources:  push-based change notification for runtime data binding
-    // Usage:  mark bindable properties with [CreateProperty], route setters through SetProperty(...)
+    // Usage:  Mark bindable properties with [CreateProperty], route setters through SetProperty(...)
     public abstract class BindableModel : INotifyBindablePropertyChanged, IDataSourceViewHashProvider
     {
         // State

@@ -39,6 +39,11 @@
     --text-colour-default: rgb(255, 255, 255);
     --choice-dimmed-colour: rgb(128, 128, 128);
 
+    /* Inventory */
+    --equipped-marker-colour: rgb(163, 109, 238);
+    --stat-better-colour: rgb(0, 255, 0);
+    --stat-worse-colour: rgb(255, 0, 0);
+
     /* Pointer feedback */
     --choice-hover-colour: rgb(124, 171, 171);
     --choice-pressed-colour: rgb(51, 70, 70);

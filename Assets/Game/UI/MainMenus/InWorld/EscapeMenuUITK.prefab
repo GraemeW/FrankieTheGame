@@ -161,10 +161,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  escapeHeaderField: {fileID: 0}
-  optionOptionsField: {fileID: 0}
-  optionFlavourField: {fileID: 0}
-  optionQuitField: {fileID: 0}
   optionsMenuPrefab: {fileID: 7674250701885818725, guid: 5720a02cf4e647dbab75e3f4751e4986, type: 3}
   frameFlavourPanelPrefab: {fileID: 7805133161193838278, guid: 0df1af86d29bf48aa8d616f989f58b0f, type: 3}
 --- !u!1001 &3862317468064663527

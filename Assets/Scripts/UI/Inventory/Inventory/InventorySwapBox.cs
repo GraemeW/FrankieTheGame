@@ -12,7 +12,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventorySwapBox : InventoryBox
+    public sealed class InventorySwapBox : InventoryBox
     {
         // Tunables
         [Header("Inventory-Swap Messages")]
@@ -78,11 +78,6 @@ namespace Frankie.Inventory.UI
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
         }
         
-        protected override void ListenToKnapsack(bool enable)
-        {
-            // Skip listening to knapsack -- window only exists momentarily and then killed
-        }
-
         private void SwapItem(DialogueBox confirmationBox, bool execute, int inventorySlot)
         {
             if (execute)

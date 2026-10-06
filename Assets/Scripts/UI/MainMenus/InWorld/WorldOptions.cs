@@ -55,7 +55,6 @@ namespace Frankie.Menu.UI
         {
             var worldOptionsConfiguration =  new EnumLookup<UIBoxState,UIBoxStateBehaviour>();
             var defaultStateBehaviour = new UIBoxStateBehaviour(
-                setupChoiceOptions: ImplementSetUpChoiceOptions,
                 tryHandleBackNavigation: ImplementTryHandleBackNavigation);
             worldOptionsConfiguration.TrySet(UIBoxState.Default, defaultStateBehaviour);
             return worldOptionsConfiguration;
@@ -80,6 +79,8 @@ namespace Frankie.Menu.UI
         {
             menuView = GetComponent<UIToolkitMenuView>();
             keepPointerInputWhenInactive = true; // Choosing another option swaps out the open child box (and slides are click targets for it)
+            clearVolatileOptionsOnEnable = false;
+            BuildChoiceOptions();
         }
 
         protected override void StartTriggered()
@@ -160,17 +161,13 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region ProtectedPrivateMethods
-        private void ImplementSetUpChoiceOptions()
+        private void BuildChoiceOptions()
         {
-            if (choiceOptions.Count == 0)
-            {
-                AddNonDestroyChoiceOption(localizedKnapsackText.GetSafeLocalizedString(), OpenKnapsack);
-                AddNonDestroyChoiceOption(localizedOutfitText.GetSafeLocalizedString(), OpenEquipment);
-                AddNonDestroyChoiceOption(localizedAbilitiesText.GetSafeLocalizedString(), OpenAbilities);
-                AddNonDestroyChoiceOption(localizedStatusText.GetSafeLocalizedString(), OpenStatus);
-                AddNonDestroyChoiceOption(localizedMapText.GetSafeLocalizedString(), OpenMap);
-            }
-            ReconcileChoiceOptions();
+            AddNonDestroyChoiceOption(localizedKnapsackText.GetSafeLocalizedString(), OpenKnapsack);
+            AddNonDestroyChoiceOption(localizedOutfitText.GetSafeLocalizedString(), OpenEquipment);
+            AddNonDestroyChoiceOption(localizedAbilitiesText.GetSafeLocalizedString(), OpenAbilities);
+            AddNonDestroyChoiceOption(localizedStatusText.GetSafeLocalizedString(), OpenStatus);
+            AddNonDestroyChoiceOption(localizedMapText.GetSafeLocalizedString(), OpenMap);
         }
 
         private List<ICharacterSlide> GetCharacterSlides() => characterSlides.Cast<ICharacterSlide>().ToList();

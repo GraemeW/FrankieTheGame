@@ -1,0 +1,53 @@
+/* Shared by ShopBox (stock list) and ShopSelect (buy/sell prompt) */
+/* Top-centre anchored, offset */
+.shop-box-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.shop-box {
+    margin-top: 50px;
+    width: 880px;
+}
+
+.shop-select {
+    margin-top: 50px;
+    width: 575px;
+}
+
+.shop-box__message {
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+    -unity-text-align: upper-left;
+}
+
+/* ~ Stock Rows ~ */
+.shop-box .shop-box__stock {
+    margin-top: 48px;
+    padding: 0 49px 0 9px;
+}
+
+.shop-stock {
+    align-self: stretch;
+    height: 52px;
+}
+
+.shop-stock__name {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+}
+
+.shop-stock__price {
+    -unity-text-align: middle-right;
+}
+
+/* ~ Buy / Sell Prompt ~ */
+.shop-select .shop-select__choices {
+    margin-top: 48px;
+    padding: 0 60px;
+}

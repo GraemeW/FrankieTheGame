@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:inventory="Frankie.Inventory.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors ShopSelect.uxml with sample entries - keep in sync -->
+    <!-- Style order matches ShopSelect's view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="ShopBox.uss" />
+    <ui:VisualElement class="shop-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox shop-select">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <inventory:ShopMessageLabel text="What do you want to do?" class="shop-box__message" picking-mode="Ignore" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="shop-select__choices" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Buy" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Sell" />
+            </uibox:ChoiceEntryContainer>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

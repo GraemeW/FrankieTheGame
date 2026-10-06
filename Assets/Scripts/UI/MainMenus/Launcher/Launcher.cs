@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using LowDefMustard.UIBox;
-using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Saving;
 using Frankie.Stats;
@@ -28,20 +27,13 @@ namespace Frankie.Menu.UI
         protected abstract void BuildChoiceOptions();
         protected abstract void ResetMenuText();
 
-        // UIBox Configuration
-        protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
-        {
-            var launcherConfiguration = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
-            launcherConfiguration.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(setupChoiceOptions: ImplementSetUpChoiceOptions));
-            return launcherConfiguration;
-        }
-
         #region UnityMethods
         protected override void AwakeTriggered()
         {
             clearVolatileOptionsOnEnable = false;
             preventEscapeOptionExit = true;
             if (TryGetBoxView(out IUIBoxView view)) { view.SetDataSource(launcherModel); }
+            BuildChoiceOptions();
         }
 
         protected override void StartTriggered()
@@ -82,14 +74,6 @@ namespace Frankie.Menu.UI
         {
             SetActiveInput(false);
             SaveFileManager.LoadStartScene();
-        }
-        #endregion
-
-        #region PrivateMethods
-        private void ImplementSetUpChoiceOptions()
-        {
-            if (choiceOptions.Count == 0) { BuildChoiceOptions(); }
-            ReconcileChoiceOptions();
         }
         #endregion
     }

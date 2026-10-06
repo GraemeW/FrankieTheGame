@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:inventory="Frankie.Inventory.UI" editor-extension-mode="false">
+    <ui:VisualElement class="item-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox item-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="party-selector party-selector--dimmed" picking-mode="Ignore" />
+            <ui:VisualElement class="item-box__divider" picking-mode="Ignore" />
+            <inventory:ItemBoxCharacterLabel text="Name" class="item-box__name text-display" picking-mode="Ignore" />
+            <ui:VisualElement class="item-box__slots" picking-mode="Ignore">
+                <inventory:InventorySlotLeftColumn class="item-box__slots-left" picking-mode="Ignore" />
+                <inventory:InventorySlotRightColumn class="item-box__slots-right" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <inventory:StatChangeSection>
+                <ui:VisualElement class="item-box__divider equipment-box__divider" picking-mode="Ignore" />
+                <inventory:EquipmentConfirmContainer class="equipment-box__confirm" picking-mode="Ignore" />
+                <inventory:StatChangeListElement />
+            </inventory:StatChangeSection>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
