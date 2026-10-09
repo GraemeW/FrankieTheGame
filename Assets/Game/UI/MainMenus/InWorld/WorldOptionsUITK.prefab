@@ -171,7 +171,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  characterSlideText: {fileID: 11400000, guid: e651ed7b04c7448ba068406f0dc84f41, type: 2}
+  battleSlideText: {fileID: 11400000, guid: e651ed7b04c7448ba068406f0dc84f41, type: 2}
   walletUIPrefab: {fileID: 3399884933549309670, guid: fa1c608bd62d3d94392523e931df8915, type: 3}
   inventoryBoxPrefab: {fileID: 2437136854184657, guid: 45098d9dff6ed3c45a7908991cfceabe, type: 3}
   equipmentBoxPrefab: {fileID: 5904610809290143616, guid: cec1f16c9da529c4290d6fe89d23bdee, type: 3}

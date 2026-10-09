@@ -186,6 +186,7 @@ namespace Frankie.Sound
         private static AudioClip GetBattleAudioClip(IList<BattleEntity> battleEntities)
         {
             IList<CombatParticipant> viableCombatParticipants = CombatParticipant.GetPriorityCombatParticipants(battleEntities);
+            if (viableCombatParticipants.Count == 0) { return null; }
 
             int randomCombatParticipantIndex = Random.Range(0, viableCombatParticipants.Count);
             return viableCombatParticipants[randomCombatParticipantIndex].GetAudioClip();

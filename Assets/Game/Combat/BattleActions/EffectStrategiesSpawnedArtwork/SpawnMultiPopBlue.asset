@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpawnMultiPopBlue
   m_EditorClassIdentifier: 
   effectGUID: b916b237-8284-4597-b160-c98bdeabbb3d
-  graphicToSpawn: {fileID: 1975674204431004401, guid: eafcbd1520bac04489f48fb49104c4d3, type: 3}
-  isGlobalEffect: 0
+  effectMaterial: {fileID: 2100000, guid: 44b05c740a87f994098a480a039c97e8, type: 2}
+  effectColour: {r: 0.34617302, g: 0.8027256, b: 0.9811321, a: 1}
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

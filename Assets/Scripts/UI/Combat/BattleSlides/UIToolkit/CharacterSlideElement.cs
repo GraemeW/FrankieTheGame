@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Unity.Properties;
-using UnityEngine;
 using UnityEngine.UIElements;
 using LowDefMustard.UIBox;
 using Frankie.Utils.UI;
@@ -32,30 +31,13 @@ namespace Frankie.Combat.UI
         private const string _damageTextUssClassName = _ussClassName + "__damage-text";
         private const string _textDisplayUssClassName = "text-display";
 
-        // Const Tunables - Effects
-        private const float _damageShakeMagnitude = 10f;
-        private const float _criticalDamageShakeMultiplier = 2f;
-        private const float _shakeDuration = 0.4f;
-        private const int _shakeCount = 4;
-        private const float _dimmingMin = 0.7f;
-        private const float _halfDimmingTime = 0.1f;
-        private const float _growingMax = 1.2f;
-        private const float _halfGrowingTime = 0.125f;
-
         // State
         private CharacterSlideState internalSlideState = CharacterSlideState.Ready;
         private CharacterSlideModel subscribedModel;
-        private float shakeTime = Mathf.Infinity;
-        private float shakeStepTime;
-        private float shakeMagnitude;
-        private float lastRotationTarget;
-        private float currentRotationTarget;
-        private float dimTime = Mathf.Infinity;
-        private float growTime = Mathf.Infinity;
 
         // Cached References
         private readonly DamageTextSpawnerElement damageTextSpawner;
-        private readonly IVisualElementScheduledItem effectsUpdate;
+        private readonly SlideEffects slideEffects;
         private readonly List<VisualElement> characterBoundElements = new();
         private readonly Label nameLabel;
         private readonly Label hpStatLabel;
@@ -130,8 +112,7 @@ namespace Frankie.Combat.UI
             AddPart(new CooldownTimerElement(nameof(CharacterSlideModel.cooldown)), _cooldownUssClassName);
             AsCharacterBound(AddPart(new StatusEffectPanelElement(nameof(CombatParticipantModel.statusEffects)), _statusEffectsUssClassName));
 
-            effectsUpdate = schedule.Execute(UpdateEffects).Every(0);
-            effectsUpdate.Pause();
+            slideEffects = new SlideEffects(this, false); // Horizontal grow only
 
             SetBinding(nameof(slideState), UIToolkitBindings.ToTarget(nameof(CharacterSlideModel.slideState)));
             RegisterCallback<AttachToPanelEvent>(_ => SubscribeToModel(dataSource as CharacterSlideModel));
@@ -188,106 +169,10 @@ namespace Frankie.Combat.UI
         #region Effects
         private void SubscribeToModel(CharacterSlideModel model)
         {
-            if (subscribedModel != null)
-            {
-                subscribedModel.damageTextQueued -= damageTextSpawner.Enqueue;
-                subscribedModel.shakeRequested -= StartShake;
-                subscribedModel.dimBlipRequested -= StartDim;
-                subscribedModel.growBlipRequested -= StartGrow;
-            }
+            if (subscribedModel != null) { subscribedModel.damageTextQueued -= damageTextSpawner.Enqueue; }
             subscribedModel = model;
-            if (subscribedModel == null) { return; }
-
-            subscribedModel.damageTextQueued += damageTextSpawner.Enqueue;
-            subscribedModel.shakeRequested += StartShake;
-            subscribedModel.dimBlipRequested += StartDim;
-            subscribedModel.growBlipRequested += StartGrow;
-        }
-
-        private void StartShake(bool isStrong)
-        {
-            shakeMagnitude = _damageShakeMagnitude * (isStrong ? _criticalDamageShakeMultiplier : 1f);
-            SetShakeTarget();
-            shakeTime = 0f;
-            shakeStepTime = 0f;
-            effectsUpdate.Resume();
-        }
-
-        private void StartDim()
-        {
-            dimTime = 0f;
-            effectsUpdate.Resume();
-        }
-
-        private void StartGrow()
-        {
-            growTime = 0f;
-            effectsUpdate.Resume();
-        }
-
-        private void UpdateEffects()
-        {
-            float deltaTime = Time.deltaTime;
-            bool isShaking = UpdateShake(deltaTime);
-            bool isDimming = UpdateDim(deltaTime);
-            bool isGrowing = UpdateGrow(deltaTime);
-            if (!isShaking && !isDimming && !isGrowing) { effectsUpdate.Pause(); }
-        }
-
-        private bool UpdateShake(float deltaTime)
-        {
-            if (shakeTime > _shakeDuration)
-            {
-                style.rotate = StyleKeyword.Null;
-                return false;
-            }
-
-            const float stepDuration = _shakeDuration / _shakeCount;
-            if (shakeStepTime > stepDuration)
-            {
-                SetShakeTarget();
-                shakeStepTime = 0f;
-            }
-            style.rotate = new Rotate(Mathf.Lerp(lastRotationTarget, currentRotationTarget, shakeStepTime / stepDuration));
-
-            shakeStepTime += deltaTime;
-            shakeTime += deltaTime;
-            return true;
-        }
-
-        private void SetShakeTarget()
-        {
-            shakeMagnitude = Mathf.Max(0f, shakeMagnitude - _damageShakeMagnitude / _shakeCount);
-            lastRotationTarget = currentRotationTarget;
-            currentRotationTarget = Random.Range(-shakeMagnitude, shakeMagnitude);
-        }
-
-        private bool UpdateDim(float deltaTime)
-        {
-            if (dimTime >= 2f * _halfDimmingTime)
-            {
-                style.opacity = StyleKeyword.Null;
-                return false;
-            }
-
-            dimTime += deltaTime;
-            float dimProgress = dimTime < _halfDimmingTime ? dimTime / _halfDimmingTime : 2f - dimTime / _halfDimmingTime;
-            style.opacity = Mathf.Lerp(1f, _dimmingMin, Mathf.Clamp01(dimProgress));
-            return true;
-        }
-
-        private bool UpdateGrow(float deltaTime)
-        {
-            if (growTime >= 2f * _halfGrowingTime)
-            {
-                style.scale = StyleKeyword.Null;
-                return false;
-            }
-
-            growTime += deltaTime;
-            float growProgress = growTime < _halfGrowingTime ? growTime / _halfGrowingTime : 2f - growTime / _halfGrowingTime;
-            style.scale = new Scale(new Vector2(Mathf.Lerp(1f, _growingMax, Mathf.Clamp01(growProgress)), 1f)); // Horizontal only
-            return true;
+            if (subscribedModel != null) { subscribedModel.damageTextQueued += damageTextSpawner.Enqueue; }
+            slideEffects.Subscribe(subscribedModel);
         }
         #endregion
     }

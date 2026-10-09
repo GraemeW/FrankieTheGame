@@ -1,4 +1,4 @@
-/* Character slides:  350x360, pivot bottom-centre for shake/grow */
+/* Character slides:  Fixed size.  Pivot bottom-centre for shake/grow */
 
 .character-slides {
     flex-direction: row;
@@ -71,6 +71,29 @@
     justify-content: space-between;
     background-image: var(--slide-stats-pane-image);
     background-size: 44px 43px;
+}
+
+/* Pointer feedback:  the panes fade towards the backing (tint belongs to the frame flavour) */
+.frame.character-slide__name-pane,
+.frame.character-slide__stats-pane {
+    transition: opacity var(--choice-tint-duration);
+}
+
+.character-slide:hover > .character-slide__name-pane,
+.character-slide:hover > .character-slide__stats-pane {
+    opacity: var(--slide-hover-opacity);
+}
+
+.character-slide:active > .character-slide__name-pane,
+.character-slide:active > .character-slide__stats-pane {
+    opacity: var(--slide-pressed-opacity);
+}
+
+.uibox-view--pointer-input-disabled .character-slide:hover > .character-slide__name-pane,
+.uibox-view--pointer-input-disabled .character-slide:hover > .character-slide__stats-pane,
+.uibox-view--pointer-input-disabled .character-slide:active > .character-slide__name-pane,
+.uibox-view--pointer-input-disabled .character-slide:active > .character-slide__stats-pane {
+    opacity: 1;
 }
 
 .character-slide__name {

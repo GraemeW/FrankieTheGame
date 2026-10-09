@@ -52,7 +52,7 @@ namespace Frankie.Inventory.UI
 
         // Cached References
         private UIToolkitMenuView menuView;
-        private readonly List<ICharacterSlide> characterSlides = new();
+        private readonly List<CharacterSlideHandle> characterSlides = new();
 
         // UIBox Configuration
         protected override EnumLookup<EquipmentBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
@@ -112,7 +112,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Setup
-        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<ICharacterSlide> setCharacterSlides)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<CharacterSlideHandle> setCharacterSlides)
         {
             if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
 

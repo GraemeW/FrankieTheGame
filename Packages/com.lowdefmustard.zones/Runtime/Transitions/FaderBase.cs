@@ -87,19 +87,18 @@ namespace LowDefMustard.Zones
         #endregion
 
         #region UnityMethods
-
-        private void Awake()
+        protected virtual void Awake()
         {
             activeSceneLoader ??= new ReInitLazyValue<SceneLoaderBase>(FindSceneLoader);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             ResetOverlays();
             activeSceneLoader.ForceInit();
         }
         
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             // Fader is included in PersistentObjects and thus a singleton by standard implementation
             // So:  establish fader in static state for public method calls
@@ -107,7 +106,7 @@ namespace LowDefMustard.Zones
             TrySubscribeToSceneLoader(true);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (activeFade != null) { StopCoroutine(activeFade); }
             TrySubscribeToSceneLoader(false);

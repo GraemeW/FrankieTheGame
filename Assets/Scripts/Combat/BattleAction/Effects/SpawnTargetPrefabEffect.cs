@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Frankie.Combat.UI;
 
 namespace Frankie.Combat
@@ -9,7 +8,12 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Spawn Target Prefab Effect", menuName = "BattleAction/Effects/Spawn Target Prefab Effect", order = 15)]
     public class SpawnTargetPrefabEffect : EffectStrategy
     {
-        [SerializeField] private Image graphicToSpawn;
+        // Note:
+        //  - Standard effect is sized to the recipient's slide and tinted by the effect colour (i.e. one material serves every colour variant)
+        //  - Global effect covers the whole battle stage instead
+
+        [SerializeField] private Material effectMaterial;
+        [SerializeField] private Color effectColour = Color.white;
         [SerializeField] private bool isGlobalEffect = false;
         [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
@@ -17,38 +21,18 @@ namespace Frankie.Combat
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             BattleCanvas battleCanvas = BattleCanvas.FindBattleCanvas();
-            if (battleCanvas == null) { yield break; }
+            BattleStage battleStage = battleCanvas != null ? battleCanvas.GetBattleStage() : null;
+            if (battleStage == null) { yield break; }
 
-            foreach (Vector3 position in GetPositions(recipients, battleCanvas))
-            {
-                Image spawnedGraphic = Instantiate(graphicToSpawn, battleCanvas.transform);
-                spawnedGraphic.transform.position = position;
-
-                if (!Mathf.Approximately(destroyAfterSeconds, 0f))
-                {
-                    Destroy(spawnedGraphic.gameObject, destroyAfterSeconds);
-                }
-            }
-            yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));
-        }
-
-        private IEnumerable<Vector3> GetPositions(IEnumerable<BattleEntity> recipients, BattleCanvas battleCanvas)
-        {
-            if (!isGlobalEffect)
+            if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectColour, destroyAfterSeconds); }
+            else if (recipients != null)
             {
                 foreach (BattleEntity recipient in recipients)
                 {
-                    EnemySlide enemySlide = battleCanvas.GetEnemySlide(recipient);
-                    if (enemySlide != null)
-                    {
-                        yield return enemySlide.transform.position;
-                    }
+                    battleStage.SpawnEffect(recipient, effectMaterial, effectColour, destroyAfterSeconds);
                 }
             }
-            else
-            {
-                yield return Vector3.zero;
-            }
+            yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));
         }
     }
 }

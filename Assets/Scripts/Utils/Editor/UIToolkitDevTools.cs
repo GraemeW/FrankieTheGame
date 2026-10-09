@@ -31,7 +31,7 @@ namespace Frankie.Utils.UI.Editor
             Debug.Log($"[UIToolkitDevTools] Game view capture queued:  {Path.GetFullPath(capturePath)}");
         }
         
-                // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick and the EventSystem's raycast priority order
+        // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick and the EventSystem's raycast priority order
         [MenuItem(_menuRoot + "Log Pointer Targets %&u", false, 21)]
         private static void LogPointerTargets()
         {
@@ -63,6 +63,43 @@ namespace Frankie.Utils.UI.Editor
                 }
             }
             else { log.AppendLine("  No EventSystem.current"); }
+
+            // World-space panels are picked via 3D physics rays against a collider on the panel's GameObject
+            log.AppendLine("World-space panels:");
+            foreach (PanelRenderer panelRenderer in Object.FindObjectsByType<PanelRenderer>())
+            {
+                if (panelRenderer.panelSettings == null || panelRenderer.panelSettings.renderMode != PanelRenderMode.WorldSpace) { continue; }
+
+                var panelDescription = new StringBuilder($"  {panelRenderer.name} (layer {LayerMask.LayerToName(panelRenderer.gameObject.layer)}, position {panelRenderer.transform.position}, scale {panelRenderer.transform.lossyScale}, bounds {panelRenderer.bounds}):");
+                Collider[] panelColliders = panelRenderer.GetComponentsInChildren<Collider>(true);
+                if (panelColliders.Length == 0) { panelDescription.Append("  no collider"); }
+                foreach (Collider panelCollider in panelColliders)
+                {
+                    panelDescription.Append($"  {panelCollider.GetType().Name} on {panelCollider.name} (enabled {panelCollider.enabled}, trigger {panelCollider.isTrigger}, bounds {panelCollider.bounds})");
+                }
+                log.AppendLine(panelDescription.ToString());
+            }
+
+            PanelInputConfiguration panelInputConfiguration = Object.FindAnyObjectByType<PanelInputConfiguration>();
+            log.AppendLine(panelInputConfiguration == null
+                ? "PanelInputConfiguration:  none (defaults)"
+                : $"PanelInputConfiguration:  processWorldSpaceInput {panelInputConfiguration.processWorldSpaceInput}, interactionLayers {panelInputConfiguration.interactionLayers.value}, maxInteractionDistance {panelInputConfiguration.maxInteractionDistance}, redirection {panelInputConfiguration.panelInputRedirection}");
+
+            log.AppendLine("Physics ray from the main camera (nearest first, triggers included):");
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                Ray pointerRay = mainCamera.ScreenPointToRay(screenPosition);
+                // ReSharper disable once Unity.PreferNonAllocApi
+                RaycastHit[] raycastHits = Physics.RaycastAll(pointerRay, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide);
+                Array.Sort(raycastHits, (first, second) => first.distance.CompareTo(second.distance));
+                if (raycastHits.Length == 0) { log.AppendLine($"  No hits (ray origin {pointerRay.origin}, direction {pointerRay.direction})"); }
+                foreach (RaycastHit raycastHit in raycastHits)
+                {
+                    log.AppendLine($"  {raycastHit.collider.name} (layer {LayerMask.LayerToName(raycastHit.collider.gameObject.layer)}, distance {raycastHit.distance})");
+                }
+            }
+            else { log.AppendLine("  No main camera"); }
             
             Debug.Log(log.ToString());
         }

@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   styleSheets:
+  - {fileID: 7433441132597879392, guid: bd40530991c54f68a40e626906952ff6, type: 3}
   - {fileID: 7433441132597879392, guid: 28c34b4dc45a4661bdbabbfad454ac0a, type: 3}
 --- !u!114 &3882051793446072005
 MonoBehaviour:
@@ -126,14 +127,6 @@ MonoBehaviour:
   optionButtonPrefab: {fileID: 0}
   optionSliderPrefab: {fileID: 0}
   defaultNoText: --
-  selectedCharacterNameField: {fileID: 0}
-  skillField: {fileID: 0}
-  upField: {fileID: 0}
-  leftField: {fileID: 0}
-  rightField: {fileID: 0}
-  downField: {fileID: 0}
-  noSkillColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  selectedSkillColor: {r: 1, g: 0.9333334, b: 0.5490196, a: 1}
   localizedStatLabel:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082

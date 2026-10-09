@@ -61,7 +61,7 @@ namespace Frankie.Inventory.UI
         private BattleController battleController;
         private PartyCombatConduit partyCombatConduit;
         private IReadOnlyList<BattleEntity> partyBattleEntities = Array.Empty<BattleEntity>();
-        private readonly List<ICharacterSlide> characterSlides = new();
+        private readonly List<CharacterSlideHandle> characterSlides = new();
 
         // Events
         public event Action<BattleEntitySelectionType, IEnumerable<BattleEntity>> targetCharacterChanged;
@@ -141,7 +141,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Setup
-        public void Setup(BaseController baseController, PartyCombatConduit setPartyCombatConduit, List<ICharacterSlide> setCharacterSlides, bool useSoloAutoSelect = true)
+        public void Setup(BaseController baseController, PartyCombatConduit setPartyCombatConduit, List<CharacterSlideHandle> setCharacterSlides, bool useSoloAutoSelect = true)
         {
             if (baseController == null || setPartyCombatConduit == null) { destroyQueued = true;  return; }
 
@@ -162,7 +162,7 @@ namespace Frankie.Inventory.UI
         }
 
         // For derivative Inventory Boxes w/ single party member instantiation for specific application
-        protected void Setup(CombatParticipant character, List<ICharacterSlide> setCharacterSlides)
+        protected void Setup(CombatParticipant character, List<CharacterSlideHandle> setCharacterSlides)
         {
             SetCharacterSlides(setCharacterSlides);
 
@@ -172,7 +172,7 @@ namespace Frankie.Inventory.UI
             ChooseCharacter(character);
         }
 
-        private void SetCharacterSlides(List<ICharacterSlide> setCharacterSlides)
+        private void SetCharacterSlides(List<CharacterSlideHandle> setCharacterSlides)
         {
             characterSlides.Clear();
             if (setCharacterSlides != null) { characterSlides.AddRange(setCharacterSlides); }
@@ -183,7 +183,7 @@ namespace Frankie.Inventory.UI
         {
             if (battleController != null) { return; } // Battle controller handles slides separately
 
-            foreach (ICharacterSlide characterSlide in characterSlides)
+            foreach (CharacterSlideHandle characterSlide in characterSlides)
             {
                 targetCharacterChanged -= characterSlide.HighlightSlide;
                 characterSlide.RemoveButtonClickEvents();

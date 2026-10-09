@@ -12,25 +12,22 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class CombatOptions : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedFightText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedItemText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedStatsText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedRunawayText;
-        [Header("Hookups")]
-        [SerializeField] private UIChoice fightChoiceOption;
-        [SerializeField] private UIChoice itemChoiceOption;
-        [SerializeField] private UIChoice statsChoiceOption;
-        [SerializeField] private UIChoice runawayChoiceOption;
         [Header("Prefabs")]
         [SerializeField] private StatusBox statusBoxPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
         
         // Cached References
         private BattleController battleController;
-        private BattleCanvas battleCanvas;
+        private CombatMessages combatMessages;
+        private Transform boxParent;
         private PartyCombatConduit partyCombatConduit;
 
         // UIBox Configuration
@@ -45,69 +42,63 @@ namespace Frankie.Combat.UI
         }
         
         #region UnityMethods
-
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
-        }
+            clearVolatileOptionsOnEnable = false;
 
-        protected override void StartTriggered()
-        {
-            if (fightChoiceOption != null) { fightChoiceOption.SetText(localizedFightText.GetSafeLocalizedString()); }
-            if (itemChoiceOption != null) { itemChoiceOption.SetText(localizedItemText.GetSafeLocalizedString()); }
-            if (statsChoiceOption != null) { statsChoiceOption.SetText(localizedStatsText.GetSafeLocalizedString()); }
-            if (runawayChoiceOption != null) { runawayChoiceOption.SetText(localizedRunawayText.GetSafeLocalizedString()); }
+            // Note:  Choice order is row-by-row over two columns (MoveCursor2D)
+            AddNonDestroyChoiceOption(localizedFightText.GetSafeLocalizedString(), InitiateCombat);
+            AddNonDestroyChoiceOption(localizedItemText.GetSafeLocalizedString(), OpenKnapsack);
+            AddNonDestroyChoiceOption(localizedStatsText.GetSafeLocalizedString(), OpenStats);
+            AddNonDestroyChoiceOption(localizedRunawayText.GetSafeLocalizedString(), AttemptToRun);
         }
         #endregion
         
         #region PubicMethods
-        public void Setup(BattleController setBattleController, BattleCanvas setBattleCanvas, PartyCombatConduit setPartyCombatConduit)
+        public void Setup(BattleController setBattleController, PartyCombatConduit setPartyCombatConduit, CombatMessages setCombatMessages, Transform setBoxParent)
         {
             battleController = setBattleController;
-            battleCanvas = setBattleCanvas;
             partyCombatConduit = setPartyCombatConduit;
-        }
-
-        public void InitiateCombat() // Called via unity events
-        {
-            battleController.SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
-            gameObject.SetActive(false);
-        }
-
-        public void OpenStats() // Called via unity events
-        {
-            StatusBox statusBox = Instantiate(statusBoxPrefab, battleCanvas.transform);
-            statusBox.Setup(partyCombatConduit);
-            battleController.AddInputReceiver(statusBox, EnableCombatOptions);
-            gameObject.SetActive(false);
-        }
-
-        public void OpenKnapsack() // Called via unity events
-        {
-            InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, battleCanvas.transform);
-            inventoryBox.Setup(battleController, partyCombatConduit, null);
-            battleController.AddInputReceiver(inventoryBox, EnableCombatOptions);
-            gameObject.SetActive(false);
-        }
-
-        public void AttemptToRun() // Called via unity events
-        {
-            SetActiveInput(false);
-            if (battleController.AttemptToRun())
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                battleCanvas.SetupRunFailureMessage(InitiateCombat);
-                gameObject.SetActive(false);
-            }
+            combatMessages = setCombatMessages;
+            boxParent = setBoxParent;
         }
 
         public void EnableCombatOptions()
         {
             gameObject.SetActive(true);
             SetActiveInput(true);
+        }
+        #endregion
+
+        #region PrivateMethods
+        private void InitiateCombat()
+        {
+            battleController.SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
+            gameObject.SetActive(false);
+        }
+
+        private void OpenStats()
+        {
+            StatusBox statusBox = Instantiate(statusBoxPrefab, boxParent);
+            statusBox.Setup(partyCombatConduit);
+            battleController.AddInputReceiver(statusBox, EnableCombatOptions);
+            gameObject.SetActive(false);
+        }
+
+        private void OpenKnapsack()
+        {
+            InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, boxParent);
+            inventoryBox.Setup(battleController, partyCombatConduit, null);
+            battleController.AddInputReceiver(inventoryBox, EnableCombatOptions);
+            gameObject.SetActive(false);
+        }
+
+        private void AttemptToRun()
+        {
+            SetActiveInput(false);
+            if (!battleController.AttemptToRun()) { combatMessages.ShowRunFailureMessage(InitiateCombat); }
+            gameObject.SetActive(false);
         }
         #endregion
 

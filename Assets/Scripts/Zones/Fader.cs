@@ -1,24 +1,49 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using LowDefMustard.Zones;
 using Frankie.Rendering;
 using Frankie.Saving;
 
 namespace Frankie.Zones
 {
+    [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(BattleEntryShaderControl))]
     public class Fader : FaderBase<TransitionType>
     {
         // Tunables
         [SerializeField] private Image battleComplete;
         
+        // Static
+        private const string _sortingLayerFaderOverlay = "FaderOverlay";
+        
         // Cached References
+        private Canvas canvas;
         private BattleEntryShaderControl battleEntryShaderControl;
         
         #region UnityMethods
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
+            canvas = GetComponent<Canvas>();
             battleEntryShaderControl = GetComponent<BattleEntryShaderControl>();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            
+            if (canvas == null) { GetComponent<Canvas>(); }
+            SceneManager.activeSceneChanged += SetupCamera;
+            SetupCamera();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            SceneManager.activeSceneChanged -= SetupCamera;
         }
         #endregion
         
@@ -78,6 +103,22 @@ namespace Frankie.Zones
         protected override void TriggerStandaloneFadeCleanup()
         {
             battleEntryShaderControl.EndFade();
+        }
+        #endregion
+        
+        #region CanvasCameraManagement
+        private void SetupCamera(Scene lastScene, Scene newScene)
+        {
+            SetupCamera();
+        }
+        
+        private void SetupCamera()
+        {
+            if (canvas == null) { return; }
+            canvas.worldCamera = Camera.main;
+            
+            if (canvas.worldCamera == null) { return; }
+            canvas.sortingLayerName = _sortingLayerFaderOverlay;
         }
         #endregion
     }

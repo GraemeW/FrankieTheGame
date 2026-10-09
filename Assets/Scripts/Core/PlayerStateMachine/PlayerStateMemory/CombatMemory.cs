@@ -20,7 +20,7 @@ namespace Frankie.Core.PlayerStateMemory
         {
             foreach (CombatParticipant enemy in enemiesUnderConsideration)
             {
-                if (enemiesInTransition.Count > maxEnemiesPerCombat) { return; }
+                if (enemiesInTransition.Count >= maxEnemiesPerCombat) { return; }
                 if (!enemiesInTransition.Contains(enemy)) { enemiesInTransition.Add(enemy); }
             }
         }

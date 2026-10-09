@@ -35,7 +35,7 @@ namespace Frankie.Core
         [SerializeField] private GameObject worldOptionsPrefab;
         [SerializeField] private GameObject escapeMenuPrefab;
         [Header("Parameters")]
-        [SerializeField] private int maxEnemiesPerCombat = 12;
+        [SerializeField] private int maxEnemiesPerCombat = 21;
         [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
         
         // Const

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpawnVerticalWavyRed
   m_EditorClassIdentifier: 
   effectGUID: 4eed16c2-33c0-4cbc-81cb-d98f2337a4ad
-  graphicToSpawn: {fileID: 1975674204431004401, guid: 4340241ef7bf4ae4aa33281dcb701229, type: 3}
-  isGlobalEffect: 0
+  effectMaterial: {fileID: 2100000, guid: 2f88caf7ffac6014ebcff80329d2f1e6, type: 2}
+  effectColour: {r: 0.8301887, g: 0.2694197, b: 0.2694197, a: 1}
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 5

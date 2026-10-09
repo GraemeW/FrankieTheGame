@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5476277323413269905}
-  - component: {fileID: 2091634936576477368}
-  - component: {fileID: 5888127599660306144}
   - component: {fileID: 314790583341503708}
   m_Layer: 0
   m_Name: CombatMessages
@@ -38,46 +36,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2091634936576477368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3961458775746888335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 1
-  m_ChildScaleHeight: 1
-  m_ReverseArrangement: 0
---- !u!114 &5888127599660306144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3961458775746888335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 0
 --- !u!114 &314790583341503708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,12 +49,159 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageParent: {fileID: 5476277323413269905}
-  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueBoxPrefab: {fileID: 4120861931756406875, guid: 9893a87e7c214b45b0cd02fe0ea76ea5, type: 3}
+  localizedMessageEncounterSingle:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997758593032192
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageEncounterMultiple:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997790486519808
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageEncounterPreHype:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997814947700736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   localizedMessageItemToBeUsed:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
     m_TableEntryReference:
       m_KeyId: 8004517357412352
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageFailedToRun:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 10139031237398528
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageGainedExperience:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997834627375104
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageCharacterLevelUp:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997860300709888
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageCharacterStatGained:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997880118796288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lootMessages:
+    dialogueOptionBoxPrefab: {fileID: 5210498316462871005, guid: 76496a9a1480478281db2b0436cf29f6, type: 3}
+    inventorySwapBoxPrefab: {fileID: 4084456244048047709, guid: 1eb72627d5c49a14f93d6ad39270faf1, type: 3}
+    localizedMessageGainedLoot:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 7997902138892288
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    localizedMessageEnemyDroppedLoot:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 7997925174009856
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    localizedMessageEnemyDroppedLootNoRoom:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 7997945612853248
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    localizedMessageConfirmThrowOut:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 7997972309598208
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    localizedOptionChuckItemAffirmative:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 7997998792433664
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    localizedOptionChuckItemNegative:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 7998019667484672
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  localizedMessageBattleCompleteWon:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998039489765376
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageBattleCompleteLost:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998057474940928
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageBattleCompleteRan:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998077553074176
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

@@ -1,0 +1,48 @@
+/* Battle skill selection:  top-centre, in the band above the battle background.  Fixed size */
+/* Note:  Skill wheel + active skill label styles are shared with the AbilitiesBox (see Abilities/SkillWheel.uss) */
+.skill-selection-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.skill-selection {
+    margin-top: 30px;
+    width: 1125px;
+    padding: 35px 0 35px 0;
+    flex-direction: row;
+    align-items: center;
+}
+
+.skill-selection__wheel {
+    flex-grow: 1;
+    align-items: center;
+}
+
+.skill-selection__divider {
+    width: 2px;
+    align-self: stretch;
+    margin: -10px 0 -15px 0;
+    background-color: var(--text-colour-default);
+}
+
+.skill-selection__selected {
+    width: 400px;
+    padding-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-selection__selected > .unity-label {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+/* Note:  Child selector to outrank the label margin reset above */
+.skill-selection__selected > .skill-selection__selected-character {
+    margin-bottom: 50px;
+}

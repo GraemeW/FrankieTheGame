@@ -96,13 +96,21 @@ namespace Frankie.Combat
         #region StaticMethods
         public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<BattleEntity> battleEntities)
         {
-            return GetPriorityCombatParticipants(battleEntities.Select(battleEntity => battleEntity.combatParticipant).ToList());
+            if (battleEntities == null) { return new List<CombatParticipant>(); }
+            return GetPriorityCombatParticipants(battleEntities.Where(battleEntity => battleEntity != null).Select(battleEntity => battleEntity.combatParticipant).ToList());
         }
         
         public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<CombatParticipant> combatParticipants)
         {
-            int maxPriority = combatParticipants.Max(x => x.GetBattlePropertiesPriority());
-            return combatParticipants.Select(x => x).Where(x => x.GetBattlePropertiesPriority() == maxPriority).ToList();
+            // Select out Bosses first (if existing) -> then select by priority
+            List<CombatParticipant> candidates = combatParticipants?.Where(combatParticipant => combatParticipant != null).ToList() ?? new List<CombatParticipant>();
+            if (candidates.Count == 0) { return candidates; }
+
+            List<CombatParticipant> bosses = candidates.Where(combatParticipant => combatParticipant.GetBattleEntityType() == BattleEntityType.Boss).ToList();
+            if (bosses.Count > 0) { candidates = bosses; }
+
+            int maxPriority = candidates.Max(combatParticipant => combatParticipant.GetBattlePropertiesPriority());
+            return candidates.Where(combatParticipant => combatParticipant.GetBattlePropertiesPriority() == maxPriority).ToList();
         }
         #endregion
         

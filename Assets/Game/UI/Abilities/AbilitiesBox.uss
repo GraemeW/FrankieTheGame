@@ -1,4 +1,5 @@
 /* Top-centre, 50px down.  Fixed width. */
+/* Note:  Skill wheel + active skill label styles live in SkillWheel.uss (shared with the battle SkillSelection) */
 .abilities-box-screen {
     position: absolute;
     left: 0;
@@ -50,16 +51,9 @@
     -unity-text-align: middle-center;
 }
 
-.abilities-box__selected-character {
+/* Note:  Child selector to outrank the label margin reset above */
+.abilities-box__selected > .abilities-box__selected-character {
     margin-bottom: 38px;
-}
-
-.active-skill-label {
-    color: var(--choice-dimmed-colour);
-}
-
-.active-skill-label--selected {
-    color: rgb(255, 238, 140);
 }
 
 .abilities-box__detail-line {
@@ -78,52 +72,4 @@
 
 .abilities-box__detail-text {
     white-space: normal;
-}
-
-/* ~ Skill Wheel ~ */
-.skill-wheel {
-    align-items: center;
-}
-
-.skill-wheel__row {
-    flex-direction: row;
-    justify-content: center;
-    margin: 18px 0;
-}
-
-.skill-wheel__direction,
-.skill-wheel__direction.unity-button:hover:enabled,
-.skill-wheel__direction.unity-button:active:enabled,
-.skill-wheel__direction.unity-button:focus {
-    padding: 0;
-    border-width: 0;
-    border-radius: 0;
-    background-color: rgba(0, 0, 0, 0);
-    font-size: 64px;
-    -unity-text-align: middle-center;
-}
-
-/* Note:  Margins stay out of the state-neutralising block above - its higher specificity would reset them on hover */
-.skill-wheel__direction {
-    margin: 0;
-    color: var(--text-colour-default);
-    transition: color var(--choice-tint-duration);
-}
-
-.skill-wheel__row > .skill-wheel__direction {
-    margin: 0 75px;
-}
-
-/* Pointer feedback (as per choice entries); suppressed while another box is on top */
-.skill-wheel__direction.unity-button:hover:enabled {
-    color: var(--choice-hover-colour);
-}
-
-.skill-wheel__direction.unity-button:active:enabled {
-    color: var(--choice-pressed-colour);
-}
-
-.uibox-view--pointer-input-disabled .skill-wheel__direction.unity-button:hover:enabled,
-.uibox-view--pointer-input-disabled .skill-wheel__direction.unity-button:active:enabled {
-    color: var(--text-colour-default);
 }

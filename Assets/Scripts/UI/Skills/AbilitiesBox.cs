@@ -38,7 +38,7 @@ namespace Frankie.Combat.UI
         private DialogueBox abilityUseConfirmationBox;
 
         // Cached References
-        private List<ICharacterSlide> characterSlides;
+        private List<CharacterSlideHandle> characterSlides;
 
         // Events
         public event Action<BattleEntitySelectionType, IEnumerable<BattleEntity>> targetCharacterChanged;
@@ -121,7 +121,7 @@ namespace Frankie.Combat.UI
             return abilitiesBoxModel;
         }
 
-        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<ICharacterSlide> setCharacterSlides)
+        public void Setup(BaseController baseController, PartyCombatConduit partyCombatConduit, List<CharacterSlideHandle> setCharacterSlides)
         {
             if (baseController == null || partyCombatConduit == null) { destroyQueued = true;  return; }
             
@@ -143,7 +143,7 @@ namespace Frankie.Combat.UI
         {
             if (characterSlides == null) { return; }
             
-            foreach (ICharacterSlide characterSlide in characterSlides)
+            foreach (CharacterSlideHandle characterSlide in characterSlides)
             {
                 targetCharacterChanged -= characterSlide.HighlightSlide;
                 characterSlide.RemoveButtonClickEvents();
@@ -186,7 +186,7 @@ namespace Frankie.Combat.UI
                 return;
             }
             
-            selectedCharacter = combatParticipant;
+            SetSelectedCharacter(combatParticipant);
             battleActionData = new BattleActionData(combatParticipant);
             
             SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection, false, triggerUIBoxModified);
@@ -201,8 +201,7 @@ namespace Frankie.Combat.UI
 
         private bool TryChooseSkill()
         {
-            SkillHandler skillHandler = selectedCharacter != null ? selectedCharacter.GetComponent<SkillHandler>() : null;
-            Skill activeSkill = skillHandler != null ? skillHandler.GetActiveSkill() : null;
+            Skill activeSkill = selectedSkillHandler != null ? selectedSkillHandler.GetActiveSkill() : null;
             if (activeSkill == null) { return false; }
 
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterTargeting);
@@ -224,24 +223,19 @@ namespace Frankie.Combat.UI
             return false;
         }
 
-        private bool HandleInputWithReturn(ControllerInputType input)
-        {
-            return selectedCharacter != null && SetBranchOrSkill(selectedCharacter, input);
-        }
+        private bool HandleInputWithReturn(ControllerInputType input) => SetBranchOrSkill(input);
 
         protected override void HandleInput(ControllerInputType input)
         {
-            // Note:  Function re-use since standard implementation for SkillSelectionUI
-            // Used explicitly w/ select skill && extended with Unity Events for mouse clicks
+            // Note:  Function re-use since standard implementation for SkillSelectionUI (keyboard + skill wheel clicks)
             HandleInputWithReturn(input);
         }
 
         private bool GetNextTarget(TargetingNavigationType targetingNavigationType, IEnumerable<BattleEntity> activeCharacters = null)
         {
-            if (selectedCharacter == null) { return false; }
+            if (selectedSkillHandler == null) { return false; }
 
-            var skillHandler = selectedCharacter.GetComponent<SkillHandler>();
-            Skill activeSkill = skillHandler?.GetActiveSkill();
+            Skill activeSkill = selectedSkillHandler.GetActiveSkill();
             if (activeSkill == null) { return false; }
 
             battleActionData ??= new BattleActionData(selectedCharacter);
@@ -255,10 +249,9 @@ namespace Frankie.Combat.UI
         
         private bool TryUseSkill()
         {
-            if (selectedCharacter == null) { return false; }
+            if (selectedSkillHandler == null) { return false; }
 
-            var skillHandler = selectedCharacter.GetComponent<SkillHandler>();
-            Skill activeSkill = skillHandler?.GetActiveSkill();
+            Skill activeSkill = selectedSkillHandler.GetActiveSkill();
             if (activeSkill == null || battleActionData == null) { return false; }
 
             if (!battleActionData.HasTargets())
@@ -335,22 +328,21 @@ namespace Frankie.Combat.UI
 
         protected override void ResetUI()
         {
-            ResetUI(true, false);
+            ResetUI(false);
         }
         #endregion
 
         #region Interfaces
         private bool TryBackFromCharacterTargeting(ControllerInputType controllerInputType)
         {
-            ResetSkillHandler(selectedCharacter);
+            ResetSkillHandler();
             SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
             return true;
         }
 
         private bool TryBackFromAbilitiesSelection(ControllerInputType controllerInputType)
         {
-            ResetSkillHandler(selectedCharacter);
-            ClearActiveSkill();
+            ResetSkillHandler();
             abilitiesBoxModel.statText = "";
             abilitiesBoxModel.detailText = "";
             abilitiesBoxModel.apCostText = "";

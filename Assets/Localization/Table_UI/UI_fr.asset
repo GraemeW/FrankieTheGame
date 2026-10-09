@@ -119,7 +119,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8004517357412352
-    m_Localized: Utiliser l'objet {0} sur quel ennemi ?
+    m_Localized: Utiliser l'objet {0} sur quel cible ?
     m_Metadata:
       m_Items: []
   - m_Id: 8994215747903488
@@ -716,6 +716,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60453263546245120
     m_Localized: "Saveur Pr\xE9f\xE9r\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63406934961676288
+    m_Localized: '*b''jour!*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63407093569282048
+    m_Localized: seul
     m_Metadata:
       m_Items: []
   references:

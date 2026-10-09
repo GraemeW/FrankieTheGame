@@ -1,0 +1,74 @@
+/* Battle HUD:  battle stage (background, enemies, effects, party slides), rendered in world~camera space (see CameraSpacePanel) */
+/* Note:  Boxes (options, skills, messages) are separate overlay panels on top */
+.battle-hud {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Opaque backing - the stage covers the world */
+/* Note:  Oversized (a full panel beyond every edge), so the world stays hidden while the stage catches up with a window resize */
+.battle-hud__backing {
+    position: absolute;
+    left: -100%;
+    top: -100%;
+    right: -100%;
+    bottom: -100%;
+    background-color: var(--backing-colour);
+}
+
+/* Moving background:  full-width band across the middle of the screen */
+.battle-hud__background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 320px;
+    height: 800px;
+}
+
+/* Effect layers fill the stage:  per-enemy effects sit over the enemies, full-screen effects over everything on the stage */
+.battle-hud__effects,
+.battle-hud__screen-effects {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.battle-effect {
+    position: absolute;
+}
+
+.battle-effect--full-screen {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Party slides sit bottom-centre, in the band below the battle background */
+.battle-hud__party-slides {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 25px;
+    justify-content: center;
+}
+
+/* Enemies sit centred, 30px above the middle of the screen;  top + bottom rows are staggered to the right */
+.battle-hud__enemies {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
+.battle-hud__enemy-row--offset {
+    padding-left: 100px;
+}

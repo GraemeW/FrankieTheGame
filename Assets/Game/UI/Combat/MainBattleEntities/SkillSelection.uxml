@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:combat="Frankie.Combat.UI" editor-extension-mode="false">
+    <ui:VisualElement class="skill-selection-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox skill-selection">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <combat:SkillWheelContainer class="skill-selection__wheel" />
+            <ui:VisualElement class="skill-selection__divider" picking-mode="Ignore" />
+            <ui:VisualElement class="skill-selection__selected" picking-mode="Ignore">
+                <combat:SkillSelectionCharacterLabel text="--" class="skill-selection__selected-character" picking-mode="Ignore" />
+                <combat:SkillSelectionActiveSkillLabel text="--" class="skill-selection__selected-skill" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

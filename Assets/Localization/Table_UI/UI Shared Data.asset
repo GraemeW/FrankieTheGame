@@ -715,6 +715,14 @@ MonoBehaviour:
     m_Key: EscapeMenu.Prefab.EscapeMenu.OptionFlavourText.1fe7cfe7
     m_Metadata:
       m_Items: []
+  - m_Id: 63406934961676288
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.FriendFoundText.195afc7a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63407093569282048
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.FriendIgnoredText.174279da
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

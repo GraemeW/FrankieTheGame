@@ -23,6 +23,9 @@ namespace Frankie.Combat
         private CombatParticipant combatParticipant;
         private BaseStats baseStats;
 
+        // Events
+        public event Action skillSelectionChanged;
+
         #region UnityMethods
         private void Awake()
         {
@@ -37,7 +40,7 @@ namespace Frankie.Combat
 
         public void GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down)
         {
-            if (currentBranch == null) { ResetCurrentBranch(); }
+            if (currentBranch == null) { InitializeCurrentBranch(); }
 
             up = FilterSkill(currentBranch.GetSkill(SkillBranchMapping.Up), SkillFilterType.All);
             left = FilterSkill(currentBranch.GetSkill(SkillBranchMapping.Left), SkillFilterType.All);
@@ -48,13 +51,20 @@ namespace Frankie.Combat
         public void SetBranchOrSkill(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)
         {
             // Attempt to set branch first, otherwise set skill
-            if (SetBranch(skillBranchMapping, skillFilterType)) { return; }
-            if (SetSkill(skillBranchMapping)) { return; }
+            if (!TrySetBranch(skillBranchMapping, skillFilterType)) { SetSkill(skillBranchMapping); }
+            skillSelectionChanged?.Invoke();
         }
 
         public bool SetBranch(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)
         {
-            if (currentBranch == null) { ResetCurrentBranch(); return true; }
+            bool isBranchSet = TrySetBranch(skillBranchMapping, skillFilterType);
+            skillSelectionChanged?.Invoke();
+            return isBranchSet;
+        }
+
+        private bool TrySetBranch(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)
+        {
+            if (currentBranch == null) { InitializeCurrentBranch(); return true; }
             if (!currentBranch.HasBranch(skillBranchMapping)) { return false; }
             
             // Check if available skills exist after filtering
@@ -88,7 +98,7 @@ namespace Frankie.Combat
         public List<Skill> GetUnfilteredSkills() => GetUnfilteredSkills(currentBranch);
         private List<Skill> GetUnfilteredSkills(SkillBranch skillBranch)
         {
-            if (currentBranch == null) { ResetCurrentBranch(); }
+            if (currentBranch == null) { InitializeCurrentBranch(); }
             return skillBranch.GetAllSkills().Where(skill => skill != null).ToList();
         }
 
@@ -115,7 +125,7 @@ namespace Frankie.Combat
 
         public List<SkillBranchMapping> GetAvailableBranchMappings()
         {
-            if (currentBranch == null) { ResetCurrentBranch(); }
+            if (currentBranch == null) { InitializeCurrentBranch(); }
             return GetAvailableBranchMappings(currentBranch);
         }
 
@@ -163,6 +173,13 @@ namespace Frankie.Combat
         }
 
         public void ResetCurrentBranch()
+        {
+            InitializeCurrentBranch();
+            skillSelectionChanged?.Invoke();
+        }
+
+        // Note:  Silent (no change event) - also used for lazy setup from getters
+        private void InitializeCurrentBranch()
         {
             if (skillTree == null) { return; }
 

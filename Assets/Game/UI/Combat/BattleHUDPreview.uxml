@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:combat="Frankie.Combat.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors BattleHUD.uxml with sample slides - keep in sync -->
+    <!-- Style order matches the Battle Canvas party slide view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="CharacterEnemySlides/CharacterSlide.uss" />
+    <Style src="CharacterEnemySlides/EnemySlide.uss" />
+    <Style src="BattleHUD.uss" />
+    <ui:VisualElement class="battle-hud" picking-mode="Ignore">
+        <ui:VisualElement class="battle-hud__backing" picking-mode="Ignore" />
+        <!-- The moving background is drawn at runtime by the enemy's tile + material:  an empty band stands in here -->
+        <combat:BattleBackgroundElement class="battle-hud__background" />
+        <!-- Enemy slides are code-built at runtime (EnemySlideElement, sprite from the enemy):  empty rows stand in here -->
+        <ui:VisualElement class="battle-hud__enemies" picking-mode="Ignore">
+            <combat:EnemySlideTopRow class="battle-hud__enemy-row--offset" />
+            <combat:EnemySlideMiddleRow />
+            <combat:EnemySlideBottomRow class="battle-hud__enemy-row--offset" />
+        </ui:VisualElement>
+        <combat:BattleEffectLayer class="battle-hud__effects" />
+        <combat:CharacterSlideContainer class="battle-hud__party-slides">
+            <combat:CharacterSlideElement name-text="FRANKIE" hp-label-text="HP" ap-label-text="AP" hp-value="30" ap-value="15" slide-state="Selected" />
+            <combat:CharacterSlideElement name-text="TILLY" hp-label-text="HP" ap-label-text="AP" hp-value="35" ap-value="10" />
+            <combat:CharacterSlideElement name-text="LUCY" hp-label-text="HP" ap-label-text="AP" hp-value="25" ap-value="30" />
+        </combat:CharacterSlideContainer>
+        <combat:BattleScreenEffectLayer class="battle-hud__screen-effects" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -66,7 +66,7 @@ namespace Frankie.Combat
             CombatParticipant sender = battleActionData.GetSender();
             if (sender == null || sender.IsDead())
             {
-                finished.Invoke(); 
+                finished?.Invoke(); 
                 return false;
             }
 

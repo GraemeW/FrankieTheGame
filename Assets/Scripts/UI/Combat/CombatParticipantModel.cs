@@ -9,7 +9,6 @@ namespace Frankie.Combat.UI
 {
     public sealed class CombatParticipantModel : BindableModel, IDisposable
     {
-        // Live readout of a combat participant, shared by every screen that shows a character (slides, status, ...)
         // Note:  Values are raw (unformatted, unlocalized); screens and elements decide how to present them
         
         // State

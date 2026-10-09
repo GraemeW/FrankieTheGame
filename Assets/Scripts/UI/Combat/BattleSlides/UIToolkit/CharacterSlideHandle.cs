@@ -7,30 +7,32 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public sealed class CharacterSlideHandle : EntryHandle, ICharacterSlide
+    public sealed class CharacterSlideHandle : EntryHandle
     {
-        // UI Toolkit character slide:
-        //  - character values come from a CombatParticipantModel
-        //  - slide-only state (highlight, cooldown, effects) from the slide model
+        // Data Models:
+        //  - character values (hp/ap, status effects) come from CombatParticipantModel
+        //  - slide-only state (targeting, cooldown, effects) from the slide model
         // Note:  Call Release() when the hosting box is done with the slide to dispose character model
         
         // State
         private readonly BattleEntity battleEntity;
         private readonly CombatParticipantModel characterModel;
         private readonly CharacterSlideModel model = new();
-        private readonly CharacterSlideStateTracker stateTracker = new();
+        private bool isSelected = false;
+        private bool isTargeted = false;
         private readonly List<Action> clickActions = new();
         private bool isReleased = false;
 
         // Constructor
-        public CharacterSlideHandle(UIToolkitBoxView view, BattleEntity battleEntity, CharacterSlideText slideText) : base(view, typeof(CharacterSlideContainer))
+        public CharacterSlideHandle(UIToolkitBoxView view, BattleEntity battleEntity, BattleSlideText slideText) : base(view, typeof(CharacterSlideContainer))
         {
             this.battleEntity = battleEntity;
-            slideText?.ApplyTo(model);
+            if (slideText != null) { slideText.ApplyTo(model); }
+            if (!TryGetCharacter(out CombatParticipant character)) { isReleased = true; return; } // Nothing to show or listen to
 
-            characterModel = new CombatParticipantModel(battleEntity.combatParticipant);
+            characterModel = new CombatParticipantModel(character);
             characterModel.stateAltered += ParseState;
-            UpdateSlideState();
+            RefreshSlideState();
         }
 
         #region EntryHandle
@@ -53,34 +55,40 @@ namespace Frankie.Combat.UI
             if (isReleased) { return; }
             isReleased = true;
 
-            characterModel.stateAltered -= ParseState;
-            characterModel.Dispose();
+            if (characterModel != null)
+            {
+                characterModel.stateAltered -= ParseState;
+                characterModel.Dispose();
+            }
             clickActions.Clear();
             Remove();
         }
         #endregion
 
-        #region ICharacterSlide
+        #region SlideMethods
         public BattleEntity GetBattleEntity() => battleEntity;
 
         public void HighlightSlide(BattleEntitySelectionType selectionType, IEnumerable<BattleEntity> battleEntities)
         {
-            // Note:  Always clear before (re-)highlighting - the tracker restores its pre-target state on clear (as per BattleSlide)
-            HighlightSlide(selectionType, false);
-            if (battleEntities != null && battleEntities.Any(target => target.combatParticipant == battleEntity.combatParticipant)) { HighlightSlide(selectionType, true); }
+            bool isIncluded = TryGetCharacter(out CombatParticipant character) && battleEntities != null && battleEntities.Any(target => target != null && target.combatParticipant == character);
+            HighlightSlide(selectionType, isIncluded);
         }
 
         public void HighlightSlide(BattleEntitySelectionType selectionType, bool enable)
         {
-            stateTracker.SetSelected(battleEntity.combatParticipant, selectionType, enable);
-            UpdateSlideState();
+            switch (selectionType)
+            {
+                case BattleEntitySelectionType.Actor:
+                    isSelected = enable;
+                    break;
+                case BattleEntitySelectionType.Target:
+                    isTargeted = enable;
+                    break;
+            }
+            RefreshSlideState();
         }
 
-        public void AddButtonClickEvent(Action action)
-        {
-            if (action != null) { clickActions.Add(action); }
-        }
-
+        public void AddButtonClickEvent(Action action) { if (action != null) { clickActions.Add(action); } }
         public void RemoveButtonClickEvents() => clickActions.Clear();
         #endregion
 
@@ -91,23 +99,37 @@ namespace Frankie.Combat.UI
             foreach (Action clickAction in clickActions.ToList()) { clickAction.Invoke(); }
         }
 
-        private void UpdateSlideState() => model.slideState = stateTracker.GetDisplayState(battleEntity.combatParticipant);
+        private bool TryGetCharacter(out CombatParticipant character)
+        {
+            character = battleEntity?.combatParticipant;
+            return character != null;
+        }
+
+        // Displayed state priority order:  targeted > dead > selected (only while able to act) > cooldown > ready
+        private void RefreshSlideState()
+        {
+            if (isReleased || !TryGetCharacter(out CombatParticipant character)) { return; }
+
+            if (isTargeted) { model.slideState = CharacterSlideState.Target; }
+            else if (character.IsDead()) { model.slideState = CharacterSlideState.Dead; }
+            else if (character.IsInCooldown()) { model.slideState = CharacterSlideState.Cooldown; }
+            else { model.slideState = isSelected ? CharacterSlideState.Selected : CharacterSlideState.Ready; }
+        }
 
         // Slide-only reactions - character values (HP/AP, status effects) are already updated on the character model
         private void ParseState(StateAlteredInfo stateAlteredInfo)
         {
-            CombatParticipant combatParticipant = battleEntity.combatParticipant;
+            if (isReleased || !TryGetCharacter(out CombatParticipant character)) { return; }
+
             switch (stateAlteredInfo.stateAlteredType)
             {
                 case StateAlteredType.CooldownSet:
-                    stateTracker.Set(CharacterSlideState.Cooldown);
                     model.cooldown = CooldownTiming.Restart(stateAlteredInfo.points);
-                    UpdateSlideState();
+                    RefreshSlideState();
                     break;
                 case StateAlteredType.CooldownExpired:
-                    stateTracker.Set(CharacterSlideState.Ready);
                     model.cooldown = CooldownTiming.Restart(0f);
-                    UpdateSlideState();
+                    RefreshSlideState();
                     break;
                 case StateAlteredType.IncreaseHP:
                 case StateAlteredType.DecreaseHP:
@@ -117,7 +139,7 @@ namespace Frankie.Combat.UI
                     model.QueueDamageText(new DamageTextData(DamageTextType.HealthChanged, points));
                     if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
-                        model.Shake(points > combatParticipant.GetHP());
+                        model.Shake(points > character.GetHP());
                         model.BlipDim();
                     }
                     break;
@@ -141,12 +163,8 @@ namespace Frankie.Combat.UI
                     break;
                 }
                 case StateAlteredType.Dead:
-                    stateTracker.Set(CharacterSlideState.Dead);
-                    UpdateSlideState();
-                    break;
                 case StateAlteredType.Resurrected:
-                    stateTracker.Set(CharacterSlideState.Ready);
-                    UpdateSlideState();
+                    RefreshSlideState();
                     break;
                 case StateAlteredType.ActionDequeued:
                     model.BlipGrow();

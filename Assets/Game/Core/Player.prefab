@@ -104,12 +104,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleControllerPrefab: {fileID: 1733041111156872079, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
   dialogueControllerPrefab: {fileID: 417524482563996096, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
-  battleUIPrefab: {fileID: 877524597382831827, guid: 4a9e93a3ac9fb5243a42c837677d7fd0, type: 3}
+  battleUIPrefab: {fileID: 8280344366168738919, guid: 704954e38f2858a44b4ce5c8da5850bc, type: 3}
   shopSelectPrefab: {fileID: 6413694501190794285, guid: 9b74208be0ef0dc488bb5a574e48fa42, type: 3}
   cashTransferPrefab: {fileID: 6413694501190794285, guid: 28e6cb6ef5c9cf149b31602989d2844c, type: 3}
   worldOptionsPrefab: {fileID: 4718502934617325001, guid: 900874a9315f4925bba16fea87ecf0e3, type: 3}
   escapeMenuPrefab: {fileID: 6541549408681778316, guid: 2f26dfbb25b64aef8bf392ed1aa83268, type: 3}
-  maxEnemiesPerCombat: 12
+  maxEnemiesPerCombat: 21
   immunityTimePostCombat: 2.75
 --- !u!114 &9140000498525693429
 MonoBehaviour:
@@ -160,6 +160,7 @@ MonoBehaviour:
   defaultTargetDistanceTolerance: 0.15
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 0
+  gameProperties: {fileID: 11400000, guid: de053b7c07a20467797a1ba24f09aec4, type: 2}
   snapPlayerToPixelPerfect: 0
   speedMoveThreshold: 0.05
   playerMovementHistoryLength: 256

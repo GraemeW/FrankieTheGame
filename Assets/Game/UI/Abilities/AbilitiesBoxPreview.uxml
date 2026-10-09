@@ -3,8 +3,9 @@
     <!-- Style order matches AbilitiesBoxUITK's view:  shared theme sheets, then screen sheets -->
     <Style src="../_UIToolkit/Styles/Tokens.uss" />
     <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="SkillWheel.uss" />
     <Style src="AbilitiesBox.uss" />
-    <!-- The skill wheel is code-built at runtime (SkillWheelElement):  static buttons with the same classes stand in here -->
+    <!-- The skill wheel is built at runtime (SkillWheelElement):  static buttons with the same classes stand in here -->
     <ui:VisualElement class="abilities-box-screen" picking-mode="Ignore">
         <ui:VisualElement class="uibox abilities-box">
             <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />

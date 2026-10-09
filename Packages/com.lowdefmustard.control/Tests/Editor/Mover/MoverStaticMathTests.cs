@@ -36,7 +36,7 @@ namespace LowDefMustard.Control.Tests.Editor
         public void RoundToPixelPerfect_RoundsEachAxisToNearestPixel()
         {
             // pixelsPerUnit is 100, so 0.123 -> 12.3 -> rounds to 12 -> 0.12; 0.456 -> 45.6 -> rounds to 46 -> 0.46
-            Vector2 result = Mover.RoundToPixelPerfect(new Vector2(0.123f, 0.456f));
+            Vector2 result = Mover.RoundToPixelPerfect(new Vector2(0.123f, 0.456f), 100f);
             Assert.That(result.x, Is.EqualTo(0.12f).Within(0.0001f));
             Assert.That(result.y, Is.EqualTo(0.46f).Within(0.0001f));
         }
@@ -44,7 +44,7 @@ namespace LowDefMustard.Control.Tests.Editor
         [Test]
         public void RoundToPixelPerfect_NegativeValues_RoundsSymmetrically()
         {
-            Vector2 result = Mover.RoundToPixelPerfect(new Vector2(-0.123f, -0.456f));
+            Vector2 result = Mover.RoundToPixelPerfect(new Vector2(-0.123f, -0.456f), 100f);
             Assert.That(result.x, Is.EqualTo(-0.12f).Within(0.0001f));
             Assert.That(result.y, Is.EqualTo(-0.46f).Within(0.0001f));
         }
@@ -53,7 +53,7 @@ namespace LowDefMustard.Control.Tests.Editor
         public void RoundToPixelPerfect_ExactMidpoint_RoundsToEven()
         {
             // Mathf.Round uses banker's rounding: 12.5 -> 12 (even), 13.5 -> 14 (even)
-            Vector2 result = Mover.RoundToPixelPerfect(new Vector2(0.125f, 0.135f));
+            Vector2 result = Mover.RoundToPixelPerfect(new Vector2(0.125f, 0.135f), 100f);
             Assert.That(result.x, Is.EqualTo(0.12f).Within(0.0001f));
             Assert.That(result.y, Is.EqualTo(0.14f).Within(0.0001f));
         }

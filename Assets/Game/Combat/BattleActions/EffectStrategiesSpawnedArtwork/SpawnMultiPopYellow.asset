@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpawnMultiPopYellow
   m_EditorClassIdentifier: 
   effectGUID: cf183958-e1eb-448b-90b5-54240d8e0815
-  graphicToSpawn: {fileID: 1975674204431004401, guid: e61ddea27ebfb534cbc98ce63eb88d26, type: 3}
-  isGlobalEffect: 0
+  effectMaterial: {fileID: 2100000, guid: 44b05c740a87f994098a480a039c97e8, type: 2}
+  effectColour: {r: 0.94456714, g: 0.98039216, b: 0.3450981, a: 1}
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

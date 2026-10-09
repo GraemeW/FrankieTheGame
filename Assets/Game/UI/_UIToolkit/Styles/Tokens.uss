@@ -48,6 +48,10 @@
     --choice-hover-colour: rgb(124, 171, 171);
     --choice-pressed-colour: rgb(51, 70, 70);
     --choice-tint-duration: 0.1s;
+    --slide-hover-tint: rgb(200, 200, 200);
+    --slide-pressed-tint: rgb(140, 140, 140);
+    --slide-hover-opacity: 0.8;
+    --slide-pressed-opacity: 0.55;
 
     /* Box */
     --backing-colour: rgb(0, 0, 0);

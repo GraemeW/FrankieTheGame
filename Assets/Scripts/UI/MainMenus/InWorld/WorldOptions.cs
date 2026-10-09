@@ -29,7 +29,7 @@ namespace Frankie.Menu.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedAbilitiesText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedStatusText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMapText;
-        [SerializeField] private CharacterSlideText characterSlideText;
+        [SerializeField] private BattleSlideText battleSlideText;
         [Header("Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
@@ -129,7 +129,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = inventoryBox.gameObject;
-            inventoryBox.Setup(playerController, partyCombatConduit, GetCharacterSlides());
+            inventoryBox.Setup(playerController, partyCombatConduit, characterSlides);
             controller.AddInputReceiver(inventoryBox, null);
         }
 
@@ -138,7 +138,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = equipmentBox.gameObject;
-            equipmentBox.Setup(playerController, partyCombatConduit, GetCharacterSlides());
+            equipmentBox.Setup(playerController, partyCombatConduit, characterSlides);
             controller.AddInputReceiver(equipmentBox, null);
         }
 
@@ -155,7 +155,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = abilitiesBox.gameObject;
-            abilitiesBox.Setup(playerController, partyCombatConduit, GetCharacterSlides());
+            abilitiesBox.Setup(playerController, partyCombatConduit, characterSlides);
             controller.AddInputReceiver(abilitiesBox, null);
         }
         #endregion
@@ -170,13 +170,12 @@ namespace Frankie.Menu.UI
             AddNonDestroyChoiceOption(localizedMapText.GetSafeLocalizedString(), OpenMap);
         }
 
-        private List<ICharacterSlide> GetCharacterSlides() => characterSlides.Cast<ICharacterSlide>().ToList();
-        
         private void SetupCharacterSlides()
         {
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
-                var characterSlide = new CharacterSlideHandle(menuView, new BattleEntity(combatParticipant), characterSlideText);
+                if (combatParticipant == null) { continue; }
+                var characterSlide = new CharacterSlideHandle(menuView, new BattleEntity(combatParticipant), battleSlideText);
                 menuView.AddEntry(characterSlide);
                 characterSlides.Add(characterSlide);
             }

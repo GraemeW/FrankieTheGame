@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 3243386399629071165}
   - component: {fileID: 8106268681669546574}
   - component: {fileID: 8756463170632450072}
-  - component: {fileID: 1057464560947514851}
   - component: {fileID: 1745570333851366206}
   m_Layer: 0
   m_Name: Fader
@@ -201,19 +200,6 @@ MonoBehaviour:
   fadeOutTimer: 0.75
   zoneFadeTimerMultiplier: 0.25
   battleComplete: {fileID: 8453829634185128961}
---- !u!114 &1057464560947514851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4700711622938692994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 189d77edd9f24b84bb5309f112520100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasSortingOverlayType: 0
 --- !u!114 &1745570333851366206
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,10 +5,12 @@ namespace Frankie.Combat
         public BattleEventType battleEventType => BattleEventType.BattleActionArmed;
 
         public readonly IBattleActionSuper battleActionSuper;
+        public readonly bool isArmed;
 
-        public BattleActionArmedEvent(IBattleActionSuper battleActionSuper)
+        public BattleActionArmedEvent(IBattleActionSuper battleActionSuper, bool isArmed)
         {
             this.battleActionSuper = battleActionSuper;
+            this.isArmed = isArmed;
         }
     }
 }

@@ -1,0 +1,116 @@
+/* Enemy slides:  enemy's sprite (scaled to fit), sized per battle entity type.  Pivot centre for shake/grow */
+/* Note:  Shared slide parts (cooldown timer, status effects, damage text) are styled in CharacterSlide.uss */
+
+.enemy-slide-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.enemy-slide,
+.enemy-slide.unity-button:hover:enabled,
+.enemy-slide.unity-button:active:enabled,
+.enemy-slide.unity-button:focus {
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transform-origin: center;
+}
+
+/* Note:  Margins stay out of the state-neutralising block above - its higher specificity would reset them on hover */
+.enemy-slide {
+    margin: 0 12.5px;
+}
+
+/* Mooks are small, so they get more room either side */
+.enemy-slide.enemy-slide--mook {
+    margin: 0 35px;
+}
+
+/* Size per battle entity type (EnemySlideElement applies the sprite's fine-tune scale on top) */
+/* Note:  The sprite is scaled to fit, so width and height should try to keep the same proportions */
+.enemy-slide--standard { --enemy-slide-width: 280; --enemy-slide-height: 320; }
+.enemy-slide--mook { --enemy-slide-width: 175; --enemy-slide-height: 200; }
+.enemy-slide--boss { --enemy-slide-width: 420; --enemy-slide-height: 480; }
+
+.enemy-slide__shadow,
+.enemy-slide__image {
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Shadow = targeting highlight:  the sprite in a flat colour, up-left of the sprite itself */
+.enemy-slide__shadow {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+.enemy-slide--targeted > .enemy-slide__shadow {
+    display: flex;
+}
+
+.enemy-slide__image {
+    left: 12px;
+    top: 7px;
+    right: 0;
+    bottom: 0;
+    transition: -unity-background-image-tint-color var(--choice-tint-duration);
+}
+
+/* Pointer feedback:  the sprite darkens */
+.enemy-slide:hover > .enemy-slide__image {
+    -unity-background-image-tint-color: var(--slide-hover-tint);
+}
+
+.enemy-slide:active > .enemy-slide__image {
+    -unity-background-image-tint-color: var(--slide-pressed-tint);
+}
+
+/* Cooldown dot centred 25px in from the bottom-left corner */
+.enemy-slide__cooldown {
+    position: absolute;
+    left: -2.5px;
+    bottom: -2.5px;
+    width: 55px;
+    height: 55px;
+
+    --cooldown-foreground-colour: rgb(255, 80, 80);
+    --cooldown-background-colour: rgb(0, 0, 0);
+    --cooldown-paused-colour: rgb(135, 206, 250);
+    --cooldown-foreground-scale: 0.727;
+}
+
+/* Status effects centred on the top edge (offset low to stay clear of the row above) */
+.enemy-slide__status-effects {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -25px;
+    justify-content: center;
+}
+
+/* Damage text spawns centred above the top edge */
+.enemy-slide__damage-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -25px;
+    height: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+/* Defeated:  the sprite fades out (EnemySlideElement), everything else goes at once */
+.enemy-slide--defeated > .enemy-slide__shadow,
+.enemy-slide--defeated > .enemy-slide__cooldown,
+.enemy-slide--defeated > .enemy-slide__status-effects {
+    display: none;
+}
