@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <ui:VisualElement class="naming-confirm-screen" picking-mode="Ignore">
+        <ui:VisualElement class="naming-confirm" picking-mode="Ignore">
+            <ui:VisualElement class="naming-confirm__header" picking-mode="Ignore">
+                <ui:VisualElement class="uibox naming-confirm__options" picking-mode="Ignore">
+                    <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                    <frankie:FrameElement class="uibox__frame" />
+                    <uibox:ChoiceEntryContainer choice-layout="Horizontal" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="naming-confirm__cards" picking-mode="Ignore">
+                <menu:ConfirmCharacterCardList class="naming-confirm__character-cards" />
+                <menu:ConfirmAnswerCardList class="naming-confirm__answer-cards" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

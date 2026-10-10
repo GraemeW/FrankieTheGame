@@ -33,11 +33,12 @@ namespace LowDefMustard.UIBox
         private void Awake()
         {
             panelRenderer = GetComponent<PanelRenderer>();
+            panelRenderer.position = Position.Absolute; // Nested under another PanelRenderer ~ the default lays the root out as a child (collapsing screen-sized content)
         }
 
         private void OnEnable()
         {
-            // Note:  Invoked immediately if the UI is already loaded, then again on every reload (e.g. UXML live reload)
+            // Note:  Invoked immediately if the UI is already loaded + on every reload (e.g. UXML live reload)
             panelRenderer.RegisterUIReloadCallback(HandleUIReload);
         }
 
@@ -129,6 +130,7 @@ namespace LowDefMustard.UIBox
             // Setup root element + style
             boundRoot = rootElement;
             boundRoot.pickingMode = PickingMode.Ignore; // Only interactive children should intercept pointer input
+            boundRoot.EnableInClassList(USSClassNames.BoxView.nested, panelRenderer.parentUI != null); // Nested roots are stretched over their parent's by USS
             ApplyStyleSheets();
             
             // Setup pointer / click behaviour

@@ -148,6 +148,16 @@
     flex-direction: row;
 }
 
+/* ~ Nested Box ~ */
+/* A view under another PanelRenderer shares its parent's tree:  its root covers the parent's, so both lay out against the same screen */
+.uibox-view--nested {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
 /* ~ Inactive Box ~ */
 /* Pointer input is blocked while another box is on top:  suppress hover/press tint so nothing looks clickable */
 .uibox-view--pointer-input-disabled .choice-entry:hover > .choice-entry__label,
@@ -169,11 +179,42 @@
 }
 
 /* ~ Display Text ~ */
-/* N.B. The advanced generator sizes glyphs from the font's outline table - for bitmap fonts, those are placeholder boxes (stretched glyphs) */
-/* Thus - using standard unity-text-generator (see Unity: USS properties reference for more detail) */
 .text-display {
     -unity-font-definition: var(--font-display);
-    -unity-text-generator: standard;
+}
+
+/* ~ Text Fit ~ */
+/* Approach: A) fixed-sized elements:  fit their text.  B) boxes that grow w/ content (dialogue text, messages):  do not fit their text. */
+/* Recipe: `white-space: nowrap` + `-unity-text-auto-size: best-fit <min> <max>` on a label whose width is bounded - */
+/* N.B. Best-fit ignores font-size:  <max> is the size the text has when it fits, so it must repeat the label's font-size */
+
+/* Every choice row fits by default:  the row may not outgrow its container, its marker keeps its width, its label gives way */
+.choice-entry {
+    flex-shrink: 1;
+    max-width: 100%;
+}
+
+.choice-entry__marker {
+    flex-shrink: 0;
+}
+
+.choice-entry__label {
+    flex-shrink: 1;
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+/* Fixed parts of a row keep their size (the label beside them is what shrinks) */
+.slider-choice__slider,
+.toggle-choice__box {
+    flex-shrink: 0;
+}
+
+/* ~ Sprites ~ */
+/* SpriteElement: shows its model's current sprite, fitted inside whatever size the screen gives it */
+.sprite {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* ~ Model-Bound Labels ~ */

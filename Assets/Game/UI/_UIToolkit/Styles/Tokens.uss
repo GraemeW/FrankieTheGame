@@ -3,13 +3,11 @@
 
 :root {
     /* Assets */
-    --font-default: url("project://database/Assets/z_ImportedAssets/EB-Fonts/apple_kid.ttf?fileID=12800000&guid=7bd65eb5ffd78954896f033f015e3eaf&type=3#apple_kid");
-    /* N.B. fourside is a bitmap font (placeholder outlines):  pair with `-unity-text-generator: standard` (see UIBox.uss .text-display) */
-    --font-display: url("project://database/Assets/z_ImportedAssets/EB-Fonts/fourside%20SDF_UITK.asset?fileID=11400000&guid=177b4859d921f4863852fa903b459784&type=2#fourside SDF_UITK");
+    --font-default: url("project://database/Assets/z_ImportedAssets/EB-Fonts/apple_kid%20SDF_UITK.asset?fileID=11400000&guid=da9ec84fcc9a14f15a8a490838a9a40e&type=2#apple_kid SDF_UITK");
+    --font-display: url("project://database/Assets/z_ImportedAssets/EB-Fonts/foursideVector%20SDF.asset?fileID=11400000&guid=06badb9dd82684bc6857efcc4560922d&type=2#foursideVector SDF");
     --frame-image: url("project://database/Assets/z_MadeAssets/BattleUI/MenuFrame.png?fileID=21300000&guid=f30d85e6afc224fe9a89251a4c2dab80&type=3#MenuFrame");
 
-    /* Fonts:  twoson is bitmap-only (pair with `-unity-text-generator: standard`); statusplz has outlines */
-    --font-slide-name: url("project://database/Assets/z_ImportedAssets/EB-Fonts/twoson.ttf?fileID=12800000&guid=1c36ae043cb7ee44ba7ac2e8cc3a4ba3&type=3#twoson");
+    --font-slide-name: url("project://database/Assets/z_ImportedAssets/EB-Fonts/twosonVector%20SDF.asset?fileID=11400000&guid=335f59fb5bb284859a1496faf0aca5e7&type=2#twosonVector SDF");
     --font-slide-digits: url("project://database/Assets/z_ImportedAssets/EB-Fonts/statusplz.ttf?fileID=12800000&guid=c000ddec05b41574396a4a0ec75ea958&type=3#statusplz");
 
     /* Character slides */
@@ -30,6 +28,9 @@
     --status-increase-image: url("project://database/Assets/z_MadeAssets/StatusEffects/Increase.png?fileID=21300000&guid=c57e5cc458f1cec48beac0209efb4e2c&type=3#Increase");
     --status-decrease-image: url("project://database/Assets/z_MadeAssets/StatusEffects/Decrease.png?fileID=21300000&guid=1d7686a6c7fe4f14397edd84e7c4cfc2&type=3#Decrease");
 
+    /* Naming screen */
+    --naming-backdrop-image: url("project://database/Assets/z_ImportedAssets/EB-BattleBackgrounds/041.png?fileID=21300000&guid=e29be70c9febd64428840a5f7cb924d8&type=3#041");
+
     /* Frame */
     --frame-slice: 18;
     --frame-flavour-default: rgb(184, 255, 255);
@@ -38,6 +39,7 @@
     --font-size-default: 64px;
     --text-colour-default: rgb(255, 255, 255);
     --choice-dimmed-colour: rgb(128, 128, 128);
+    --choice-selected-colour: rgb(124, 252, 0);
 
     /* Inventory */
     --equipped-marker-colour: rgb(163, 109, 238);

@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors FrameFlavourPanel.uxml (and its text-scan box) with sample entries - keep in sync -->
+    <!-- Style order matches the views:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="NamingScreen.uss" />
+    <Style src="FrameFlavourPanel.uss" />
+    <ui:VisualElement class="naming-backdrop" picking-mode="Ignore" />
+    <ui:VisualElement class="frame-flavour-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox frame-flavour-panel">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <menu:FrameFlavourPreviewFrame class="uibox__frame" />
+            <menu:FrameFlavourQuestionLabel text="What&apos;s your favourite flavour?" class="frame-flavour-panel__question" picking-mode="Ignore" />
+            <uibox:ChoiceEntryContainer choice-layout="Vertical" class="frame-flavour-panel__choices" picking-mode="Ignore">
+                <menu:FrameFlavourChoiceElement label-text="Plain" />
+                <menu:FrameFlavourChoiceElement label-text="Cool" />
+                <menu:FrameFlavourChoiceElement label-text="Spicy" />
+                <menu:FrameFlavourChoiceElement label-text="Friendship" />
+                <menu:FrameFlavourChoiceElement label-text="PeanutButter" />
+                <menu:FrameFlavourChoiceElement label-text="Fresh" />
+                <menu:FrameFlavourChoiceElement label-text="Mustard" />
+                <menu:FrameFlavourChoiceElement label-text="Shrimp" highlighted="true" flavour-colour="#F8BAE6" />
+            </uibox:ChoiceEntryContainer>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

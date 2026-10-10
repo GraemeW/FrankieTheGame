@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f5828f87e04ff39f1539aa722c20da, type: 3}
+  m_Name: FrameFlavours
+  m_EditorClassIdentifier: 
+  flavours:
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40580842639056896
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 1, g: 1, b: 1, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40581058167562240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.72156864, g: 1, b: 1, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40582973458735104
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.9716981, g: 0.49803922, b: 0.4995995, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40585451155742720
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.7467059, g: 0.49733, b: 0.8301887, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40583411973218304
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.7169812, g: 0.49405187, b: 0.33481666, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40585210528522240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.75, g: 1, b: 0.76717836, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40583676973539328
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.9528302, g: 0.9087807, b: 0.4000089, a: 1}
+  - localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+      m_TableEntryReference:
+        m_KeyId: 40624107111309312
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    colour: {r: 0.9716981, g: 0.7287736, b: 0.9025859, a: 1}

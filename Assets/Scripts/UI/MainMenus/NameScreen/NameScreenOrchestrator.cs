@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
-using LowDefMustard.UIBox;
 using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
@@ -27,13 +26,10 @@ namespace Frankie.Menu.UI
         [SerializeField] private List<NameScreenQuestion> questions = new();
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
-        [SerializeField] private UIChoiceButton choiceButtonPrefab;
         [Header("Hookups")]
-        [SerializeField] private Transform infoPanel;
         [SerializeField] private Transform namingPanel;
         [SerializeField] private Transform frameFlavourPanel;
         [SerializeField] private Transform namingConfirmPanel;
-        [SerializeField] private Transform dialogueBoxSpawnPoint;
 
         // State
         private NameScreenState nameScreenState = NameScreenState.Intro;
@@ -129,7 +125,6 @@ namespace Frankie.Menu.UI
         {
             nameScreenState = setNameScreenState;
             
-            infoPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Intro);
             namingPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Naming or NameScreenState.NamingComplete);
             frameFlavourPanel.gameObject.SetActive(setNameScreenState is NameScreenState.FrameFlavouring);
             namingConfirmPanel.gameObject.SetActive(setNameScreenState is NameScreenState.Confirm);
@@ -144,8 +139,7 @@ namespace Frankie.Menu.UI
         
         private void SpawnIntroDialogueBox()
         {
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, dialogueBoxSpawnPoint);
-            if (dialogueBox.TryGetComponent(out RectTransform rectTransform)) { rectTransform.anchoredPosition = Vector2.zero; } // Revert any prefab offsets
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform);
             dialogueBox.Setup(startingMessage.GetSafeLocalizedString());
             mainMenuController.AddInputReceiver(dialogueBox, () => SetState(NameScreenState.Naming));
         }

@@ -56,3 +56,19 @@
 .uibox-view--pointer-input-disabled .skill-wheel__direction.unity-button:active:enabled {
     color: var(--text-colour-default);
 }
+
+/* ~ Text Fit ~ */
+/* The wheel fills the area its screen gives it.  Rows may not outgrow it, and the skill names in a row give way together */
+.skill-wheel {
+    align-self: stretch;
+}
+
+.skill-wheel__row {
+    max-width: 100%;
+}
+
+.skill-wheel__row > .skill-wheel__direction {
+    flex-shrink: 1;
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}

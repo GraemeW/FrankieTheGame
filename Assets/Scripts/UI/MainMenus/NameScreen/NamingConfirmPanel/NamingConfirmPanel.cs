@@ -5,27 +5,31 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
-using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Speech.UI;
+using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class NamingConfirmPanel : UIBox<UIBoxState>, ILocalizable
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class NamingConfirmPanel : UIBox<UIBoxState>, ILocalizable
     {
-        [Header("Properties")]
+        [Header("Animation Parameters")]
+        [SerializeField] private float plantedWalkMinAnimationRate = 0.25f;
+        [SerializeField] private float plantedWalkMaxAnimationRate = 0.75f;
+        [Header("Text")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmPhrase;
-        [Header("Prefabs")]
-        [SerializeField] private CharacterConfirmCard characterConfirmCardPrefab;
-        [SerializeField] private AltConfirmCard altConfirmCardPrefab;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedRejectText;
         [Header("Hookups")]
-        [SerializeField] private DialogueBox confirmPhraseBox; // Using prefab for box & text scan only
-        [SerializeField] private DialogueOptionBox confirmOptionBox; // Using prefab for box & access to standard buttons (below) 
-        [SerializeField] private UIChoiceButton confirmButton;
-        [SerializeField] private UIChoiceButton rejectButton;
-        [SerializeField] private Transform leftCardSpawnPoint;
-        [SerializeField] private Transform rightCardSpawnPoint;
+        [SerializeField] private DialogueBox confirmPhraseBox; // Own panel text scan
+
+        // State
+        private readonly NamingConfirmModel namingConfirmModel = new();
+        private readonly List<AnimatorSpriteSource> characterSources = new();
+        private IUIChoice confirmChoice;
+        private IUIChoice rejectChoice;
 
         // Cached References
         private NameScreenOrchestrator nameScreenOrchestrator;
@@ -37,24 +41,22 @@ namespace Frankie.Menu.UI
             return new List<TableEntryReference>
             {
                 localizedConfirmPhrase.TableEntryReference,
+                localizedConfirmText.TableEntryReference,
+                localizedRejectText.TableEntryReference,
             };
         }
-        
-        // UIBox Configuration
-        protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
-        {
-            var stateBehaviours = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
-            stateBehaviours.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(setupChoiceOptions: ImplementSetupChoiceOptions));
-            return stateBehaviours;
-        }
-        
+
         #region UnityMethods
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
+            clearVolatileOptionsOnEnable = false;
             nameScreenOrchestrator = GetComponentInParent<NameScreenOrchestrator>();
-            confirmPhraseBox.SetHandleGlobalInput(false);
-            confirmOptionBox.SetHandleGlobalInput(false);
+
+            GetComponent<UIToolkitMenuView>().SetDataSource(namingConfirmModel);
+            if (confirmPhraseBox != null) { confirmPhraseBox.SetHandleGlobalInput(false); }
+            confirmChoice = AddNonDestroyChoiceOption(localizedConfirmText.GetSafeLocalizedString(), Confirm);
+            rejectChoice = AddNonDestroyChoiceOption(localizedRejectText.GetSafeLocalizedString(), Reject);
         }
 
         protected override void StartTriggered()
@@ -65,29 +67,21 @@ namespace Frankie.Menu.UI
         protected override void EnableTriggered()
         {
             SubscribeToStateUpdates(true);
-            SetupButtonEvents(true);
+            confirmChoice.SetText(localizedConfirmText.GetSafeLocalizedString());
+            rejectChoice.SetText(localizedRejectText.GetSafeLocalizedString());
         }
-        
+
         protected override void DisableTriggered()
         {
             SubscribeToStateUpdates(false);
-            SetupButtonEvents(false);
+            ClearCards();
         }
         #endregion
-        
-        #region UIBoxConfiguration
-        private void ImplementSetupChoiceOptions()
-        {
-            choiceOptions.Clear();
-            choiceOptions.Add(confirmButton);
-            choiceOptions.Add(rejectButton);
-        }
-        #endregion
-        
+
         #region EventHandling
         private void SubscribeToStateUpdates(bool enable)
         {
-            if (nameScreenOrchestrator == null)  { return; }
+            if (nameScreenOrchestrator == null) { return; }
 
             nameScreenOrchestrator.stateChanged -= HandleStateChange;
             if (enable) { nameScreenOrchestrator.stateChanged += HandleStateChange; }
@@ -98,35 +92,33 @@ namespace Frankie.Menu.UI
             if (nameScreenState != NameScreenState.Confirm) { return; }
 
             SetupConfirmPhrase();
-            SetupConfirmationCards();
+            SetupCards();
         }
 
-        private void SetupButtonEvents(bool enable)
+        private void Confirm()
         {
-            confirmButton.RemoveOnClickListeners();
-            rejectButton.RemoveOnClickListeners();
-            if (enable && nameScreenOrchestrator != null)
-            {
-                confirmButton.AddOnClickListener(() => nameScreenOrchestrator.ConfirmAndContinue());
-                rejectButton.AddOnClickListener(() => nameScreenOrchestrator.ResetState());
-            }
+            if (nameScreenOrchestrator != null) { nameScreenOrchestrator.ConfirmAndContinue(); }
+        }
+
+        private void Reject()
+        {
+            if (nameScreenOrchestrator != null) { nameScreenOrchestrator.ResetState(); }
         }
         #endregion
-        
+
         #region PrivateMethods
         private void SetupConfirmPhrase()
         {
+            if (confirmPhraseBox == null) { return; }
             confirmPhraseBox.ClearOldDialogue();
             confirmPhraseBox.Setup(localizedConfirmPhrase.GetSafeLocalizedString());
         }
-        
-        private void SetupConfirmationCards()
+
+        private void SetupCards()
         {
             if (nameScreenOrchestrator == null) { return; }
-            
-            foreach (Transform child in leftCardSpawnPoint) { Destroy(child.gameObject); }
-            foreach (Transform child in rightCardSpawnPoint) { Destroy(child.gameObject); }
-            
+
+            ClearCards();
             List<NameScreenAnswer> answers = nameScreenOrchestrator.GetAnswers();
             if (answers == null || answers.Count == 0) // Invalid state
             {
@@ -134,24 +126,43 @@ namespace Frankie.Menu.UI
                 return;
             }
 
+            var characterCards = new List<ConfirmCharacterCard>();
+            var answerCards = new List<ConfirmAnswerCard>();
             foreach (NameScreenAnswer answer in answers.Where(answer => answer.question != null))
             {
                 switch (answer.question.questionType)
                 {
                     case NameScreenQuestionType.CharacterName:
-                        CharacterConfirmCard characterConfirmCard = Instantiate(characterConfirmCardPrefab, leftCardSpawnPoint);
-                        characterConfirmCard.Setup(answer.answer, answer.question.thingPrefab);
+                        characterCards.Add(new ConfirmCharacterCard(answer.answer, CreateCharacterSprite(answer.question.GetCharacterPrefab())));
                         break;
                     case NameScreenQuestionType.FavouriteFood:
                     case NameScreenQuestionType.FavouriteThing:
                     case NameScreenQuestionType.FrameFlavour:
-                        AltConfirmCard altConfirmCard = Instantiate(altConfirmCardPrefab, rightCardSpawnPoint);
-                        altConfirmCard.Setup(answer.question.localizedQuestion.GetSafeLocalizedString(), answer.answer);
+                        answerCards.Add(new ConfirmAnswerCard(answer.question.localizedQuestion.GetSafeLocalizedString(), answer.answer));
                         break;
                 }
             }
+            namingConfirmModel.characterCards = characterCards;
+            namingConfirmModel.answerCards = answerCards;
         }
-        
+
+        private SpriteModel CreateCharacterSprite(GameObject characterPrefab)
+        {
+            if (!AnimatorSpriteSource.TryCreate(characterPrefab, transform, out AnimatorSpriteSource characterSource)) { return null; }
+
+            characterSources.Add(characterSource);
+            float animationRate = Random.Range(plantedWalkMinAnimationRate, plantedWalkMaxAnimationRate);
+            characterSource.PoseWalk(Vector2.down, animationRate);
+            return characterSource.spriteModel;
+        }
+
+        private void ClearCards()
+        {
+            namingConfirmModel.characterCards = null;
+            namingConfirmModel.answerCards = null;
+            foreach (AnimatorSpriteSource characterSource in characterSources.Where(characterSource => characterSource != null)) { Destroy(characterSource.gameObject); }
+            characterSources.Clear();
+        }
         #endregion
     }
 }

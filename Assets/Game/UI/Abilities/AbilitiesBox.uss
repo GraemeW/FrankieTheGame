@@ -73,3 +73,21 @@
 .abilities-box__detail-text {
     white-space: normal;
 }
+
+/* ~ Text Fit ~ */
+.abilities-box__selected > .unity-label {
+    max-width: 100%;
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+.abilities-box__detail-line > .unity-label {
+    flex-shrink: 1;
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+/* The wheel's area is whatever the selected pane leaves, whatever the skill names measure (so they have a width to fit) */
+.abilities-box__wheel {
+    flex-basis: 0;
+}

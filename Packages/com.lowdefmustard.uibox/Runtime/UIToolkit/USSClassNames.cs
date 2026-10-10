@@ -8,6 +8,7 @@ namespace LowDefMustard.UIBox
         {
             public const string block = "uibox-view";
             public const string pointerInputDisabled = block + "--pointer-input-disabled";
+            public const string nested = block + "--nested";
         }
 
         public static class BackExit

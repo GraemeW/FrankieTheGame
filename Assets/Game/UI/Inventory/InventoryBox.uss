@@ -135,3 +135,14 @@
     margin-top: 20px;
     padding: 0 150px;
 }
+
+/* ~ Text Fit ~ */
+.item-box__name {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 20px 40px;
+}
+
+.stat-change__name {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}

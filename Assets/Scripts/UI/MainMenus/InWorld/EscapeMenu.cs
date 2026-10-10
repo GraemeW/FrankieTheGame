@@ -130,7 +130,6 @@ namespace Frankie.Menu.UI
             
             FrameFlavourPanel frameFlavourPanel = Instantiate(frameFlavourPanelPrefab, worldCanvas.gameObject.transform);
             frameFlavourPanel.EnableEscapeOptionExit();
-            frameFlavourPanel.SetupAdditionalColorUpdates(this);
             controller.AddInputReceiver(frameFlavourPanel, null);
         }
 

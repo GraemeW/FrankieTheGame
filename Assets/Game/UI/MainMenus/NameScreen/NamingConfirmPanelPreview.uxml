@@ -1,0 +1,78 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors NamingConfirmPanel.uxml (and its text-scan box) with sample entries - keep in sync -->
+    <!-- Style order matches the views:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="NamingScreen.uss" />
+    <Style src="NamingConfirmPanel.uss" />
+    <ui:VisualElement class="naming-backdrop" picking-mode="Ignore" />
+    <ui:VisualElement class="naming-confirm-screen" picking-mode="Ignore">
+        <ui:VisualElement class="naming-confirm" picking-mode="Ignore">
+            <ui:VisualElement class="uibox naming-confirm__phrase" picking-mode="Ignore">
+                <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox__frame" />
+                <uibox:TextEntryContainer picking-mode="Ignore">
+                    <uibox:TextEntryElement label-text="Does this look right?" />
+                </uibox:TextEntryContainer>
+            </ui:VisualElement>
+            <ui:VisualElement class="naming-confirm__header" picking-mode="Ignore">
+                <ui:VisualElement class="uibox naming-confirm__options" picking-mode="Ignore">
+                    <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                    <frankie:FrameElement class="uibox__frame" />
+                    <uibox:ChoiceEntryContainer choice-layout="Horizontal" picking-mode="Ignore">
+                        <uibox:ChoiceEntryElement label-text="Okay" highlighted="true" />
+                        <uibox:ChoiceEntryElement label-text="Nah" />
+                    </uibox:ChoiceEntryContainer>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="naming-confirm__cards" picking-mode="Ignore">
+                <menu:ConfirmCharacterCardList class="naming-confirm__character-cards">
+                    <ui:VisualElement class="uibox confirm-card confirm-card--character" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <frankie:SpriteElement class="confirm-card__sprite" />
+                        <ui:Label text="Frankie" class="confirm-card__name" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="uibox confirm-card confirm-card--character" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <frankie:SpriteElement class="confirm-card__sprite" />
+                        <ui:Label text="Tilly" class="confirm-card__name" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="uibox confirm-card confirm-card--character" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <frankie:SpriteElement class="confirm-card__sprite" />
+                        <ui:Label text="PhilToo" class="confirm-card__name" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="uibox confirm-card confirm-card--character" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <frankie:SpriteElement class="confirm-card__sprite" />
+                        <ui:Label text="Lucy" class="confirm-card__name" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </menu:ConfirmCharacterCardList>
+                <menu:ConfirmAnswerCardList class="naming-confirm__answer-cards">
+                    <ui:VisualElement class="uibox confirm-card confirm-card--answer" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <ui:Label text="What&apos;s your favourite food?" class="confirm-card__question" picking-mode="Ignore" />
+                        <ui:Label text="Pizza" class="confirm-card__answer" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="uibox confirm-card confirm-card--answer" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <ui:Label text="What&apos;s your favourite thing?" class="confirm-card__question" picking-mode="Ignore" />
+                        <ui:Label text="Gaming" class="confirm-card__answer" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="uibox confirm-card confirm-card--answer" picking-mode="Ignore">
+                        <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                        <frankie:FrameElement class="uibox__frame" />
+                        <ui:Label text="What&apos;s your favourite flavour?" class="confirm-card__question" picking-mode="Ignore" />
+                        <ui:Label text="Shrimp" class="confirm-card__answer" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </menu:ConfirmAnswerCardList>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

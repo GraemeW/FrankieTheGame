@@ -51,3 +51,9 @@
     margin-top: 48px;
     padding: 0 60px;
 }
+
+/* ~ Text Fit ~ */
+/* The item name is what gives way in a stock row */
+.shop-stock > .shop-stock__price {
+    flex-shrink: 0;
+}

@@ -64,3 +64,16 @@
     padding: 0;
     -unity-text-align: middle-left;
 }
+
+/* ~ Text Fit ~ */
+.status-box__name {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 20px 40px;
+}
+
+.stat-line__name,
+.status-box__experience > .unity-label {
+    flex-shrink: 1;
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}

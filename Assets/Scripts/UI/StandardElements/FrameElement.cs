@@ -11,6 +11,7 @@ namespace Frankie.Utils.UI
         // Tint is the global frame flavour, adjusted by USS custom properties set on the frame itself (e.g. `.my-state .frame { ... }`):
         //   --frame-tint-factor:  brightness scaling (range 0.5 - 1.5, as per UIFrame)
         //   --frame-tint-override:  local colour in place of the frame flavour (e.g. a targeted character slide)
+        // A local flavour stands in for the global one on this frame only
 
         // Const
         private const string _ussClassName = "frame";
@@ -20,7 +21,10 @@ namespace Frankie.Utils.UI
         // State
         private Color frameFlavourColour = Color.white;
         private float tintFactor = 1f;
-        private Color? tintOverride;
+        private Color? tintOverride; // frame highlights in gameplay
+        
+        private bool hasLocalFlavour = false;
+        private Color localFlavourColour = Color.white; // frame in flavour selection 
 
         public FrameElement()
         {
@@ -30,6 +34,21 @@ namespace Frankie.Utils.UI
             RegisterCallback<DetachFromPanelEvent>(HandleDetachFromPanel);
             RegisterCallback<CustomStyleResolvedEvent>(HandleCustomStyleResolved);
         }
+
+        #region PublicMethods
+        public void SetLocalFlavour(Color setLocalFlavourColour)
+        {
+            hasLocalFlavour = true;
+            localFlavourColour = setLocalFlavourColour;
+            ApplyTint();
+        }
+
+        public void ClearLocalFlavour()
+        {
+            hasLocalFlavour = false;
+            ApplyTint();
+        }
+        #endregion
 
         #region EventHandlers
         private void HandleAttachToPanel(AttachToPanelEvent attachToPanelEvent)
@@ -66,7 +85,7 @@ namespace Frankie.Utils.UI
         private void ApplyTint()
         {
             if (!Application.isPlaying || panel == null) { return; } // Edit-time (UI Builder) previews use the USS default tint
-            style.unityBackgroundImageTintColor = UIFrame.GetScaledColour(tintOverride ?? frameFlavourColour, tintFactor);
+            style.unityBackgroundImageTintColor = UIFrame.GetScaledColour(tintOverride ?? (hasLocalFlavour ? localFlavourColour : frameFlavourColour), tintFactor);
         }
         #endregion
     }

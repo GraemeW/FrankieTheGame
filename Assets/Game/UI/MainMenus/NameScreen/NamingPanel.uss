@@ -1,0 +1,167 @@
+/* Note:  Shared by the naming panel and its question box - both lay out from the same fixed top-centre anchor */
+/* The keyboard grows downwards with its alphabet, so the panel hangs from the top (where a standard keyboard is centred) rather than centring itself */
+.naming-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.naming-panel {
+    width: 1130px;
+    margin-top: 320px;
+}
+
+/* ~ Name Row ~ */
+.naming-panel__name-row {
+    height: 150px;
+}
+
+/* Clips, so the character walks in from the stage's left edge */
+.naming-panel__stage {
+    position: absolute;
+    left: -75px;
+    top: -15px;
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+}
+
+.naming-panel__stage > .sprite {
+    width: 100%;
+    height: 100%;
+}
+
+.naming-panel__input {
+    position: absolute;
+    left: 150px;
+    top: 0;
+    width: 290px;
+    height: 150px;
+    padding: 0;
+    justify-content: center;
+}
+
+.naming-panel__input-text {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.naming-panel__question {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 630px;
+    height: 150px;
+    padding: 40px 40px 0 40px;
+}
+
+/* ~ Keyboard ~ */
+/* Content is 16 keys wide (letters | gap | special characters); height follows the rows of keys */
+.naming-panel__keyboard {
+    margin-top: 100px;
+    padding: 50px 75px 55px 95px;
+}
+
+.naming-panel__keys {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 240px;
+}
+
+/* Key sets wrap:  each sizes itself to its columns x the key size (KeyboardKeySet) */
+/* N.B. --keyboard-key-size is read by the key set, so it is set here (not inherited); keep the key rule below in step */
+.keyboard-keys {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    --keyboard-key-size: 60;
+}
+
+.keyboard-keys--hidden {
+    display: none;
+}
+
+.naming-panel__case-row,
+.naming-panel__admin-row {
+    flex-direction: row;
+    height: 60px;
+}
+
+.naming-panel__case-row {
+    margin-top: 40px;
+}
+
+.naming-panel__admin-row {
+    margin-top: 45px;
+}
+
+.naming-panel__keyboard .choice-entry {
+    height: 60px;
+}
+
+/* Keys are fixed cells whatever the glyph (accented / wide characters overhang rather than push the grid) */
+.naming-panel__keys .choice-entry {
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.naming-panel__case-row .choice-entry {
+    width: 265px;
+}
+
+.naming-panel__admin-row .choice-entry {
+    width: 330px;
+}
+
+/* Marker sits in the gap before the choice (outside its layout), so fixed-width keys stay on their grid */
+.naming-panel__keyboard .choice-entry > .choice-entry__marker {
+    position: absolute;
+    left: -35px;
+    top: 0;
+    bottom: 0;
+    margin-right: 0;
+    -unity-text-align: middle-left;
+}
+
+/* Button theme centres text by default */
+.naming-panel__keyboard .choice-entry > .choice-entry__label {
+    -unity-text-align: middle-left;
+}
+
+.naming-panel__keyboard .choice-entry--highlighted > .choice-entry__label {
+    color: var(--choice-selected-colour);
+    -unity-font-style: bold;
+}
+
+/* ~ Text Fit ~ */
+/* N.B. Best-fit needs a bounded label, so each label below is given the width / height it may fill */
+.naming-panel__input-text,
+.naming-panel__question .text-entry__label,
+.naming-panel__case-row .choice-entry__label,
+.naming-panel__admin-row .choice-entry__label {
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+.naming-panel__input-text {
+    margin: 0 20px;
+    white-space: nowrap;
+}
+
+/* Wraps first, then shrinks until the lines fit the box */
+.naming-panel__question .text-entry__label {
+    max-height: 90px;
+}
+
+/* Label takes the rest of its (fixed-width) choice, less a gap before the next one */
+.naming-panel__case-row .choice-entry > .choice-entry__label,
+.naming-panel__admin-row .choice-entry > .choice-entry__label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    margin-right: 45px;
+}

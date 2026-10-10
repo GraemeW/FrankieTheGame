@@ -66,3 +66,16 @@
     height: 170px;
     background-color: rgba(0, 0, 0, 0);
 }
+
+/* ~ Text Fit ~ */
+.load-game-menu__header {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+/* The character name is what gives way in a save slot */
+.load-game-menu__choices .save-slot > .save-slot__index,
+.load-game-menu__choices .save-slot > .save-slot__level-label,
+.load-game-menu__choices .save-slot > .save-slot__level {
+    flex-shrink: 0;
+}

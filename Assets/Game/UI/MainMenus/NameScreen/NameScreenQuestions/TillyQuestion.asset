@@ -21,7 +21,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  thingPrefab: {fileID: 3708396635807745371, guid: f7fcd525ad6d649718c4b39677173064, type: 3}
   localizedDontCareAnswers:
   - entry:
       m_TableReference:

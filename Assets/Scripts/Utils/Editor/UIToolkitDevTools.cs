@@ -17,6 +17,7 @@ namespace Frankie.Utils.UI.Editor
     public static class UIToolkitDevTools
     {
         private const string _menuRoot = "Tools/UIDevTools/";
+        private const string _copyUSSAssetURLMenuItem = "Assets/Copy USS Asset URL";
         private const string _captureDirectory = "Temp/UICaptures";
         private const string _testSimpleMessage = "Wow! Looks like we're testing a simple message.  This extra-long test sentence checks that dialogue text wraps nicely inside the box.";
         private const string _testOptionMessage = "Should we be testing this option message?";
@@ -148,6 +149,24 @@ namespace Frankie.Utils.UI.Editor
         [MenuItem(_menuRoot + "Spawn Simple Option", true)]
         [MenuItem(_menuRoot + "Spawn Selected Dialogue", true)]
         private static bool ValidatePlayMode() => Application.isPlaying;
+        #endregion
+
+        #region AssetMenuItems
+        [MenuItem(_copyUSSAssetURLMenuItem, false, 19)]
+        private static void CopyUSSAssetURL()
+        {
+            Object asset = Selection.activeObject;
+            string assetPath = AssetDatabase.GetAssetPath(asset);
+            if (!AssetDatabase.TryGetGUIDAndLocalFileIdentifier(asset, out string guid, out long localFileID)) { return; }
+
+            int fileType = AssetDatabase.IsNativeAsset(asset) ? 2 : 3; // 2: serialized by Unity (e.g. .asset), 3: imported (e.g. .png, .ttf)
+            string ussAssetURL = $"url(\"project://database/{Uri.EscapeUriString(assetPath)}?fileID={localFileID}&guid={guid}&type={fileType}#{asset.name}\")";
+            EditorGUIUtility.systemCopyBuffer = ussAssetURL;
+            Debug.Log($"[UIToolkitDevTools] Copied USS asset url:  {ussAssetURL}", asset);
+        }
+
+        [MenuItem(_copyUSSAssetURLMenuItem, true)]
+        private static bool ValidateCopyUSSAssetURL() => Selection.activeObject != null && AssetDatabase.Contains(Selection.activeObject);
         #endregion
 
         #region PrivateMethods

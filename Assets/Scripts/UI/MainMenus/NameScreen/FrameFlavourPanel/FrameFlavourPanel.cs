@@ -1,126 +1,106 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
-using LowDefMustard.Utils;
+using LowDefMustard.Localization;
 using Frankie.Saving;
-using Frankie.Speech.UI;
-using Frankie.Utils.UI;
-using UnityEngine;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class FrameFlavourPanel : UIBox<UIBoxState>
+    [RequireComponent(typeof(UIToolkitMenuView))]
+    public sealed class FrameFlavourPanel : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Properties")]
         [SerializeField] private NameScreenQuestion flavourQuestion;
-        [Header("Hookups")]
-        [SerializeField] private DialogueOptionBox flavourSelectionBox;
-        [SerializeField] private Transform flavourChoiceParent;
+        [SerializeField] private FrameFlavours frameFlavours;
 
         // State
-        private readonly HashSet<UIFrame> additionalLocalFrameOverwrites = new();
-        
+        private readonly FrameFlavourPanelModel frameFlavourPanelModel = new();
+        private readonly List<(FrameFlavourOption flavour, FrameFlavourChoiceModel choiceModel)> flavourChoices = new();
+
         // Cached References
         private NameScreenOrchestrator nameScreenOrchestrator;
-        
-        #region UIBoxConfiguration
-        protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours()
+
+        // Localization
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
         {
-            var stateBehaviours = new EnumLookup<UIBoxState, UIBoxStateBehaviour>();
-            stateBehaviours.TrySet(UIBoxState.Default, new UIBoxStateBehaviour(
-                setupChoiceOptions: ImplementSetupChoiceOptions
-                ));
-            return stateBehaviours;
+            return frameFlavours != null ? frameFlavours.GetLocalizationEntries() : new List<TableEntryReference>();
         }
 
-        private void ImplementSetupChoiceOptions()
-        {
-            choiceOptions.Clear();
-            foreach (FrameFlavourChoice flavourChoice in flavourChoiceParent.GetComponentsInChildren<FrameFlavourChoice>())
-            {
-                choiceOptions.Add(flavourChoice);
-            }
-        }
-        #endregion
-        
         #region UnityMethods
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
+            clearVolatileOptionsOnEnable = false;
             nameScreenOrchestrator = GetComponentInParent<NameScreenOrchestrator>();
-            flavourSelectionBox.SetHandleGlobalInput(false);
+
+            var menuView = GetComponent<UIToolkitMenuView>();
+            menuView.SetDataSource(frameFlavourPanelModel);
+            BuildChoiceOptions(menuView);
         }
-        
+
         protected override void StartTriggered()
         {
             if (nameScreenOrchestrator != null && nameScreenOrchestrator.TryGetController(out BaseController baseController)) { baseController.AddInputReceiver(this, null); }
         }
-        
+
         protected override void EnableTriggered()
         {
-            SetupButtonEvents(true);
+            ResetAllTextElements();
         }
-        
+
         protected override void DisableTriggered()
         {
-            SetupButtonEvents(false);
+            frameFlavourPanelModel.hasPreview = false;
         }
         #endregion
-        
+
         #region PublicMethods
-        public void SetupAdditionalColorUpdates(UIBoxBase uiBox)
-        {
-            // Temporarily update frame colour on selection for already instantiated frames
-            foreach (UIFrame uiFrame in uiBox.GetComponentsInChildren<UIFrame>())
-            {
-                additionalLocalFrameOverwrites.Add(uiFrame);
-            }
-        }
-        
         public void EnableEscapeOptionExit()
         {
             preventEscapeOptionExit = false;
             SetupBackExitButton();
         }
         #endregion
-        
+
         #region PrivateMethods
-        private void SetupButtonEvents(bool enable)
+        private void BuildChoiceOptions(UIToolkitMenuView menuView)
         {
-            foreach (FrameFlavourChoice flavourChoice in flavourChoiceParent.GetComponentsInChildren<FrameFlavourChoice>())
+            if (frameFlavours == null) { return; }
+            foreach (FrameFlavourOption flavour in frameFlavours.GetFlavours())
             {
-                flavourChoice.RemoveOnClickListeners();
-                if (enable) { flavourChoice.AddOnClickListener(() => HandleFlavourSelection(flavourChoice)); }
+                if (flavour == null) { continue; }
+
+                var choiceModel = new FrameFlavourChoiceModel { text = flavour.GetName(), colour = flavour.GetColour() };
+                var flavourHandle = new FrameFlavourHandle(menuView, choiceModel, () => StandardChoiceExecution(() => ChooseFlavour(flavour), false), () => PreviewFlavour(flavour));
+                menuView.AddEntry(flavourHandle);
+                choiceOptions.Add(flavourHandle);
+                flavourChoices.Add((flavour, choiceModel));
             }
         }
 
-        private void HandleFlavourSelection(FrameFlavourChoice flavourChoice)
+        private void ResetAllTextElements()
         {
-            bool hasNewFrameColour = HasNewFrameColour(flavourChoice, out Color newFrameColor);
-            if (hasNewFrameColour) { UpdateFrameColour(newFrameColor); }
-            
-            if (nameScreenOrchestrator == null) { Destroy(gameObject); return; }
-            UpdateNameOrchestratorState(flavourChoice, newFrameColor);
+            frameFlavourPanelModel.questionText = flavourQuestion != null ? flavourQuestion.localizedQuestion.GetSafeLocalizedString() : "";
+            foreach ((FrameFlavourOption flavour, FrameFlavourChoiceModel choiceModel) in flavourChoices) { choiceModel.text = flavour.GetName(); }
         }
 
-        private static bool HasNewFrameColour(FrameFlavourChoice flavourChoice, out Color newFrameColor)
+        private void PreviewFlavour(FrameFlavourOption flavour)
         {
-            newFrameColor = Color.white;
-            if (flavourChoice == null) { return false; }
-            newFrameColor = flavourChoice.GetFrameFlavourColour();
-            return true;
+            frameFlavourPanelModel.previewColour = flavour.GetColour();
+            frameFlavourPanelModel.hasPreview = true;
         }
 
-        private void UpdateFrameColour(Color newFrameColor)
+        private void ChooseFlavour(FrameFlavourOption flavour)
         {
-            PlayerPrefsController.SetFrameFlavourColour(newFrameColor);
-            foreach (UIFrame uiFrame in additionalLocalFrameOverwrites) { uiFrame.OverwriteLocalFrameFlavour(newFrameColor); }
-        }
+            // Note:  Every frame on screen follows the saved flavour
+            PlayerPrefsController.SetFrameFlavourColour(flavour.GetColour());
 
-        private void UpdateNameOrchestratorState(FrameFlavourChoice flavourChoice, Color newFrameColor)
-        {
-            if (flavourChoice == null) { nameScreenOrchestrator.AdvanceState(); return; }
-            nameScreenOrchestrator.AddAnswer(new NameScreenAnswer(flavourQuestion, flavourChoice.GetFrameFlavour(), newFrameColor));
+            if (nameScreenOrchestrator == null) { Destroy(gameObject); return; } // Escape Menu path
+            nameScreenOrchestrator.AddAnswer(new NameScreenAnswer(flavourQuestion, flavour.GetName(), flavour.GetColour()));
             nameScreenOrchestrator.AdvanceState();
         }
         #endregion

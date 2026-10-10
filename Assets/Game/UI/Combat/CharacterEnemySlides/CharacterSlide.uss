@@ -102,7 +102,6 @@
     font-size: 48px;
     color: rgb(0, 0, 0);
     -unity-font-definition: var(--font-slide-name);
-    -unity-text-generator: standard;
     -unity-text-align: middle-center;
 }
 
@@ -112,10 +111,11 @@
     align-items: center;
 }
 
+/* Note:  The label's box overhangs its 110x80 slot by 10px a side (negative margins), so text-fit only kicks in for genuinely long labels */
 .character-slide__stat-label {
-    width: 110px;
-    height: 80px;
-    margin: 0 20px 0 0;
+    width: 130px;
+    height: 100px;
+    margin: -10px 10px -10px -10px;
     padding: 0;
     padding-top: 10px;
     font-size: 60px;
@@ -245,3 +245,18 @@
 .damage-text--hit-miss { color: rgb(188, 188, 188); }
 .damage-text--hit-crit { color: rgb(255, 244, 112); }
 .damage-text--informational { color: rgb(125, 58, 168); }
+
+/* ~ Text Fit ~ */
+.character-slide__name {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 48px;
+}
+
+.character-slide__stat-label {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 60px;
+}
+
+.damage-text {
+    -unity-text-auto-size: best-fit 40px 120px;
+}

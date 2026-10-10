@@ -1,0 +1,123 @@
+/* Note:  Shared by the confirm panel and its phrase box - both lay out inside the same fixed-width .naming-confirm area */
+.naming-confirm-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.naming-confirm {
+    width: 1230px;
+    margin-top: 210px;
+}
+
+/* ~ Header ~ */
+.naming-confirm__header {
+    height: 130px;
+}
+
+.naming-confirm__phrase {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 730px;
+    height: 130px;
+    padding: 30px 40px 0 40px;
+}
+
+.naming-confirm__options {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 450px;
+    height: 130px;
+    padding: 0;
+    justify-content: center;
+}
+
+.naming-confirm__options > .choice-entries {
+    padding: 0 30px;
+}
+
+/* ~ Cards ~ */
+.naming-confirm__cards {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 55px;
+}
+
+.naming-confirm__character-cards {
+    width: 510px;
+    margin-right: 50px;
+}
+
+.naming-confirm__answer-cards {
+    width: 590px;
+}
+
+.confirm-card {
+    margin-bottom: 35px;
+}
+
+.confirm-card > .unity-label {
+    margin: 0;
+    padding: 0;
+}
+
+.confirm-card--character {
+    flex-direction: row;
+    align-items: center;
+    height: 215px;
+    padding: 0 30px 0 25px;
+}
+
+.confirm-card__sprite {
+    width: 180px;
+    height: 180px;
+}
+
+.confirm-card--character > .confirm-card__name {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    -unity-text-align: middle-center;
+}
+
+.confirm-card--answer {
+    justify-content: center;
+    height: 175px;
+    padding: 0 30px;
+}
+
+/* Line boxes are tighter than the font's own (two lines share the card) */
+.confirm-card--answer > .unity-label {
+    height: 55px;
+}
+
+.confirm-card--answer > .confirm-card__question {
+    -unity-text-align: middle-left;
+}
+
+.confirm-card--answer > .confirm-card__answer {
+    -unity-text-align: middle-center;
+}
+
+/* ~ Text Fit ~ */
+/* N.B. Best-fit needs a bounded label, so each label is given the width / height it may fill (see the card rules above) */
+.naming-confirm__phrase .text-entry__label,
+.naming-confirm__options .choice-entry__label,
+.confirm-card > .unity-label {
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+/* Wraps first, then shrinks until the lines fit the box */
+.naming-confirm__phrase .text-entry__label {
+    max-height: 80px;
+}
+
+.confirm-card > .unity-label {
+    white-space: nowrap;
+}

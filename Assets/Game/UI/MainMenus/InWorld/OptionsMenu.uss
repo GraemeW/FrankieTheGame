@@ -78,3 +78,10 @@
     height: 72px;
     margin: 0 90px;
 }
+
+/* ~ Text Fit ~ */
+.options-menu__header,
+.options-menu__section-header {
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 64px;
+}

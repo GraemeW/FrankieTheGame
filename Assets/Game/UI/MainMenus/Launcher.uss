@@ -41,3 +41,9 @@
 .launcher__choices .choice-separator--minor {
     height: 35px;
 }
+
+/* ~ Text Fit ~ */
+/* Launcher choices sit on the open screen (no box to outgrow) at their own size, so they opt out of the shared choice fit */
+.launcher__choices .choice-entry__label {
+    -unity-text-auto-size: none;
+}
