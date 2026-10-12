@@ -144,5 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   additionalVolumeScaler: 1
   audioClips: []
+  audioSources: []
   fader: {fileID: 0}
   battleEntryAudioClip: {fileID: 8300000, guid: 0537f1ffa687e8a4aaa4baa3ce578a7a, type: 3}

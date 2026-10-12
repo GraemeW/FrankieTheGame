@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6703293766500144325}
+  - {fileID: 5029162813344933022}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1931382934 &2631280949043973997
@@ -202,6 +202,9 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   dialogueOptionBoxPrefab: {fileID: 5210498316462871005, guid: 76496a9a1480478281db2b0436cf29f6, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &7285749168499623869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,7 +226,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
---- !u!4 &6703293766500144325 stripped
+--- !u!4 &5029162813344933022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
   m_PrefabInstance: {fileID: 7285749168499623869}

@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4718502934617325007}
+  - {fileID: 7038140788362125037}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1931382934 &4718502934617325003
@@ -172,6 +172,9 @@ MonoBehaviour:
   abilitiesBoxPrefab: {fileID: 3882051793446072005, guid: 8597fe2b59e24409ba91343bd8767fb6, type: 3}
   statusBoxPrefab: {fileID: 5629034172846531005, guid: 36dd03dbb95e4944a79771617cd48beb, type: 3}
   mapSuperPrefab: {fileID: 3420972397399472212, guid: 7d69ea78fa630904a853208d15130b26, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &4718502934617325006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,7 +196,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
---- !u!4 &4718502934617325007 stripped
+--- !u!4 &7038140788362125037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
   m_PrefabInstance: {fileID: 4718502934617325006}

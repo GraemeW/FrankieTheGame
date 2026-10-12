@@ -32,8 +32,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1563899158322874056}
-  - {fileID: 6848250249282029647}
+  - {fileID: 1526458562791412851}
+  - {fileID: 2822846140246283645}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1931382934 &7477667530552243269
@@ -184,7 +184,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-    soundUpdateConfirmEffect: {fileID: 6173155346203328528}
+    soundUpdateConfirmEffect: {fileID: 2822846140246283634}
     defaultMasterVolume: 0.8
     defaultBackgroundVolume: 0.5
     defaultSoundEffectsVolume: 0.3
@@ -229,32 +229,9 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
   dialogueOptionBoxPrefab: {fileID: 5210498316462871005, guid: 76496a9a1480478281db2b0436cf29f6, type: 3}
---- !u!1001 &3888879525832619856
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2904920480050797190}
-    m_Modifications:
-    - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
-      propertyPath: uiBox
-      value: 
-      objectReference: {fileID: 7674250701885818725}
-    - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
-      propertyPath: m_Name
-      value: uiBoxSoundbox
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
---- !u!4 &1563899158322874056 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
-  m_PrefabInstance: {fileID: 3888879525832619856}
-  m_PrefabAsset: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &575265795713906270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -280,12 +257,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fe4f716a2cae1644a0e1dc7d044c757, type: 3}
---- !u!4 &6848250249282029647 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 9fe4f716a2cae1644a0e1dc7d044c757, type: 3}
-  m_PrefabInstance: {fileID: 575265795713906270}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6173155346203328528 stripped
+--- !u!114 &2822846140246283634 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 9fe4f716a2cae1644a0e1dc7d044c757, type: 3}
   m_PrefabInstance: {fileID: 575265795713906270}
@@ -296,3 +268,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2822846140246283645 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 9fe4f716a2cae1644a0e1dc7d044c757, type: 3}
+  m_PrefabInstance: {fileID: 575265795713906270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3888879525832619856
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2904920480050797190}
+    m_Modifications:
+    - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: uiBox
+      value: 
+      objectReference: {fileID: 7674250701885818725}
+    - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_Name
+      value: uiBoxSoundbox
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+--- !u!4 &1526458562791412851 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+  m_PrefabInstance: {fileID: 3888879525832619856}
+  m_PrefabAsset: {fileID: 0}

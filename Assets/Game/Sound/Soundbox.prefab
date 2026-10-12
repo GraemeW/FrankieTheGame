@@ -145,3 +145,4 @@ MonoBehaviour:
   additionalVolumeScaler: 1
   audioClips:
   - {fileID: 0}
+  audioSources: []

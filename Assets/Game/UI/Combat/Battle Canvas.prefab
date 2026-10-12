@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleStage: {fileID: 6574168069957523988}
-  combatMessages: {fileID: 3438294592410000901}
+  combatMessages: {fileID: 3164089801889271488}
   combatOptions: {fileID: 4334786330493280310}
   skillSelection: {fileID: 8555741105237380575}
   infoChooseParent: {fileID: 6429177127699189047}
@@ -379,12 +379,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
---- !u!224 &7226275745510569869 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
-  m_PrefabInstance: {fileID: 3438294592409999900}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3438294592410000901 stripped
+--- !u!114 &3164089801889271488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 314790583341503708, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
   m_PrefabInstance: {fileID: 3438294592409999900}
@@ -395,6 +390,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c5b7410899be74aaea608a0998424c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7226275745510569869 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
+  m_PrefabInstance: {fileID: 3438294592409999900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8768058340135523180
 PrefabInstance:
   m_ObjectHideFlags: 0

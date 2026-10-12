@@ -15,5 +15,6 @@ MonoBehaviour:
   effectGUID: 4eed16c2-33c0-4cbc-81cb-d98f2337a4ad
   effectMaterial: {fileID: 2100000, guid: 2f88caf7ffac6014ebcff80329d2f1e6, type: 2}
   effectColour: {r: 0.8301887, g: 0.2694197, b: 0.2694197, a: 1}
+  isGlobalEffect: 0
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 5

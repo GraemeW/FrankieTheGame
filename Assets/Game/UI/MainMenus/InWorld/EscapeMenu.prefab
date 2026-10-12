@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6941922132920765981}
+  - {fileID: 1535366750135395524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1931382934 &1921836929867077876
@@ -157,6 +157,9 @@ MonoBehaviour:
     m_LocalVariables: []
   optionsMenuPrefab: {fileID: 7674250701885818725, guid: 5720a02cf4e647dbab75e3f4751e4986, type: 3}
   frameFlavourPanelPrefab: {fileID: 7805133161193838278, guid: 0df1af86d29bf48aa8d616f989f58b0f, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &3862317468064663527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -178,7 +181,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
---- !u!4 &6941922132920765981 stripped
+--- !u!4 &1535366750135395524 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
   m_PrefabInstance: {fileID: 3862317468064663527}
