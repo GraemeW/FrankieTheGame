@@ -40,7 +40,7 @@ namespace Frankie.Inventory.UI
         }
 
         protected override void SetHighlighted(bool enable) => model.caretDigit = enable ? selectedDigit : CashAmountModel.noCaret;
-        public override void SetText(string text) { }
+        public override void SetText(string setText) { }
         #endregion
 
         #region IUIMoveInterceptor

@@ -18,6 +18,6 @@ namespace Frankie.Inventory.UI
         // Overrides
         protected override VisualElement CreateChoiceElement() => new ShopStockElement { dataSource = model };
         protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
-        public override void SetText(string text) => model.itemName = text;
+        public override void SetText(string setText) => model.itemName = setText;
     }
 }

@@ -100,6 +100,8 @@ Any test activating a `UIBox<TBoxState>` double needs a controller set via `TryS
 
 Box and handle logic is tested without any UI loaded: `TestChoice` is a plain `IUIChoice` (with a given navigation rect), and a view with no loaded panel simply never binds, leaving its entries as handles + models (the handles expose a few `internal` model values for this).
 
+Views and elements are tested on a loaded panel (`PanelTestBase`): each test spawns a `PanelRenderer` + view with a runtime `PanelSettings` and a small UXML from `Tests/Runtime/TestAssets`, then waits for the UI reload that binds the view. Bindings, styles and layout only resolve in a frame's panel update, so these tests `Settle()` after a model or view change before asserting on elements. The assets are loaded through the `AssetDatabase` (`TestPanelAssets`), so the panel tests are editor play-mode only.
+
 ### Assemblies
 
 | Assembly                            | Root Namespace                      | Platform    | References                                                                                                                                                                  |
@@ -111,14 +113,14 @@ Box and handle logic is tested without any UI loaded: `TestChoice` is a plain `I
 
 Tested / Total counts the units named in each row (static functions, behaviours or types).
 
-| Category                                                         | Tested / Total | Notes                                                                                         |
-|------------------------------------------------------------------|:--------------:|-----------------------------------------------------------------------------------------------|
-| Cursor/ray math (`UIBoxBase` internals) + `UnescapeText`         |      6/6       | Move, 2D move, ray hit, angle match, ray/rect intersection, unescape                          |
-| `UIBoxBase` / `UIBox<TBoxState>`                                 |      6/7       | `AddChoiceOption`'s click-through-destroy skipped                                             |
-| `TextScanBox`                                                    |      8/8       | Text, choice and page-break jobs, through handles + models                                    |
-| Entry handles (logic, no elements)                               |      6/7       | Choice entry, text entry, slider, toggle, group, removal; `SeparatorEntryHandle` has no logic |
-| Views (`UIToolkitBoxView`, `UIToolkitMenuView`, `UIToolkitTextScanView`) |  1/3     | Entry bookkeeping + `CreateChoiceOption` only - binding to a loaded UI is not covered         |
-| Elements + models                                                |      0/10      | Need a loaded panel (bindings, classes, clicks)                                               |
+| Category                                                         | Tested / Total | Notes                                                                                                          |
+|------------------------------------------------------------------|:--------------:|----------------------------------------------------------------------------------------------------------------|
+| Cursor/ray math (`UIBoxBase` internals) + `UnescapeText`         |      6/6       | Move, 2D move, ray hit, angle match, ray/rect intersection, unescape                                           |
+| `UIBoxBase` / `UIBox<TBoxState>`                                 |      6/7       | `AddChoiceOption`'s click-through-destroy skipped                                                              |
+| `TextScanBox`                                                    |      8/8       | Text, choice and page-break jobs, through handles + models                                                     |
+| Entry handles                                                    |      7/7       | All handles tested on a laid-out panel; `SeparatorEntryHandle` through its element                             |
+| Views (`UIToolkitBoxView`, `UIToolkitMenuView`, `UIToolkitTextScanView`) |   3/3    | Rebind on UI reload, style sheets, containers, view state, back-exit, pointer blocking, nesting, choice layout |
+| Elements + models                                                |     10/10      | Model -> element bindings, classes, clicks and slider changes on a loaded panel                                |
 
 ### Detail by type
 
@@ -128,13 +130,13 @@ Tested / Total counts the units named in each row (static functions, behaviours 
 | `UIBoxBase` / `UIBox<TBoxState>` (instance)          | Partial | `UIBoxChoiceAndCursorTests.cs`, `UIBoxHandleGlobalInputTests.cs`, `UIBoxLifecycleTests.cs`, `UIBoxStateBehaviourDispatchTests.cs`, `EntryHandleTests.cs` | `AddChoiceOption` click-through-destroy skipped - `Destroy()` timing inside a click callback is unreliable to assert |
 | `UIBoxStateBehaviour`                                | Yes     | `UIBoxStateBehaviourTests.cs`                                                                                                                            |                                                                                                                      |
 | `TextScanBox`                                        | Yes     | `TextScanBoxTests.cs`, `TextScanBoxUnescapeTextTests.cs`                                                                                                 |                                                                                                                      |
-| `ChoiceHandle` / `ChoiceEntryHandle`                 | Yes     | `EntryHandleTests.cs`                                                                                                                                    | Logic only (choose, highlight, text, reveal, removal)                                                                |
-| `TextEntryHandle`                                    | Yes     | `TextScanBoxTests.cs`                                                                                                                                    | Through the text scan                                                                                                |
-| `SliderChoiceHandle`                                 | Yes     | `EntryHandleTests.cs`                                                                                                                                    |                                                                                                                      |
-| `ToggleChoiceHandle`                                 | Yes     | `EntryHandleTests.cs`                                                                                                                                    |                                                                                                                      |
-| `ChoiceGroupHandle`                                  | Yes     | `EntryHandleTests.cs`                                                                                                                                    |                                                                                                                      |
-| `UIToolkitBoxView` (+ menu / text scan)              | Partial | `EntryHandleTests.cs`, `TextScanBoxTests.cs`                                                                                                             | Entry bookkeeping only; UI binding, containers, back-exit, pointer blocking and nesting need a loaded panel          |
-| Elements (`*Element`, containers, `ModelBoundLabel`) | No      | -                                                                                                                                                        | Need a loaded panel                                                                                                  |
+| `ChoiceHandle` / `ChoiceEntryHandle`                 | Yes     | `EntryHandleTests.cs`, `EntryHandleNavigationRectTests.cs`                                                                                               | Logic without a panel; navigation rect once laid out                                                                 |
+| `TextEntryHandle`                                    | Yes     | `TextScanBoxTests.cs`, `TextScanElementTests.cs`                                                                                                         | Through the text scan; element binding on a panel                                                                    |
+| `SliderChoiceHandle`                                 | Yes     | `EntryHandleTests.cs`, `MenuElementTests.cs`                                                                                                             |                                                                                                                      |
+| `ToggleChoiceHandle`                                 | Yes     | `EntryHandleTests.cs`, `MenuElementTests.cs`                                                                                                             |                                                                                                                      |
+| `ChoiceGroupHandle`                                  | Yes     | `EntryHandleTests.cs`, `MenuElementTests.cs`                                                                                                             |                                                                                                                      |
+| `UIToolkitBoxView` (+ menu / text scan)              | Yes     | `UIToolkitBoxViewTests.cs`, `UIToolkitTextScanViewTests.cs`, `EntryHandleTests.cs`, `TextScanBoxTests.cs`                                                | Pointer blocking checked at the root (a pointer down never reaches a child), not through a full pointer click        |
+| Elements (`*Element`, containers, `ModelBoundLabel`) | Yes     | `TextScanElementTests.cs`, `MenuElementTests.cs`                                                                                                         | Slider drag stood in for by a value change on the inner `Slider`                                                     |
 
 ## Design Notes
 

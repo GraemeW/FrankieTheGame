@@ -24,7 +24,7 @@ namespace LowDefMustard.UIBox
 
         #region PublicMethods
         public void Reveal() => model.isRevealed = true;
-        public override void SetText(string text) => model.text = text;
+        public override void SetText(string setText) => model.text = setText;
         protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
         #endregion
     }

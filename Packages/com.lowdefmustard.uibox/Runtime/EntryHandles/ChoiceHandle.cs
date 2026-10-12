@@ -21,7 +21,7 @@ namespace LowDefMustard.UIBox
         // Abstract/Virtual
         protected abstract VisualElement CreateChoiceElement(); // Note:  Buttons should be non-focusable (input handled via IInputReceiver)
         protected abstract void SetHighlighted(bool enable); // Visual state only - Highlight(...) adds the highlight action
-        public abstract void SetText(string text);
+        public abstract void SetText(string setText);
         protected virtual void Choose() => onChoose?.Invoke();
 
         #region EntryHandle

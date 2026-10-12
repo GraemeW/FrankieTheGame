@@ -18,6 +18,6 @@ namespace Frankie.Menu.UI
         // Overrides
         protected override VisualElement CreateChoiceElement() => new FrameFlavourChoiceElement { dataSource = model };
         protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
-        public override void SetText(string text) => model.text = text;
+        public override void SetText(string setText) => model.text = setText;
     }
 }

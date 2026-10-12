@@ -48,7 +48,7 @@ namespace LowDefMustard.UIBox
         }
 
         protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
-        public override void SetText(string text) => model.text = text;
+        public override void SetText(string setText) => model.text = setText;
         #endregion
 
         #region IUIMoveInterceptor

@@ -18,7 +18,7 @@ namespace Frankie.Inventory.UI
         #region ChoiceHandle
         protected override VisualElement CreateChoiceElement() => new InventorySlotElement { dataSource = model };
         protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
-        public override void SetText(string text) => model.text = text;
+        public override void SetText(string setText) => model.text = setText;
         #endregion
     }
 }

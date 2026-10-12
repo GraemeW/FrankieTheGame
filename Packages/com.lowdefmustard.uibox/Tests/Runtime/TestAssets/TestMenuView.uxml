@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" editor-extension-mode="false">
+    <ui:VisualElement>
+        <uibox:ChoiceEntryContainer />
+        <uibox:ChoiceEntryContainer choice-layout="Vertical" />
+        <uibox:BackExitButton />
+    </ui:VisualElement>
+</ui:UXML>

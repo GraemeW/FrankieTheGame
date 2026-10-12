@@ -111,6 +111,10 @@ namespace LowDefMustard.UIBox
         }
         #endregion
 
+        #region InternalMethods
+        internal void AddStyleSheet(StyleSheet styleSheet) => styleSheets.Add(styleSheet); // For tests (inspector-set otherwise) ~ applied on the next bind
+        #endregion
+
         #region PrivateMethods
         private void ApplyDataSource()
         {

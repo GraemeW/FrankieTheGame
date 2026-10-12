@@ -49,7 +49,7 @@ namespace LowDefMustard.UIBox
         }
 
         public void UseChoice() => highlightedSubChoice?.UseChoice();
-        public void SetText(string text) { } // Groups have no text of their own (sub-choices do)
+        public void SetText(string setText) { } // Groups have no text of their own (sub-choices do)
         #endregion
 
         #region IUIMoveInterceptor

@@ -33,7 +33,7 @@ namespace LowDefMustard.UIBox
         protected override VisualElement CreateChoiceElement() => new ToggleChoiceElement { dataSource = model };
         protected override void Choose() => SetValue(!model.isOn);
         protected override void SetHighlighted(bool enable) => model.isHighlighted = enable;
-        public override void SetText(string text) => model.text = text;
+        public override void SetText(string setText) => model.text = setText;
         #endregion
     }
 }
