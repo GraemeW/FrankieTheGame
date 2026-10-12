@@ -30,9 +30,8 @@ namespace Frankie.Menu.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            clearVolatileOptionsOnEnable = false;
             preventEscapeOptionExit = true;
-            if (TryGetBoxView(out IUIBoxView view)) { view.SetDataSource(launcherModel); }
+            if (TryGetBoxView(out UIToolkitBoxView view)) { view.SetDataSource(launcherModel); }
             BuildChoiceOptions();
         }
 

@@ -45,7 +45,6 @@ namespace Frankie.Combat.UI
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
-            clearVolatileOptionsOnEnable = false;
 
             // Note:  Choice order is row-by-row over two columns (MoveCursor2D)
             AddNonDestroyChoiceOption(localizedFightText.GetSafeLocalizedString(), InitiateCombat);

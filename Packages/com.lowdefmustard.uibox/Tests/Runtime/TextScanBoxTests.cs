@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
 using LowDefMustard.Control;
@@ -11,6 +10,10 @@ namespace LowDefMustard.UIBox.Tests
 {
     public class TextScanBoxTests
     {
+        // Test Notes:
+        //  - the box's view (UIToolkitTextScanView) has no UI loaded here, so it never binds
+        //  - entries are then handles + models with no elements ~ i.e. the surface TextScanBox drives (reveal, text, removal)
+        
         // State
         private readonly List<GameObject> spawned = new();
 
@@ -26,27 +29,12 @@ namespace LowDefMustard.UIBox.Tests
         }
 
         #region PrivateMethods
-        private GameObject CreateSimpleTextPrefabTemplate()
+        private TestTextScanBox CreateInactiveTextScanBox(float delayBetweenCharacters = 0f, float initialInputDelay = 0f)
         {
-            var go = new GameObject("SimpleTextTemplate", typeof(RectTransform));
-            spawned.Add(go);
-            var textField = go.AddComponent<TextMeshProUGUI>();
-            var link = go.AddComponent<SimpleTextLink>();
-            link.textField = textField;
-            link.disableOnLoad = false;
-            return go;
-        }
-
-        private TestTextScanBox CreateInactiveTextScanBox(GameObject simpleTextPrefab = null, float delayBetweenCharacters = 0f, float initialInputDelay = 0f)
-        {
-            var go = new GameObject("TextScanBox", typeof(RectTransform));
+            var go = new GameObject("TextScanBox");
             spawned.Add(go);
             go.SetActive(false);
             var textScanBox = go.AddComponent<TestTextScanBox>();
-            var dialogueParentGo = new GameObject("DialogueParent", typeof(RectTransform));
-            spawned.Add(dialogueParentGo);
-            textScanBox.SetDialogueParent(dialogueParentGo.transform);
-            textScanBox.simpleTextPrefab = simpleTextPrefab;
             textScanBox.initialInputDelay = initialInputDelay;
             textScanBox.delayBetweenCharacters = delayBetweenCharacters;
 
@@ -58,67 +46,52 @@ namespace LowDefMustard.UIBox.Tests
         }
         #endregion
 
+        #region Setup
+        [UnityTest]
+        public IEnumerator Awake_ClearsChoiceOptionsOnEnable()
+        {
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
+            textScanBox.gameObject.SetActive(true);
+            yield return null;
+
+            // Choices belong to the text they were created with, so they do not persist across enables
+            Assert.IsTrue(textScanBox.publicClearChoiceOptionsOnEnable);
+        }
+        #endregion
+
         #region ClearOldDialogue
         [UnityTest]
-        public IEnumerator ClearOldDialogue_DestroysNonAnchorChildren_KeepsAnchorChildren()
+        public IEnumerator ClearOldDialogue_RemovesPrintedEntries()
         {
             TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
-
-            var ordinaryChild = new GameObject("Ordinary", typeof(RectTransform));
-            spawned.Add(ordinaryChild);
-            ordinaryChild.transform.SetParent(textScanBox.dialogueParentForTest);
-            var anchoredChild = new GameObject("Anchored", typeof(RectTransform));
-            spawned.Add(anchoredChild);
-            anchoredChild.AddComponent<UIAnchor>();
-            anchoredChild.transform.SetParent(textScanBox.dialogueParentForTest);
+            TextEntryHandle printedEntry = textScanBox.PublicAddTextEntry("Hi");
+            for (int frame = 0; frame < 20 && textScanBox.printedJobs.Count == 0; frame++)
+            {
+                yield return null;
+            }
+            CollectionAssert.Contains(textScanBox.printedJobs, printedEntry);
 
             textScanBox.ClearOldDialogue();
-            yield return null; // Destroy() is deferred to end of frame even in Play Mode
 
-            Assert.IsTrue(ordinaryChild == null);
-            Assert.IsFalse(anchoredChild == null);
+            Assert.IsFalse(printedEntry.isAlive);
+            CollectionAssert.IsEmpty(textScanBox.printedJobs);
         }
 
         [UnityTest]
-        public IEnumerator ClearOldDialogue_RemovesButtonListenersAndDestroysNonAnchorOptionChildren()
-        {
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
-            var optionParentGo = new GameObject("OptionParent", typeof(RectTransform));
-            spawned.Add(optionParentGo);
-            textScanBox.SetOptionParent(optionParentGo.transform);
-            textScanBox.gameObject.SetActive(true);
-            yield return null;
-
-            UIChoiceButton optionChoice = TestChoiceFactory.CreateWiredButton("Option", spawned);
-            optionChoice.transform.SetParent(optionParentGo.transform);
-            bool clicked = false;
-            optionChoice.AddOnClickListener(() => clicked = true);
-
-            textScanBox.ClearOldDialogue();
-            yield return null;
-
-            Assert.IsTrue(optionChoice == null);
-            // The GameObject is gone, so listener removal itself isn't independently observable
-            // The strongest remaining check here is that ClearOldDialogue didn't throw
-            Assert.IsFalse(clicked);
-        }
-
-        [UnityTest]
-        public IEnumerator ClearOldDialogue_DestroysPreviouslyPrintedJobs()
+        public IEnumerator ClearOldDialogue_RemovesEntriesStillWaitingToPrint()
         {
             TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
-            var printedJob = new GameObject("PrintedJob");
-            spawned.Add(printedJob);
-            textScanBox.printedJobs = new List<ITextScanEntry> { new UGUITextScanEntry(printedJob) };
+            TextEntryHandle pendingText = textScanBox.PublicAddTextEntry("Hello World");
+            ChoiceEntryHandle pendingChoice = textScanBox.PublicAddChoiceEntry("Choice");
 
             textScanBox.ClearOldDialogue();
-            yield return null;
 
-            Assert.IsTrue(printedJob == null);
+            Assert.IsFalse(pendingText.isAlive);
+            Assert.IsFalse(pendingChoice.isAlive);
         }
         #endregion
 
@@ -126,36 +99,34 @@ namespace LowDefMustard.UIBox.Tests
         [UnityTest]
         public IEnumerator AddText_RevealsOneCharacterPerFrame_ThenCompletesWithFullText()
         {
-            GameObject template = CreateSimpleTextPrefabTemplate();
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox(template);
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
 
-            textScanBox.AddText("Hi");
+            TextEntryHandle textEntry = textScanBox.PublicAddTextEntry("Hi");
+            Assert.IsFalse(textEntry.isRevealed); // Entries wait their turn hidden
             yield return null; // Update() dequeues and starts the coroutine, which runs to its first yield
 
             Assert.IsTrue(textScanBox.publicIsWriting);
-            SimpleTextLink link = textScanBox.dialogueParentForTest.GetChild(0).GetComponent<SimpleTextLink>();
-            TextMeshProUGUI textField = link.GetComponent<TextMeshProUGUI>();
-            Assert.AreEqual("H", textField.text);
+            Assert.IsTrue(textEntry.isRevealed);
+            Assert.AreEqual("H", textEntry.text);
 
             yield return null; // delayBetweenCharacters is 0, so the coroutine finishes on the next frame
 
             Assert.IsFalse(textScanBox.publicIsWriting);
-            Assert.AreEqual("Hi", textField.text);
+            Assert.AreEqual("Hi", textEntry.text);
         }
 
         [UnityTest]
         public IEnumerator AddText_FinalRevealUsesUnescapedFullText()
         {
-            GameObject template = CreateSimpleTextPrefabTemplate();
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox(template);
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
 
             const string raw = "line1\\nline2"; // 12 chars raw, 11 chars once \n is unescaped
             const string unescaped = "line1\nline2";
-            textScanBox.AddText(raw);
+            TextEntryHandle textEntry = textScanBox.PublicAddTextEntry(raw);
             yield return null; // starts the coroutine this frame
             for (int frame = 0; frame < 20 && textScanBox.publicIsWriting; frame++)
             {
@@ -163,38 +134,34 @@ namespace LowDefMustard.UIBox.Tests
             }
 
             Assert.IsFalse(textScanBox.publicIsWriting);
-            var link = textScanBox.dialogueParentForTest.GetChild(0).GetComponent<SimpleTextLink>();
-            var textField = link.GetComponent<TextMeshProUGUI>();
-            Assert.AreEqual(unescaped, textField.text); // NOT the raw "line1\\nline2"
+            Assert.AreEqual(unescaped, textEntry.text); // NOT the raw "line1\\nline2"
         }
 
         [UnityTest]
-        public IEnumerator AddText_ReceptacleMissingSimpleTextLink_NeverSetsIsWriting()
+        public IEnumerator AddText_EntryRemovedBeforeItsTurn_NeverSetsIsWriting()
         {
-            var brokenTemplate = new GameObject("BrokenTemplate", typeof(RectTransform));
-            spawned.Add(brokenTemplate); // deliberately no SimpleTextLink component
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox(brokenTemplate);
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
 
-            textScanBox.AddText("Hello");
+            TextEntryHandle textEntry = textScanBox.PublicAddTextEntry("Hello");
+            textEntry.Remove();
             yield return null;
             yield return null;
 
-            // The null-SimpleTextLink check now runs before SetBusyWriting(true)
-            // So isWriting is never even set true for a broken receptacle, and never gets stuck
+            // The dead-entry check runs before SetBusyWriting(true)
+            // So isWriting is never set true for a removed entry && never gets stuck
             Assert.IsFalse(textScanBox.publicIsWriting);
         }
 
         [UnityTest]
         public IEnumerator SkipToEndOfPage_WhileWriting_JumpsStraightToFinalText()
         {
-            GameObject template = CreateSimpleTextPrefabTemplate();
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox(template);
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
 
-            textScanBox.AddText("Hello World");
+            TextEntryHandle textEntry = textScanBox.PublicAddTextEntry("Hello World");
             yield return null; // first character ('H') is shown, coroutine is now mid-loop
 
             bool wasWriting = textScanBox.PublicTryFastForwardActiveText();
@@ -203,8 +170,7 @@ namespace LowDefMustard.UIBox.Tests
             yield return null; // loop resumes, sees interruptWriting, breaks, reveals full text
 
             Assert.IsFalse(textScanBox.publicIsWriting);
-            var link = textScanBox.dialogueParentForTest.GetChild(0).GetComponent<SimpleTextLink>();
-            Assert.AreEqual("Hello World", link.GetComponent<TextMeshProUGUI>().text);
+            Assert.AreEqual("Hello World", textEntry.text);
         }
 
         [Test]
@@ -213,6 +179,30 @@ namespace LowDefMustard.UIBox.Tests
             TestTextScanBox textScanBox = CreateInactiveTextScanBox();
 
             Assert.IsFalse(textScanBox.PublicTryFastForwardActiveText());
+        }
+        #endregion
+
+        #region Choices
+        [UnityTest]
+        public IEnumerator QueuedChoice_RevealedOnlyAfterTheTextBeforeIt()
+        {
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
+            textScanBox.gameObject.SetActive(true);
+            yield return null;
+
+            textScanBox.PublicAddTextEntry("Hi");
+            ChoiceEntryHandle choiceEntry = textScanBox.PublicAddChoiceEntry("Choice");
+            yield return null; // text is mid-typewriter
+
+            Assert.IsFalse(choiceEntry.isRevealed);
+
+            for (int frame = 0; frame < 20 && !choiceEntry.isRevealed; frame++)
+            {
+                yield return null;
+            }
+
+            Assert.IsTrue(choiceEntry.isRevealed);
+            Assert.IsFalse(textScanBox.publicIsWriting);
         }
         #endregion
 
@@ -276,8 +266,7 @@ namespace LowDefMustard.UIBox.Tests
         public IEnumerator PrepareChooseAction_Execute_FastForwardsActiveText()
         {
             // Exercises the REAL BuildStateBehaviours() registration (ImplementPrepareChooseAction)
-            GameObject template = CreateSimpleTextPrefabTemplate();
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox(template);
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
             textScanBox.AddText("Hello World");
@@ -309,21 +298,18 @@ namespace LowDefMustard.UIBox.Tests
         [UnityTest]
         public IEnumerator DisableTriggered_StopsActiveCoroutineAndClearsBusyWritingAndDialogue()
         {
-            GameObject template = CreateSimpleTextPrefabTemplate();
-            TestTextScanBox textScanBox = CreateInactiveTextScanBox(template);
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
             textScanBox.gameObject.SetActive(true);
             yield return null;
-            textScanBox.AddText("Hello World");
+            TextEntryHandle textEntry = textScanBox.PublicAddTextEntry("Hello World");
             yield return null; // now mid-typewriter, activeTextScan is non-null
 
             Assert.IsTrue(textScanBox.publicIsWriting);
-            GameObject receptacle = textScanBox.dialogueParentForTest.GetChild(0).gameObject;
 
             textScanBox.gameObject.SetActive(false); // OnDisable -> DisableTriggered, reliable in Play Mode
-            yield return null; // Destroy() inside ClearOldDialogue is deferred to end of frame
 
             Assert.IsFalse(textScanBox.publicIsWriting);
-            Assert.IsTrue(receptacle == null);
+            Assert.IsFalse(textEntry.isAlive);
         }
         #endregion
     }

@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.UIBox.Tests
 {
-    // BuildStateBehaviours() defaults to production's own empty EnumLookup
-    //  - dispatch method falls through to Standard* unless a test calls SetStateBehaviour first
-    
     public class TestUIBox : UIBox<UIBoxState>
     {
+        // Note:  BuildStateBehaviours() defaults to production's own empty EnumLookup
+        //  - dispatch method falls through to Standard* unless a test calls SetStateBehaviour first
+        
         // UI Testing Properties
         public int awakeTriggeredCount;
         public int startTriggeredCount;
@@ -38,23 +37,10 @@ namespace LowDefMustard.UIBox.Tests
         protected override EnumLookup<UIBoxState, UIBoxStateBehaviour> BuildStateBehaviours() =>
             stateBehavioursOverride ?? base.BuildStateBehaviours();
 
-        // Pre-lifecycle hookup wiring
-        public void SetHookups(CanvasGroup canvasGroupRef = null, Transform optionParentRef = null,
-            Transform backExitParentRef = null, UIBackExit backExitPrefabRef = null,
-            GameObject optionButtonPrefabRef = null, GameObject optionSliderPrefabRef = null)
-        {
-            canvasGroup = canvasGroupRef;
-            optionParent = optionParentRef;
-            backExitParent = backExitParentRef;
-            backExitPrefab = backExitPrefabRef;
-            optionButtonPrefab = optionButtonPrefabRef;
-            optionSliderPrefab = optionSliderPrefabRef;
-        }
-        
         // Attributes
         public BaseController publicController => controller;
         public bool publicHandleGlobalInput { get => handleGlobalInput; set => handleGlobalInput = value; }
-        public bool publicClearVolatileOptionsOnEnable { get => clearVolatileOptionsOnEnable; set => clearVolatileOptionsOnEnable = value; }
+        public bool publicClearChoiceOptionsOnEnable { get => clearChoiceOptionsOnEnable; set => clearChoiceOptionsOnEnable = value; }
         public bool publicPreventEscapeOptionExit { get => preventEscapeOptionExit; set => preventEscapeOptionExit = value; }
         public IUIChoice publicHighlightedChoiceOption => highlightedChoiceOption;
         public IReadOnlyList<IUIChoice> publicChoiceOptions => choiceOptions;
@@ -71,11 +57,11 @@ namespace LowDefMustard.UIBox.Tests
             choiceOptions.AddRange(choices);
         }
         public void PublicSetChoiceAvailable(bool enable) => SetChoiceAvailable(enable);
-        public void PublicAddChoiceOption(string text, Action action) => AddChoiceOption(text, action);
+        public IUIChoice PublicAddChoiceOption(string text, Action action) => AddChoiceOption(text, action);
+        public IUIChoice PublicAddNonDestroyChoiceOption(string text, Action action, Action onHighlight = null) => AddNonDestroyChoiceOption(text, action, onHighlight);
         public void PublicClearChoiceSelections() => ClearChoiceSelections();
         
         // Public Passthroughs
-        public static List<UIChoice> PublicFilterOutSubOptions(List<UIChoice> choices) => FilterOutSubOptions(choices);
         public bool PublicStandardChoose(string detail) => StandardChoose(detail);
         public bool PublicStandardMoveCursor(ControllerInputType input, CursorMovementStyle style) => StandardMoveCursor(input, style);
         public bool PublicMoveCursor2D(ControllerInputType input) => MoveCursor2D(input);

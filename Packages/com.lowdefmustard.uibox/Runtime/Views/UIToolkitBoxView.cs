@@ -1,0 +1,226 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace LowDefMustard.UIBox
+{
+    // UXML options:  a ChoiceEntryContainer (for CreateChoiceOption) and a BackExitButton
+    // View state (entries, visibility, data source, back-exit) ~ reapplied whenever the PanelRenderer reloads its UI
+    [RequireComponent(typeof(PanelRenderer))]
+    public abstract class UIToolkitBoxView : MonoBehaviour
+    {
+        // Tunables
+        [Tooltip("Applied to the root in order (later sheets win ties) - shared theme styles come from the PanelSettings")]
+        [SerializeField] private List<StyleSheet> styleSheets = new();
+
+        // State
+        private bool isVisible = true;
+        private bool isPointerInputEnabled = true;
+        private object dataSource;
+        private Action backExitAction;
+        private readonly List<EntryHandle> entries = new();
+        private readonly Dictionary<Type, VisualElement> containers = new(); // Resolved per bind, by entry container type
+        private int boundUIVersion = -1;
+
+        // Cached References
+        private PanelRenderer panelRenderer;
+        private VisualElement boundRoot;
+        private BackExitButton backExitButton;
+        protected ChoiceEntryContainer choiceEntryContainer { get; private set; }
+
+        #region UnityMethods
+        private void Awake()
+        {
+            panelRenderer = GetComponent<PanelRenderer>();
+            panelRenderer.position = Position.Absolute; // Nested under another PanelRenderer ~ the default lays the root out as a child (collapsing screen-sized content)
+        }
+
+        private void OnEnable()
+        {
+            // Note:  Invoked immediately if the UI is already loaded + on every reload (e.g. UXML live reload)
+            panelRenderer.RegisterUIReloadCallback(HandleUIReload);
+        }
+
+        private void OnDisable()
+        {
+            // Note:  PanelRenderer preserves UI content while disabled - no unbind required
+            panelRenderer.UnregisterUIReloadCallback(HandleUIReload);
+        }
+        #endregion
+
+        #region AbstractMethods
+        protected abstract bool TryBindContent(VisualElement rootElement); // Resolve view-specific elements; false aborts the bind
+        protected virtual void UnbindContent() { }
+        #endregion
+
+        #region StandardBoxMethods
+        public void SetDataSource(object setDataSource) // Root data source for model-bound elements (e.g. headers)
+        {
+            dataSource = setDataSource;
+            ApplyDataSource();
+        }
+        
+        public void SetVisible(bool enable)
+        {
+            isVisible = enable;
+            ApplyVisibility();
+        }
+
+        public void SetPointerInputEnabled(bool enable) // Mirrors the box's active input (e.g. no clicks while a child box is on top)
+        {
+            isPointerInputEnabled = enable;
+            ApplyPointerInput();
+        }
+
+        public void SetBackExitAction(Action onBackExit) // Back-exit affordance is hidden until an action is set
+        {
+            backExitAction = onBackExit;
+            ApplyBackExit();
+        }
+
+        public IUIChoice CreateChoiceOption(string text, Action onChoose, Action onHighlight = null) // Fixed choices, shown immediately (i.e. unlike text-scan choice entries)
+        {
+            var choiceEntryHandle = new ChoiceEntryHandle(this, text, true, onChoose, onHighlight);
+            AddEntry(choiceEntryHandle);
+            return choiceEntryHandle;
+        }
+
+        public void CreateChoiceSeparator(ChoiceSeparatorType separatorType) => AddEntry(new SeparatorEntryHandle(this, typeof(ChoiceEntryContainer), separatorType));
+        #endregion
+
+        #region EntryMethods
+        public void AddEntry(EntryHandle entryHandle) // Note:  Boxes can add arbitrary/custom entries (e.g. game-side ChoiceHandles)
+        {
+            entries.Add(entryHandle);
+            AttachElement(entryHandle);
+        }
+
+        internal void RemoveEntry(EntryHandle entryHandle)
+        {
+            entryHandle.DetachElement();
+            entries.Remove(entryHandle);
+            RefreshEmptyState(entryHandle.containerType);
+        }
+
+        public void ClearEntries()
+        {
+            foreach (EntryHandle entryHandle in entries) { entryHandle.Invalidate(); }
+            entries.Clear();
+            foreach (VisualElement container in containers.Values) { (container as ChoiceEntryContainer)?.RefreshEmptyState(); }
+        }
+        #endregion
+
+        #region PrivateMethods
+        private void ApplyDataSource()
+        {
+            if (boundRoot == null) { return; }
+            boundRoot.dataSource = dataSource;
+        }
+        
+        private void HandleUIReload(PanelRenderer reloadedPanelRenderer, VisualElement rootElement, int version)
+        {
+            if (version == boundUIVersion) { return; } // Re-enable without a UI change -- existing binding still valid
+            boundUIVersion = version;
+            BindRoot(rootElement);
+        }
+
+        private void BindRoot(VisualElement rootElement)
+        {
+            UnbindRoot();
+
+            // Early Return
+            choiceEntryContainer = rootElement.Q<ChoiceEntryContainer>();
+            if (!TryBindContent(rootElement)) { choiceEntryContainer = null; return; }
+
+            // Setup root element + style
+            boundRoot = rootElement;
+            boundRoot.pickingMode = PickingMode.Ignore; // Only interactive children should intercept pointer input
+            boundRoot.EnableInClassList(USSClassNames.BoxView.nested, panelRenderer.parentUI != null); // Nested roots are stretched over their parent's by USS
+            ApplyStyleSheets();
+            
+            // Setup pointer / click behaviour
+            boundRoot.RegisterCallback<PointerDownEvent>(HandlePointerDown, TrickleDown.TrickleDown);
+            backExitButton = boundRoot.Q<BackExitButton>();
+            if (backExitButton != null) { backExitButton.clicked += HandleBackExitClicked; }
+
+            // Setup view elements + initial state
+            foreach (EntryHandle entryHandle in entries) { AttachElement(entryHandle); }
+            ApplyVisibility();
+            ApplyPointerInput();
+            ApplyDataSource();
+            ApplyBackExit();
+        }
+
+        private void UnbindRoot()
+        {
+            if (backExitButton != null) { backExitButton.clicked -= HandleBackExitClicked; }
+            boundRoot?.UnregisterCallback<PointerDownEvent>(HandlePointerDown, TrickleDown.TrickleDown);
+            foreach (EntryHandle entryHandle in entries) { entryHandle.DetachElement(); }
+            UnbindContent();
+
+            boundRoot = null;
+            containers.Clear();
+            choiceEntryContainer = null;
+            backExitButton = null;
+        }
+
+        private void AttachElement(EntryHandle entryHandle)
+        {
+            // Note:  No-op until bound - entries created before the UI loads are attached in BindRoot
+            if (boundRoot == null) { return; }
+            GetEntryContainer(entryHandle.containerType)?.Add(entryHandle.BuildElement());
+            RefreshEmptyState(entryHandle.containerType);
+        }
+
+        private VisualElement GetEntryContainer(Type containerType)
+        {
+            if (boundRoot == null) { return null; }
+            if (containers.TryGetValue(containerType, out VisualElement container)) { return container; }
+
+            container = boundRoot.Query<VisualElement>().Where(containerType.IsInstanceOfType).First();
+            if (container == null) { Debug.LogWarning($"{GetType().Name}[{name}]:  UXML has no {containerType.Name} for entries."); }
+            containers[containerType] = container;
+            return container;
+        }
+
+        private void RefreshEmptyState(Type containerType)
+        {
+            if (GetEntryContainer(containerType) is ChoiceEntryContainer container) { container.RefreshEmptyState(); }
+        }
+
+        private void ApplyStyleSheets()
+        {
+            foreach (StyleSheet styleSheet in styleSheets)
+            {
+                if (styleSheet == null || boundRoot.styleSheets.Contains(styleSheet)) { continue; }
+                boundRoot.styleSheets.Add(styleSheet);
+            }
+        }
+
+        private void ApplyVisibility()
+        {
+            if (boundRoot == null) { return; }
+            boundRoot.style.visibility = isVisible ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void ApplyPointerInput()
+        {
+            boundRoot?.EnableInClassList(USSClassNames.BoxView.pointerInputDisabled, !isPointerInputEnabled);
+        }
+
+        private void HandlePointerDown(PointerDownEvent pointerDownEvent)
+        {
+            // Note:  Stopped while trickling down from the root, so buttons never see the press (no click)
+            if (!isPointerInputEnabled) { pointerDownEvent.StopImmediatePropagation(); }
+        }
+
+        private void ApplyBackExit()
+        {
+            backExitButton?.SetShown(backExitAction != null);
+        }
+
+        private void HandleBackExitClicked() => backExitAction?.Invoke();
+        #endregion
+    }
+}

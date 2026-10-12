@@ -12,7 +12,7 @@ namespace Frankie.Speech.UI
         [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
         
         // State
-        private readonly Dictionary<DialogueNode, ITextScanChoiceEntry> choiceEntries = new();
+        private readonly Dictionary<DialogueNode, ChoiceEntryHandle> choiceEntries = new();
         
         // Cached References
         protected DialogueController dialogueController;
@@ -32,7 +32,7 @@ namespace Frankie.Speech.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it by Start() check
+            // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it before Start() check
             
             base.AwakeTriggered();
             dialogueController = DialogueController.FindDialogueController();
@@ -132,16 +132,16 @@ namespace Frankie.Speech.UI
         #region ChoiceFunctionality
         private void SetChoiceList()
         {
-            int choiceIndex = 0;
+            int choiceCount = 0;
             int maxChoiceLength = 0;
             foreach (DialogueNode choiceNode in dialogueController.GetChoices())
             {
-                AddChoice(choiceNode, choiceIndex);
+                AddChoice(choiceNode);
                 maxChoiceLength = Mathf.Max(maxChoiceLength, choiceNode.GetText().Length);
-                choiceIndex++;
+                choiceCount++;
             }
 
-            ConfigureChoiceLayout(choiceIndex, maxChoiceLength);
+            ConfigureChoiceLayout(choiceCount, maxChoiceLength);
         }
 
         protected void ConfigureChoiceLayout(int choiceCount, int maxChoiceLength)
@@ -152,16 +152,16 @@ namespace Frankie.Speech.UI
             textScanView.SetChoiceLayout(isVertical ? ChoiceLayout.Vertical : ChoiceLayout.Horizontal);
         }
 
-        private void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
+        private void AddChoice(DialogueNode choiceNode)
         {
-            ITextScanChoiceEntry choiceEntry = textScanView.CreateChoiceEntry(choiceNode.GetText(), choiceIndex, () => Choose(choiceNode.name));
+            ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceNode.GetText(), () => Choose(choiceNode.name));
             choiceEntries[choiceNode] = choiceEntry;
-            QueueTextForPrinting(choiceEntry, null, true);
+            QueueChoiceForPrinting(choiceEntry);
         }
 
         private void HighlightChoice(DialogueNode dialogueNodeToHighlight)
         {
-            foreach ((DialogueNode choiceNode, ITextScanChoiceEntry choiceEntry) in choiceEntries)
+            foreach ((DialogueNode choiceNode, ChoiceEntryHandle choiceEntry) in choiceEntries)
             {
                 if (!choiceEntry.isAlive) { continue; }
                 choiceEntry.Highlight(choiceNode == dialogueNodeToHighlight);
@@ -198,7 +198,7 @@ namespace Frankie.Speech.UI
         #region InputHandling
         protected virtual bool UsesNodeBasedDialogueFlow() => true;
         // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
-        // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
+        // false: generic choice presentation (e.g. DialogueOptionBox) - defers to UIBox pipeline
 
         private bool DialogueHandleGlobalInput(ControllerInputType controllerInputType)
         {

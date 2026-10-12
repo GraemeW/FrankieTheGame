@@ -124,12 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eba863fb00925e4492c9639d92b5148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
   defaultNoText: --
 --- !u!1001 &1711686040350989940
 PrefabInstance:

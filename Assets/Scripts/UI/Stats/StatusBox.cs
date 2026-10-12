@@ -27,7 +27,6 @@ namespace Frankie.Stats.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            clearVolatileOptionsOnEnable = false;
             GetComponent<UIToolkitMenuView>().SetDataSource(statusBoxModel);
         }
 

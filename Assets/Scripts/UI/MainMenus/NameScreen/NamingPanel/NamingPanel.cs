@@ -71,7 +71,6 @@ namespace Frankie.Menu.UI
         protected override void AwakeTriggered()
         {
             preventEscapeOptionExit = true;
-            clearVolatileOptionsOnEnable = false;
 
             menuView = GetComponent<UIToolkitMenuView>();
             namingStage = GetComponent<NamingStage>();

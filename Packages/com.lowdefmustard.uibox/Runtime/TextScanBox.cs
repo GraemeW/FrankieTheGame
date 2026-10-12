@@ -2,21 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.UIBox
 {
+    [RequireComponent(typeof(UIToolkitTextScanView))]
     public class TextScanBox : UIBox<UIBoxState>
     {
         // Note:  Internal fields & state for test visibility
         
         // Tunables
-        [Header("Links And Prefabs")]
-        [SerializeField] protected Transform dialogueParent;
-        [SerializeField] internal GameObject simpleTextPrefab;
-        [SerializeField] internal GameObject speechTextPrefab;
         [Header("Parameters")]
         [SerializeField] internal float initialInputDelay = 0.1f; // Seconds
         [SerializeField] internal float delayBetweenCharacters = 0.05f; // Seconds
@@ -28,17 +24,16 @@ namespace LowDefMustard.UIBox
         private bool interruptWriting = false;
         private bool queuePageClear = false;
         private Coroutine activeTextScan;
-        private readonly Queue<ReceptacleTextPair> printQueue = new();
-        internal List<ITextScanEntry> printedJobs = new();
+        private readonly Queue<PrintJob> printQueue = new();
+        internal List<TextEntryHandle> printedJobs = new();
 
         // Cached References
-        private ITextScanView resolvedTextScanView;
-        protected ITextScanView textScanView
+        private UIToolkitTextScanView resolvedTextScanView;
+        protected UIToolkitTextScanView textScanView
         {
             get
             {
-                if (resolvedTextScanView != null) { return resolvedTextScanView; }
-                resolvedTextScanView = TryGetComponent(out ITextScanView componentView) ? componentView : new UGUITextScanView(this);
+                if (resolvedTextScanView == null) { resolvedTextScanView = GetComponent<UIToolkitTextScanView>(); }
                 return resolvedTextScanView;
             }
         }
@@ -55,18 +50,26 @@ namespace LowDefMustard.UIBox
         }
 
         #region DataStructures
-        private struct ReceptacleTextPair
+        private enum PrintJobType
         {
-            public ITextScanEntry receptacle;
+            Text,
+            Choice,
+            PageBreak
+        }
+
+        private struct PrintJob
+        {
+            public PrintJobType jobType;
+            public TextEntryHandle textEntry;
             public string text;
-            public bool isChoice;
+            public ChoiceEntryHandle choiceEntry;
         }
         #endregion
 
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            _ = textScanView; // Resolve early -- legacy view captures option layout configurables before any reconfiguration
+            clearChoiceOptionsOnEnable = true; // Choices are re-created with the text they belong to
         }
 
         protected override void DisableTriggered()
@@ -147,48 +150,43 @@ namespace LowDefMustard.UIBox
 
         public void AddText(string text)
         {
-            QueueTextForPrinting(textScanView.CreateTextEntry(TextEntryType.Simple), text, false);
+            QueueTextForPrinting(textScanView.CreateTextEntry(TextEntryType.Simple), text);
         }
 
         public void AddSpeech(string text)
         {
-            QueueTextForPrinting(textScanView.CreateTextEntry(TextEntryType.Speech), text, false);
+            QueueTextForPrinting(textScanView.CreateTextEntry(TextEntryType.Speech), text);
         }
 
         public void AddPageBreak()
         {
-            QueueTextForPrinting((ITextScanEntry)null, "BREAK", false);
+            printQueue.Enqueue(new PrintJob { jobType = PrintJobType.PageBreak });
         }
 
-        protected void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
+        protected void QueueTextForPrinting(TextEntryHandle textEntry, string text)
         {
-            QueueTextForPrinting(textObject != null ? new UGUITextScanEntry(textObject) : null, text, isChoice);
+            printQueue.Enqueue(new PrintJob { jobType = PrintJobType.Text, textEntry = textEntry, text = text });
         }
 
-        protected void QueueTextForPrinting(ITextScanEntry textScanEntry, string text, bool isChoice)
+        protected void QueueChoiceForPrinting(ChoiceEntryHandle choiceEntry) // Revealed in turn (once the text before it has printed)
         {
-            var receptacleTextPair = new ReceptacleTextPair
-            {
-                receptacle = textScanEntry,
-                text = text,
-                isChoice = isChoice
-            };
-            printQueue.Enqueue(receptacleTextPair);
+            printQueue.Enqueue(new PrintJob { jobType = PrintJobType.Choice, choiceEntry = choiceEntry });
         }
 
-        private IEnumerator TextScan(ReceptacleTextPair receptacleTextPair)
+        private IEnumerator TextScan(PrintJob printJob)
         {
-            if (receptacleTextPair.receptacle == null)
+            switch (printJob.jobType)
             {
-                yield return PrintPageBreak();
-            }
-            else if (receptacleTextPair.isChoice)
-            {
-                yield return PrintChoices(receptacleTextPair.receptacle);
-            }
-            else
-            {
-                yield return PrintText(receptacleTextPair);
+                case PrintJobType.PageBreak:
+                    yield return PrintPageBreak();
+                    break;
+                case PrintJobType.Choice:
+                    yield return PrintChoice(printJob.choiceEntry);
+                    break;
+                case PrintJobType.Text:
+                default:
+                    yield return PrintText(printJob.textEntry, printJob.text);
+                    break;
             }
         }
 
@@ -201,15 +199,13 @@ namespace LowDefMustard.UIBox
             yield break;
         }
 
-        private IEnumerator PrintText(ReceptacleTextPair receptacleTextPair)
+        private IEnumerator PrintText(TextEntryHandle textScanEntry, string text)
         {
             // ~ Note:  Early returns (yield breaks) BEFORE SetBusyWriting, or potential for lock-up
-            ITextScanEntry textScanEntry = receptacleTextPair.receptacle;
-            if (textScanEntry is not { isAlive: true } || string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
+            if (textScanEntry is not { isAlive: true } || string.IsNullOrWhiteSpace(text)) { yield break; }
 
             textScanEntry.Reveal();
-            if (!textScanEntry.canDisplayText) { yield break; }
-            string fullText = UnescapeText(receptacleTextPair.text);
+            string fullText = UnescapeText(text);
             if (string.IsNullOrEmpty(fullText)) { yield break; }
             // ~ End of early returns
 
@@ -235,18 +231,18 @@ namespace LowDefMustard.UIBox
 
         private void ClearPrintedJobs()
         {
-            foreach (ITextScanEntry printedJob in printedJobs)
+            foreach (TextEntryHandle printedJob in printedJobs)
             {
                 if (printedJob is { isAlive: true }) { printedJob.Remove(); }
             }
-            printedJobs = new List<ITextScanEntry>();
+            printedJobs = new List<TextEntryHandle>();
         }
         #endregion
 
         #region ChoiceFunctionality
-        private IEnumerator PrintChoices(ITextScanEntry choiceEntry)
+        private static IEnumerator PrintChoice(ChoiceEntryHandle choiceEntry)
         {
-            choiceEntry.Reveal();
+            if (choiceEntry is { isAlive: true }) { choiceEntry.Reveal(); }
             yield break;
         }
 
@@ -363,116 +359,6 @@ namespace LowDefMustard.UIBox
                 return true;
             }
             return false;
-        }
-        #endregion
-
-        #region LegacyView
-        // Legacy uGUI view:  instantiates the serialized prefabs under dialogueParent / optionParent
-        // Used whenever no ITextScanView component is present, so existing uGUI prefabs work unmodified
-        private sealed class UGUITextScanView : ITextScanView
-        {
-            private readonly TextScanBox textScanBox;
-
-            // State -- Option Field Configurables (captured prior to any layout reconfiguration)
-            private readonly RectOffset optionPadding;
-            private readonly float optionSpacing;
-            private readonly TextAnchor optionChildAlignment;
-            private readonly bool optionControlChildSize = true;
-            private readonly bool optionUseChildScale = true;
-            private readonly bool optionChildForceExpand;
-
-            public UGUITextScanView(TextScanBox textScanBox)
-            {
-                this.textScanBox = textScanBox;
-
-                if (textScanBox.optionParent == null) { return; }
-                if (!textScanBox.optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup)) { return; }
-
-                optionPadding = horizontalLayoutGroup.padding;
-                optionSpacing = horizontalLayoutGroup.spacing;
-                optionChildAlignment = horizontalLayoutGroup.childAlignment;
-                optionControlChildSize = horizontalLayoutGroup.childControlWidth;
-                optionUseChildScale = horizontalLayoutGroup.childScaleWidth;
-                optionChildForceExpand = horizontalLayoutGroup.childForceExpandWidth;
-            }
-
-            public ITextScanEntry CreateTextEntry(TextEntryType textEntryType)
-            {
-                GameObject prefab = textEntryType == TextEntryType.Speech ? textScanBox.speechTextPrefab : textScanBox.simpleTextPrefab;
-                GameObject textObject = Instantiate(prefab, textScanBox.dialogueParent);
-                textObject.SetActive(false);
-                return new UGUITextScanEntry(textObject);
-            }
-
-            public ITextScanChoiceEntry CreateChoiceEntry(string text, int choiceOrder, Action onChoose)
-            {
-                GameObject choiceObject = Instantiate(textScanBox.optionButtonPrefab, textScanBox.optionParent);
-                var uiChoiceButton = choiceObject.GetComponent<UIChoiceButton>();
-                uiChoiceButton.SetChoiceOrder(choiceOrder);
-                uiChoiceButton.SetText(text);
-                uiChoiceButton.AddOnClickListener(() => onChoose?.Invoke());
-                choiceObject.SetActive(false);
-                return new UGUITextScanChoiceEntry(choiceObject, uiChoiceButton);
-            }
-
-            public void ClearEntries()
-            {
-                foreach (Transform child in textScanBox.dialogueParent)
-                {
-                    if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); }
-                }
-                if (textScanBox.optionParent == null) { return; }
-
-                foreach (Transform child in textScanBox.optionParent)
-                {
-                    if (child == null) { continue; }
-                    if (child.TryGetComponent(out Button button)) { button.onClick.RemoveAllListeners(); }
-                    if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); }
-                }
-            }
-
-            public void SetChoiceLayout(ChoiceLayout choiceLayout)
-            {
-                Transform optionParent = textScanBox.optionParent;
-                if (optionParent == null) { return; }
-
-                if (choiceLayout == ChoiceLayout.Vertical)
-                {
-                    if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup)) { DestroyImmediate(horizontalLayoutGroup); }
-                    if (optionParent.TryGetComponent(out VerticalLayoutGroup _)) { return; }
-
-                    var verticalLayoutGroup = optionParent.gameObject.AddComponent(typeof(VerticalLayoutGroup)) as VerticalLayoutGroup;
-                    if (verticalLayoutGroup == null) { return; }
-
-                    verticalLayoutGroup.padding = optionPadding;
-                    verticalLayoutGroup.spacing = optionSpacing;
-                    verticalLayoutGroup.childAlignment = optionChildAlignment;
-                    verticalLayoutGroup.childControlWidth = optionControlChildSize;
-                    verticalLayoutGroup.childControlHeight = optionControlChildSize;
-                    verticalLayoutGroup.childScaleWidth = optionUseChildScale;
-                    verticalLayoutGroup.childScaleHeight = optionUseChildScale;
-                    verticalLayoutGroup.childForceExpandWidth = optionChildForceExpand;
-                    verticalLayoutGroup.childForceExpandHeight = optionChildForceExpand;
-                }
-                else
-                {
-                    if (optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup)) { DestroyImmediate(verticalLayoutGroup); }
-                    if (optionParent.TryGetComponent(out HorizontalLayoutGroup _)) { return; }
-
-                    var horizontalLayoutGroup = optionParent.gameObject.AddComponent(typeof(HorizontalLayoutGroup)) as HorizontalLayoutGroup;
-                    if (horizontalLayoutGroup == null) { return; }
-
-                    horizontalLayoutGroup.padding = optionPadding;
-                    horizontalLayoutGroup.spacing = optionSpacing;
-                    horizontalLayoutGroup.childAlignment = optionChildAlignment;
-                    horizontalLayoutGroup.childControlWidth = optionControlChildSize;
-                    horizontalLayoutGroup.childControlHeight = optionControlChildSize;
-                    horizontalLayoutGroup.childScaleWidth = optionUseChildScale;
-                    horizontalLayoutGroup.childScaleHeight = optionUseChildScale;
-                    horizontalLayoutGroup.childForceExpandWidth = optionChildForceExpand;
-                    horizontalLayoutGroup.childForceExpandHeight = optionChildForceExpand;
-                }
-            }
         }
         #endregion
     }

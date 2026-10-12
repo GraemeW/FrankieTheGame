@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Zones
 {
-    public abstract class FaderBase<TTransitionType> : MonoBehaviour where TTransitionType : struct, Enum
+    public abstract partial class FaderBase<TTransitionType> : MonoBehaviour where TTransitionType : struct, Enum
     {
         // Note:  Internal fields/methods for test visibility
         
@@ -23,7 +24,7 @@ namespace LowDefMustard.Zones
         private const string _faderTag = "Fader";
         
         // Static State
-        internal static FaderBase<TTransitionType> activeFader;
+        [AutoStaticsCleanup] internal static FaderBase<TTransitionType> activeFader;
         
         // State
         protected bool fading;

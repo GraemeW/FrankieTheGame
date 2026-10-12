@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,7 +32,7 @@ namespace LowDefMustard.Saving.Editor
         
         #region StaticRegistries
         private static readonly List<(Type type, Func<ISaveableBase, bool> match, Func<ISaveableBase, SaveState, SaveableSubCardData> factory)> _subCardFactories = new();
-        private static readonly PriorityRegistry<ISaveableBase> _subCardSortRegistry = new();
+        [NoAutoStaticsCleanup] private static readonly PriorityRegistry<ISaveableBase> _subCardSortRegistry = new();
         
         public static void RegisterSubCard<T>(Func<T, SaveState, SaveableSubCardData> factory) where T : ISaveableBase
         {

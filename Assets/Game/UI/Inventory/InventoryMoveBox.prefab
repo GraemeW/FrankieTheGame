@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1937462058451733007}
+  - {fileID: 4194045119366949165}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1931382934 &1937462058451733003
@@ -103,8 +103,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b37a2871b2b443a78f831508856b6b45, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   styleSheets:
   - {fileID: 7433441132597879392, guid: 1d5c0c76d04348cbb3d24026b46aa654, type: 3}
 --- !u!114 &-8547875359365488180
@@ -117,17 +117,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ff1808c76456324dad9582b1f322809, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
   dialogueBoxPrefab: {fileID: 4120861931756406875, guid: 9893a87e7c214b45b0cd02fe0ea76ea5, type: 3}
   dialogueOptionBoxPrefab: {fileID: 5210498316462871005, guid: 76496a9a1480478281db2b0436cf29f6, type: 3}
-  inventoryMoveBoxPrefab: {fileID: 0}
+  inventoryMoveBoxPrefab: {fileID: -8547875359365488180}
   localizedOptionText:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
@@ -240,7 +234,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: uiBox
-      value:
+      value: 
       objectReference: {fileID: -8547875359365488180}
     - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: m_Name
@@ -251,7 +245,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
---- !u!4 &1937462058451733007 stripped
+--- !u!4 &4194045119366949165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
   m_PrefabInstance: {fileID: 1937462058451733006}

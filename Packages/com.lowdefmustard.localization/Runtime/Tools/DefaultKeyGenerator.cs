@@ -1,4 +1,5 @@
 using System;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
@@ -11,7 +12,7 @@ namespace LowDefMustard.Localization
     public static class DefaultKeyGenerator
     {
         // State
-        private static readonly System.Random _random = new();
+        [NoAutoStaticsCleanup] private static readonly System.Random _random = new();
         
         public static string GenerateKindaUniqueKey(Object targetObject, string propertyName, Type declaringType = null,  bool useParentNameStem = true)
         {

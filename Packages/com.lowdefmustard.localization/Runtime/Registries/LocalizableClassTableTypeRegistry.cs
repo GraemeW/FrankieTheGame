@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace LowDefMustard.Localization
@@ -9,7 +10,7 @@ namespace LowDefMustard.Localization
     public static class LocalizableClassTableTypeRegistry
     {
         // State
-        private static readonly Dictionary<Type, Enum> _registeredTableTypes = new();
+        [NoAutoStaticsCleanup] private static readonly Dictionary<Type, Enum> _registeredTableTypes = new();
 
         public static void Register(Type owningType, Enum tableType)
         {

@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
 namespace LowDefMustard.Localization
 {
-    public static class LocalizationLocale
+    public static partial class LocalizationLocale
     {
         // State
-        private static bool _isLocaleInitialized;
+        [AutoStaticsCleanup] private static bool _isLocaleInitialized;
 
         #region RuntimeCompliant
         public static string GetCurrentLocaleCode() => LocalizationSettings.SelectedLocale.Identifier.Code;

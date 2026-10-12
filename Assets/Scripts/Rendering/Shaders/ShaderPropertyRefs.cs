@@ -1,4 +1,5 @@
 using System.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -37,7 +38,7 @@ namespace Frankie.Rendering
         }
         
         // Reused across calls to avoid a per-call allocation (read -> write -> hand-off on every use)
-        private static MaterialPropertyBlock _workingPropertyBlock;
+        [NoAutoStaticsCleanup] private static MaterialPropertyBlock _workingPropertyBlock;
         #endregion
 
         #region PublicUtility

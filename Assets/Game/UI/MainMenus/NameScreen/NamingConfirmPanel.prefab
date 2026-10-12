@@ -119,15 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5e4a99d41be2842b056f8cdf19fcd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
-  dialogueParent: {fileID: 0}
-  simpleTextPrefab: {fileID: 0}
-  speechTextPrefab: {fileID: 0}
   initialInputDelay: 0.1
   delayBetweenCharacters: 0.05
   reconfigureLayoutOnOptionSize: 1
@@ -255,12 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5de23c1d0246e4b2aea65476f63931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
   plantedWalkMinAnimationRate: 0.25
   plantedWalkMaxAnimationRate: 0.75
   localizedConfirmPhrase:

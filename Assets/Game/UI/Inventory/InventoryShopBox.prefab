@@ -119,12 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb03743e7ceebb43b35e1e4e6b08e3e, type: 3}
   m_Name:
   m_EditorClassIdentifier:
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
   dialogueBoxPrefab: {fileID: 4120861931756406875, guid: 9893a87e7c214b45b0cd02fe0ea76ea5, type: 3}
   dialogueOptionBoxPrefab: {fileID: 5210498316462871005, guid: 76496a9a1480478281db2b0436cf29f6, type: 3}
   inventoryMoveBoxPrefab: {fileID: -8547875359365488180, guid: c11a1f4a70caf0e4783fb042888f8799, type: 3}

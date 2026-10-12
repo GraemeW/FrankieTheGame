@@ -16,7 +16,7 @@ namespace Frankie.Combat.UI
         [SerializeField] private BattleStage battleStage;
         [SerializeField] private CombatMessages combatMessages;
         [SerializeField] private CombatOptions combatOptions;
-        [SerializeField] private SkillSelectionUI skillSelection;
+        [SerializeField] private SkillSelectionBox skillSelection;
         [SerializeField][Tooltip("Parent for combat options spawn (stats, knapsack)")] private Transform infoChooseParent;
 
         // State

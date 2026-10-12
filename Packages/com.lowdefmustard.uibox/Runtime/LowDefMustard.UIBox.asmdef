@@ -3,8 +3,7 @@
   "rootNamespace": "LowDefMustard.UIBox",
   "references": [
     "LowDefMustard.Control",
-    "LowDefMustard.Utils",
-    "Unity.TextMeshPro"
+    "LowDefMustard.Utils"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

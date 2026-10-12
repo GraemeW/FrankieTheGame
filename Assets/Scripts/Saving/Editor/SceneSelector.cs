@@ -17,7 +17,7 @@ namespace Frankie.Saving.Editor
 
         static SceneSelector()
         {
-            SaveEditor.SceneSelectorFactory = CreateSceneSelector;
+            SaveEditor.sceneSelectorFactory = CreateSceneSelector;
         }
 
         private static VisualElement CreateSceneSelector(SceneSelectorContext context)

@@ -123,12 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c942e2fc2e925f4680e9ffe4ea31acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
   localizedFightText:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082

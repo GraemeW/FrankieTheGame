@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -79,7 +78,6 @@ namespace Frankie.Menu.UI
         {
             menuView = GetComponent<UIToolkitMenuView>();
             keepPointerInputWhenInactive = true; // Choosing another option swaps out the open child box (and slides are click targets for it)
-            clearVolatileOptionsOnEnable = false;
             BuildChoiceOptions();
         }
 
@@ -114,8 +112,17 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
-        #region PublicMethods
-        public void OpenStatus()
+        #region OpenOptions
+        private void BuildChoiceOptions()
+        {
+            AddNonDestroyChoiceOption(localizedKnapsackText.GetSafeLocalizedString(), OpenKnapsack);
+            AddNonDestroyChoiceOption(localizedOutfitText.GetSafeLocalizedString(), OpenEquipment);
+            AddNonDestroyChoiceOption(localizedAbilitiesText.GetSafeLocalizedString(), OpenAbilities);
+            AddNonDestroyChoiceOption(localizedStatusText.GetSafeLocalizedString(), OpenStatus);
+            AddNonDestroyChoiceOption(localizedMapText.GetSafeLocalizedString(), OpenMap);
+        }
+        
+        private void OpenStatus()
         {
             ResetWorldOptions();
             StatusBox statusBox = Instantiate(statusBoxPrefab, worldCanvas.GetWorldOptionsParent());
@@ -124,7 +131,7 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(statusBox, null);
         }
 
-        public void OpenKnapsack()
+        private void OpenKnapsack()
         {
             ResetWorldOptions();
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
@@ -133,7 +140,7 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(inventoryBox, null);
         }
 
-        public void OpenEquipment()
+        private void OpenEquipment()
         {
             ResetWorldOptions();
             EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
@@ -142,7 +149,7 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(equipmentBox, null);
         }
 
-        public void OpenMap()
+        private void OpenMap()
         {
             ResetWorldOptions();
             MapSuper mapSuper = Instantiate(mapSuperPrefab, worldCanvas.GetWorldOptionsParent());
@@ -150,7 +157,7 @@ namespace Frankie.Menu.UI
             controller.AddInputReceiver(mapSuper, null);
         }
 
-        public void OpenAbilities()
+        private void OpenAbilities()
         {
             ResetWorldOptions();
             AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
@@ -160,16 +167,7 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
-        #region ProtectedPrivateMethods
-        private void BuildChoiceOptions()
-        {
-            AddNonDestroyChoiceOption(localizedKnapsackText.GetSafeLocalizedString(), OpenKnapsack);
-            AddNonDestroyChoiceOption(localizedOutfitText.GetSafeLocalizedString(), OpenEquipment);
-            AddNonDestroyChoiceOption(localizedAbilitiesText.GetSafeLocalizedString(), OpenAbilities);
-            AddNonDestroyChoiceOption(localizedStatusText.GetSafeLocalizedString(), OpenStatus);
-            AddNonDestroyChoiceOption(localizedMapText.GetSafeLocalizedString(), OpenMap);
-        }
-
+        #region PrivateUtility
         private void SetupCharacterSlides()
         {
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())

@@ -57,7 +57,6 @@ namespace Frankie.Menu.UI
         {
             menuView = GetComponent<UIToolkitMenuView>();
             menuView.SetDataSource(optionsMenuModel);
-            clearVolatileOptionsOnEnable = false;
             BuildChoiceOptions();
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -46,7 +47,7 @@ namespace LowDefMustard.Localization.Editor
 
         // Hooks
         // Key generator is project-specific, so must hook up independently via [InitializeOnLoad] registration
-        public static Func<Object, string, Type, bool, string> typeSpecificKeyGenerator;
+        [NoAutoStaticsCleanup] public static Func<Object, string, Type, bool, string> typeSpecificKeyGenerator;
 
         #region UIProperties
         private const string _keyLabel = "Key";

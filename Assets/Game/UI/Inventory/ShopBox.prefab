@@ -119,12 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5effd3ae0a2f86349bc4c3c7a88a1180, type: 3}
   m_Name:
   m_EditorClassIdentifier:
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
   localizedShopInfoDefault:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082

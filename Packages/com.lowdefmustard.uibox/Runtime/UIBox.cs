@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
@@ -53,10 +52,8 @@ namespace LowDefMustard.UIBox
             SetupBackExitButton(); // Note:  After AwakeTriggered, so overrides can set preventEscapeOptionExit
         }
         
-        protected sealed override void Start()
+        private void Start()
         {
-            base.Start();
-            
             TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
             if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
             controllerCheckCoroutine = StartCoroutine(DestroyIfControllerMissing());
@@ -110,15 +107,7 @@ namespace LowDefMustard.UIBox
 
         private void StandardSetUpChoiceOptions()
         {
-            // Note:  Boxes that build their own choices (i.e. no optionParent) set clearVolatileOptionsOnEnable false to keep them
-            if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            if (optionParent != null)
-            {
-                // Legacy uGUI approach
-                List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
-                List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
-                choiceOptions.AddRange(filteredUIChoices);
-            }
+            if (clearChoiceOptionsOnEnable) { choiceOptions.Clear(); }
             ReconcileChoiceOptions();
         }
         
@@ -194,7 +183,7 @@ namespace LowDefMustard.UIBox
         {
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
-            if (!keepPointerInputWhenInactive && TryGetBoxView(out IUIBoxView view)) { view.SetPointerInputEnabled(enable); }
+            if (!keepPointerInputWhenInactive && TryGetBoxView(out UIToolkitBoxView view)) { view.SetPointerInputEnabled(enable); }
         }
         
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
@@ -232,17 +221,9 @@ namespace LowDefMustard.UIBox
         {
             if (isBackExitButtonSetup) { return; }
             if (preventEscapeOptionExit) { return; }
-            if (TryGetBoxView(out IUIBoxView view))
-            {
-                view.SetBackExitAction(() => HandleInputWrapper(ControllerInputType.Escape));
-                isBackExitButtonSetup = true;
-                return;
-            }
-            
-            // Legacy uGUI approach
-            if (backExitPrefab == null) { return; }
-            UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
-            backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
+            if (!TryGetBoxView(out UIToolkitBoxView view)) { return; }
+
+            view.SetBackExitAction(() => HandleInputWrapper(ControllerInputType.Escape));
             isBackExitButtonSetup = true;
         }
         #endregion

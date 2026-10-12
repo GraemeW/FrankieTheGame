@@ -14,9 +14,10 @@
     align-items: center;
 }
 
+/* Middle row (left + right skills):  spans the wheel, each skill centred in its own half */
 .skill-wheel__row {
     flex-direction: row;
-    justify-content: center;
+    align-self: stretch;
     margin: 18px 0;
 }
 
@@ -40,7 +41,10 @@
 }
 
 .skill-wheel__row > .skill-wheel__direction {
-    margin: 0 75px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    margin: 0 20px;
 }
 
 /* Pointer feedback suppressed while another box is on top */
@@ -58,17 +62,17 @@
 }
 
 /* ~ Text Fit ~ */
-/* The wheel fills the area its screen gives it.  Rows may not outgrow it, and the skill names in a row give way together */
+/* The wheel fills the area its screen gives it, and a skill name that would outgrow its share of it shrinks */
+/* (up / down:  the wheel's width;  left / right:  half of it each, less their margins) */
 .skill-wheel {
     align-self: stretch;
 }
 
-.skill-wheel__row {
+.skill-wheel > .skill-wheel__direction {
     max-width: 100%;
 }
 
-.skill-wheel__row > .skill-wheel__direction {
-    flex-shrink: 1;
+.skill-wheel__direction {
     white-space: nowrap;
     -unity-text-auto-size: best-fit 24px 64px;
 }

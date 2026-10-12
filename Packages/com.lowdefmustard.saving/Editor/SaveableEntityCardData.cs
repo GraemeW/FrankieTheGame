@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -42,7 +43,7 @@ namespace LowDefMustard.Saving.Editor
         private static readonly Color _desyncColor = Color.paleVioletRed / 1.5f;
 
         #region StaticRegistration
-        private static readonly PriorityRegistry<SaveableEntity> _entitySortRegistry = new();
+        [NoAutoStaticsCleanup] private static readonly PriorityRegistry<SaveableEntity> _entitySortRegistry = new();
         public static void RegisterEntityCardPriority(Func<SaveableEntity, bool> match, int priority) => _entitySortRegistry.Register(match, priority);
         public static void UnregisterEntityCardPriority(Func<SaveableEntity, bool> match) => _entitySortRegistry.Unregister(match);
         public static int GetEntitySortPriority(SaveableEntity saveableEntity) => _entitySortRegistry.GetPriority(saveableEntity);

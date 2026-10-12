@@ -31,8 +31,6 @@ namespace LowDefMustard.UIBox.Tests.Editor
             spawned.Add(go);
             return go.AddComponent<TestUIBox>();
         }
-
-        private UIChoiceButton CreateWiredButton(string name) => TestChoiceFactory.CreateWiredButton(name, spawned);
         #endregion
         
         #region HandleGlobalInput
@@ -40,8 +38,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void HandleGlobalInput_Disabled_ReturnsTrueWithoutActingOnInput()
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton choice = CreateWiredButton("Choice");
-            testUIBox.InjectChoiceOptions(new UIChoice[] { choice });
+            var choice = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice });
             testUIBox.PublicSetChoiceAvailable(true);
             testUIBox.publicHandleGlobalInput = false;
 
@@ -78,9 +76,9 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void HandleGlobalInput_FirstInteractionWithAvailableChoices_ShowsCursorOnFirstOption()
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton first = CreateWiredButton("First");
-            UIChoiceButton second = CreateWiredButton("Second");
-            testUIBox.InjectChoiceOptions(new UIChoice[] { first, second });
+            var first = new TestChoice();
+            var second = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { first, second });
             testUIBox.PublicSetChoiceAvailable(true);
             testUIBox.publicHandleGlobalInput = true;
 
@@ -94,9 +92,9 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void HandleGlobalInput_AlreadyHighlighted_MovesCursorInstead()
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton first = CreateWiredButton("First");
-            UIChoiceButton second = CreateWiredButton("Second");
-            testUIBox.InjectChoiceOptions(new UIChoice[] { first, second });
+            var first = new TestChoice();
+            var second = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { first, second });
             testUIBox.SetHighlightedChoiceOption(first);
             testUIBox.PublicSetChoiceAvailable(true);
             testUIBox.publicHandleGlobalInput = true;
@@ -111,10 +109,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void HandleGlobalInput_ExecuteOnHighlightedChoice_ChoosesIt()
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton choice = CreateWiredButton("Choice");
-            bool clicked = false;
-            choice.AddOnClickListener(() => clicked = true);
-            testUIBox.InjectChoiceOptions(new UIChoice[] { choice });
+            var choice = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice });
             testUIBox.SetHighlightedChoiceOption(choice);
             testUIBox.PublicSetChoiceAvailable(true);
             testUIBox.publicHandleGlobalInput = true;
@@ -122,7 +118,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
             bool result = testUIBox.PublicStandardHandleGlobalInput(ControllerInputType.Execute);
 
             Assert.IsTrue(result);
-            Assert.IsTrue(clicked);
+            Assert.AreEqual(1, choice.useChoiceCount);
         }
         #endregion
 
@@ -133,8 +129,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void ShowCursorOnAnyInteraction_ExcludedInputTypes_NeverConsumesTheInput(ControllerInputType input)
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton choice = CreateWiredButton("Choice");
-            testUIBox.InjectChoiceOptions(new UIChoice[] { choice });
+            var choice = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice });
             testUIBox.PublicSetChoiceAvailable(true);
 
             Assert.IsFalse(testUIBox.PublicShowCursorOnAnyInteraction(input));
@@ -145,8 +141,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void ShowCursorOnAnyInteraction_AlreadyHighlighted_ReturnsFalse()
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton choice = CreateWiredButton("Choice");
-            testUIBox.InjectChoiceOptions(new UIChoice[] { choice });
+            var choice = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice });
             testUIBox.SetHighlightedChoiceOption(choice);
             testUIBox.PublicSetChoiceAvailable(true);
 
@@ -159,8 +155,8 @@ namespace LowDefMustard.UIBox.Tests.Editor
         public void SetActiveInput_False_ReconcilesOptionsAndDisablesGlobalInput()
         {
             TestUIBox testUIBox = CreateTestUIBox();
-            UIChoiceButton choice = CreateWiredButton("Choice");
-            testUIBox.InjectChoiceOptions(new UIChoice[] { choice, null });
+            var choice = new TestChoice();
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice, null });
             testUIBox.publicHandleGlobalInput = true;
 
             testUIBox.SetActiveInput(false);

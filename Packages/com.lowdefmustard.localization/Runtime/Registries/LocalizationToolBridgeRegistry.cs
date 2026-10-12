@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 
 namespace LowDefMustard.Localization
 {
@@ -10,7 +11,7 @@ namespace LowDefMustard.Localization
     public static class LocalizationToolBridgeRegistry
     {
         // State
-        private static readonly Dictionary<Type, ILocalizationToolBridge> _registeredBridges = new();
+        [NoAutoStaticsCleanup] private static readonly Dictionary<Type, ILocalizationToolBridge> _registeredBridges = new();
 
         public static void Register(Type tableTypeEnum, ILocalizationToolBridge bridge)
         {

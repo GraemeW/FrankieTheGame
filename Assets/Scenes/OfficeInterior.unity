@@ -19216,7 +19216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: e64e1b07-16e7-4f29-bad3-1f327b64370a
-  backingListHashCheck: -540967691
+  backingListHashCheck: -551713144
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 9cabe581-e4e8-4e07-9148-8190abc5e8e6
@@ -40967,7 +40967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c90051c8-6375-4741-a956-7d60c667db5d
-  backingListHashCheck: 1798616972
+  backingListHashCheck: -441661060
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - fd9ed298-c9f2-4c72-a440-4f02b469c9d7
@@ -41452,11 +41452,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.761221
+      value: -6.6502
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.6355295
+      value: 5.0805492
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57958,7 +57958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: 2eaac1ac-4ad8-4a08-b529-89406a48f682
-  backingListHashCheck: 1434827792
+  backingListHashCheck: 1720717866
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 9cabe581-e4e8-4e07-9148-8190abc5e8e6
@@ -67431,7 +67431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 2b6d94f5-ccce-434d-bd75-51ce1e4d7c8d
-  backingListHashCheck: -1817490220
+  backingListHashCheck: 1595016262
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 61c08901-2fd9-403b-833e-f22949c8d448
@@ -69748,7 +69748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 151435e9-c7b7-478f-a9cf-7aaad03e4487
-  backingListHashCheck: -1318917625
+  backingListHashCheck: -1029252820
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - a5a603ce-7ce9-41e5-982f-f3a64f2594e7
@@ -89301,7 +89301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 34f6cd88-0481-4d84-b034-4d8db70384ad
-  backingListHashCheck: 1741272954
+  backingListHashCheck: -92500596
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - fd9ed298-c9f2-4c72-a440-4f02b469c9d7
@@ -131397,7 +131397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: b12df4e9-c53d-47d3-9dfb-ddd969459176
-  backingListHashCheck: 1973208728
+  backingListHashCheck: 1377623412
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 9cabe581-e4e8-4e07-9148-8190abc5e8e6
@@ -143136,7 +143136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: c2a3aed0-a937-43f5-b032-5871ed446b2a
-  backingListHashCheck: -1656126299
+  backingListHashCheck: -1541580044
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - fd9ed298-c9f2-4c72-a440-4f02b469c9d7

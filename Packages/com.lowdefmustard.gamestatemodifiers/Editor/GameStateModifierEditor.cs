@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -55,7 +56,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
         #endregion
 
         // Handles
-        public static Action<string, Action> openSceneAndActProvider;
+        [NoAutoStaticsCleanup] public static Action<string, Action> openSceneAndActProvider;
         
         // Functional State
         private GameStateModifier selectedGameStateModifier;

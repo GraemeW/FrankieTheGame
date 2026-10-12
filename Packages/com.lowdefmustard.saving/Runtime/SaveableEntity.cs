@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,7 +17,7 @@ namespace LowDefMustard.Saving
     {
         // Tunables
         [SerializeField] private string uniqueIdentifier = "";
-        private static readonly Dictionary<string, SaveableEntity> _globalLookupForEditorDebug = new();
+        [NoAutoStaticsCleanup] private static readonly Dictionary<string, SaveableEntity> _globalLookupForEditorDebug = new();
         
         // State
         private bool forcePreventSave = false;

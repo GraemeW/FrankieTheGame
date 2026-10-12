@@ -43,7 +43,6 @@ namespace Frankie.Inventory.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            clearVolatileOptionsOnEnable = false;
             menuView = GetComponent<UIToolkitMenuView>();
             menuView.SetDataSource(shopMessageModel);
         }

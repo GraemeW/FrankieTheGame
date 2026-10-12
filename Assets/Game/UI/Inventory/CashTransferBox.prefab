@@ -119,12 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e821e138300e8e42bdaeefc9ab10335, type: 3}
   m_Name:
   m_EditorClassIdentifier:
-  canvasGroup: {fileID: 0}
-  optionParent: {fileID: 0}
-  backExitParent: {fileID: 0}
-  backExitPrefab: {fileID: 0}
-  optionButtonPrefab: {fileID: 0}
-  optionSliderPrefab: {fileID: 0}
   localizedMessageDeposit:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
