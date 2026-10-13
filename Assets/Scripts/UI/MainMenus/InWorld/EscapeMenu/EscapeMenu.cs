@@ -29,7 +29,7 @@ namespace Frankie.Menu.UI
 
         // Cached References
         private PlayerStateMachine playerStateMachine;
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private GameObject childOption;
 
         // State
@@ -55,9 +55,9 @@ namespace Frankie.Menu.UI
         #region UnityMethods
         protected override bool TryAcquireDependencies()
         {
-            worldCanvas = WorldCanvas.FindWorldCanvas();
+            worldUIRoot = WorldUIRoot.FindWorldUIRoot();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { return false; }
+            if (worldUIRoot == null || playerStateMachine == null) { return false; }
 
             controller = playerStateMachine.GetComponent<PlayerController>();
             if (controller == null) { return false; }
@@ -115,7 +115,7 @@ namespace Frankie.Menu.UI
             // Front-load event calling -- despawns any open windows
             escapeMenuItemSelected?.Invoke();
 
-            OptionsMenu optionsMenu = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
+            OptionsMenu optionsMenu = Instantiate(optionsMenuPrefab, worldUIRoot.gameObject.transform);
             optionsMenu.Setup(this);
             controller.AddInputReceiver(optionsMenu, null);
         }
@@ -127,7 +127,7 @@ namespace Frankie.Menu.UI
             // Front-load event calling -- despawns any open windows
             escapeMenuItemSelected?.Invoke();
             
-            FrameFlavourPanel frameFlavourPanel = Instantiate(frameFlavourPanelPrefab, worldCanvas.gameObject.transform);
+            FrameFlavourPanel frameFlavourPanel = Instantiate(frameFlavourPanelPrefab, worldUIRoot.gameObject.transform);
             frameFlavourPanel.EnableEscapeOptionExit();
             controller.AddInputReceiver(frameFlavourPanel, null);
         }

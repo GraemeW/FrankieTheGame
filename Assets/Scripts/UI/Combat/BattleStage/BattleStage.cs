@@ -8,7 +8,7 @@ namespace Frankie.Combat.UI
     [RequireComponent(typeof(UIToolkitMenuView))]
     public sealed class BattleStage : MonoBehaviour
     {
-        // Note:  Builds itself from battle events;  overlay boxes (options, skills, messages) live elsewhere - see BattleCanvas
+        // Note:  Builds itself from battle events;  overlay boxes (options, skills, messages) live elsewhere - see BattleUI
 
         // Tunables
         [SerializeField] private BattleSlideText battleSlideText;

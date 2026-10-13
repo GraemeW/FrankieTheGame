@@ -60,7 +60,7 @@ Briefly:
   * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
   * , but they are also used to generate any relevant animations/artwork when the [BattleAction](../../OnLoadAssets/BattleActions/) is activated
 
-The standard [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategy uses the [SpawnTargetPrefabEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnTargetPrefabEffect.cs) scriptable object to spawn a game object with some visual effect either at the location of the target(s) (if `isGlobalEffect` is set to `false`), or over the entire battle screen (if `true`).  
+The standard [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategy uses the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnBattleEffect.cs) scriptable object to spawn a visual effect either at the location of the target(s) (if `isGlobalEffect` is set to `false`), or over the entire battle screen (if `true`).  
 
 The [BattleEffectShaders](./BattleEffectShaders/) serve to generate that visual effect, primarly with the use of [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function), such as those detailed in [Shader Utilities](#shader-utilities) below.  
 

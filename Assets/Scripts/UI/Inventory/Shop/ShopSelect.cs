@@ -28,7 +28,7 @@ namespace Frankie.Inventory.UI
         private bool exitShopOnDestroy = true;
 
         // Cached Reference
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private PlayerStateMachine playerStateMachine;
         private PlayerController playerController;
         private PartyKnapsackConduit partyKnapsackConduit;
@@ -72,9 +72,9 @@ namespace Frankie.Inventory.UI
 
         private bool GetPlayerReference()
         {
-            worldCanvas = WorldCanvas.FindWorldCanvas();
+            worldUIRoot = WorldUIRoot.FindWorldUIRoot();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { return false; }
+            if (worldUIRoot == null || playerStateMachine == null) { return false; }
 
             partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
             playerController = playerStateMachine.GetComponent<PlayerController>();
@@ -104,8 +104,8 @@ namespace Frankie.Inventory.UI
         {
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
-            ShopBox shopBox = Instantiate(shopBoxPrefab, worldCanvas.transform);
-            shopBox.Setup(worldCanvas, playerStateMachine, playerController, partyKnapsackConduit, shopper);
+            ShopBox shopBox = Instantiate(shopBoxPrefab, worldUIRoot.transform);
+            shopBox.Setup(worldUIRoot, playerStateMachine, playerController, partyKnapsackConduit, shopper);
             Destroy(gameObject);
         }
 
@@ -113,7 +113,7 @@ namespace Frankie.Inventory.UI
         {
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
-            InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
+            InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldUIRoot.transform);
             inventoryShopBox.Setup(playerController, playerStateMachine, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop);
             Destroy(gameObject);
         }

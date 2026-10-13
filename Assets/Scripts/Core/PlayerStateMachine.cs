@@ -63,7 +63,7 @@ namespace Frankie.Core
         private PartyCombatConduit partyCombatConduit;
         private Shopper shopper;
         // Cached References -- State Dependent
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private BattleController battleController;
         private DialogueController dialogueController;
 
@@ -143,7 +143,7 @@ namespace Frankie.Core
         
         private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            worldCanvas = WorldCanvas.FindWorldCanvas();
+            worldUIRoot = WorldUIRoot.FindWorldUIRoot();
         }
         
         private void SetPlayerImmunity(bool enablePlayerImmunity)
@@ -346,7 +346,7 @@ namespace Frankie.Core
                 DialogueController existingDialogueController = DialogueController.FindDialogueController();
                 dialogueController = existingDialogueController == null ? Instantiate(dialogueControllerPrefab) : existingDialogueController;
             }
-            dialogueController.Setup(worldCanvas, this, party);
+            dialogueController.Setup(worldUIRoot, this, party);
         }
 
         public bool StartDialogueSequence() => dialogueMemory.InitiateDialogue(dialogueController);
@@ -356,8 +356,8 @@ namespace Frankie.Core
         public bool StartTradeSequence()
         {
             return tradeMemory.InitiateTrade(
-                () => Instantiate(shopSelectPrefab, worldCanvas.gameObject.transform),
-                () => Instantiate(cashTransferPrefab, worldCanvas.gameObject.transform));
+                () => Instantiate(shopSelectPrefab, worldUIRoot.gameObject.transform),
+                () => Instantiate(cashTransferPrefab, worldUIRoot.gameObject.transform));
         }
         #endregion
 
@@ -365,8 +365,8 @@ namespace Frankie.Core
         public bool StartOptionSequence()
         {
             return optionMemory.InitiateOptions(
-                () => Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform), 
-                () => Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform));
+                () => Instantiate(worldOptionsPrefab, worldUIRoot.gameObject.transform), 
+                () => Instantiate(escapeMenuPrefab, worldUIRoot.gameObject.transform));
         }
         #endregion
 

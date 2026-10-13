@@ -91,30 +91,6 @@ MonoBehaviour:
     m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteRan.1c6b729
     m_Metadata:
       m_Items: []
-  - m_Id: 8003262832697344
-    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseHP.6e9532f8
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003284227842048
-    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseHP.3357cc65
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003305111281664
-    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseAP.378236a3
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003344688734208
-    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseAP.5b304bb4
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003359918252032
-    m_Key: CombatLog.Prefab.CombatLog.MessageDead.48742732
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003382676545536
-    m_Key: CombatLog.Prefab.CombatLog.MessageResurrected.395bc143
-    m_Metadata:
-      m_Items: []
   - m_Id: 8004517357412352
     m_Key: CombatMessages.Prefab.CombatMessages.MessageItemToBeUsed.31fec086
     m_Metadata:
@@ -169,10 +145,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9043523323027456
     m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9045403184914432
-    m_Key: StandardConfirmation.Prefab.StandardEscapeMenu.RejectText.27ed8b5f
     m_Metadata:
       m_Items: []
   - m_Id: 9054858278592512
@@ -241,10 +213,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9096179089399808
     m_Key: EquipmentInventoryBox.Prefab.EquipmentInventoryBox.MessageCannotEquip.2612f886
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9097773231104000
-    m_Key: InventorySwapBox.Prefab.InventorySwapBox.MessageCannotEquip.58946cdd
     m_Metadata:
       m_Items: []
   - m_Id: 9098989205970944

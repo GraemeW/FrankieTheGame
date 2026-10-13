@@ -119,7 +119,7 @@ e.g.
   - For `ILocalizableCore` implementers, with no project-specific `TTableType` at all, maps the implementing *class* directly to a table-type value, so `MyClass.localizationTableTypeValue` can be `LocalizableClassTableTypeRegistry.GetTableType(GetType())` instead of a compile-time-typed field
   - _To-be-extracted out_
 - **`LocalizedStringExtensions.GetSafeLocalizedString()`** — Null/empty-safe wrapper around `LocalizedString.GetLocalizedString()`
-- **`DefaultKeyGenerator.GenerateKindaUniqueKey(...)`** — Key generator producing a semi-readable, semi-random key from an object's type, parent name (with a Canvas-name skip for UI), prefab/scene context, and property name, suffixed with a short random hex string
+- **`DefaultKeyGenerator.GenerateKindaUniqueKey(...)`** — Key generator producing a semi-readable, semi-random key from an object's type, parent name (skipped when the parent carries an `ILocalizationKeyRoot`), prefab/scene context, and property name, suffixed with a short random hex string
   - Intended to be called from Editor
   - When called at Runtime (not expected), will produce the short random hex string
 

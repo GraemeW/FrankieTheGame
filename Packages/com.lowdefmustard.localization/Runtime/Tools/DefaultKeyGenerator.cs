@@ -29,11 +29,8 @@ namespace LowDefMustard.Localization
             if (targetObject is GameObject castGameObject && castGameObject.TryGetComponent(out MonoBehaviour swapToMono)) { targetObject = swapToMono; }
             if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
             {
-                string parentName = castMonoBehaviour.transform.parent.name;
-                if (!parentName.Contains("Canvas")) // Skip UI-most parent name
-                {
-                    nameStem = castMonoBehaviour.transform.parent.name;
-                }
+                Transform parent = castMonoBehaviour.transform.parent;
+                if (!parent.TryGetComponent(out ILocalizationKeyRoot _)) { nameStem = parent.name; } // Grouping roots are skipped
             }
             
             if (targetObject != null)

@@ -1,10 +1,11 @@
 using UnityEngine;
+using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Stats;
 
 namespace Frankie.Combat.UI
 {
-    public sealed class BattleCanvas : MonoBehaviour
+    public sealed class BattleUI : MonoBehaviour, ILocalizationKeyRoot
     {
         // Battle UI root -> wires ~
         //  - BattleStage:  background, enemy + party slides, battle effects
@@ -17,18 +18,18 @@ namespace Frankie.Combat.UI
         [SerializeField] private CombatMessages combatMessages;
         [SerializeField] private CombatOptions combatOptions;
         [SerializeField] private SkillSelectionBox skillSelection;
-        [SerializeField][Tooltip("Parent for combat options spawn (stats, knapsack)")] private Transform infoChooseParent;
+        [SerializeField][Tooltip("Parent for combat options spawn (stats, knapsack)")] private Transform boxParent;
 
         // State
         private BattleState lastBattleState = BattleState.Inactive;
 
         #region StaticFind
-        private const string _battleCanvasTag = "BattleCanvas";
+        private const string _battleUITag = "BattleUI";
 
-        public static BattleCanvas FindBattleCanvas()
+        public static BattleUI FindBattleUI()
         {
-            var battleCanvasGameObject = GameObject.FindGameObjectWithTag(_battleCanvasTag);
-            return battleCanvasGameObject != null ? battleCanvasGameObject.GetComponent<BattleCanvas>() : null;
+            var battleUIGameObject = GameObject.FindGameObjectWithTag(_battleUITag);
+            return battleUIGameObject != null ? battleUIGameObject.GetComponent<BattleUI>() : null;
         }
         #endregion
 
@@ -43,7 +44,7 @@ namespace Frankie.Combat.UI
             battleStage.Setup(battleController);
             combatMessages.Setup(battleController, partyCombatConduit);
             skillSelection.SetupBattleController(battleController);
-            combatOptions.Setup(battleController, partyCombatConduit, combatMessages, infoChooseParent);
+            combatOptions.Setup(battleController, partyCombatConduit, combatMessages, boxParent);
             battleController.AddInputReceiver(combatOptions, null);
         }
 

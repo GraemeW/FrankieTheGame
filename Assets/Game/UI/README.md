@@ -1,10 +1,10 @@
 # Assets:  Game - UI
 
-## UI Canvases
+## UI Roots
 
-Frankie's UI is built in UI Toolkit, so canvases are plain parent objects for spawned UI:
-* [UICanvas](./Utilities/UI%20Canvas.prefab):  The parent for all in-world UI elements (dialogue boxes, options menus, stat/ability screens, inventory, shops, equipment, etc.)
-* [BattleCanvas](./Combat/Battle%20Canvas.prefab):  The parent for instantiating and managing the battle UI during combat 
+Frankie's UI is built in UI Toolkit, so there are no canvases.  Spawned UI is parented to one of two plain root objects:
+* [WorldUIRoot](./Utilities/WorldUIRoot.prefab):  The parent for all in-world UI elements (dialogue boxes, options menus, stat/ability screens, inventory, shops, equipment, etc.)
+* [BattleUI](./Combat/BattleUI.prefab):  The root of the battle UI during combat - wires up the battle stage (background, slides, effects), combat messages, combat options and skill selection 
 
 ## UI Toolkit Structure
 
@@ -69,7 +69,7 @@ A few full-screen elements show information without taking input, and so are not
 
 ## Other Combat UI
 
-As noted in [UI Canvases](#ui-canvases), the [BattleCanvas](./Combat/Battle%20Canvas.prefab) is used to instantiate and manage key battle UI elements, which is accomplished by listening to events from the [BattleController](../Controllers/Battle%20Controller.prefab).  The combat menus, options, logs and skill selection are UIBox variants, as described briefly [above](#uibox-ui-elements).  Several of these elements, in addition to other key combat UI elements, are shown below:
+As noted in [UI Roots](#ui-roots), the [BattleUI](./Combat/BattleUI.prefab) is used to instantiate and manage key battle UI elements, which is accomplished by listening to events from the [BattleController](../Controllers/Battle%20Controller.prefab).  The combat menus, options, logs and skill selection are UIBox variants, as described briefly [above](#uibox-ui-elements).  Several of these elements, in addition to other key combat UI elements, are shown below:
 
 <img src="../../../InfoTools/Documentation/Game/UI/ExampleCombatUI.png" width="400">
 

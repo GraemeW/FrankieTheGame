@@ -6,7 +6,6 @@ using LowDefMustard.Control;
 using LowDefMustard.Utils;
 using Frankie.Control;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.World;
 
@@ -35,7 +34,7 @@ namespace Frankie.Speech
 
         // Cached References
         private PlayerInput playerInput;
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private PlayerStateMachine playerStateMachine;
         private Party party;
 
@@ -134,10 +133,10 @@ namespace Frankie.Speech
         
         public void SetDestroyCallbackActions(InteractionEvent interactionEvent) => onDestroyCallbackActions = interactionEvent;
 
-        public void Setup(WorldCanvas setupWorldCanvas, PlayerStateMachine setupPlayerStateMachine, Party setupParty)
+        public void Setup(WorldUIRoot setupWorldUIRoot, PlayerStateMachine setupPlayerStateMachine, Party setupParty)
         {
             dialogueComplete = false;
-            worldCanvas = setupWorldCanvas;
+            worldUIRoot = setupWorldUIRoot;
             playerStateMachine = setupPlayerStateMachine;
             party = setupParty;
         }
@@ -171,7 +170,7 @@ namespace Frankie.Speech
             // Note:  No triggers on root node entry, but on dialogue entry
             if (currentDialogue.skipRootNode) { Next(); }
 
-            Instantiate(dialogueBoxPrefab, worldCanvas.transform);
+            Instantiate(dialogueBoxPrefab, worldUIRoot.transform);
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueInitiated, null);
             triggerUIUpdates?.Invoke();
         }
@@ -179,14 +178,14 @@ namespace Frankie.Speech
         public void InitiateSimpleMessage(string message)
         {
             isSimpleMessage = true;
-            Instantiate(dialogueBoxPrefab, worldCanvas.transform);
+            Instantiate(dialogueBoxPrefab, worldUIRoot.transform);
             simpleMessage = message;
         }
 
         public void InitiateSimpleOption(string message, List<ChoiceActionPair> choiceActionPairs)
         {
             isSimpleMessage = true;
-            Instantiate(dialogueOptionBox, worldCanvas.transform);
+            Instantiate(dialogueOptionBox, worldUIRoot.transform);
             simpleMessage = message;
             simpleChoices = choiceActionPairs;
         }

@@ -10,7 +10,7 @@ This folder contains the key game prefabs that **must** be present in a scene in
 The Core game object serves three primary functions:
 1. Owner of the [PersistentObjectSpawner](../../Scripts/Core/PersistentObjectSpawner.cs) script
 2. Parent of the [AddressablesLoader](./CoreDep/AddressablesLoader.prefab)
-3. Parent of the [UICanvas](../UI/Utilities/UI%20Canvas.prefab), under which in-world UI elements are spawned
+3. Parent of the [WorldUIRoot](../UI/Utilities/WorldUIRoot.prefab), under which in-world UI elements are spawned
 
 ### Persistent Objects (Singleton)
 

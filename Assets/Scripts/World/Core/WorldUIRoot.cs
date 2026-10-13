@@ -1,19 +1,20 @@
 using UnityEngine;
+using LowDefMustard.Localization;
 
 namespace Frankie.World
 {
-    public class WorldCanvas : MonoBehaviour
+    public class WorldUIRoot : MonoBehaviour, ILocalizationKeyRoot
     {
         // Tunables
         [SerializeField] private Transform worldOptionsParent;
         // Constants
-        private const string _worldCanvasTag = "WorldCanvas";
+        private const string _worldUIRootTag = "WorldUIRoot";
         
         #region StaticMethods
-        public static WorldCanvas FindWorldCanvas() 
+        public static WorldUIRoot FindWorldUIRoot() 
         {
-            var worldCanvasGameObject = GameObject.FindGameObjectWithTag(_worldCanvasTag);
-            return worldCanvasGameObject != null ? worldCanvasGameObject.GetComponent<WorldCanvas>() : null;
+            var worldUIRootGameObject = GameObject.FindGameObjectWithTag(_worldUIRootTag);
+            return worldUIRootGameObject != null ? worldUIRootGameObject.GetComponent<WorldUIRoot>() : null;
         }
         #endregion
 

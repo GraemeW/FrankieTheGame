@@ -32,7 +32,7 @@ namespace Frankie.Inventory.UI
 
         // Cached Reference
         private UIToolkitMenuView menuView;
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private PlayerStateMachine playerStateMachine;
         private PlayerController playerController;
         private PartyKnapsackConduit partyKnapsackConduit;
@@ -49,7 +49,7 @@ namespace Frankie.Inventory.UI
 
         protected override void StartTriggered()
         {
-            walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
+            walletUI = Instantiate(walletUIPrefab, worldUIRoot.transform);
             UpdateShopMessage(localizedShopInfoDefault.GetSafeLocalizedString());
         }
 
@@ -72,11 +72,11 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(WorldCanvas setWorldCanvas, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
+        public void Setup(WorldUIRoot setWorldUIRoot, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
         {
             if (setPlayerController == null) { destroyQueued = true; return; }
 
-            worldCanvas = setWorldCanvas;
+            worldUIRoot = setWorldUIRoot;
             playerStateMachine = setPlayerStateMachine;
             playerController = setPlayerController;
             shopper = setShopper;
@@ -134,14 +134,14 @@ namespace Frankie.Inventory.UI
 
         private void SpawnMessage(string message)
         {
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, worldCanvas.transform);
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, worldUIRoot.transform);
             dialogueBox.AddText(message);
             controller.AddInputReceiver(dialogueBox, null);
         }
 
         private InventoryShopBox SpawnInventoryShopBox(InventoryItem inventoryItem)
         {
-            InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
+            InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldUIRoot.transform);
             inventoryShopBox.Setup(playerController, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop, this, inventoryItem);
             controller.AddInputReceiver(inventoryShopBox, null);
             return inventoryShopBox;

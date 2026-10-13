@@ -5,8 +5,8 @@ using Frankie.Combat.UI;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Spawn Target Prefab Effect", menuName = "BattleAction/Effects/Spawn Target Prefab Effect", order = 15)]
-    public class SpawnTargetPrefabEffect : EffectStrategy
+    [CreateAssetMenu(fileName = "New Spawn Battle Effect", menuName = "BattleAction/Effects/Spawn Battle Effect", order = 15)]
+    public class SpawnBattleEffect : EffectStrategy
     {
         // Note:
         //  - Standard effect is sized to the recipient's slide and tinted by the effect colour (i.e. one material serves every colour variant)
@@ -20,8 +20,8 @@ namespace Frankie.Combat
         
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            BattleCanvas battleCanvas = BattleCanvas.FindBattleCanvas();
-            BattleStage battleStage = battleCanvas != null ? battleCanvas.GetBattleStage() : null;
+            BattleUI battleUI = BattleUI.FindBattleUI();
+            BattleStage battleStage = battleUI != null ? battleUI.GetBattleStage() : null;
             if (battleStage == null) { yield break; }
 
             if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectColour, destroyAfterSeconds); }

@@ -94,30 +94,6 @@ MonoBehaviour:
     m_Localized: Tu as pris la fuite.
     m_Metadata:
       m_Items: []
-  - m_Id: 8003262832697344
-    m_Localized: "{0} a r\xE9cup\xE9r\xE9 {1} PV."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003284227842048
-    m_Localized: "{0} a re\xE7u {1} points de d\xE9g\xE2ts."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003305111281664
-    m_Localized: "{0} a r\xE9cup\xE9r\xE9 {1} PA."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003344688734208
-    m_Localized: '{0} a perdu {1} PA.'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003359918252032
-    m_Localized: "{0} a \xE9t\xE9 mis hors combat."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003382676545536
-    m_Localized: "{0} a retrouv\xE9 la volont\xE9 de se battre."
-    m_Metadata:
-      m_Items: []
   - m_Id: 8004517357412352
     m_Localized: Utiliser l'objet {0} sur quel cible ?
     m_Metadata:
@@ -171,10 +147,6 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9043523323027456
-    m_Localized: Non
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9045403184914432
     m_Localized: Non
     m_Metadata:
       m_Items: []
@@ -244,10 +216,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9096179089399808
     m_Localized: "Cet objet ne peut pas \xEAtre \xE9quip\xE9 ici."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9097773231104000
-    m_Localized: "T'es s\xFBr de vouloir ramasser {0} et abandonner {1} ?"
     m_Metadata:
       m_Items: []
   - m_Id: 9098989205970944

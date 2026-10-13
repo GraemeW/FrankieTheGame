@@ -46,7 +46,7 @@ namespace Frankie.Menu.UI
         private UIToolkitMenuView menuView;
         private PlayerStateMachine playerStateMachine;
         private PlayerController playerController;
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private PartyCombatConduit partyCombatConduit;
 
         // UIBox Configuration
@@ -62,9 +62,9 @@ namespace Frankie.Menu.UI
         #region UnityMethods
         protected override bool TryAcquireDependencies()
         {
-            worldCanvas = WorldCanvas.FindWorldCanvas();
+            worldUIRoot = WorldUIRoot.FindWorldUIRoot();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { return false; }
+            if (worldUIRoot == null || playerStateMachine == null) { return false; }
 
             playerController = playerStateMachine.GetComponent<PlayerController>();
             partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
@@ -125,7 +125,7 @@ namespace Frankie.Menu.UI
         private void OpenStatus()
         {
             ResetWorldOptions();
-            StatusBox statusBox = Instantiate(statusBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            StatusBox statusBox = Instantiate(statusBoxPrefab, worldUIRoot.GetWorldOptionsParent());
             childOption = statusBox.gameObject;
             statusBox.Setup(partyCombatConduit);
             controller.AddInputReceiver(statusBox, null);
@@ -134,7 +134,7 @@ namespace Frankie.Menu.UI
         private void OpenKnapsack()
         {
             ResetWorldOptions();
-            InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldUIRoot.GetWorldOptionsParent());
             childOption = inventoryBox.gameObject;
             inventoryBox.Setup(playerController, partyCombatConduit, characterSlides);
             controller.AddInputReceiver(inventoryBox, null);
@@ -143,7 +143,7 @@ namespace Frankie.Menu.UI
         private void OpenEquipment()
         {
             ResetWorldOptions();
-            EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldUIRoot.GetWorldOptionsParent());
             childOption = equipmentBox.gameObject;
             equipmentBox.Setup(playerController, partyCombatConduit, characterSlides);
             controller.AddInputReceiver(equipmentBox, null);
@@ -152,7 +152,7 @@ namespace Frankie.Menu.UI
         private void OpenMap()
         {
             ResetWorldOptions();
-            MapSuper mapSuper = Instantiate(mapSuperPrefab, worldCanvas.GetWorldOptionsParent());
+            MapSuper mapSuper = Instantiate(mapSuperPrefab, worldUIRoot.GetWorldOptionsParent());
             childOption = mapSuper.gameObject;
             controller.AddInputReceiver(mapSuper, null);
         }
@@ -160,7 +160,7 @@ namespace Frankie.Menu.UI
         private void OpenAbilities()
         {
             ResetWorldOptions();
-            AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldUIRoot.GetWorldOptionsParent());
             childOption = abilitiesBox.gameObject;
             abilitiesBox.Setup(playerController, partyCombatConduit, characterSlides);
             controller.AddInputReceiver(abilitiesBox, null);
@@ -181,13 +181,13 @@ namespace Frankie.Menu.UI
 
         private void SetupWallet()
         {
-            walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
+            walletUI = Instantiate(walletUIPrefab, worldUIRoot.transform);
         }
 
         private void ResetWorldOptions()
         {
             childOption = null;
-            worldCanvas.DestroyExistingWorldOptions();
+            worldUIRoot.DestroyExistingWorldOptions();
             foreach (CharacterSlideHandle characterSlide in characterSlides)
             {
                 characterSlide.HighlightSlide(BattleEntitySelectionType.Actor, false);

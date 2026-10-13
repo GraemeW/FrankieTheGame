@@ -146,9 +146,9 @@ Some example basic effects include:
 
    * etc.
 
-#### Spawn Target Prefab Effects
+#### Spawn Battle Effects
 
-The [SpawnTargetPrefab](../../../Scripts/Combat/BattleAction/Effects/SpawnTargetPrefabEffect.cs) effect may be used to add a visual indicator of a battle action on the [BattleCanvas](../../UI/Combat/Battle%20Canvas.prefab) UI.  When this effect is called, a game object may be spawned globally over the entire canvas or individually on the battle action's target.  These effects are stored separately in [EffectStrategiesSpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/).
+The [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnBattleEffect.cs) effect may be used to add a visual indicator of a battle action on the [BattleUI](../../UI/Combat/BattleUI.prefab).  When this effect is called, a visual effect (a material, tinted by the effect's colour) may be spawned globally over the entire battle stage or individually on the battle action's target.  These effects are stored separately in [EffectStrategiesSpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/).
 
 For example, the effect [SpawnCirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset):
 

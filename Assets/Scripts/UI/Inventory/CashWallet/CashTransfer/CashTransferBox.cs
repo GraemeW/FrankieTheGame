@@ -34,7 +34,7 @@ namespace Frankie.Inventory.UI
 
         // Cached References
         private UIToolkitMenuView menuView;
-        private WorldCanvas worldCanvas;
+        private WorldUIRoot worldUIRoot;
         private PlayerStateMachine playerStateMachine;
         private PlayerController playerController;
         private Shopper shopper;
@@ -59,9 +59,9 @@ namespace Frankie.Inventory.UI
         #region UnityMethods
         protected override bool TryAcquireDependencies()
         {
-            worldCanvas = WorldCanvas.FindWorldCanvas();
+            worldUIRoot = WorldUIRoot.FindWorldUIRoot();
             playerStateMachine = Player.FindPlayerStateMachine();
-            if (worldCanvas == null || playerStateMachine == null) { return false; }
+            if (worldUIRoot == null || playerStateMachine == null) { return false; }
 
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
@@ -80,7 +80,7 @@ namespace Frankie.Inventory.UI
 
         protected override void StartTriggered()
         {
-            walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
+            walletUI = Instantiate(walletUIPrefab, worldUIRoot.transform);
             SetupCashTransferBoxUI();
         }
 

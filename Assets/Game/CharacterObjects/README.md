@@ -196,7 +196,7 @@ Character objects are broken down into:
 
 * *Optional Step:* 
 * Hook up 'enemy' combat parameters - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
-  * `Combat Sprite`: the image displayed on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab) during combat **against** this character (i.e. when faced as an enemy in combat)
+  * `Combat Sprite`: the image displayed on the [BattleUI](../UI/Combat/BattleUI.prefab) during combat **against** this character (i.e. when faced as an enemy in combat)
   * `Battle Entity Type`:  if the combat participant falls into a category of 'Standard', 'Mook' or 'Boss'
     * this primarily impacts the sprite size when faced as an enemy in combat
   * `Sprite Scale Fine Tune`:  additional parameter to scale the sprite size
