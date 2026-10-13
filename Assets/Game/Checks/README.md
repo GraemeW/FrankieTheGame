@@ -90,7 +90,7 @@ Example checks can be found in:
 
 In some circumstances, the check options themselves may not be fixed/static, but may also vary as a function of the game state -- for these, one may employ the [CheckWithDynamicOptions](./CheckWithDynamicOptions.prefab) prefab.
 
-This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../../Packages/com.lowdefmustard.utils/Runtime/DataStructuresExtensions/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Specialty/WorldSubwayRider.cs) component to generate viable subway travel options:
+This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../../Packages/com.lowdefmustard.utils/Runtime/DataStructuresExtensions/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrainRed.prefab), which has the [WorldSubwayRider](../../Scripts/World/Specialty/WorldSubwayRider.cs) component to generate viable subway travel options:
 
 <img src="../../../InfoTools/Documentation/Game/Checks/CheckWithDynamicOptionsSubwayTrain.png" width="1080">
 

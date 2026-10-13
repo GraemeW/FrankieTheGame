@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
-using UnityEngine.UI;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Zones
@@ -10,10 +9,10 @@ namespace LowDefMustard.Zones
     public abstract partial class FaderBase<TTransitionType> : MonoBehaviour where TTransitionType : struct, Enum
     {
         // Note:  Internal fields/methods for test visibility
+        // Note:  View-agnostic ~ the fade overlay(s) are owned by the implementer (see SetOverlayAlpha / ResetOverlays)
         
         // Tunables
         [Header("Hookups")]
-        [SerializeField] protected Image nodeEntry;
         [SerializeField] private SceneLoaderBase sceneLoader;
         [Header("Fader Properties")]
         [SerializeField] internal float fadeInTimer = 2.0f;
@@ -28,7 +27,6 @@ namespace LowDefMustard.Zones
         
         // State
         protected bool fading;
-        protected Image currentTransitionImage;
         private Coroutine activeFade;
         
         // Cached References
@@ -109,7 +107,7 @@ namespace LowDefMustard.Zones
 
         protected virtual void OnDisable()
         {
-            if (activeFade != null) { StopCoroutine(activeFade); }
+            StopActiveFade();
             TrySubscribeToSceneLoader(false);
         }
 
@@ -144,7 +142,7 @@ namespace LowDefMustard.Zones
         #region CoroutineInitiators
         private void InitiateStandardFadeCoroutine(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
-            if (activeFade != null) { StopCoroutine(activeFade); }
+            StopActiveFade();
             activeFade = StartCoroutine(StandardFade(transitionType, faderEventTriggers));
         }
 
@@ -156,20 +154,31 @@ namespace LowDefMustard.Zones
         
         private void InitiateSceneLoadFadeCoroutine(Zone nextZone, FaderEventTriggers<TTransitionType> faderEventTriggers, bool saveSession = true)
         {
-            if (activeFade != null) { StopCoroutine(activeFade); }
+            StopActiveFade();
             activeFade = StartCoroutine(ZoneFade(nextZone, faderEventTriggers, saveSession));
         }
 
         private void InitiateSceneLoadZoneFadeCoroutine()
         {
-            if (activeFade != null) { StopCoroutine(activeFade); }
+            StopActiveFade();
             activeFade = StartCoroutine(QuickFade());
         }
 
         private void InitiateBlipFadeCoroutine(float holdSeconds, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
-            if (activeFade != null) { StopCoroutine(activeFade); }
+            StopActiveFade();
             activeFade = StartCoroutine(BlipFade(holdSeconds, faderEventTriggers));
+        }
+
+        private void StopActiveFade()
+        {
+            if (activeFade != null) { StopCoroutine(activeFade); }
+            activeFade = null;
+            if (!fading) { return; }
+
+            // Note:  An interrupted fade never reaches its own cleanup ~ without this its overlay would stay up (and keep blocking input)
+            fading = false;
+            ResetOverlays();
         }
         #endregion
 
@@ -178,12 +187,7 @@ namespace LowDefMustard.Zones
         protected abstract void TriggerSave();
         protected abstract void TriggerLoad();
         
-        protected virtual bool PreFadeSetup(TTransitionType transitionType)
-        {
-            nodeEntry.gameObject.SetActive(true);
-            currentTransitionImage = nodeEntry;
-            return true;
-        }
+        protected virtual bool PreFadeSetup(TTransitionType transitionType) => true;
         
         private IEnumerator StandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
@@ -208,10 +212,7 @@ namespace LowDefMustard.Zones
         private IEnumerator QuickFade()
         {
             fading = true;
-            nodeEntry.gameObject.SetActive(true);
-            currentTransitionImage = nodeEntry;
-
-            if (currentTransitionImage != null) { currentTransitionImage.CrossFadeAlpha(1, 0f, true); }
+            SetOverlayAlpha(GetSceneLoadTransitionType(), 1f);
             yield return QueueFadeExit(GetSceneLoadTransitionType(), null, null);
         }
 
@@ -228,10 +229,10 @@ namespace LowDefMustard.Zones
         {
             if (!PreFadeSetup(transitionType)) { yield break; }
 
-            AlphaFadeIn(transitionType);
+            if (UsesStandaloneFade(transitionType)) { TriggerStandaloneFadeIn(transitionType); }
             fadingIn?.Invoke(transitionType);
             onFadeIn?.Invoke(transitionType);
-            yield return new WaitForSeconds(GetFadeTime(true, transitionType));
+            yield return FadeOverlay(transitionType, 0f, 1f, GetFadeTime(true, transitionType));
             onFadePeak?.Invoke();
         }
         
@@ -239,21 +240,19 @@ namespace LowDefMustard.Zones
         {
             // Note:  order of operations for alpha fading slightly different on zone fades
             if (IsSceneLoadFade(transitionType)) { onFadeOut?.Invoke(); }
-            AlphaFadeOut(transitionType);
+            if (UsesStandaloneFade(transitionType)) { TriggerStandaloneFadeOut(transitionType); }
             if (!IsSceneLoadFade(transitionType)) { onFadeOut?.Invoke(); }
             
-            yield return new WaitForSeconds(GetFadeTime(false, transitionType));
-            CleanUpTransitionBlends(transitionType);
+            yield return FadeOverlay(transitionType, 1f, 0f, GetFadeTime(false, transitionType));
+            if (UsesStandaloneFade(transitionType)) { TriggerStandaloneFadeCleanup(); }
             fading = false;
             onFadeComplete?.Invoke();
         }
         #endregion
 
         #region AlphaBlends
-        protected virtual void ResetOverlays()
-        {
-            nodeEntry?.gameObject.SetActive(false);
-        }
+        protected abstract void SetOverlayAlpha(TTransitionType transitionType, float alpha); // Alpha 0 ~ overlay hidden
+        protected abstract void ResetOverlays(); // Hide every overlay + end any standalone fade
 
         protected virtual bool IsSkipFade(TTransitionType transitionType) => false;
         protected virtual bool TransitionUsesStandaloneFadeControl(TTransitionType transitionType) => false;
@@ -263,30 +262,25 @@ namespace LowDefMustard.Zones
         protected virtual void TriggerStandaloneFadeOut(TTransitionType transitionType) { }
         
         protected virtual void TriggerStandaloneFadeCleanup() { }
-        
-        private void AlphaFadeIn(TTransitionType transitionType)
-        {
-            if (IsSkipFade(transitionType)) { return; }
-            if (TransitionUsesStandaloneFadeControl(transitionType)) { TriggerStandaloneFadeIn(transitionType); return; }
-            
-            currentTransitionImage.CrossFadeAlpha(0f, 0f, true);
-            currentTransitionImage.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
-        }
 
-        private void AlphaFadeOut(TTransitionType transitionType)
+        private bool UsesStandaloneFade(TTransitionType transitionType) => !IsSkipFade(transitionType) && TransitionUsesStandaloneFadeControl(transitionType);
+        private bool UsesOverlayFade(TTransitionType transitionType) => !IsSkipFade(transitionType) && !TransitionUsesStandaloneFadeControl(transitionType);
+
+        private IEnumerator FadeOverlay(TTransitionType transitionType, float startAlpha, float endAlpha, float fadeTime)
         {
-            if (IsSkipFade(transitionType)) { return; }
-            if (TransitionUsesStandaloneFadeControl(transitionType)) { TriggerStandaloneFadeOut(transitionType); return; }
+            // Note:  Overlay alpha is stepped here (i.e. rather than handed to the view)
+            //  - A. this way the fade shares a clock with the fade sequence
+            //  - B. in-line with this, we're tracking fade time here even with a StandaloneFadeControl (in lieu callbacks) to ensure Fader is always the master timer
             
-            currentTransitionImage.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
-        }
-        private void CleanUpTransitionBlends(TTransitionType transitionType)
-        {
-            if (IsSkipFade(transitionType)) { return; }
-            if (TransitionUsesStandaloneFadeControl(transitionType)) { TriggerStandaloneFadeCleanup(); }
-            else { currentTransitionImage?.gameObject.SetActive(false); }
-            
-            currentTransitionImage = null;
+            bool usesOverlayFade = UsesOverlayFade(transitionType);
+            float elapsedTime = 0f;
+            while (elapsedTime < fadeTime)
+            {
+                if (usesOverlayFade) { SetOverlayAlpha(transitionType, Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeTime)); }
+                yield return null;
+                elapsedTime += Time.deltaTime;
+            }
+            if (usesOverlayFade) { SetOverlayAlpha(transitionType, endAlpha); }
         }
         #endregion
     }

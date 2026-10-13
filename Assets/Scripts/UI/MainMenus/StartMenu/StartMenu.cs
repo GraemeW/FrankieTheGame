@@ -61,7 +61,7 @@ namespace Frankie.Menu.UI
         #region PrivateMethods
         private void LoadGame()
         {
-            LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab, startCanvas.transform);
+            LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab);
             SetActiveInput(false);
             controller.AddInputReceiver(loadGameMenu, null);
         }
@@ -75,7 +75,7 @@ namespace Frankie.Menu.UI
 
         private void LoadOptions()
         {
-            OptionsMenu optionsMenu = Instantiate(optionsPrefab, startCanvas.transform);
+            OptionsMenu optionsMenu = Instantiate(optionsPrefab);
             controller.AddInputReceiver(optionsMenu, null);
         }
 

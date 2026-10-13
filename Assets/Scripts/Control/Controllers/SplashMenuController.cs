@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.Zones;
+using Frankie.Menu.UI;
 using Frankie.Zones;
 
 namespace Frankie.Control
@@ -10,14 +12,10 @@ namespace Frankie.Control
         // Tunables
         [Header("Scene Parameters")]
         [SerializeField] private float splashDelayTime = 3.0f;
-        [SerializeField] private float splashRampTime = 0.7f;
-        [SerializeField] private CanvasGroup[] splashObjects;
-        
+        [SerializeField] private SplashScreen splashScreen;
+
         // State
-        private int currentSplashIndex = -1;
-        private float timeSinceSplashLoaded;
-        private CanvasGroup rampUpCanvasGroup;
-        private CanvasGroup rampDownCanvasGroup;
+        private Coroutine splashSequence;
         private bool kickedOffNextScene = false;
 
         // Cached References
@@ -33,6 +31,11 @@ namespace Frankie.Control
             playerInput.Menu.Execute.performed += _ => SkipSplash();
             playerInput.Menu.Cancel.performed += _ => SkipSplash();
         }
+        
+        private void Start()
+        {
+            RunSplashSequence();
+        }
 
         private void OnEnable()
         {
@@ -42,67 +45,34 @@ namespace Frankie.Control
         private void OnDisable()
         {
             playerInput.Menu.Disable();
-        }
-
-        private void Start()
-        {
-            ClearSplashObjects();
-            LoadNextSplash(currentSplashIndex);
-        }
-
-        private void Update()
-        {
-            timeSinceSplashLoaded += Time.deltaTime;
-            if (timeSinceSplashLoaded >= splashDelayTime)
-            {
-                currentSplashIndex++;
-                if (!kickedOffNextScene) { LoadNextSplash(currentSplashIndex); }
-            }
-            RampSplashAlphas();
+            StopSplashSequence();
         }
         #endregion
 
         #region SplashLoading
-        private void ClearSplashObjects()
+        private void RunSplashSequence()
         {
-            foreach (CanvasGroup splashObject in splashObjects)
-            {
-                splashObject.gameObject.SetActive(false);
-            }
-        }
-        
-        private void LoadNextSplash(int splashIndex)
-        {
-            int nextSplashIndex = splashIndex + 1;
-            if (nextSplashIndex < 0) { return; }
-            
-            if (nextSplashIndex >= splashObjects.Length)
-            {
-                rampDownCanvasGroup = rampUpCanvasGroup;
-                rampUpCanvasGroup = null;
-                KickOffNextScene();
-                return;
-            }
-            
-            if (splashIndex >= 0) { rampDownCanvasGroup = splashObjects[splashIndex]; }
-            
-            rampUpCanvasGroup = splashObjects[nextSplashIndex];
-            rampUpCanvasGroup.gameObject.SetActive(true);
-            rampUpCanvasGroup.alpha = 0.0f;
-            timeSinceSplashLoaded = 0;
+            StopSplashSequence();
+            if (kickedOffNextScene) { return; }
+            splashSequence = StartCoroutine(SplashSequence());
         }
 
-        private void RampSplashAlphas()
+        private void StopSplashSequence()
         {
-            if (rampUpCanvasGroup != null && rampUpCanvasGroup.alpha < 1.0f)
-            {
-                rampUpCanvasGroup.alpha = Mathf.Min(timeSinceSplashLoaded / splashRampTime, 1.0f);
-            }
+            if (splashSequence == null) { return; }
+            StopCoroutine(splashSequence);
+            splashSequence = null;
+        }
 
-            if (rampDownCanvasGroup != null && rampDownCanvasGroup.alpha > 0.0f)
+        private IEnumerator SplashSequence()
+        {
+            // Note:  Each start/restart moves on to the next stage, so skipping is a restart
+            while (splashScreen != null && splashScreen.TryShowNextStage())
             {
-                rampDownCanvasGroup.alpha = Mathf.Max(1.0f - timeSinceSplashLoaded / splashRampTime, 0.0f);
+                yield return new WaitForSeconds(splashDelayTime);
             }
+            splashSequence = null;
+            KickOffNextScene();
         }
 
         private void KickOffNextScene()
@@ -110,8 +80,8 @@ namespace Frankie.Control
             if (kickedOffNextScene) { return; }
             
             kickedOffNextScene = true;
-            
-            SceneLoader.QueueScene(SceneQueueType.Start, new SceneQueueData(false));
+            float fadeOutSeconds = splashScreen != null ? splashScreen.GetFadeSeconds() : 0f; // Let the last stage fade out before the scene swaps
+            SceneLoader.QueueScene(SceneQueueType.Start, new SceneQueueData(null, fadeOutSeconds, false));
         }
         #endregion
 
@@ -121,8 +91,7 @@ namespace Frankie.Control
 
         private void SkipSplash()
         {
-            currentSplashIndex++;
-            LoadNextSplash(currentSplashIndex);
+            RunSplashSequence();
             HandleUserInput(ControllerInputType.Execute);
         }
 

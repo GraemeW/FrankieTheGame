@@ -3,7 +3,7 @@
 
 :root {
     /* Assets */
-    --font-default: url("project://database/Assets/z_ImportedAssets/EB-Fonts/apple_kid%20SDF_UITK.asset?fileID=11400000&guid=da9ec84fcc9a14f15a8a490838a9a40e&type=2#apple_kid SDF_UITK");
+    --font-default: url("project://database/Assets/z_ImportedAssets/EB-Fonts/apple_kid%20SDF.asset?fileID=11400000&guid=da9ec84fcc9a14f15a8a490838a9a40e&type=2#apple_kid SDF");
     --font-display: url("project://database/Assets/z_ImportedAssets/EB-Fonts/foursideVector%20SDF.asset?fileID=11400000&guid=06badb9dd82684bc6857efcc4560922d&type=2#foursideVector SDF");
     --frame-image: url("project://database/Assets/z_MadeAssets/BattleUI/MenuFrame.png?fileID=21300000&guid=f30d85e6afc224fe9a89251a4c2dab80&type=3#MenuFrame");
 
@@ -30,6 +30,12 @@
 
     /* Naming screen */
     --naming-backdrop-image: url("project://database/Assets/z_ImportedAssets/EB-BattleBackgrounds/041.png?fileID=21300000&guid=e29be70c9febd64428840a5f7cb924d8&type=3#041");
+
+    /* Map */
+    --map-indicator-image: url("project://database/Assets/z_MadeAssets/PCs/Francis/FrankieHead.png?fileID=21300000&guid=43464c9af8a795a45808e0cb483e4255&type=3#FrankieHead");
+
+    /* Splash */
+    --splash-studio-image: url("project://database/Assets/z_MadeAssets/Project/LowDefMustard.png?fileID=21300000&guid=514470705882a4e76bcc0846e1c22afc&type=3#LowDefMustard");
 
     /* Frame */
     --frame-slice: 18;

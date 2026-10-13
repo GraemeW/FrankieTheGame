@@ -109,25 +109,25 @@ namespace Frankie.Utils.Editor
         }
         #endregion
 
-        #region GameDebugMethods
-        [MenuItem("Tools/GameDebug/StatusEffect/ApplyBrawnEffect", false, 601)]
+        #region GameDevTools
+        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyBrawnEffect", false, 11)]
         private static void ApplyBrawnEffect() => ApplyStatusEffect(Stat.Brawn);
         
-        [MenuItem("Tools/GameDebug/StatusEffect/ApplyBeautyEffect", false, 601)]
+        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyBeautyEffect", false, 11)]
         private static void ApplyBeautyEffect() => ApplyStatusEffect(Stat.Beauty);
         
-        [MenuItem("Tools/GameDebug/StatusEffect/ApplySmartsEffect", false, 601)]
+        [MenuItem("Tools/GameDevTools/StatusEffect/ApplySmartsEffect", false, 11)]
         private static void ApplySmartsEffect() => ApplyStatusEffect(Stat.Smarts);
         
-        [MenuItem("Tools/GameDebug/StatusEffect/ApplyNimbleEffect", false, 601)]
+        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyNimbleEffect", false, 11)]
         private static void ApplyNimbleEffect() => ApplyStatusEffect(Stat.Nimble);
-        [MenuItem("Tools/GameDebug/StatusEffect/ApplyLuckEffect", false, 601)]
+        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyLuckEffect", false, 11)]
         
         private static void ApplyLuckEffect() => ApplyStatusEffect(Stat.Luck);
-        [MenuItem("Tools/GameDebug/StatusEffect/ApplyPluckEffect", false, 601)]
+        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyPluckEffect", false, 11)]
         private static void ApplyPluckEffect() => ApplyStatusEffect(Stat.Pluck);
         
-        [MenuItem("Tools/GameDebug/KnockOutParty", false, 602)]
+        [MenuItem("Tools/GameDevTools/KnockOutParty", false, 12)]
         private static void KnockOutParty()
         {
             if (!Application.isPlaying) { return; }

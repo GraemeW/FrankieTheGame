@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using LowDefMustard.Utils;
@@ -32,7 +31,7 @@ namespace Frankie.Utils.UI.Editor
             Debug.Log($"[UIToolkitDevTools] Game view capture queued:  {Path.GetFullPath(capturePath)}");
         }
         
-        // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick and the EventSystem's raycast priority order
+        // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick
         [MenuItem(_menuRoot + "Log Pointer Targets %&u", false, 21)]
         private static void LogPointerTargets()
         {
@@ -52,18 +51,6 @@ namespace Frankie.Utils.UI.Editor
                 string pickedDescription = picked == null ? "none" : $"{picked.GetType().Name} [{string.Join(" ", picked.GetClasses())}]";
                 log.AppendLine($"  {panelRenderer.name} (panel pos {panelPosition}):  {pickedDescription}");
             }
-
-            log.AppendLine("EventSystem raycast (highest priority first):");
-            if (EventSystem.current != null)
-            {
-                var raycastResults = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) { position = screenPosition }, raycastResults);
-                foreach (RaycastResult raycastResult in raycastResults)
-                {
-                    log.AppendLine($"  {(raycastResult.gameObject != null ? raycastResult.gameObject.name : "null")} via {raycastResult.module?.GetType().Name} (sortingOrder {raycastResult.sortingOrder}, depth {raycastResult.depth})");
-                }
-            }
-            else { log.AppendLine("  No EventSystem.current"); }
 
             // World-space panels are picked via 3D physics rays against a collider on the panel's GameObject
             log.AppendLine("World-space panels:");

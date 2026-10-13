@@ -84,7 +84,7 @@ As detailed in [Rendering](../../Scripts/Rendering/), Frankie employs a custom s
 
 Art assets must conform to the rules defined in the [StyleGuide](../../../InfoTools/StyleGuide/).  
 
-The following adjustments are automagically made to the asset's settings in Unity once its .meta file is generated via [DefaultSpriteImportSettings](../../Scripts/Utils/Editor/ImportDefaults/DefaultSpriteImportSettings.cs):
+The following adjustments are automagically made to the asset's settings in Unity once its .meta file is generated via [DefaultSpriteImportSettings](../../Scripts/Utils/Editor/DefaultSpriteImportSettings.cs):
 * `Pixels Per Unit (PPU)`:  `100`
 * `Alpha Is Transparency`:  `Disable`
 * `Generate Mipmap`:  `Enable`

@@ -10,7 +10,7 @@ This folder contains the key game prefabs that **must** be present in a scene in
 The Core game object serves three primary functions:
 1. Owner of the [PersistentObjectSpawner](../../Scripts/Core/PersistentObjectSpawner.cs) script
 2. Parent of the [AddressablesLoader](./CoreDep/AddressablesLoader.prefab)
-3. Parent of the canvases used for rendering UI elements
+3. Parent of the [UICanvas](../UI/Utilities/UI%20Canvas.prefab), under which in-world UI elements are spawned
 
 ### Persistent Objects (Singleton)
 
@@ -27,7 +27,7 @@ The key scripts attached to [PersistentObjects](./CoreDep/PersistentObjects.pref
 
 The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
 * [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/SceneLoader.cs) script to transition across scenes (zones)
-* [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
+* [Fader](./CoreDep/Fader/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [CoreAudio](../Sound/CoreAudio.prefab):  contains the sole reference to the audio mixer to manage audio levels
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)
 * [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Rendering/Camera/MapCamera.cs) to generate the mini-map

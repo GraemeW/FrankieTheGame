@@ -19,9 +19,6 @@ namespace Frankie.Menu.UI
         // State
         private readonly List<(IUIChoice choice, LocalizedString localizedText)> localizedChoices = new();
 
-        // Cached References
-        protected Canvas startCanvas { get; private set; }
-
         // Abstract
         protected abstract LauncherModel launcherModel { get; }
         protected abstract void BuildChoiceOptions();
@@ -42,15 +39,6 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(Canvas setStartCanvas)
-        {
-            startCanvas = setStartCanvas;
-
-            // Toggle to set up global input handling
-            gameObject.SetActive(false);
-            gameObject.SetActive(true);
-        }
-
         public void ResetAllTextElements()
         {
             launcherModel.nameText = CharacterProperties.GetCharacterDisplayName(nameCharacterProperties);

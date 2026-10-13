@@ -46,7 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listenerPollingInterval: 0.1
   splashDelayTime: 3
-  splashRampTime: 0.7
-  splashObjects:
-  - {fileID: 0}
-  - {fileID: 0}
+  splashScreen: {fileID: 0}

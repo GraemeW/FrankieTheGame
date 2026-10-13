@@ -1,7 +1,6 @@
 using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
-using Frankie.Menu.UI;
 
 namespace Frankie.Control
 {
@@ -9,7 +8,6 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Links and Prefabs")]
-        [SerializeField] private Canvas startCanvas;
         [SerializeField] private UIBoxBase uiBoxReceiver;
 
         // State
@@ -34,8 +32,6 @@ namespace Frankie.Control
         private void Start()
         {
             if (uiBoxReceiver == null) { return; }
-            if (uiBoxReceiver is Launcher launcher) { launcher.Setup(startCanvas); }
-            
             if (uiBoxReceiver is IInputReceiver inputReceiver) { AddInputReceiver(inputReceiver, null); }
         }
 

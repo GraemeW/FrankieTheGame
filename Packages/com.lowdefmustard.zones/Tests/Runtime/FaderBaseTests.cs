@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.TestTools;
 
 namespace LowDefMustard.Zones.Tests
@@ -11,7 +10,6 @@ namespace LowDefMustard.Zones.Tests
     {
         // State
         private GameObject faderGameObject;
-        private GameObject imageGameObject;
         private TestFader fader;
         private FaderBase<TestTransitionType> originalActiveFader;
 
@@ -20,11 +18,14 @@ namespace LowDefMustard.Zones.Tests
 
         private class TestFader : FaderBase<TestTransitionType>
         {
+            public readonly List<float> overlayAlphas = new();
+            
             protected override TestTransitionType GetSceneLoadTransitionType() => TestTransitionType.Fade;
             protected override void TriggerSave() { }
             protected override void TriggerLoad() { }
 
-            public void SetNodeEntryForTest(Image image) => nodeEntry = image;
+            protected override void SetOverlayAlpha(TestTransitionType transitionType, float alpha) => overlayAlphas.Add(alpha);
+            protected override void ResetOverlays() => overlayAlphas.Clear();
             public bool IsFadingForTest() => fading;
         }
         #endregion
@@ -35,12 +36,8 @@ namespace LowDefMustard.Zones.Tests
         {
             originalActiveFader = FaderBase<TestTransitionType>.activeFader;
 
-            imageGameObject = new GameObject("NodeEntry", typeof(Image));
-            imageGameObject.SetActive(false);
-
             faderGameObject = new GameObject("TestFader");
             fader = faderGameObject.AddComponent<TestFader>();
-            fader.SetNodeEntryForTest(imageGameObject.GetComponent<Image>());
 
             fader.fadeInTimer = 0.05f;
             fader.fadeOutTimer = 0.05f;
@@ -57,7 +54,6 @@ namespace LowDefMustard.Zones.Tests
         {
             FaderBase<TestTransitionType>.activeFader = originalActiveFader;
             if (faderGameObject != null) { Object.Destroy(faderGameObject); }
-            if (imageGameObject != null) { Object.Destroy(imageGameObject); }
         }
         #endregion
 
@@ -78,6 +74,43 @@ namespace LowDefMustard.Zones.Tests
             yield return new WaitForSeconds(0.3f);
 
             CollectionAssert.AreEqual(new[] { "fadeIn", "fadePeak", "fadeOut", "fadeComplete" }, callOrder);
+            Assert.IsFalse(fader.IsFadingForTest());
+        }
+
+        [UnityTest]
+        public IEnumerator StartStandardFade_DrivesOverlayAlpha_UpToOpaqueThenBackToHidden()
+        {
+            var triggers = new FaderEventTriggers<TestTransitionType>(null, null, null, null);
+
+            bool started = FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers);
+            Assert.IsTrue(started);
+
+            yield return new WaitForSeconds(0.3f);
+
+            List<float> overlayAlphas = fader.overlayAlphas;
+            int peakIndex = overlayAlphas.IndexOf(1f);
+            Assert.AreEqual(0f, overlayAlphas[0]);
+            Assert.GreaterOrEqual(peakIndex, 0);
+            Assert.AreEqual(0f, overlayAlphas[^1]);
+            for (int i = 1; i <= peakIndex; i++) { Assert.GreaterOrEqual(overlayAlphas[i], overlayAlphas[i - 1]); }
+            for (int i = peakIndex + 2; i < overlayAlphas.Count; i++) { Assert.LessOrEqual(overlayAlphas[i], overlayAlphas[i - 1]); }
+        }
+
+        [UnityTest]
+        public IEnumerator Disable_MidFade_ResetsOverlaysAndAllowsNextFade()
+        {
+            var triggers = new FaderEventTriggers<TestTransitionType>(null, null, null, null);
+            Assert.IsTrue(FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers));
+            yield return null;
+            Assert.IsNotEmpty(fader.overlayAlphas);
+
+            fader.enabled = false;
+            Assert.IsFalse(fader.IsFadingForTest());
+            Assert.IsEmpty(fader.overlayAlphas);
+
+            fader.enabled = true;
+            Assert.IsTrue(FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers));
+            yield return new WaitForSeconds(0.3f);
             Assert.IsFalse(fader.IsFadingForTest());
         }
 

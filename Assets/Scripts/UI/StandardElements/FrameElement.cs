@@ -9,7 +9,7 @@ namespace Frankie.Utils.UI
     {
         // Note: Frame image & slicing are defined in USS (.frame) - this element only drives the tint colour
         // Tint is the global frame flavour, adjusted by USS custom properties set on the frame itself (e.g. `.my-state .frame { ... }`):
-        //   --frame-tint-factor:  brightness scaling (range 0.5 - 1.5, as per UIFrame)
+        //   --frame-tint-factor:  brightness scaling (range 0.5 - 1.5)
         //   --frame-tint-override:  local colour in place of the frame flavour (e.g. a targeted character slide)
         // A local flavour stands in for the global one on this frame only
 
@@ -55,7 +55,7 @@ namespace Frankie.Utils.UI
         {
             if (!Application.isPlaying) { return; }
 
-            frameFlavourColour = UIFrame.GetFrameFlavourColour();
+            frameFlavourColour = PlayerPrefsController.GetActiveFrameFlavourColour();
             ApplyTint();
             PlayerPrefsController.frameFlavourUpdated -= SetFrameFlavour;
             PlayerPrefsController.frameFlavourUpdated += SetFrameFlavour;
@@ -85,7 +85,14 @@ namespace Frankie.Utils.UI
         private void ApplyTint()
         {
             if (!Application.isPlaying || panel == null) { return; } // Edit-time (UI Builder) previews use the USS default tint
-            style.unityBackgroundImageTintColor = UIFrame.GetScaledColour(tintOverride ?? (hasLocalFlavour ? localFlavourColour : frameFlavourColour), tintFactor);
+            style.unityBackgroundImageTintColor = GetScaledColour(tintOverride ?? (hasLocalFlavour ? localFlavourColour : frameFlavourColour), tintFactor);
+        }
+
+        private static Color GetScaledColour(Color colour, float colourModifyFactor)
+        {
+            // Prevent clipping >1 (no HDR support) while maintaining uniform scaling
+            float maxScaling = Mathf.Min(colourModifyFactor, 1 / colour.r, 1 / colour.g, 1 / colour.b);
+            return new Color(colour.r * maxScaling, colour.g * maxScaling, colour.b * maxScaling, colour.a);
         }
         #endregion
     }

@@ -154,6 +154,6 @@ For example, the effect [SpawnCirclePopPink](../../Combat/BattleActions/EffectSt
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefab.png" width="325">
 
-, will spawn the game object [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/CirclePopPink.prefab), as shown below when Tilly uses the `Do Actual Work` skill:
+, will spawn a pink circle pop UI element as shown below when Tilly uses the `Do Actual Work` skill:
 
 ![](../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefabImplemented.gif)

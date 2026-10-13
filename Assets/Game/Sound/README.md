@@ -91,7 +91,7 @@ Set:
 
 #### Fader Soundbox
 
-The [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is childed to the [Fader](../Core/CoreDep/Fader.prefab).  [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is specifically used to manage the sounds for fading in/out of combat, and thus listens for relevant [TransitionTypes](../../Scripts/Zones/TransitionType.cs) passed by the `fadingIn` event from the [Fader](../Core/CoreDep/Fader.prefab).  In this regard, a different sound effect can be applied for different battle entry transitions (e.g. player surprises enemy vs. neutral vs. enemy surprises player).
+The [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is childed to the [Fader](../Core/CoreDep/Fader/Fader.prefab).  [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is specifically used to manage the sounds for fading in/out of combat, and thus listens for relevant [TransitionTypes](../../Scripts/Zones/TransitionType.cs) passed by the `fadingIn` event from the [Fader](../Core/CoreDep/Fader/Fader.prefab).  In this regard, a different sound effect can be applied for different battle entry transitions (e.g. player surprises enemy vs. neutral vs. enemy surprises player).
 
 *Note:  since we don't (yet) have sound effects generated for different battle transitions, the same neutral battle entry sound is currently applied for all transitions*
 

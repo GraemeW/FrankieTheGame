@@ -1,90 +1,75 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using LowDefMustard.UIBox;
 using LowDefMustard.Zones;
 using Frankie.Rendering;
 using Frankie.Saving;
+using Frankie.Zones.UI;
 
 namespace Frankie.Zones
 {
-    [RequireComponent(typeof(Canvas))]
+    [RequireComponent(typeof(UIToolkitMenuView))]
     [RequireComponent(typeof(BattleEntryShaderControl))]
-    public class Fader : FaderBase<TransitionType>
+    public sealed class Fader : FaderBase<TransitionType>
     {
-        // Tunables
-        [SerializeField] private Image battleComplete;
-        
-        // Static
-        private const string _sortingLayerFaderOverlay = "FaderOverlay";
-        
+        // Note:  Overlays live on a top-sorted panel (see FaderPanelSettings) - i.e. fades cover every other box / UI element rendered on the screen
+
+        // State
+        private readonly FaderModel faderModel = new();
+
         // Cached References
-        private Canvas canvas;
         private BattleEntryShaderControl battleEntryShaderControl;
-        
+
         #region UnityMethods
         protected override void Awake()
         {
             base.Awake();
-            
-            canvas = GetComponent<Canvas>();
+
             battleEntryShaderControl = GetComponent<BattleEntryShaderControl>();
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            
-            if (canvas == null) { GetComponent<Canvas>(); }
-            SceneManager.activeSceneChanged += SetupCamera;
-            SetupCamera();
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            
-            SceneManager.activeSceneChanged -= SetupCamera;
+            GetComponent<UIToolkitMenuView>().SetDataSource(faderModel);
         }
         #endregion
-        
+
         #region FadeSetup
         protected override bool IsSkipFade(TransitionType transitionType) => transitionType == TransitionType.None;
         protected override bool IsSceneLoadFade(TransitionType transitionType) => transitionType == TransitionType.Zone;
         protected override TransitionType GetSceneLoadTransitionType() => TransitionType.Zone;
         protected override void TriggerSave() => SaveFileManager.SaveSession();
         protected override void TriggerLoad() => SaveFileManager.LoadSession();
-        
+
         protected override bool PreFadeSetup(TransitionType transitionType)
         {
-            switch (transitionType)
-            {
-                case TransitionType.Zone:
-                    nodeEntry.gameObject.SetActive(true);
-                    currentTransitionImage = nodeEntry;
-                    break;
-                case TransitionType.BattleComplete:
-                    battleComplete.gameObject.SetActive(true);
-                    currentTransitionImage = battleComplete;
-                    break;
-                case TransitionType.BattleGood:
-                case TransitionType.BattleBad:
-                case TransitionType.BattleNeutral:
-                    break;
-                case TransitionType.None:
-                default:
-                    fading = false;
-                    return false;
-            }
-            return true;
+            if (transitionType != TransitionType.None) { return true; }
+
+            fading = false;
+            return false;
         }
         #endregion
 
         #region TransitionSpecificBehaviour
+        protected override void SetOverlayAlpha(TransitionType transitionType, float alpha)
+        {
+            switch (transitionType)
+            {
+                case TransitionType.Zone:
+                    faderModel.zoneFadeOpacity = alpha;
+                    break;
+                case TransitionType.BattleComplete:
+                    faderModel.battleFadeOpacity = alpha;
+                    break;
+                case TransitionType.BattleGood:
+                case TransitionType.BattleBad:
+                case TransitionType.BattleNeutral:
+                case TransitionType.None:
+                default:
+                    break;
+            }
+        }
+
         protected override void ResetOverlays()
         {
-            base.ResetOverlays();
-            battleComplete?.gameObject.SetActive(false);
-            battleEntryShaderControl?.EndFade();
+            faderModel.zoneFadeOpacity = 0f;
+            faderModel.battleFadeOpacity = 0f;
+            if (battleEntryShaderControl != null) { battleEntryShaderControl.EndFade(); }
         }
 
         protected override bool TransitionUsesStandaloneFadeControl(TransitionType transitionType) => transitionType is TransitionType.BattleGood or TransitionType.BattleBad or TransitionType.BattleNeutral;
@@ -103,22 +88,6 @@ namespace Frankie.Zones
         protected override void TriggerStandaloneFadeCleanup()
         {
             battleEntryShaderControl.EndFade();
-        }
-        #endregion
-        
-        #region CanvasCameraManagement
-        private void SetupCamera(Scene lastScene, Scene newScene)
-        {
-            SetupCamera();
-        }
-        
-        private void SetupCamera()
-        {
-            if (canvas == null) { return; }
-            canvas.worldCamera = Camera.main;
-            
-            if (canvas.worldCamera == null) { return; }
-            canvas.sortingLayerName = _sortingLayerFaderOverlay;
         }
         #endregion
     }
