@@ -312,6 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   studioName: Low Def Mustard Games
   gameTitle: Frankie
+  stageFadeSeconds: 0.7
 --- !u!1001 &782075249
 PrefabInstance:
   m_ObjectHideFlags: 0
