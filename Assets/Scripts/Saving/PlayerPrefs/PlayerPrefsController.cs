@@ -38,6 +38,7 @@ namespace Frankie.Saving
 
         // Static State
         [AutoStaticsCleanup] public static bool wereCharacterNamesDirtied { get; set; } = false;
+        [AutoStaticsCleanup] private static Color? _activeFrameFlavourColour; // Read once, then kept in step with frameFlavourUpdated (frames attach constantly)
         
         // Events
         [AutoStaticsCleanup] public static event Action<Color> frameFlavourUpdated;
@@ -94,6 +95,7 @@ namespace Frankie.Saving
         public static void ClearPlayerPrefs(bool save = true)
         {
             PlayerPrefs.DeleteAll();
+            _activeFrameFlavourColour = null;
             if (save) { PlayerPrefs.Save(); }
         }
 
@@ -141,6 +143,7 @@ namespace Frankie.Saving
         public static void DeleteKey(string key)
         {
             if (!string.IsNullOrEmpty(key) && PlayerPrefs.HasKey(key)) { PlayerPrefs.DeleteKey(key); }
+            _activeFrameFlavourColour = null;
         }
         #endregion
 
@@ -152,6 +155,7 @@ namespace Frankie.Saving
         {
             wereCharacterNamesDirtied = true; // Force re-builds character names cache on CharacterProperties
             PlayerPrefs.SetString(_currentSaveKey, saveName);
+            _activeFrameFlavourColour = null;
         }
         
         private static bool TryGetCurrentSaveLeaderKey(out string key, string saveName = null)
@@ -352,14 +356,25 @@ namespace Frankie.Saving
             string frameFlavourColourHex = ColorUtility.ToHtmlStringRGBA(frameFlavourColour);
             PlayerPrefs.SetString(key, frameFlavourColourHex);
             
-            frameFlavourUpdated?.Invoke(frameFlavourColour);
+            UpdateActiveFrameFlavourColour(frameFlavourColour);
         }
 
         public static void AnnounceFrameColour(string saveName = null)
         {
-            if (!FrameFlavourColourKeyExists(saveName)) { return; }
+            if (!FrameFlavourColourKeyExists(saveName)) { _activeFrameFlavourColour = null; return; }
             
-            Color frameFlavourColour = GetFrameFlavourColour(saveName);
+            UpdateActiveFrameFlavourColour(GetFrameFlavourColour(saveName));
+        }
+
+        public static Color GetActiveFrameFlavourColour() // Default (white) when the current save has no flavour
+        {
+            _activeFrameFlavourColour ??= FrameFlavourColourKeyExists() ? GetFrameFlavourColour() : Color.white;
+            return _activeFrameFlavourColour.Value;
+        }
+
+        private static void UpdateActiveFrameFlavourColour(Color frameFlavourColour)
+        {
+            _activeFrameFlavourColour = frameFlavourColour;
             frameFlavourUpdated?.Invoke(frameFlavourColour);
         }
         #endregion

@@ -1,0 +1,11 @@
+/* Backdrop behind every naming screen panel (tiled) */
+.naming-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--naming-backdrop-image);
+    background-repeat: repeat;
+    background-size: 128px 128px;
+}

@@ -1,0 +1,76 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:inventory="Frankie.Inventory.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors EquipmentBox.uxml with sample entries - keep in sync -->
+    <!-- Style order matches EquipmentBox's view:  shared theme sheets, then screen sheets -->
+    <Style src="../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="InventoryBox.uss" />
+    <!-- Equipment rows, confirm choices and the stat comparison are code-built at runtime:  static elements with the same classes stand in here -->
+    <!-- The confirmation section (StatChangeSection) is collapsed at runtime unless an equipment change is pending -->
+    <ui:VisualElement class="item-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox item-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="party-selector party-selector--dimmed" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Frankie" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Tilly" />
+                <uibox:ChoiceEntryElement label-text="PhilToo" />
+            </uibox:ChoiceEntryContainer>
+            <ui:VisualElement class="item-box__divider" picking-mode="Ignore" />
+            <inventory:ItemBoxCharacterLabel text="Frankie" class="item-box__name text-display" picking-mode="Ignore" />
+            <ui:VisualElement class="item-box__slots" picking-mode="Ignore">
+                <inventory:InventorySlotLeftColumn class="item-box__slots-left" picking-mode="Ignore">
+                    <inventory:InventorySlotElement label-text="Hands:  Broken Keyboard" highlighted="true" />
+                    <inventory:InventorySlotElement label-text="Body:  Empty" />
+                </inventory:InventorySlotLeftColumn>
+                <inventory:InventorySlotRightColumn class="item-box__slots-right" picking-mode="Ignore">
+                    <inventory:InventorySlotElement label-text="Arms:  Casio Watch" />
+                    <inventory:InventorySlotElement label-text="Other:  Empty" />
+                </inventory:InventorySlotRightColumn>
+            </ui:VisualElement>
+            <ui:VisualElement class="stat-change-section" picking-mode="Ignore">
+                <ui:VisualElement class="item-box__divider equipment-box__divider" picking-mode="Ignore" />
+                <inventory:EquipmentConfirmContainer class="equipment-box__confirm" picking-mode="Ignore">
+                    <uibox:ChoiceEntryElement label-text="Okay" highlighted="true" />
+                    <uibox:ChoiceEntryElement label-text="Nah" />
+                </inventory:EquipmentConfirmContainer>
+                <ui:VisualElement class="stat-change-list" picking-mode="Ignore">
+                    <ui:VisualElement class="stat-change" picking-mode="Ignore">
+                        <ui:Label text="HP" class="stat-change__name" picking-mode="Ignore" />
+                        <ui:Label text="30" class="stat-change__old-value" picking-mode="Ignore" />
+                        <ui:Label text="--&gt;" class="stat-change__arrow" picking-mode="Ignore" />
+                        <ui:Label text="30" class="stat-change__new-value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-change" picking-mode="Ignore">
+                        <ui:Label text="AP" class="stat-change__name" picking-mode="Ignore" />
+                        <ui:Label text="15" class="stat-change__old-value" picking-mode="Ignore" />
+                        <ui:Label text="--&gt;" class="stat-change__arrow" picking-mode="Ignore" />
+                        <ui:Label text="15" class="stat-change__new-value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-change stat-change--better" picking-mode="Ignore">
+                        <ui:Label text="Brawn" class="stat-change__name" picking-mode="Ignore" />
+                        <ui:Label text="6" class="stat-change__old-value" picking-mode="Ignore" />
+                        <ui:Label text="--&gt;" class="stat-change__arrow" picking-mode="Ignore" />
+                        <ui:Label text="13" class="stat-change__new-value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-change" picking-mode="Ignore">
+                        <ui:Label text="Beauty" class="stat-change__name" picking-mode="Ignore" />
+                        <ui:Label text="3" class="stat-change__old-value" picking-mode="Ignore" />
+                        <ui:Label text="--&gt;" class="stat-change__arrow" picking-mode="Ignore" />
+                        <ui:Label text="3" class="stat-change__new-value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-change stat-change--worse" picking-mode="Ignore">
+                        <ui:Label text="Luck" class="stat-change__name" picking-mode="Ignore" />
+                        <ui:Label text="7" class="stat-change__old-value" picking-mode="Ignore" />
+                        <ui:Label text="--&gt;" class="stat-change__arrow" picking-mode="Ignore" />
+                        <ui:Label text="2" class="stat-change__new-value" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

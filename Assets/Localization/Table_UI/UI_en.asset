@@ -94,32 +94,8 @@ MonoBehaviour:
     m_Localized: You ran away.
     m_Metadata:
       m_Items: []
-  - m_Id: 8003262832697344
-    m_Localized: '{0} restored {1} HP.'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003284227842048
-    m_Localized: '{0} was hit for {1} points.'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003305111281664
-    m_Localized: '{0} restored {1} AP.'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003344688734208
-    m_Localized: '{0} was drained for {1} AP.'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003359918252032
-    m_Localized: '{0} was knocked unconcious.'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003382676545536
-    m_Localized: '{0} gained the will to fight again.'
-    m_Metadata:
-      m_Items: []
   - m_Id: 8004517357412352
-    m_Localized: Use the item {0} on which foe?
+    m_Localized: Use the item {0} on which target?
     m_Metadata:
       m_Items: []
   - m_Id: 8994215747903488
@@ -171,10 +147,6 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9043523323027456
-    m_Localized: Nah
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9045403184914432
     m_Localized: Nah
     m_Metadata:
       m_Items: []
@@ -244,10 +216,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9096179089399808
     m_Localized: This item cannot be equipped here.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9097773231104000
-    m_Localized: Are you sure you want to pick up {0} and abandon {1}?
     m_Metadata:
       m_Items: []
   - m_Id: 9098989205970944
@@ -322,14 +290,6 @@ MonoBehaviour:
     m_Localized: Level
     m_Metadata:
       m_Items: []
-  - m_Id: 9340453617917952
-    m_Localized: Frankie
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9340490968195072
-    m_Localized: 
-    m_Metadata:
-      m_Items: []
   - m_Id: 9340512673718272
     m_Localized: Demo
     m_Metadata:
@@ -354,10 +314,6 @@ MonoBehaviour:
     m_Localized: Game Over,
     m_Metadata:
       m_Items: []
-  - m_Id: 9345572526874624
-    m_Localized: Frankie
-    m_Metadata:
-      m_Items: []
   - m_Id: 9345612603449344
     m_Localized: Don't give up!
     m_Metadata:
@@ -368,10 +324,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9348140321726464
     m_Localized: Well Done,
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9348173288955904
-    m_Localized: Frankie
     m_Metadata:
       m_Items: []
   - m_Id: 9348623979503616
@@ -728,6 +680,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 40624107111309312
     m_Localized: Shrimp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60453263546245120
+    m_Localized: Favourite Flavour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63406934961676288
+    m_Localized: '*hello!*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63407093569282048
+    m_Localized: lonely
     m_Metadata:
       m_Items: []
   references:

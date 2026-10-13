@@ -17,6 +17,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         #region DataStructures
         private class TestScriptableObject : ScriptableObject { }
         private class TestMonoBehaviour : MonoBehaviour { }
+        private class TestKeyRoot : MonoBehaviour, ILocalizationKeyRoot { }
         private class MarkerDeclaringType { }
         #endregion
 
@@ -109,9 +110,10 @@ namespace LowDefMustard.Localization.Tests.Editor
         }
 
         [Test]
-        public void GenerateKindaUniqueKey_MonoBehaviourWithCanvasParent_SkipsParentNameStem()
+        public void GenerateKindaUniqueKey_MonoBehaviourWithKeyRootParent_SkipsParentNameStem()
         {
-            GameObject parent = CreateGameObject("Canvas");
+            GameObject parent = CreateGameObject("Root");
+            parent.AddComponent<TestKeyRoot>();
             GameObject child = CreateGameObject("Child");
             child.transform.SetParent(parent.transform);
             child.AddComponent<TestMonoBehaviour>();

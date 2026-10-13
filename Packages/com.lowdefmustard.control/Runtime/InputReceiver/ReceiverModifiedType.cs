@@ -4,6 +4,7 @@
     {
         WritingStateChanged,
         ItemSelected,
+        ItemHighlighted,
         ClearDisableCallbacks,
         ClientEnter,
         ClientEnable,

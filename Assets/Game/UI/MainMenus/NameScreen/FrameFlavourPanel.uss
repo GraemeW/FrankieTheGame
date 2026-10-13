@@ -1,0 +1,54 @@
+.frame-flavour-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-flavour-panel {
+    width: 960px;
+}
+
+.frame-flavour-preview__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.frame-flavour-panel__question {
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+    -unity-text-align: upper-left;
+}
+
+.frame-flavour-panel__choices {
+    margin-top: 8px;
+}
+
+.frame-flavour-panel__choices .choice-entry {
+    height: 47px;
+}
+
+/* Note - highlighted label colour is the flavour's own (set by the element directly) */
+.frame-flavour-choice.choice-entry--highlighted > .choice-entry__label {
+    -unity-font-style: bold;
+}
+
+/* ~ Text Fit ~ */
+.frame-flavour-panel__choices .choice-entry {
+    align-self: stretch;
+}
+
+.frame-flavour-panel__choices .choice-entry > .choice-entry__label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    -unity-text-align: middle-left;
+    -unity-text-auto-size: best-fit 24px 64px;
+}

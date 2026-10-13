@@ -6,8 +6,7 @@
     "LowDefMustard.Localization",
     "Unity.Addressables",
     "Unity.ResourceManager",
-    "Unity.Localization",
-    "UnityEngine.UI"
+    "Unity.Localization"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

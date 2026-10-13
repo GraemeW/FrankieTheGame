@@ -1,0 +1,62 @@
+.splash-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Stages overlap, cross-fading as the shown stage changes (duration is set by SplashScreen's stage fade time) */
+.splash-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    /*noinspection CssInvalidPropertyValue*/
+    transition-property: opacity;
+    transition-timing-function: linear;
+}
+
+.splash-stage--shown {
+    opacity: 1;
+}
+
+/* Studio:  logo above screen centre, name below it */
+.splash-studio__logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 256px;
+    height: 256px;
+    margin-top: -100px;
+    translate: -50% -50%;
+    background-image: var(--splash-studio-image);
+}
+
+.splash-studio__name {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    margin: 160px 0 0 0;
+    padding: 0;
+    translate: -50% -50%;
+    font-size: 72px;
+    white-space: normal;
+    -unity-text-align: middle-center;
+}
+
+/* Title:  screen centre */
+.splash-title__name {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 120px;
+    -unity-text-align: middle-center;
+}

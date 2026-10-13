@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:inventory="Frankie.Inventory.UI" editor-extension-mode="false">
+    <ui:VisualElement class="cash-transfer-box-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox cash-transfer-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <inventory:CashTransferMessageLabel text="How much do you want to transfer?" class="cash-transfer-box__message" picking-mode="Ignore" />
+            <inventory:CashAmountContainer class="cash-transfer-box__amount" picking-mode="Ignore" />
+            <uibox:ChoiceEntryContainer choice-layout="Horizontal" class="cash-transfer-box__choices" picking-mode="Ignore" />
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

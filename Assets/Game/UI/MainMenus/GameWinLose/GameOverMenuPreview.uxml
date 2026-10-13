@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors GameOverMenu.uxml with sample entries - keep in sync -->
+    <!-- Style order matches GameOverMenuUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="../Launcher.uss" />
+    <Style src="GameOverMenu.uss" />
+    <ui:VisualElement class="launcher-screen" picking-mode="Ignore">
+        <ui:VisualElement class="game-over-menu__header" picking-mode="Ignore">
+            <menu:LauncherTitleLabel text="Game Over," class="text-display launcher__title" picking-mode="Ignore" />
+            <menu:LauncherNameLabel text="Frankie" class="text-display launcher__name game-over-menu__name" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <uibox:ChoiceEntryContainer choice-layout="Vertical" class="launcher__choices game-over-menu__choices" picking-mode="Ignore">
+            <uibox:ChoiceEntryElement label-text="Continue from Last Save" highlighted="true" />
+            <uibox:ChoiceSeparatorElement />
+            <uibox:ChoiceEntryElement label-text="Quit" />
+        </uibox:ChoiceEntryContainer>
+    </ui:VisualElement>
+</ui:UXML>

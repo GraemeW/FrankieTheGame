@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <ui:VisualElement class="launcher-screen" picking-mode="Ignore">
+        <menu:LauncherNameLabel text="Frankie" class="text-display launcher__name" picking-mode="Ignore" />
+        <menu:LauncherTitleLabel text="Demo" class="text-display launcher__title start-menu__title" picking-mode="Ignore" />
+        <uibox:ChoiceEntryContainer choice-layout="Vertical" class="launcher__choices start-menu__choices" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

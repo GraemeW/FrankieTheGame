@@ -28,7 +28,7 @@ namespace Frankie.Combat
                 yield break;
             }
 
-            if (!battleController.IsEnemyPositionAvailable() || battleController.GetCountEnemiesAddedMidCombat() >= maxEnemiesAllowedToCallInCombat)
+            if (battleController.GetCountEnemiesAddedMidCombat() >= maxEnemiesAllowedToCallInCombat)
             {
                 sender.AnnounceStateUpdate(StateAlteredType.FriendIgnored);
                 yield break;
@@ -38,20 +38,16 @@ namespace Frankie.Combat
             foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(spawnConfiguration.enemyConfigurations, spawnConfiguration.maxQuantity))
             {
                 GameObject enemyPrefab = characterProperties.GetCharacterNPCPrefab();
-                if (enemyPrefab == null) { continue; }
+                if (enemyPrefab == null || !enemyPrefab.TryGetComponent(out CombatParticipant enemyPrefabParticipant)) { continue; }
+                if (!battleController.IsEnemyPositionAvailable(enemyPrefabParticipant.GetBattleEntityType())) { continue; }
 
                 GameObject spawnedEnemy = Instantiate(enemyPrefab);
                 DisableEnemyColliders(spawnedEnemy);
                 SetEnemyDisposition(spawnedEnemy);
                 spawnedEnemy.transform.position = sender.transform.position;
 
-                if (spawnedEnemy.TryGetComponent(out CombatParticipant enemy))
-                {
-                    battleController.AddEnemyMidCombat(enemy);
-                    friendFound = true;
-                }
-                else
-                { Destroy(spawnedEnemy); } // Safety on shenanigans (spawned enemy lacking a combat participant component
+                battleController.AddEnemyMidCombat(spawnedEnemy.GetComponent<CombatParticipant>());
+                friendFound = true;
             }
 
             sender.AnnounceStateUpdate(friendFound ? StateAlteredType.FriendFound : StateAlteredType.FriendIgnored);

@@ -1,0 +1,16 @@
+/* Full-screen fades:  one overlay per transition look (opacity is driven by the Fader) */
+.fade-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.fade-overlay--zone {
+    background-color: rgb(0, 0, 0);
+}
+
+.fade-overlay--battle-complete {
+    background-color: rgb(0, 0, 0);
+}

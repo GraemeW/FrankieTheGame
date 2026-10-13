@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <ui:VisualElement class="naming-screen" picking-mode="Ignore">
+        <ui:VisualElement class="naming-panel" picking-mode="Ignore">
+            <ui:VisualElement class="naming-panel__name-row" picking-mode="Ignore">
+                <menu:NamingStageElement class="naming-panel__stage" />
+                <ui:VisualElement class="uibox naming-panel__input" picking-mode="Ignore">
+                    <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                    <frankie:FrameElement class="uibox__frame" />
+                    <menu:NameInputLabel text="········" class="naming-panel__input-text" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="uibox naming-panel__keyboard" picking-mode="Ignore">
+                <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox__frame" />
+                <ui:VisualElement class="naming-panel__keys" picking-mode="Ignore">
+                    <menu:KeyboardLowerKeys />
+                    <menu:KeyboardUpperKeys />
+                    <menu:KeyboardSpecialKeys />
+                </ui:VisualElement>
+                <menu:KeyboardCaseRow class="naming-panel__case-row" />
+                <menu:KeyboardAdminRow class="naming-panel__admin-row" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

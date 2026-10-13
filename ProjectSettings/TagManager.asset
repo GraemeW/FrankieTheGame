@@ -6,10 +6,10 @@ TagManager:
   tags:
   - BattleController
   - DialogueController
-  - WorldCanvas
+  - WorldUIRoot
   - SceneLoader
   - World
-  - BattleCanvas
+  - BattleUI
   - BackgroundMusic
   - Fader
   - CameraController

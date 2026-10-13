@@ -13,7 +13,7 @@ namespace Frankie.Speech.UI
         protected override void AwakeTriggered()
         {
             base.AwakeTriggered();
-            clearVolatileOptionsOnEnable = false;
+            clearChoiceOptionsOnEnable = false; // Simple options are set once (i.e. not re-created per dialogue node)
         }
 
         public override void Setup(string text)

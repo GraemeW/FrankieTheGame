@@ -13,6 +13,7 @@ namespace LowDefMustard.Control
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
         [SerializeField] private float closeTargetThresholdSquared = 0.5625f;
         [SerializeField] private bool resetPositionOnEnable = false;
+        [SerializeField] private GameProperties gameProperties;
 
         // State
         protected bool isRigidBodyInitialized = false;
@@ -37,7 +38,6 @@ namespace LowDefMustard.Control
         public static void SetAnimatorSpeed(Animator animator, float speed) => animator.SetFloat(_speed, speed);
         public static void SetAnimatorXLook(Animator animator, float xLookDirection) => animator.SetFloat(_xLook, xLookDirection);
         public static void SetAnimatorYLook(Animator animator, float yLookDirection) => animator.SetFloat(_yLook, yLookDirection);
-        private const float _pixelsPerUnit = 100.0f; // Align to pixel art setting, default: 100
         private const float _signFloorThreshold = 0.1f;
         private static readonly int _speed = Animator.StringToHash("Speed");
         private static readonly int _xLook = Animator.StringToHash("xLook");
@@ -181,12 +181,14 @@ namespace LowDefMustard.Control
         }
 
         // Note:  Internal for test visibility
-        protected internal static Vector2 RoundToPixelPerfect(Vector2 position)
+        protected internal static Vector2 RoundToPixelPerfect(Vector2 position, float pixelsPerUnit)
         {
             return new Vector2(
-                Mathf.Round(_pixelsPerUnit * position.x) / _pixelsPerUnit, 
-                Mathf.Round(_pixelsPerUnit * position.y) / _pixelsPerUnit);
+                Mathf.Round(pixelsPerUnit * position.x) / pixelsPerUnit, 
+                Mathf.Round(pixelsPerUnit * position.y) / pixelsPerUnit);
         }
+        
+        protected Vector2 RoundToPixelPerfect(Vector2 position) => RoundToPixelPerfect(position, GameProperties.GetArtPixelsPerUnit(gameProperties));
 
         protected Vector2 GetSpritePositionOffset()
         {

@@ -1,6 +1,6 @@
 # Assets: Localization
 
-Frankie makes use of the [Unity Localization Package](https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/index.html) to support different languages.  All text that can be rendered in Frankie lives on Localization tables in this directory.  The tables are broken down into several main categories of text, as denoted by the enum [LocalizationTableType](../../Packages/com.lowdefmustard.localization/Runtime/LocalizationTableType.cs), and sub-directoried here:
+Frankie makes use of the [Unity Localization Package](https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/index.html) to support different languages.  All text that can be rendered in Frankie lives on Localization tables in this directory.  The tables are broken down into several main categories of text, as denoted by the enum [LocalizationTableType](../Scripts/Utils/Localization/LocalizationTableType.cs), and sub-directoried here:
 * [Checks / World Objects](./Table_ChecksWorldObjects):  Anything that can be interacted with (to display text) in the world
 * [Core](./Table_Core):  Character names, stat translations, status effect flavours, etc.
 * [Inventory](./Table_Inventory):  Inventory / equipment object names and descriptions, as well as shop interaction text
@@ -11,7 +11,7 @@ Frankie makes use of the [Unity Localization Package](https://docs.unity3d.com/P
 
 ## ILocalizable Interface
 
-Any game object or scriptable object that uses [LocalizedStrings](https://docs.unity3d.com/Packages/com.unity.localization@1.5/api/UnityEngine.Localization.LocalizedString.html) must implement the [ILocalizable](../../Packages/com.lowdefmustard.localization/Runtime/ILocalizable.cs) interface.  This interface allows for automatic updates to Localization Table entries when their corresponding objects are deleted, re-named (for scriptable objects), etc.  In other words, the [ILocalizable](../../Packages/com.lowdefmustard.localization/Runtime/ILocalizable.cs) interface ensures good coherency between the localization tables and the physical assets that reference them, such that the Localization tables are up-to-date & not containing stale entries for deleted or altered objects.
+Any game object or scriptable object that uses [LocalizedStrings](https://docs.unity3d.com/Packages/com.unity.localization@1.5/api/UnityEngine.Localization.LocalizedString.html) must implement the [ILocalizable](../Scripts/Utils/Localization/ILocalizable.cs) interface.  This interface allows for automatic updates to Localization Table entries when their corresponding objects are deleted, re-named (for scriptable objects), etc.  In other words, the [ILocalizable](../Scripts/Utils/Localization/ILocalizable.cs) interface ensures good coherency between the localization tables and the physical assets that reference them, such that the Localization tables are up-to-date & not containing stale entries for deleted or altered objects.
 
 ### Scriptable Object - Configuration Notes
 

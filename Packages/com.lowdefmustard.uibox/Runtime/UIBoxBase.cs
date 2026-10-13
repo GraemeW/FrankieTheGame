@@ -10,25 +10,15 @@ namespace LowDefMustard.UIBox
     {
         // Note:  Methods marked internal are for test visibility
         
-        // Tunables
-        [Header("UI Box Hookups")]
-        [SerializeField] protected CanvasGroup canvasGroup;
-        [SerializeField] protected Transform optionParent;
-        [SerializeField] protected Transform backExitParent;
-        
-        [Header("UI Box Prefabs")] 
-        [SerializeField] protected UIBackExit backExitPrefab;
-        [SerializeField] protected GameObject optionButtonPrefab;
-        [SerializeField] protected GameObject optionSliderPrefab;
-        
         // Const/Static Fixed
         private const float _spatialAngleCheck = 85f;
         private static readonly float _spatialCosAngleCheck = Mathf.Cos(_spatialAngleCheck * Mathf.Deg2Rad);
         
         // Key State Parameters
         protected bool handleGlobalInput { get; set; } = true;
-        protected bool clearVolatileOptionsOnEnable { get; set; } = true;
+        protected bool clearChoiceOptionsOnEnable { get; set; } = false; // Choices persist across enables unless a box re-creates them each time (e.g. TextScanBox)
         protected bool preventEscapeOptionExit { get; set; } = false;
+        protected bool keepPointerInputWhenInactive { get; set; } = false; // e.g. for menus whose choices swap out the child box on top
         
         // State -- Standard
         protected BaseController controller;
@@ -37,35 +27,38 @@ namespace LowDefMustard.UIBox
         // State -- Choices
         private bool isChoiceAvailable = false;
         private bool clearDisableCallbacksOnChoose = false;
-        protected readonly List<UIChoice> choiceOptions = new();
-        protected UIChoice highlightedChoiceOption;
+        protected readonly List<IUIChoice> choiceOptions = new();
+        protected IUIChoice highlightedChoiceOption;
 
         // Cached References
-        private Camera renderCamera; // Only relevant if canvas != overlay
-        
+        private UIToolkitBoxView boxView; // Note:  A box without a view has no visuals of its own ~ boxView enforces PanelRenderer attachment
+        private bool isBoxViewResolved = false;
+
         // Event Handles
         private event Action<ReceiverModifiedType, ReceiverModifiedData> receiverModified;
         
-        #region UnityMethods
-
-        protected virtual void Start()
-        {
-            var canvas = GetComponentInParent<Canvas>();
-            renderCamera = canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay ? canvas.worldCamera : null;
-        }
-        #endregion
-        
         #region UtilityMethods
-        public void SetHandleGlobalInput(bool enable) => handleGlobalInput = enable; // Warning:  Only use if a known receiver exists to handle input
+        protected bool TryGetBoxView(out UIToolkitBoxView view)
+        {
+            if (!isBoxViewResolved)
+            {
+                TryGetComponent(out boxView);
+                isBoxViewResolved = true;
+            }
+            view = boxView;
+            return view != null;
+        }
+        
         public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action)
         {
             receiverModified -= action;
             if (enable) { receiverModified += action; }
         }
         
-        protected void TriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType, ReceiverModifiedData uiBoxModifiedData) => receiverModified?.Invoke(dialogueBoxModifiedType, uiBoxModifiedData);
+        public void SetHandleGlobalInput(bool enable) => handleGlobalInput = enable; // Warning:  Only use if a known receiver exists to handle input
+        protected void SetVisible(bool enable) { if (TryGetBoxView(out UIToolkitBoxView view)) { view.SetVisible(enable); } }
         protected abstract void SimpleTriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType); // Implemented via UIBox
-        protected void SetVisible(bool enable) => canvasGroup.alpha = enable ? 1.0f : 0.0f;
+        protected void TriggerUIBoxModified(ReceiverModifiedType dialogueBoxModifiedType, ReceiverModifiedData uiBoxModifiedData) => receiverModified?.Invoke(dialogueBoxModifiedType, uiBoxModifiedData);
         public void ClearDisableCallbacksOnChoose(bool enable) => clearDisableCallbacksOnChoose = enable;
         public void ClearDisableCallbacks() => SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks);
         #endregion
@@ -75,61 +68,61 @@ namespace LowDefMustard.UIBox
         protected bool IsChoiceAvailable() => isChoiceAvailable;
         protected void SetChoiceAvailable(bool enable) => isChoiceAvailable = enable;
 
-        protected void AddChoiceOption(string choiceText, Action action)
+        protected static bool IsChoiceAlive(IUIChoice choice) => choice is { isAlive: true };
+
+        protected void SetHighlightedChoice(IUIChoice choice)
         {
-            UIChoiceButton dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
-            dialogueChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
+            ClearChoiceSelections();
+            highlightedChoiceOption = choice;
+            choice.Highlight(true);
+            TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted);
         }
 
-        private UIChoiceButton AddChoiceOptionTemplate(string choiceText)
+        // Note:  Choice sounds are box-level - highlight / select are raised here for the box's sound box to play
+        protected void TriggerChoiceModified(ReceiverModifiedType receiverModifiedType) => SimpleTriggerUIBoxModified(receiverModifiedType);
+
+        protected IUIChoice AddChoiceOption(string choiceText, Action action) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, true));
+        
+        protected IUIChoice AddNonDestroyChoiceOption(string choiceText, Action action, Action onHighlight = null) => CreateChoiceOption(choiceText, () => StandardChoiceExecution(action, false), onHighlight);
+        
+        protected void AddSeparator(ChoiceSeparatorType separatorType = ChoiceSeparatorType.Major) { if (TryGetBoxView(out UIToolkitBoxView view)) { view.CreateChoiceSeparator(separatorType); } }
+
+        private IUIChoice CreateChoiceOption(string choiceText, Action onChoose, Action onHighlight = null)
         {
-            GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-            var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
-            uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
-            uiChoiceOption.SetText(choiceText);
-            choiceOptions.Add(uiChoiceOption);
-            return uiChoiceOption;
+            if (!TryGetBoxView(out UIToolkitBoxView view)) { Debug.LogWarning($"UIBox[{name}] has no view to create choice options in."); return null; }
+
+            IUIChoice choice = view.CreateChoiceOption(choiceText, onChoose, onHighlight);
+            choiceOptions.Add(choice);
+            return choice;
         }
 
         protected void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoice choiceOption in choiceOptions.Where(choiceOption => choiceOption != null))
+            foreach (IUIChoice choiceOption in choiceOptions.Where(IsChoiceAlive))
             {
                 choiceOption.Highlight(false);
             }
-        }
-        
-        protected static List<UIChoice> FilterOutSubOptions(List<UIChoice> uiChoices)
-        {
-            List<UIChoice> filteredUIChoices = uiChoices.ToList();
-            var subOptions = new List<UIChoice>();
-            foreach (UIChoice choice in filteredUIChoices)
-            {
-                if (choice is UIChoiceContainer uiChoiceContainer)
-                {
-                    subOptions.AddRange(uiChoiceContainer.GetSubOptions());
-                }
-            }
-            foreach (UIChoice choice in subOptions) { filteredUIChoices.Remove(choice); }
-            return filteredUIChoices;
         }
         #endregion
         
         #region ChoiceExecution
         protected bool StandardChoose(string chooseDetail)
         {
-            // Note:  chooseDetail ignored in standard implementation -- employed in DialogueBox override
-            if (highlightedChoiceOption == null) { return false; }
+            // Note:  chooseDetail ignored in standard implementation - employed in DialogueBox override
+            if (!IsChoiceAlive(highlightedChoiceOption)) { return false; }
             highlightedChoiceOption.UseChoice();
             return true;
         }
        
-        private void StandardChoiceExecution(Action action)
+        protected void StandardChoiceExecution(Action action, bool destroyOnChoose = true)
         {
-            if (clearDisableCallbacksOnChoose) { SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks); }
+            if (destroyOnChoose && clearDisableCallbacksOnChoose) { SimpleTriggerUIBoxModified(ReceiverModifiedType.ClearDisableCallbacks); }
+            
+            TriggerChoiceModified(ReceiverModifiedType.ItemSelected);
             action?.Invoke();
-            Destroy(gameObject);
+            
+            if (destroyOnChoose) { Destroy(gameObject); }
         }
         #endregion
 
@@ -145,69 +138,64 @@ namespace LowDefMustard.UIBox
         
         protected bool StandardMoveCursor(ControllerInputType controllerInputType, CursorMovementStyle cursorMovementStyle)
         {
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
-            // Special objects that require specialty input (sliders, etc.)
-            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
+            if (TryInterceptMove(controllerInputType)) { return true; }
             
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = TryExecuteMove(controllerInputType, ref choiceIndex, choiceOptions.Count, cursorMovementStyle);
-            if (validInput)
-            {
-                ClearChoiceSelections();
-                highlightedChoiceOption = choiceOptions[choiceIndex];
-                choiceOptions[choiceIndex].Highlight(true);
-                return true;
-            }
-            return false;
+            if (!validInput) { return false; }
+
+            SetHighlightedChoice(choiceOptions[choiceIndex]);
+            return true;
         }
 
         protected bool MoveCursor2D(ControllerInputType controllerInputType)
         {
             // Standard implementation
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
-            // Special objects that require specialty input (sliders, etc.)
-            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
+            if (TryInterceptMove(controllerInputType)) { return true; }
             
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = TryExecuteMove2D(controllerInputType, ref choiceIndex, choiceOptions.Count);
-            if (validInput)
-            {
-                ClearChoiceSelections();
-                highlightedChoiceOption = choiceOptions[choiceIndex];
-                choiceOptions[choiceIndex].Highlight(true);
-                return true;
-            }
-            return false;
+            if (!validInput) { return false; }
+
+            SetHighlightedChoice(choiceOptions[choiceIndex]);
+            return true;
         }
         
         protected bool StandardMoveCursorSpatial(ControllerInputType controllerInputType)
         {
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || !IsChoiceAlive(highlightedChoiceOption)) { return false; }
 
-            // Special objects that require specialty input (sliders, etc.)
-            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(controllerInputType)) { return true; }
+            if (TryInterceptMove(controllerInputType)) { return true; }
 
             // Standard choice handling
             if (!BaseController.TryInputTypeToNavigationVector(controllerInputType, out Vector2 direction)) { return false; }
-            if (!TryGetScreenRect(renderCamera, highlightedChoiceOption.transform as RectTransform, out Rect originRect)) { return false; }
+            if (!highlightedChoiceOption.TryGetNavigationRect(out Rect originRect)) { return false; }
 
             Vector2 origin = originRect.center;
-            if (!TryFindClosestRayHit(origin, direction, renderCamera, choiceOptions, highlightedChoiceOption, out UIChoice targetChoice))
+            if (!TryFindClosestRayHit(origin, direction, choiceOptions, highlightedChoiceOption, out IUIChoice targetChoice))
             {
-                TryFindBestAngleMatch(origin, direction, renderCamera, choiceOptions, highlightedChoiceOption, out targetChoice);
+                TryFindBestAngleMatch(origin, direction, choiceOptions, highlightedChoiceOption, out targetChoice);
             }
-            if (targetChoice == null) { return false; }
+            if (!IsChoiceAlive(targetChoice)) { return false; }
 
-            ClearChoiceSelections();
-            highlightedChoiceOption = targetChoice;
-            targetChoice.Highlight(true);
+            SetHighlightedChoice(targetChoice);
             return true;
         }
         
+        // Special objects that require specialty input (sliders, choice groups, etc.)
+        private bool TryInterceptMove(ControllerInputType controllerInputType)
+        {
+            if (highlightedChoiceOption is not IUIMoveInterceptor uiMoveInterceptor || !uiMoveInterceptor.TryMove(controllerInputType, out bool isHighlightMove)) { return false; }
+            if (isHighlightMove) { TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted); }
+            return true;
+        }
+
         protected bool TryEarlyExit(ControllerInputType controllerInputType)
         {
             if (preventEscapeOptionExit) { return false; }
@@ -215,7 +203,9 @@ namespace LowDefMustard.UIBox
             destroyQueued = true;
             return true;
         }
+        #endregion
 
+        #region PrivateStaticMethods
         internal static bool TryExecuteMove(ControllerInputType controllerInputType, ref int currentSelectionIndex, int optionsCount, CursorMovementStyle cursorMovementStyle)
         {
             bool validInput = false;
@@ -241,9 +231,6 @@ namespace LowDefMustard.UIBox
             return validInput;
         }
         
-        #endregion
-
-        #region PrivateStaticMethods
         internal static bool TryExecuteMove2D(ControllerInputType controllerInputType, ref int choiceIndex, int optionsCount)
         {
             bool validInput = false;
@@ -286,14 +273,14 @@ namespace LowDefMustard.UIBox
             return validInput;
         }
         
-        internal static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice closestChoice)
+        internal static bool TryFindClosestRayHit(Vector2 origin, Vector2 direction, IEnumerable<IUIChoice> choiceOptions, IUIChoice highlightedChoiceOption, out IUIChoice closestChoice)
         {
             closestChoice = null;
 
             float closestDistance = float.PositiveInfinity;
-            foreach (UIChoice candidate in choiceOptions.Where(candidate => candidate != null && candidate != highlightedChoiceOption))
+            foreach (IUIChoice candidate in choiceOptions.Where(candidate => IsChoiceAlive(candidate) && candidate != highlightedChoiceOption))
             {
-                if (!TryGetScreenRect(renderCamera, candidate.transform as RectTransform, out Rect candidateRect)) { continue; }
+                if (!candidate.TryGetNavigationRect(out Rect candidateRect)) { continue; }
                 if (!TryRayIntersectsRect(origin, direction, candidateRect, out float distance)) { continue; }
                 if (distance >= closestDistance) { continue; }
 
@@ -303,14 +290,14 @@ namespace LowDefMustard.UIBox
             return closestChoice != null;
         }
         
-        internal static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, Camera renderCamera, List<UIChoice> choiceOptions, UIChoice highlightedChoiceOption, out UIChoice bestChoice)
+        internal static bool TryFindBestAngleMatch(Vector2 origin, Vector2 direction, IEnumerable<IUIChoice> choiceOptions, IUIChoice highlightedChoiceOption, out IUIChoice bestChoice)
         {
             bestChoice = null;
             
             float bestScore = float.NegativeInfinity;
-            foreach (UIChoice candidate in choiceOptions.Where(candidate => candidate != null && candidate != highlightedChoiceOption))
+            foreach (IUIChoice candidate in choiceOptions.Where(candidate => IsChoiceAlive(candidate) && candidate != highlightedChoiceOption))
             {
-                if (!TryGetScreenRect(renderCamera, candidate.transform as RectTransform, out Rect candidateRect)) { continue; }
+                if (!candidate.TryGetNavigationRect(out Rect candidateRect)) { continue; }
 
                 Vector2 delta = candidateRect.center - origin;
                 float sqrMagnitude = delta.sqrMagnitude;
@@ -327,26 +314,6 @@ namespace LowDefMustard.UIBox
                 bestChoice = candidate;
             }
             return bestChoice != null;
-        }
-        
-        internal static bool TryGetScreenRect(Camera renderCamera, RectTransform rectTransform, out Rect screenRect)
-        {
-            screenRect = default;
-            if (rectTransform == null) { return false; }
-
-            var worldCorners = new Vector3[4];
-            rectTransform.GetWorldCorners(worldCorners);
-
-            Vector2 min = RectTransformUtility.WorldToScreenPoint(renderCamera, worldCorners[0]);
-            Vector2 max = min;
-            for (int i = 1; i < 4; i++)
-            {
-                Vector2 point = RectTransformUtility.WorldToScreenPoint(renderCamera, worldCorners[i]);
-                min = Vector2.Min(min, point);
-                max = Vector2.Max(max, point);
-            }
-            screenRect = Rect.MinMaxRect(min.x, min.y, max.x, max.y);
-            return true;
         }
         
         internal static bool TryRayIntersectsRect(Vector2 origin, Vector2 direction, Rect rect, out float distance)

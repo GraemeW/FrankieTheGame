@@ -1,0 +1,29 @@
+/* Top-centre, in the band above the battle background.  Fixed size:  four choices in a 2x2 grid */
+.combat-options-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+/* Note:  Right padding offsets the highlight marker's reserved width, so the labels centre on the box's quarter points */
+.combat-options {
+    margin-top: 30px;
+    width: 1080px;
+    padding: 30px 35px 30px 0;
+}
+
+/* Choices wrap two to a row, so choice order reads row-by-row (MoveCursor2D) */
+.combat-options__choices {
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.combat-options__choices .choice-entry {
+    width: 50%;
+    height: 100px;
+    justify-content: center;
+}

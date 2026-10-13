@@ -1,0 +1,13 @@
+.choice-entries--horizontal {
+    flex-direction: row;
+}
+
+.choice-entries--vertical {
+    flex-direction: column;
+}
+
+.choice-entry {
+    width: 200px;
+    height: 40px;
+    flex-shrink: 0;
+}

@@ -1,0 +1,91 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors NamingPanel.uxml (and its text-scan box) with sample entries - keep in sync -->
+    <!-- Style order matches the views:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="NamingScreen.uss" />
+    <Style src="NamingPanel.uss" />
+    <ui:VisualElement class="naming-backdrop" picking-mode="Ignore" />
+    <ui:VisualElement class="naming-screen" picking-mode="Ignore">
+        <ui:VisualElement class="naming-panel" picking-mode="Ignore">
+            <ui:VisualElement class="naming-panel__name-row" picking-mode="Ignore">
+                <menu:NamingStageElement class="naming-panel__stage" />
+                <ui:VisualElement class="uibox naming-panel__input" picking-mode="Ignore">
+                    <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                    <frankie:FrameElement class="uibox__frame" />
+                    <menu:NameInputLabel text="Frankie·" class="naming-panel__input-text" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="uibox naming-panel__question" picking-mode="Ignore">
+                <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox__frame" />
+                <uibox:TextEntryContainer picking-mode="Ignore">
+                    <uibox:TextEntryElement label-text="Who is this guy?" />
+                </uibox:TextEntryContainer>
+            </ui:VisualElement>
+            <ui:VisualElement class="uibox naming-panel__keyboard" picking-mode="Ignore">
+                <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox__frame" />
+                <ui:VisualElement class="naming-panel__keys" picking-mode="Ignore">
+                    <menu:KeyboardLowerKeys>
+                        <uibox:ChoiceEntryElement label-text="a" />
+                        <uibox:ChoiceEntryElement label-text="b" />
+                        <uibox:ChoiceEntryElement label-text="c" />
+                        <uibox:ChoiceEntryElement label-text="d" />
+                        <uibox:ChoiceEntryElement label-text="e" />
+                        <uibox:ChoiceEntryElement label-text="f" />
+                        <uibox:ChoiceEntryElement label-text="g" />
+                        <uibox:ChoiceEntryElement label-text="h" />
+                        <uibox:ChoiceEntryElement label-text="i" />
+                        <uibox:ChoiceEntryElement label-text="j" />
+                        <uibox:ChoiceEntryElement label-text="k" />
+                        <uibox:ChoiceEntryElement label-text="l" />
+                        <uibox:ChoiceEntryElement label-text="m" />
+                        <uibox:ChoiceEntryElement label-text="n" />
+                        <uibox:ChoiceEntryElement label-text="o" />
+                        <uibox:ChoiceEntryElement label-text="p" />
+                        <uibox:ChoiceEntryElement label-text="q" />
+                        <uibox:ChoiceEntryElement label-text="r" />
+                        <uibox:ChoiceEntryElement label-text="s" />
+                        <uibox:ChoiceEntryElement label-text="t" />
+                        <uibox:ChoiceEntryElement label-text="u" />
+                        <uibox:ChoiceEntryElement label-text="v" />
+                        <uibox:ChoiceEntryElement label-text="w" />
+                        <uibox:ChoiceEntryElement label-text="x" />
+                        <uibox:ChoiceEntryElement label-text="y" />
+                        <uibox:ChoiceEntryElement label-text="z" />
+                    </menu:KeyboardLowerKeys>
+                    <menu:KeyboardUpperKeys />
+                    <menu:KeyboardSpecialKeys>
+                        <uibox:ChoiceEntryElement label-text="0" />
+                        <uibox:ChoiceEntryElement label-text="1" />
+                        <uibox:ChoiceEntryElement label-text="2" />
+                        <uibox:ChoiceEntryElement label-text="3" />
+                        <uibox:ChoiceEntryElement label-text="4" />
+                        <uibox:ChoiceEntryElement label-text="5" />
+                        <uibox:ChoiceEntryElement label-text="6" />
+                        <uibox:ChoiceEntryElement label-text="7" />
+                        <uibox:ChoiceEntryElement label-text="8" />
+                        <uibox:ChoiceEntryElement label-text="9" />
+                        <uibox:ChoiceEntryElement label-text="." />
+                        <uibox:ChoiceEntryElement label-text="_" />
+                        <uibox:ChoiceEntryElement label-text="-" />
+                        <uibox:ChoiceEntryElement label-text="@" />
+                        <uibox:ChoiceEntryElement label-text="!" />
+                        <uibox:ChoiceEntryElement label-text="*" />
+                        <uibox:ChoiceEntryElement label-text="^" />
+                    </menu:KeyboardSpecialKeys>
+                </ui:VisualElement>
+                <menu:KeyboardCaseRow class="naming-panel__case-row">
+                    <uibox:ChoiceEntryElement label-text="lower" />
+                    <uibox:ChoiceEntryElement label-text="UPPER" />
+                </menu:KeyboardCaseRow>
+                <menu:KeyboardAdminRow class="naming-panel__admin-row">
+                    <uibox:ChoiceEntryElement label-text="Don't Care" highlighted="true" />
+                    <uibox:ChoiceEntryElement label-text="backspace" />
+                    <uibox:ChoiceEntryElement label-text="Confirm" />
+                </menu:KeyboardAdminRow>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

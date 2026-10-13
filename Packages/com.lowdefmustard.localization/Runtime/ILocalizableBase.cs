@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -66,7 +67,7 @@ namespace LowDefMustard.Localization
         }
 
 #if UNITY_EDITOR
-        public static event Action<Enum, Object, ILocalizableCore> onBeforeDestroyedInEditor;
+        [NoAutoStaticsCleanup] public static event Action<Enum, Object, ILocalizableCore> onBeforeDestroyedInEditor;
         public static void TriggerOnBeforeDestroyedInEditor(Enum localizationTableType, Object targetObject, ILocalizableCore target) => onBeforeDestroyedInEditor?.Invoke(localizationTableType, targetObject, target); 
 #endif
 

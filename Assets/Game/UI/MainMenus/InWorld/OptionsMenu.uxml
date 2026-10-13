@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <ui:VisualElement class="options-menu-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox options-menu">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <menu:OptionsHeaderLabel text="Options Menu" class="options-menu__header" picking-mode="Ignore" />
+            <ui:VisualElement class="options-menu__body" picking-mode="Ignore">
+                <menu:OptionsVolumeSection class="options-menu__volume" />
+                <menu:OptionsDisplaySection class="options-menu__display" />
+                <menu:OptionsResolutionsHeaderLabel text="Windowed Resolutions" class="options-menu__section-header" picking-mode="Ignore" />
+                <menu:OptionsResolutionSection class="options-menu__resolutions" />
+                <menu:OptionsLanguageHeaderLabel text="Language" class="options-menu__section-header" picking-mode="Ignore" />
+                <menu:OptionsLanguageSection class="options-menu__languages" />
+                <menu:OptionsConfirmSection class="options-menu__confirm" />
+            </ui:VisualElement>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

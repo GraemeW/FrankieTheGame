@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -37,7 +38,7 @@ namespace LowDefMustard.Saving.Editor
         internal JObject cachedFullSaveState;
         
         // Static Hooks
-        public static Func<SceneSelectorContext, VisualElement> SceneSelectorFactory;
+        [NoAutoStaticsCleanup] public static Func<SceneSelectorContext, VisualElement> sceneSelectorFactory;
         
         // UI Cached References
         private Box saveHeaderBox;
@@ -311,7 +312,7 @@ namespace LowDefMustard.Saving.Editor
                 onSceneDataChanged: () => SavingSystem.ManualSave(SaveFileManagerProvider.current.GetCurrentSaveName(), cachedFullSaveState),
                 onReloadRequested: () => LoadSaveControlData(null));
 
-            VisualElement selector = SceneSelectorFactory?.Invoke(context) ?? CreateDefaultSceneSelector(context);
+            VisualElement selector = sceneSelectorFactory?.Invoke(context) ?? CreateDefaultSceneSelector(context);
             sceneSelectBox.Add(selector);
         }
 

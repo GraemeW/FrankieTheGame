@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:map="Frankie.Zones.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors MapSuper.uxml - keep in sync (the map snapshot is bound at runtime) -->
+    <!-- Style order matches MapSuper.prefab's view:  shared theme sheets, then screen sheets -->
+    <Style src="../UI/_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../UI/_UIToolkit/Styles/UIBox.uss" />
+    <Style src="MapSuper.uss" />
+    <ui:VisualElement class="map-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox map-box">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <map:MapFlavourTopLabel text="If I remember right, it looked like..." class="map-box__flavour map-box__flavour--top" picking-mode="Ignore" />
+            <map:MapImageElement class="map-box__image" />
+            <frankie:FlashingElement class="map-box__indicator" />
+            <map:MapFlavourBottomLabel text="Wait..." class="map-box__flavour map-box__flavour--bottom" picking-mode="Ignore" />
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

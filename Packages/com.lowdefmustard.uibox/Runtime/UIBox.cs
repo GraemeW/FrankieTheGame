@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
@@ -49,14 +48,12 @@ namespace LowDefMustard.UIBox
             }
             stateLookup = BuildStateBehaviours();
 
-            SetupBackExitButton(); 
             AwakeTriggered();
+            SetupBackExitButton(); // Note:  After AwakeTriggered, so overrides can set preventEscapeOptionExit
         }
         
-        protected sealed override void Start()
+        private void Start()
         {
-            base.Start();
-            
             TriggerUIBoxModified(ReceiverModifiedType.ClientEnter, new ReceiverModifiedData(this));
             if (controllerCheckCoroutine != null) { StopCoroutine(controllerCheckCoroutine); }
             controllerCheckCoroutine = StartCoroutine(DestroyIfControllerMissing());
@@ -105,12 +102,12 @@ namespace LowDefMustard.UIBox
         protected void SetUpChoiceOptions()
         {
             if (stateLookup.TryGet(uiState, out UIBoxStateBehaviour stateBehaviour) && stateBehaviour.setupChoiceOptions != null) { stateBehaviour.setupChoiceOptions(); return; }
-            
-            if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            if (optionParent == null) { return; }
-            List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
-            List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
-            choiceOptions.AddRange(filteredUIChoices);
+            StandardSetUpChoiceOptions();
+        }
+
+        private void StandardSetUpChoiceOptions()
+        {
+            if (clearChoiceOptionsOnEnable) { choiceOptions.Clear(); }
             ReconcileChoiceOptions();
         }
         
@@ -122,7 +119,7 @@ namespace LowDefMustard.UIBox
 
         protected void StandardReconcileChoiceOptions()
         {
-            choiceOptions.RemoveAll(choiceOption => choiceOption == null);
+            choiceOptions.RemoveAll(choiceOption => !IsChoiceAlive(choiceOption));
             SetChoiceAvailable(choiceOptions.Count > 0);
         }
         
@@ -186,6 +183,7 @@ namespace LowDefMustard.UIBox
         {
             ReconcileChoiceOptions();
             handleGlobalInput = enable;
+            if (!keepPointerInputWhenInactive && TryGetBoxView(out UIToolkitBoxView view)) { view.SetPointerInputEnabled(enable); }
         }
         
         private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
@@ -211,10 +209,9 @@ namespace LowDefMustard.UIBox
             if (!IsChoiceAvailable()) { return false; }
             if (controllerInputType is ControllerInputType.DefaultNone or ControllerInputType.Cancel or ControllerInputType.Option) { return false; }
 
-            if (highlightedChoiceOption == null && choiceOptions.Count > 0)
+            if (!IsChoiceAlive(highlightedChoiceOption) && choiceOptions.Count > 0)
             {
-                highlightedChoiceOption = choiceOptions[0];
-                highlightedChoiceOption.Highlight(true);
+                SetHighlightedChoice(choiceOptions[0]);
                 return true;
             }
             return false;
@@ -223,10 +220,10 @@ namespace LowDefMustard.UIBox
         protected void SetupBackExitButton()
         {
             if (isBackExitButtonSetup) { return; }
-            if (preventEscapeOptionExit || backExitPrefab == null) { return; }
-            
-            UIBackExit backExit = Instantiate(backExitPrefab, backExitParent != null ? backExitParent : optionParent);
-            backExit.SetBackExitClickBehaviour(() => HandleInputWrapper(ControllerInputType.Escape));
+            if (preventEscapeOptionExit) { return; }
+            if (!TryGetBoxView(out UIToolkitBoxView view)) { return; }
+
+            view.SetBackExitAction(() => HandleInputWrapper(ControllerInputType.Escape));
             isBackExitButtonSetup = true;
         }
         #endregion

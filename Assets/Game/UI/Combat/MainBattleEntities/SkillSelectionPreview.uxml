@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:combat="Frankie.Combat.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors SkillSelection.uxml with sample entries - keep in sync -->
+    <!-- Style order matches the SkillSelection view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="../../Abilities/SkillWheel.uss" />
+    <Style src="SkillSelection.uss" />
+    <!-- The skill wheel is code-built at runtime (SkillWheelElement):  static buttons with the same classes stand in here -->
+    <ui:VisualElement class="skill-selection-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox skill-selection">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <combat:SkillWheelContainer class="skill-selection__wheel">
+                <ui:VisualElement class="skill-wheel" picking-mode="Ignore">
+                    <ui:Button text="Wallop" focusable="false" class="skill-wheel__direction" />
+                    <ui:VisualElement class="skill-wheel__row" picking-mode="Ignore">
+                        <ui:Button text="Nerd Out" focusable="false" class="skill-wheel__direction" />
+                        <ui:Button text="Gentle Praise" focusable="false" class="skill-wheel__direction" />
+                    </ui:VisualElement>
+                    <ui:Button text="Spit Take" focusable="false" class="skill-wheel__direction" />
+                </ui:VisualElement>
+            </combat:SkillWheelContainer>
+            <ui:VisualElement class="skill-selection__divider" picking-mode="Ignore" />
+            <ui:VisualElement class="skill-selection__selected" picking-mode="Ignore">
+                <combat:SkillSelectionCharacterLabel text="Frankie" class="skill-selection__selected-character" picking-mode="Ignore" />
+                <combat:SkillSelectionActiveSkillLabel text="Nerd Out" class="skill-selection__selected-skill active-skill-label--selected" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

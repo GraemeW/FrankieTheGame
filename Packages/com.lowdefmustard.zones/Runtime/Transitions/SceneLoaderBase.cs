@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Zones
 {
-    public abstract class SceneLoaderBase : MonoBehaviour
+    public abstract partial class SceneLoaderBase : MonoBehaviour
     {
         // Note:  Internal fields/methods for test visibility
         
@@ -25,17 +26,17 @@ namespace LowDefMustard.Zones
         #endregion
         
         // Static State
-        internal static SceneLoaderBase activeSceneLoaderBase;
-        internal static Zone lastZone;
-        internal static Zone currentZone;
-        protected internal static bool isCurrentlyLoading = false;
+        [AutoStaticsCleanup] internal static SceneLoaderBase activeSceneLoaderBase;
+        [AutoStaticsCleanup] internal static Zone lastZone;
+        [AutoStaticsCleanup] internal static Zone currentZone;
+        [AutoStaticsCleanup] protected internal static bool isCurrentlyLoading = false;
         
         // External Hooks
-        public static Func<Zone> demoZoneOverrideProvider;
+        [AutoStaticsCleanup] public static Func<Zone> demoZoneOverrideProvider;
         
         // Events
-        public static event Action<Zone> leavingZone;
-        public static event Action<Zone> zoneUpdated;
+        [AutoStaticsCleanup] public static event Action<Zone> leavingZone;
+        [AutoStaticsCleanup] public static event Action<Zone> zoneUpdated;
         
         #region UnityMethods
         protected virtual void Awake()
@@ -126,7 +127,7 @@ namespace LowDefMustard.Zones
         #endregion
     }
     
-    public abstract class SceneLoaderBase<TSceneType> : SceneLoaderBase where TSceneType : struct, Enum
+    public abstract partial class SceneLoaderBase<TSceneType> : SceneLoaderBase where TSceneType : struct, Enum
     {
         // Note:  Internal fields/methods for test visibility
         
@@ -135,7 +136,7 @@ namespace LowDefMustard.Zones
         [EnumKeyedCollection][SerializeField] internal ZoneSceneTypeLookup<TSceneType> zoneSceneTypeLookup;
         
         // Static
-        internal static SceneLoaderBase<TSceneType> activeSceneLoader;
+        [AutoStaticsCleanup] internal static SceneLoaderBase<TSceneType> activeSceneLoader;
         private static SceneLoaderBase<T> FindSceneLoader<T>()  where T : struct, Enum
         {
             // Generic (non-typed) finder - Typed finder below

@@ -7,8 +7,7 @@
     "LowDefMustard.UIBox",
     "LowDefMustard.UIBox.Tests",
     "LowDefMustard.Control",
-    "LowDefMustard.Utils",
-    "Unity.TextMeshPro"
+    "LowDefMustard.Utils"
   ],
   "includePlatforms": [
     "Editor"

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
@@ -19,11 +20,11 @@ namespace LowDefMustard.GameStateModifiers
         
         // Handles
         public delegate bool HasScenePathDelegate(string input, out string scenePath);
-        public static HasScenePathDelegate scenePathProvider;
+        [NoAutoStaticsCleanup] public static HasScenePathDelegate scenePathProvider;
         
         // Static State
 #if UNITY_EDITOR
-        private static Dictionary<string, GameStateModifier> _gameStateModifierCache;
+        [NoAutoStaticsCleanup] private static Dictionary<string, GameStateModifier> _gameStateModifierCache;
 #endif
         
         #region InterfaceMethods

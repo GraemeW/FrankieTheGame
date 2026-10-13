@@ -29,7 +29,7 @@ namespace LowDefMustard.UIBox.Tests
         #region PrivateMethods
         private TestUIBox CreateInactiveTestUIBox()
         {
-            var go = new GameObject("TestUIBox", typeof(RectTransform));
+            var go = new GameObject("TestUIBox");
             spawned.Add(go);
             go.SetActive(false);
             return go.AddComponent<TestUIBox>();
@@ -50,55 +50,62 @@ namespace LowDefMustard.UIBox.Tests
         }
 
         [UnityTest]
-        public IEnumerator Awake_DependenciesAcquired_TriggersAwakeAndSetsUpBackExitButton()
+        public IEnumerator Awake_DependenciesAcquired_TriggersAwake()
         {
             TestUIBox testUIBox = CreateInactiveTestUIBox();
-            var optionParentGo = new GameObject("OptionParent", typeof(RectTransform));
-            spawned.Add(optionParentGo);
-            var backExitSourceGo = new GameObject("BackExitSource", typeof(RectTransform));
-            spawned.Add(backExitSourceGo);
-            UIBackExit backExitPrefab = backExitSourceGo.AddComponent<UIBackExit>();
-            testUIBox.SetHookups(optionParentRef: optionParentGo.transform, backExitPrefabRef: backExitPrefab);
 
             testUIBox.gameObject.SetActive(true);
             yield return null;
 
             Assert.AreEqual(1, testUIBox.awakeTriggeredCount);
-            Assert.IsNotNull(optionParentGo.GetComponentInChildren<UIBackExit>());
         }
 
         [UnityTest]
-        public IEnumerator OnEnable_DiscoversChoiceOptionsUnderOptionParent()
+        public IEnumerator OnEnable_KeepsChoiceOptionsByDefault_DroppingDeadOnes()
         {
             TestUIBox testUIBox = CreateInactiveTestUIBox();
-            var optionParentGo = new GameObject("OptionParent", typeof(RectTransform));
-            spawned.Add(optionParentGo);
-            UIChoiceButton childChoice = TestChoiceFactory.CreateWiredButton("ChildChoice", spawned);
-            childChoice.transform.SetParent(optionParentGo.transform);
-            testUIBox.SetHookups(optionParentRef: optionParentGo.transform);
+            var choice = new TestChoice();
+            var deadChoice = new TestChoice { isAlive = false };
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice, deadChoice });
 
             testUIBox.gameObject.SetActive(true);
             yield return null;
 
             Assert.AreEqual(1, testUIBox.enableTriggeredCount);
-            CollectionAssert.Contains(testUIBox.publicChoiceOptions, childChoice);
+            CollectionAssert.AreEqual(new IUIChoice[] { choice }, testUIBox.publicChoiceOptions);
             Assert.IsTrue(testUIBox.PublicIsChoiceAvailable());
+        }
+
+        [UnityTest]
+        public IEnumerator OnEnable_ClearChoiceOptionsOnEnable_ClearsThem()
+        {
+            TestUIBox testUIBox = CreateInactiveTestUIBox();
+            testUIBox.publicClearChoiceOptionsOnEnable = true;
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { new TestChoice() });
+
+            testUIBox.gameObject.SetActive(true);
+            yield return null;
+
+            CollectionAssert.IsEmpty(testUIBox.publicChoiceOptions);
+            Assert.IsFalse(testUIBox.PublicIsChoiceAvailable());
         }
 
         [UnityTest]
         public IEnumerator OnDisable_ClearsHighlightAndTriggersDisable()
         {
             TestUIBox testUIBox = CreateInactiveTestUIBox();
-            UIChoiceButton choice = TestChoiceFactory.CreateWiredButton("Choice", spawned);
+            var choice = new TestChoice();
             testUIBox.gameObject.SetActive(true);
             yield return null;
-            testUIBox.InjectChoiceOptions(new UIChoice[] { choice });
+            testUIBox.InjectChoiceOptions(new IUIChoice[] { choice });
             testUIBox.SetHighlightedChoiceOption(choice);
+            choice.Highlight(true);
 
             testUIBox.gameObject.SetActive(false);
 
             Assert.AreEqual(1, testUIBox.disableTriggeredCount);
             Assert.IsNull(testUIBox.publicHighlightedChoiceOption);
+            Assert.IsFalse(choice.isHighlighted);
         }
 
         [UnityTest]

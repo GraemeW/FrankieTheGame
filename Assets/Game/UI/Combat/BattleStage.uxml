@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:combat="Frankie.Combat.UI" editor-extension-mode="false">
+    <ui:VisualElement class="battle-stage" picking-mode="Ignore">
+        <ui:VisualElement class="battle-stage__backing" picking-mode="Ignore" />
+        <combat:BattleBackgroundElement class="battle-stage__background" />
+        <ui:VisualElement class="battle-stage__enemies" picking-mode="Ignore">
+            <combat:EnemySlideTopRow class="battle-stage__enemy-row--offset" />
+            <combat:EnemySlideMiddleRow />
+            <combat:EnemySlideBottomRow class="battle-stage__enemy-row--offset" />
+        </ui:VisualElement>
+        <combat:BattleEffectLayer class="battle-stage__effects" />
+        <combat:CharacterSlideContainer class="battle-stage__party-slides" />
+        <combat:BattleScreenEffectLayer class="battle-stage__screen-effects" />
+    </ui:VisualElement>
+</ui:UXML>

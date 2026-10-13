@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 
 namespace LowDefMustard.Utils
 {
     public static class ListExtensions
     {
-        private static readonly System.Random _randomNumberGenerator = new();
+        [NoAutoStaticsCleanup] private static readonly System.Random _randomNumberGenerator = new();
 
         public static void Shuffle<T>(this IList<T> list)
         {

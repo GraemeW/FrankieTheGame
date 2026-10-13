@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <ui:VisualElement class="naming-confirm-screen" picking-mode="Ignore">
+        <ui:VisualElement class="naming-confirm" picking-mode="Ignore">
+            <ui:VisualElement class="uibox naming-confirm__phrase" picking-mode="Ignore">
+                <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox__frame" />
+                <uibox:TextEntryContainer picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

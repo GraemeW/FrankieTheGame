@@ -1,0 +1,37 @@
+.world-options-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.world-options {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    width: 300px;
+    padding: 44px 40px 35px 40px;
+}
+
+.world-options__choices {
+    padding: 0;
+}
+
+.world-options__choices .choice-entry {
+    margin-bottom: 15px;
+}
+
+.world-options__choices .choice-entry__marker {
+    width: 25px;
+    margin-right: 5px;
+}
+
+/* Party slides sit bottom-centre */
+.world-options__slides {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    justify-content: center;
+}

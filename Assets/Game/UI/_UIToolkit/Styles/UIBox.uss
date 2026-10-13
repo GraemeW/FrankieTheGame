@@ -1,0 +1,337 @@
+/* Note:  Units are reference pixels on a 2560x1440 panel (see FrankiePanelSettings) */
+
+:root {
+    -unity-font-definition: var(--font-default);
+    font-size: var(--font-size-default);
+    color: var(--text-colour-default);
+}
+
+/* ~ Box Chrome ~ */
+.uibox {
+    padding: 30px 40px;
+}
+
+.uibox__backing {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    background-color: var(--backing-colour);
+}
+
+.uibox__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* FrameElement: tint is driven at runtime by the global frame flavour; USS value is the edit-time default */
+.frame {
+    background-image: var(--frame-image);
+    -unity-slice-left: var(--frame-slice);
+    -unity-slice-right: var(--frame-slice);
+    -unity-slice-top: var(--frame-slice);
+    -unity-slice-bottom: var(--frame-slice);
+    -unity-background-image-tint-color: var(--frame-flavour-default);
+}
+
+/* ~ Back Exit ~ */
+.uibox-back-exit,
+.uibox-back-exit.unity-button:hover:enabled,
+.uibox-back-exit.unity-button:active:enabled {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 26px;
+    height: 26px;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.uibox-back-exit__backing {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    background-color: var(--backing-colour);
+}
+
+.uibox-back-exit__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    -unity-slice-scale: 0.2px;
+}
+
+.uibox-back-exit__label {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    -unity-text-align: middle-center;
+    transition: color var(--choice-tint-duration);
+}
+
+.uibox-back-exit:hover > .uibox-back-exit__label {
+    color: var(--choice-hover-colour);
+}
+
+.uibox-back-exit:active > .uibox-back-exit__label {
+    color: var(--choice-pressed-colour);
+}
+
+.uibox-back-exit--hidden {
+    display: none;
+}
+
+/* ~ Slider / Toggle / Group Choices ~ */
+.slider-choice > .choice-entry__label,
+.toggle-choice > .choice-entry__label {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+}
+
+.slider-choice__slider {
+    width: 300px;
+    height: 30px;
+    margin: 0;
+}
+
+.slider-choice__slider .unity-base-slider__tracker {
+    height: 12px;
+    margin-top: -6px;
+    border-width: 0;
+    border-radius: 6px;
+    background-color: var(--text-colour-default);
+}
+
+.slider-choice__slider .unity-base-slider__dragger {
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    border-width: 0;
+    border-radius: 15px;
+    background-color: var(--text-colour-default);
+}
+
+.toggle-choice__box {
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background-color: var(--text-colour-default);
+}
+
+.toggle-choice__check {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: var(--backing-colour);
+    visibility: hidden;
+}
+
+.toggle-choice--on .toggle-choice__check {
+    visibility: visible;
+}
+
+.choice-group {
+    flex-direction: row;
+}
+
+/* ~ Nested Box ~ */
+/* A view under another PanelRenderer shares its parent's tree:  its root covers the parent's, so both lay out against the same screen */
+.uibox-view--nested {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ~ Inactive Box ~ */
+/* Pointer input is blocked while another box is on top:  suppress hover/press tint so nothing looks clickable */
+.uibox-view--pointer-input-disabled .choice-entry:hover > .choice-entry__label,
+.uibox-view--pointer-input-disabled .choice-entry:active > .choice-entry__label,
+.uibox-view--pointer-input-disabled .uibox-back-exit:hover > .uibox-back-exit__label,
+.uibox-view--pointer-input-disabled .uibox-back-exit:active > .uibox-back-exit__label {
+    color: var(--text-colour-default);
+}
+
+/* ~ Party Selector ~ */
+/* Character header row (PartySelector choices):  classes go on the box's ChoiceEntryContainer */
+/* Dimmed variant:  unhighlighted characters are greyed (i.e. the highlighted character owns the content below) */
+.party-selector--dimmed .choice-entry__label {
+    color: var(--choice-dimmed-colour);
+}
+
+.party-selector--dimmed .choice-entry--highlighted > .choice-entry__label {
+    color: var(--text-colour-default);
+}
+
+/* ~ Display Text ~ */
+.text-display {
+    -unity-font-definition: var(--font-display);
+}
+
+/* ~ Text Fit ~ */
+/* Approach: A) fixed-sized elements:  fit their text.  B) boxes that grow w/ content (dialogue text, messages):  do not fit their text. */
+/* Recipe: `white-space: nowrap` + `-unity-text-auto-size: best-fit <min> <max>` on a label whose width is bounded - */
+/* N.B. Best-fit ignores font-size:  <max> is the size the text has when it fits, so it must repeat the label's font-size */
+
+/* Every choice row fits by default:  the row may not outgrow its container, its marker keeps its width, its label gives way */
+.choice-entry {
+    flex-shrink: 1;
+    max-width: 100%;
+}
+
+.choice-entry__marker {
+    flex-shrink: 0;
+}
+
+.choice-entry__label {
+    flex-shrink: 1;
+    -unity-text-auto-size: best-fit 24px 64px;
+}
+
+/* Fixed parts of a row keep their size (the label beside them is what shrinks) */
+.slider-choice__slider,
+.toggle-choice__box {
+    flex-shrink: 0;
+}
+
+/* ~ Sprites ~ */
+/* SpriteElement: shows its model's current sprite, fitted inside whatever size the screen gives it */
+.sprite {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* ~ Model-Bound Labels ~ */
+.model-bound-label--empty {
+    display: none;
+}
+
+/* ~ Text Entries ~ */
+.text-entries {
+    flex-direction: column;
+}
+
+.text-entry {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.text-entry--hidden {
+    display: none;
+}
+
+.text-entry--speech {
+    margin-top: 12px;
+}
+
+.text-entry__label,
+.text-entry__bullet,
+.choice-entry__label,
+.choice-entry__marker {
+    margin: 0;
+    padding: 0;
+}
+
+.text-entry__label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: normal;
+    -unity-text-align: upper-left;
+}
+
+.text-entry__bullet {
+    font-size: 40px;
+    margin-right: 32px;
+    -unity-text-align: middle-left;
+}
+
+/* ~ Choice Entries ~ */
+.choice-entries {
+    padding: 0 150px;
+}
+
+.choice-entries--horizontal {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.choice-entries--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.choice-entries--empty {
+    display: none;
+}
+
+.choice-entry {
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 64px;
+    white-space: nowrap;
+}
+
+/* Neutralise the default button theme's state styling (margins are left alone, so screens can space choices) */
+.choice-entry.unity-button:hover:enabled,
+.choice-entry.unity-button:active:enabled,
+.choice-entry.unity-button:focus {
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+.choice-entry--hidden {
+    display: none;
+}
+
+.choice-separator {
+    align-self: stretch;
+    height: 3px;
+    background-color: var(--text-colour-default);
+}
+
+/* Note: Highlight marker reserves its width when hidden (avoid text jitter as the cursor moves) */
+.choice-entry__marker {
+    width: 30px;
+    margin-right: 5px;
+    visibility: hidden;
+}
+
+.choice-entry--highlighted > .choice-entry__marker {
+    visibility: visible;
+}
+
+/* Pointer feedback (hover-over tint) */
+.choice-entry__label {
+    transition: color var(--choice-tint-duration);
+}
+
+.choice-entry:hover > .choice-entry__label {
+    color: var(--choice-hover-colour);
+}
+
+.choice-entry:active > .choice-entry__label {
+    color: var(--choice-pressed-colour);
+}

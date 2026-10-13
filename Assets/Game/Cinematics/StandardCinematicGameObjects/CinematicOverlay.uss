@@ -1,0 +1,22 @@
+/* Full-screen black card with centred text (opacity is keyed on the CinematicOverlay component) */
+.cinematic-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+}
+
+.cinematic-overlay__text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 72px;
+    white-space: normal;
+    -unity-text-align: middle-center;
+}

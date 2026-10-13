@@ -91,30 +91,6 @@ MonoBehaviour:
     m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteRan.1c6b729
     m_Metadata:
       m_Items: []
-  - m_Id: 8003262832697344
-    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseHP.6e9532f8
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003284227842048
-    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseHP.3357cc65
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003305111281664
-    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseAP.378236a3
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003344688734208
-    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseAP.5b304bb4
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003359918252032
-    m_Key: CombatLog.Prefab.CombatLog.MessageDead.48742732
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8003382676545536
-    m_Key: CombatLog.Prefab.CombatLog.MessageResurrected.395bc143
-    m_Metadata:
-      m_Items: []
   - m_Id: 8004517357412352
     m_Key: CombatMessages.Prefab.CombatMessages.MessageItemToBeUsed.31fec086
     m_Metadata:
@@ -169,10 +145,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9043523323027456
     m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9045403184914432
-    m_Key: StandardConfirmation.Prefab.StandardEscapeMenu.RejectText.27ed8b5f
     m_Metadata:
       m_Items: []
   - m_Id: 9054858278592512
@@ -241,10 +213,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9096179089399808
     m_Key: EquipmentInventoryBox.Prefab.EquipmentInventoryBox.MessageCannotEquip.2612f886
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9097773231104000
-    m_Key: InventorySwapBox.Prefab.InventorySwapBox.MessageCannotEquip.58946cdd
     m_Metadata:
       m_Items: []
   - m_Id: 9098989205970944
@@ -319,14 +287,6 @@ MonoBehaviour:
     m_Key: LoadGameEntry.Prefab.LoadGameEntry.LevelLabelText.2e58fdfd
     m_Metadata:
       m_Items: []
-  - m_Id: 9340453617917952
-    m_Key: StartMenu.Prefab.StartMenu.HeaderText.455d878b
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9340490968195072
-    m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.32f27fea
-    m_Metadata:
-      m_Items: []
   - m_Id: 9340512673718272
     m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.2984ceea
     m_Metadata:
@@ -351,10 +311,6 @@ MonoBehaviour:
     m_Key: GameOverMenu.Prefab.GameOverMenu.GameOverText.4bad4a0e
     m_Metadata:
       m_Items: []
-  - m_Id: 9345572526874624
-    m_Key: GameOverMenu.Prefab.GameOverMenu.DefaultName.6e7167f6
-    m_Metadata:
-      m_Items: []
   - m_Id: 9345612603449344
     m_Key: GameOverMenu.Prefab.GameOverMenu.OptionContinue.27e3baf1
     m_Metadata:
@@ -365,10 +321,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9348140321726464
     m_Key: GameWinMenu.Prefab.GameWinMenu.GameWinText.5a4e19bc
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9348173288955904
-    m_Key: GameWinMenu.Prefab.GameWinMenu.DefaultName.5691e358
     m_Metadata:
       m_Items: []
   - m_Id: 9348623979503616
@@ -725,6 +677,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 40624107111309312
     m_Key: FrameFlavourChoice.Prefab.PlayerChoice.FrameFlavour.Shrimp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60453263546245120
+    m_Key: EscapeMenu.Prefab.EscapeMenu.OptionFlavourText.1fe7cfe7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63406934961676288
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.FriendFoundText.195afc7a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63407093569282048
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.FriendIgnoredText.174279da
     m_Metadata:
       m_Items: []
   m_Metadata:

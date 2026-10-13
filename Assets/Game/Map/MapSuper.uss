@@ -1,0 +1,57 @@
+/* Top-centre anchored, offset (fixed-size box:  the flavour labels fit their text) */
+.map-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.map-box {
+    margin-top: 340px;
+    width: 500px;
+    height: 500px;
+    padding: 0;
+}
+
+.map-box__image {
+    position: absolute;
+    left: 40px;
+    top: 80px;
+    right: 40px;
+    bottom: 80px;
+    background-size: 100% 100%;
+}
+
+/* Player location:  centred on the map (the map camera snapshot is centred on the player) */
+.map-box__indicator {
+    position: absolute;
+    left: 225px;
+    top: 225px;
+    width: 50px;
+    height: 50px;
+    background-image: var(--map-indicator-image);
+    --flash-period: 1;
+}
+
+.map-box__flavour {
+    position: absolute;
+    left: 30px;
+    right: 30px;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    -unity-text-auto-size: best-fit 24px 40px;
+}
+
+.map-box__flavour--top {
+    top: 20px;
+    -unity-text-align: middle-left;
+}
+
+.map-box__flavour--bottom {
+    bottom: 20px;
+    -unity-text-align: middle-right;
+}

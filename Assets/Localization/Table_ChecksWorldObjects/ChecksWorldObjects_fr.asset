@@ -682,10 +682,6 @@ MonoBehaviour:
     m_Localized: "{0} n'a pas r\xE9ussi \xE0 v\xE9rifier l'objet."
     m_Metadata:
       m_Items: []
-  - m_Id: 5041965862215680
-    m_Localized: Il ne semble pas fonctionner pour le moment.
-    m_Metadata:
-      m_Items: []
   - m_Id: 5042679833419776
     m_Localized: "C'est un fouillis l\xE0-dedans... des baguettes enfouies dans une vieille nourriture gluante. Mieux vaut ne pas l'ouvrir."
     m_Metadata:

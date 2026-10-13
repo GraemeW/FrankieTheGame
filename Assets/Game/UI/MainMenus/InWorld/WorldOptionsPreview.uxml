@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:frankie="Frankie.Utils.UI" xmlns:combat="Frankie.Combat.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors WorldOptions.uxml with sample entries - keep in sync -->
+    <!-- Style order matches WorldOptionsUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="../../Combat/CharacterEnemySlides/CharacterSlide.uss" />
+    <Style src="WorldOptions.uss" />
+    <ui:VisualElement class="world-options-screen" picking-mode="Ignore">
+        <ui:VisualElement class="uibox world-options">
+            <ui:VisualElement class="uibox__backing" picking-mode="Ignore" />
+            <frankie:FrameElement class="uibox__frame" />
+            <uibox:ChoiceEntryContainer choice-layout="Vertical" class="world-options__choices" picking-mode="Ignore">
+                <uibox:ChoiceEntryElement label-text="Knapsack" />
+                <uibox:ChoiceEntryElement label-text="Outfit" />
+                <uibox:ChoiceEntryElement label-text="Abilities" highlighted="true" />
+                <uibox:ChoiceEntryElement label-text="Status" />
+                <uibox:ChoiceEntryElement label-text="Map" />
+            </uibox:ChoiceEntryContainer>
+            <uibox:BackExitButton class="uibox__back-exit">
+                <ui:VisualElement class="uibox-back-exit__backing" picking-mode="Ignore" />
+                <frankie:FrameElement class="uibox-back-exit__frame" />
+                <ui:Label text="x" class="uibox-back-exit__label" picking-mode="Ignore" />
+            </uibox:BackExitButton>
+        </ui:VisualElement>
+        <combat:CharacterSlideContainer class="world-options__slides">
+            <combat:CharacterSlideElement name-text="FRANKIE" hp-label-text="HP" ap-label-text="AP" hp-value="30" ap-value="15" slide-state="Target" />
+            <combat:CharacterSlideElement name-text="TILLY" hp-label-text="HP" ap-label-text="AP" hp-value="35" ap-value="10" />
+            <combat:CharacterSlideElement name-text="PHILTOO" hp-label-text="HP" ap-label-text="AP" hp-value="125" ap-value="20" />
+        </combat:CharacterSlideContainer>
+    </ui:VisualElement>
+</ui:UXML>

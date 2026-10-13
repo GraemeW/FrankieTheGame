@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
@@ -9,8 +10,10 @@ namespace Frankie.Sound
     {
         // Tunables
         [SerializeField] private UIBoxBase uiBox;
+        [SerializeField] private AudioSource textScanAudioSource;
         [SerializeField] private AudioClip textScanAudioClip;
         [SerializeField] private AudioClip chooseAudioClip;
+        [SerializeField] private AudioClip highlightAudioClip;
         [SerializeField] private AudioClip enterClip;
         [SerializeField] private AudioClip exitClip;
         [SerializeField] private float textScanLoopDelay = 0.1f;
@@ -23,21 +26,34 @@ namespace Frankie.Sound
         protected override void OnEnable()
         {
             base.OnEnable();
-            uiBox.SubscribeToReceiverUpdates(true, HandleDialogueBoxUpdate);
+            if (uiBox != null) { uiBox.SubscribeToReceiverUpdates(true, HandleDialogueBoxUpdate); }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate);
+            if (uiBox != null) { uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate); } // Persistent copies outlive their box
             if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
         }
-        
-        protected override void PreConfigureAudioSource()
+
+        protected override void InitializePersistentSoundEffect()
         {
-            audioSource.Stop();
-            audioSource.clip = textScanAudioClip;
-            audioSource.time = 0f;
+            // Persistent copies play a single clip - detach from the source box's updates
+            if (uiBox != null) { uiBox.SubscribeToReceiverUpdates(false, HandleDialogueBoxUpdate); }
+            base.InitializePersistentSoundEffect();
+        }
+        
+        protected override IEnumerable<AudioSource> GetDedicatedAudioSources()
+        {
+            yield return textScanAudioSource;
+        }
+
+        protected override void PreConfigureAudioSources()
+        {
+            base.PreConfigureAudioSources();
+            if (textScanAudioSource == null) { return; }
+            textScanAudioSource.clip = textScanAudioClip;
+            textScanAudioSource.time = 0f;
         }
         #endregion
 
@@ -50,7 +66,10 @@ namespace Frankie.Sound
                     ConfigureTextScanAudio(uiBoxModifiedData.writingState);
                     break;
                 case ReceiverModifiedType.ItemSelected:
-                    PlayClip(chooseAudioClip);
+                    PlayClipAfterDestroy(chooseAudioClip); // Selection often destroys the box
+                    break;
+                case ReceiverModifiedType.ItemHighlighted:
+                    PlayClip(highlightAudioClip);
                     break;
                 case ReceiverModifiedType.ClientEnter:
                     PlayClip(enterClip);
@@ -65,10 +84,11 @@ namespace Frankie.Sound
         #region PrivateMethods
         private void ConfigureTextScanAudio(bool enable)
         {
+            if (textScanAudioSource == null) { return; }
             if (enable)
             {
                 InitializeVolume();
-                audioSource.clip = textScanAudioClip;
+                textScanAudioSource.clip = textScanAudioClip;
                 isTextScanActive = true;
                 
                 if (textScanCoroutine != null) { StopCoroutine(textScanCoroutine); }
@@ -77,7 +97,7 @@ namespace Frankie.Sound
             else
             {
                 isTextScanActive = false;
-                audioSource.Stop();
+                textScanAudioSource.Stop();
             }
         }
 
@@ -85,7 +105,7 @@ namespace Frankie.Sound
         {
             while (isTextScanActive)
             {
-                if (!audioSource.isPlaying) { audioSource.Play(); }
+                if (!textScanAudioSource.isPlaying) { textScanAudioSource.Play(); }
                 yield return new WaitForSeconds(textScanLoopDelay);
             }
         }

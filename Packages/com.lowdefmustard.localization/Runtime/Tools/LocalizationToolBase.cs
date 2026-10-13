@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -27,7 +28,7 @@ namespace LowDefMustard.Localization
         private const string _initialOverwriteText = "Initial dummy text - to be replaced";
         
         // Type Look-up
-        private static Dictionary<TTableType, string> _tableCollectionNames;
+        [NoAutoStaticsCleanup] private static Dictionary<TTableType, string> _tableCollectionNames;
         
         #region Configuration
         public static void RegisterTableCollectionNames(IReadOnlyDictionary<TTableType, string> tableCollectionNames)
@@ -80,9 +81,9 @@ namespace LowDefMustard.Localization
         
 #if UNITY_EDITOR
         // State
-        private static ILocalizationToolBridge localizationToolBridge { get; } = new BridgeImplementation();
-        private static readonly Dictionary<TTableType, StringTable> _cachedEnglishTables = new();
-        private static readonly Dictionary<TTableType, StringTableCollection> _cachedTableCollections = new();
+        [NoAutoStaticsCleanup] private static ILocalizationToolBridge localizationToolBridge { get; } = new BridgeImplementation();
+        [NoAutoStaticsCleanup] private static readonly Dictionary<TTableType, StringTable> _cachedEnglishTables = new();
+        [NoAutoStaticsCleanup] private static readonly Dictionary<TTableType, StringTableCollection> _cachedTableCollections = new();
 
         #region DirectoryManipulationMethods
         private static string GetTableCollectionPath(string tableCollectionName) => $"{_localizationFolder}/Table_{tableCollectionName}";

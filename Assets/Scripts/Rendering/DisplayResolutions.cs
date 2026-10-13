@@ -129,9 +129,6 @@ namespace Frankie.Rendering
         {
             Debug.Log($"Resolution is updating to {resolutionSetting.width} x {resolutionSetting.height} on FSW: {resolutionSetting.fullScreenMode}");
 
-            Screen.fullScreenMode = resolutionSetting.fullScreenMode;
-            yield return new WaitForEndOfFrame();
-
             Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
             yield return new WaitForEndOfFrame();
         }
@@ -139,7 +136,6 @@ namespace Frankie.Rendering
         public static void ForceScreenResolution(ResolutionSetting resolutionSetting)
         {
             Debug.Log($"Resolution is updating to {resolutionSetting.width} x {resolutionSetting.height} on FSW: {resolutionSetting.fullScreenMode}");
-            Screen.fullScreenMode = resolutionSetting.fullScreenMode;
             Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
         }
 

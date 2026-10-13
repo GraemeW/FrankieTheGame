@@ -1,0 +1,115 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using LowDefMustard.Control;
+using LowDefMustard.UIBox;
+using LowDefMustard.Utils;
+using LowDefMustard.Localization;
+using Frankie.Combat;
+using Frankie.Combat.UI;
+using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
+
+namespace Frankie.Inventory.UI
+{
+    public sealed class EquipmentInventoryBox : InventoryBox
+    {
+        [Header("Equipment-Inventory Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionEquip;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageCannotEquip;
+
+        // Cached References
+        private EquipmentBox equipmentBox;
+        private EquipLocation equipLocation = EquipLocation.None;
+        private Equipment equipment;
+
+        // UIBox Configuration
+        protected override EnumLookup<InventoryBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
+        {
+            var equipmentInventoryConfiguration = base.BuildStateBehaviours();
+            foreach (UIBoxStateBehaviour stateBehaviour in equipmentInventoryConfiguration.GetValues<InventoryBoxState>())
+            {
+                stateBehaviour.tryHandleBackNavigation = ImplementTryHandleBackNavigation;
+            }
+            return equipmentInventoryConfiguration;
+        }
+        
+        #region LocalizationMethods
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            // Note:  Standard configuration re-uses localization keys from InventoryBox 
+            // Here we only return unique to this child script to prevent deletion of InventoryBox keys
+            // Overridden standard Inventory entries would need to be manually deleted
+            return new List<TableEntryReference>
+            {
+                localizedOptionEquip.TableEntryReference,
+                localizedMessageCannotEquip.TableEntryReference,
+            };
+        }
+        #endregion
+        
+        #region PublicMethods
+        public void Setup(EquipmentBox setEquipmentBox, EquipLocation setEquipLocation, CombatParticipant setSelectedCharacter, List<CharacterSlideHandle> setCharacterSlides)
+        {
+            equipmentBox = setEquipmentBox;
+            equipLocation = setEquipLocation;
+            equipment = setSelectedCharacter.GetComponent<Equipment>();
+            Setup(setSelectedCharacter, setCharacterSlides);
+        }
+        #endregion
+
+        #region ProtectedPrivateMethods
+        protected override bool ConfigureSlot(InventorySlotModel slotModel, KnapsackSlot knapsackSlot)
+        {
+            bool isSelectable = base.ConfigureSlot(slotModel, knapsackSlot);
+            slotModel.isDimmed = !selectedKnapsack.HasEquipableItemInSlot(knapsackSlot.index, equipLocation);
+            return isSelectable;
+        }
+
+        protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
+        {
+            var choiceActionPairs = new List<ChoiceActionPair>();
+            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItemBase;
+            
+            if (equipableItem != null
+                && equipment != null && equipableItem.CanUseItem(equipment)
+                && equipLocation != EquipLocation.None && equipableItem.GetEquipLocation() == equipLocation)
+            {
+                var equipActionPair = new ChoiceActionPair(localizedOptionEquip.GetSafeLocalizedString(), () => Equip(inventorySlot));
+                choiceActionPairs.Add(equipActionPair);
+            }
+            else
+            {
+                var inspectActionPair = new ChoiceActionPair(localizedOptionInspect.GetSafeLocalizedString(), CannotEquip);
+                choiceActionPairs.Add(inspectActionPair);
+            }
+            return choiceActionPairs;
+        }
+        
+        private void CannotEquip()
+        {
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
+            dialogueBox.AddText(localizedMessageCannotEquip.GetSafeLocalizedString());
+            controller.AddInputReceiver(dialogueBox, null);
+        }
+
+        private void Equip(int inventorySlot)
+        {
+            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItemBase;
+            if (equipableItem == null) { return; }
+
+            equipmentBox.SetSelectedItem(equipableItem);
+            Destroy(gameObject);
+        }
+        #endregion
+
+        #region InputInterface
+        private bool ImplementTryHandleBackNavigation(ControllerInputType controllerInputType)
+        {
+            equipmentBox.ResetEquipmentBox(false);
+            return false;  // Behaviour Deviation - We want to fall through to standard global input handling
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uibox="LowDefMustard.UIBox" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors StartMenu.uxml with sample entries - keep in sync -->
+    <!-- Style order matches StartMenuUITK's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="../Launcher.uss" />
+    <Style src="StartMenu.uss" />
+    <ui:VisualElement class="launcher-screen" picking-mode="Ignore">
+        <menu:LauncherNameLabel text="Frankie" class="text-display launcher__name" picking-mode="Ignore" />
+        <menu:LauncherTitleLabel text="Demo" class="text-display launcher__title start-menu__title" picking-mode="Ignore" />
+        <uibox:ChoiceEntryContainer choice-layout="Vertical" class="launcher__choices start-menu__choices" picking-mode="Ignore">
+            <uibox:ChoiceEntryElement label-text="Yow!  Let's go!" highlighted="true" />
+            <uibox:ChoiceSeparatorElement separator-type="Minor" />
+            <uibox:ChoiceEntryElement label-text="Continue from Last Save" />
+            <uibox:ChoiceEntryElement label-text="Options" />
+            <uibox:ChoiceSeparatorElement />
+            <uibox:ChoiceEntryElement label-text="Quit" />
+        </uibox:ChoiceEntryContainer>
+    </ui:VisualElement>
+</ui:UXML>

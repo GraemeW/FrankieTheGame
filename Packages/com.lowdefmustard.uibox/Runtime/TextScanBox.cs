@@ -2,21 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.UIBox
 {
+    [RequireComponent(typeof(UIToolkitTextScanView))]
     public class TextScanBox : UIBox<UIBoxState>
     {
         // Note:  Internal fields & state for test visibility
         
         // Tunables
-        [Header("Links And Prefabs")]
-        [SerializeField] protected Transform dialogueParent;
-        [SerializeField] internal GameObject simpleTextPrefab;
-        [SerializeField] internal GameObject speechTextPrefab;
         [Header("Parameters")]
         [SerializeField] internal float initialInputDelay = 0.1f; // Seconds
         [SerializeField] internal float delayBetweenCharacters = 0.05f; // Seconds
@@ -28,9 +24,20 @@ namespace LowDefMustard.UIBox
         private bool interruptWriting = false;
         private bool queuePageClear = false;
         private Coroutine activeTextScan;
-        private readonly Queue<ReceptacleTextPair> printQueue = new();
-        internal List<GameObject> printedJobs = new();
-        
+        private readonly Queue<PrintJob> printQueue = new();
+        internal List<TextEntryHandle> printedJobs = new();
+
+        // Cached References
+        private UIToolkitTextScanView resolvedTextScanView;
+        protected UIToolkitTextScanView textScanView
+        {
+            get
+            {
+                if (resolvedTextScanView == null) { resolvedTextScanView = GetComponent<UIToolkitTextScanView>(); }
+                return resolvedTextScanView;
+            }
+        }
+
         // UIBox Configuration
         protected override EnumLookup<UIBoxState,UIBoxStateBehaviour> BuildStateBehaviours()
         {
@@ -43,15 +50,28 @@ namespace LowDefMustard.UIBox
         }
 
         #region DataStructures
-        private struct ReceptacleTextPair
+        private enum PrintJobType
         {
-            public GameObject receptacle;
+            Text,
+            Choice,
+            PageBreak
+        }
+
+        private struct PrintJob
+        {
+            public PrintJobType jobType;
+            public TextEntryHandle textEntry;
             public string text;
-            public bool isChoice;
+            public ChoiceEntryHandle choiceEntry;
         }
         #endregion
-        
+
         #region UnityMethods
+        protected override void AwakeTriggered()
+        {
+            clearChoiceOptionsOnEnable = true; // Choices are re-created with the text they belong to
+        }
+
         protected override void DisableTriggered()
         {
             if (activeTextScan != null)
@@ -125,63 +145,48 @@ namespace LowDefMustard.UIBox
         public void ClearOldDialogue()
         {
             ClearPrintedJobs();
-            foreach (Transform child in dialogueParent)
-            {
-                if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); }
-            }
-            if (optionParent == null) { return; }
-            
-            foreach (Transform child in optionParent)
-            {
-                if (child == null) { continue; }
-                if (child.TryGetComponent(out Button button)) { button.onClick.RemoveAllListeners(); }
-                if (!child.TryGetComponent(out UIAnchor _)) { Destroy(child.gameObject); }
-            }
+            textScanView.ClearEntries();
         }
 
         public void AddText(string text)
         {
-            GameObject textObject = Instantiate(simpleTextPrefab, dialogueParent);
-            textObject.SetActive(false);
-            QueueTextForPrinting(textObject, text, false);
+            QueueTextForPrinting(textScanView.CreateTextEntry(TextEntryType.Simple), text);
         }
 
         public void AddSpeech(string text)
         {
-            GameObject textObject = Instantiate(speechTextPrefab, dialogueParent);
-            textObject.SetActive(false);
-            QueueTextForPrinting(textObject, text, false);
+            QueueTextForPrinting(textScanView.CreateTextEntry(TextEntryType.Speech), text);
         }
 
         public void AddPageBreak()
         {
-            QueueTextForPrinting(null, "BREAK", false);
+            printQueue.Enqueue(new PrintJob { jobType = PrintJobType.PageBreak });
         }
 
-        protected void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
+        protected void QueueTextForPrinting(TextEntryHandle textEntry, string text)
         {
-            var receptacleTextPair = new ReceptacleTextPair
-            {
-                receptacle = textObject,
-                text = text,
-                isChoice = isChoice
-            };
-            printQueue.Enqueue(receptacleTextPair);
+            printQueue.Enqueue(new PrintJob { jobType = PrintJobType.Text, textEntry = textEntry, text = text });
         }
 
-        private IEnumerator TextScan(ReceptacleTextPair receptacleTextPair)
+        protected void QueueChoiceForPrinting(ChoiceEntryHandle choiceEntry) // Revealed in turn (once the text before it has printed)
         {
-            if (receptacleTextPair.receptacle == null)
+            printQueue.Enqueue(new PrintJob { jobType = PrintJobType.Choice, choiceEntry = choiceEntry });
+        }
+
+        private IEnumerator TextScan(PrintJob printJob)
+        {
+            switch (printJob.jobType)
             {
-                yield return PrintPageBreak();
-            }
-            else if (receptacleTextPair.isChoice)
-            {
-                yield return PrintChoices(receptacleTextPair.receptacle);
-            }
-            else
-            {
-                yield return PrintText(receptacleTextPair);
+                case PrintJobType.PageBreak:
+                    yield return PrintPageBreak();
+                    break;
+                case PrintJobType.Choice:
+                    yield return PrintChoice(printJob.choiceEntry);
+                    break;
+                case PrintJobType.Text:
+                default:
+                    yield return PrintText(printJob.textEntry, printJob.text);
+                    break;
             }
         }
 
@@ -194,52 +199,50 @@ namespace LowDefMustard.UIBox
             yield break;
         }
 
-        private IEnumerator PrintText(ReceptacleTextPair receptacleTextPair)
+        private IEnumerator PrintText(TextEntryHandle textScanEntry, string text)
         {
             // ~ Note:  Early returns (yield breaks) BEFORE SetBusyWriting, or potential for lock-up
-            if (receptacleTextPair.receptacle == null || string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
-            
-            receptacleTextPair.receptacle.SetActive(true);
-            var simpleTextLink = receptacleTextPair.receptacle.GetComponent<SimpleTextLink>();
-            if (simpleTextLink == null) { yield break; }
-            string fullText = UnescapeText(receptacleTextPair.text);
+            if (textScanEntry is not { isAlive: true } || string.IsNullOrWhiteSpace(text)) { yield break; }
+
+            textScanEntry.Reveal();
+            string fullText = UnescapeText(text);
             if (string.IsNullOrEmpty(fullText)) { yield break; }
             // ~ End of early returns
-            
-            
+
+
             SetBusyWriting(true);
-            
+
             int letterIndex = 0;
             string textFragment = "";
             while (letterIndex < fullText.Length - 1)
             {
                 if (interruptWriting) { break; }
                 textFragment += fullText[letterIndex];
-                if (simpleTextLink == null) { break; }
-                simpleTextLink.Setup(textFragment);
+                if (!textScanEntry.isAlive) { break; }
+                textScanEntry.SetText(textFragment);
                 letterIndex++;
                 yield return new WaitForSeconds(delayBetweenCharacters);
             }
-            if (simpleTextLink != null) { simpleTextLink.Setup(fullText); }
-            printedJobs.Add(receptacleTextPair.receptacle);
+            if (textScanEntry.isAlive) { textScanEntry.SetText(fullText); }
+            printedJobs.Add(textScanEntry);
             SetBusyWriting(false);
             interruptWriting = false;
         }
 
         private void ClearPrintedJobs()
         {
-            foreach (GameObject printedJob in printedJobs)
+            foreach (TextEntryHandle printedJob in printedJobs)
             {
-                if (printedJob != null) { Destroy(printedJob); }
+                if (printedJob is { isAlive: true }) { printedJob.Remove(); }
             }
-            printedJobs = new List<GameObject>();
+            printedJobs = new List<TextEntryHandle>();
         }
         #endregion
 
         #region ChoiceFunctionality
-        private IEnumerator PrintChoices(GameObject choiceObject)
+        private static IEnumerator PrintChoice(ChoiceEntryHandle choiceEntry)
         {
-            choiceObject.SetActive(true);
+            if (choiceEntry is { isAlive: true }) { choiceEntry.Reveal(); }
             yield break;
         }
 

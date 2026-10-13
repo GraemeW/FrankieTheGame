@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:tests="LowDefMustard.UIBox.Tests" editor-extension-mode="false">
+    <ui:VisualElement>
+        <tests:TestHeaderLabel text="Authored" />
+    </ui:VisualElement>
+</ui:UXML>

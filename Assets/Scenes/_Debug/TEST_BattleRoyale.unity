@@ -38009,7 +38009,7 @@ MonoBehaviour:
   yJitterDistance: 0.05
   spawnConfigurations:
   - spawnConfiguration:
-      maxQuantity: 4
+      maxQuantity: 2
       enemyConfigurations:
       - minimum: 0
         maximum: 2

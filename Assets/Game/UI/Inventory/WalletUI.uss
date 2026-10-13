@@ -1,0 +1,23 @@
+/* Top-right anchored + offset */
+.wallet-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.wallet {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    min-width: 330px;
+    padding: 30px 40px;
+}
+
+.wallet__cash {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    -unity-text-align: middle-right;
+}

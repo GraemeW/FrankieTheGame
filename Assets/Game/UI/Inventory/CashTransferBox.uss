@@ -1,0 +1,89 @@
+/* Upper-centre anchored (clear of the wallet), fixed width */
+.cash-transfer-box-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.cash-transfer-box {
+    margin-top: 205px;
+    width: 880px;
+}
+
+.cash-transfer-box__message {
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+    -unity-text-align: upper-left;
+}
+
+.cash-transfer-box__amount {
+    margin-top: 50px;
+    align-items: center;
+}
+
+.cash-transfer-box .cash-transfer-box__choices {
+    margin-top: 3px;
+}
+
+/* ~ Cash Amount ~ */
+.cash-amount {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.cash-amount .unity-label {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.cash-amount__digit,
+.cash-amount__digit.unity-button:hover:enabled,
+.cash-amount__digit.unity-button:active:enabled,
+.cash-amount__digit.unity-button:focus {
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* Note:  Margins stay out of the state-neutralising block above - its higher specificity would reset them on hover */
+.cash-amount__digit {
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cash-amount__digit-label {
+    color: var(--text-colour-default);
+    transition: color var(--choice-tint-duration);
+}
+
+/* Caret sits under the selected digit, and reserves its height when hidden */
+.cash-amount .cash-amount__caret {
+    margin-top: -2px;
+    color: var(--text-colour-default);
+    visibility: hidden;
+}
+
+.cash-amount__digit--selected > .cash-amount__caret {
+    visibility: visible;
+}
+
+/* Pointer feedback (as per choice entries); suppressed while another box is on top */
+.cash-amount__digit:hover > .cash-amount__digit-label {
+    color: var(--choice-hover-colour);
+}
+
+.cash-amount__digit:active > .cash-amount__digit-label {
+    color: var(--choice-pressed-colour);
+}
+
+.uibox-view--pointer-input-disabled .cash-amount__digit:hover > .cash-amount__digit-label,
+.uibox-view--pointer-input-disabled .cash-amount__digit:active > .cash-amount__digit-label {
+    color: var(--text-colour-default);
+}

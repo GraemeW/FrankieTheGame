@@ -8,7 +8,7 @@ A high-level summary of the combat / battle action system in Frankie is shown be
 
 [BattleActions](../OnLoadAssets/BattleActions/) are the backbone of both [skills](#skills) and [action items](#action-items).  They are comprised of:
   1. [EffectStrategies](./BattleActions/EffectStrategies/): to adjust HP/AP, apply status effects, modify stats, override cooldown, call for help, etc.
-       * *N.B. [EffectStrategiesSpawnedArtwork](./BattleActions/EffectStrategiesSpawnedArtwork/) are a special category of EffectStrategies that can be used to spawn artwork on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab)*
+       * *N.B. [EffectStrategiesSpawnedArtwork](./BattleActions/EffectStrategiesSpawnedArtwork/) are a special category of EffectStrategies that can be used to spawn artwork on the [BattleUI](../UI/Combat/BattleUI.prefab)'s battle stage*
   2. [TargetingStrategies](./BattleActions/TargetingStrategies/): to set the active target type (single vs. multi, enemy vs. ally, etc.)
        * , where [FilterStrategies](./BattleActions/FilterStrategies/) are used to further narrow the targeting strategy - e.g. to single characters
 

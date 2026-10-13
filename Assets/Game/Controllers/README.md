@@ -51,7 +51,7 @@ As part of the `SetupBattleController()`, the [PlayerStateMachine](../../Scripts
 
 When the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) hears `BattleState.Complete`, it will transition out of the battle:
 * initially from [CombatState](../../Scripts/Core/PlayerStateMachine/PlayerStates/CombatState.cs) to [TransitionState](../../Scripts/Core/PlayerStateMachine/PlayerStates/TransitionState.cs)
-  * *this allows us to paint a battle transition screen via [Fader](../Core/CoreDep/Fader.prefab)*
+  * *this allows us to paint a battle transition screen via [Fader](../Core/CoreDep/Fader/Fader.prefab)*
 * then from [TransitionState](../../Scripts/Core/PlayerStateMachine/PlayerStates/TransitionState.cs) to [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs)
 
 , and trigger `QueueExitCombat()` in kind, which destroys the current BattleController.

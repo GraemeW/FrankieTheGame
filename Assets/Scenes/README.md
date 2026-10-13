@@ -53,8 +53,7 @@ All scenes need to have three key PreFabs to function:
      * , to spawn the prefab [PersistentObjects](../Game/Core/CoreDep/PersistentObjects.prefab)
      * , which are any singleton objects that must persisten from scene to scene (e.g. background music, fader, saver, scene loader, etc.)
    * has childed objects:
-     * UICanvas -- for rendering UI elements over the scene
-     * BackingCanvas -- black backing for the game
+     * WorldUIRoot -- parent for the in-world UI boxes spawned over the scene
      * AddressablesLoader -- for loading all addressables (key game memory/elements), located in [OnLoadAssets](../Game/OnLoadAssets/), per [Addressables](../Scripts/Utils/Addressables/AddressablesLoader.cs)
 2. [Cameras](../Game/Core/Cameras.prefab): Includes the main camera, as well as a state-driven camera based on Frankie's state (idle vs. active)
 3. [Player](../Game/Core/Player.prefab), which:

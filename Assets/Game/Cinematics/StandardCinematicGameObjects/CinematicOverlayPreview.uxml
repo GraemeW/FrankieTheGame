@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:cinematic="Frankie.Rendering.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors CinematicOverlay.uxml with sample text - keep in sync -->
+    <!-- Style order matches CinematicOverlay.prefab's view:  shared theme sheets, then screen sheets -->
+    <Style src="../../UI/_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../UI/_UIToolkit/Styles/UIBox.uss" />
+    <Style src="CinematicOverlay.uss" />
+    <ui:VisualElement class="cinematic-overlay">
+        <cinematic:CinematicOverlayLabel text="The year is 201X" class="cinematic-overlay__text" />
+    </ui:VisualElement>
+</ui:UXML>

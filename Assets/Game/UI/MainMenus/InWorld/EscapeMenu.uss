@@ -1,0 +1,37 @@
+.escape-menu-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
+
+.escape-menu {
+    margin-top: 250px;
+    min-width: 480px;
+    padding: 20px 40px;
+}
+
+.escape-menu__header {
+    min-height: 100px;
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.escape-menu__choices {
+    padding: 25px 0 10px 0;
+}
+
+/* Spacing between stacked choices */
+.escape-menu__choices .choice-entry {
+    margin-bottom: 15px;
+}
+
+/* Divider sits under the choice text (i.e. clears the selection marker) */
+.escape-menu__choices .choice-separator {
+    align-self: flex-start;
+    width: 350px;
+    margin: 50px 0 15px 35px;
+}

@@ -1,0 +1,18 @@
+.game-over-menu__header {
+    position: absolute;
+    top: 150px;
+    left: 0;
+    right: 0;
+    align-items: center;
+}
+
+.game-over-menu__name {
+    margin-top: 30px;
+}
+
+.game-over-menu__choices {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 360px;
+}

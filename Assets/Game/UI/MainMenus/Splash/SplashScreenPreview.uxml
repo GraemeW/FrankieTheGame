@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:menu="Frankie.Menu.UI" editor-extension-mode="false">
+    <!-- UI Builder preview only (set canvas to 2560x1440):  mirrors SplashScreen.uxml with the studio stage shown - keep in sync -->
+    <!-- Style order matches the SplashScreen view (SplashScreen.unity):  shared theme sheets, then screen sheets -->
+    <Style src="../../_UIToolkit/Styles/Tokens.uss" />
+    <Style src="../../_UIToolkit/Styles/UIBox.uss" />
+    <Style src="SplashScreen.uss" />
+    <ui:VisualElement class="splash-screen" picking-mode="Ignore">
+        <menu:SplashStudioStage class="splash-stage--shown">
+            <ui:VisualElement class="splash-studio__logo" picking-mode="Ignore" />
+            <menu:SplashStudioLabel text="Low Def Mustard Games" class="splash-studio__name" picking-mode="Ignore" />
+        </menu:SplashStudioStage>
+        <menu:SplashTitleStage>
+            <menu:SplashTitleLabel text="Frankie" class="splash-title__name text-display" picking-mode="Ignore" />
+        </menu:SplashTitleStage>
+    </ui:VisualElement>
+</ui:UXML>

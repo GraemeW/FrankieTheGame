@@ -698,10 +698,6 @@ MonoBehaviour:
     m_Localized: '{0} failed to check the object.'
     m_Metadata:
       m_Items: []
-  - m_Id: 5041965862215680
-    m_Localized: It doesn't seem to be working at the moment.
-    m_Metadata:
-      m_Items: []
   - m_Id: 5043802816372736
     m_Localized: '*CLICK* Oh, it looks like {0} got the door open'
     m_Metadata:

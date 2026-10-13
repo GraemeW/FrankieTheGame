@@ -1,4 +1,5 @@
 using System;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
@@ -11,7 +12,7 @@ namespace LowDefMustard.Localization
     public static class DefaultKeyGenerator
     {
         // State
-        private static readonly System.Random _random = new();
+        [NoAutoStaticsCleanup] private static readonly System.Random _random = new();
         
         public static string GenerateKindaUniqueKey(Object targetObject, string propertyName, Type declaringType = null,  bool useParentNameStem = true)
         {
@@ -28,11 +29,8 @@ namespace LowDefMustard.Localization
             if (targetObject is GameObject castGameObject && castGameObject.TryGetComponent(out MonoBehaviour swapToMono)) { targetObject = swapToMono; }
             if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
             {
-                string parentName = castMonoBehaviour.transform.parent.name;
-                if (!parentName.Contains("Canvas")) // Skip UI-most parent name
-                {
-                    nameStem = castMonoBehaviour.transform.parent.name;
-                }
+                Transform parent = castMonoBehaviour.transform.parent;
+                if (!parent.TryGetComponent(out ILocalizationKeyRoot _)) { nameStem = parent.name; } // Grouping roots are skipped
             }
             
             if (targetObject != null)

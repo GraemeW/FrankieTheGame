@@ -201,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7096031021457464581, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7096031021457464581, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: interactionCentrePoint
@@ -318,6 +318,7 @@ MonoBehaviour:
   defaultTargetDistanceTolerance: 0.035
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
+  gameProperties: {fileID: 11400000, guid: de053b7c07a20467797a1ba24f09aec4, type: 2}
   spriteRenderer: {fileID: 3268347881354742002}
   interactionCenterPoint: {fileID: 2666196632901393418}
   lookDirectionChangeDelay: 0.1

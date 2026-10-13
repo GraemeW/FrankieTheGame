@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:cinematic="Frankie.Rendering.UI" editor-extension-mode="false">
+    <ui:VisualElement class="cinematic-overlay">
+        <cinematic:CinematicOverlayLabel text="Default Overlay Text" class="cinematic-overlay__text" />
+    </ui:VisualElement>
+</ui:UXML>

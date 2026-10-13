@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
@@ -11,13 +11,8 @@ namespace Frankie.Speech.UI
         // Tunables
         [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
         
-        // State -- Option Field Configurables
-        private RectOffset optionPadding;
-        private float optionSpacing;
-        private TextAnchor optionChildAlignment;
-        private bool optionControlChildSize = true;
-        private bool optionUseChildScale = true;
-        private bool optionChildForceExpand;
+        // State
+        private readonly Dictionary<DialogueNode, ChoiceEntryHandle> choiceEntries = new();
         
         // Cached References
         protected DialogueController dialogueController;
@@ -37,7 +32,7 @@ namespace Frankie.Speech.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
-            // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it by Start() check
+            // Note: A missing DialogueController here is NOT fatal - possible to instantiate a DialogueBox and configure it before Start() check
             
             base.AwakeTriggered();
             dialogueController = DialogueController.FindDialogueController();
@@ -46,7 +41,6 @@ namespace Frankie.Speech.UI
                 controller = dialogueController;
                 controller.AddInputReceiver(this, null);
             }
-            StoreOptionPanelConfigurables();
         }
 
         protected override void EnableTriggered()
@@ -56,6 +50,7 @@ namespace Frankie.Speech.UI
             {
                 dialogueController.SubscribeToDialogueInput(true, HandleDialogueInput);
                 dialogueController.triggerUIUpdates += UpdateUI;
+                dialogueController.highlightedNodeChanged += HighlightChoice;
             }
         }
 
@@ -66,6 +61,7 @@ namespace Frankie.Speech.UI
             {
                 dialogueController.SubscribeToDialogueInput(false, HandleDialogueInput);
                 dialogueController.triggerUIUpdates -= UpdateUI;
+                dialogueController.highlightedNodeChanged -= HighlightChoice;
             }
         }
 
@@ -93,27 +89,13 @@ namespace Frankie.Speech.UI
             base.Setup(text);
         }
         
-        private void StoreOptionPanelConfigurables()
-        {
-            if (optionParent == null) { return; }
-            if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
-            {
-                optionPadding = horizontalLayoutGroup.padding;
-                optionSpacing = horizontalLayoutGroup.spacing;
-                optionChildAlignment = horizontalLayoutGroup.childAlignment;
-
-                optionControlChildSize = horizontalLayoutGroup.childControlWidth;
-                optionUseChildScale = horizontalLayoutGroup.childScaleWidth;
-                optionChildForceExpand = horizontalLayoutGroup.childForceExpandWidth;
-            }
-        }
-        
         private void UpdateUI()
         {
             if (controller == null) { destroyQueued = true; }
             if (!dialogueController.IsActive()) { destroyQueued = true; }
 
             ClearOldDialogue();
+            choiceEntries.Clear();
             SetText();
             if (dialogueController.IsChoosing())
             {
@@ -150,73 +132,41 @@ namespace Frankie.Speech.UI
         #region ChoiceFunctionality
         private void SetChoiceList()
         {
-            int choiceIndex = 0;
+            int choiceCount = 0;
             int maxChoiceLength = 0;
             foreach (DialogueNode choiceNode in dialogueController.GetChoices())
             {
-                AddChoice(choiceNode, choiceIndex);
+                AddChoice(choiceNode);
                 maxChoiceLength = Mathf.Max(maxChoiceLength, choiceNode.GetText().Length);
-                choiceIndex++;
+                choiceCount++;
             }
 
-            ConfigureChoiceLayout(choiceIndex, maxChoiceLength);
+            ConfigureChoiceLayout(choiceCount, maxChoiceLength);
         }
 
         protected void ConfigureChoiceLayout(int choiceCount, int maxChoiceLength)
         {
             if (!reconfigureLayoutOnOptionSize || choiceCount == 0) { return; }
 
-            if (choiceCount > DialogueController.GetChoiceNumberThresholdToReconfigureVertical() || maxChoiceLength > DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
-            {
-                if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup)) { DestroyImmediate(horizontalLayoutGroup); }
-                if (!optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup))
-                {
-                    verticalLayoutGroup = optionParent.gameObject.AddComponent(typeof(VerticalLayoutGroup)) as VerticalLayoutGroup;
-                    if (verticalLayoutGroup == null) { return; }
-                    
-                    verticalLayoutGroup.padding = optionPadding;
-                    verticalLayoutGroup.spacing = optionSpacing;
-                    verticalLayoutGroup.childAlignment = optionChildAlignment;
-                    verticalLayoutGroup.childControlWidth = optionControlChildSize;
-                    verticalLayoutGroup.childControlHeight = optionControlChildSize;
-                    verticalLayoutGroup.childScaleWidth = optionUseChildScale;
-                    verticalLayoutGroup.childScaleHeight = optionUseChildScale;
-                    verticalLayoutGroup.childForceExpandWidth = optionChildForceExpand;
-                    verticalLayoutGroup.childForceExpandHeight = optionChildForceExpand;
-                }
-            }
-            else
-            {
-                if (optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup)) { DestroyImmediate(verticalLayoutGroup); }
-                if (!optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
-                {
-                    horizontalLayoutGroup = optionParent.gameObject.AddComponent(typeof(HorizontalLayoutGroup)) as HorizontalLayoutGroup;
-                    if (horizontalLayoutGroup == null) { return; }
-                    
-                    horizontalLayoutGroup.padding = optionPadding;
-                    horizontalLayoutGroup.spacing = optionSpacing;
-                    horizontalLayoutGroup.childAlignment = optionChildAlignment;
-                    horizontalLayoutGroup.childControlWidth = optionControlChildSize;
-                    horizontalLayoutGroup.childControlHeight = optionControlChildSize;
-                    horizontalLayoutGroup.childScaleWidth = optionUseChildScale;
-                    horizontalLayoutGroup.childScaleHeight = optionUseChildScale;
-                    horizontalLayoutGroup.childForceExpandWidth = optionChildForceExpand;
-                    horizontalLayoutGroup.childForceExpandHeight = optionChildForceExpand;
-                }
-            }
+            bool isVertical = choiceCount >= DialogueController.GetChoiceNumberThresholdToReconfigureVertical() || maxChoiceLength >= DialogueController.GetChoiceLengthThresholdToReconfigureVertical();
+            textScanView.SetChoiceLayout(isVertical ? ChoiceLayout.Vertical : ChoiceLayout.Horizontal);
         }
 
-        private void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
+        private void AddChoice(DialogueNode choiceNode)
         {
-            GameObject dialogueChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-            var dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
-            dialogueChoiceOption.Setup(dialogueController, choiceNode);
-            dialogueChoiceOption.SetChoiceOrder(choiceIndex);
-            dialogueChoiceOption.SetText(choiceNode.GetText());
-            dialogueChoiceOption.AddOnClickListener(delegate { Choose(choiceNode.name); });
-            dialogueChoiceOption.gameObject.SetActive(false);
+            ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceNode.GetText(), () => Choose(choiceNode.name));
+            choiceEntries[choiceNode] = choiceEntry;
+            QueueChoiceForPrinting(choiceEntry);
+        }
 
-            QueueTextForPrinting(dialogueChoiceOption.gameObject, null, true);
+        private void HighlightChoice(DialogueNode dialogueNodeToHighlight)
+        {
+            foreach ((DialogueNode choiceNode, ChoiceEntryHandle choiceEntry) in choiceEntries)
+            {
+                if (!choiceEntry.isAlive) { continue; }
+                choiceEntry.Highlight(choiceNode == dialogueNodeToHighlight);
+            }
+            if (dialogueNodeToHighlight != null) { TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted); }
         }
 
         private bool DialogueChoose(string nodeID)
@@ -248,7 +198,7 @@ namespace Frankie.Speech.UI
         #region InputHandling
         protected virtual bool UsesNodeBasedDialogueFlow() => true;
         // true (default): DialogueBox branching dialogue - DialogueController owns cursor/choice input
-        // false: generic choice presentation (e.g. DialogueOptionBox) -- defers to UIBox pipeline
+        // false: generic choice presentation (e.g. DialogueOptionBox) - defers to UIBox pipeline
 
         private bool DialogueHandleGlobalInput(ControllerInputType controllerInputType)
         {
@@ -274,8 +224,10 @@ namespace Frankie.Speech.UI
             return false;
         }
         
+        // Note:  Only raised by DialogueController on keyboard choice selection (mouse selection routes via DialogueChoose)
         private void HandleDialogueInput(ControllerInputType controllerInputType)
         {
+            if (controllerInputType == ControllerInputType.Execute) { TriggerChoiceModified(ReceiverModifiedType.ItemSelected); }
             PrepareChooseAction(controllerInputType);
         }
         #endregion

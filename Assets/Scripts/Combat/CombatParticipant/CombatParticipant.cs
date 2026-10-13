@@ -96,13 +96,21 @@ namespace Frankie.Combat
         #region StaticMethods
         public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<BattleEntity> battleEntities)
         {
-            return GetPriorityCombatParticipants(battleEntities.Select(battleEntity => battleEntity.combatParticipant).ToList());
+            if (battleEntities == null) { return new List<CombatParticipant>(); }
+            return GetPriorityCombatParticipants(battleEntities.Where(battleEntity => battleEntity != null).Select(battleEntity => battleEntity.combatParticipant).ToList());
         }
         
         public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<CombatParticipant> combatParticipants)
         {
-            int maxPriority = combatParticipants.Max(x => x.GetBattlePropertiesPriority());
-            return combatParticipants.Select(x => x).Where(x => x.GetBattlePropertiesPriority() == maxPriority).ToList();
+            // Select out Bosses first (if existing) -> then select by priority
+            List<CombatParticipant> candidates = combatParticipants?.Where(combatParticipant => combatParticipant != null).ToList() ?? new List<CombatParticipant>();
+            if (candidates.Count == 0) { return candidates; }
+
+            List<CombatParticipant> bosses = candidates.Where(combatParticipant => combatParticipant.GetBattleEntityType() == BattleEntityType.Boss).ToList();
+            if (bosses.Count > 0) { candidates = bosses; }
+
+            int maxPriority = candidates.Max(combatParticipant => combatParticipant.GetBattlePropertiesPriority());
+            return candidates.Where(combatParticipant => combatParticipant.GetBattlePropertiesPriority() == maxPriority).ToList();
         }
         #endregion
         
@@ -330,9 +338,10 @@ namespace Frankie.Combat
             AnnounceStateUpdate(StateAlteredType.AdjustAPNonSpecific, points);
         }
 
-        public void SelfImplode()
+        public void SelfImplode(bool forceDeclareDead)
         {
             AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
+            if (forceDeclareDead) { DeclareDead(); }
         }
 
         public void Revive(float hp, bool announceStateUpdates = true)
@@ -359,6 +368,7 @@ namespace Frankie.Combat
         public void SubscribeToStateUpdates(StateEvent handler)
         {
             // Note:  Obviously do NOT double subscribe to both CombatParticipant and BattleEventBus
+            // UI subscribers should instead use CombatParticipantModel as properties can be handled by UIToolkit directly
             if (stateListeners.Contains(handler)) { return; }
 
             stateListeners.Add(handler);

@@ -15,7 +15,6 @@ namespace Frankie.Menu.UI
     {
         // Properties
         [SimpleLocalizedString(LocalizationTableType.UI, true)] public LocalizedString localizedQuestion;
-        public GameObject thingPrefab; 
         public DontCareAnswer[] localizedDontCareAnswers = new DontCareAnswer[5];
         public NameScreenQuestionType questionType = NameScreenQuestionType.CharacterName;
         public CharacterProperties optionalCharacterProperties;
@@ -24,6 +23,9 @@ namespace Frankie.Menu.UI
         [HideInInspector][SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }
         
+        // Getters
+        public GameObject GetCharacterPrefab() => questionType == NameScreenQuestionType.CharacterName && optionalCharacterProperties != null ? optionalCharacterProperties.GetCharacterPrefab() : null;
+
         // Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
         public List<TableEntryReference> GetLocalizationEntries()
