@@ -37,6 +37,10 @@
     /* Splash */
     --splash-studio-image: url("project://database/Assets/z_MadeAssets/Project/LowDefMustard.png?fileID=21300000&guid=514470705882a4e76bcc0846e1c22afc&type=3#LowDefMustard");
 
+    /* Battle entry:  custom filter asset + twirl strength @ 30 */
+    /*noinspection CssInvalidFunction*/
+    --battle-entry-filter: filter("/Assets/Game/VFX/Shaders/BattleEntry/BattleEntryFilter.asset" 30);
+    
     /* Frame */
     --frame-slice: 18;
     --frame-flavour-default: rgb(184, 255, 255);

@@ -7,12 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BattleEntryByURP
-  m_Shader: {fileID: -6465566751694194690, guid: 891b4b9e22df540498b3ba18f83c6f02, type: 3}
+  m_Name: BattleEntryFilter
+  m_Shader: {fileID: 4800000, guid: 7c1e5b0a9d3f4e62b8a47f1c2d6e9a35, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _TOGGLEFADEOUT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -23,37 +24,21 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
+    - _GraphicTex:
         m_Texture: {fileID: 2800000, guid: 53106a44189364e929ed22d480c38ff9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_38ffba9e9f644a5085b23c6a6b1b814b_Out_0_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
+    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FadeInTime: 3.5
     - _FadeOutTime: 0.75
     - _FadeTime: 3.5
-    - _GraphicStrengthMod: 2
-    - _Phase: 29.566525
+    - _Phase: 2.6953604
     - _Strength: 30
-    - _ToggleFade: 0
-    - _ToggleFadeOut: 1
     m_Colors:
-    - _Tint: {r: 0.8627451, g: 0.19215687, b: 0.19215687, a: 1}
+    - _Tint: {r: 0.5764706, g: 0.4392157, b: 0.85882354, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

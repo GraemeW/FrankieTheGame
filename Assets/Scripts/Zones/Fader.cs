@@ -69,7 +69,7 @@ namespace Frankie.Zones
         {
             faderModel.zoneFadeOpacity = 0f;
             faderModel.battleFadeOpacity = 0f;
-            if (battleEntryShaderControl != null) { battleEntryShaderControl.EndFade(); }
+            faderModel.isBattleEntryActive = false;
         }
 
         protected override bool TransitionUsesStandaloneFadeControl(TransitionType transitionType) => transitionType is TransitionType.BattleGood or TransitionType.BattleBad or TransitionType.BattleNeutral;
@@ -77,17 +77,12 @@ namespace Frankie.Zones
         protected override void TriggerStandaloneFadeIn(TransitionType transitionType)
         {
             battleEntryShaderControl.SetBattleEntryParameters(transitionType, GetFadeTime(true, transitionType), GetFadeTime(false, transitionType));
-            battleEntryShaderControl.StartFadeIn();
-        }
-
-        protected override void TriggerStandaloneFadeOut(TransitionType _)
-        {
-            battleEntryShaderControl.StartFadeOut();
+            faderModel.isBattleEntryActive = true;
         }
 
         protected override void TriggerStandaloneFadeCleanup()
         {
-            battleEntryShaderControl.EndFade();
+            faderModel.isBattleEntryActive = false;
         }
         #endregion
     }

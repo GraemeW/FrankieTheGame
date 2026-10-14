@@ -8,6 +8,7 @@ namespace Frankie.Zones.UI
         // State
         private float internalZoneFadeOpacity;
         private float internalBattleFadeOpacity;
+        private bool internalIsBattleEntryActive;
 
         [CreateProperty] public float zoneFadeOpacity
         {
@@ -19,6 +20,12 @@ namespace Frankie.Zones.UI
         {
             get => internalBattleFadeOpacity;
             set => SetProperty(ref internalBattleFadeOpacity, value);
+        }
+
+        [CreateProperty] public bool isBattleEntryActive
+        {
+            get => internalIsBattleEntryActive;
+            set => SetProperty(ref internalIsBattleEntryActive, value);
         }
     }
 }

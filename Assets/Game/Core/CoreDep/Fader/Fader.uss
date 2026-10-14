@@ -14,3 +14,13 @@
 .fade-overlay--battle-complete {
     background-color: rgb(0, 0, 0);
 }
+
+/* Battle entry:  twirls everything behind it (world + every other panel) - shown / hidden by the Fader */
+.battle-entry-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: var(--battle-entry-filter);
+}
