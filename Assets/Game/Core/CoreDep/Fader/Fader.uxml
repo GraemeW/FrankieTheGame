@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:zones="Frankie.Zones.UI" editor-extension-mode="false">
+    <zones:BattleEntryOverlay />
     <zones:ZoneFadeOverlay class="fade-overlay--zone" />
     <zones:BattleFadeOverlay class="fade-overlay--battle-complete" />
 </ui:UXML>

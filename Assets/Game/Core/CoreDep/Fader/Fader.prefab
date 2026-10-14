@@ -136,12 +136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d037cfbfc6140e8ab57244d3b27257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.BattleEntryShaderControl
-  renderer2DData: {fileID: 11400000, guid: a35cd5316b74041e2952ef4e9cab6002, type: 2}
-  battleEntryMaterial: {fileID: 2100000, guid: 41fe3e38cb77c4638b24a56a2dec1964, type: 2}
+  battleEntryMaterial: {fileID: 2100000, guid: 2f8d4a6c1b7e4930a5c3e9d07b146f82, type: 2}
   goodEntryColor: {r: 0.5647059, g: 0.93333334, b: 0.5647059, a: 1}
   badEntryColor: {r: 0.8627451, g: 0.19215687, b: 0.19215687, a: 1}
   neutralEntryColor: {r: 0.5764706, g: 0.4392157, b: 0.85882354, a: 1}
-  twirlStrength: 30
 --- !u!1001 &5985076172043419602
 PrefabInstance:
   m_ObjectHideFlags: 0
