@@ -13,7 +13,71 @@ MonoBehaviour:
   m_Name: SpawnMultiPopBlue
   m_EditorClassIdentifier: 
   effectGUID: b916b237-8284-4597-b160-c98bdeabbb3d
-  effectMaterial: {fileID: 2100000, guid: 44b05c740a87f994098a480a039c97e8, type: 2}
+  effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+  effectRecipe:
+    edgeSoftness: 1
+    glowWidth: 0.05
+    shapes:
+    - shapeType: 0
+      startTime: 0
+      duration: 1
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      circle:
+        position: {x: 0.3, y: 0.3}
+        isFilled: 0
+        startRadius: 0
+        endRadius: 0.3
+        startThickness: 0.05
+        endThickness: -0.05
+      squiggle:
+        isHorizontal: 0
+        startTravel: 0
+        endTravel: 1.5
+        width: 0.9
+        frequency: 30
+        waveRange: {x: 0.25, y: 0.75}
+        phaseSpeed: 1
+        thickness: 0.2
+    - shapeType: 0
+      startTime: 0.25
+      duration: 1
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      circle:
+        position: {x: 0.45, y: 0.7}
+        isFilled: 0
+        startRadius: 0
+        endRadius: 0.3
+        startThickness: 0.05
+        endThickness: -0.05
+      squiggle:
+        isHorizontal: 0
+        startTravel: 0
+        endTravel: 1.5
+        width: 0.9
+        frequency: 30
+        waveRange: {x: 0.25, y: 0.75}
+        phaseSpeed: 1
+        thickness: 0.2
+    - shapeType: 0
+      startTime: 0.5
+      duration: 1
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      circle:
+        position: {x: 0.7, y: 0.25}
+        isFilled: 0
+        startRadius: 0
+        endRadius: 0.3
+        startThickness: 0.05
+        endThickness: -0.05
+      squiggle:
+        isHorizontal: 0
+        startTravel: 0
+        endTravel: 1.5
+        width: 0.9
+        frequency: 30
+        waveRange: {x: 0.25, y: 0.75}
+        phaseSpeed: 1
+        thickness: 0.2
   effectColour: {r: 0.34617302, g: 0.8027256, b: 0.9811321, a: 1}
   isGlobalEffect: 0
   delayAfterSeconds: 0.5

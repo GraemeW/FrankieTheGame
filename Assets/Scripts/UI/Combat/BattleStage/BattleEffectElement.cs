@@ -1,19 +1,19 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Frankie.Rendering;
 
 namespace Frankie.Combat.UI
 {
     public sealed class BattleEffectElement : VisualElement
     {
         // Note:
-        //  - Each effect gets its own _Phase (spawn time) + tint, so effects sharing a material animate / colour independently
+        //  - Each effect gets its own _Phase (spawn time), tint + recipe, so effects sharing a material animate / colour / shape independently
         //  - An anchored effect expires with its anchor (i.e. when the anchor leaves the panel / if it was never there to begin with)
 
         // Const Tunables
         private const string _ussClassName = "battle-effect";
         private const string _fullScreenUssClassName = _ussClassName + "--full-screen";
-        private const string _phaseReference = "_Phase";
 
         // State
         private readonly bool isFullScreen;
@@ -24,7 +24,7 @@ namespace Frankie.Combat.UI
         // Events
         public event Action expired;
 
-        public BattleEffectElement(bool isFullScreen, VisualElement targetAnchor, Material material, Color tint, float phase, float lifetime)
+        public BattleEffectElement(bool isFullScreen, VisualElement targetAnchor, Material material, BattleEffectRecipe recipe, Color tint, float phase, float lifetime)
         {
             this.isFullScreen = isFullScreen;
             this.targetAnchor = targetAnchor;
@@ -34,7 +34,8 @@ namespace Frankie.Combat.UI
             pickingMode = PickingMode.Ignore;
 
             var materialDefinition = new MaterialDefinition(material);
-            materialDefinition.SetFloat(_phaseReference, phase);
+            ShaderPropertyRefs.SetShaderPhase(ref materialDefinition, phase);
+            recipe?.ApplyTo(ref materialDefinition);
             style.unityMaterial = new StyleMaterialDefinition(materialDefinition);
             generateVisualContent += DrawEffect;
             RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);

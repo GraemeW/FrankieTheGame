@@ -73,6 +73,17 @@ As noted in [UI Roots](#ui-roots), the [BattleUI](./Combat/BattleUI.prefab) is u
 
 <img src="../../../InfoTools/Documentation/Game/UI/ExampleCombatUI.png" width="400">
 
+### Battle Stage
+
+The [BattleStage](./Combat/BattleStage.uxml) is the battle UI's backdrop, drawn back to front as:
+1. the enemy's moving [battle background](../VFX/Shaders/README.md#battle-backgrounds), drawn with its shader material
+2. the enemy slides, in three rows (top, middle and bottom)
+3. the per-enemy [battle effects](../VFX/Shaders/README.md#battle-effects), each placed/sized over its target's enemy slide
+4. the party's character slides
+5. full-screen battle effects, over everything above
+
+Combat menus and messages (combat options, skill selection, etc.) are separate UIBoxes, drawn over the stage.  Battle entry and exit fades are drawn by the [Fader](../Core/CoreDep/Fader/Fader.prefab), on a panel above all of these.
+
 ### Character/Enemy Slides
 
 Each character in the active party has a [CharacterSlide](./Combat/CharacterEnemySlides/CharacterSlide.uss) that indicates their name, HP, AP and overall status.  The latter is accomplished via slide color highlights, as well as StatusEffectBobbles that appear on the character slide when the character is afflicted by a status.  Each character slide operates independently by listening for `stateAltered` events from their character's [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) class.  The character slide also has a circular-fill symbol at its top-right to show the current cooldown until the given character is allowed to act again.
@@ -85,4 +96,4 @@ Each enemy in combat has an [EnemySlide](./Combat/CharacterEnemySlides/EnemySlid
 
 For simple skills/item effects (e.g. HP increase/decrease, AP increase/decrease, 'call for help', etc.) DamageText UI elements are instantiated and then faded out on a given CharacterSlide or EnemySlide.  Slides are configured to listen for relevant events from their character's [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) class to automatically generate and configure instances of DamageText via their DamageTextSpawners.  
 
-More complicated visual effects are generally accomplished via [BattleEffectShaders](../VFX/Shaders/README.md#battle-effects) as part of the given skill/item itself.
+More complicated visual effects are accomplished via [Battle Effects](../VFX/Shaders/README.md#battle-effects), spawned on the [battle stage](#battle-stage) by the given skill/item itself.

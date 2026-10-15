@@ -19,4 +19,15 @@ UNITY_EXPORT_REFLECTION void TimeSinceInitialization(float phase,
     cosineOffsetTime = cos(offsetTime);
 }
 
+///<funchints>
+/// <sg:ProviderKey>PeriodTime</sg:ProviderKey>
+/// <sg:DisplayName>Period Time</sg:DisplayName>
+/// <sg:SearchCategory>LDM/PeriodTime</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void PeriodTime(float period,
+    out float periodTime)
+{
+    periodTime = _Time.y * TWO_PI / period;
+}
+
 #endif

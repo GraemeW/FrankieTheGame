@@ -1,5 +1,6 @@
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Frankie.Rendering
 {
@@ -18,6 +19,19 @@ namespace Frankie.Rendering
         private const string _globalFadeOutTimeReference = "_FadeOutTime";
         private static readonly int _fadeOutTime = Shader.PropertyToID(_globalFadeOutTimeReference);
         #endregion
+
+        #region BattleEffectShaderProperties
+        // Shared BattleEffect graph (see BattleEffectComposite.hlsl);  MaterialDefinition only takes property names
+        private const string _itemCountReference = "_ItemCount";
+        private const string _edgeSoftnessReference = "_EdgeSoftness";
+        private const string _glowWidthReference = "_GlowWidth";
+        private static readonly string[] _itemHeaderReferences = GetItemReferences("Header");
+        private static readonly string[] _itemParamsAReferences = GetItemReferences("ParamsA");
+        private static readonly string[] _itemParamsBReferences = GetItemReferences("ParamsB");
+        private static readonly string[] _itemColourReferences = GetItemReferences("Colour");
+
+        public const int battleEffectItemCapacity = 8;
+        #endregion
         
         #region Static
         // Reused across calls to avoid a per-call allocation (read -> write -> hand-off on every use)
@@ -26,7 +40,6 @@ namespace Frankie.Rendering
 
         #region PublicRendererProperties
         // Applicable for SpriteRenderers
-        // Note:  Cannot apply for UI elements (i.e. CanvasRenderer-base) - must use material base (shared property across all materials)
         public static void SetMainTexture(Renderer renderer, Texture2D mainTexture)
         {
             if (renderer == null) { return; }
@@ -56,9 +69,7 @@ namespace Frankie.Rendering
         #endregion
         
         #region PublicMaterialProperties
-        // Applicable for global renderer effects (e.g. URP renderer pipeline) and UI elements
-        // For in-game elements, use renderer-base calls instead (avoid global parameter overlap issue)
-        
+        // Applicable for global renderer effects (e.g. URP renderer pipeline) and UI elements (global material setting)
         public static void SetMainTexture(Material material, Texture2D mainTexture)
         {
             if (material == null || mainTexture == null) { return; }
@@ -87,6 +98,44 @@ namespace Frankie.Rendering
         {
             if (material == null) { return; }
             material.SetFloat(_fadeOutTime, fadeOutTime);
+        }
+        #endregion
+
+        #region PublicMaterialDefinitionProperties
+        // Applicable for UI Toolkit elements drawn with style.unityMaterial (per-element overrides of a shared material)
+        // Note:  MaterialDefinition is a struct, so by ref
+        public static void SetShaderPhase(ref MaterialDefinition materialDefinition, float phase)
+        {
+            materialDefinition.SetFloat(_globalShaderPhaseReference, phase);
+        }
+
+        public static void SetBattleEffectEdge(ref MaterialDefinition materialDefinition, float edgeSoftness, float glowWidth)
+        {
+            materialDefinition.SetFloat(_edgeSoftnessReference, edgeSoftness);
+            materialDefinition.SetFloat(_glowWidthReference, glowWidth);
+        }
+
+        public static void SetBattleEffectItemCount(ref MaterialDefinition materialDefinition, int itemCount)
+        {
+            materialDefinition.SetFloat(_itemCountReference, Mathf.Clamp(itemCount, 0, battleEffectItemCapacity));
+        }
+
+        public static void SetBattleEffectItem(ref MaterialDefinition materialDefinition, int index, Vector4 header, Vector4 paramsA, Vector4 paramsB, Color colour)
+        {
+            if (index is < 0 or >= battleEffectItemCapacity) { return; }
+            materialDefinition.SetVector(_itemHeaderReferences[index], header);
+            materialDefinition.SetVector(_itemParamsAReferences[index], paramsA);
+            materialDefinition.SetVector(_itemParamsBReferences[index], paramsB);
+            materialDefinition.SetColor(_itemColourReferences[index], colour);
+        }
+        #endregion
+
+        #region PrivateMethods
+        private static string[] GetItemReferences(string suffix)
+        {
+            var references = new string[battleEffectItemCapacity];
+            for (int i = 0; i < battleEffectItemCapacity; i++) { references[i] = $"_Item{i}{suffix}"; }
+            return references;
         }
         #endregion
     }

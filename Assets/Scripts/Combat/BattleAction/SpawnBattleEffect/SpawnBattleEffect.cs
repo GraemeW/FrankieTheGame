@@ -11,8 +11,10 @@ namespace Frankie.Combat
         // Note:
         //  - Standard effect is sized to the recipient's slide and tinted by the effect colour (i.e. one material serves every colour variant)
         //  - Global effect covers the whole battle stage instead
+        //  - Recipe shapes are drawn by the shared BattleEffect material;  an empty recipe draws the material as-is
 
         [SerializeField] private Material effectMaterial;
+        [SerializeField] private BattleEffectRecipe effectRecipe = new();
         [SerializeField] private Color effectColour = Color.white;
         [SerializeField] private bool isGlobalEffect = false;
         [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
@@ -24,12 +26,12 @@ namespace Frankie.Combat
             BattleStage battleStage = battleUI != null ? battleUI.GetBattleStage() : null;
             if (battleStage == null) { yield break; }
 
-            if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectColour, destroyAfterSeconds); }
+            if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectRecipe, effectColour, destroyAfterSeconds); }
             else if (recipients != null)
             {
                 foreach (BattleEntity recipient in recipients)
                 {
-                    battleStage.SpawnEffect(recipient, effectMaterial, effectColour, destroyAfterSeconds);
+                    battleStage.SpawnEffect(recipient, effectMaterial, effectRecipe, effectColour, destroyAfterSeconds);
                 }
             }
             yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));
