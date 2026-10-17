@@ -19,7 +19,8 @@ Camera control can be overriden via `OverrideCameraFollower(Animator animator, T
 ## Shader Code
 
 [Shaders](./Shaders/) holds the code side of Frankie's custom shaders, while the shader graphs and materials themselves live in [VFX/Shaders](../../Game/VFX/Shaders/README.md):
-* [HLSLUtilities](./Shaders/HLSLUtilities/):  HLSL functions exposed as Shader Graph nodes by reflection -- signed distance functions, time utilities and the battle effect compositor (detailed [here](../../Game/VFX/Shaders/README.md#shader-utilities))
+* [HLSLUtilities](./Shaders/HLSLUtilities/):  a library of HLSL functions exposed as Shader Graph nodes, incl. signed distance functions, domain operations (transform, repetition, mirroring), time + animation, colour gradients and hashing
+  * also includes the battle effect compositor and its generated shape dispatch (detailed [here](../../Game/VFX/Shaders/README.md#shader-utilities))
 * [ShaderPropertyRefs](./Shaders/ShaderPropertyRefs.cs):  the single home for shader property names, with setters for renderers (`MaterialPropertyBlock`), materials and UI Toolkit `MaterialDefinition`s
 * [BattleEntryShaderControl](./Shaders/BattleEntryShaderControl.cs):  sets up the battle entry swirl per fade (see [Battle Entry Animations](../../Game/VFX/Shaders/README.md#battle-entry-animations))
 * [_PixelArtShaders](./Shaders/_PixelArtShaders/):  see [Pixel-Perfect Rendering](#pixel-perfect-rendering) below

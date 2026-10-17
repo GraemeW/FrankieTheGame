@@ -18,24 +18,30 @@ namespace Frankie.Combat.UI
         // State
         private readonly bool isFullScreen;
         private readonly VisualElement targetAnchor; // Unused for full-screen effects
-        private readonly Color tint;
+        private readonly Color vertexTint;
         private bool isExpired = false;
 
         // Events
         public event Action expired;
 
-        public BattleEffectElement(bool isFullScreen, VisualElement targetAnchor, Material material, BattleEffectRecipe recipe, Color tint, float phase, float lifetime)
+        public BattleEffectElement(bool isFullScreen, VisualElement targetAnchor, Material material, BattleEffectRecipe recipe, BattleEffectTint tint, float phase, float lifetime)
         {
             this.isFullScreen = isFullScreen;
             this.targetAnchor = targetAnchor;
-            this.tint = tint;
             AddToClassList(_ussClassName);
             EnableInClassList(_fullScreenUssClassName, isFullScreen);
             pickingMode = PickingMode.Ignore;
 
             var materialDefinition = new MaterialDefinition(material);
             ShaderPropertyRefs.SetShaderPhase(ref materialDefinition, phase);
-            recipe?.ApplyTo(ref materialDefinition);
+            if (recipe != null)
+            {
+                // Recipe effects are coloured in the shader (solid / gradient), while other materials keep the vertex tint
+                recipe.ApplyTo(ref materialDefinition);
+                tint?.ApplyTo(ref materialDefinition);
+                vertexTint = Color.white;
+            }
+            else { vertexTint = tint?.GetColourA() ?? Color.white; }
             style.unityMaterial = new StyleMaterialDefinition(materialDefinition);
             generateVisualContent += DrawEffect;
             RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
@@ -73,7 +79,7 @@ namespace Frankie.Combat.UI
             expired?.Invoke();
         }
 
-        private void DrawEffect(MeshGenerationContext meshGenerationContext) => ShaderQuad.Draw(meshGenerationContext, new Rect(0f, 0f, 1f, 1f), tint);
+        private void DrawEffect(MeshGenerationContext meshGenerationContext) => ShaderQuad.Draw(meshGenerationContext, new Rect(0f, 0f, 1f, 1f), vertexTint);
         #endregion
     }
 }

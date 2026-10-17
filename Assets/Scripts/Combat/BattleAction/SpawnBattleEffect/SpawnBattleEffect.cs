@@ -9,13 +9,13 @@ namespace Frankie.Combat
     public class SpawnBattleEffect : EffectStrategy
     {
         // Note:
-        //  - Standard effect is sized to the recipient's slide and tinted by the effect colour (i.e. one material serves every colour variant)
+        //  - Standard effect is sized to the recipient's slide and coloured by the effect tint (i.e. one recipe serves every colour variant)
         //  - Global effect covers the whole battle stage instead
-        //  - Recipe shapes are drawn by the shared BattleEffect material;  an empty recipe draws the material as-is
+        //  - A recipe is drawn by the shared BattleEffect material (w/o a recipe, the material is drawn as-is)
 
         [SerializeField] private Material effectMaterial;
-        [SerializeField] private BattleEffectRecipe effectRecipe = new();
-        [SerializeField] private Color effectColour = Color.white;
+        [SerializeField] private BattleEffectRecipe effectRecipe;
+        [SerializeField] private BattleEffectTint effectTint = new();
         [SerializeField] private bool isGlobalEffect = false;
         [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
@@ -26,12 +26,12 @@ namespace Frankie.Combat
             BattleStage battleStage = battleUI != null ? battleUI.GetBattleStage() : null;
             if (battleStage == null) { yield break; }
 
-            if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectRecipe, effectColour, destroyAfterSeconds); }
+            if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectRecipe, effectTint, destroyAfterSeconds); }
             else if (recipients != null)
             {
                 foreach (BattleEntity recipient in recipients)
                 {
-                    battleStage.SpawnEffect(recipient, effectMaterial, effectRecipe, effectColour, destroyAfterSeconds);
+                    battleStage.SpawnEffect(recipient, effectMaterial, effectRecipe, effectTint, destroyAfterSeconds);
                 }
             }
             yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));

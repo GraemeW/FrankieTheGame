@@ -64,44 +64,125 @@ Notably, time is a simple float with limited precision, which becomes problemati
 
 ## Battle Effects
 
-Battle effects are visual animations played during combat by [BattleActions](../../Combat/BattleActions/), via the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnBattleEffect.cs) effect strategy (in [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/)).  
+Battle effects are visual animations played during combat by [BattleActions](../../Combat/BattleActions/), via the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) effect strategy (in [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/)).  
 
 Briefly:
 * a character will use a [Skill](../../OnLoadAssets/Skills/) or [ActionItem](../../OnLoadAssets/Inventory/ActionItems/), which implements a [BattleAction](../../OnLoadAssets/BattleActions/)
 * the battle action includes targeting strategies, filtering strategies and effects strategies, as detailed [here](../../OnLoadAssets/BattleActions/)
   * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
   * , but they are also used to generate any relevant animations/artwork when the battle action is activated
-* a [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnBattleEffect.cs) spawns its effect over each target's enemy slide (sized to match it), or over the whole battle stage if set as a global effect
+* a [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) spawns its effect over each target's enemy slide (sized to match it), or over the whole battle stage if set as a global effect
 
 For example, the pink circle pop below:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEffectsCirclePopPink.gif" width="320">
 
+### Recipes
+
+Animated battle effects are comprised of a list of timed, animated shape items, with each effect using a shared [BattleEffect](./BattleEffectsEntities/BattleEffect.shadergraph) shader, and its own distinct recipe ([BattleEffectRecipe](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectRecipe.cs) asset).  [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) references a recipe, and then adds the effect's tint, so one recipe serves many colour variants (e.g. [SpawnMultiPopBlue](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopBlue.asset) and [SpawnMultiPopYellow](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopYellow.asset)).
+
+A recipe has:
+* `Frame Rate`:  steps the whole animation at this many frames per second for a retro, held-frame look (0 = smooth)
+* `Scale`:  grows / shrinks the whole effect about its centre (positions, sizes, outlines, jitter + glow)
+* `Edge Softness`:  anti-aliasing, in screen pixels (so edges are equally crisp at any size)
+* `Glow Width`:  an extra soft edge, in effect units
+* `Items`:  drawn in order, so later items paint over earlier ones
+
+Important Notes:
+1. All positions and sizes are in effect units:  0-1 spans the effect's shorter side, centred, with v running upwards
+    - In this manner, shapes keep their proportions on any slide size (the longer side simply reaches beyond 0-1).  
+2. A material other than BattleEffect can still be used for a one-off effect
+    - simply leave the SpawnBattleEffect's recipe empty, and the material is drawn as-is (w/ `_Phase` set, and the tint's colour A as its vertex tint)
+
+#### Recipe Items
+
+Most item settings are ranges, running from their start to end value over the item's eased duration.  
+
+Each [item](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectItem.cs) has:
+
+|   Group    |                                    Settings                                    |                                                                                                Detail                                                                                                 |
+|:----------:|:------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|  `Shape`   |                         the shape type + its own settings                         |                                                                                     see [Shapes](#shapes) below                                                                                      |
+|  `Timing`  |                            start time, duration, easing                            |                        seconds after the effect spawns;  the item only draws within [start, start + duration);  easing = linear / ease in / ease out / ease in-out                         |
+| `Transform` |                       position, scale, rotation, elongation                        |                    a unit shape's size is its scale;  elongation stretches a shape's middle (e.g. diamond -> long hexagon, circle -> capsule), in the shape's own units                     |
+|  `Style`   |                          fill / outline, outline thickness, colour                          |                          thickness may end below zero to fade an outline out through the glow;  colour is multiplied by the effect's tint                           |
+| `Repetition` |                        none / line / cross / grid, count, spacing, mirror x / y                        | copies of the shape in its own space (spacing in shape units, so patterns scale + rotate w/ the item);  e.g. a plus of five = cross w/ count 3;  mirror folds one half onto the other |
+| `Flicker`  |                                 rate, depth, phase                                 |                                            a square-wave bright / dim on the effect's clock (phase 0.5 = dim half first)                                             |
+|  `Jitter`  |                       rate, random / orbit, amount (x / y), seed, phase                       |              held offsets:  random re-rolls each step (same seed + rate = same jumps);  orbit steps clockwise around the corners of the ± amount box              |
+|  `Pulse`   |                                 rate, amount, phase                                 |                                                     a square-wave size change on the effect's clock                                                      |
+
+*N.B.  Flicker, jitter + pulse run on the **effect's** clock (not the item's), so items w/ the same settings stay in sync -- e.g. a shape's fill + outline items move as one.*
+
+#### Shapes
+
+Each [shape](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/BattleEffectShape.cs) is drawn centred on the item's position, sized by its scale:
+
+|  Shape  |                          Settings                          |                                    Detail                                     |
+|:-------:|:----------------------------------------------------------:|:-----------------------------------------------------------------------------:|
+| `Circle` |                             -                              |                        a unit circle (radius = scale)                        |
+| `Diamond` |                         aspect                          |                    points at x = ±1;  aspect = height / width                    |
+| `Segment` |                             -                              |                  a line from x = -1 to 1 (use the outline style)                  |
+| `Chevron` |                          depth                           |    a '^' from x = -1 to 1, its arms sweeping back by depth (use the outline style)    |
+| `Squiggle` | frequency, wave base / peak, phase speed, width | a sine wave segment along local x, its phase advancing by phase speed per second (rotate the item 90° for vertical) |
+
+#### Tint
+
+The [tint](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Properties/BattleEffectTint.cs) (on the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs)) colours the whole effect (over its items' own colours):
+* `Solid`:  colour A
+* `Linear`:  A -> B along an angle
+* `Wave`:  bands along an angle, A at the peaks + B in the troughs, scrolling at speed
+* `Radial`:  rings out from the centre, scrolling at speed
+
+*N.B.  Wave / radial w/ a frequency of 0 pulse the whole effect between A and B.*
+
+### Authoring:  Battle Effect Preview
+
+The [Battle Effect Preview](../../../Scripts/Combat/BattleAction/Editor/BattleEffectPreviewWindow.cs) window plays a recipe w/o entering play mode.  Open the preview window by double-clicking a recipe, from `Tools/Battle Effects/Preview`, or from a recipe's inspector menu.  
+
+An example preview window is shown below:
+
+<img src="../../../../InfoTools/Documentation/Game/VFX/BattleEffectPreview.png" width="400">
+
+As shown above, the preview provides the below functionality:
+* recipe, tint + background, at a slide size preset (or the reference frames' size)
+* play / pause, restart, frame stepping, looping + playback speed, and toggles for stepped time / flicker / jitter (to compare w/ + w/o the retro settings)
+* a timeline w/ one bar per item (click / drag to scrub)
+* reference frames:  a folder of PNGs played at their own frame rate, side by side or overlaid on the effect
+* export frames:  renders every frame offscreen to `Temp/BattleEffectPreview/<recipe>/frame_####.png` (optionally w/ a transparent background)
+
+Recipe edits show live, both in the preview and in a running battle.
+
 ### The Shared BattleEffect Shader
 
-Battle effects generally use one shader graph and material, [BattleEffect](./BattleEffectsEntities/BattleEffect.shadergraph), and are each configured with a unique recipe (a list of up to 8 timed shapes, set on the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnBattleEffect.cs) asset).  The recipe is passed through the [BattleStage](../../../Scripts/UI/Combat/BattleStage/BattleStage.cs) to the effect's [BattleEffectElement](../../../Scripts/UI/Combat/BattleStage/BattleEffectElement.cs), which writes it into the element's `MaterialDefinition`.  The graph itself is thin:  the [Battle Effect Composite](#battle-effect-composite) node does the work, then its colour is multiplied by the element tint (the effect colour) and its alpha by the element opacity.
+The [BattleEffect](./BattleEffectsEntities/BattleEffect.shadergraph) graph is thin:  its blackboard properties are wired into the [Battle Effect Composite](#battle-effect-composite) node, whose colour + alpha are multiplied by the element tint / opacity into the Render Type Branch.  
 
-A [recipe](../../../Scripts/UI/Combat/BattleStage/BattleEffects/BattleEffectRecipe.cs) has:
-* `Edge Softness`:  anti-aliasing width, in screen pixels
-* `Glow Width`:  an extra soft edge, in UV (i.e. to glow > the aliasing)
-* `Shapes`:  drawn in order, so later shapes paint over earlier ones
+Per spawn, the [BattleEffectElement](../../../Scripts/UI/Combat/BattleStage/BattleEffectElement.cs) sets the below properties through a `MaterialDefinition`:
+* `_Phase` (spawn time)
+* the recipe:
+  * its data texture `_ItemData`
+  * `_ItemCount`
+  * `_FrameRate`
+  * `_EdgeSoftness`
+  * `_GlowWidth`
+* the tint
+  * `_TintColourA`
+  * `_TintColourB`
+  * `_TintSettings`
 
-Each [shape](../../../Scripts/UI/Combat/BattleStage/BattleEffects/BattleEffectShape.cs) has a type, a `Start Time` (seconds after the effect spawns), a `Duration` (the shape is only drawn within this window) and a `Colour` (multiplied by the effect colour, so white leaves the effect colour as-is).  Shape settings run linearly from their start to end values over the shape's duration.  Positions and sizes are in UV, i.e. 0-1 over the effect, with v running upwards:
+`_IsPreview` / `_PreviewTime` / `_DisableFlicker` / `_DisableJitter` are for the preview window only.
 
-| Shape Type |                                     Settings                                              |                                                                                                                            Detail                                                                                                                             |
-|:----------:|:-----------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|  `Circle`  |            position, filled toggle, start/end radius, start/end ring thickness            |                A ring (or filled disc). Ending the thickness below zero fades the ring out through its glow, e.g. as w/ [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset)                                   |
-| `Squiggle` | horizontal toggle, start/end travel, width, frequency, wave range, phase speed, thickness | A sine wave segment that travels along its axis, its phase advancing by phase speed per second and its height pulsing within the wave range, e.g. w/ [VerticalWavyRed](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnVerticalWavyRed.asset)) |
+The recipe reaches the shader as a small float texture (one row per item, columns per [BattleEffectDataLayout](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectDataLayout.cs)), baked + cached by the recipe and updated in place on edit.
 
-*N.B.  A material other than BattleEffect can also be used as a one-off effect by leaving its recipe empty.  The material is drawn as-is, with `_Phase` and the tint still set.*
+### Adding a New Shape
 
-### Adding a New Shape Type
+A new shape is three small pieces:
+1. a primitive in [SDFShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl) (a reusable library function, centred on the origin)
+2. an adapter in [BattleEffectShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectShapes.hlsl), named `<ClassName>Distance(BattleEffectShapeInput)`, which maps the shape's parameters onto the primitive
+3. a C# `[Serializable]` subclass of [BattleEffectShape](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/BattleEffectShape.cs) (e.g. [BattleEffectDiamond](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/BattleEffectDiamond.cs)), w/ a unique `[BattleEffectShapeId(n)]` and its settings as ranges, written in order by `GetParameters` (up to 8;  the adapter reads them in the same order)
 
-Shapes are packed into material properties as three `Vector4`s plus a `Color` per slot:  a header of `(shape type, start time, duration, variant)` and two vectors of type-specific settings.  Adding a shape type means touching, in step:
-1. [BattleEffectShapeType](../../../Scripts/UI/Combat/BattleStage/BattleEffects/BattleEffectShapeType.cs):  a new enum value (the value is the shader's shape ID)
-2. a new settings class (e.g. [BattleEffectCircle](../../../Scripts/UI/Combat/BattleStage/BattleEffects/BattleEffectCircle.cs)) that packs its settings into the two vectors, plus its field and switch case in [BattleEffectShape](../../../Scripts/UI/Combat/BattleStage/BattleEffects/BattleEffectShape.cs)
-3. [BattleEffectShapeDrawer](../../../Scripts/Combat/BattleAction/Editor/BattleEffectShapeDrawer.cs):  show the new settings block for its type
-4. [BattleEffectComposite](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectComposite.hlsl):  a matching shape ID and a branch in `BattleEffectItemDistance` that unpacks the vectors into a signed distance (ideally from a function in [SDFShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl))
+Nothing else needs touching:  the [inspector](../../../Scripts/Combat/BattleAction/Editor/BattleEffectShapeDrawer.cs) lists every subclass, and the HLSL dispatch ([Generated/BattleEffectDispatch.generated.hlsl](../../../Scripts/Rendering/Shaders/HLSLUtilities/Generated/BattleEffectDispatch.generated.hlsl)) is regenerated by the [BattleEffectDispatchGenerator](../../../Scripts/Combat/BattleAction/Editor/BattleEffectDispatchGenerator.cs) on script reload (only when it changes).  A missing adapter shows up as a shader error naming the function, and a duplicate shape ID as an editor error.
+
+*N.B.  The generator also mirrors [BattleEffectDataLayout](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectDataLayout.cs) and any `[BattleEffectMirroredEnum]` enum into HLSL defines, so new per-item data is a layout const + its write in [BattleEffectItem](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectItem.cs) + its read in the composite.*
 
 ## Battle Entities
 
@@ -109,34 +190,29 @@ Shapes are packed into material properties as three `Vector4`s plus a `Color` pe
 
 ## Shader Utilities
 
-Shader logic beyond simple node chains is written in HLSL in [HLSLUtilities](../../../Scripts/Rendering/Shaders/HLSLUtilities/), exposed to Shader Graph through Unity's [reflection API](https://docs.unity3d.com/Packages/com.unity.shadergraph@17.6/manual/Custom-nodes-hlsl-create-node-by-reflection.html).
+Shader logic beyond simple node chains is written as HLSL in [HLSLUtilities](../../../Scripts/Rendering/Shaders/HLSLUtilities/), exposed to Shader Graph through Unity's [reflection API](https://docs.unity3d.com/Packages/com.unity.shadergraph@17.6/manual/Custom-nodes-hlsl-create-node-by-reflection.html).  
 
-### Signed Distance Functions
+These form a reusable library, in layers:
 
-A [signed distance function](https://en.wikipedia.org/wiki/Signed_distance_function) (SDF) translates an input UV point into a float value.  
+|           File           |                                              Nodes                                              |                                                                         Role                                                                         |
+|:------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------:|
+| [SDFShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl) |                  `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Onion`                  | [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) (negative inside, positive outside);  onion turns any SDF into an outline |
+| [SDFDomain](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFDomain.hlsl) | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Elongate` |          move the point a shape is evaluated at (so shapes are written once, at the origin):  aspect correction, position / rotation / scale, mirroring, repetition, stretching           |
+| [TimeUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/TimeUtility.hlsl) | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Flicker`, `Pulse`, `Jitter` |                                         time + animation:  time-zero (see [Time-Zero / Shader Phase](#time-zero--shader-phase)), held frames, easing, retro modifiers                                          |
+| [ColourUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/ColourUtility.hlsl) |                                       `Colour Gradient`                                        |                                                         solid / linear / wave / radial colour gradients                                                          |
+| [HashUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/HashUtility.hlsl) |                                           `Hash 2-2`                                           |                                                       stable pseudo-random numbers (e.g. for random jitter)                                                       |
+| [SDFParser](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFParser.hlsl) |                                          `SDF Parser`                                          |                                           a single SDF -> colour + alpha, w/ a `crispness` edge (for simple graphs)                                            |
 
-[SDFShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl) provides:
-* `SDF Circle`:  a circle at a `position` (ranging [0,0] to [1,1]) with a `radius`
-* `SDF Squiggle`:  a sinusoid wave segment, with tunables of:
-  * `isHorizontal` to set if the wave is horizontal or vertical
-  * `position` and `width` to define where on the image the wave segment sits, and how far it extends
-  * `frequency` and `phaseOffset` to define the shape of the wave
-  * `minMax` and `intensityModifier` to define the height of the wave
-* `SDF Onion`:  to turn any SDF into an outline of a given `thickness` (e.g. a circle into a ring)
-
-[SDFParser](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFParser.hlsl) converts a single SDF into a colour and alpha for rendering, with a `crispness` (how smoothed the boundary edge should be) and `drawColor` / `backgroundColor` to lerp between.
+*N.B.  Guards against bad inputs (e.g. a zero width, scale or spacing) live in these library functions, so every graph using a node is protected.*
 
 ### Battle Effect Composite
 
-[BattleEffectComposite](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectComposite.hlsl) is the node behind the [shared BattleEffect shader](#the-shared-battleeffect-shader), and is specific to that graph.  It reads the recipe directly from the graph's blackboard properties (`_ItemCount`, `_EdgeSoftness`, `_GlowWidth`, `_Phase`, and `_Item{0-7}Header` / `ParamsA` / `ParamsB` / `Colour`), rather than through wired inputs.
+[BattleEffectComposite](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectComposite.hlsl) is the node behind the [shared BattleEffect shader](#the-shared-battleeffect-shader) (specific to that graph, alongside its shape adapters in [BattleEffectShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectShapes.hlsl) + the generated dispatch).  It steps the effect's clock, aspect-fits the UV, then for each item active at that time:
+1. eases the item's progress through its time window
+2. evaluates its flicker, jitter + pulse (on the effect's clock)
+3. transforms the point into the shape's local space, interpolating its ranges
+4. mirrors, repeats + elongates, then measures the shape's distance at the nearest copies (via the generated dispatch)
+5. applies its style (fill / outline), converts the distance to coverage (anti-aliased in screen pixels via `fwidth`, plus glow)
+6. composites it over the items before it
 
-For each active shape, it:
-1. computes the shape's SDF with the functions above
-2. converts it to coverage, with an anti-aliased edge (sized in screen pixels via `fwidth`) plus the optional glow
-3. composites it over the shapes before it (in colour space)
-
-### Time Utilities
-
-[TimeUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/TimeUtility.hlsl) provides:
-* `Time Since Initialization`:  seconds since a `phase` (see [Time-Zero / Shader Phase](#time-zero--shader-phase)), plus its sine and cosine
-* `Period Time`:  a running time of `_Time.y * 2π / period` - i.e. a full sine cycle every `period` seconds (used by the [battle backgrounds](#battle-background-shader-properties))
+, before multiplying the result by the tint.

@@ -5,101 +5,206 @@
 
 // Notes:
 //  - This node is used in BattleEffect graph only (not general utility)
-//  - BattleEffect ShaderGraph's blackboard properties are read directly so they are not wired into the node (&& thus:  property names / packing must match ShaderPropertyRefs + BattleEffectShape)
-//  - Shape types defined below must match BattleEffectShapeType
-//  - Item cap must match ShaderPropertyRefs.battleEffectItemCapacity
-//  - Output is straight (non-premultiplied) colour + alpha, for the UI target's default alpha blend
+//  - BattleEffect ShaderGraph's blackboard properties are wired into the node's inputs (property names must match ShaderPropertyRefs)
+//      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
+//      - Per item:  time window -> ease -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker) -> composite
+//  - Output is straight (non-premultiplied) colour + alpha
+//  - Shapes are measured in units of the effect's shorter side (see SDFAspectFit) - they keep their proportions on any slide size
 
-#include "Assets/Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl"
+#include "Assets/Scripts/Rendering/Shaders/HLSLUtilities/SDFDomain.hlsl"
 #include "Assets/Scripts/Rendering/Shaders/HLSLUtilities/TimeUtility.hlsl"
+#include "Assets/Scripts/Rendering/Shaders/HLSLUtilities/ColourUtility.hlsl"
+#include "Assets/Scripts/Rendering/Shaders/HLSLUtilities/Generated/BattleEffectDispatch.generated.hlsl"
 
-// IDE-only declarations ~ in the shader, these come from the graph's blackboard
-#ifdef __RESHARPER__
-float _Phase, _ItemCount, _EdgeSoftness, _GlowWidth;
-float4 _Item0Header, _Item0ParamsA, _Item0ParamsB, _Item0Colour;
-float4 _Item1Header, _Item1ParamsA, _Item1ParamsB, _Item1Colour;
-float4 _Item2Header, _Item2ParamsA, _Item2ParamsB, _Item2Colour;
-float4 _Item3Header, _Item3ParamsA, _Item3ParamsB, _Item3Colour;
-float4 _Item4Header, _Item4ParamsA, _Item4ParamsB, _Item4Colour;
-float4 _Item5Header, _Item5ParamsA, _Item5ParamsB, _Item5Colour;
-float4 _Item6Header, _Item6ParamsA, _Item6ParamsB, _Item6Colour;
-float4 _Item7Header, _Item7ParamsA, _Item7ParamsB, _Item7Colour;
+#ifdef __RESHARPER__ // IDE-only declaration - in shader, this comes from render pipeline
+struct UnityTexture2D
+{
+    Texture2D tex;
+};
 #endif
 
-#define BATTLE_EFFECT_MAX_ITEMS 8
-#define BATTLE_EFFECT_SHAPE_CIRCLE 0
-#define BATTLE_EFFECT_SHAPE_SQUIGGLE 1
-
-// Header: (shape type, start time, duration, variant) w/ variant = filled (circle) / horizontal (squiggle)
-float BattleEffectItemDistance(float2 uv, float4 header, float4 paramsA, float4 paramsB, float itemTime, float progress)
+float4 LoadBattleEffectTexel(UnityTexture2D itemData, int item, int column)
 {
-    int shapeType = (int)round(header.x);
-    bool isVariant = header.w > 0.5;
-    float distance = 1e5;
+    return LOAD_TEXTURE2D(itemData.tex, int2(column, item));
+}
 
-    if (shapeType == BATTLE_EFFECT_SHAPE_CIRCLE)
+struct BattleEffectModifiers
+{
+    // Per-item stages (in order)
+    float2 jitterOffset;
+    float flickerAlpha;
+    float pulseScale;
+};
+
+bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsedTime,
+    out int shapeId, out float itemTime, out float progress)
+{
+    // Half-open [start, end), w/ a little tolerance
+    
+    float4 header = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_HEADER); // (shape ID, start time, duration, easing)
+    shapeId = (int)round(header.x);
+    itemTime = elapsedTime - header.y;
+    progress = 0.0;
+    if (itemTime < -1e-4 || itemTime >= header.z - 1e-4) { return false; } // ensure stepped frames on an item's boundaries land on exactly one item
+
+    EaseProgress(header.z > 0.0 ? itemTime / header.z : 1.0, header.w, progress);
+    return true;
+}
+
+BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item, float elapsedTime, float disableFlicker, float disableJitter)
+{
+    // On the effect's clock (not the item's) - items w/ the same settings stay in sync
+    
+    float4 flicker = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_FLICKER); // (rate, depth, phase, -)
+    float4 jitter = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_JITTER); // (rate, amount.x, amount.y, seed)
+    float4 pulse = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PULSE); // (rate, amount, phase, -)
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, -)
+
+    BattleEffectModifiers modifiers;
+    Jitter(elapsedTime, disableJitter > 0.5 ? 0.0 : jitter.x, jitter.yz, jitter.w, style.y, style.z, modifiers.jitterOffset);
+    Flicker(elapsedTime, disableFlicker > 0.5 ? 0.0 : flicker.x, flicker.y, flicker.z, modifiers.flickerAlpha);
+    Pulse(elapsedTime, pulse.x, pulse.y, pulse.z, modifiers.pulseScale);
+    return modifiers;
+}
+
+BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int item, float2 fittedUV, float itemTime, float progress, BattleEffectModifiers modifiers,
+    out float distanceScale)
+{
+    // Effect units -> the shape's local space (+ its interpolated parameters)
+    
+    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
+    float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE);
+    float4 rotationOutline = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATIONOUTLINE);
+
+    BattleEffectShapeInput shapeInput;
+    SDFTransform(fittedUV, lerp(position.xy, position.zw, progress) + modifiers.jitterOffset, 
+        lerp(rotationOutline.x, rotationOutline.y, progress),
+        lerp(scale.xy, scale.zw, progress) * modifiers.pulseScale, shapeInput.localPoint, distanceScale);
+    shapeInput.parametersA = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSASTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSAEND), progress);
+    shapeInput.parametersB = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBSTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBEND), progress);
+    shapeInput.itemTime = itemTime;
+    shapeInput.progress = progress;
+    return shapeInput;
+}
+
+float GetBattleEffectCopyDistance(int shapeId, BattleEffectShapeInput shapeInput, float2 copyPoint, float2 elongation)
+{
+    SDFElongate(copyPoint, elongation, shapeInput.localPoint);
+    return BattleEffectShapeDistance(shapeId, shapeInput);
+}
+
+float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float progress)
+{
+    // Mirror -> repetition -> elongation -> shape, at the nearest copies (in local space)
+    
+    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2])
+    float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING);
+    float4 elongationRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ELONGATION);
+    float2 spacing = lerp(spacingRange.xy, spacingRange.zw, progress);
+    float2 elongation = lerp(elongationRange.xy, elongationRange.zw, progress);
+
+    float2 mirroredPoint;
+    SDFMirror(shapeInput.localPoint, fmod(repetition.w, 2.0), floor(repetition.w / 2.0), mirroredPoint);
+
+    int repetitionMode = (int)round(repetition.x);
+    if (repetitionMode == BATTLE_EFFECT_REPETITION_GRID)
     {
-        // A: (position.xy, radius start, radius end)
-        // B: (thickness start, thickness end, -, -)
-        // Note:  thickness may go negative to fade a ring out through the glow
-        float circleDistance;
-        SDFCircle(uv, paramsA.xy, lerp(paramsA.z, paramsA.w, progress), circleDistance);
-        if (isVariant) { distance = circleDistance; }
-        else { SDFOnion(circleDistance, lerp(paramsB.x, paramsB.y, progress), distance); }
+        float2 nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint;
+        SDFRepeatGrid(mirroredPoint, spacing, repetition.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint);
+        return min(min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourXPoint, elongation)),
+            min(GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourYPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourXYPoint, elongation)));
     }
-    else if (shapeType == BATTLE_EFFECT_SHAPE_SQUIGGLE)
+    if (repetitionMode != BATTLE_EFFECT_REPETITION_LINE && repetitionMode != BATTLE_EFFECT_REPETITION_CROSS)
     {
-        // A: (travel start, travel end, width, frequency)
-        // B: (wave min, wave max, phase speed, thickness)
-        float squiggleDistance;
-        SDFSquiggle(uv, isVariant, lerp(paramsA.x, paramsA.y, progress), paramsA.z, paramsA.w, itemTime * paramsB.z, paramsB.xy, sin(itemTime), squiggleDistance);
-        distance = squiggleDistance - paramsB.w;
+        return GetBattleEffectCopyDistance(shapeId, shapeInput, mirroredPoint, elongation);
+    }
+
+    // Line (+ cross:  a second line across it)
+    float2 nearestPoint, neighbourPoint;
+    SDFRepeatLine(mirroredPoint, spacing, repetition.y, nearestPoint, neighbourPoint);
+    float distance = min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourPoint, elongation));
+    if (repetitionMode == BATTLE_EFFECT_REPETITION_CROSS)
+    {
+        SDFRepeatLine(mirroredPoint, float2(-spacing.y, spacing.x), repetition.y, nearestPoint, neighbourPoint);
+        distance = min(distance, min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourPoint, elongation)));
     }
     return distance;
 }
+
+float ApplyBattleEffectStyle(UnityTexture2D itemData, int item, float distance, float progress)
+{
+    // Fill = the distance as-is
+    // Outline = an onion of the interpolated thickness
+    
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, -)
+    if ((int)round(style.x) != BATTLE_EFFECT_STYLE_OUTLINE) { return distance; }
+
+    float4 rotationOutline = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATIONOUTLINE);
+    float outlineDistance;
+    SDFOnion(distance, lerp(rotationOutline.z, rotationOutline.w, progress), outlineDistance);
+    return outlineDistance;
+}
+
+float4 CompositeBattleEffectOver(float4 accumulated, float3 colour, float alpha)
+{
+    // Premultiplied 'over':  the new item paints over everything drawn so far
+    
+    return float4(colour * alpha, alpha) + accumulated * (1.0 - alpha);
+}
+
 
 ///<funchints>
 /// <sg:ProviderKey>BattleEffectComposite</sg:ProviderKey>
 /// <sg:DisplayName>Battle Effect Composite</sg:DisplayName>
 /// <sg:SearchCategory>LDM/BattleEffects/Composite</sg:SearchCategory>
 ///</funchints>
-UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv,
+UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, float previewTime, 
+    float itemCount, UnityTexture2D itemData,
+    float4 tintColourA, float4 tintColourB, float4 tintSettings,
+    float phase, float frameRate,
+    float edgeSoftness, float glowWidth,  
+    float disableFlicker, float disableJitter,
     out float3 colorOutput, out float alphaOutput)
 {
-    float4 headers[BATTLE_EFFECT_MAX_ITEMS] = { _Item0Header, _Item1Header, _Item2Header, _Item3Header, _Item4Header, _Item5Header, _Item6Header, _Item7Header };
-    float4 paramsA[BATTLE_EFFECT_MAX_ITEMS] = { _Item0ParamsA, _Item1ParamsA, _Item2ParamsA, _Item3ParamsA, _Item4ParamsA, _Item5ParamsA, _Item6ParamsA, _Item7ParamsA };
-    float4 paramsB[BATTLE_EFFECT_MAX_ITEMS] = { _Item0ParamsB, _Item1ParamsB, _Item2ParamsB, _Item3ParamsB, _Item4ParamsB, _Item5ParamsB, _Item6ParamsB, _Item7ParamsB };
-    float4 colours[BATTLE_EFFECT_MAX_ITEMS] = { _Item0Colour, _Item1Colour, _Item2Colour, _Item3Colour, _Item4Colour, _Item5Colour, _Item6Colour, _Item7Colour };
-
+    // Effect clock (stepped)
     float elapsedTime, sineElapsedTime, cosineElapsedTime;
-    TimeSinceInitialization(_Phase, elapsedTime, sineElapsedTime, cosineElapsedTime);
+    TimeSinceInitialization(phase, elapsedTime, sineElapsedTime, cosineElapsedTime);
+    if (isPreview > 0.5) { elapsedTime = previewTime; } // Editor preview drives time directly
+    SteppedTime(elapsedTime, frameRate, elapsedTime);
 
-    // Edge = antialiasing (in screen pixels) + optional glow (in UV)
-    float edgeHalfWidth = max(length(fwidth(uv)) * _EdgeSoftness, 1e-5); // Derivatives taken once, outside the loop (undefined under per-pixel branching)
-    float edgeOuter = edgeHalfWidth + max(_GlowWidth, 0.0);
+    // Aspect-fitted space ::
+    //  edge = antialiasing (in screen pixels) + optional glow (in fitted units)
+    // Derivatives taken via SDFAspectFit/fwidth outside the loop (otherwise undefined under per-pixel branching)
+    float2 fittedUV;
+    SDFAspectFit(uv, fittedUV);
+    float edgeHalfWidth = max(length(fwidth(fittedUV)) * edgeSoftness, 1e-5);
+    float edgeOuter = edgeHalfWidth + max(glowWidth, 0.0);
 
-    int itemCount = (int)min(_ItemCount, BATTLE_EFFECT_MAX_ITEMS);
-    float4 accumulated = 0.0; // Premultiplied;  later items paint over earlier ones
-
-    [unroll]
-    for (int i = 0; i < BATTLE_EFFECT_MAX_ITEMS; i++)
+    float4 accumulated = 0.0; // Premultiplied - later items paint over earlier ones
+    int count = (int)itemCount;
+    [loop]
+    for (int i = 0; i < count; i++)
     {
-        if (i >= itemCount) { break; }
+        int shapeId;
+        float itemTime, progress;
+        if (!TryGetBattleEffectItemTime(itemData, i, elapsedTime, shapeId, itemTime, progress)) { continue; }
 
-        float4 header = headers[i];
-        float itemTime = elapsedTime - header.y;
-        if (itemTime < 0.0 || itemTime > header.z) { continue; }
-        float progress = header.z > 0.0 ? itemTime / header.z : 1.0;
+        BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, i, elapsedTime, disableFlicker, disableJitter);
+        float distanceScale;
+        BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, i, fittedUV, itemTime, progress, modifiers, distanceScale);
+        float distance = GetBattleEffectLocalDistance(itemData, i, shapeId, shapeInput, progress) * distanceScale;
+        distance = ApplyBattleEffectStyle(itemData, i, distance, progress);
 
-        float distance = BattleEffectItemDistance(uv, header, paramsA[i], paramsB[i], itemTime, progress);
         float coverage = 1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance);
-
-        float itemAlpha = colours[i].a * coverage;
-        accumulated = float4(colours[i].rgb * itemAlpha, itemAlpha) + accumulated * (1.0 - itemAlpha);
+        float4 colour = LoadBattleEffectTexel(itemData, i, BATTLE_EFFECT_LAYOUT_COLOUR);
+        accumulated = CompositeBattleEffectOver(accumulated, colour.rgb, colour.a * coverage * modifiers.flickerAlpha);
     }
 
-    alphaOutput = accumulated.a;
-    colorOutput = alphaOutput > 0.0 ? accumulated.rgb / alphaOutput : 0.0;
+    // Overall tint (solid / gradient, in effect units;  scrolls on the stepped clock)
+    float4 tint;
+    ColourGradient(fittedUV, tintSettings.x, tintColourA, tintColourB, tintSettings.y, tintSettings.z, elapsedTime * tintSettings.w, tint);
+    alphaOutput = accumulated.a * tint.a;
+    colorOutput = (accumulated.a > 0.0 ? accumulated.rgb / accumulated.a : 0.0) * tint.rgb;
 }
 
 #endif

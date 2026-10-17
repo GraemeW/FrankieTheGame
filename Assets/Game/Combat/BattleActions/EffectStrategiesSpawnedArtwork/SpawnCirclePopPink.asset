@@ -14,31 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectGUID: 2821570d-f3ad-4c61-920d-da063dd6f01b
   effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
-  effectRecipe:
-    edgeSoftness: 1
-    glowWidth: 0.05
-    shapes:
-    - shapeType: 0
-      startTime: 0
-      duration: 0.6
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      circle:
-        position: {x: 0.5, y: 0.5}
-        isFilled: 0
-        startRadius: 0
-        endRadius: 0.54
-        startThickness: 0.1
-        endThickness: -0.05
-      squiggle:
-        isHorizontal: 0
-        startTravel: 0
-        endTravel: 1.5
-        width: 0.9
-        frequency: 30
-        waveRange: {x: 0.25, y: 0.75}
-        phaseSpeed: 1
-        thickness: 0.2
-  effectColour: {r: 1, g: 0.390566, b: 0.84496796, a: 1}
+  effectRecipe: {fileID: 11400000, guid: 2bb62d715b3d2437eba46c1eaf584bd9, type: 2}
+  effectTint:
+    mode: 0
+    colourA: {r: 1, g: 0.390566, b: 0.84496796, a: 1}
+    colourB: {r: 1, g: 1, b: 1, a: 1}
+    angle: 0
+    frequency: 1
+    speed: 0
   isGlobalEffect: 0
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

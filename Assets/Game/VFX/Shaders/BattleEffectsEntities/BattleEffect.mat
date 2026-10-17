@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _ItemData:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -37,10 +41,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _DisableFlicker: 0
+    - _DisableJitter: 0
     - _EdgeSoftness: 1
+    - _FrameRate: 0
     - _GlowWidth: 0
+    - _IsPreview: 0
     - _ItemCount: 0
     - _Phase: 0
+    - _PreviewTime: 0
     m_Colors:
     - _Item0Colour: {r: 1, g: 1, b: 1, a: 1}
     - _Item0Header: {r: 0, g: 0, b: 0, a: 0}
@@ -74,5 +83,10 @@ Material:
     - _Item7Header: {r: 0, g: 0, b: 0, a: 0}
     - _Item7ParamsA: {r: 0, g: 0, b: 0, a: 0}
     - _Item7ParamsB: {r: 0, g: 0, b: 0, a: 0}
+    - _TintColorA: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColorB: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColourA: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColourB: {r: 1, g: 1, b: 1, a: 1}
+    - _TintSettings: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

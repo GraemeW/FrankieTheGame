@@ -22,20 +22,24 @@ namespace Frankie.Rendering
 
         #region BattleEffectShaderProperties
         // Shared BattleEffect graph (see BattleEffectComposite.hlsl);  MaterialDefinition only takes property names
+        private const string _isPreviewReference = "_IsPreview";
+        private const string _previewTimeReference = "_PreviewTime";
         private const string _itemCountReference = "_ItemCount";
+        private const string _itemDataReference = "_ItemData";
+        private const string _tintColourAReference = "_TintColourA";
+        private const string _tintColourBReference = "_TintColourB";
+        private const string _tintSettingsReference = "_TintSettings";
+        private const string _frameRateReference = "_FrameRate";
         private const string _edgeSoftnessReference = "_EdgeSoftness";
         private const string _glowWidthReference = "_GlowWidth";
-        private static readonly string[] _itemHeaderReferences = GetItemReferences("Header");
-        private static readonly string[] _itemParamsAReferences = GetItemReferences("ParamsA");
-        private static readonly string[] _itemParamsBReferences = GetItemReferences("ParamsB");
-        private static readonly string[] _itemColourReferences = GetItemReferences("Colour");
-
-        public const int battleEffectItemCapacity = 8;
+        private const string _disableFlickerReference = "_DisableFlicker";
+        private const string _disableJitterReference = "_DisableJitter";
         #endregion
         
         #region Static
         // Reused across calls to avoid a per-call allocation (read -> write -> hand-off on every use)
         [NoAutoStaticsCleanup] private static MaterialPropertyBlock _workingPropertyBlock;
+        [NoAutoStaticsCleanup] private static readonly int _itemDataID = Shader.PropertyToID(_itemDataReference);
         #endregion
 
         #region PublicRendererProperties
@@ -109,33 +113,34 @@ namespace Frankie.Rendering
             materialDefinition.SetFloat(_globalShaderPhaseReference, phase);
         }
 
-        public static void SetBattleEffectEdge(ref MaterialDefinition materialDefinition, float edgeSoftness, float glowWidth)
+        // Settings:  (mode, angle [radians], frequency, speed)
+        public static void SetBattleEffectTint(ref MaterialDefinition materialDefinition, Color colourA, Color colourB, Vector4 settings)
         {
+            materialDefinition.SetColor(_tintColourAReference, colourA);
+            materialDefinition.SetColor(_tintColourBReference, colourB);
+            materialDefinition.SetVector(_tintSettingsReference, settings);
+        }
+
+        public static void SetBattleEffectRecipe(ref MaterialDefinition materialDefinition, Texture2D itemData, int itemCount, float frameRate, float edgeSoftness, float glowWidth)
+        {
+            materialDefinition.SetTexture(_itemDataReference, itemData);
+            materialDefinition.SetFloat(_itemCountReference, itemCount);
+            materialDefinition.SetFloat(_frameRateReference, frameRate);
             materialDefinition.SetFloat(_edgeSoftnessReference, edgeSoftness);
             materialDefinition.SetFloat(_glowWidthReference, glowWidth);
         }
 
-        public static void SetBattleEffectItemCount(ref MaterialDefinition materialDefinition, int itemCount)
-        {
-            materialDefinition.SetFloat(_itemCountReference, Mathf.Clamp(itemCount, 0, battleEffectItemCapacity));
-        }
+        // Whether a material is drawn by the shared BattleEffect shader (i.e. takes a recipe)
+        public static bool IsBattleEffectMaterial(Material material) => material != null && material.HasProperty(_itemDataID);
 
-        public static void SetBattleEffectItem(ref MaterialDefinition materialDefinition, int index, Vector4 header, Vector4 paramsA, Vector4 paramsB, Color colour)
+        // Editor preview only:  draws the effect at a given time (seconds since spawn) + frame rate, instead of from _Phase, w/ retro toggles
+        public static void SetBattleEffectPreview(ref MaterialDefinition materialDefinition, float previewTime, float frameRate, bool isFlickerEnabled, bool isJitterEnabled)
         {
-            if (index is < 0 or >= battleEffectItemCapacity) { return; }
-            materialDefinition.SetVector(_itemHeaderReferences[index], header);
-            materialDefinition.SetVector(_itemParamsAReferences[index], paramsA);
-            materialDefinition.SetVector(_itemParamsBReferences[index], paramsB);
-            materialDefinition.SetColor(_itemColourReferences[index], colour);
-        }
-        #endregion
-
-        #region PrivateMethods
-        private static string[] GetItemReferences(string suffix)
-        {
-            var references = new string[battleEffectItemCapacity];
-            for (int i = 0; i < battleEffectItemCapacity; i++) { references[i] = $"_Item{i}{suffix}"; }
-            return references;
+            materialDefinition.SetFloat(_isPreviewReference, 1f);
+            materialDefinition.SetFloat(_previewTimeReference, previewTime);
+            materialDefinition.SetFloat(_frameRateReference, frameRate);
+            materialDefinition.SetFloat(_disableFlickerReference, isFlickerEnabled ? 0f : 1f);
+            materialDefinition.SetFloat(_disableJitterReference, isJitterEnabled ? 0f : 1f);
         }
         #endregion
     }
