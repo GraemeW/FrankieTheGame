@@ -94,7 +94,7 @@ To make a new effect strategy:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewEffectMenu.png" width="650">
 
-Effect strategies derive from the [EffectStrategy](../../../Scripts/Combat/BattleAction/Effects/EffectStrategy.cs) abstract class, which requires a method to initiate the effect and a callback for when the effect is finished.  
+Effect strategies derive from the [EffectStrategy](../../../Scripts/Combat/BattleAction/StandardEffects/EffectStrategy.cs) abstract class, which requires a method to initiate the effect and a callback for when the effect is finished.  
 
 #### Basic Effects
 
@@ -148,12 +148,17 @@ Some example basic effects include:
 
 #### Spawn Battle Effects
 
-The [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnBattleEffect.cs) effect may be used to add a visual indicator of a battle action on the [BattleUI](../../UI/Combat/BattleUI.prefab).  When this effect is called, a visual effect (a material, tinted by the effect's colour) may be spawned globally over the entire battle stage or individually on the battle action's target.  These effects are stored separately in [EffectStrategiesSpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/).
+[SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) may be used to add a visual indicator onto the [BattleUI](../../UI/Combat/BattleUI.prefab)'s [battle stage](../../UI/README.md#battle-stage) when a battle action is triggered.  When this effect is called, a visual effect may be spawned globally over the entire battle stage or individually on each of the battle action's targets.  
 
-For example, the effect [SpawnCirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset):
+These effects are stored separately in [EffectStrategiesSpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/), and are configured with:
+* `Effect Material`:  the shader material to draw - normally the shared [BattleEffect](../../VFX/Shaders/BattleEffectsEntities/BattleEffect.mat) material
+* `Effect Recipe`:  a [recipe](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/BattleEffectRecipes/) asset - the shapes to draw, when, where and how they animate (e.g. three ring pops, a quarter-second apart)
+  * see [Battle Effects](../../VFX/Shaders/README.md#recipes) for recipes, items, shapes and the preview window
+* `Effect Tint`:  the colour over the whole effect (solid, or a linear / wave / radial gradient), so one recipe can serve several colour variants (e.g. [SpawnMultiPopBlue](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopBlue.asset) and [SpawnMultiPopYellow](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopYellow.asset))
+* `Is Global Effect`:  to cover the whole battle stage, instead of each target's slide
+* `Delay After Seconds`:  how long the battle action waits before moving on to its next effect
+* `Destroy After Seconds`:  the effect's lifetime (zero to keep it until the end of combat)
 
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefab.png" width="325">
-
-, will spawn a pink circle pop UI element as shown below when Tilly uses the `Do Actual Work` skill:
+For example, the effect [SpawnCirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset) will spawn a pink circle pop as shown below when Tilly uses the `Do Actual Work` skill:
 
 ![](../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefabImplemented.gif)

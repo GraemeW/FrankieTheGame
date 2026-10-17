@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: SpawnVerticalWavyGreen
   m_EditorClassIdentifier: 
   effectGUID: 21af3d6a-4a67-413a-b52c-2761c3b1b2ed
-  effectMaterial: {fileID: 2100000, guid: 2f88caf7ffac6014ebcff80329d2f1e6, type: 2}
-  effectColour: {r: 0.48206654, g: 1, b: 0.4660377, a: 1}
+  effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+  effectRecipe: {fileID: 11400000, guid: be8f0b200feb742d7bf208df2d924e61, type: 2}
+  effectTint:
+    mode: 0
+    colourA: {r: 0.48206654, g: 1, b: 0.4660377, a: 1}
+    colourB: {r: 1, g: 1, b: 1, a: 1}
+    angle: 0
+    frequency: 1
+    speed: 0
   isGlobalEffect: 0
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 5

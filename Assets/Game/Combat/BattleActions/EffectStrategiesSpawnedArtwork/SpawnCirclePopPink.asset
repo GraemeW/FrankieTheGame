@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: SpawnCirclePopPink
   m_EditorClassIdentifier: 
   effectGUID: 2821570d-f3ad-4c61-920d-da063dd6f01b
-  effectMaterial: {fileID: 2100000, guid: 0d934f13e8c780a46a82806390fbba23, type: 2}
-  effectColour: {r: 1, g: 0.390566, b: 0.84496796, a: 1}
+  effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+  effectRecipe: {fileID: 11400000, guid: 2bb62d715b3d2437eba46c1eaf584bd9, type: 2}
+  effectTint:
+    mode: 0
+    colourA: {r: 1, g: 0.390566, b: 0.84496796, a: 1}
+    colourB: {r: 1, g: 1, b: 1, a: 1}
+    angle: 0
+    frequency: 1
+    speed: 0
   isGlobalEffect: 0
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

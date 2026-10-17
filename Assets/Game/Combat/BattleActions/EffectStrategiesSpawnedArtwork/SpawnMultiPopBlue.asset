@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: SpawnMultiPopBlue
   m_EditorClassIdentifier: 
   effectGUID: b916b237-8284-4597-b160-c98bdeabbb3d
-  effectMaterial: {fileID: 2100000, guid: 44b05c740a87f994098a480a039c97e8, type: 2}
-  effectColour: {r: 0.34617302, g: 0.8027256, b: 0.9811321, a: 1}
+  effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+  effectRecipe: {fileID: 11400000, guid: 66d2388097e2e436893ea7de4e8f7f34, type: 2}
+  effectTint:
+    mode: 0
+    colourA: {r: 0.34617302, g: 0.8027256, b: 0.9811321, a: 1}
+    colourB: {r: 1, g: 1, b: 1, a: 1}
+    angle: 0
+    frequency: 1
+    speed: 0
   isGlobalEffect: 0
   delayAfterSeconds: 0.5
   destroyAfterSeconds: 2
