@@ -73,16 +73,25 @@ namespace Frankie.Combat.UI
             battleController = setBattleController;
         }
 
-        // Effect over an enemy's slide (matching its size);  non-positive lifetime = until its enemy is gone or the battle leaves combat
+        // Effect over an enemy's slide (matching its size)
         public void SpawnEffect(BattleEntity enemy, Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
         {
             if (effectMaterial == null || enemy == null) { return; }
             if (!enemySlideLookup.TryGetValue(enemy, out EnemySlideHandle enemySlide) || !enemySlide.TryGetSlideElement(out VisualElement slideElement)) { return; }
 
-            AddEffect(BattleEffectHandle.OverAnchor(stageView, slideElement, effectMaterial, effectRecipe, effectTint, lifetime));
+            AddEffect(BattleEffectHandle.OverSlide(stageView, slideElement, effectMaterial, effectRecipe, effectTint, lifetime));
         }
 
-        // Effect over the whole stage (bands + party slides included);  non-positive lifetime = until the battle leaves combat
+        // Effect across a row of enemies (spanning that row's enemies)
+        public void SpawnRowEffect(BattleRow row, Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
+        {
+            if (effectMaterial == null) { return; }
+            if (!stageView.TryGetEntryContainer(EnemySlideRow.GetRowType(row), out VisualElement rowElement)) { return; }
+
+            AddEffect(BattleEffectHandle.OverRow(stageView, rowElement, effectMaterial, effectRecipe, effectTint, lifetime));
+        }
+
+        // Effect over the whole stage (bands + party slides included)
         public void SpawnFullScreenEffect(Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
         {
             if (effectMaterial == null) { return; }

@@ -10,32 +10,50 @@ namespace Frankie.Combat
     public class SpawnBattleEffect : EffectStrategy
     {
         // Note:
-        //  - Standard effect is sized to the recipient's slide and coloured by the effect tint (i.e. one recipe serves every colour variant)
-        //  - Global effect covers the whole battle stage instead
         //  - A recipe is drawn by the shared BattleEffect material (w/o a recipe, the material is drawn as-is)
 
         [SerializeField] private Material effectMaterial;
         [SerializeField] private BattleEffectRecipe effectRecipe;
         [SerializeField] private BattleEffectTint effectTint = new();
-        [SerializeField] private bool isGlobalEffect = false;
+        [SerializeField] private BattleEffectPlacement placement = BattleEffectPlacement.Slide;
         [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
         
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
+            if (effectMaterial == null || effectRecipe == null) { yield break; }
+            
             BattleUI battleUI = BattleUI.FindBattleUI();
             BattleStage battleStage = battleUI != null ? battleUI.GetBattleStage() : null;
             if (battleStage == null) { yield break; }
 
-            if (isGlobalEffect) { battleStage.SpawnFullScreenEffect(effectMaterial, effectRecipe, effectTint, destroyAfterSeconds); }
-            else if (recipients != null)
+            switch (placement)
             {
-                foreach (BattleEntity recipient in recipients)
-                {
-                    battleStage.SpawnEffect(recipient, effectMaterial, effectRecipe, effectTint, destroyAfterSeconds);
-                }
+                case BattleEffectPlacement.FullScreen:
+                    battleStage.SpawnFullScreenEffect(effectMaterial, effectRecipe, effectTint, destroyAfterSeconds);
+                    break;
+                case BattleEffectPlacement.Row:
+                    foreach (BattleRow row in GetEnemyRows(recipients)) { battleStage.SpawnRowEffect(row, effectMaterial, effectRecipe, effectTint, destroyAfterSeconds); }
+                    break;
+                case BattleEffectPlacement.Slide:
+                default:
+                    if (recipients == null) { break; }
+                    foreach (BattleEntity recipient in recipients) { battleStage.SpawnEffect(recipient, effectMaterial, effectRecipe, effectTint, destroyAfterSeconds); }
+                    break;
             }
             yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));
+        }
+
+        private static HashSet<BattleRow> GetEnemyRows(IList<BattleEntity> recipients)
+        {
+            // Note:  Party members are skipped (they're not actually on a battle row, despite defaulting to Middle)
+            var rows = new HashSet<BattleRow>();
+            if (recipients == null) { return rows; }
+            foreach (BattleEntity recipient in recipients)
+            {
+                if (recipient != null && !recipient.isCharacter) { rows.Add(recipient.row); }
+            }
+            return rows;
         }
     }
 }

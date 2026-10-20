@@ -27,7 +27,7 @@
     height: 800px;
 }
 
-/* Effect layers fill the stage:  per-enemy effects sit over the enemies, full-screen effects over everything on the stage */
+/* Effect layers fill the stage:  slide + row effects sit over the enemies, full-screen effects over everything on the stage */
 .battle-stage__effects,
 .battle-stage__screen-effects {
     position: absolute;

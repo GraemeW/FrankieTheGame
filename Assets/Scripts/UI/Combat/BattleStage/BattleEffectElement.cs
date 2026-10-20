@@ -16,7 +16,7 @@ namespace Frankie.Combat.UI
         private const string _fullScreenUssClassName = _ussClassName + "--full-screen";
 
         // State
-        private readonly bool isFullScreen;
+        private readonly BattleEffectPlacement placement;
         private readonly VisualElement targetAnchor; // Unused for full-screen effects
         private readonly Color vertexTint;
         private bool isExpired = false;
@@ -24,12 +24,12 @@ namespace Frankie.Combat.UI
         // Events
         public event Action expired;
 
-        public BattleEffectElement(bool isFullScreen, VisualElement targetAnchor, Material material, BattleEffectRecipe recipe, BattleEffectTint tint, float phase, float lifetime)
+        public BattleEffectElement(BattleEffectPlacement placement, VisualElement targetAnchor, Material material, BattleEffectRecipe recipe, BattleEffectTint tint, float phase, float lifetime)
         {
-            this.isFullScreen = isFullScreen;
+            this.placement = placement;
             this.targetAnchor = targetAnchor;
             AddToClassList(_ussClassName);
-            EnableInClassList(_fullScreenUssClassName, isFullScreen);
+            EnableInClassList(_fullScreenUssClassName, placement == BattleEffectPlacement.FullScreen);
             pickingMode = PickingMode.Ignore;
 
             var materialDefinition = new MaterialDefinition(material);
@@ -37,7 +37,7 @@ namespace Frankie.Combat.UI
             if (recipe != null)
             {
                 // Recipe effects are coloured in the shader (solid / gradient), while other materials keep the vertex tint
-                recipe.ApplyTo(ref materialDefinition, isFullScreen ? BattleEffectFit.Stretch : BattleEffectFit.AspectFit);
+                recipe.ApplyTo(ref materialDefinition, placement == BattleEffectPlacement.Slide ? BattleEffectFit.AspectFit : BattleEffectFit.Stretch);
                 tint?.ApplyTo(ref materialDefinition);
                 vertexTint = Color.white;
             }
@@ -53,11 +53,18 @@ namespace Frankie.Combat.UI
         #region PrivateMethods
         private void HandleAttachToPanel(AttachToPanelEvent attachToPanelEvent)
         {
-            if (isFullScreen) { return; }
+            if (placement == BattleEffectPlacement.FullScreen) { return; }
             if (targetAnchor?.panel == null || targetAnchor.panel != panel || parent == null) { schedule.Execute(Expire); return; } // Deferred:  avoid removing the effect while it is still being attached
 
-            // Converted between the two elements directly
-            Rect layerRect = targetAnchor.ChangeCoordinatesTo(parent, new Rect(Vector2.zero, targetAnchor.layout.size));
+            // Positioning the effect over the anchor in two steps:
+            //  1. anchorRect:  the area to cover, in the anchor's own local space (0, 0 = the anchor's top-left)
+            //      - slide:  the whole slide
+            //      - row:  the row's content rect, i.e. excluding its padding (the offset rows' stagger)
+            Rect anchorRect = placement == BattleEffectPlacement.Row ? targetAnchor.contentRect : new Rect(Vector2.zero, targetAnchor.layout.size);
+            
+            //  2. layerRect:  that same area converted into the effect layer's space (this element's parent), which is what style.left / top position against
+            //      - the anchor + effect sit in different branches of the stage, so converted between the two elements directly
+            Rect layerRect = targetAnchor.ChangeCoordinatesTo(parent, anchorRect);
             style.left = layerRect.x;
             style.top = layerRect.y;
             style.width = layerRect.width;
@@ -67,7 +74,7 @@ namespace Frankie.Combat.UI
 
         private void HandleDetachFromPanel(DetachFromPanelEvent detachFromPanelEvent)
         {
-            if (!isFullScreen) { targetAnchor?.UnregisterCallback<DetachFromPanelEvent>(HandleAnchorDetached); }
+            if (placement != BattleEffectPlacement.FullScreen) { targetAnchor?.UnregisterCallback<DetachFromPanelEvent>(HandleAnchorDetached); }
         }
 
         private void HandleAnchorDetached(DetachFromPanelEvent detachFromPanelEvent) => Expire();

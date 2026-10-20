@@ -71,8 +71,9 @@ Briefly:
 * the battle action includes targeting strategies, filtering strategies and effects strategies, as detailed [here](../../OnLoadAssets/BattleActions/)
   * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
   * , but they are also used to generate any relevant animations/artwork when the battle action is activated
-* a [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) spawns its effect over each target's enemy slide (sized to match it), or over the whole battle stage if set as a global effect
-  *  note that global effects stretch to fill the stage (see `BattleEffectFit`), while slide effects keep their proportions
+* a [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) spawns its effect by its [placement](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectPlacement.cs)
+  * placement defines whether the effect is over each target's enemy slide, across each target's row (spanning that row's enemies, per row), or over the whole battle stage
+  * row and full-screen effects stretch to fill their area (see `BattleEffectFit`), while slide effects keep their proportions (sized to match)
 
 The framework itself (incl. recipe library, items, shapes, tints, HLSL library, preview window + the dispatch generator) lives in the [com.lowdefmustard.rendering](../../../../Packages/com.lowdefmustard.rendering/README.md) package.  Frankie implements the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) strategy, the battle stage elements that draw it, the shader graphs + materials, and the recipe asset files.
 
@@ -92,10 +93,10 @@ A recipe has:
 * `Items`:  drawn in order, so later items paint over earlier ones
 
 Important Notes:
-1. In the standard `fit=aspectFit`  configuration, positions and sizes are in effect units:  
+1. In the standard `fit=aspectFit` configuration, positions and sizes are in effect units:  
    - 0-1 spans the effect's shorter side, centred, with v running upwards
    - In this manner, shapes keep their proportions on any slide size (the longer side simply reaches beyond 0-1).
-2. In the `fit=stretch` configuration, e.g. with global (full-screen) effects, the effect stretches to fill the element
+2. In the `fit=stretch` configuration, e.g. with row and full-screen effects, the effect stretches to fill the element
    - 0-1 spans the whole element on each axis for this case
 3. A material other than BattleEffect can still be used for a one-off effect
     - simply leave the SpawnBattleEffect's recipe empty, and the material is drawn as-is (w/ `_Phase` set, and the tint's colour A as its vertex tint)
