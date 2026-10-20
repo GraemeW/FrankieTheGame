@@ -35,7 +35,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             recipe.name = _recipeName;
             JsonUtility.FromJsonOverwrite("{\"frameRate\":10}", recipe);
-            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTime\":0.5,\"duration\":1}") });
+            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":1}") });
 
             window = ScriptableObject.CreateInstance<BattleEffectPreviewWindow>();
             host = new HeadlessEditorWindow(window);

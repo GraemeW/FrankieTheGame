@@ -10,7 +10,7 @@ namespace LowDefMustard.Rendering
         public const int position = 1;          // (start.xy, end.xy)
         public const int scale = 2;             // (start.xy, end.xy)
         public const int rotationOutline = 3;   // (rotation start, rotation end [radians], outline thickness start, end)
-        public const int style = 4;             // (style, jitter mode, jitter phase, -)
+        public const int style = 4;             // (style, jitter mode, jitter phase, progress steps)
         public const int colour = 5;            // Linear rgba
         public const int parametersAStart = 6;  // Shape parameters 0-3
         public const int parametersAEnd = 7;

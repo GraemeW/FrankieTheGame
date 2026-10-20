@@ -139,4 +139,20 @@ UNITY_EXPORT_REFLECTION void EaseProgress(float progress, float easingType,
     else { easedProgress = clampedProgress; }
 }
 
+///<funchints>
+/// <sg:ProviderKey>StepProgress</sg:ProviderKey>
+/// <sg:DisplayName>Step Progress</sg:DisplayName>
+/// <sg:SearchCategory>LDM/StepProgress</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void StepProgress(float progress, float steps,
+    out float steppedProgress)
+{
+    // Holds 0-1 progress on steps evenly spaced values, each for an equal share of the progress (e.g. 3 = 0, 0.5, 1)
+    //  - i.e. animation jumps between held poses (retro) rather than sliding
+    //  - fewer than 2 steps passes progress through
+
+    float stepCount = round(steps);
+    steppedProgress = stepCount >= 2.0 ? min(floor(saturate(progress) * stepCount), stepCount - 1.0) / (stepCount - 1.0) : progress;
+}
+
 #endif

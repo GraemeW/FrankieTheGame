@@ -43,9 +43,9 @@ namespace LowDefMustard.Rendering.Editor
             {
                 var mode = (BattleEffectTintMode)modeProperty.intValue;
                 SetShown(BattleEffectTint.colourBField, mode != BattleEffectTintMode.Solid);
-                SetShown(BattleEffectTint.angleField, mode is BattleEffectTintMode.Linear or BattleEffectTintMode.Wave);
-                SetShown(BattleEffectTint.frequencyField, mode != BattleEffectTintMode.Solid);
-                SetShown(BattleEffectTint.speedField, mode is BattleEffectTintMode.Wave or BattleEffectTintMode.Radial);
+                SetShown(BattleEffectTint.angleDegreesField, mode is BattleEffectTintMode.Linear or BattleEffectTintMode.Wave);
+                SetShown(BattleEffectTint.bandsPerEUField, mode != BattleEffectTintMode.Solid);
+                SetShown(BattleEffectTint.scrollRateField, mode is BattleEffectTintMode.Wave or BattleEffectTintMode.Radial);
             }
 
             void SetShown(string fieldName, bool isShown)

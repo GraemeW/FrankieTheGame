@@ -46,6 +46,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TestCase(typeof(BattleEffectDiamond), 2)]
         [TestCase(typeof(BattleEffectSegment), 3)]
         [TestCase(typeof(BattleEffectChevron), 4)]
+        [TestCase(typeof(BattleEffectLens), 5)]
+        [TestCase(typeof(BattleEffectJaggedLine), 6)]
         public void PackageShapes_KeepTheirStableIds(Type shapeType, int expectedId)
         {
             var shape = (BattleEffectShape)Activator.CreateInstance(shapeType);
@@ -60,10 +62,35 @@ namespace LowDefMustard.Rendering.Tests.Editor
             var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
 
             new BattleEffectDiamond().GetParameters(parameters);
-            Assert.AreEqual(1f, parameters[0].GetStart(), "diamond aspect");
+            Assert.AreEqual(1f, parameters[0].GetStart(), "diamond aspect ratio");
 
             new BattleEffectChevron().GetParameters(parameters);
-            Assert.AreEqual(0.6f, parameters[0].GetStart(), 1e-5f, "chevron depth");
+            Assert.AreEqual(0.6f, parameters[0].GetStart(), 1e-5f, "chevron depth ratio");
+
+            new BattleEffectLens().GetParameters(parameters);
+            Assert.AreEqual(0.4f, parameters[0].GetStart(), 1e-5f, "lens aspect ratio");
+        }
+
+        [Test]
+        public void GetParameters_Squiggle_WritesSettingsInAdapterOrder()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+
+            new BattleEffectSquiggle().GetParameters(parameters);
+
+            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0f, 0f, 0f };
+            for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
+        }
+
+        [Test]
+        public void GetParameters_JaggedLine_WritesSettingsInAdapterOrder()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+
+            new BattleEffectJaggedLine().GetParameters(parameters);
+
+            float[] expected = { 1f, 0.25f, 0.1f, 0.3f, 0f, 1f, 0f, 0f };
+            for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
         }
         #endregion
     }

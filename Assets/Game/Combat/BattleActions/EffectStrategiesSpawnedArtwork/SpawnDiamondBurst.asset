@@ -19,9 +19,9 @@ MonoBehaviour:
     mode: 2
     colourA: {r: 0.22694907, g: 0.89810395, b: 0.9433962, a: 1}
     colourB: {r: 0.07186722, g: 0.2750089, b: 0.8962264, a: 1}
-    angle: 0
-    frequency: 3
-    speed: 0
+    angleDegrees: 0
+    bandsPerEU: 3
+    scrollRate: 0
   placement: 0
   delayAfterSeconds: 1
   destroyAfterSeconds: 2

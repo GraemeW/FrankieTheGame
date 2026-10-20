@@ -13,66 +13,66 @@ MonoBehaviour:
   m_Name: MultiPopRecipe
   m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
   frameRate: 0
-  edgeSoftness: 1
-  glowWidth: 0.05
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0.05
   items:
   - label: Pop A
     shape:
       rid: 5082563200036634790
-    startTime: 0
-    duration: 1
+    startTimeSeconds: 0
+    durationSeconds: 1
     easing: 0
-    position:
+    positionEU:
       start: {x: 0.3, y: 0.3}
       end: {x: 0.3, y: 0.3}
-    scale:
+    scaleEU:
       start: {x: 0, y: 0}
       end: {x: 0.3, y: 0.3}
-    rotation:
+    rotationDegrees:
       start: 0
       end: 0
     style: 1
-    outlineThickness:
+    outlineThicknessEU:
       start: 0.05
       end: -0.05
     colour: {r: 1, g: 1, b: 1, a: 1}
   - label: Pop B
     shape:
       rid: 5082563200036634791
-    startTime: 0.25
-    duration: 1
+    startTimeSeconds: 0.25
+    durationSeconds: 1
     easing: 0
-    position:
+    positionEU:
       start: {x: 0.45, y: 0.7}
       end: {x: 0.45, y: 0.7}
-    scale:
+    scaleEU:
       start: {x: 0, y: 0}
       end: {x: 0.3, y: 0.3}
-    rotation:
+    rotationDegrees:
       start: 0
       end: 0
     style: 1
-    outlineThickness:
+    outlineThicknessEU:
       start: 0.05
       end: -0.05
     colour: {r: 1, g: 1, b: 1, a: 1}
   - label: Pop C
     shape:
       rid: 5082563200036634792
-    startTime: 0.5
-    duration: 1
+    startTimeSeconds: 0.5
+    durationSeconds: 1
     easing: 0
-    position:
+    positionEU:
       start: {x: 0.7, y: 0.25}
       end: {x: 0.7, y: 0.25}
-    scale:
+    scaleEU:
       start: {x: 0, y: 0}
       end: {x: 0.3, y: 0.3}
-    rotation:
+    rotationDegrees:
       start: 0
       end: 0
     style: 1
-    outlineThickness:
+    outlineThicknessEU:
       start: 0.05
       end: -0.05
     colour: {r: 1, g: 1, b: 1, a: 1}

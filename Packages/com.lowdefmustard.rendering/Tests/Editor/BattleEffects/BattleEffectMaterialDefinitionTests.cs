@@ -18,7 +18,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             material = RenderingTestMaterials.CreatePropertiesMaterial();
             recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            JsonUtility.FromJsonOverwrite("{\"frameRate\":12,\"scale\":2,\"edgeSoftness\":1.5,\"glowWidth\":0.1}", recipe);
+            JsonUtility.FromJsonOverwrite("{\"frameRate\":12,\"scaleRatio\":2,\"edgeSoftnessPixels\":1.5,\"glowWidthEU\":0.1}", recipe);
             recipe.SetItems(new[] { CreateItem(new BattleEffectCircle()), CreateItem(new BattleEffectDiamond()) });
         }
 
@@ -72,7 +72,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void TintApplyTo_WritesColoursAndSettingsInRadians()
         {
             var tint = new BattleEffectTint();
-            JsonUtility.FromJsonOverwrite($"{{\"mode\":2,\"colourA\":{ToJson(Color.red)},\"colourB\":{ToJson(Color.blue)},\"angle\":90,\"frequency\":3,\"speed\":0.5}}", tint);
+            JsonUtility.FromJsonOverwrite($"{{\"mode\":2,\"colourA\":{ToJson(Color.red)},\"colourB\":{ToJson(Color.blue)},\"angleDegrees\":90,\"bandsPerEU\":3,\"scrollRate\":0.5}}", tint);
             var materialDefinition = new MaterialDefinition(material);
 
             tint.ApplyTo(ref materialDefinition);

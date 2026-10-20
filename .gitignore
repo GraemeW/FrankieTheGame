@@ -110,21 +110,22 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Unity package samples (Samples~) - un-ignore past a global "*~"
+!Packages/*/Samples~/
+
+# Unity Additional
+UIElementsSchema
+Assets/UnityConfigurables/AddressableAssetsData/link.xml
+Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
+
 # Other Ignores
 .DS_Store
 *.pyc
-Assets/UnityConfigurables/AddressableAssetsData/link.xml
-Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
+__pycache__/
 Assets/z_MadeAssets/
 Assets/z_ImportedAssets/
-InfoTools/TilemapPacking/Input/
-InfoTools/TilemapPacking/Output/
-InfoTools/TilemapPacking/__pycache__/
-InfoTools/ImagePreImportTool/Input/
-InfoTools/ImagePreImportTool/Output/
-InfoTools/CreateImageTool/Output/
-InfoTools/ImagePreImportTool/InputDirectory
-InfoTools/PyTools/ImagePreImportTool/InputDirectory
-/MultiZoneViewer
-UIElementsSchema
-InfoTools/Instructions
+/MultiZoneViewer/
+InfoTools/Instructions/
+InfoTools/PyTools/ImagePreImportTool/Input/
+InfoTools/PyTools/ImagePreImportTool/InputDirectory/
+InfoTools/PyTools/ImagePreImportTool/Output/

@@ -87,9 +87,9 @@ Animated battle effects are comprised of a list of timed, animated shape items, 
 
 A recipe has:
 * `Frame Rate`:  steps the whole animation at this many frames per second for a retro, held-frame look (0 = smooth)
-* `Scale`:  grows / shrinks the whole effect about its centre (positions, sizes, outlines, jitter + glow)
-* `Edge Softness`:  anti-aliasing, in screen pixels (so edges are equally crisp at any size)
-* `Glow Width`:  an extra soft edge, in effect units
+* `Scale Ratio`:  grows / shrinks the whole effect about its centre (positions, sizes, outlines, jitter + glow)
+* `Edge Softness Pixels`:  anti-aliasing (so edges are equally crisp at any size)
+* `Glow Width EU`:  an extra soft edge
 * `Items`:  drawn in order, so later items paint over earlier ones
 
 Important Notes:
@@ -105,18 +105,34 @@ Important Notes:
 
 Most item settings are ranges, running from their start to end value over the item's eased duration.  
 
+Setting names carry their unit as a suffix (items, recipes and shapes alike):
+* `EU`:  effect units - the effect space
+  * 0-1 spans the effect's shorter side when aspect fit
+  * 0-1 spans the whole element when stretched
+* `SU`:  shape units - the shape's own space
+  * 1 corresponds to the item's scale
+  * patterns scale + rotate w/ the item
+* `Ratio`:  one length over another (e.g. height / width)
+* `Fraction`:  a 0-1 amount
+  * signed where noted, e.g. pulse amount
+  * phases are fractions of a cycle
+* `Seconds`, `Degrees`, `Pixels` (screen):  as named
+* `Rate`:  per second
+* `PerEU`:  per effect unit
+* no suffix:  counts, seeds, enums, colours + toggles
+
 Each [item](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/BattleEffectItem.cs) has:
 
-|   Group    |                                    Settings                                    |                                                                                                Detail                                                                                                 |
-|:----------:|:------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|  `Shape`   |                         the shape type + its own settings                         |                                                                                     see [Shapes](#shapes) below                                                                                      |
-|  `Timing`  |                            start time, duration, easing                            |                        seconds after the effect spawns;  the item only draws within [start, start + duration);  easing = linear / ease in / ease out / ease in-out                         |
-| `Transform` |                       position, scale, rotation, elongation                        |                    a unit shape's size is its scale;  elongation stretches a shape's middle (e.g. diamond -> long hexagon, circle -> capsule), in the shape's own units                     |
-|  `Style`   |                          fill / outline, outline thickness, colour                          |                          thickness may end below zero to fade an outline out through the glow;  colour is multiplied by the effect's tint                           |
-| `Repetition` |                        none / line / cross / grid, count, spacing, mirror x / y                        | copies of the shape in its own space (spacing in shape units, so patterns scale + rotate w/ the item);  e.g. a plus of five = cross w/ count 3;  mirror folds one half onto the other |
-| `Flicker`  |                                 rate, depth, phase                                 |                                            a square-wave bright / dim on the effect's clock (phase 0.5 = dim half first)                                             |
-|  `Jitter`  |                       rate, random / orbit, amount (x / y), seed, phase                       |              held offsets:  random re-rolls each step (same seed + rate = same jumps);  orbit steps clockwise around the corners of the ± amount box              |
-|  `Pulse`   |                                 rate, amount, phase                                 |                                                     a square-wave size change on the effect's clock                                                      |
+|   Group    |                                    Settings                                    |                                                                                                 Detail                                                                                                  |
+|:----------:|:------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|  `Shape`   |                         the shape type + its own settings                         |                                                                                       see [Shapes](#shapes) below                                                                                       |
+|  `Timing`  |                            start time seconds, duration seconds, easing, progress steps                            | start is after the effect spawns;  the item only draws within [start, start + duration);  easing = linear / ease in / ease out / ease in-out;  progress steps hold every range on evenly spaced values  |
+| `Transform` |                       position EU, scale EU, rotation degrees, elongation SU                        |                                       a unit shape's size is its scale;  elongation stretches a shape's middle (e.g. diamond -> long hexagon, circle -> capsule)                                        |
+|  `Style`   |                          fill / outline, outline thickness EU, colour                          |                                            thickness may end below zero to fade an outline out through the glow;  colour is multiplied by the effect's tint                                             |
+| `Repetition` |                        none / line / cross / grid, count, spacing SU, mirror x / y                        |                      copies of the shape in its own space (so patterns scale + rotate w/ the item);  e.g. a plus of five = cross w/ count 3;  mirror folds one half onto the other                      |
+| `Flicker`  |                                 rate, depth fraction, phase fraction                                 |                                                              a square-wave bright / dim on the effect's clock (phase 0.5 = dim half first)                                                              |
+|  `Jitter`  |                       rate, random / orbit, amount EU (x / y), seed, phase fraction                       |                                 held offsets:  random re-rolls each step (same seed + rate = same jumps);  orbit steps clockwise around the corners of the ± amount box                                 |
+|  `Pulse`   |                                 rate, amount fraction, phase fraction                                 |                                                                             a square-wave size change on the effect's clock                                                                             |
 
 *N.B.  Flicker, jitter + pulse run on the effect's clock (not the item's), so items w/ the same settings stay in sync -- e.g. a shape's fill + outline items move as one.*
 
@@ -127,20 +143,22 @@ Each [shape](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffe
 |  Shape  |                          Settings                          |                                    Detail                                     |
 |:-------:|:----------------------------------------------------------:|:-----------------------------------------------------------------------------:|
 | `Circle` |                             -                              |                        a unit circle (radius = scale)                        |
-| `Diamond` |                         aspect                          |                    points at x = ±1;  aspect = height / width                    |
+| `Diamond` |                         aspect ratio                          |                    points at x = ±1;  aspect ratio = height / width                    |
 | `Segment` |                             -                              |                  a line from x = -1 to 1 (use the outline style)                  |
-| `Chevron` |                          depth                           |    a '^' from x = -1 to 1, its arms sweeping back by depth (use the outline style)    |
-| `Squiggle` | frequency, wave base / peak, phase speed, width | a sine wave segment along local x, its phase advancing by phase speed per second (rotate the item 90° for vertical) |
+| `Chevron` |                          depth ratio                           |    a '^' from x = -1 to 1, its arms sweeping back by depth ratio x its half width (use the outline style)    |
+| `Squiggle` | half length SU, wavelength SU, amplitude SU, scroll SU | a sine wave along local x w/ round ends;  a scroll range slides it along the line (use the outline style + a uniform scale;  rotate the item 90° for vertical) |
+| `Lens` | aspect ratio | a pointed ellipse (eye / leaf / spark), tips at x = ±1;  aspect ratio = height / width (≤ 1) |
+| `Jagged Line` | half length SU, cell width SU, amplitude SU, calm fraction, seed, bump half width SU, variation fraction, scroll SU | a flat line along local x w/ a seeded up / down / flat triangular bump per cell, round ends (use the outline style + a uniform scale);  same seed = same bumps, so offset / rotated copies make echoes |
 
 #### Tint
 
 The [tint](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/Properties/BattleEffectTint.cs) (on the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs)) colours the whole effect (multiplied over its items' own colours):
 * `Solid`:  colour A
-* `Linear`:  A -> B along an angle
-* `Wave`:  bands along an angle, A at the peaks + B in the troughs, scrolling at speed
-* `Radial`:  rings out from the centre, scrolling at speed
+* `Linear`:  A -> B along the angle (degrees), over 1 / bands per EU
+* `Wave`:  bands per EU along the angle, A at the peaks + B in the troughs, scrolling at the scroll rate (bands per second)
+* `Radial`:  rings out from the centre, scrolling at the scroll rate
 
-*N.B.  Wave / radial w/ a frequency of 0 pulse the whole effect between A and B.*
+*N.B.  Wave / radial w/ 0 bands per EU pulse the whole effect between A and B.*
 
 ### Authoring:  Battle Effect Preview
 
@@ -204,7 +222,7 @@ These form a reusable library, in layers:
 
 |           File           |                                              Nodes                                              |                                                                         Role                                                                         |
 |:------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------:|
-| [SDFShapes](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFShapes.hlsl) |                  `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Onion`                  | [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) (negative inside, positive outside);  onion turns any SDF into an outline |
+| [SDFShapes](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFShapes.hlsl) |                  `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Lens`, `SDF Jagged Line`, `SDF Onion`                  | [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) (negative inside, positive outside);  onion turns any SDF into an outline |
 | [SDFDomain](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFDomain.hlsl) | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Elongate` |          move the point a shape is evaluated at (so shapes are written once, at the origin):  aspect correction, position / rotation / scale, mirroring, repetition, stretching           |
 | [TimeUtility](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/TimeUtility.hlsl) | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Flicker`, `Pulse`, `Jitter` |                                         time + animation:  time-zero (see [Time-Zero / Shader Phase](#time-zero--shader-phase)), held frames, easing, retro modifiers                                          |
 | [ColourUtility](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/ColourUtility.hlsl) |                                       `Colour Gradient`                                        |                                                         solid / linear / wave / radial colour gradients                                                          |

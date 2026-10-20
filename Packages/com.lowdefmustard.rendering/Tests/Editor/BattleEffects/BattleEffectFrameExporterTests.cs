@@ -63,7 +63,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private IEnumerator ExportWideCircle(BattleEffectFit fit, bool isSideBackground)
         {
             // White filled circle (radius 0.45) on a 2:1 element ~ aspect fit keeps it round in the centred square, stretch spreads it across the full width
-            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"duration\":10,\"style\":0,\"scale\":{{\"start\":{{\"x\":0.45,\"y\":0.45}},\"end\":{{\"x\":0.45,\"y\":0.45}}}},\"colour\":{ToJson(Color.white)}}}") });
+            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"durationSeconds\":10,\"style\":0,\"scaleEU\":{{\"start\":{{\"x\":0.45,\"y\":0.45}},\"end\":{{\"x\":0.45,\"y\":0.45}}}},\"colour\":{ToJson(Color.white)}}}") });
 
             yield return Export(1, false, new Vector2Int(2 * _size, _size), fit);
 
@@ -129,7 +129,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator Export_FilledCircle_DrawsOverTheCentreOnly()
         {
             // White filled circle (radius 0.3 effect units) for the whole export
-            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"duration\":10,\"style\":0,\"scale\":{{\"start\":{{\"x\":0.3,\"y\":0.3}},\"end\":{{\"x\":0.3,\"y\":0.3}}}},\"colour\":{ToJson(Color.white)}}}") });
+            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"durationSeconds\":10,\"style\":0,\"scaleEU\":{{\"start\":{{\"x\":0.3,\"y\":0.3}},\"end\":{{\"x\":0.3,\"y\":0.3}}}},\"colour\":{ToJson(Color.white)}}}") });
 
             yield return Export(1, false);
 

@@ -11,11 +11,11 @@ namespace LowDefMustard.Rendering
         //  - A '^' spanning x = -1 to 1 (point up;  rotate the item to aim it)
         //  - Draw w/ the outline style for thickness
 
-        [SerializeField][Tooltip("How far the arms sweep back from the point (in half-widths)")] private BattleEffectFloatRange depth = new(0.6f);
+        [SerializeField][Tooltip("How far the arms sweep back from the point / its half width")] private BattleEffectFloatRange depthRatio = new(0.6f);
 
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {
-            parameters[0] = depth;
+            parameters[0] = depthRatio;
         }
     }
 }

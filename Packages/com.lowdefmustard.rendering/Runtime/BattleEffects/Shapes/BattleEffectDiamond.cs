@@ -11,11 +11,11 @@ namespace LowDefMustard.Rendering
         //  - Points at x = +/- 1 (i.e. its half-width is the item's scale)
         //  - Elongate the item for a long hexagon
 
-        [SerializeField][Tooltip("Height / width (1 = square diamond)")] private BattleEffectFloatRange aspect = new(1f);
+        [SerializeField][Tooltip("Height / width (1 = square diamond)")] private BattleEffectFloatRange aspectRatio = new(1f);
 
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {
-            parameters[0] = aspect;
+            parameters[0] = aspectRatio;
         }
     }
 }

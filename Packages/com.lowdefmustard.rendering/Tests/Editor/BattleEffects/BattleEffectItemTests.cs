@@ -47,7 +47,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_Header_WritesShapeIdTimingAndEasing()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectDiamond(), "{\"startTime\":0.5,\"duration\":2,\"easing\":2}");
+            BattleEffectItem item = CreateItem(new BattleEffectDiamond(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":2,\"easing\":2}");
 
             Assert.IsTrue(item.TryWriteData(texels, 0, parameterBuffer, 1f));
 
@@ -59,7 +59,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             int rowStart = BattleEffectDataLayout.texelsPerItem;
 
-            CreateItem(new BattleEffectSegment(), "{\"duration\":3}").TryWriteData(texels, rowStart, parameterBuffer, 1f);
+            CreateItem(new BattleEffectSegment(), "{\"durationSeconds\":3}").TryWriteData(texels, rowStart, parameterBuffer, 1f);
 
             for (int i = 0; i < rowStart; i++) { Assert.AreEqual(default(Color), texels[i], $"texel {i} of the previous row"); }
             AssertTexel(new Color(3f, 0f, 3f, 0f), texels[rowStart + BattleEffectDataLayout.header]);
@@ -68,11 +68,21 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_Rotation_ConvertsDegreesToRadians()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"rotation\":{\"start\":90,\"end\":180},\"outlineThickness\":{\"start\":0.1,\"end\":-0.2}}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"rotationDegrees\":{\"start\":90,\"end\":180},\"outlineThicknessEU\":{\"start\":0.1,\"end\":-0.2}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
             AssertTexel(new Color(Mathf.PI / 2f, Mathf.PI, 0.1f, -0.2f), texels[BattleEffectDataLayout.rotationOutline]);
+        }
+
+        [Test]
+        public void TryWriteData_Style_PacksJitterAndProgressSteps()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"style\":0,\"jitterMode\":1,\"jitterPhaseFraction\":0.25,\"progressSteps\":3}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color((int)BattleEffectStyle.Fill, (int)BattleEffectJitter.Orbit, 0.25f, 3f), texels[BattleEffectDataLayout.style]);
         }
 
         [Test]
@@ -99,13 +109,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_ShapeParameters_SplitAcrossStartAndEndTexels()
         {
-            // Squiggle defaults:  frequency 30, wave base -0.25, wave peak 0.25, phase speed 1, width 0.9
-            CreateItem(new BattleEffectSquiggle()).TryWriteData(texels, 0, parameterBuffer, 1f);
+            // Jagged line defaults:  half length 1, cell width 0.25, amplitude 0.1, calm 0.3 | seed 0, bump half width 1, variation 0, scroll 0
+            CreateItem(new BattleEffectJaggedLine()).TryWriteData(texels, 0, parameterBuffer, 1f);
 
-            AssertTexel(new Color(30f, -0.25f, 0.25f, 1f), texels[BattleEffectDataLayout.parametersAStart]);
-            AssertTexel(new Color(30f, -0.25f, 0.25f, 1f), texels[BattleEffectDataLayout.parametersAEnd]);
-            AssertTexel(new Color(0.9f, 0f, 0f, 0f), texels[BattleEffectDataLayout.parametersBStart]);
-            AssertTexel(new Color(0.9f, 0f, 0f, 0f), texels[BattleEffectDataLayout.parametersBEnd]);
+            AssertTexel(new Color(1f, 0.25f, 0.1f, 0.3f), texels[BattleEffectDataLayout.parametersAStart]);
+            AssertTexel(new Color(1f, 0.25f, 0.1f, 0.3f), texels[BattleEffectDataLayout.parametersAEnd]);
+            AssertTexel(new Color(0f, 1f, 0f, 0f), texels[BattleEffectDataLayout.parametersBStart]);
+            AssertTexel(new Color(0f, 1f, 0f, 0f), texels[BattleEffectDataLayout.parametersBEnd]);
         }
         #endregion
 
@@ -113,7 +123,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_EffectScale_ScalesPositionAboutCentre()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"position\":{\"start\":{\"x\":0.75,\"y\":0.5},\"end\":{\"x\":0.25,\"y\":0.25}}}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"positionEU\":{\"start\":{\"x\":0.75,\"y\":0.5},\"end\":{\"x\":0.25,\"y\":0.25}}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 2f);
 
@@ -137,7 +147,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void GetEndTime_IsStartPlusDuration()
         {
-            Assert.AreEqual(2.5f, CreateItem(new BattleEffectCircle(), "{\"startTime\":0.5,\"duration\":2}").GetEndTime(), 1e-5f);
+            Assert.AreEqual(2.5f, CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":2}").GetEndTime(), 1e-5f);
         }
 
         [Test]
@@ -156,7 +166,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void IsUnset_ZeroFilledItem_IsTrue()
         {
             // i.e. what the inspector adds as the first entry of an empty list (field initializers skipped)
-            BattleEffectItem item = CreateItem(null, $"{{\"duration\":0,\"colour\":{ToJson(Color.clear)}}}");
+            BattleEffectItem item = CreateItem(null, $"{{\"durationSeconds\":0,\"colour\":{ToJson(Color.clear)}}}");
 
             Assert.IsTrue(item.IsUnset());
         }

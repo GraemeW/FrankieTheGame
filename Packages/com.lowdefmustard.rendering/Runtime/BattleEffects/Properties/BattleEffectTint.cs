@@ -14,16 +14,16 @@ namespace LowDefMustard.Rendering
         [SerializeField] private BattleEffectTintMode mode = BattleEffectTintMode.Solid;
         [SerializeField] private Color colourA = Color.white;
         [SerializeField][Tooltip("Gradient modes only")] private Color colourB = Color.white;
-        [SerializeField][Tooltip("linear / wave only: degrees, counter-clockwise from +x")] private float angle = 0f;
-        [SerializeField][Tooltip("Linear: gradients across the effect. Wave / radial: bands across the effect")][Min(0f)] private float frequency = 1f;
-        [SerializeField][Tooltip("Wave / radial only: scroll in cycles per second (0 = still)")] private float speed = 0f;
+        [SerializeField][Tooltip("linear / wave only: counter-clockwise from +x")] private float angleDegrees = 0f;
+        [SerializeField][Tooltip("Linear: gradients across one effect unit. Wave / radial: bands across one effect unit")][Min(0f)] private float bandsPerEU = 1f;
+        [SerializeField][Tooltip("Wave / radial only: bands scrolled per second (0 = still)")] private float scrollRate = 0f;
 
         // Editor Field References
         public const string modeField = nameof(mode);
         public const string colourBField = nameof(colourB);
-        public const string angleField = nameof(angle);
-        public const string frequencyField = nameof(frequency);
-        public const string speedField = nameof(speed);
+        public const string angleDegreesField = nameof(angleDegrees);
+        public const string bandsPerEUField = nameof(bandsPerEU);
+        public const string scrollRateField = nameof(scrollRate);
 
         // Constructors
         public BattleEffectTint() { }
@@ -37,7 +37,7 @@ namespace LowDefMustard.Rendering
 
         public void ApplyTo(ref MaterialDefinition materialDefinition)
         {
-            BattleEffectPropertyRefs.SetTint(ref materialDefinition, colourA, colourB, new BattleEffectTintSettings(mode, angle * Mathf.Deg2Rad, frequency, speed));
+            BattleEffectPropertyRefs.SetTint(ref materialDefinition, colourA, colourB, new BattleEffectTintSettings(mode, angleDegrees * Mathf.Deg2Rad, bandsPerEU, scrollRate));
         }
     }
 }

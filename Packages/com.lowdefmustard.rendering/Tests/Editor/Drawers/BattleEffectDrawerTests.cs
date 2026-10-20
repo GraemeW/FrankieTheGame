@@ -117,15 +117,15 @@ namespace LowDefMustard.Rendering.Tests.Editor
             window.root.Add(new InspectorElement(serializedObject));
 
             Assert.AreEqual(isColourBShown, IsShown(FindTintField(BattleEffectTint.colourBField)), "colour B");
-            Assert.AreEqual(isAngleShown, IsShown(FindTintField(BattleEffectTint.angleField)), "angle");
-            Assert.AreEqual(isFrequencyShown, IsShown(FindTintField(BattleEffectTint.frequencyField)), "frequency");
-            Assert.AreEqual(isSpeedShown, IsShown(FindTintField(BattleEffectTint.speedField)), "speed");
+            Assert.AreEqual(isAngleShown, IsShown(FindTintField(BattleEffectTint.angleDegreesField)), "angle");
+            Assert.AreEqual(isFrequencyShown, IsShown(FindTintField(BattleEffectTint.bandsPerEUField)), "frequency");
+            Assert.AreEqual(isSpeedShown, IsShown(FindTintField(BattleEffectTint.scrollRateField)), "speed");
         }
 
         [UnityTest]
         public IEnumerator TintDrawer_ModeChange_RefreshesTheShownFields()
         {
-            PropertyField speedField = FindTintField(BattleEffectTint.speedField);
+            PropertyField speedField = FindTintField(BattleEffectTint.scrollRateField);
             Assert.IsFalse(IsShown(speedField), "solid hides speed");
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.tint)}.{BattleEffectTint.modeField}").intValue = (int)BattleEffectTintMode.Wave;
@@ -154,10 +154,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
             DropdownField typeField = window.root.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             typeField.value = "Diamond";
-            yield return HeadlessEditorWindow.WaitUntil(() => FindPropertyField("shape.aspect") != null);
+            yield return HeadlessEditorWindow.WaitUntil(() => FindPropertyField("shape.aspectRatio") != null);
 
             Assert.IsInstanceOf<BattleEffectDiamond>(target.shape);
-            Assert.IsNotNull(FindPropertyField("shape.aspect"), "diamond settings shown");
+            Assert.IsNotNull(FindPropertyField("shape.aspectRatio"), "diamond settings shown");
         }
 
         [UnityTest]
@@ -171,7 +171,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield return HeadlessEditorWindow.WaitUntil(() => typeField.value == "Squiggle");
 
             Assert.AreEqual("Squiggle", typeField.value);
-            Assert.IsNotNull(FindPropertyField("shape.frequency"), "squiggle settings shown");
+            Assert.IsNotNull(FindPropertyField("shape.wavelengthSU"), "squiggle settings shown");
         }
         #endregion
     }

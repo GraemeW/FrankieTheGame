@@ -25,9 +25,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
             recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             recipe.SetItems(new[]
             {
-                CreateItem(new BattleEffectCircle(), "{\"label\":\"Pop\",\"startTime\":0,\"duration\":1}"),
+                CreateItem(new BattleEffectCircle(), "{\"label\":\"Pop\",\"startTimeSeconds\":0,\"durationSeconds\":1}"),
                 null,
-                CreateItem(new BattleEffectDiamond(), "{\"startTime\":1,\"duration\":1}")
+                CreateItem(new BattleEffectDiamond(), "{\"startTimeSeconds\":1,\"durationSeconds\":1}")
             });
             timeline = new BattleEffectTimelineElement();
         }
@@ -96,7 +96,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             timeline.Refresh(recipe, 0f, 2f);
             VisualElement firstRow = timeline.ElementAt(0);
 
-            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTime\":0.5,\"duration\":1}") });
+            recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":1}") });
             timeline.Refresh(recipe, 0f, 2f);
 
             Assert.AreNotSame(firstRow, timeline.ElementAt(0));

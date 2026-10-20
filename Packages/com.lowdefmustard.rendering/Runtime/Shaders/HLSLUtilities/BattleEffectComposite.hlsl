@@ -7,7 +7,7 @@
 //  - This node is used in BattleEffect graph only (not general utility)
 //  - BattleEffect ShaderGraph's blackboard properties are wired into the node's inputs (property names must match ShaderPropertyRefs)
 //      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
-//      - Per item:  time window -> ease -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker) -> composite
+//      - Per item:  time window -> ease -> progress steps -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker) -> composite
 //  - Fit mode (BattleEffectFit) sets the effect units
 //      - aspect fit:  units of the effect's shorter side (see SDFAspectFit) - shapes keep their proportions on any slide size
 //      - stretch:  the element's own 0-1 UV - fills it (e.g. full screen), shapes stretch w/ it
@@ -42,14 +42,17 @@ bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsed
     out int shapeId, out float itemTime, out float progress)
 {
     // Half-open [start, end), w/ a little tolerance
-    
+    // Eased, then held on the item's progress steps
+
     float4 header = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_HEADER); // (shape ID, start time, duration, easing)
     shapeId = (int)round(header.x);
     itemTime = elapsedTime - header.y;
     progress = 0.0;
     if (itemTime < -1e-4 || itemTime >= header.z - 1e-4) { return false; } // ensure stepped frames on an item's boundaries land on exactly one item
 
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, progress steps)
     EaseProgress(header.z > 0.0 ? itemTime / header.z : 1.0, header.w, progress);
+    StepProgress(progress, style.w, progress);
     return true;
 }
 
@@ -60,7 +63,7 @@ BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item
     float4 flicker = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_FLICKER); // (rate, depth, phase, -)
     float4 jitter = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_JITTER); // (rate, amount.x, amount.y, seed)
     float4 pulse = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PULSE); // (rate, amount, phase, -)
-    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, -)
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, progress steps)
 
     BattleEffectModifiers modifiers;
     Jitter(elapsedTime, disableJitter > 0.5 ? 0.0 : jitter.x, jitter.yz, jitter.w, style.y, style.z, modifiers.jitterOffset);
@@ -138,7 +141,7 @@ float ApplyBattleEffectStyle(UnityTexture2D itemData, int item, float distance, 
     // Fill = the distance as-is
     // Outline = an onion of the interpolated thickness
     
-    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, -)
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, progress steps)
     if ((int)round(style.x) != BATTLE_EFFECT_STYLE_OUTLINE) { return distance; }
 
     float4 rotationOutline = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATIONOUTLINE);

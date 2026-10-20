@@ -48,6 +48,8 @@ float BattleEffectShapeDistance(int shapeId, BattleEffectShapeInput input)
     if (shapeId == 2) { return BattleEffectDiamondDistance(input); }
     if (shapeId == 3) { return BattleEffectSegmentDistance(input); }
     if (shapeId == 4) { return BattleEffectChevronDistance(input); }
+    if (shapeId == 5) { return BattleEffectLensDistance(input); }
+    if (shapeId == 6) { return BattleEffectJaggedLineDistance(input); }
     return 1e5;
 }
 

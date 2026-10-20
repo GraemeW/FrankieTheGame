@@ -72,7 +72,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void BakeDataTexture_RecipeScale_IsPassedToItems()
         {
-            JsonUtility.FromJsonOverwrite("{\"scale\":2}", recipe);
+            JsonUtility.FromJsonOverwrite("{\"scaleRatio\":2}", recipe);
             recipe.SetItems(new[] { CreateItem(new BattleEffectCircle()) });
 
             Texture2D dataTexture = recipe.BakeDataTexture(out _);
@@ -87,8 +87,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             recipe.SetItems(new[]
             {
-                CreateItem(new BattleEffectCircle(), "{\"startTime\":0.5,\"duration\":1}"),
-                CreateItem(new BattleEffectCircle(), "{\"startTime\":0.2,\"duration\":2}"),
+                CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":1}"),
+                CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.2,\"durationSeconds\":2}"),
                 null
             });
 
@@ -127,7 +127,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ValidateShapes_ZeroFilledItem_ResetToDefaults()
         {
-            recipe.SetItems(new[] { CreateItem(null, $"{{\"duration\":0,\"colour\":{ToJson(Color.clear)}}}") });
+            recipe.SetItems(new[] { CreateItem(null, $"{{\"durationSeconds\":0,\"colour\":{ToJson(Color.clear)}}}") });
 
             recipe.ValidateShapes();
 
@@ -140,7 +140,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ValidateShapes_ShapelessItem_DefaultsToCircleAndKeepsItsSettings()
         {
-            recipe.SetItems(new[] { CreateItem(null, "{\"startTime\":0.75,\"duration\":0.5}") });
+            recipe.SetItems(new[] { CreateItem(null, "{\"startTimeSeconds\":0.75,\"durationSeconds\":0.5}") });
 
             recipe.ValidateShapes();
 
@@ -154,7 +154,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             // i.e. a duplicated inspector list entry shares its [SerializeReference] shape w/ the original
             var sharedShape = new BattleEffectDiamond();
-            JsonUtility.FromJsonOverwrite("{\"aspect\":{\"start\":0.5,\"end\":2}}", sharedShape);
+            JsonUtility.FromJsonOverwrite("{\"aspectRatio\":{\"start\":0.5,\"end\":2}}", sharedShape);
             recipe.SetItems(new[] { CreateItem(sharedShape), CreateItem(sharedShape) });
 
             recipe.ValidateShapes();

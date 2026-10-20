@@ -34,7 +34,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             // The tint drawer shows / hides fields by these names
             string json = JsonUtility.ToJson(new BattleEffectTint());
 
-            foreach (string fieldName in new[] { BattleEffectTint.modeField, BattleEffectTint.colourBField, BattleEffectTint.angleField, BattleEffectTint.frequencyField, BattleEffectTint.speedField })
+            foreach (string fieldName in new[] { BattleEffectTint.modeField, BattleEffectTint.colourBField, BattleEffectTint.angleDegreesField, BattleEffectTint.bandsPerEUField, BattleEffectTint.scrollRateField })
             {
                 StringAssert.Contains($"\"{fieldName}\"", json);
             }

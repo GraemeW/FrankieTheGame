@@ -10,43 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
-  m_Name: _TestRecipe
+  m_Name: _TestRecipeA
   m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
   frameRate: 0
-  edgeSoftness: 1
-  glowWidth: 0
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0
   items:
   - label: Squiggle
     shape:
       rid: 5082563223718985837
-    startTime: 0
-    duration: 1
+    startTimeSeconds: 0
+    durationSeconds: 1
     easing: 0
-    position:
-      start: {x: 0.5, y: 0}
-      end: {x: 0.5, y: 1.5}
-    scale:
+    positionEU:
+      start: {x: 0.45, y: 0}
+      end: {x: 0.49, y: 1.5}
+    scaleEU:
       start: {x: 1, y: 1}
       end: {x: 1, y: 1}
-    rotation:
+    rotationDegrees:
       start: 90
       end: 90
     style: 1
-    outlineThickness:
-      start: 0.2
-      end: 0.2
+    outlineThicknessEU:
+      start: 0.07
+      end: 0.07
     colour: {r: 1, g: 1, b: 1, a: 1}
     repetition: 0
     count: {x: 3, y: 3}
-    spacing:
+    spacingSU:
       start: {x: 2.5, y: 2.5}
       end: {x: 2.5, y: 2.5}
     mirrorX: 0
     mirrorY: 0
     flickerRate: 0
-    flickerDepth: 0.5
+    flickerDepthFraction: 0.5
     jitterRate: 0
-    jitterAmount: {x: 0.02, y: 0.02}
+    jitterAmountEU: {x: 0.02, y: 0.02}
     jitterSeed: 0
   references:
     version: 2
@@ -54,18 +54,15 @@ MonoBehaviour:
     - rid: 5082563223718985837
       type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
-        frequency:
-          start: 30
-          end: 30
-        waveBase:
-          start: 0.1
-          end: 0.1
-        wavePeak:
-          start: -0.1
-          end: -0.1
-        phaseSpeed:
-          start: 46
-          end: 46
-        width:
-          start: 0.5
-          end: 0.5
+        halfLengthSU:
+          start: 0.04
+          end: 0.04
+        wavelengthSU:
+          start: 0.21
+          end: 0.21
+        amplitudeSU:
+          start: 0.05
+          end: 0.09
+        scrollSU:
+          start: 0
+          end: -1.54

@@ -15,9 +15,9 @@ namespace LowDefMustard.Rendering
         //  - Internal methods/properties are for test visibility
 
         [SerializeField][Tooltip("Steps the animation at this many frames per second (0 = smooth)")][Min(0f)] private float frameRate = 0f;
-        [SerializeField][Tooltip("Grows / shrinks the whole effect about its centre (positions, sizes, outlines, jitter + glow)")][Min(0.01f)] private float scale = 1f;
-        [SerializeField][Tooltip("Anti-aliasing, in screen pixels (same crispness at any shape size)")][Min(0f)] private float edgeSoftness = 1f;
-        [SerializeField][Tooltip("Extra soft edge, in effect units (see BattleEffectItem)")][Min(0f)] private float glowWidth = 0f;
+        [SerializeField][Tooltip("Grows / shrinks the whole effect about its centre (positions, sizes, outlines, jitter + glow)")][Min(0.01f)] private float scaleRatio = 1f;
+        [SerializeField][Tooltip("Anti-aliasing (same crispness at any shape size)")][Min(0f)] private float edgeSoftnessPixels = 1f;
+        [SerializeField][Tooltip("Extra soft edge (see BattleEffectItem)")][Min(0f)] private float glowWidthEU = 0f;
         [SerializeField][Tooltip("Drawn in order (later items on top)")] private List<BattleEffectItem> items = new();
 
         // State
@@ -45,7 +45,7 @@ namespace LowDefMustard.Rendering
         public void ApplyTo(ref MaterialDefinition materialDefinition, BattleEffectFit fit = BattleEffectFit.AspectFit)
         {
             RefreshDataTexture();
-            BattleEffectPropertyRefs.SetRecipe(ref materialDefinition, dataTexture, itemCount, frameRate, edgeSoftness, glowWidth * scale);
+            BattleEffectPropertyRefs.SetRecipe(ref materialDefinition, dataTexture, itemCount, frameRate, edgeSoftnessPixels, glowWidthEU * scaleRatio);
             BattleEffectPropertyRefs.SetFit(ref materialDefinition, fit);
         }
         #endregion
@@ -110,7 +110,7 @@ namespace LowDefMustard.Rendering
             itemCount = 0;
             foreach (BattleEffectItem item in items)
             {
-                if (item != null && item.TryWriteData(texels, itemCount * BattleEffectDataLayout.texelsPerItem, parameterBuffer, scale)) { itemCount++; }
+                if (item != null && item.TryWriteData(texels, itemCount * BattleEffectDataLayout.texelsPerItem, parameterBuffer, scaleRatio)) { itemCount++; }
             }
 
             dataTexture.SetPixels(texels);
