@@ -1,6 +1,6 @@
 # Assets:  Game - VFX, Shaders
 
-Frankie's custom shaders are [Shader Graphs](https://docs.unity3d.com/Manual/shader-graph.html) for UI Toolkit (`UI` target), with the heavier logic written as HLSL functions in [HLSLUtilities](../../../Scripts/Rendering/Shaders/HLSLUtilities/) (see [Shader Utilities](#shader-utilities)).  The one exception is the battle entry swirl, which is a UI Toolkit filter shader applied to a Visual ELement using the `backdrop-filter` attribute.
+Frankie's custom shaders are [Shader Graphs](https://docs.unity3d.com/Manual/shader-graph.html) for UI Toolkit (`UI` target), with the most of the heavy logic written as HLSL functions in [HLSLUtilities](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/) (see [Shader Utilities](#shader-utilities)).  The one exception is the battle entry swirl, which is a UI Toolkit filter shader applied to a Visual Element using the `backdrop-filter` attribute.
 
 Since all combat visuals live in UI Toolkit, these shaders are applied per element:
 * **Battle backgrounds and battle effects:** the element's `style.unityMaterial`, with a `MaterialDefinition` overriding properties per element
@@ -32,7 +32,7 @@ As an example, consider [LateralMovementTwirl](./BattleBackgrounds/BattleBackgro
 <img src="../../../../InfoTools/Documentation/Game/VFX/ShaderLateralTwirlGraph.png" width="800">
 
 In this shader, we:
-1. convert each period to a running time with the [Period Time](#time-utilities) node
+1. convert each period to a running time with the [Period Time](#shader-utilities) node
 2. use `_PeriodB` to apply a simple time-dependent x-direction (lateral) shift to the UV of the material
 3. take `_UVCenter` as the twirl's centre-point
    1. use `_PeriodB` to apply a time-dependent shift to the x-value
@@ -54,11 +54,11 @@ The type of swirl depends on if Frankie is facing the enemy (and vice versa) dur
 * `BattleGood`:  when the enemy is facing away from Frankie (green swirl)
 * `BattleBad`:  when Frankie is facing away from the enemy (red swirl)
 
-[BattleEntryShaderControl](../../../Scripts/Rendering/Shaders/BattleEntryShaderControl.cs) sets these colours && the fade timings on the filter's material once per fade.  From there, the shader drives its own animation from shader time (i.e. nothing is written per frame).
+[Fader](../../../Scripts/Zones/Fader.cs) holds these colours (one per `TransitionType`), and [BattleEntryShaderControl](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/BattleEntryShaderControl.cs) sets the chosen colour && the fade timings on the filter's material once per fade.  From there, the shader drives its own animation from shader time (or:  nothing is written per frame).
 
 ### Time-Zero / Shader Phase
 
-Since many custom shaders warp the view/image in a continuous forward fashion, they need to have some concept of time-zero as a reference point to subtract from the current time.  This is accomplished with a `_Phase` property, set to `Time.time` when the effect starts:  on the filter's material by [BattleEntryShaderControl](../../../Scripts/Rendering/Shaders/BattleEntryShaderControl.cs), and per element on each [BattleEffectElement](../../../Scripts/UI/Combat/BattleStage/BattleEffectElement.cs)'s `MaterialDefinition` (see [Battle Effects](#battle-effects)).
+Since many custom shaders warp the view/image in a continuous forward fashion, they need to have some concept of time-zero as a reference point to subtract from the current time.  This is accomplished with a `_Phase` property, set to `Time.time` when the effect starts.  Phase is set on the filter's material by [BattleEntryShaderControl](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/BattleEntryShaderControl.cs), and per element on each [BattleEffectElement](../../../Scripts/UI/Combat/BattleStage/BattleEffectElement.cs)'s `MaterialDefinition` (see [Battle Effects](#battle-effects)).
 
 Notably, time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, shaders using an input `_Phase` will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times.
 
@@ -72,14 +72,17 @@ Briefly:
   * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
   * , but they are also used to generate any relevant animations/artwork when the battle action is activated
 * a [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) spawns its effect over each target's enemy slide (sized to match it), or over the whole battle stage if set as a global effect
+  *  note that global effects stretch to fill the stage (see `BattleEffectFit`), while slide effects keep their proportions
 
-For example, the pink circle pop below:
+The framework itself (incl. recipe library, items, shapes, tints, HLSL library, preview window + the dispatch generator) lives in the [com.lowdefmustard.rendering](../../../../Packages/com.lowdefmustard.rendering/README.md) package.  Frankie implements the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) strategy, the battle stage elements that draw it, the shader graphs + materials, and the recipe asset files.
+
+For example, see the pink circle pop below:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEffectsCirclePopPink.gif" width="320">
 
 ### Recipes
 
-Animated battle effects are comprised of a list of timed, animated shape items, with each effect using a shared [BattleEffect](./BattleEffectsEntities/BattleEffect.shadergraph) shader, and its own distinct recipe ([BattleEffectRecipe](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectRecipe.cs) asset).  [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) references a recipe, and then adds the effect's tint, so one recipe serves many colour variants (e.g. [SpawnMultiPopBlue](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopBlue.asset) and [SpawnMultiPopYellow](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopYellow.asset)).
+Animated battle effects are comprised of a list of timed, animated shape items, with each effect using a shared [BattleEffect](./BattleEffectsEntities/BattleEffect.shadergraph) shader, and its own distinct recipe ([BattleEffectRecipe](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/BattleEffectRecipe.cs) asset).  [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) references a recipe, and then adds the effect's tint, so one recipe serves many colour variants (e.g. [SpawnMultiPopBlue](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopBlue.asset) and [SpawnMultiPopYellow](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopYellow.asset)).
 
 A recipe has:
 * `Frame Rate`:  steps the whole animation at this many frames per second for a retro, held-frame look (0 = smooth)
@@ -89,16 +92,19 @@ A recipe has:
 * `Items`:  drawn in order, so later items paint over earlier ones
 
 Important Notes:
-1. All positions and sizes are in effect units:  0-1 spans the effect's shorter side, centred, with v running upwards
-    - In this manner, shapes keep their proportions on any slide size (the longer side simply reaches beyond 0-1).  
-2. A material other than BattleEffect can still be used for a one-off effect
+1. In the standard `fit=aspectFit`  configuration, positions and sizes are in effect units:  
+   - 0-1 spans the effect's shorter side, centred, with v running upwards
+   - In this manner, shapes keep their proportions on any slide size (the longer side simply reaches beyond 0-1).
+2. In the `fit=stretch` configuration, e.g. with global (full-screen) effects, the effect stretches to fill the element
+   - 0-1 spans the whole element on each axis for this case
+3. A material other than BattleEffect can still be used for a one-off effect
     - simply leave the SpawnBattleEffect's recipe empty, and the material is drawn as-is (w/ `_Phase` set, and the tint's colour A as its vertex tint)
 
 #### Recipe Items
 
 Most item settings are ranges, running from their start to end value over the item's eased duration.  
 
-Each [item](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectItem.cs) has:
+Each [item](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/BattleEffectItem.cs) has:
 
 |   Group    |                                    Settings                                    |                                                                                                Detail                                                                                                 |
 |:----------:|:------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -111,11 +117,11 @@ Each [item](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectI
 |  `Jitter`  |                       rate, random / orbit, amount (x / y), seed, phase                       |              held offsets:  random re-rolls each step (same seed + rate = same jumps);  orbit steps clockwise around the corners of the ± amount box              |
 |  `Pulse`   |                                 rate, amount, phase                                 |                                                     a square-wave size change on the effect's clock                                                      |
 
-*N.B.  Flicker, jitter + pulse run on the **effect's** clock (not the item's), so items w/ the same settings stay in sync -- e.g. a shape's fill + outline items move as one.*
+*N.B.  Flicker, jitter + pulse run on the effect's clock (not the item's), so items w/ the same settings stay in sync -- e.g. a shape's fill + outline items move as one.*
 
 #### Shapes
 
-Each [shape](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/BattleEffectShape.cs) is drawn centred on the item's position, sized by its scale:
+Each [shape](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/Shapes/BattleEffectShape.cs) is drawn centred on the item's position, sized by its scale:
 
 |  Shape  |                          Settings                          |                                    Detail                                     |
 |:-------:|:----------------------------------------------------------:|:-----------------------------------------------------------------------------:|
@@ -127,7 +133,7 @@ Each [shape](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/Battl
 
 #### Tint
 
-The [tint](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Properties/BattleEffectTint.cs) (on the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs)) colours the whole effect (over its items' own colours):
+The [tint](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/Properties/BattleEffectTint.cs) (on the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs)) colours the whole effect (multiplied over its items' own colours):
 * `Solid`:  colour A
 * `Linear`:  A -> B along an angle
 * `Wave`:  bands along an angle, A at the peaks + B in the troughs, scrolling at speed
@@ -137,14 +143,15 @@ The [tint](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Properties/Bat
 
 ### Authoring:  Battle Effect Preview
 
-The [Battle Effect Preview](../../../Scripts/Combat/BattleAction/Editor/BattleEffectPreviewWindow.cs) window plays a recipe w/o entering play mode.  Open the preview window by double-clicking a recipe, from `Tools/Battle Effects/Preview`, or from a recipe's inspector menu.  
+The [Battle Effect Preview](../../../../Packages/com.lowdefmustard.rendering/Editor/BattleEffects/BattleEffectPreviewWindow/BattleEffectPreviewWindow.cs) window plays a recipe w/o entering play mode.  Open the preview window by double-clicking a recipe, from the menu item `Tools/Battle Effects/Preview`, or from a recipe's inspector menu.  
 
 An example preview window is shown below:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEffectPreview.png" width="400">
 
 As shown above, the preview provides the below functionality:
-* recipe, tint + background, at a slide size preset (or the reference frames' size)
+* recipe, tint and background at a size preset (or the reference frames' size), with a fit mode (aspect fit for slides, stretch for full screen)
+  * Frankie registers its enemy slide sizes in [BattleEffectPreviewSizeRegistration](../../../Scripts/Combat/BattleAction/Editor/BattleEffectPreviewSizeRegistration.cs)
 * play / pause, restart, frame stepping, looping + playback speed, and toggles for stepped time / flicker / jitter (to compare w/ + w/o the retro settings)
 * a timeline w/ one bar per item (click / drag to scrub)
 * reference frames:  a folder of PNGs played at their own frame rate, side by side or overlaid on the effect
@@ -171,18 +178,18 @@ Per spawn, the [BattleEffectElement](../../../Scripts/UI/Combat/BattleStage/Batt
 
 `_IsPreview` / `_PreviewTime` / `_DisableFlicker` / `_DisableJitter` are for the preview window only.
 
-The recipe reaches the shader as a small float texture (one row per item, columns per [BattleEffectDataLayout](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectDataLayout.cs)), baked + cached by the recipe and updated in place on edit.
+The recipe reaches the shader as a small float texture (one row per item, columns per [BattleEffectDataLayout](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/BattleEffectDataLayout.cs)), baked + cached by the recipe and updated in place on edit.
 
 ### Adding a New Shape
 
 A new shape is three small pieces:
-1. a primitive in [SDFShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl) (a reusable library function, centred on the origin)
-2. an adapter in [BattleEffectShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectShapes.hlsl), named `<ClassName>Distance(BattleEffectShapeInput)`, which maps the shape's parameters onto the primitive
-3. a C# `[Serializable]` subclass of [BattleEffectShape](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/BattleEffectShape.cs) (e.g. [BattleEffectDiamond](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/Shapes/BattleEffectDiamond.cs)), w/ a unique `[BattleEffectShapeId(n)]` and its settings as ranges, written in order by `GetParameters` (up to 8;  the adapter reads them in the same order)
+1. a primitive in [SDFShapes](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFShapes.hlsl) (a reusable library function, centred on the origin)
+2. an adapter in [BattleEffectShapes](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectShapes.hlsl), named `<ClassName>Distance(BattleEffectShapeInput)`, which maps the shape's parameters onto the primitive
+3. a C# `[Serializable]` subclass of [BattleEffectShape](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/Shapes/BattleEffectShape.cs) (e.g. [BattleEffectDiamond](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/Shapes/BattleEffectDiamond.cs)), w/ a unique `[BattleEffectShapeId(n)]` and its settings as ranges, written in order by `GetParameters` (up to 8;  the adapter reads them in the same order)
 
-Nothing else needs touching:  the [inspector](../../../Scripts/Combat/BattleAction/Editor/BattleEffectShapeDrawer.cs) lists every subclass, and the HLSL dispatch ([Generated/BattleEffectDispatch.generated.hlsl](../../../Scripts/Rendering/Shaders/HLSLUtilities/Generated/BattleEffectDispatch.generated.hlsl)) is regenerated by the [BattleEffectDispatchGenerator](../../../Scripts/Combat/BattleAction/Editor/BattleEffectDispatchGenerator.cs) on script reload (only when it changes).  A missing adapter shows up as a shader error naming the function, and a duplicate shape ID as an editor error.
+Nothing else needs touching:  the [inspector](../../../../Packages/com.lowdefmustard.rendering/Editor/BattleEffects/BattleEffectShapeDrawer.cs) lists every subclass, and the HLSL dispatch ([Generated/BattleEffectDispatch.generated.hlsl](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/Generated/BattleEffectDispatch.generated.hlsl)) is regenerated by the [BattleEffectDispatchGenerator](../../../../Packages/com.lowdefmustard.rendering/Editor/BattleEffects/BattleEffectDispatchGenerator.cs) on script reload (only when it changes).  A missing adapter shows up as a shader error naming the function, and a duplicate shape ID as an editor error.
 
-*N.B.  The generator also mirrors [BattleEffectDataLayout](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectDataLayout.cs) and any `[BattleEffectMirroredEnum]` enum into HLSL defines, so new per-item data is a layout const + its write in [BattleEffectItem](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectItem.cs) + its read in the composite.*
+*N.B.  The generator also mirrors [BattleEffectDataLayout](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/BattleEffectDataLayout.cs) and any `[BattleEffectMirroredEnum]` enum into HLSL defines, so new per-item data is a layout const + its write in [BattleEffectItem](../../../../Packages/com.lowdefmustard.rendering/Runtime/BattleEffects/BattleEffectItem.cs) + its read in the composite.*
 
 ## Battle Entities
 
@@ -190,24 +197,24 @@ Nothing else needs touching:  the [inspector](../../../Scripts/Combat/BattleActi
 
 ## Shader Utilities
 
-Shader logic beyond simple node chains is written as HLSL in [HLSLUtilities](../../../Scripts/Rendering/Shaders/HLSLUtilities/), exposed to Shader Graph through Unity's [reflection API](https://docs.unity3d.com/Packages/com.unity.shadergraph@17.6/manual/Custom-nodes-hlsl-create-node-by-reflection.html).  
+Shader logic beyond simple node chains is written as HLSL in [HLSLUtilities](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/), exposed to Shader Graph through Unity's [reflection API](https://docs.unity3d.com/Packages/com.unity.shadergraph@17.6/manual/Custom-nodes-hlsl-create-node-by-reflection.html).  
 
 These form a reusable library, in layers:
 
 |           File           |                                              Nodes                                              |                                                                         Role                                                                         |
 |:------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------:|
-| [SDFShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFShapes.hlsl) |                  `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Onion`                  | [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) (negative inside, positive outside);  onion turns any SDF into an outline |
-| [SDFDomain](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFDomain.hlsl) | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Elongate` |          move the point a shape is evaluated at (so shapes are written once, at the origin):  aspect correction, position / rotation / scale, mirroring, repetition, stretching           |
-| [TimeUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/TimeUtility.hlsl) | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Flicker`, `Pulse`, `Jitter` |                                         time + animation:  time-zero (see [Time-Zero / Shader Phase](#time-zero--shader-phase)), held frames, easing, retro modifiers                                          |
-| [ColourUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/ColourUtility.hlsl) |                                       `Colour Gradient`                                        |                                                         solid / linear / wave / radial colour gradients                                                          |
-| [HashUtility](../../../Scripts/Rendering/Shaders/HLSLUtilities/HashUtility.hlsl) |                                           `Hash 2-2`                                           |                                                       stable pseudo-random numbers (e.g. for random jitter)                                                       |
-| [SDFParser](../../../Scripts/Rendering/Shaders/HLSLUtilities/SDFParser.hlsl) |                                          `SDF Parser`                                          |                                           a single SDF -> colour + alpha, w/ a `crispness` edge (for simple graphs)                                            |
+| [SDFShapes](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFShapes.hlsl) |                  `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Onion`                  | [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) (negative inside, positive outside);  onion turns any SDF into an outline |
+| [SDFDomain](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFDomain.hlsl) | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Elongate` |          move the point a shape is evaluated at (so shapes are written once, at the origin):  aspect correction, position / rotation / scale, mirroring, repetition, stretching           |
+| [TimeUtility](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/TimeUtility.hlsl) | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Flicker`, `Pulse`, `Jitter` |                                         time + animation:  time-zero (see [Time-Zero / Shader Phase](#time-zero--shader-phase)), held frames, easing, retro modifiers                                          |
+| [ColourUtility](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/ColourUtility.hlsl) |                                       `Colour Gradient`                                        |                                                         solid / linear / wave / radial colour gradients                                                          |
+| [HashUtility](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/HashUtility.hlsl) |                                           `Hash 2-2`                                           |                                                       stable pseudo-random numbers (e.g. for random jitter)                                                       |
+| [SDFParser](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFParser.hlsl) |                                          `SDF Parser`                                          |                                           a single SDF -> colour + alpha, w/ a `crispness` edge (for simple graphs)                                            |
 
 *N.B.  Guards against bad inputs (e.g. a zero width, scale or spacing) live in these library functions, so every graph using a node is protected.*
 
 ### Battle Effect Composite
 
-[BattleEffectComposite](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectComposite.hlsl) is the node behind the [shared BattleEffect shader](#the-shared-battleeffect-shader) (specific to that graph, alongside its shape adapters in [BattleEffectShapes](../../../Scripts/Rendering/Shaders/HLSLUtilities/BattleEffectShapes.hlsl) + the generated dispatch).  It steps the effect's clock, aspect-fits the UV, then for each item active at that time:
+[BattleEffectComposite](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectComposite.hlsl) is the node behind the [shared BattleEffect shader](#the-shared-battleeffect-shader) (specific to that graph, alongside its shape adapters in [BattleEffectShapes](../../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectShapes.hlsl) + the generated dispatch).  It steps the effect's clock, aspect-fits the UV, then for each item active at that time:
 1. eases the item's progress through its time window
 2. evaluates its flicker, jitter + pulse (on the effect's clock)
 3. transforms the point into the shape's local space, interpolating its ranges

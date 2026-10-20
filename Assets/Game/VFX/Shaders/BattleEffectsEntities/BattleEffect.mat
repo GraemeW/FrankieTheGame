@@ -44,6 +44,7 @@ Material:
     - _DisableFlicker: 0
     - _DisableJitter: 0
     - _EdgeSoftness: 1
+    - _FitMode: 0
     - _FrameRate: 0
     - _GlowWidth: 0
     - _IsPreview: 0

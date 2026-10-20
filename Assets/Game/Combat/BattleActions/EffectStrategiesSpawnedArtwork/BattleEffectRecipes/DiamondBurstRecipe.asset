@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
   m_Name: DiamondBurstRecipe
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleEffectRecipe
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
   frameRate: 30
   scale: 1
   edgeSoftness: 1
@@ -554,71 +554,71 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1000
-      type: {class: BattleEffectSegment, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectSegment, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 
     - rid: 1001
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1002
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1003
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1004
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1005
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1006
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1007
-      type: {class: BattleEffectDiamond, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspect:
           start: 1
           end: 1
     - rid: 1008
-      type: {class: BattleEffectChevron, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectChevron, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         depth:
           start: 0.6
           end: 0.6
     - rid: 1009
-      type: {class: BattleEffectChevron, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectChevron, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         depth:
           start: 0.6
           end: 0.6
     - rid: 1010
-      type: {class: BattleEffectChevron, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectChevron, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         depth:
           start: 0.6
           end: 0.6
     - rid: 1011
-      type: {class: BattleEffectSegment, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectSegment, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 
     - rid: 1012
-      type: {class: BattleEffectSegment, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectSegment, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 

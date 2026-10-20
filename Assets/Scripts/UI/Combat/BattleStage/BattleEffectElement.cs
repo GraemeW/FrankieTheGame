@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Rendering;
+using LowDefMustard.Rendering;
 
 namespace Frankie.Combat.UI
 {
@@ -37,7 +37,7 @@ namespace Frankie.Combat.UI
             if (recipe != null)
             {
                 // Recipe effects are coloured in the shader (solid / gradient), while other materials keep the vertex tint
-                recipe.ApplyTo(ref materialDefinition);
+                recipe.ApplyTo(ref materialDefinition, isFullScreen ? BattleEffectFit.Stretch : BattleEffectFit.AspectFit);
                 tint?.ApplyTo(ref materialDefinition);
                 vertexTint = Color.white;
             }

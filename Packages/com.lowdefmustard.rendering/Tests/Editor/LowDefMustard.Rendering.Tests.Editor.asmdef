@@ -1,0 +1,23 @@
+{
+  "name": "LowDefMustard.Rendering.Tests.Editor",
+  "rootNamespace": "LowDefMustard.Rendering.Tests.Editor",
+  "references": [
+    "UnityEditor.TestRunner",
+    "UnityEngine.TestRunner",
+    "LowDefMustard.Rendering",
+    "LowDefMustard.Rendering.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

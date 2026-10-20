@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
   m_Name: MultiPopRecipe
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleEffectRecipe
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
   frameRate: 0
   edgeSoftness: 1
   glowWidth: 0.05
@@ -80,11 +80,11 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 5082563200036634790
-      type: {class: BattleEffectCircle, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 
     - rid: 5082563200036634791
-      type: {class: BattleEffectCircle, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 
     - rid: 5082563200036634792
-      type: {class: BattleEffectCircle, ns: Frankie.Combat, asm: Assembly-CSharp}
+      type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 

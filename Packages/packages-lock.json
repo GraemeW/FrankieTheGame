@@ -26,6 +26,16 @@
         "com.lowdefmustard.utils": "0.1.0"
       }
     },
+    "com.lowdefmustard.rendering": {
+      "version": "file:com.lowdefmustard.rendering",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.cinemachine": "6.6.0",
+        "com.unity.render-pipelines.universal": "17.6.0",
+        "com.unity.modules.uielements": "1.0.0"
+      }
+    },
     "com.lowdefmustard.ruletiles": {
       "version": "file:com.lowdefmustard.ruletiles",
       "depth": 0,
