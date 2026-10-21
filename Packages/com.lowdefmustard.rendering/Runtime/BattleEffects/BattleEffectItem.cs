@@ -36,6 +36,7 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Outline only")] private BattleEffectFloatRange outlineThicknessEU = new(0.05f);
         [SerializeField][Tooltip("Multiplied by the effect colour")] private Color colour = Color.white;
         [SerializeField] private BattleEffectColourCycle colourCycle = new();
+        [SerializeField] private BattleEffectStripes stripes = new();
 
         [Header("Repetition")]
         [SerializeField] private BattleEffectRepetition repetition = BattleEffectRepetition.None;
@@ -94,6 +95,7 @@ namespace LowDefMustard.Rendering
             texels[rowStart + BattleEffectDataLayout.pulse] = new Color(pulseRate, pulseAmountFraction, pulsePhaseFraction, 0f);
             texels[rowStart + BattleEffectDataLayout.jitter] = new Color(jitterRate, jitterAmountEU.x * effectScale, jitterAmountEU.y * effectScale, jitterSeed);
             colourCycle?.WriteData(texels, rowStart);
+            stripes?.WriteData(texels, rowStart, effectScale);
             return true;
         }
 

@@ -143,4 +143,22 @@ UNITY_EXPORT_REFLECTION void SDFElongate(float2 localPoint, float2 elongation,
     elongatedPoint = localPoint - clamp(localPoint, -halfStretch, halfStretch);
 }
 
+///<funchints>
+/// <sg:ProviderKey>SDFStripeMask</sg:ProviderKey>
+/// <sg:DisplayName>SDF Stripe Mask</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFDomain/StripeMask</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFStripeMask(float2 uv, float2 position, float stripesPerUnit, float angle, float duty, float phase,
+    out float maskOutput)
+{
+    // Hard-edged parallel bands (1 on a band, 0 between), stripes per unit of them across uv (e.g. scanlines / interlacing)
+    //  - angle 0 = horizontal bands, stacked up y (radians, counter-clockwise)
+    //  - each band runs [phase, phase + duty) of its stripe, counted from position
+    //  - half-open -> two masks w/ duty 0.5 + phases 0.5 apart interleave exactly
+    
+    float2 across = float2(-sin(angle), cos(angle));
+    float stripe = frac(dot(uv - position, across) * stripesPerUnit - phase);
+    maskOutput = stripe < duty ? 1.0 : 0.0;
+}
+
 #endif

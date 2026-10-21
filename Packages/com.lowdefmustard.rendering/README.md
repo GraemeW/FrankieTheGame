@@ -56,17 +56,17 @@ Note that HLSL files include each other by project-relative path (`Packages/com.
   - `Deprecated-PAS_TBNN` is kept for reference only
 - **`HLSLUtilities/`** — HLSL functions exposed to Shader Graph via the [reflection API](https://docs.unity3d.com/Packages/com.unity.shadergraph@17.6/manual/Custom-nodes-hlsl-create-node-by-reflection.html), under `LDM/` in the node search:
 
-| File                                            | Nodes                                                                                                     |
-|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| `SDFShapes`                                     | `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Lens`, `SDF Jagged Line`, `SDF Onion` |
-| `SDFDomain`                                     | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Repeat Radial`, `SDF Elongate` |
-| `TimeUtility`                                   | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Step Progress`, `Cycle Index`, `Flicker`, `Pulse`, `Jitter` |
-| `ColourUtility`                                 | `Colour Gradient`                                                                                         |
-| `HashUtility`                                   | `Hash 2-2`                                                                                                |
-| `SDFParser`                                     | `SDF Parser`                                                                                              |
-| `BattleEffectComposite`                         | `Battle Effect Composite` (per-item pipeline behind a battle effect graph)                                |
-| `BattleEffectShapes`                            | Shape adapters (`<ClassName>Distance`), read by the generated dispatch                                    |
-| `Generated/BattleEffectDispatch.generated.hlsl` | Written by `BattleEffectDispatchGenerator`                                                                |
+| File                                            | Nodes                                                                                                                                                                                            |
+|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SDFShapes`                                     | `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Lens`, `SDF Jagged Line`, `SDF Wedge`, `SDF Box`, `SDF Triangle`, `SDF Star`, `SDF Regular Polygon`, `SDF Onion` |
+| `SDFDomain`                                     | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Repeat Radial`, `SDF Elongate`, `SDF Stripe Mask`                                                    |
+| `TimeUtility`                                   | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Step Progress`, `Cycle Index`, `Flicker`, `Pulse`, `Jitter`                                                        |
+| `ColourUtility`                                 | `Colour Gradient`                                                                                                                                                                                |
+| `HashUtility`                                   | `Hash 2-2`                                                                                                                                                                                       |
+| `SDFParser`                                     | `SDF Parser`                                                                                                                                                                                     |
+| `BattleEffectComposite`                         | `Battle Effect Composite` (per-item pipeline behind a battle effect graph)                                                                                                                       |
+| `BattleEffectShapes`                            | Shape adapters (`<ClassName>Distance`), read by the generated dispatch                                                                                                                           |
+| `Generated/BattleEffectDispatch.generated.hlsl` | Written by `BattleEffectDispatchGenerator`                                                                                                                                                       |
 
 Note that the library guards its own inputs - every graph using a node is protected.
 
@@ -78,7 +78,7 @@ Battle effects employ one shared shader graph (built around the `Battle Effect C
   - Items are baked into a cached `RGBAFloat` data texture (one row per item, columns per `BattleEffectDataLayout`), and updated in place on edit so live effects + previews pick up changes
   - `ApplyTo(ref MaterialDefinition)` binds the texture + recipe settings onto an element's material
   - Editor-only `ValidateShapes` repairs inspector list edits - e.g. zero-filled first entries, shapeless entries (→ circle) and duplicated entries sharing one `[SerializeReference]` shape
-- **`BattleEffectItem`** — Label, `[SerializeReference]` shape, timing (start / duration / easing / progress steps), transform ranges (position, scale, rotation, elongation), style (fill / outline + thickness, colour), colour cycle (palette of up to 4), repetition (none / line / cross / grid / radial, count, spacing, mirror x / y), flicker, jitter (random / orbit) and pulse
+- **`BattleEffectItem`** — Label, `[SerializeReference]` shape, timing (start / duration / easing / progress steps), transform ranges (position, scale, rotation, elongation), style (fill / outline + thickness, colour), colour cycle (palette of up to 4), stripes (hard band mask in effect space, e.g. scanlines), repetition (none / line / cross / grid / radial, count, spacing, mirror x / y), flicker, jitter (random / orbit) and pulse
   - Ranges run start → end over the eased duration
   - Flicker / jitter / pulse run on the effect's clock to ensure items stay in sync
   - Positions + sizes are in effect units: 0–1 spans the effect's shorter side, centred, so shapes keep their proportions on any element size
@@ -86,7 +86,7 @@ Battle effects employ one shared shader graph (built around the `Battle Effect C
   - `ApplyTo(ref materialDefinition, fit)` picks how effect units map onto the element
     - `BattleEffectFit.AspectFit` (default, 0–1 = the centred square)
     - `BattleEffectFit.Stretch` (0–1 = the whole element, e.g. a full-screen effect, where shapes stretch with it)
-- **`BattleEffectShape`** (abstract) + **`[BattleEffectShapeId(n)]`** — Subclasses hold only shape-specific settings (≤ 8 animatable ranges): `BattleEffectCircle` (0), `BattleEffectSquiggle` (1), `BattleEffectDiamond` (2), `BattleEffectSegment` (3), `BattleEffectChevron` (4), `BattleEffectLens` (5), `BattleEffectJaggedLine` (6)
+- **`BattleEffectShape`** (abstract) + **`[BattleEffectShapeId(n)]`** — Subclasses hold only shape-specific settings (≤ 8 animatable ranges): `BattleEffectCircle` (0), `BattleEffectSquiggle` (1), `BattleEffectDiamond` (2), `BattleEffectSegment` (3), `BattleEffectChevron` (4), `BattleEffectLens` (5), `BattleEffectJaggedLine` (6), `BattleEffectWedge` (7), `BattleEffectBox` (8), `BattleEffectTriangle` (9), `BattleEffectPolygon` (10), `BattleEffectStar` (11)
 - **`BattleEffectTint`** — Solid / linear / wave / radial gradient between two colours (angle degrees, bands per EU, scroll rate), applied in the shader, such that one recipe can serve many colour variants
 - **`BattleEffectDataLayout`** — Texel columns of an item row; every public const is mirrored into HLSL
 - **`BattleEffectFloatRange`** / **`BattleEffectVector2Range`** — Start → end values (equal = constant)

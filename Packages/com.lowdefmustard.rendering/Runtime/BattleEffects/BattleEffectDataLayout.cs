@@ -26,7 +26,8 @@ namespace LowDefMustard.Rendering
         public const int cycleColourB = 17;     // Linear rgba (palette entries after the item's colour, which is A)
         public const int cycleColourC = 18;
         public const int cycleColourD = 19;
-        public const int texelsPerItem = 20;
+        public const int stripes = 20;          // (stripes per EU [0 = off], angle [radians], duty, phase)
+        public const int texelsPerItem = 21;
         public const int maxCycleColours = 3;   // Cycle colours B-D
         public const int shapeParameterCapacity = 8;
     }

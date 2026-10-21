@@ -28,7 +28,8 @@
 #define BATTLE_EFFECT_LAYOUT_CYCLECOLOURB 17
 #define BATTLE_EFFECT_LAYOUT_CYCLECOLOURC 18
 #define BATTLE_EFFECT_LAYOUT_CYCLECOLOURD 19
-#define BATTLE_EFFECT_LAYOUT_TEXELSPERITEM 20
+#define BATTLE_EFFECT_LAYOUT_STRIPES 20
+#define BATTLE_EFFECT_LAYOUT_TEXELSPERITEM 21
 #define BATTLE_EFFECT_LAYOUT_MAXCYCLECOLOURS 3
 #define BATTLE_EFFECT_LAYOUT_SHAPEPARAMETERCAPACITY 8
 
@@ -56,6 +57,11 @@ float BattleEffectShapeDistance(int shapeId, BattleEffectShapeInput input)
     if (shapeId == 4) { return BattleEffectChevronDistance(input); }
     if (shapeId == 5) { return BattleEffectLensDistance(input); }
     if (shapeId == 6) { return BattleEffectJaggedLineDistance(input); }
+    if (shapeId == 7) { return BattleEffectWedgeDistance(input); }
+    if (shapeId == 8) { return BattleEffectBoxDistance(input); }
+    if (shapeId == 9) { return BattleEffectTriangleDistance(input); }
+    if (shapeId == 10) { return BattleEffectPolygonDistance(input); }
+    if (shapeId == 11) { return BattleEffectStarDistance(input); }
     return 1e5;
 }
 

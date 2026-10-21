@@ -122,6 +122,24 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Stripes_WritesCountRadiansDutyAndPhase()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"stripes\":{\"stripesPerEU\":112,\"angleDegrees\":90,\"dutyFraction\":0.25,\"phaseFraction\":0.5}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(112f, Mathf.PI / 2f, 0.25f, 0.5f), texels[BattleEffectDataLayout.stripes]);
+        }
+
+        [Test]
+        public void TryWriteData_Stripes_DefaultIsOff()
+        {
+            CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(0f, texels[BattleEffectDataLayout.stripes].r);
+        }
+
+        [Test]
         public void TryWriteData_Colour_IsWrittenInLinearSpace()
         {
             var colour = new Color(0.5f, 0.25f, 0.75f, 0.5f);
@@ -176,6 +194,15 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(0.1f, texels[BattleEffectDataLayout.rotationOutline].b, 1e-5f);
             Assert.AreEqual(0.04f, texels[BattleEffectDataLayout.jitter].g, 1e-5f);
             AssertTexel(new Color(2.5f, 2.5f, 2.5f, 2.5f), texels[BattleEffectDataLayout.spacing]);
+        }
+
+        [Test]
+        public void TryWriteData_EffectScale_WidensStripes()
+        {
+            // i.e. a bigger effect has fewer stripes per effect unit (the bands scale w/ it)
+            CreateItem(new BattleEffectCircle(), "{\"stripes\":{\"stripesPerEU\":100}}").TryWriteData(texels, 0, parameterBuffer, 2f);
+
+            Assert.AreEqual(50f, texels[BattleEffectDataLayout.stripes].r, 1e-5f);
         }
         #endregion
 

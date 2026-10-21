@@ -7,7 +7,7 @@
 //  - This node is used in BattleEffect graph only (not general utility)
 //  - BattleEffect ShaderGraph's blackboard properties are wired into the node's inputs (property names must match ShaderPropertyRefs)
 //      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
-//      - Per item:  time window -> ease -> progress steps -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker) -> colour (cycle) -> composite
+//      - Per item:  time window -> ease -> progress steps -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker x stripes) -> colour (cycle) -> composite
 //  - Fit mode (BattleEffectFit) sets the effect units
 //      - aspect fit:  units of the effect's shorter side (see SDFAspectFit) - shapes keep their proportions on any slide size
 //      - stretch:  the element's own 0-1 UV - fills it (e.g. full screen), shapes stretch w/ it
@@ -158,6 +158,19 @@ float ApplyBattleEffectStyle(UnityTexture2D itemData, int item, float distance, 
     return outlineDistance;
 }
 
+float GetBattleEffectStripeMask(UnityTexture2D itemData, int item, float2 fittedUV)
+{
+    // Hard-edged to ensure complementary masks interleave w/o seams
+    // In effect units, anchored on the centre
+    
+    float4 stripes = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STRIPES); // (stripes per EU [0 = off], angle, duty, phase)
+    if (stripes.x <= 0.0) { return 1.0; }
+
+    float mask;
+    SDFStripeMask(fittedUV, float2(0.5, 0.5), stripes.x, stripes.y, stripes.z, stripes.w, mask);
+    return mask;
+}
+
 float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTime)
 {
     // Simple Case:  returns item's colour
@@ -222,7 +235,7 @@ UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, f
         float distance = GetBattleEffectLocalDistance(itemData, i, shapeId, shapeInput, progress) * distanceScale;
         distance = ApplyBattleEffectStyle(itemData, i, distance, progress);
 
-        float coverage = 1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance);
+        float coverage = (1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance)) * GetBattleEffectStripeMask(itemData, i, fittedUV);
         float4 colour = GetBattleEffectColour(itemData, i, elapsedTime);
         accumulated = CompositeBattleEffectOver(accumulated, colour.rgb, colour.a * coverage * modifiers.flickerAlpha);
     }

@@ -19,7 +19,7 @@ MonoBehaviour:
   items:
   - label: 
     shape:
-      rid: 5082563342766964868
+      rid: 5082563360854901057
     startTimeSeconds: 0
     durationSeconds: 1
     easing: 0
@@ -28,50 +28,55 @@ MonoBehaviour:
       start: {x: 0.5, y: 0.5}
       end: {x: 0.5, y: 0.5}
     scaleEU:
-      start: {x: 0.25, y: 0.25}
-      end: {x: 0.25, y: 0.25}
+      start: {x: 0.25, y: 1}
+      end: {x: 0.1, y: 0.1}
     rotationDegrees:
       start: 0
-      end: 180
+      end: 25
     elongationSU:
       start: {x: 0, y: 0}
-      end: {x: 0.1, y: 0.1}
+      end: {x: 0, y: 0}
     style: 1
     outlineThicknessEU:
       start: 0.01
-      end: 0.01
-    colour: {r: 0.09064613, g: 0.598985, b: 0.9150943, a: 1}
+      end: 0.005
+    colour: {r: 1, g: 1, b: 1, a: 1}
     colourCycle:
-      rate: 3
+      rate: 0
       phaseOffset: 0
-      colourCount: 2
-      colourB: {r: 1, g: 0, b: 0, a: 1}
-      colourC: {r: 0, g: 1, b: 0.06293076, a: 1}
+      colourCount: 0
+      colourB: {r: 1, g: 1, b: 1, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
       colourD: {r: 1, g: 1, b: 1, a: 1}
-    repetition: 4
-    count: {x: 11, y: 2}
+    stripes:
+      stripesPerEU: 0
+      angleDegrees: 0
+      dutyFraction: 0.5
+      phaseFraction: 0
+    repetition: 0
+    count: {x: 3, y: 3}
     spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 1, y: 1}
+      start: {x: 2.5, y: 2.5}
+      end: {x: 2.5, y: 2.5}
     mirrorX: 0
     mirrorY: 0
     flickerRate: 0
     flickerDepthFraction: 0.5
     flickerPhaseFraction: 0
-    jitterRate: 5
+    jitterRate: 0
     jitterMode: 0
-    jitterAmountEU: {x: 0.1, y: 0.1}
+    jitterAmountEU: {x: 0.02, y: 0.01}
     jitterSeed: 0
     jitterPhaseFraction: 0
-    pulseRate: 0
-    pulseAmountFraction: 0.25
+    pulseRate: 20
+    pulseAmountFraction: 0.05
     pulsePhaseFraction: 0
   references:
     version: 2
     RefIds:
-    - rid: 5082563342766964868
-      type: {class: BattleEffectLens, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+    - rid: 5082563360854901057
+      type: {class: BattleEffectTriangle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         aspectRatio:
-          start: 0.4
-          end: 0.4
+          start: 1
+          end: 1

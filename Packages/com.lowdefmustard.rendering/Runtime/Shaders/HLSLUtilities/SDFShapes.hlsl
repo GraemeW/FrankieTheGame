@@ -208,4 +208,102 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
     distanceOutput = length(float2(max(abs(local.x) - halfLength, 0.0), acrossDistance));
 }
 
+///<funchints>
+/// <sg:ProviderKey>SDFWedge</sg:ProviderKey>
+/// <sg:DisplayName>SDF Wedge</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Wedge</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFWedge(float2 uv, float2 position, float halfAngle,
+    out float distanceOutput)
+{
+    // An infinite wedge (a 'V' filled in) opening up (+y) from its apex at position, its sides half angle (radians) either side of +y
+    //  - half angle > pi/2 = everything but a downward wedge (e.g. 3pi/4 = outside a square diamond's top corner)
+    
+    float2 local = uv - position;
+    local.x = abs(local.x);
+    float2 side = float2(sin(halfAngle), cos(halfAngle));
+    float distance = dot(local, side) > 0.0 ? abs(local.x * side.y - local.y * side.x) : length(local);
+    distanceOutput = atan2(local.x, local.y) < halfAngle ? -distance : distance;
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFBox</sg:ProviderKey>
+/// <sg:DisplayName>SDF Box</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Box</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFBox(float2 uv, float2 position, float2 halfSize, float cornerRadius,
+    out float distanceOutput)
+{
+    // Rectangle w/ optional rounded corners, its edges at +/- half size (exact distance, Inigo Quilez)
+    // Corner radius defined inside the edges && capped at the shorter half size
+    
+    float2 safeHalfSize = max(abs(halfSize), 1e-5);
+    float radius = clamp(cornerRadius, 0.0, min(safeHalfSize.x, safeHalfSize.y));
+    float2 corner = abs(uv - position) - safeHalfSize + radius;
+    distanceOutput = length(max(corner, 0.0)) + min(max(corner.x, corner.y), 0.0) - radius;
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFTriangle</sg:ProviderKey>
+/// <sg:DisplayName>SDF Triangle</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Triangle</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFTriangle(float2 uv, float2 position, float2 halfSize,
+    out float distanceOutput)
+{
+    // Isosceles triangle pointing up (+y), centred on its bounding box (exact distance, Inigo Quilez)
+    // Apex at (0, +half size y), base corners at (+/- half size x, -half size y)
+    
+    float2 safeHalfSize = max(abs(halfSize), 1e-5);
+    float2 side = float2(safeHalfSize.x, 2.0 * safeHalfSize.y); // apex -> base corner, w/ the apex at the origin + y flipped (pointing down)
+    float2 local = uv - position;
+    float2 folded = float2(abs(local.x), safeHalfSize.y - local.y);
+    float2 toSide = folded - side * saturate(dot(folded, side) / dot(side, side));
+    float2 toBase = folded - side * float2(saturate(folded.x / side.x), 1.0);
+    float2 nearest = min(float2(dot(toSide, toSide), folded.y * side.x - folded.x * side.y), float2(dot(toBase, toBase), side.y - folded.y)); // (squared distance, inside test) ~ componentwise
+    distanceOutput = nearest.y > 0.0 ? -sqrt(nearest.x) : sqrt(nearest.x);
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFStar</sg:ProviderKey>
+/// <sg:DisplayName>SDF Star</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Star</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFStar(float2 uv, float2 position, float radius, float points, float innerRatio,
+    out float distanceOutput)
+{
+    // A star w/ its tips at radius (one pointing up, +y) && its inner corners at radius x inner ratio
+    //  - inner ratio cos(pi / points) = a regular polygon (straight sides);  above that, a 2 x points polygon
+    //  - folded into half of one tip's sector, then the distance to the one edge (tip -> inner corner)
+    
+    float halfSector = 3.14159265 / max(round(points), 2.0);
+    float safeRadius = max(abs(radius), 1e-5);
+    float2 local = uv - position;
+    float angle = atan2(local.x, local.y); // from +y
+    angle = abs(angle - 2.0 * halfSector * round(angle / (2.0 * halfSector))); // 0 = a tip, half sector = an inner corner
+    float2 folded = length(local) * float2(sin(angle), cos(angle));
+    
+    float2 tip = float2(0.0, safeRadius);
+    float2 edge = safeRadius * max(innerRatio, 0.0) * float2(sin(halfSector), cos(halfSector)) - tip;
+    float2 toPoint = folded - tip;
+    float along = saturate(dot(toPoint, edge) / max(dot(edge, edge), 1e-8));
+    float distance = length(toPoint - edge * along);
+    distanceOutput = edge.x * toPoint.y - edge.y * toPoint.x < 0.0 ? -distance : distance;
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFRegularPolygon</sg:ProviderKey>
+/// <sg:DisplayName>SDF Regular Polygon</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/RegularPolygon</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFRegularPolygon(float2 uv, float2 position, float radius, float sides,
+    out float distanceOutput)
+{
+    // Regular polygon w/ its corners at radius, one pointing up (+y) (exact distance)
+    //  - AKA a star whose inner corners sit/lie in-line w/ its straight sides
+    
+    float safeSides = max(round(sides), 3.0);
+    SDFStar(uv, position, radius, safeSides, cos(3.14159265 / safeSides), distanceOutput);
+}
+
 #endif
