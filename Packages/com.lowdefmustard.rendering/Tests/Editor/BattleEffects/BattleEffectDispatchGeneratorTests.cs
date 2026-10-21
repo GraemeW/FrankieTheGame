@@ -48,6 +48,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             StringAssert.Contains("#define BATTLE_EFFECT_STYLE_OUTLINE 1", output);
             StringAssert.Contains("#define BATTLE_EFFECT_REPETITION_GRID 3", output);
+            StringAssert.Contains("#define BATTLE_EFFECT_REPETITION_RADIAL 4", output);
             StringAssert.Contains("#define BATTLE_EFFECT_FIT_STRETCH 1", output);
             StringAssert.DoesNotContain("BATTLE_EFFECT_EASING_", output, "BattleEffectEasing has no [BattleEffectMirroredEnum]");
         }

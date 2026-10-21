@@ -22,7 +22,12 @@ namespace LowDefMustard.Rendering
         public const int elongation = 13;       // (start.xy, end.xy)
         public const int pulse = 14;            // (rate, amount, phase, -)
         public const int jitter = 15;           // (rate, amount.x, amount.y, seed)
-        public const int texelsPerItem = 16;
+        public const int colourCycle = 16;      // (rate, palette count [colour + cycle colours], phase offset [steps], -)
+        public const int cycleColourB = 17;     // Linear rgba (palette entries after the item's colour, which is A)
+        public const int cycleColourC = 18;
+        public const int cycleColourD = 19;
+        public const int texelsPerItem = 20;
+        public const int maxCycleColours = 3;   // Cycle colours B-D
         public const int shapeParameterCapacity = 8;
     }
 }

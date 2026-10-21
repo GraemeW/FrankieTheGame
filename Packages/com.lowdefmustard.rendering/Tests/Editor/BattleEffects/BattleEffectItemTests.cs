@@ -86,6 +86,42 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_ColourCycle_WritesRatePaletteCountOffsetAndLinearColours()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"colourCycle\":{{\"rate\":20,\"phaseOffset\":1.5,\"colourCount\":2,\"colourB\":{ToJson(Color.red)},\"colourC\":{ToJson(Color.gray)}}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(20f, 3f, 1.5f, 0f), texels[BattleEffectDataLayout.colourCycle]);
+            AssertTexel(Color.red.linear, texels[BattleEffectDataLayout.cycleColourB]);
+            AssertTexel(Color.gray.linear, texels[BattleEffectDataLayout.cycleColourC]);
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.cycleColourD], "beyond the colour count");
+        }
+
+        [Test]
+        public void TryWriteData_ColourCycle_ClampsTheColourCountToTheLayout()
+        {
+            // i.e. a count set past the inspector's range (e.g. in the asset file)
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"colourCycle\":{{\"rate\":1,\"colourCount\":9,\"colourD\":{ToJson(Color.blue)}}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(1 + BattleEffectDataLayout.maxCycleColours, texels[BattleEffectDataLayout.colourCycle].g, "colour + every cycle colour");
+            AssertTexel(Color.blue.linear, texels[BattleEffectDataLayout.cycleColourD]);
+        }
+
+        [Test]
+        public void TryWriteData_ColourCycle_ZeroRate_KeepsTheColourOnly()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"colourCycle\":{{\"colourCount\":1,\"colourB\":{ToJson(Color.red)}}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(1f, texels[BattleEffectDataLayout.colourCycle].g, "palette of one");
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.cycleColourB]);
+        }
+
+        [Test]
         public void TryWriteData_Colour_IsWrittenInLinearSpace()
         {
             var colour = new Color(0.5f, 0.25f, 0.75f, 0.5f);

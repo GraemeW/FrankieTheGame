@@ -23,6 +23,7 @@ MonoBehaviour:
     startTimeSeconds: 0
     durationSeconds: 2
     easing: 0
+    progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
       end: {x: 0.5, y: 0.5}
@@ -40,17 +41,24 @@ MonoBehaviour:
       start: 0.1
       end: -0.005
     colour: {r: 1, g: 1, b: 1, a: 1}
-    repetition: 2
-    count: {x: 5, y: 5}
+    colourCycle:
+      rate: 0
+      phaseOffset: 0
+      colourCount: 0
+      colourB: {r: 1, g: 1, b: 1, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    repetition: 3
+    count: {x: 2, y: 2}
     spacingSU:
-      start: {x: 1.5, y: 1.5}
-      end: {x: 0.5, y: 0.5}
+      start: {x: 5, y: 5}
+      end: {x: 5, y: 5}
     mirrorX: 0
     mirrorY: 0
     flickerRate: 0
     flickerDepthFraction: 0.5
     flickerPhaseFraction: 0
-    jitterRate: 5
+    jitterRate: 0
     jitterMode: 1
     jitterAmountEU: {x: 0.05, y: 0.05}
     jitterSeed: 2

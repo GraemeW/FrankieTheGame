@@ -35,11 +35,12 @@ namespace LowDefMustard.Rendering
         [SerializeField] private BattleEffectStyle style = BattleEffectStyle.Outline;
         [SerializeField][Tooltip("Outline only")] private BattleEffectFloatRange outlineThicknessEU = new(0.05f);
         [SerializeField][Tooltip("Multiplied by the effect colour")] private Color colour = Color.white;
+        [SerializeField] private BattleEffectColourCycle colourCycle = new();
 
         [Header("Repetition")]
         [SerializeField] private BattleEffectRepetition repetition = BattleEffectRepetition.None;
-        [SerializeField][Tooltip("Copies along x (line / cross:  per line) - y for grid only")] private Vector2Int count = new(3, 3);
-        [SerializeField][Tooltip("A unit circle spans 2. Line / cross:  the vector between copies.  Grid:  x / y gaps")] private BattleEffectVector2Range spacingSU = new(new Vector2(2.5f, 2.5f));
+        [SerializeField][Tooltip("Copies along x (line / cross:  per line;  radial:  around) - y for grid only")] private Vector2Int count = new(3, 3);
+        [SerializeField][Tooltip("A unit circle spans 2. Line / cross:  the vector between copies.  Grid:  x / y gaps.  Radial:  the first copy's offset from the centre")] private BattleEffectVector2Range spacingSU = new(new Vector2(2.5f, 2.5f));
         [SerializeField][Tooltip("Folds the shape across its local y axis (left / right halves match)")] private bool mirrorX = false;
         [SerializeField][Tooltip("Folds the shape across its local x axis (top / bottom halves match)")] private bool mirrorY = false;
 
@@ -92,6 +93,7 @@ namespace LowDefMustard.Rendering
             texels[rowStart + BattleEffectDataLayout.elongation] = ToTexel(elongationSU);
             texels[rowStart + BattleEffectDataLayout.pulse] = new Color(pulseRate, pulseAmountFraction, pulsePhaseFraction, 0f);
             texels[rowStart + BattleEffectDataLayout.jitter] = new Color(jitterRate, jitterAmountEU.x * effectScale, jitterAmountEU.y * effectScale, jitterSeed);
+            colourCycle?.WriteData(texels, rowStart);
             return true;
         }
 

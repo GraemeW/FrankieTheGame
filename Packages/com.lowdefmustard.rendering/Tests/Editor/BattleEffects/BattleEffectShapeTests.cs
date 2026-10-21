@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEngine;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -80,6 +81,19 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0f, 0f, 0f };
             for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
+        }
+
+        [Test]
+        public void GetParameters_SquiggleWaveform_WritesItsIndex()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+            var squiggle = new BattleEffectSquiggle();
+            JsonUtility.FromJsonOverwrite($"{{\"waveform\":{(int)BattleEffectWaveform.Steps}}}", squiggle);
+
+            squiggle.GetParameters(parameters);
+
+            Assert.AreEqual(3f, parameters[4].GetStart());
+            Assert.AreEqual(3f, parameters[4].GetEnd());
         }
 
         [Test]

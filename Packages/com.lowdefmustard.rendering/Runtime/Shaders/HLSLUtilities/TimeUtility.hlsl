@@ -42,8 +42,9 @@ UNITY_EXPORT_REFLECTION void SteppedTime(float time, float frameRate,
 {
     // Holds time on whole frames at the given rate (i.e. retro / held-frame animation)
     // A frame rate of 0 passes time through
-    
-    steppedTime = frameRate > 0.0 ? floor(time * frameRate) / frameRate : time;
+    // A time exactly on a frame boundary lands on that frame via 1e-3 delta (prevent confusion due to float precision)
+
+    steppedTime = frameRate > 0.0 ? floor(time * frameRate + 1e-3) / frameRate : time;
 }
 
 ///<funchints>
@@ -137,6 +138,23 @@ UNITY_EXPORT_REFLECTION void EaseProgress(float progress, float easingType,
     else if (easing == 2) { easedProgress = clampedProgress * (2.0 - clampedProgress); }
     else if (easing == 3) { easedProgress = smoothstep(0.0, 1.0, clampedProgress); }
     else { easedProgress = clampedProgress; }
+}
+
+///<funchints>
+/// <sg:ProviderKey>CycleIndex</sg:ProviderKey>
+/// <sg:DisplayName>Cycle Index</sg:DisplayName>
+/// <sg:SearchCategory>LDM/CycleIndex</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void CycleIndex(float time, float rate, float count, float phaseOffset,
+    out float index)
+{
+    // Steps through 0 -> count - 1 (then wraps) at rate steps per second, e.g. palette cycling
+    //  - rate 0 = stays on 0
+    // Phase offset starts the cycle that many steps ahead (e.g. 1 = one step, 0.5 = half a step)
+    
+    float steps = max(round(count), 1.0);
+    index = rate > 0.0 ? fmod(floor(time * rate + phaseOffset), steps) : 0.0;
+    index = index < 0.0 ? index + steps : index;
 }
 
 ///<funchints>

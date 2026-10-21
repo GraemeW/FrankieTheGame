@@ -59,8 +59,8 @@ Note that HLSL files include each other by project-relative path (`Packages/com.
 | File                                            | Nodes                                                                                                     |
 |-------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
 | `SDFShapes`                                     | `SDF Circle`, `SDF Rhombus`, `SDF Segment`, `SDF Chevron`, `SDF Squiggle`, `SDF Lens`, `SDF Jagged Line`, `SDF Onion` |
-| `SDFDomain`                                     | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Elongate`     |
-| `TimeUtility`                                   | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Step Progress`, `Flicker`, `Pulse`, `Jitter` |
+| `SDFDomain`                                     | `SDF Aspect Fit`, `SDF Transform`, `SDF Mirror`, `SDF Repeat Line`, `SDF Repeat Grid`, `SDF Repeat Radial`, `SDF Elongate` |
+| `TimeUtility`                                   | `Time Since Initialization`, `Period Time`, `Stepped Time`, `Ease Progress`, `Step Progress`, `Cycle Index`, `Flicker`, `Pulse`, `Jitter` |
 | `ColourUtility`                                 | `Colour Gradient`                                                                                         |
 | `HashUtility`                                   | `Hash 2-2`                                                                                                |
 | `SDFParser`                                     | `SDF Parser`                                                                                              |
@@ -78,7 +78,7 @@ Battle effects employ one shared shader graph (built around the `Battle Effect C
   - Items are baked into a cached `RGBAFloat` data texture (one row per item, columns per `BattleEffectDataLayout`), and updated in place on edit so live effects + previews pick up changes
   - `ApplyTo(ref MaterialDefinition)` binds the texture + recipe settings onto an element's material
   - Editor-only `ValidateShapes` repairs inspector list edits - e.g. zero-filled first entries, shapeless entries (→ circle) and duplicated entries sharing one `[SerializeReference]` shape
-- **`BattleEffectItem`** — Label, `[SerializeReference]` shape, timing (start / duration / easing / progress steps), transform ranges (position, scale, rotation, elongation), style (fill / outline + thickness, colour), repetition (none / line / cross / grid, count, spacing, mirror x / y), flicker, jitter (random / orbit) and pulse
+- **`BattleEffectItem`** — Label, `[SerializeReference]` shape, timing (start / duration / easing / progress steps), transform ranges (position, scale, rotation, elongation), style (fill / outline + thickness, colour), colour cycle (palette of up to 4), repetition (none / line / cross / grid / radial, count, spacing, mirror x / y), flicker, jitter (random / orbit) and pulse
   - Ranges run start → end over the eased duration
   - Flicker / jitter / pulse run on the effect's clock to ensure items stay in sync
   - Positions + sizes are in effect units: 0–1 spans the effect's shorter side, centred, so shapes keep their proportions on any element size
@@ -96,6 +96,7 @@ Battle effects employ one shared shader graph (built around the `Battle Effect C
 
 - **`BattleEffectDispatchGenerator`** (`[InitializeOnLoad]`, `Tools/Battle Effects/Regenerate Shape Dispatch`) — After every script reload, writes `BattleEffectDataLayout` consts, `[BattleEffectMirroredEnum]` enums and the shape ID → adapter dispatch into `Generated/BattleEffectDispatch.generated.hlsl` (only when the output changes); logs an error for a shape without an ID or a duplicate ID
 - **Battle Effect Preview** (`BattleEffectPreviewWindow`, `Tools/Battle Effects/Preview`, double-click a recipe, or a recipe's context menu) — Plays a recipe w/o entering play mode: tint + background, size presets + fit mode, play / pause / frame step / loop / speed, retro toggles (stepped time, flicker, jitter), a timeline w/ one bar per item (click / drag to scrub), reference frames (a folder of PNGs side by side or overlaid, at their own frame rate) and offscreen frame export to `Temp/BattleEffectPreview/<recipe>/frame_####.png` (optionally transparent)
+  - **`BattleEffectOffscreenRenderer`** — Draws the preview + export through a hidden runtime panel into a render texture, so their colours match the game (editor UI renders in gamma, which would leave the effect's linear output unconverted)
   - **`BattleEffectPreviewSizes`** — Size presets for the window
     - Register a project's own (e.g. its UI element sizes) from an `[InitializeOnLoad]` class via `Register(name, size)`
     - A default square is listed while nothing is registered

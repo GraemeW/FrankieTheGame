@@ -104,6 +104,29 @@ UNITY_EXPORT_REFLECTION void SDFRepeatGrid(float2 localPoint, float2 spacing, fl
 }
 
 ///<funchints>
+/// <sg:ProviderKey>SDFRepeatRadial</sg:ProviderKey>
+/// <sg:DisplayName>SDF Repeat Radial</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFDomain/RepeatRadial</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFRepeatRadial(float2 localPoint, float count,
+    out float2 nearestPoint, out float2 previousPoint, out float2 nextPoint)
+{
+    // Count copies rotated evenly about the origin (copy 0 unrotated, the rest counter-clockwise)
+    //  - offset the shape from the origin (e.g. subtract its position from each point) + evaluate it at all three points + take the min
+    // Previous / next (the neighbouring copies) keep shapes that reach into their neighbours' sectors from being clipped
+    
+    float copies = max(round(count), 1.0);
+    float sector = 6.28318531 / copies;
+    float nearest = round(atan2(localPoint.y, localPoint.x) / sector);
+    float3 angles = float3(nearest, nearest - 1.0, nearest + 1.0) * -sector;
+    float3 sines = sin(angles);
+    float3 cosines = cos(angles);
+    nearestPoint = float2(cosines.x * localPoint.x - sines.x * localPoint.y, sines.x * localPoint.x + cosines.x * localPoint.y);
+    previousPoint = float2(cosines.y * localPoint.x - sines.y * localPoint.y, sines.y * localPoint.x + cosines.y * localPoint.y);
+    nextPoint = float2(cosines.z * localPoint.x - sines.z * localPoint.y, sines.z * localPoint.x + cosines.z * localPoint.y);
+}
+
+///<funchints>
 /// <sg:ProviderKey>SDFElongate</sg:ProviderKey>
 /// <sg:DisplayName>SDF Elongate</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFDomain/Elongate</sg:SearchCategory>

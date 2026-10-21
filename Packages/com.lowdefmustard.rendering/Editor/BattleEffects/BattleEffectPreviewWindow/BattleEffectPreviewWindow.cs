@@ -1,6 +1,8 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
@@ -14,7 +16,8 @@ namespace LowDefMustard.Rendering.Editor
         // Notes:
         //  - Time is driven from here, recipe edits show live
         //  - Optional reference frames (a folder of PNGs) play alongside / over the effect at their own frame rate
-        //  - Export renders every frame offscreen to Temp/BattleEffectPreview/<recipe>/
+        //  - The preview + export both render offscreen through a runtime panel (BattleEffectOffscreenRenderer) to ensure accurate colour repro
+        //  - Export renders every frame to Temp/BattleEffectPreview/<recipe>/
         //  - Internal methods/properties are for test visibility
 
         // Time Preview Settings
@@ -22,13 +25,13 @@ namespace LowDefMustard.Rendering.Editor
         private const float _endTailSeconds = 0.25f;
         private const float _defaultStepFrameRate = 30f;
         private const float _controlSpacing = 4f;
+        private const int _previewSettleTicks = 3; // Repaints after a redraw while the offscreen renderer panel catches up
         
         // Export Settings
         private const string _exportRoot = "Temp/BattleEffectPreview";
         
         // Reference Settings
-        private const float _referencePreviewScale = 2f;
-        private const string _referenceSizeName = "Reference frames x2";
+        [NoAutoStaticsCleanup] private static readonly float[] _referencePreviewScales = { 0.25f, 0.5f, 1f, 2f }; // Listed after the size presets
 
         // Configuration State ~ serialized to persist across reloads
         [SerializeField] private BattleEffectRenderSettings render = new();
@@ -47,7 +50,9 @@ namespace LowDefMustard.Rendering.Editor
         private int drawnRecipeRevision = -1;
         
         private ObjectField recipeField;
-        private VisualElement preview;
+        private Image preview;
+        private BattleEffectOffscreenRenderer previewRenderer;
+        private int previewRepaintTicks;
         private VisualElement previewFrame;
         private Button playButton;
         private Label timeLabel;
@@ -106,6 +111,8 @@ namespace LowDefMustard.Rendering.Editor
         {
             exporter?.Cancel();
             exporter = null;
+            previewRenderer?.Dispose();
+            previewRenderer = null;
             referenceFrames?.Dispose();
             referenceFrames = null;
         }
@@ -140,7 +147,8 @@ namespace LowDefMustard.Rendering.Editor
             });
             root.Add(backgroundField);
 
-            var sizeField = new DropdownField("Size", GetSizePresetNames(), Mathf.Clamp(sizePresetIndex, 0, BattleEffectPreviewSizes.GetPresets().Count));
+            List<string> sizeNames = GetSizePresetNames();
+            var sizeField = new DropdownField("Size", sizeNames, Mathf.Clamp(sizePresetIndex, 0, sizeNames.Count - 1));
             sizeField.RegisterValueChangedCallback(_ =>
             {
                 sizePresetIndex = sizeField.index;
@@ -242,8 +250,7 @@ namespace LowDefMustard.Rendering.Editor
             // Preview (w/ the overlay reference on top) + the side-by-side reference
             var stage = new VisualElement { style = { flexDirection = FlexDirection.Row, marginTop = 8f } };
             previewFrame = new VisualElement();
-            preview = new VisualElement { pickingMode = PickingMode.Ignore, style = { position = Position.Absolute, left = 0f, top = 0f, right = 0f, bottom = 0f } };
-            preview.generateVisualContent += meshGenerationContext => ShaderQuad.Draw(meshGenerationContext, new Rect(0f, 0f, 1f, 1f), Color.white); // Tinted in the shader
+            preview = new Image { scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore, style = { position = Position.Absolute, left = 0f, top = 0f, right = 0f, bottom = 0f } };
             overlayImage = new Image { scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore, style = { position = Position.Absolute, left = 0f, top = 0f, right = 0f, bottom = 0f } };
             previewFrame.Add(preview);
             previewFrame.Add(overlayImage);
@@ -312,6 +319,7 @@ namespace LowDefMustard.Rendering.Editor
             previewFrame.style.width = size.x;
             previewFrame.style.height = size.y;
             previewFrame.style.backgroundColor = render.backgroundColour;
+            RefreshPreviewRenderer(size);
             referenceImage.style.width = size.x;
             referenceImage.style.height = size.y;
             referenceImage.style.backgroundColor = render.backgroundColour;
@@ -322,10 +330,28 @@ namespace LowDefMustard.Rendering.Editor
             overlayImage.style.opacity = reference.overlayOpacity;
         }
 
+        private void RefreshPreviewRenderer(Vector2 size)
+        {
+            var pixelSize = new Vector2Int(Mathf.Max(Mathf.RoundToInt(size.x), 1), Mathf.Max(Mathf.RoundToInt(size.y), 1));
+            if (previewRenderer == null || previewRenderer.GetSize() != pixelSize)
+            {
+                previewRenderer?.Dispose();
+                previewRenderer = new BattleEffectOffscreenRenderer(pixelSize, render.backgroundColour);
+                preview.image = previewRenderer.GetTexture();
+            }
+            else { previewRenderer.SetClearColour(render.backgroundColour); }
+        }
+
+        internal RenderTexture GetPreviewTexture() => preview?.image as RenderTexture;
+
         internal Vector2 GetPreviewSize()
         {
             IReadOnlyList<BattleEffectPreviewSize> presets = BattleEffectPreviewSizes.GetPresets();
-            if (sizePresetIndex == presets.Count && referenceFrames != null && referenceFrames.TryGetSize(out Vector2 referenceSize)) { return referenceSize * _referencePreviewScale; }
+            
+            int referenceScaleIndex = sizePresetIndex - presets.Count;
+            bool usingReferenceSize = referenceScaleIndex >= 0 && referenceScaleIndex < _referencePreviewScales.Length;
+            if (usingReferenceSize && referenceFrames != null && referenceFrames.TryGetSize(out Vector2 referenceSize)) { return referenceSize * _referencePreviewScales[referenceScaleIndex]; }
+            
             return presets[Mathf.Clamp(sizePresetIndex, 0, presets.Count - 1)].size;
         }
 
@@ -401,6 +427,11 @@ namespace LowDefMustard.Rendering.Editor
             // Note:  paused + unchanged = nothing to draw (recipe edits are caught by its revision)
             bool isRecipeChanged = render.recipe != drawnRecipe || (render.recipe != null && render.recipe.GetRevision() != drawnRecipeRevision);
             if (isRedrawPending || isRecipeChanged) { Redraw(); }
+            if (previewRepaintTicks > 0)
+            {
+                previewRepaintTicks--;
+                preview.MarkDirtyRepaint();
+            }
         }
 
         private void Redraw()
@@ -411,9 +442,9 @@ namespace LowDefMustard.Rendering.Editor
             drawnRecipeRevision = render.recipe != null ? render.recipe.GetRevision() : -1;
             playButton.text = isPlaying ? "Pause" : "Play";
 
-            if (render.isRenderable) { preview.style.unityMaterial = new StyleMaterialDefinition(render.CreateMaterialDefinition(time, retro)); }
-            else { preview.style.unityMaterial = StyleKeyword.Null; }
-            preview.MarkDirtyRepaint();
+            preview.style.display = render.isRenderable ? DisplayStyle.Flex : DisplayStyle.None;
+            if (render.isRenderable) { previewRenderer?.SetMaterial(new StyleMaterialDefinition(render.CreateMaterialDefinition(time, retro))); }
+            previewRepaintTicks = _previewSettleTicks;
 
             string referenceText = "";
             if (referenceFrames != null && referenceFrames.TryGetFrame(time, reference.frameRate, out Texture2D frame, out int frameIndex))
@@ -431,7 +462,7 @@ namespace LowDefMustard.Rendering.Editor
         private static List<string> GetSizePresetNames()
         {
             var names = BattleEffectPreviewSizes.GetPresets().Select(preset => preset.name).ToList();
-            names.Add(_referenceSizeName);
+            names.AddRange(_referencePreviewScales.Select(scale => $"Reference frames x{scale.ToString("0.##", CultureInfo.InvariantCulture)}"));
             return names;
         }
         #endregion

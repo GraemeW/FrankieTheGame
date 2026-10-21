@@ -36,28 +36,6 @@ UNITY_EXPORT_REFLECTION void SDFOnion(float distance, float thickness,
 }
 
 ///<funchints>
-/// <sg:ProviderKey>SDFSquiggle</sg:ProviderKey>
-/// <sg:DisplayName>SDF Squiggle</sg:DisplayName>
-/// <sg:SearchCategory>LDM/SDFShapes/Squiggle</sg:SearchCategory>
-///</funchints>
-UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll,
-    out float distanceOutput)
-{
-    // A sine wave along x, centred on position (crests +/- amplitude, wavelength crest to crest)
-    //  - scroll slides the wave along the line
-    //  - round ends at +/- half length
-    // Note:  never negative, like a segment
-    // Distance is divided by the wave's local slope (first-order), so steep stretches keep their thickness
-    
-    float2 local = uv - position;
-    float waveNumber = 6.28318531 / max(abs(wavelength), 1e-4);
-    float phase = (local.x - scroll) * waveNumber;
-    float slope = amplitude * waveNumber * cos(phase);
-    float acrossDistance = abs(local.y - amplitude * sin(phase)) / sqrt(1.0 + slope * slope);
-    distanceOutput = length(float2(max(abs(local.x) - halfLength, 0.0), acrossDistance));
-}
-
-///<funchints>
 /// <sg:ProviderKey>SDFRhombus</sg:ProviderKey>
 /// <sg:DisplayName>SDF Rhombus</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFShapes/Rhombus</sg:SearchCategory>
@@ -166,6 +144,68 @@ UNITY_EXPORT_REFLECTION void SDFJaggedLine(float2 uv, float2 position, float hal
         distance = min(distance, min(riseDistance, fallDistance));
     }
     distanceOutput = length(float2(max(abs(local.x) - halfLength, 0.0), distance));
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFSquiggle</sg:ProviderKey>
+/// <sg:DisplayName>SDF Squiggle</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Squiggle</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform,
+    out float distanceOutput)
+{
+    // A wave along x, centred on position (crests +/- amplitude, wavelength crest to crest), each starting at 0 and rising (negative amplitude flips it)
+    //  - scroll slides the wave along the line
+    //  - round ends at +/- half-length
+    // Waveforms:  0 = sine, 1 = triangle, 2 = square, 3 = steps (a square wave's flats only)
+    // Note:  never negative, like a segment
+    
+    float2 local = uv - position;
+    float waveX = local.x - scroll;
+    float safeWavelength = max(abs(wavelength), 1e-4);
+    int form = (int)round(waveform);
+    if (form == 3)  // Steps
+    {
+        float stepWidth = 0.5 * safeWavelength;
+        float nearestStep = floor(waveX / stepWidth);
+        distanceOutput = 1e5;
+        [unroll]
+        for (int offset = -1; offset <= 1; offset++)
+        {
+            float stepIndex = nearestStep + offset;
+            float level = frac(stepIndex * 0.5) < 0.25 ? amplitude : -amplitude;
+            float2 ends = clamp(float2(stepIndex, stepIndex + 1.0) * stepWidth + scroll, -halfLength, halfLength);
+            float stepDistance;
+            SDFSegment(local, float2(ends.x, level), float2(ends.y, level), stepDistance);
+            distanceOutput = ends.y > ends.x ? min(distanceOutput, stepDistance) : distanceOutput;
+        }
+        return;
+    }
+    
+    float acrossDistance;
+    if (form == 1)  // Triangle
+    {
+        float triangleWave = 4.0 * abs(frac(waveX / safeWavelength - 0.25) - 0.5) - 1.0;
+        float slope = 4.0 * amplitude / safeWavelength;
+        acrossDistance = abs(local.y - amplitude * triangleWave) / sqrt(1.0 + slope * slope);
+    }
+    else if (form == 2)  // Square
+    {
+        // A flat per half wavelength (up, then down), joined by risers
+        float halfPeriod = 0.5 * safeWavelength;
+        float cell = floor(waveX / halfPeriod);
+        float level = frac(cell * 0.5) < 0.25 ? amplitude : -amplitude;
+        float riserGap = min(abs(waveX - cell * halfPeriod), abs(waveX - (cell + 1.0) * halfPeriod));
+        acrossDistance = min(abs(local.y - level), length(float2(riserGap, max(abs(local.y) - abs(amplitude), 0.0))));
+    }
+    else  // Sine
+    {
+        float waveNumber = 6.28318531 / safeWavelength;
+        float phase = waveX * waveNumber;
+        float slope = amplitude * waveNumber * cos(phase);
+        acrossDistance = abs(local.y - amplitude * sin(phase)) / sqrt(1.0 + slope * slope);
+    }
+    distanceOutput = length(float2(max(abs(local.x) - halfLength, 0.0), acrossDistance));
 }
 
 #endif

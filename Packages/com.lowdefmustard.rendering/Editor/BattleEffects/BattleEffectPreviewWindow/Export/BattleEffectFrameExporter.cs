@@ -11,7 +11,7 @@ namespace LowDefMustard.Rendering.Editor
     public sealed class BattleEffectFrameExporter
     {
         // Notes:
-        //  - Renders a recipe frame by frame into a RenderTexture via a hidden UI Toolkit panel (edit mode), writing frame_####.png
+        //  - Renders a recipe frame by frame through a BattleEffectOffscreenRenderer (i.e. via the game's colour path), writing frame_####.png
         //  - Read back from the render texture, never from the screen (OS screen reads crash the editor on macOS)
         //  - Frames are sampled mid-frame, so stepped time + reference frames land on the same frame index
         //  - Internal methods/properties are for test visibility
@@ -25,14 +25,10 @@ namespace LowDefMustard.Rendering.Editor
         private readonly BattleEffectRetroToggles retroToggles;
         private readonly BattleEffectExportRequest exportRequest;
         
-        private RenderTexture target;
-        private PanelSettings panelSettings;
-        private GameObject host;
-        private VisualElement effect;
+        private BattleEffectOffscreenRenderer offscreenRenderer;
         private Texture2D readback;
         private int frame;
         private int settleUpdates;
-        private int builtVersion = -1;
 
         // Events
         public event Action finished;
@@ -43,18 +39,6 @@ namespace LowDefMustard.Rendering.Editor
             this.retroToggles = retroToggles;
             this.exportRequest = exportRequest;
             Vector2Int size = exportRequest.size;
-
-            target = new RenderTexture(size.x, size.y, 0, RenderTextureFormat.ARGB32) { hideFlags = HideFlags.HideAndDontSave };
-            target.Create();
-            
-            panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
-            panelSettings.hideFlags = HideFlags.HideAndDontSave;
-            panelSettings.targetTexture = target;
-            panelSettings.scaleMode = PanelScaleMode.ConstantPixelSize;
-            panelSettings.scale = 1f;
-            panelSettings.clearColor = true;
-            panelSettings.colorClearValue = exportRequest.isTransparent ? Color.clear : renderSettings.backgroundColour;
-            
             readback = new Texture2D(size.x, size.y, exportRequest.isTransparent ? TextureFormat.RGBA32 : TextureFormat.RGB24, false) { hideFlags = HideFlags.HideAndDontSave };
         }
 
@@ -63,12 +47,9 @@ namespace LowDefMustard.Rendering.Editor
             Directory.CreateDirectory(exportRequest.folder);
             foreach (string staleFrame in Directory.GetFiles(exportRequest.folder, "frame_*.png")) { File.Delete(staleFrame); }
 
-            host = new GameObject(nameof(BattleEffectFrameExporter)) { hideFlags = HideFlags.HideAndDontSave };
-            var panelRenderer = host.AddComponent<PanelRenderer>();
-            panelRenderer.panelSettings = panelSettings;
-            panelRenderer.RegisterUIReloadCallback(BuildEffect);
-
+            offscreenRenderer = new BattleEffectOffscreenRenderer(exportRequest.size, exportRequest.isTransparent ? Color.clear : renderSettings.backgroundColour);
             frame = 0;
+            ApplyFrameTime();
             settleUpdates = _initialSettleUpdates;
             EditorApplication.update += Update;
         }
@@ -80,27 +61,15 @@ namespace LowDefMustard.Rendering.Editor
         }
 
         #region PrivateMethods
-        private void BuildEffect(PanelRenderer panelRenderer, VisualElement root, int version)
-        {
-            if (version == builtVersion) { return; }
-            builtVersion = version;
-            effect = new VisualElement { style = { position = Position.Absolute, left = 0f, top = 0f, width = exportRequest.size.x, height = exportRequest.size.y } };
-            effect.generateVisualContent += meshGenerationContext => ShaderQuad.Draw(meshGenerationContext, new Rect(0f, 0f, 1f, 1f), Color.white); // Tinted in the shader
-            root.Add(effect);
-            ApplyFrameTime();
-        }
-
         private void ApplyFrameTime()
         {
-            if (effect == null) { return; }
-            effect.style.unityMaterial = new StyleMaterialDefinition(renderSettings.CreateMaterialDefinition((frame + 0.5f) / exportRequest.frameRate, retroToggles));
-            effect.MarkDirtyRepaint();
+            offscreenRenderer?.SetMaterial(new StyleMaterialDefinition(renderSettings.CreateMaterialDefinition((frame + 0.5f) / exportRequest.frameRate, retroToggles)));
         }
 
         private void Update()
         {
             // Waits a few editor updates per frame, so the panel has rendered the new time before it's read back
-            if (effect == null || --settleUpdates > 0) { return; }
+            if (offscreenRenderer == null || !offscreenRenderer.IsBuilt() || --settleUpdates > 0) { return; }
 
             Capture(Path.Combine(exportRequest.folder, $"frame_{frame + 1:0000}.png"));
             frame++;
@@ -120,7 +89,7 @@ namespace LowDefMustard.Rendering.Editor
         private void Capture(string path)
         {
             RenderTexture previousActive = RenderTexture.active;
-            RenderTexture.active = target;
+            RenderTexture.active = offscreenRenderer.GetTexture();
             readback.ReadPixels(new Rect(0f, 0f, exportRequest.size.x, exportRequest.size.y), 0, 0);
             RenderTexture.active = previousActive;
             if (exportRequest.isTransparent) { UnpremultiplyReadback(); }
@@ -146,19 +115,10 @@ namespace LowDefMustard.Rendering.Editor
 
         private void Cleanup()
         {
-            if (host != null) { Object.DestroyImmediate(host); }
-            if (panelSettings != null) { Object.DestroyImmediate(panelSettings); }
+            offscreenRenderer?.Dispose();
             if (readback != null) { Object.DestroyImmediate(readback); }
-            if (target != null)
-            {
-                target.Release();
-                Object.DestroyImmediate(target);
-            }
-            host = null;
-            panelSettings = null;
+            offscreenRenderer = null;
             readback = null;
-            target = null;
-            effect = null;
         }
         #endregion
     }

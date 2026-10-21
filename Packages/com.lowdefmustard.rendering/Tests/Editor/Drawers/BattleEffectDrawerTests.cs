@@ -21,6 +21,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             public BattleEffectFloatRange floatRange = new(1f, 2f);
             public BattleEffectVector2Range vectorRange = new(Vector2.zero, Vector2.one);
             public BattleEffectTint tint = new();
+            public BattleEffectColourCycle colourCycle = new();
             [SerializeReference] public BattleEffectShape shape = new BattleEffectCircle();
         }
 
@@ -51,6 +52,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         #region PrivateMethods
         private PropertyField FindPropertyField(string propertyPath) => window.root.Query<PropertyField>().Where(field => field.bindingPath == propertyPath).First();
         private PropertyField FindTintField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.tint)}.{fieldName}");
+        private PropertyField FindColourCycleField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.colourCycle)}.{fieldName}");
         private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
         #endregion
         
@@ -133,6 +135,43 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield return HeadlessEditorWindow.WaitUntil(() => IsShown(speedField));
 
             Assert.IsTrue(IsShown(speedField));
+        }
+        #endregion
+
+        #region ColourCycleDrawer
+        [Test]
+        public void ColourCycleDrawer_IsAFoldoutNamedForTheProperty()
+        {
+            Assert.IsNotNull(window.root.Query<Foldout>().Where(foldout => foldout.text == "Colour Cycle").First());
+        }
+
+        [TestCase(0, false, false, false)]
+        [TestCase(1, true, false, false)]
+        [TestCase(3, true, true, true)]
+        public void ColourCycleDrawer_ShowsOnlyTheCountsColours(int colourCount, bool isColourBShown, bool isColourCShown, bool isColourDShown)
+        {
+            // Rebuilt per count (the drawer reads the count when it's created)
+            serializedObject.FindProperty($"{nameof(DrawerTarget.colourCycle)}.{BattleEffectColourCycle.colourCountField}").intValue = colourCount;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            window.root.Clear();
+            window.root.Add(new InspectorElement(serializedObject));
+
+            Assert.AreEqual(isColourBShown, IsShown(FindColourCycleField(BattleEffectColourCycle.colourBField)), "colour B");
+            Assert.AreEqual(isColourCShown, IsShown(FindColourCycleField(BattleEffectColourCycle.colourCField)), "colour C");
+            Assert.AreEqual(isColourDShown, IsShown(FindColourCycleField(BattleEffectColourCycle.colourDField)), "colour D");
+        }
+
+        [UnityTest]
+        public IEnumerator ColourCycleDrawer_CountChange_RefreshesTheShownColours()
+        {
+            PropertyField colourBField = FindColourCycleField(BattleEffectColourCycle.colourBField);
+            Assert.IsFalse(IsShown(colourBField), "a count of 0 hides colour B");
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.colourCycle)}.{BattleEffectColourCycle.colourCountField}").intValue = 1;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(colourBField));
+
+            Assert.IsTrue(IsShown(colourBField));
         }
         #endregion
 

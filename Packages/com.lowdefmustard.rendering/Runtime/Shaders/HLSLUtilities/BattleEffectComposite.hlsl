@@ -7,7 +7,7 @@
 //  - This node is used in BattleEffect graph only (not general utility)
 //  - BattleEffect ShaderGraph's blackboard properties are wired into the node's inputs (property names must match ShaderPropertyRefs)
 //      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
-//      - Per item:  time window -> ease -> progress steps -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker) -> composite
+//      - Per item:  time window -> ease -> progress steps -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker) -> colour (cycle) -> composite
 //  - Fit mode (BattleEffectFit) sets the effect units
 //      - aspect fit:  units of the effect's shorter side (see SDFAspectFit) - shapes keep their proportions on any slide size
 //      - stretch:  the element's own 0-1 UV - fills it (e.g. full screen), shapes stretch w/ it
@@ -119,6 +119,14 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
         return min(min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourXPoint, elongation)),
             min(GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourYPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourXYPoint, elongation)));
     }
+    if (repetitionMode == BATTLE_EFFECT_REPETITION_RADIAL)
+    {
+        // Spacing = copy 0's offset from the centre
+        float2 nearestPoint, previousPoint, nextPoint;
+        SDFRepeatRadial(mirroredPoint, repetition.y, nearestPoint, previousPoint, nextPoint);
+        return min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint - spacing, elongation),
+            min(GetBattleEffectCopyDistance(shapeId, shapeInput, previousPoint - spacing, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, nextPoint - spacing, elongation)));
+    }
     if (repetitionMode != BATTLE_EFFECT_REPETITION_LINE && repetitionMode != BATTLE_EFFECT_REPETITION_CROSS)
     {
         return GetBattleEffectCopyDistance(shapeId, shapeInput, mirroredPoint, elongation);
@@ -148,6 +156,18 @@ float ApplyBattleEffectStyle(UnityTexture2D itemData, int item, float distance, 
     float outlineDistance;
     SDFOnion(distance, lerp(rotationOutline.z, rotationOutline.w, progress), outlineDistance);
     return outlineDistance;
+}
+
+float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTime)
+{
+    // Simple Case:  returns item's colour
+    // Cycle Case:  item's colour (A) + cycle colours B-D on the effect's clock
+    
+    float4 cycle = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURCYCLE); // (rate, palette count, phase offset [steps], -)
+    float index;
+    CycleIndex(elapsedTime, cycle.x, cycle.y, cycle.z, index);
+    int entry = (int)round(index);
+    return LoadBattleEffectTexel(itemData, item, entry == 0 ? BATTLE_EFFECT_LAYOUT_COLOUR : BATTLE_EFFECT_LAYOUT_CYCLECOLOURB + entry - 1);
 }
 
 float4 CompositeBattleEffectOver(float4 accumulated, float3 colour, float alpha)
@@ -203,7 +223,7 @@ UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, f
         distance = ApplyBattleEffectStyle(itemData, i, distance, progress);
 
         float coverage = 1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance);
-        float4 colour = LoadBattleEffectTexel(itemData, i, BATTLE_EFFECT_LAYOUT_COLOUR);
+        float4 colour = GetBattleEffectColour(itemData, i, elapsedTime);
         accumulated = CompositeBattleEffectOver(accumulated, colour.rgb, colour.a * coverage * modifiers.flickerAlpha);
     }
 
