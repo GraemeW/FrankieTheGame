@@ -43,17 +43,18 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [TestCase(typeof(BattleEffectCircle), 0)]
-        [TestCase(typeof(BattleEffectSquiggle), 1)]
-        [TestCase(typeof(BattleEffectDiamond), 2)]
+        [TestCase(typeof(BattleEffectBox), 1)]
+        [TestCase(typeof(BattleEffectTriangle), 2)]
         [TestCase(typeof(BattleEffectSegment), 3)]
-        [TestCase(typeof(BattleEffectChevron), 4)]
-        [TestCase(typeof(BattleEffectLens), 5)]
-        [TestCase(typeof(BattleEffectJaggedLine), 6)]
-        [TestCase(typeof(BattleEffectWedge), 7)]
-        [TestCase(typeof(BattleEffectBox), 8)]
-        [TestCase(typeof(BattleEffectTriangle), 9)]
-        [TestCase(typeof(BattleEffectPolygon), 10)]
-        [TestCase(typeof(BattleEffectStar), 11)]
+        [TestCase(typeof(BattleEffectDiamond), 4)]
+        [TestCase(typeof(BattleEffectStar), 5)]
+        [TestCase(typeof(BattleEffectPolygon), 6)]
+        [TestCase(typeof(BattleEffectLens), 7)]
+        [TestCase(typeof(BattleEffectChevron), 8)]
+        [TestCase(typeof(BattleEffectWedge), 9)]
+        [TestCase(typeof(BattleEffectSquiggle), 10)]
+        [TestCase(typeof(BattleEffectJaggedLine), 11)]
+        [TestCase(typeof(BattleEffectZiggurat), 12)]
         public void PackageShapes_KeepTheirStableIds(Type shapeType, int expectedId)
         {
             var shape = (BattleEffectShape)Activator.CreateInstance(shapeType);
@@ -90,7 +91,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             new BattleEffectSquiggle().GetParameters(parameters);
 
-            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0f, 0f, 0f };
+            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0.25f, 0f, 0f };
             for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
         }
 
@@ -105,6 +106,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual(3f, parameters[4].GetStart());
             Assert.AreEqual(3f, parameters[4].GetEnd());
+        }
+
+        [Test]
+        public void GetParameters_SquiggleTrapezoid_WritesItsIndexThenPlateau()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+            var squiggle = new BattleEffectSquiggle();
+            JsonUtility.FromJsonOverwrite($"{{\"waveform\":{(int)BattleEffectWaveform.Trapezoid},\"plateauFraction\":{{\"start\":0.1,\"end\":0.9}}}}", squiggle);
+
+            squiggle.GetParameters(parameters);
+
+            Assert.AreEqual(4f, parameters[4].GetStart(), "waveform");
+            Assert.AreEqual(0.1f, parameters[5].GetStart(), 1e-5f, "plateau start");
+            Assert.AreEqual(0.9f, parameters[5].GetEnd(), 1e-5f, "plateau end");
         }
 
         [Test]
@@ -161,6 +176,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(7f, parameters[0].GetEnd(), "points end");
             Assert.AreEqual(0.3f, parameters[1].GetStart(), 1e-5f, "inner ratio start");
             Assert.AreEqual(0.9f, parameters[1].GetEnd(), 1e-5f, "inner ratio end");
+        }
+
+        [Test]
+        public void GetParameters_Ziggurat_WritesSettingsInAdapterOrder()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+
+            new BattleEffectZiggurat().GetParameters(parameters);
+
+            float[] expected = { 0.2f, 2f, 0.1f, 0.3f, 0.2f, 1f, 1f, 0f };
+            for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
         }
         #endregion
     }

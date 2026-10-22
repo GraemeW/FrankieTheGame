@@ -1,0 +1,320 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
+  m_Name: ShatterPulseLatticeRecipe
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
+  frameRate: 30
+  scaleRatio: 1
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0
+  items:
+  - label: Small
+    shape:
+      rid: 1000
+    startTimeSeconds: 0
+    durationSeconds: 0.066667
+    easing: 0
+    progressSteps: 0
+    positionEU:
+      start: {x: 0.5, y: 0.504464}
+      end: {x: 0.5, y: 0.504464}
+    scaleEU:
+      start: {x: 0.027344, y: 0.03125}
+      end: {x: 0.027344, y: 0.03125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    shapeRotationDegrees:
+      start: 0
+      end: 0
+    style: 1
+    outlineThicknessEU:
+      start: 0.003906
+      end: 0.003906
+    colour: {r: 0.952941, g: 0.839216, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 0
+      colourB: {r: 1, g: 1, b: 1, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      source: 0
+      rate: 0
+      phaseOffset: 0
+    stripes:
+      stripesPerEU: 0
+      angleDegrees: 0
+      dutyFraction: 0.5
+      phaseFraction: 0
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
+    blend: 0
+    beats:
+      count: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+    clip:
+      shape: 0
+      halfSizeSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      angleDegrees: 0
+    repetition: 5
+    count: {x: 6, y: 3}
+    spacingSU:
+      start: {x: 9.14286, y: 5.57143}
+      end: {x: 9.14286, y: 5.57143}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Mid
+    shape:
+      rid: 1001
+    startTimeSeconds: 0.066667
+    durationSeconds: 0.033333
+    easing: 0
+    progressSteps: 0
+    positionEU:
+      start: {x: 0.5, y: 0.504464}
+      end: {x: 0.5, y: 0.504464}
+    scaleEU:
+      start: {x: 0.056641, y: 0.064732}
+      end: {x: 0.056641, y: 0.064732}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    shapeRotationDegrees:
+      start: 0
+      end: 0
+    style: 1
+    outlineThicknessEU:
+      start: 0.003906
+      end: 0.003906
+    colour: {r: 1, g: 0.094118, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 0
+      colourB: {r: 1, g: 1, b: 1, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      source: 0
+      rate: 0
+      phaseOffset: 0
+    stripes:
+      stripesPerEU: 0
+      angleDegrees: 0
+      dutyFraction: 0.5
+      phaseFraction: 0
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
+    blend: 0
+    beats:
+      count: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+    clip:
+      shape: 0
+      halfSizeSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      angleDegrees: 0
+    repetition: 5
+    count: {x: 6, y: 3}
+    spacingSU:
+      start: {x: 4.41379, y: 2.68966}
+      end: {x: 4.41379, y: 2.68966}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Wide
+    shape:
+      rid: 1002
+    startTimeSeconds: 0.1
+    durationSeconds: 0.066667
+    easing: 0
+    progressSteps: 0
+    positionEU:
+      start: {x: 0.5, y: 0.504464}
+      end: {x: 0.5, y: 0.504464}
+    scaleEU:
+      start: {x: 0.087891, y: 0.100446}
+      end: {x: 0.087891, y: 0.100446}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    shapeRotationDegrees:
+      start: 0
+      end: 0
+    style: 1
+    outlineThicknessEU:
+      start: 0.005859
+      end: 0.005859
+    colour: {r: 0.952941, g: 0.839216, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 0
+      colourB: {r: 1, g: 1, b: 1, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      source: 0
+      rate: 0
+      phaseOffset: 0
+    stripes:
+      stripesPerEU: 32
+      angleDegrees: -90
+      dutyFraction: 0.8125
+      phaseFraction: 0
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
+    blend: 0
+    beats:
+      count: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+    clip:
+      shape: 0
+      halfSizeSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      angleDegrees: 0
+    repetition: 5
+    count: {x: 6, y: 3}
+    spacingSU:
+      start: {x: 2.84444, y: 1.73333}
+      end: {x: 2.84444, y: 1.73333}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  instances: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        aspectRatio:
+          start: 1
+          end: 1
+    - rid: 1001
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        aspectRatio:
+          start: 1
+          end: 1
+    - rid: 1002
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        aspectRatio:
+          start: 1
+          end: 1

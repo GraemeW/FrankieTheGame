@@ -1,0 +1,625 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
+  m_Name: PrismWeaveRecipe
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
+  frameRate: 60
+  scaleRatio: 1
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0
+  items:
+  - label: Sweep A inner
+    shape:
+      rid: 1000
+    startTimeSeconds: 0.341667
+    durationSeconds: 0.666667
+    easing: 0
+    progressSteps: 8
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 1.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 16, y: 30}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Sweep A middle
+    shape:
+      rid: 1001
+    startTimeSeconds: 0.425
+    durationSeconds: 0.666667
+    easing: 0
+    progressSteps: 8
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 0.166667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 16, y: 30}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Sweep A outer
+    shape:
+      rid: 1002
+    startTimeSeconds: 0.508333
+    durationSeconds: 0.666667
+    easing: 0
+    progressSteps: 8
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 2.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 16, y: 30}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Sweep B inner
+    shape:
+      rid: 1003
+    startTimeSeconds: 0.941667
+    durationSeconds: 0.666667
+    easing: 0
+    progressSteps: 8
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 1.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 16, y: 30}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Sweep B middle
+    shape:
+      rid: 1004
+    startTimeSeconds: 1.025
+    durationSeconds: 0.666667
+    easing: 0
+    progressSteps: 8
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 0.166667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 16, y: 30}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Sweep B outer
+    shape:
+      rid: 1005
+    startTimeSeconds: 1.10833
+    durationSeconds: 0.666667
+    easing: 0
+    progressSteps: 8
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 2.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 16, y: 30}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Fade in
+    shape:
+      rid: 1006
+    startTimeSeconds: 1.775
+    durationSeconds: 0.233333
+    easing: 0
+    progressSteps: 3
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 2.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 20, y: 2}
+      end: {x: 28, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Regrow
+    shape:
+      rid: 1007
+    startTimeSeconds: 2.00833
+    durationSeconds: 0.233333
+    easing: 0
+    progressSteps: 3
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 2.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 24, y: 2}
+      end: {x: 16, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  - label: Fade out
+    shape:
+      rid: 1008
+    startTimeSeconds: 2.24167
+    durationSeconds: 0.266667
+    easing: 0
+    progressSteps: 3
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.0125, y: 0.0125}
+      end: {x: 0.0125, y: 0.0125}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    style: 1
+    outlineThicknessEU:
+      start: 0.0125
+      end: 0.0125
+    colour: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 2
+      colourB: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      colourC: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    colourCycle:
+      rate: 20
+      phaseOffset: 2.16667
+    repetition: 4
+    count: {x: 4, y: 1}
+    spacingSU:
+      start: {x: 20, y: 2}
+      end: {x: 28, y: 2}
+    mirrorX: 0
+    mirrorY: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0, y: 0}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0
+    pulsePhaseFraction: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 15
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: 0
+          end: 0
+        waveform: 3
+    - rid: 1001
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 15
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: 0
+          end: 0
+        waveform: 3
+    - rid: 1002
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 15
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: 0
+          end: 0
+        waveform: 3
+    - rid: 1003
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 15
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: 0
+          end: 0
+        waveform: 3
+    - rid: 1004
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 15
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: 0
+          end: 0
+        waveform: 3
+    - rid: 1005
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 15
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: 0
+          end: 0
+        waveform: 3
+    - rid: 1006
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 11
+          end: 3
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: -4
+          end: -12
+        waveform: 3
+    - rid: 1007
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 7
+          end: 15
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: -8
+          end: 0
+        waveform: 3
+    - rid: 1008
+      type: {class: BattleEffectSquiggle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+        halfLengthSU:
+          start: 11
+          end: 3
+        wavelengthSU:
+          start: 16
+          end: 16
+        amplitudeSU:
+          start: -1
+          end: -1
+        scrollSU:
+          start: -4
+          end: -12
+        waveform: 3

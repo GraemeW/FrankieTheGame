@@ -47,8 +47,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void BuildOutput_MirrorsMarkedEnumsOnly()
         {
             StringAssert.Contains("#define BATTLE_EFFECT_STYLE_OUTLINE 1", output);
+            StringAssert.Contains("#define BATTLE_EFFECT_STYLE_FILLANDOUTLINE 2", output);
             StringAssert.Contains("#define BATTLE_EFFECT_REPETITION_GRID 3", output);
             StringAssert.Contains("#define BATTLE_EFFECT_REPETITION_RADIAL 4", output);
+            StringAssert.Contains("#define BATTLE_EFFECT_REPETITION_STAGGEREDGRID 5", output);
+            StringAssert.Contains("#define BATTLE_EFFECT_BLEND_ERASE 1", output);
+            StringAssert.Contains("#define BATTLE_EFFECT_CLIPSHAPE_DIAMOND 2", output);
+            StringAssert.Contains("#define BATTLE_EFFECT_COLOURSOURCE_COPY 1", output);
             StringAssert.Contains("#define BATTLE_EFFECT_FIT_STRETCH 1", output);
             StringAssert.DoesNotContain("BATTLE_EFFECT_EASING_", output, "BattleEffectEasing has no [BattleEffectMirroredEnum]");
         }

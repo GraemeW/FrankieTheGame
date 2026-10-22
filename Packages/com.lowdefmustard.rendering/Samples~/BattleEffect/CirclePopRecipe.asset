@@ -28,7 +28,7 @@ MonoBehaviour:
     scaleEU:
       start: {x: 0, y: 0}
       end: {x: 0.54, y: 0.54}
-    rotationDegrees:
+    itemRotationDegrees:
       start: 0
       end: 0
     style: 1
@@ -36,6 +36,12 @@ MonoBehaviour:
       start: 0.1
       end: -0.05
     colour: {r: 1, g: 1, b: 1, a: 1}
+    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    altColours:
+      count: 0
+      colourB: {r: 1, g: 1, b: 1, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
   references:
     version: 2
     RefIds:

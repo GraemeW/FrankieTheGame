@@ -370,7 +370,7 @@ namespace LowDefMustard.Rendering.Editor
 
         internal float GetTotalTime()
         {
-            float effectTime = render.recipe != null ? render.recipe.GetEndTime() : 0f;
+            float effectTime = render.recipe != null ? render.recipe.GetTotalEndTime() : 0f;
             float referenceTime = referenceFrames is { count: > 0 } && reference.frameRate > 0f ? referenceFrames.count / reference.frameRate : 0f;
             return Mathf.Max(effectTime, referenceTime) + _endTailSeconds;
         }

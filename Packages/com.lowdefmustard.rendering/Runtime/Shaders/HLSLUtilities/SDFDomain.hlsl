@@ -34,15 +34,16 @@ UNITY_EXPORT_REFLECTION void SDFTransform(float2 uv, float2 position, float rota
 {
     // Rotation in radians (counter-clockwise)
     // Non-uniform scale gives an approximate (conservative) distance
+    // Negative scale flips that local axis (e.g. a mirrored copy)
     
-    float2 safeScale = max(abs(scale), 1e-5);
+    float2 safeScale = (scale < 0.0 ? -1.0 : 1.0) * max(abs(scale), 1e-5);
     float2 offset = uv - position;
     float sine = sin(-rotation);
     float cosine = cos(-rotation);
     float2 rotated = float2(cosine * offset.x - sine * offset.y, sine * offset.x + cosine * offset.y);
 
     localPoint = rotated / safeScale;
-    distanceScale = min(safeScale.x, safeScale.y);
+    distanceScale = min(abs(safeScale.x), abs(safeScale.y));
 }
 
 ///<funchints>
@@ -124,6 +125,41 @@ UNITY_EXPORT_REFLECTION void SDFRepeatRadial(float2 localPoint, float count,
     nearestPoint = float2(cosines.x * localPoint.x - sines.x * localPoint.y, sines.x * localPoint.x + cosines.x * localPoint.y);
     previousPoint = float2(cosines.y * localPoint.x - sines.y * localPoint.y, sines.y * localPoint.x + cosines.y * localPoint.y);
     nextPoint = float2(cosines.z * localPoint.x - sines.z * localPoint.y, sines.z * localPoint.x + cosines.z * localPoint.y);
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFRepeatStaggeredGrid</sg:ProviderKey>
+/// <sg:DisplayName>SDF Repeat Staggered Grid</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFDomain/RepeatStaggeredGrid</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFRepeatStaggeredGrid(float2 localPoint, float2 spacing, float2 count,
+    out float2 nearestPoint, out float2 neighbourXPoint, out float2 neighbourYPoint, out float2 neighbourXYPoint)
+{
+    // Count.y rows, spacing.y apart + centred on the origin:  even rows (0, 2, ...) hold count.x copies, odd rows count.x - 1
+    //  - each row's copies are centred, spacing.x apart ~ odd rows then sit half a spacing across to make honeycomb lattice
+    //  - evaluate the shape at all four points (the nearest + next copies in the nearest + next rows) + take the min
+    // A row w/o copies (count.x 1) returns points far away
+    
+    float2 copies = max(round(count), 1.0);
+    float2 safeSpacing = float2(abs(spacing.x) < 1e-5 ? 1e-5 : spacing.x, abs(spacing.y) < 1e-5 ? 1e-5 : spacing.y);
+    float rowCentre = (copies.y - 1.0) * 0.5;
+    float alongY = localPoint.y / safeSpacing.y + rowCentre;
+    float nearestRow = clamp(round(alongY), 0.0, copies.y - 1.0);
+    float neighbourRow = clamp(nearestRow + (alongY >= nearestRow ? 1.0 : -1.0), 0.0, copies.y - 1.0);
+
+    float2 rows = float2(nearestRow, neighbourRow);
+    float2 rowCopies = copies.x - fmod(rows, 2.0); // odd rows:  one fewer
+    float2 copyCentre = (rowCopies - 1.0) * 0.5;
+    float2 alongX = localPoint.x / safeSpacing.x + copyCentre;
+    float2 nearestCopy = clamp(round(alongX), 0.0, max(rowCopies - 1.0, 0.0));
+    float2 neighbourCopy = clamp(nearestCopy + (alongX >= nearestCopy ? 1.0 : -1.0), 0.0, max(rowCopies - 1.0, 0.0));
+    float2 rowY = (rows - rowCentre) * safeSpacing.y;
+    float2 farAway = rowCopies < 0.5 ? 1e5 : 0.0;
+    
+    nearestPoint = localPoint - float2((nearestCopy.x - copyCentre.x) * safeSpacing.x, rowY.x) + farAway.x;
+    neighbourXPoint = localPoint - float2((neighbourCopy.x - copyCentre.x) * safeSpacing.x, rowY.x) + farAway.x;
+    neighbourYPoint = localPoint - float2((nearestCopy.y - copyCentre.y) * safeSpacing.x, rowY.y) + farAway.y;
+    neighbourXYPoint = localPoint - float2((neighbourCopy.y - copyCentre.y) * safeSpacing.x, rowY.y) + farAway.y;
 }
 
 ///<funchints>

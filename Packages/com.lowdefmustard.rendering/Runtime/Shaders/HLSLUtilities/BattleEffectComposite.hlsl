@@ -7,84 +7,39 @@
 //  - This node is used in BattleEffect graph only (not general utility)
 //  - BattleEffect ShaderGraph's blackboard properties are wired into the node's inputs (property names must match ShaderPropertyRefs)
 //      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
-//      - Per item:  time window -> ease -> progress steps -> interpolate (+ jitter) -> transform -> mirror -> repetition -> elongation -> shape (generated dispatch) -> style -> coverage (x flicker x stripes) -> colour (cycle) -> composite
+//      - Per item:
+//          time window -> ease -> progress steps -> beat -> interpolate (+ beat offset, jitter)
+//          -> transform -> mirror -> repetition -> shape rotation -> elongation
+//          -> shape (generated dispatch) -> style (fill + outline:  the fill first) -> clip -> coverage (x flicker x stripes)
+//          -> colour (palette, outline colour + edge gradient) -> composite (over / erase)
+//  - Logic Splits:
+//      - BattleEffectItemData:  reading an item's settings (timing, beats, modifiers, colours, stripes)
+//      - BattleEffectRepetition:  an item's shape at its nearest repetition copies (+ which copy)
+//      - here:  the transform, style + clip, compositing + the node itself
 //  - Fit mode (BattleEffectFit) sets the effect units
 //      - aspect fit:  units of the effect's shorter side (see SDFAspectFit) - shapes keep their proportions on any slide size
 //      - stretch:  the element's own 0-1 UV - fills it (e.g. full screen), shapes stretch w/ it
 //  - Output is straight (non-premultiplied) colour + alpha
 
-#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFDomain.hlsl"
-#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/TimeUtility.hlsl"
+#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectItemData.hlsl"
+#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectRepetition.hlsl"
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/ColourUtility.hlsl"
-#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/Generated/BattleEffectDispatch.generated.hlsl"
 
-#ifdef __RESHARPER__ // IDE-only declaration - in shader, this comes from render pipeline
-struct UnityTexture2D
-{
-    Texture2D tex;
-};
-#endif
-
-float4 LoadBattleEffectTexel(UnityTexture2D itemData, int item, int column)
-{
-    return LOAD_TEXTURE2D(itemData.tex, int2(column, item));
-}
-
-struct BattleEffectModifiers
-{
-    // Per-item stages (in order)
-    float2 jitterOffset;
-    float flickerAlpha;
-    float pulseScale;
-};
-
-bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsedTime,
-    out int shapeId, out float itemTime, out float progress)
-{
-    // Half-open [start, end), w/ a little tolerance
-    // Eased, then held on the item's progress steps
-
-    float4 header = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_HEADER); // (shape ID, start time, duration, easing)
-    shapeId = (int)round(header.x);
-    itemTime = elapsedTime - header.y;
-    progress = 0.0;
-    if (itemTime < -1e-4 || itemTime >= header.z - 1e-4) { return false; } // ensure stepped frames on an item's boundaries land on exactly one item
-
-    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, progress steps)
-    EaseProgress(header.z > 0.0 ? itemTime / header.z : 1.0, header.w, progress);
-    StepProgress(progress, style.w, progress);
-    return true;
-}
-
-BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item, float elapsedTime, float disableFlicker, float disableJitter)
-{
-    // On the effect's clock (not the item's) - items w/ the same settings stay in sync
-    
-    float4 flicker = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_FLICKER); // (rate, depth, phase, -)
-    float4 jitter = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_JITTER); // (rate, amount.x, amount.y, seed)
-    float4 pulse = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PULSE); // (rate, amount, phase, -)
-    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, progress steps)
-
-    BattleEffectModifiers modifiers;
-    Jitter(elapsedTime, disableJitter > 0.5 ? 0.0 : jitter.x, jitter.yz, jitter.w, style.y, style.z, modifiers.jitterOffset);
-    Flicker(elapsedTime, disableFlicker > 0.5 ? 0.0 : flicker.x, flicker.y, flicker.z, modifiers.flickerAlpha);
-    Pulse(elapsedTime, pulse.x, pulse.y, pulse.z, modifiers.pulseScale);
-    return modifiers;
-}
-
-BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int item, float2 fittedUV, float itemTime, float progress, BattleEffectModifiers modifiers,
+BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int item, float2 fittedUV, float itemTime, float progress, int beat, BattleEffectModifiers modifiers,
     out float distanceScale)
 {
-    // Effect units -> the shape's local space (+ its interpolated parameters)
-    
+    // Effect units -> the shape's local space (+ its interpolated parameters && relevant offsetting)
+    //  - position:  its range + the current beat's offset + jitter;  scale:  its range x pulse;  item rotation:  its range
+
     float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
     float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE);
-    float4 rotationOutline = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATIONOUTLINE);
+    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION);
+    float2 beatOffset = GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01);
+    float2 itemPosition = lerp(position.xy, position.zw, progress) + beatOffset + modifiers.jitterOffset;
+    float2 itemScale = lerp(scale.xy, scale.zw, progress) * modifiers.pulseScale;
 
     BattleEffectShapeInput shapeInput;
-    SDFTransform(fittedUV, lerp(position.xy, position.zw, progress) + modifiers.jitterOffset, 
-        lerp(rotationOutline.x, rotationOutline.y, progress),
-        lerp(scale.xy, scale.zw, progress) * modifiers.pulseScale, shapeInput.localPoint, distanceScale);
+    SDFTransform(fittedUV, itemPosition, lerp(rotation.x, rotation.y, progress), itemScale, shapeInput.localPoint, distanceScale);
     shapeInput.parametersA = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSASTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSAEND), progress);
     shapeInput.parametersB = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBSTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBEND), progress);
     shapeInput.itemTime = itemTime;
@@ -92,102 +47,91 @@ BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int it
     return shapeInput;
 }
 
-float GetBattleEffectCopyDistance(int shapeId, BattleEffectShapeInput shapeInput, float2 copyPoint, float2 elongation)
+float ApplyBattleEffectOutline(UnityTexture2D itemData, int item, float distance, float progress)
 {
-    SDFElongate(copyPoint, elongation, shapeInput.localPoint);
-    return BattleEffectShapeDistance(shapeId, shapeInput);
-}
+    // An onion of the interpolated outline thickness (the outline + fill and outline styles' stroke)
 
-float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float progress)
-{
-    // Mirror -> repetition -> elongation -> shape, at the nearest copies (in local space)
-    
-    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2])
-    float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING);
-    float4 elongationRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ELONGATION);
-    float2 spacing = lerp(spacingRange.xy, spacingRange.zw, progress);
-    float2 elongation = lerp(elongationRange.xy, elongationRange.zw, progress);
-
-    float2 mirroredPoint;
-    SDFMirror(shapeInput.localPoint, fmod(repetition.w, 2.0), floor(repetition.w / 2.0), mirroredPoint);
-
-    int repetitionMode = (int)round(repetition.x);
-    if (repetitionMode == BATTLE_EFFECT_REPETITION_GRID)
-    {
-        float2 nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint;
-        SDFRepeatGrid(mirroredPoint, spacing, repetition.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint);
-        return min(min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourXPoint, elongation)),
-            min(GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourYPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourXYPoint, elongation)));
-    }
-    if (repetitionMode == BATTLE_EFFECT_REPETITION_RADIAL)
-    {
-        // Spacing = copy 0's offset from the centre
-        float2 nearestPoint, previousPoint, nextPoint;
-        SDFRepeatRadial(mirroredPoint, repetition.y, nearestPoint, previousPoint, nextPoint);
-        return min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint - spacing, elongation),
-            min(GetBattleEffectCopyDistance(shapeId, shapeInput, previousPoint - spacing, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, nextPoint - spacing, elongation)));
-    }
-    if (repetitionMode != BATTLE_EFFECT_REPETITION_LINE && repetitionMode != BATTLE_EFFECT_REPETITION_CROSS)
-    {
-        return GetBattleEffectCopyDistance(shapeId, shapeInput, mirroredPoint, elongation);
-    }
-
-    // Line (+ cross:  a second line across it)
-    float2 nearestPoint, neighbourPoint;
-    SDFRepeatLine(mirroredPoint, spacing, repetition.y, nearestPoint, neighbourPoint);
-    float distance = min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourPoint, elongation));
-    if (repetitionMode == BATTLE_EFFECT_REPETITION_CROSS)
-    {
-        SDFRepeatLine(mirroredPoint, float2(-spacing.y, spacing.x), repetition.y, nearestPoint, neighbourPoint);
-        distance = min(distance, min(GetBattleEffectCopyDistance(shapeId, shapeInput, nearestPoint, elongation), GetBattleEffectCopyDistance(shapeId, shapeInput, neighbourPoint, elongation)));
-    }
-    return distance;
-}
-
-float ApplyBattleEffectStyle(UnityTexture2D itemData, int item, float distance, float progress)
-{
-    // Fill = the distance as-is
-    // Outline = an onion of the interpolated thickness
-    
-    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, jitter mode, jitter phase, progress steps)
-    if ((int)round(style.x) != BATTLE_EFFECT_STYLE_OUTLINE) { return distance; }
-
-    float4 rotationOutline = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATIONOUTLINE);
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE);
     float outlineDistance;
-    SDFOnion(distance, lerp(rotationOutline.z, rotationOutline.w, progress), outlineDistance);
+    SDFOnion(distance, lerp(style.z, style.w, progress), outlineDistance);
     return outlineDistance;
 }
 
-float GetBattleEffectStripeMask(UnityTexture2D itemData, int item, float2 fittedUV)
+float ApplyBattleEffectClip(UnityTexture2D itemData, int item, float distance, float2 localPoint, float distanceScale, float progress)
 {
-    // Hard-edged to ensure complementary masks interleave w/o seams
-    // In effect units, anchored on the centre
-    
-    float4 stripes = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STRIPES); // (stripes per EU [0 = off], angle, duty, phase)
-    if (stripes.x <= 0.0) { return 1.0; }
+    // Intersects what the item draws (after its style) w/ a box / diamond in its local space, centred on its position + turned by the clip angle
 
-    float mask;
-    SDFStripeMask(fittedUV, float2(0.5, 0.5), stripes.x, stripes.y, stripes.z, stripes.w, mask);
-    return mask;
+    float4 clip = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIP);
+    int clipShape = (int)round(clip.x);
+    if (clipShape == BATTLE_EFFECT_CLIPSHAPE_NONE) { return distance; }
+
+    float4 clipSizeRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPSIZE);
+    float2 halfSize = lerp(clipSizeRange.xy, clipSizeRange.zw, progress);
+    float2 clipPoint = float2(cos(clip.y) * localPoint.x + sin(clip.y) * localPoint.y, -sin(clip.y) * localPoint.x + cos(clip.y) * localPoint.y);
+    float clipDistance;
+    if (clipShape == BATTLE_EFFECT_CLIPSHAPE_DIAMOND) { SDFRhombus(clipPoint, float2(0.0, 0.0), halfSize, clipDistance); }
+    else { SDFBox(clipPoint, float2(0.0, 0.0), halfSize, 0.0, clipDistance); }
+    return max(distance, clipDistance * distanceScale);
 }
 
-float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTime)
+float GetBattleEffectCoverage(float distance, float edgeHalfWidth, float edgeOuter)
 {
-    // Simple Case:  returns item's colour
-    // Cycle Case:  item's colour (A) + cycle colours B-D on the effect's clock
-    
-    float4 cycle = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURCYCLE); // (rate, palette count, phase offset [steps], -)
-    float index;
-    CycleIndex(elapsedTime, cycle.x, cycle.y, cycle.z, index);
-    int entry = (int)round(index);
-    return LoadBattleEffectTexel(itemData, item, entry == 0 ? BATTLE_EFFECT_LAYOUT_COLOUR : BATTLE_EFFECT_LAYOUT_CYCLECOLOURB + entry - 1);
+    // Antialiased (+ glow) coverage of a distance in effect units
+
+    return 1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance);
+}
+
+float4 CompositeBattleEffectErase(float4 accumulated, float alpha)
+{
+    // Punches the item's coverage out of everything drawn so far
+
+    return accumulated * (1.0 - alpha);
 }
 
 float4 CompositeBattleEffectOver(float4 accumulated, float3 colour, float alpha)
 {
     // Premultiplied 'over':  the new item paints over everything drawn so far
-    
+
     return float4(colour * alpha, alpha) + accumulated * (1.0 - alpha);
+}
+
+float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accumulated, float elapsedTime, float2 fittedUV, float edgeHalfWidth, float edgeOuter,
+    float disableFlicker, float disableJitter)
+{
+    // One item (if it's in its time window), composited onto everything drawn before it
+
+    int shapeId;
+    float itemTime, progress;
+    if (!TryGetBattleEffectItemTime(itemData, item, elapsedTime, shapeId, itemTime, progress)) { return accumulated; }
+
+    // Geometry:  the shape's distance (effect units) at its nearest copy
+    BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, item, elapsedTime, disableFlicker, disableJitter);
+    int beat = GetBattleEffectBeat(itemData, item, itemTime);
+    float distanceScale, copyIndex;
+    BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, fittedUV, itemTime, progress, beat, modifiers, distanceScale);
+    float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, progress, beat, copyIndex) * distanceScale;
+
+    // Style + colour
+    int style = GetBattleEffectStyle(itemData, item);
+    bool isErase = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).y) == BATTLE_EFFECT_BLEND_ERASE;
+    float stripeMask = GetBattleEffectStripeMask(itemData, item, fittedUV);
+    float4 colour = GetBattleEffectColour(itemData, item, elapsedTime, copyIndex, beat);
+
+    // Fill (fill + fill and outline styles):  stripes + the erase blend apply to it
+    if (style != BATTLE_EFFECT_STYLE_OUTLINE)
+    {
+        float fillDistance = ApplyBattleEffectClip(itemData, item, shapeDistance, shapeInput.localPoint, distanceScale, progress);
+        float fillAlpha = colour.a * GetBattleEffectCoverage(fillDistance, edgeHalfWidth, edgeOuter) * stripeMask * modifiers.flickerAlpha;
+        accumulated = isErase ? CompositeBattleEffectErase(accumulated, fillAlpha) : CompositeBattleEffectOver(accumulated, colour.rgb, fillAlpha);
+    }
+    if (style == BATTLE_EFFECT_STYLE_FILL) { return accumulated; }
+
+    // Outline (outline + fill and outline styles):  over the fill;  stripes + erase only when it's the item's whole style
+    bool isOutlineOnly = style == BATTLE_EFFECT_STYLE_OUTLINE;
+    float outlineDistance = ApplyBattleEffectClip(itemData, item, ApplyBattleEffectOutline(itemData, item, shapeDistance, progress), shapeInput.localPoint, distanceScale, progress);
+    float4 strokeColour = GetBattleEffectStrokeColour(itemData, item, colour, shapeDistance, progress);
+    float strokeAlpha = strokeColour.a * GetBattleEffectCoverage(outlineDistance, edgeHalfWidth, edgeOuter) * (isOutlineOnly ? stripeMask : 1.0) * modifiers.flickerAlpha;
+    return isOutlineOnly && isErase ? CompositeBattleEffectErase(accumulated, strokeAlpha) : CompositeBattleEffectOver(accumulated, strokeColour.rgb, strokeAlpha);
 }
 
 
@@ -196,11 +140,11 @@ float4 CompositeBattleEffectOver(float4 accumulated, float3 colour, float alpha)
 /// <sg:DisplayName>Battle Effect Composite</sg:DisplayName>
 /// <sg:SearchCategory>LDM/BattleEffects/Composite</sg:SearchCategory>
 ///</funchints>
-UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, float previewTime, 
+UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, float previewTime,
     float itemCount, UnityTexture2D itemData,
     float4 tintColourA, float4 tintColourB, float4 tintSettings,
     float phase, float frameRate,
-    float edgeSoftness, float glowWidth,  
+    float edgeSoftness, float glowWidth,
     float disableFlicker, float disableJitter, float fitMode,
     out float3 colorOutput, out float alphaOutput)
 {
@@ -225,19 +169,7 @@ UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, f
     [loop]
     for (int i = 0; i < count; i++)
     {
-        int shapeId;
-        float itemTime, progress;
-        if (!TryGetBattleEffectItemTime(itemData, i, elapsedTime, shapeId, itemTime, progress)) { continue; }
-
-        BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, i, elapsedTime, disableFlicker, disableJitter);
-        float distanceScale;
-        BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, i, fittedUV, itemTime, progress, modifiers, distanceScale);
-        float distance = GetBattleEffectLocalDistance(itemData, i, shapeId, shapeInput, progress) * distanceScale;
-        distance = ApplyBattleEffectStyle(itemData, i, distance, progress);
-
-        float coverage = (1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance)) * GetBattleEffectStripeMask(itemData, i, fittedUV);
-        float4 colour = GetBattleEffectColour(itemData, i, elapsedTime);
-        accumulated = CompositeBattleEffectOver(accumulated, colour.rgb, colour.a * coverage * modifiers.flickerAlpha);
+        accumulated = CompositeBattleEffectItem(itemData, i, accumulated, elapsedTime, fittedUV, edgeHalfWidth, edgeOuter, disableFlicker, disableJitter);
     }
 
     // Overall tint (solid / gradient, in effect units;  scrolls on the stepped clock)

@@ -49,9 +49,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual(2, itemCount);
             Assert.AreEqual(3, dataTexture.height);
-            Assert.AreEqual(0f, dataTexture.GetPixel(BattleEffectDataLayout.header, 0).r, "row 0 shape ID (circle)");
-            Assert.AreEqual(2f, dataTexture.GetPixel(BattleEffectDataLayout.header, 1).r, "row 1 shape ID (diamond)");
-            AssertTexel(Color.clear, dataTexture.GetPixel(BattleEffectDataLayout.header, 2), "unused last row");
+            Assert.AreEqual(0f, dataTexture.GetPixel(BattleEffectDataLayout.shape, 0).r, "row 0 shape ID (circle)");
+            Assert.AreEqual(4f, dataTexture.GetPixel(BattleEffectDataLayout.shape, 1).r, "row 1 shape ID (diamond)");
+            AssertTexel(Color.clear, dataTexture.GetPixel(BattleEffectDataLayout.shape, 2), "unused last row");
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreSame(firstBake, secondBake);
             Assert.AreEqual(2, itemCount);
             Assert.AreEqual(2, secondBake.height);
-            Assert.AreEqual(4f, secondBake.GetPixel(BattleEffectDataLayout.header, 1).r, "row 1 shape ID (chevron)");
+            Assert.AreEqual(8f, secondBake.GetPixel(BattleEffectDataLayout.shape, 1).r, "row 1 shape ID (chevron)");
         }
 
         [Test]
@@ -92,13 +92,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
                 null
             });
 
-            Assert.AreEqual(2.2f, recipe.GetEndTime(), 1e-5f);
+            Assert.AreEqual(2.2f, recipe.GetTotalEndTime(), 1e-5f);
         }
 
         [Test]
         public void GetEndTime_EmptyRecipe_IsZero()
         {
-            Assert.AreEqual(0f, recipe.GetEndTime());
+            Assert.AreEqual(0f, recipe.GetTotalEndTime());
         }
 
         [Test]

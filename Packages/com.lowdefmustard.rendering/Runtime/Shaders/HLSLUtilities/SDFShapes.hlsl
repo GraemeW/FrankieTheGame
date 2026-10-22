@@ -151,20 +151,20 @@ UNITY_EXPORT_REFLECTION void SDFJaggedLine(float2 uv, float2 position, float hal
 /// <sg:DisplayName>SDF Squiggle</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFShapes/Squiggle</sg:SearchCategory>
 ///</funchints>
-UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform,
+UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform, float plateau,
     out float distanceOutput)
 {
     // A wave along x, centred on position (crests +/- amplitude, wavelength crest to crest), each starting at 0 and rising (negative amplitude flips it)
     //  - scroll slides the wave along the line
     //  - round ends at +/- half-length
-    // Waveforms:  0 = sine, 1 = triangle, 2 = square, 3 = steps (a square wave's flats only)
+    // Waveforms:  0 = sine, 1 = triangle, 2 = square, 3 = steps (a square wave's flats only), 4 = trapezoid
     // Note:  never negative, like a segment
     
     float2 local = uv - position;
     float waveX = local.x - scroll;
     float safeWavelength = max(abs(wavelength), 1e-4);
     int form = (int)round(waveform);
-    if (form == 3)  // Steps
+    if (form == 3)  // Steps ~ special handling + early return
     {
         float stepWidth = 0.5 * safeWavelength;
         float nearestStep = floor(waveX / stepWidth);
@@ -198,7 +198,26 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
         float riserGap = min(abs(waveX - cell * halfPeriod), abs(waveX - (cell + 1.0) * halfPeriod));
         acrossDistance = min(abs(local.y - level), length(float2(riserGap, max(abs(local.y) - abs(amplitude), 0.0))));
     }
-    else  // Sine
+    else if (form == 4)  // Trapezoid
+    {
+        // Per half wavelength:  a slope (centred on a zero crossing) then a flat crest ~ alternating up / down
+        float halfPeriod = 0.5 * safeWavelength;
+        float slopeLength = halfPeriod * (1.0 - saturate(plateau));
+        float nearestCell = floor((waveX + 0.5 * slopeLength) / halfPeriod);
+        acrossDistance = 1e5;
+        [unroll]
+        for (int offset = -1; offset <= 1; offset++)
+        {
+            float cell = nearestCell + offset;
+            float level = frac(cell * 0.5) < 0.25 ? amplitude : -amplitude;
+            float slopeStart = cell * halfPeriod - 0.5 * slopeLength;
+            float slopeDistance, crestDistance;
+            SDFSegment(float2(waveX, local.y), float2(slopeStart, -level), float2(slopeStart + slopeLength, level), slopeDistance);
+            SDFSegment(float2(waveX, local.y), float2(slopeStart + slopeLength, level), float2(slopeStart + halfPeriod, level), crestDistance);
+            acrossDistance = min(acrossDistance, min(slopeDistance, crestDistance));
+        }
+    }
+    else  // Sine (acts as default / catch)
     {
         float waveNumber = 6.28318531 / safeWavelength;
         float phase = waveX * waveNumber;
@@ -304,6 +323,71 @@ UNITY_EXPORT_REFLECTION void SDFRegularPolygon(float2 uv, float2 position, float
     
     float safeSides = max(round(sides), 3.0);
     SDFStar(uv, position, radius, safeSides, cos(3.14159265 / safeSides), distanceOutput);
+}
+
+///<funchints>
+/// <sg:ProviderKey>SDFZiggurat</sg:ProviderKey>
+/// <sg:DisplayName>SDF Ziggurat</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Ziggurat</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFZiggurat(float2 uv, float2 position, float baseHalfHeight, float tiers, float riserSize, float treadWidth, float topHalfWidth, float halfLength, float riserSlope,
+    out float distanceOutput)
+{
+    // A horizontal band (+/- base half-height) that steps up into tiers at its centre, mirrored top / bottom (exact distance)
+    //  - the top tread spans +/- top half-width, each tier below it a riser (riser size high) + a tread (tread width wide)
+    //  - riser slope = riser width / height (1 = 45 degrees, 0 = vertical)
+    //  - tiers, up to 16
+    
+    float2 local = abs(uv - position);
+    float steps = clamp(round(tiers), 0.0, 16.0);
+    float rise = max(riserSize, 0.0);
+    float run = rise * max(riserSlope, 0.0);
+    float base = max(baseHalfHeight, 0.0);
+    float top = base + steps * rise;
+    float tread = max(treadWidth, 0.0);
+    float endStart = max(halfLength - base * max(riserSlope, 0.0), max(topHalfWidth, 0.0));
+    
+    // Walk the outline (x >= 0, top half):  top tread -> (riser -> tread) x tiers, the last tread running to the closing slope
+    float2 corner = float2(0.0, top);
+    float2 next = float2(max(topHalfWidth, 0.0), top);
+    float distance;
+    SDFSegment(local, corner, next, distance);
+    float height = local.x <= next.x ? top : base; // outline height above x (inside test)
+    corner = next;
+    [loop]
+    for (int tier = 1; tier <= 16; tier++)
+    {
+        if (tier > steps) { break; }
+        next = corner + float2(run, -rise);
+        float riserDistance;
+        SDFSegment(local, corner, next, riserDistance);
+        distance = min(distance, riserDistance);
+        if (local.x > corner.x && local.x <= next.x) { height = corner.y - rise * (local.x - corner.x) / max(run, 1e-5); }
+        corner = next;
+        next = corner + float2(tier < steps ? tread : max(endStart - corner.x, 0.0), 0.0);
+        float treadDistance;
+        SDFSegment(local, corner, next, treadDistance);
+        distance = min(distance, treadDistance);
+        if (local.x > corner.x && local.x <= next.x) { height = corner.y; }
+        corner = next;
+    }
+    if (steps < 0.5)
+    {
+        next = float2(endStart, base);
+        float baseDistance;
+        SDFSegment(local, corner, next, baseDistance);
+        distance = min(distance, baseDistance);
+        corner = next;
+    }
+    
+    // Closing slope down to the point
+    float2 tip = float2(max(halfLength, corner.x), 0.0);
+    float closeDistance;
+    SDFSegment(local, corner, tip, closeDistance);
+    distance = min(distance, closeDistance);
+    if (local.x > corner.x) { height = local.x < tip.x ? corner.y * (tip.x - local.x) / max(tip.x - corner.x, 1e-5) : -1.0; }
+    
+    distanceOutput = local.y < height ? -distance : distance;
 }
 
 #endif

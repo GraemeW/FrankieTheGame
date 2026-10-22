@@ -57,10 +57,10 @@ float BattleEffectChevronDistance(BattleEffectShapeInput input)
 
 float BattleEffectSquiggleDistance(BattleEffectShapeInput input)
 {
-    // Along local x;  A: (half-length SU, wavelength SU, amplitude SU, scroll SU), B: (waveform, -, -, -) (never negative ~ draw w/ the outline style)
+    // Along local x;  A: (half-length SU, wavelength SU, amplitude SU, scroll SU), B: (waveform, plateau fraction, -, -) (never negative ~ draw w/ the outline style)
     
     float distance;
-    SDFSquiggle(input.localPoint, float2(0.0, 0.0), input.parametersA.x, input.parametersA.y, input.parametersA.z, input.parametersA.w, input.parametersB.x, distance);
+    SDFSquiggle(input.localPoint, float2(0.0, 0.0), input.parametersA.x, input.parametersA.y, input.parametersA.z, input.parametersA.w, input.parametersB.x, input.parametersB.y, distance);
     return distance;
 }
 
@@ -124,6 +124,16 @@ float BattleEffectStarDistance(BattleEffectShapeInput input)
 
     float distance;
     SDFStar(input.localPoint, float2(0.0, 0.0), 1.0, input.parametersA.x, input.parametersA.y, distance);
+    return distance;
+}
+
+float BattleEffectZigguratDistance(BattleEffectShapeInput input)
+{
+    // Along local x, mirrored top / bottom;  A: (base half-height SU, tiers, riser size SU, tread width SU), B: (top half width SU, half-length SU, riser slope, -)
+
+    float distance;
+    SDFZiggurat(input.localPoint, float2(0.0, 0.0), input.parametersA.x, input.parametersA.y, input.parametersA.z, input.parametersA.w,
+        input.parametersB.x, input.parametersB.y, input.parametersB.z, distance);
     return distance;
 }
 
