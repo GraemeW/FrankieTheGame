@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CirclePopRecipe
   m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
   frameRate: 0
+  scaleRatio: 1
   edgeSoftnessPixels: 1
   glowWidthEU: 0.05
   items:
@@ -22,16 +23,24 @@ MonoBehaviour:
     startTimeSeconds: 0
     durationSeconds: 0.6
     easing: 0
+    progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
       end: {x: 0.5, y: 0.5}
     scaleEU:
       start: {x: 0, y: 0}
       end: {x: 0.54, y: 0.54}
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
     itemRotationDegrees:
       start: 0
       end: 0
+    shapeRotationDegrees:
+      start: 0
+      end: 0
     style: 1
+    blend: 0
     outlineThicknessEU:
       start: 0.1
       end: -0.05
@@ -42,6 +51,66 @@ MonoBehaviour:
       colourB: {r: 1, g: 1, b: 1, a: 1}
       colourC: {r: 1, g: 1, b: 1, a: 1}
       colourD: {r: 1, g: 1, b: 1, a: 1}
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
+    stripes:
+      stripesPerEU: 0
+      angleDegrees: 0
+      dutyFraction: 0.5
+      phaseFraction: 0
+    clip:
+      shape: 0
+      halfSizeSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      angleDegrees: 0
+    repetition: 0
+    count: {x: 3, y: 3}
+    spacingSU:
+      start: {x: 2.5, y: 2.5}
+      end: {x: 2.5, y: 2.5}
+    mirrorX: 0
+    mirrorY: 0
+    colourCycle:
+      source: 0
+      rate: 0
+      phaseOffset: 0
+    beats:
+      count: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+    jitterRate: 0
+    jitterMode: 0
+    jitterAmountEU: {x: 0.02, y: 0.02}
+    jitterSeed: 0
+    jitterPhaseFraction: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
+    pulseRate: 0
+    pulseAmountFraction: 0.25
+    pulsePhaseFraction: 0
+  instances: []
   references:
     version: 2
     RefIds:

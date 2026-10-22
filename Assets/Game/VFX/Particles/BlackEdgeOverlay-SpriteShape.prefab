@@ -80,7 +80,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -975917597
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Color: {r: 0, g: 0, b: 0, a: 1}

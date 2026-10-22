@@ -30,13 +30,17 @@ MonoBehaviour:
     scaleEU:
       start: {x: 0.003906, y: 0.004464}
       end: {x: 0.003906, y: 0.004464}
-    itemRotationDegrees:
-      start: 0
-      end: 0
     elongationSU:
       start: {x: 0, y: 0}
       end: {x: 0, y: 0}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    shapeRotationDegrees:
+      start: 0
+      end: 0
     style: 0
+    blend: 0
     outlineThicknessEU:
       start: 0.05
       end: 0.05
@@ -47,14 +51,21 @@ MonoBehaviour:
       colourB: {r: 1, g: 1, b: 1, a: 1}
       colourC: {r: 1, g: 1, b: 1, a: 1}
       colourD: {r: 1, g: 1, b: 1, a: 1}
-    colourCycle:
-      rate: 0
-      phaseOffset: 0
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
     stripes:
       stripesPerEU: 112
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0.5
+    clip:
+      shape: 0
+      halfSizeSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      angleDegrees: 0
     repetition: 0
     count: {x: 1, y: 1}
     spacingSU:
@@ -62,14 +73,40 @@ MonoBehaviour:
       end: {x: 0, y: 0}
     mirrorX: 0
     mirrorY: 1
-    flickerRate: 0
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0
+    colourCycle:
+      source: 0
+      rate: 0
+      phaseOffset: 0
+    beats:
+      count: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
     jitterRate: 0
     jitterMode: 0
     jitterAmountEU: {x: 0, y: 0}
     jitterSeed: 0
     jitterPhaseFraction: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
     pulseRate: 0
     pulseAmountFraction: 0
     pulsePhaseFraction: 0
@@ -86,13 +123,17 @@ MonoBehaviour:
     scaleEU:
       start: {x: 0.003906, y: 0.004464}
       end: {x: 0.003906, y: 0.004464}
-    itemRotationDegrees:
-      start: 0
-      end: 0
     elongationSU:
       start: {x: 0, y: 0}
       end: {x: 0, y: 0}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    shapeRotationDegrees:
+      start: 0
+      end: 0
     style: 0
+    blend: 0
     outlineThicknessEU:
       start: 0.05
       end: 0.05
@@ -103,14 +144,21 @@ MonoBehaviour:
       colourB: {r: 1, g: 1, b: 1, a: 1}
       colourC: {r: 1, g: 1, b: 1, a: 1}
       colourD: {r: 1, g: 1, b: 1, a: 1}
-    colourCycle:
-      rate: 0
-      phaseOffset: 0
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
     stripes:
       stripesPerEU: 112
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    clip:
+      shape: 0
+      halfSizeSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      angleDegrees: 0
     repetition: 0
     count: {x: 1, y: 1}
     spacingSU:
@@ -118,23 +166,50 @@ MonoBehaviour:
       end: {x: 0, y: 0}
     mirrorX: 0
     mirrorY: 1
-    flickerRate: 0
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0
+    colourCycle:
+      source: 0
+      rate: 0
+      phaseOffset: 0
+    beats:
+      count: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
     jitterRate: 0
     jitterMode: 0
     jitterAmountEU: {x: 0, y: 0}
     jitterSeed: 0
     jitterPhaseFraction: 0
+    flickerRate: 0
+    flickerDepthFraction: 0.5
+    flickerPhaseFraction: 0
     pulseRate: 0
     pulseAmountFraction: 0
     pulsePhaseFraction: 0
+  instances: []
   references:
     version: 2
     RefIds:
     - rid: 1000
       type: {class: BattleEffectWedge, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data: 
+      data:
         halfAngleDegrees:
           start: 135
           end: 135
@@ -143,7 +218,7 @@ MonoBehaviour:
           end: -128
     - rid: 1001
       type: {class: BattleEffectWedge, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data: 
+      data:
         halfAngleDegrees:
           start: 45
           end: 45
