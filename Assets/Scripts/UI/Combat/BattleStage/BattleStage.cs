@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Rendering;
 using LowDefMustard.UIBox;
 
 namespace Frankie.Combat.UI
@@ -72,20 +73,29 @@ namespace Frankie.Combat.UI
             battleController = setBattleController;
         }
 
-        // Effect over an enemy's slide (matching its size);  non-positive lifetime = until its enemy is gone or the battle leaves combat
-        public void SpawnEffect(BattleEntity enemy, Material effectMaterial, Color effectColour, float lifetime)
+        // Effect over an enemy's slide (matching its size)
+        public void SpawnEffect(BattleEntity enemy, Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
         {
             if (effectMaterial == null || enemy == null) { return; }
             if (!enemySlideLookup.TryGetValue(enemy, out EnemySlideHandle enemySlide) || !enemySlide.TryGetSlideElement(out VisualElement slideElement)) { return; }
 
-            AddEffect(BattleEffectHandle.OverAnchor(stageView, slideElement, effectMaterial, effectColour, lifetime));
+            AddEffect(BattleEffectHandle.OverSlide(stageView, slideElement, effectMaterial, effectRecipe, effectTint, lifetime));
         }
 
-        // Effect over the whole stage (bands + party slides included);  non-positive lifetime = until the battle leaves combat
-        public void SpawnFullScreenEffect(Material effectMaterial, Color effectColour, float lifetime)
+        // Effect across a row of enemies (spanning that row's enemies)
+        public void SpawnRowEffect(BattleRow row, Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
         {
             if (effectMaterial == null) { return; }
-            AddEffect(BattleEffectHandle.FullScreen(stageView, effectMaterial, effectColour, lifetime));
+            if (!stageView.TryGetEntryContainer(EnemySlideRow.GetRowType(row), out VisualElement rowElement)) { return; }
+
+            AddEffect(BattleEffectHandle.OverRow(stageView, rowElement, effectMaterial, effectRecipe, effectTint, lifetime));
+        }
+
+        // Effect over the whole stage (bands + party slides included)
+        public void SpawnFullScreenEffect(Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
+        {
+            if (effectMaterial == null) { return; }
+            AddEffect(BattleEffectHandle.FullScreen(stageView, effectMaterial, effectRecipe, effectTint, lifetime));
         }
         #endregion
 

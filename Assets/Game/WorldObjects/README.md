@@ -114,7 +114,7 @@ For the simple on-axis view assets, the default anchor position should be (as ab
 #### Sprite Renderer Settings
 
 In the sprite renderer of the world game object, the following adjustments should be made (otherwise apply default settings):
-* `Material`:  [PixelArtShader](../../Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.mat)
+* `Material`:  [PixelArtShader](../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/_PixelArtShaders/PixelArtShader.mat)
 * `Sorting Layer`:  `PlayerEnemiesObjects`
 * `Order in Layer`:  `0`
 
@@ -133,7 +133,7 @@ Child game objects in this configuration can then be defined relative to each ot
 
 
 If a character should always appear in front of a given world object, the following settings should be used:
-* `Material`:  [PixelArtShader](../../Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.mat)
+* `Material`:  [PixelArtShader](../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/_PixelArtShaders/PixelArtShader.mat)
 * `Sorting Layer`:  `Background`
 * `Order in Layer`:  `15` ~ `20`
 

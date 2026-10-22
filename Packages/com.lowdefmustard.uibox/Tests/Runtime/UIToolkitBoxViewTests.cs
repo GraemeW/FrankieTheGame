@@ -89,6 +89,28 @@ namespace LowDefMustard.UIBox.Tests
         }
 
         [UnityTest]
+        public IEnumerator TryGetEntryContainer_Bound_ReturnsTheFirstContainerOfType()
+        {
+            UIToolkitMenuView view = CreateView<UIToolkitMenuView>(TestPanelAssets.menuView);
+
+            yield return WaitForLoadedUI(view);
+
+            Assert.IsTrue(view.TryGetEntryContainer(typeof(ChoiceEntryContainer), out VisualElement container));
+            Assert.AreSame(GetChoiceContainers(GetLoadedRoot(view))[0], container);
+        }
+
+        [UnityTest]
+        public IEnumerator TryGetEntryContainer_MissingContainerType_WarnsAndReturnsFalse()
+        {
+            LogAssert.Expect(LogType.Warning, new Regex("UXML has no ChoiceEntryContainer for entries"));
+            UIToolkitMenuView view = CreateView<UIToolkitMenuView>(TestPanelAssets.emptyView);
+
+            yield return WaitForLoadedUI(view);
+
+            Assert.IsFalse(view.TryGetEntryContainer(typeof(ChoiceEntryContainer), out _));
+        }
+
+        [UnityTest]
         public IEnumerator Bind_MissingContainerType_WarnsAndLeavesEntryUsable()
         {
             LogAssert.Expect(LogType.Warning, new Regex("UXML has no ChoiceEntryContainer for entries"));
