@@ -18,7 +18,7 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Crest height either side of the line")] private BattleEffectFloatRange amplitudeSU = new(0.1f);
         [SerializeField][Tooltip("Slides the wave along the line")] private BattleEffectFloatRange scrollSU = new(0f);
         [SerializeField][Tooltip("Sine / triangle / trapezoid start on the line + rise;  square / steps start on the crest (negative amplitude flips them)")] private BattleEffectWaveform waveform = BattleEffectWaveform.Sine;
-        [SerializeField][Tooltip("Trapezoid only:  each half wavelength's flat crest share (0 = triangle, 1 = square)")] private BattleEffectFloatRange plateauFraction = new(0.25f);
+        [SerializeField][Tooltip("Trapezoid only:  each half wavelength's flat crest share (0 = triangle, 1 = square)")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Trapezoid)] private BattleEffectFloatRange plateauFraction = new(0.25f);
 
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {

@@ -113,7 +113,7 @@ float4 GetBattleEffectStrokeColour(UnityTexture2D itemData, int item, float4 col
     //  - for edge steps > 0, creates a banding effect (steps 3 -> inside / middle / outside colours)
 
     float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, blend, outline thickness start, end)
-    float4 strokeColour = (int)round(style.x) == BATTLE_EFFECT_STYLE_FILLANDOUTLINE ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINECOLOUR) : colour;
+    float4 strokeColour = (int)round(style.x) == BATTLE_EFFECT_STYLEMODE_FILLANDOUTLINE ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINECOLOUR) : colour;
     float4 edgeGradient = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EDGEGRADIENT); // (on, steps, -, -)
     if (edgeGradient.x < 0.5) { return strokeColour; }
 

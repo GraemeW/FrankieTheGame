@@ -20,8 +20,8 @@ MonoBehaviour:
   - label: 
     shape:
       rid: 5082563365964349779
-    startTimeSeconds: 0
-    durationSeconds: 1
+    startTimeSeconds: 1
+    durationSeconds: 0.1
     easing: 0
     progressSteps: 0
     positionEU:
@@ -39,13 +39,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 2
-    blend: 0
-    outlineThicknessEU:
-      start: 0.01
-      end: 0.05
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 0, g: 0.99215686, b: 1, a: 1}
+    style:
+      mode: 2
+      blend: 0
+      outlineThicknessEU:
+        start: 0.05
+        end: 0.05
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 0, g: 0.99215686, b: 1, a: 1}
     altColours:
       count: 3
       colourB: {r: 0.048508584, g: 1, b: 0, a: 1}
@@ -63,16 +64,17 @@ MonoBehaviour:
     clip:
       shape: 2
       halfSizeSU:
-        start: {x: 6, y: 1}
-        end: {x: 6, y: 6}
+        start: {x: 6, y: 6}
+        end: {x: 0, y: 0}
       angleDegrees: 0
-    repetition: 1
-    count: {x: 5, y: 0}
-    spacingSU:
-      start: {x: 0, y: 2}
-      end: {x: 0, y: 2}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 3
+      count: {x: 6, y: 6}
+      spacingSU:
+        start: {x: 2, y: 2}
+        end: {x: 2, y: 2}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 1
       rate: 20
@@ -99,17 +101,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 3
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0.02, y: 0.02}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 0
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0
-    pulseRate: 0
-    pulseAmountFraction: 0.25
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0.02, y: 0.02}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 0
+      depthFraction: 0.5
+      phaseFraction: 0
+    pulse:
+      rate: 0
+      amountFraction: 0.25
+      phaseFraction: 0
   - label: 
     shape:
       rid: 5082563365964349780
@@ -132,13 +137,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 1
-    outlineThicknessEU:
-      start: 0.05
-      end: 0.05
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 1
+      outlineThicknessEU:
+        start: 0.05
+        end: 0.05
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -159,13 +165,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 4
-    count: {x: 5, y: 3}
-    spacingSU:
-      start: {x: 1, y: 1}
-      end: {x: 1, y: 1}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 4
+      count: {x: 5, y: 3}
+      spacingSU:
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -192,17 +199,118 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0.02, y: 0.02}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 0
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0
-    pulseRate: 0
-    pulseAmountFraction: 0.25
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0.02, y: 0.02}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 0
+      depthFraction: 0.5
+      phaseFraction: 0
+    pulse:
+      rate: 0
+      amountFraction: 0.25
+      phaseFraction: 0
+  - label: 
+    shape:
+      rid: 5082563387439711140
+    startTimeSeconds: 0
+    durationSeconds: 1
+    easing: 0
+    progressSteps: 0
+    positionEU:
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
+    scaleEU:
+      start: {x: 0.1, y: 0.1}
+      end: {x: 0.1, y: 0.1}
+    elongationSU:
+      start: {x: 0, y: 0}
+      end: {x: 0, y: 0}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    shapeRotationDegrees:
+      start: 0
+      end: 0
+    style:
+      mode: 2
+      blend: 0
+      outlineThicknessEU:
+        start: 0.01
+        end: 0.05
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 0, g: 0.99215686, b: 1, a: 1}
+    altColours:
+      count: 3
+      colourB: {r: 0.048508584, g: 1, b: 0, a: 1}
+      colourC: {r: 0, g: 0.1538353, b: 1, a: 1}
+      colourD: {r: 0.89220583, g: 1, b: 0, a: 1}
+    outlineEdgeGradient:
+      isEnabled: 1
+      colour: {r: 1, g: 0, b: 0, a: 1}
+      steps: 5
+    stripes:
+      stripesPerEU: 0
+      angleDegrees: 0
+      dutyFraction: 0.5
+      phaseFraction: 0
+    clip:
+      shape: 2
+      halfSizeSU:
+        start: {x: 6, y: 1}
+        end: {x: 6, y: 6}
+      angleDegrees: 0
+    repetition:
+      mode: 3
+      count: {x: 6, y: 6}
+      spacingSU:
+        start: {x: 2, y: 2}
+        end: {x: 2, y: 2}
+      mirrorX: 0
+      mirrorY: 0
+    colourCycle:
+      source: 1
+      rate: 20
+      phaseOffset: 0
+    beats:
+      count: 4
+      beatA:
+        startSeconds: 0.2
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 0
+      beatB:
+        startSeconds: 0.4
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 1
+      beatC:
+        startSeconds: 0.6
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 2
+      beatD:
+        startSeconds: 0.8
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        colourIndex: 3
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0.02, y: 0.02}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 0
+      depthFraction: 0.5
+      phaseFraction: 0
+    pulse:
+      rate: 0
+      amountFraction: 0.25
+      phaseFraction: 0
   instances: []
   references:
     version: 2
@@ -211,5 +319,8 @@ MonoBehaviour:
       type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 
     - rid: 5082563365964349780
+      type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data: 
+    - rid: 5082563387439711140
       type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 

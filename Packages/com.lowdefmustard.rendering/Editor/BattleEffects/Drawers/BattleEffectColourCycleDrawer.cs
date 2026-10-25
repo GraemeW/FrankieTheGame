@@ -1,7 +1,5 @@
 #if UNITY_EDITOR
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace LowDefMustard.Rendering.Editor
@@ -11,41 +9,17 @@ namespace LowDefMustard.Rendering.Editor
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            // Set Up
-            var foldout = new Foldout { text = property.displayName, value = property.isExpanded };
             SerializedProperty sourceProperty = property.FindPropertyRelative(BattleEffectColourCycle.sourceField);
-            var fields = new Dictionary<string, PropertyField>();
-            SerializedProperty child = property.Copy();
-            SerializedProperty end = property.GetEndProperty();
-            for (bool hasChild = child.NextVisible(true); hasChild && !SerializedProperty.EqualContents(child, end); hasChild = child.NextVisible(false))
+            SerializedProperty rateProperty = property.FindPropertyRelative(BattleEffectColourCycle.rateField);
+            return new BattleEffectSection(property, IsEnabled, section =>
             {
-                var field = new PropertyField(child.Copy());
-                fields[child.name] = field;
-                foldout.Add(field);
-            }
-            RefreshFields();
-
-            // Registration
-            foldout.RegisterValueChangedCallback(changeEvent =>
-            {
-                if (changeEvent.target != foldout) { return; }
-                property.isExpanded = changeEvent.newValue;
+                section.SetShown(BattleEffectColourCycle.rateField, !IsCopySource());
+                section.SetShown(BattleEffectColourCycle.phaseOffsetField, IsEnabled());
             });
-            foldout.TrackPropertyValue(sourceProperty, _ => RefreshFields());
-
-            return foldout;
-
 
             // Local Functions
-            void RefreshFields()
-            {
-                SetShown(BattleEffectColourCycle.rateField, sourceProperty.enumValueIndex == (int)BattleEffectColourSource.Time);
-            }
-
-            void SetShown(string fieldName, bool isShown)
-            {
-                if (fields.TryGetValue(fieldName, out PropertyField field)) { field.style.display = isShown ? DisplayStyle.Flex : DisplayStyle.None; }
-            }
+            bool IsCopySource() => sourceProperty.enumValueIndex == (int)BattleEffectColourSource.Copy;
+            bool IsEnabled() => IsCopySource() || rateProperty.floatValue > 0f;
         }
     }
 }

@@ -25,6 +25,10 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Drawn in order (later items on top)")] private List<BattleEffectItem> items = new();
         [SerializeField][Tooltip("Other recipes drawn after the items (in order), re-timed, mirrored + recoloured")] private List<BattleEffectInstance> instances = new();
 
+        // Editor Field References
+        public const string itemsField = nameof(items);
+        public const string instancesField = nameof(instances);
+
         // Const Tunables
         public const int maxInstanceDepth = 4; // also stops a recipe perpetually instancing itself
 
@@ -42,6 +46,7 @@ namespace LowDefMustard.Rendering
         public IReadOnlyList<BattleEffectItem> GetItems() => items;
 
         public IReadOnlyList<BattleEffectInstance> GetInstances() => instances;
+        public float GetTotalStartTime() => GetStartTime();
         public float GetTotalEndTime() => GetEndTime();
 
         public void ApplyTo(ref MaterialDefinition materialDefinition, BattleEffectFit fit = BattleEffectFit.AspectFit)
@@ -65,6 +70,22 @@ namespace LowDefMustard.Rendering
             items = new List<BattleEffectItem>(setItems);
             isDirty = true;
             revision++;
+        }
+
+        internal int AddItem(BattleEffectItem item)
+        {
+            items.Add(item);
+            isDirty = true;
+            revision++;
+            return items.Count - 1;
+        }
+
+        internal int AddInstance(BattleEffectInstance instance)
+        {
+            instances.Add(instance);
+            isDirty = true;
+            revision++;
+            return instances.Count - 1;
         }
 
         internal void SetInstances(IEnumerable<BattleEffectInstance> setInstances)
@@ -163,7 +184,7 @@ namespace LowDefMustard.Rendering
             return rows;
         }
 
-        private int GetInstanceRevision(int depth = 0)
+        internal int GetInstanceRevision(int depth = 0)
         {
             // Sum of instanced recipes' revisions (any edit below changes it)
             // Starting at depth = 0, traverses through instances (up to maxInstanceDepth) to find total revision inclusive
@@ -175,6 +196,25 @@ namespace LowDefMustard.Rendering
                 if (instanced != null) { instanceRevision += instanced.revision + 1 + instanced.GetInstanceRevision(depth + 1); }
             }
             return instanceRevision;
+        }
+
+        private float GetStartTime(int depth = 0)
+        {
+            // Starting at depth = 0, traverses through instances (up to maxInstanceDepth) to find total start time inclusive
+            float startTime = float.MaxValue;
+            foreach (BattleEffectItem item in items)
+            {
+                if (item != null) { startTime = Mathf.Min(startTime, item.GetStartTime()); }
+            }
+            if (depth < maxInstanceDepth)
+            {
+                foreach (BattleEffectInstance instance in instances)
+                {
+                    BattleEffectRecipe instanced = instance?.GetRecipe();
+                    if (instanced != null) { startTime = Mathf.Min(startTime, instance.GetStartOffset() + instanced.GetStartTime(depth + 1)); }
+                }
+            }
+            return Mathf.Approximately(startTime, float.MaxValue) ? 0f : startTime;
         }
 
         private float GetEndTime(int depth = 0)

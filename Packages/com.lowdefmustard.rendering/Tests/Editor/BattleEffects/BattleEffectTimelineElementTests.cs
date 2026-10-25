@@ -65,7 +65,22 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual(3, timeline.childCount, "2 rows (null item skipped) + playhead");
             Assert.AreEqual("Pop", timeline.ElementAt(0).Q<Label>().text);
-            Assert.AreEqual("Item 1", timeline.ElementAt(1).Q<Label>().text, "unlabelled items are numbered by row");
+            Assert.AreEqual("Item 2", timeline.ElementAt(1).Q<Label>().text, "unlabelled items are numbered by their list index");
+        }
+
+        [Test]
+        public void Refresh_RecollectsRowsOnlyOnARevisionChange()
+        {
+            // Every playback tick refreshes:  rows (+ their allocations) are only collected again once the recipe changes
+            timeline.Refresh(recipe, 0f, 2f);
+            JsonUtility.FromJsonOverwrite("{\"label\":\"Renamed\"}", recipe.GetItems()[0]); // In place:  no revision change
+
+            timeline.Refresh(recipe, 0.5f, 2f);
+            Assert.AreEqual("Pop", timeline.ElementAt(0).Q<Label>().text, "cached");
+
+            recipe.SetItems(recipe.GetItems());
+            timeline.Refresh(recipe, 0.5f, 2f);
+            Assert.AreEqual("Renamed", timeline.ElementAt(0).Q<Label>().text, "recollected after the revision bump");
         }
 
         [Test]
@@ -187,7 +202,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
                 Assert.AreEqual("Pop", timeline.ElementAt(0).Q<Label>().text, "0s");
                 Assert.AreEqual("+ Child", timeline.ElementAt(1).Q<Label>().text, "0.5s");
-                Assert.AreEqual("Item 1", timeline.ElementAt(2).Q<Label>().text, "1s");
+                Assert.AreEqual("Item 2", timeline.ElementAt(2).Q<Label>().text, "1s");
             }
             finally { Object.DestroyImmediate(child); }
         }

@@ -21,6 +21,14 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Top <-> bottom, about the effect's centre")] private bool mirrorY = false;
         [SerializeField][Tooltip("Replaces item colours (colour, outline colour, alt colours + edge gradient colour)")] private List<BattleEffectColourSwap> colourSwaps = new();
 
+        // Editor Field References
+        public const string labelField = nameof(label);
+        public const string recipeField = nameof(recipe);
+        public const string startOffsetSecondsField = nameof(startOffsetSeconds);
+        public const string mirrorXField = nameof(mirrorX);
+        public const string mirrorYField = nameof(mirrorY);
+        public const string colourSwapsField = nameof(colourSwaps);
+
         // Constructors
         public BattleEffectInstance() { }
         public BattleEffectInstance(BattleEffectRecipe recipe, float startOffsetSeconds, bool mirrorX, bool mirrorY, IEnumerable<BattleEffectColourSwap> colourSwaps)

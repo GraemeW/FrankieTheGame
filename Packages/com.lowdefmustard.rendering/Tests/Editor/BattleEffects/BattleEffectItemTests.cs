@@ -79,11 +79,11 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_Style_PacksBlendAndOutlineThickness()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"style\":2,\"blend\":1,\"outlineThicknessEU\":{\"start\":0.1,\"end\":-0.2}}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"style\":{\"mode\":2,\"blend\":1,\"outlineThicknessEU\":{\"start\":0.1,\"end\":-0.2}}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
-            AssertTexel(new Color((int)BattleEffectStyle.FillAndOutline, (int)BattleEffectBlend.Erase, 0.1f, -0.2f), texels[BattleEffectDataLayout.style]);
+            AssertTexel(new Color((int)BattleEffectStyleMode.FillAndOutline, (int)BattleEffectBlend.Erase, 0.1f, -0.2f), texels[BattleEffectDataLayout.style]);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             var colour = new Color(0.5f, 0.25f, 0.75f, 0.5f);
             var outlineColour = new Color(0.1f, 0.9f, 0.3f, 1f);
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"colour\":{ToJson(colour)},\"outlineColour\":{ToJson(outlineColour)}}}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"style\":{{\"colour\":{ToJson(colour)},\"outlineColour\":{ToJson(outlineColour)}}}}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
@@ -200,11 +200,11 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_Repetition_ClampsCountAndPacksMirrorFlags()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"repetition\":3,\"count\":{\"x\":0,\"y\":-2},\"mirrorX\":true,\"mirrorY\":true}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"repetition\":{\"mode\":3,\"count\":{\"x\":0,\"y\":-2},\"mirrorX\":true,\"mirrorY\":true}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
-            AssertTexel(new Color((int)BattleEffectRepetition.Grid, 1f, 1f, 3f), texels[BattleEffectDataLayout.repetition]);
+            AssertTexel(new Color((int)BattleEffectRepetitionMode.Grid, 1f, 1f, 3f), texels[BattleEffectDataLayout.repetition]);
         }
 
         [Test]
@@ -237,13 +237,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TryWriteData_Jitter_PacksModeAndPhaseApart()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"jitterRate\":12,\"jitterMode\":1,\"jitterPhaseFraction\":0.25,\"jitterSeed\":7}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"jitter\":{\"rate\":12,\"mode\":1,\"phaseFraction\":0.25,\"seed\":7}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
             Assert.AreEqual(12f, texels[BattleEffectDataLayout.jitter].r);
             Assert.AreEqual(7f, texels[BattleEffectDataLayout.jitter].a);
-            AssertTexel(new Color((int)BattleEffectJitter.Orbit, 0.25f, 0f, 0f), texels[BattleEffectDataLayout.jitterMode]);
+            AssertTexel(new Color((int)BattleEffectJitterMode.Orbit, 0.25f, 0f, 0f), texels[BattleEffectDataLayout.jitterMode]);
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void IsUnset_ZeroFilledItem_IsTrue()
         {
             // i.e. what the inspector adds as the first entry of an empty list (field initializers skipped)
-            BattleEffectItem item = CreateItem(null, $"{{\"durationSeconds\":0,\"colour\":{ToJson(Color.clear)}}}");
+            BattleEffectItem item = CreateItem(null, $"{{\"durationSeconds\":0,\"style\":{{\"colour\":{ToJson(Color.clear)}}}}}");
 
             Assert.IsTrue(item.IsUnset());
         }

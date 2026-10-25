@@ -7,9 +7,7 @@ namespace LowDefMustard.Rendering
     public sealed class BattleEffectBeats
     {
         // Notes:
-        //  - Up to 4 held steps within one item, each moving it (position offset), stretching it (elongation) + recolouring it (palette index)
-        //  - Each beat holds from its start until the next one starts
-        //  - Applied on top of the item's ranges (which still run over its duration)
+        //  - Beats are applied on top of the item's ranges (which still run over its duration)
 
         [SerializeField][Tooltip("Beats in use (0 = off)")][Range(0, BattleEffectDataLayout.maxBeats)] private int count = 0;
         [SerializeField] private BattleEffectBeat beatA;

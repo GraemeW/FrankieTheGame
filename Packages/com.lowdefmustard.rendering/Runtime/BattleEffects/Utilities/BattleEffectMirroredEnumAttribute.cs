@@ -6,6 +6,6 @@ namespace LowDefMustard.Rendering
     public sealed class BattleEffectMirroredEnumAttribute : Attribute
     {
         // Note:  Mirrors the enum's values into HLSL as defines (via BattleEffectDispatchGenerator)
-        //  e.g. BattleEffectStyle.Outline -> BATTLE_EFFECT_STYLE_OUTLINE
+        //  e.g. BattleEffectStyleMode.Outline -> BATTLE_EFFECT_STYLEMODE_OUTLINE
     }
 }

@@ -7,12 +7,17 @@ namespace LowDefMustard.Rendering
     public sealed class BattleEffectClip
     {
         // Notes:
-        //  - Cuts what the item draws (after its style + repetition) to a box / diamond in its own local space
+        //  - Cuts-out occurs after its style + repetition
         //  - In shape units ->  scales + rotates w/ the item (half size 1 = the item's scale)
 
         [SerializeField] private BattleEffectClipShape shape = BattleEffectClipShape.None;
         [SerializeField][Tooltip("Half width / height (a diamond's points)")] private BattleEffectVector2Range halfSizeSU = new(Vector2.one);
         [SerializeField][Tooltip("Turns the clip shape in the item's local space (counter-clockwise)")] private float angleDegrees = 0f;
+
+        // Editor Field References
+        public const string shapeField = nameof(shape);
+        public const string halfSizeSUField = nameof(halfSizeSU);
+        public const string angleDegreesField = nameof(angleDegrees);
 
         internal void WriteData(Color[] texels, int rowStart)
         {

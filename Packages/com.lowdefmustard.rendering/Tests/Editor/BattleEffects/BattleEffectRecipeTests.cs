@@ -127,7 +127,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ValidateShapes_ZeroFilledItem_ResetToDefaults()
         {
-            recipe.SetItems(new[] { CreateItem(null, $"{{\"durationSeconds\":0,\"colour\":{ToJson(Color.clear)}}}") });
+            recipe.SetItems(new[] { CreateItem(null, $"{{\"durationSeconds\":0,\"style\":{{\"colour\":{ToJson(Color.clear)}}}}}") });
 
             recipe.ValidateShapes();
 

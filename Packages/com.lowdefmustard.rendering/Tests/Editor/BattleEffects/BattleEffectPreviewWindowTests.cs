@@ -167,6 +167,29 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Click(FindButton("Play"));
             Assert.IsTrue(window.IsPlaying(), "play");
         }
+
+        [Test]
+        public void Seek_Paused_SelectsTheActiveEntriesInTheInspector()
+        {
+            window.SetRecipe(recipe);
+
+            window.Seek(1f);
+            CollectionAssert.AreEqual(new[] { BattleEffectEntryId.Item(0) }, BattleEffectRecipeSelection.Get(recipe), "the item runs 0.5 -> 1.5s");
+
+            window.Seek(0.25f);
+            CollectionAssert.IsEmpty(BattleEffectRecipeSelection.Get(recipe), "nothing runs yet");
+        }
+
+        [Test]
+        public void Seek_Playing_LeavesTheInspectorSelection()
+        {
+            window.SetRecipe(recipe);
+            window.TogglePlaying();
+
+            window.Seek(1f);
+
+            CollectionAssert.IsEmpty(BattleEffectRecipeSelection.Get(recipe));
+        }
         #endregion
 
         #region Sizes

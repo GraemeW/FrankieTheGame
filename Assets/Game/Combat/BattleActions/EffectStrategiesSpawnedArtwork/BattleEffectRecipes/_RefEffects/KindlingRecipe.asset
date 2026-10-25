@@ -39,13 +39,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.005
-      end: 0.005
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.005
+        end: 0.005
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -66,13 +67,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -99,17 +101,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Front core
     shape:
       rid: 1001
@@ -132,13 +137,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.005
-      end: 0.005
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.005
+        end: 0.005
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -159,13 +165,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -192,17 +199,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Trail outer
     shape:
       rid: 1002
@@ -225,13 +235,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.005
-      end: 0.0025
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.005
+        end: 0.0025
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -252,13 +263,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -285,17 +297,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Trail middle
     shape:
       rid: 1003
@@ -318,13 +333,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.005
-      end: 0.0025
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.005
+        end: 0.0025
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -345,13 +361,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -378,17 +395,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Trail inner
     shape:
       rid: 1004
@@ -411,13 +431,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.005
-      end: 0.005
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.005
+        end: 0.005
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -438,13 +459,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -471,17 +493,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Fading diamond
     shape:
       rid: 1005
@@ -504,13 +529,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.002
-      end: 0.002
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.002
+        end: 0.002
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -531,13 +557,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -564,17 +591,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Fuse line
     shape:
       rid: 1006
@@ -597,13 +627,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0035
-      end: 0.0035
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0035
+        end: 0.0035
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -624,13 +655,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -657,17 +689,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Fuse eyes
     shape:
       rid: 1007
@@ -690,13 +725,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0045
-      end: 0.0045
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0045
+        end: 0.0045
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -717,13 +753,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 1
-    count: {x: 2, y: 1}
-    spacingSU:
-      start: {x: 5, y: 0}
-      end: {x: 17.6, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 1
+      count: {x: 2, y: 1}
+      spacingSU:
+        start: {x: 5, y: 0}
+        end: {x: 17.6, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -750,17 +787,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Wave
     shape:
       rid: 1008
@@ -783,13 +823,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.003
-      end: 0.003
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.003
+        end: 0.003
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -810,13 +851,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -843,17 +885,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Surge
     shape:
       rid: 1009
@@ -876,13 +921,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0055
-      end: 0.0055
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0055
+        end: 0.0055
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -903,13 +949,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -936,17 +983,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Surge echo high
     shape:
       rid: 1010
@@ -969,13 +1019,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.003
-      end: 0.003
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.003
+        end: 0.003
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -996,13 +1047,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1029,17 +1081,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Surge echo low
     shape:
       rid: 1011
@@ -1062,13 +1117,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.003
-      end: 0.003
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.003
+        end: 0.003
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1089,13 +1145,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1122,17 +1179,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Flip
     shape:
       rid: 1012
@@ -1155,13 +1215,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0055
-      end: 0.0055
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0055
+        end: 0.0055
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1182,13 +1243,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1215,17 +1277,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Flip echo
     shape:
       rid: 1013
@@ -1248,13 +1313,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.004
-      end: 0.004
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.004
+        end: 0.004
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1275,13 +1341,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1308,17 +1375,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Twin upper
     shape:
       rid: 1014
@@ -1341,13 +1411,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0048
-      end: 0.0048
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0048
+        end: 0.0048
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1368,13 +1439,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1401,17 +1473,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Twin upper echo
     shape:
       rid: 1015
@@ -1434,13 +1509,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0034
-      end: 0.0034
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0034
+        end: 0.0034
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1461,13 +1537,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1494,17 +1571,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Twin lower
     shape:
       rid: 1016
@@ -1527,13 +1607,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0048
-      end: 0.0048
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0048
+        end: 0.0048
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1554,13 +1635,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1587,17 +1669,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Twin lower echo
     shape:
       rid: 1017
@@ -1620,13 +1705,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0034
-      end: 0.0034
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0034
+        end: 0.0034
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1647,13 +1733,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 0
-    count: {x: 1, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1680,17 +1767,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Bars outer
     shape:
       rid: 1018
@@ -1713,13 +1803,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0045
-      end: 0.0045
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0045
+        end: 0.0045
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1740,13 +1831,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 1
-    count: {x: 2, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0.3727}
-      end: {x: 0, y: 0.3727}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 1
+      count: {x: 2, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0.3727}
+        end: {x: 0, y: 0.3727}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1773,17 +1865,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.5
-    flickerPhaseFraction: 0.75
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.5
+      phaseFraction: 0.75
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   - label: Bars inner
     shape:
       rid: 1019
@@ -1806,13 +1901,14 @@ MonoBehaviour:
     shapeRotationDegrees:
       start: 0
       end: 0
-    style: 1
-    blend: 0
-    outlineThicknessEU:
-      start: 0.0038
-      end: 0.0038
-    colour: {r: 1, g: 1, b: 1, a: 1}
-    outlineColour: {r: 1, g: 1, b: 1, a: 1}
+    style:
+      mode: 1
+      blend: 0
+      outlineThicknessEU:
+        start: 0.0038
+        end: 0.0038
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1833,13 +1929,14 @@ MonoBehaviour:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
       angleDegrees: 0
-    repetition: 1
-    count: {x: 2, y: 1}
-    spacingSU:
-      start: {x: 0, y: 0.2523}
-      end: {x: 0, y: 0.2523}
-    mirrorX: 0
-    mirrorY: 0
+    repetition:
+      mode: 1
+      count: {x: 2, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0.2523}
+        end: {x: 0, y: 0.2523}
+      mirrorX: 0
+      mirrorY: 0
     colourCycle:
       source: 0
       rate: 0
@@ -1866,17 +1963,20 @@ MonoBehaviour:
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         colourIndex: 0
-    jitterRate: 0
-    jitterMode: 0
-    jitterAmountEU: {x: 0, y: 0}
-    jitterSeed: 0
-    jitterPhaseFraction: 0
-    flickerRate: 10
-    flickerDepthFraction: 0.9
-    flickerPhaseFraction: 0.25
-    pulseRate: 0
-    pulseAmountFraction: 0
-    pulsePhaseFraction: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 10
+      depthFraction: 0.9
+      phaseFraction: 0.25
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
   instances: []
   references:
     version: 2

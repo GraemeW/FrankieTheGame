@@ -17,7 +17,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             parent = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             child.SetItems(new[] { CreateItem(new BattleEffectSegment(),
-                $"{{\"startTimeSeconds\":0.5,\"durationSeconds\":1,\"positionEU\":{{\"start\":{{\"x\":0.2,\"y\":0.3}},\"end\":{{\"x\":0.4,\"y\":0.6}}}},\"itemRotationDegrees\":{{\"start\":30,\"end\":30}},\"colour\":{ToJson(Color.red)},\"stripes\":{{\"stripesPerEU\":10,\"angleDegrees\":90}}}}") });
+                $"{{\"startTimeSeconds\":0.5,\"durationSeconds\":1,\"positionEU\":{{\"start\":{{\"x\":0.2,\"y\":0.3}},\"end\":{{\"x\":0.4,\"y\":0.6}}}},\"itemRotationDegrees\":{{\"start\":30,\"end\":30}},\"style\":{{\"colour\":{ToJson(Color.red)}}},\"stripes\":{{\"stripesPerEU\":10,\"angleDegrees\":90}}}}") });
         }
 
         [TearDown]
@@ -106,7 +106,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Bake_ColourSwap_AlsoSwapsTheOutlineAndAltColours()
         {
-            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"style\":2,\"outlineColour\":{ToJson(Color.blue)},\"colourCycle\":{{\"rate\":1}},\"altColours\":{{\"count\":1,\"colourB\":{ToJson(Color.blue)}}}}}") });
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"style\":{{\"mode\":2,\"outlineColour\":{ToJson(Color.blue)}}},\"colourCycle\":{{\"rate\":1}},\"altColours\":{{\"count\":1,\"colourB\":{ToJson(Color.blue)}}}}}") });
             parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new[] { new BattleEffectColourSwap(Color.blue, Color.yellow) }) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);

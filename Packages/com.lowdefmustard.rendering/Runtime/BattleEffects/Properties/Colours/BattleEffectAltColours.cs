@@ -7,9 +7,8 @@ namespace LowDefMustard.Rendering
     public sealed class BattleEffectAltColours
     {
         // Notes:
-        //  - Palette entries after the item's colour (A):  B -> C -> D (up to the count)
-        //  - Stepped through by the colour cycle (over time / per repetition copy) and/or beats' colour indices
-        //  - Each keeps its alpha && is multiplied by the effect colour
+        //  - Alt colours by ColourCycle && Beat effects
+        //  - Palette entries are denoted after the item's colour (A):  B -> C -> D (up to the count)
 
         [SerializeField][Tooltip("Colours after the item's own")][Range(0, BattleEffectDataLayout.maxAltColours)] private int count = 0;
         [SerializeField] private Color colourB = Color.white;

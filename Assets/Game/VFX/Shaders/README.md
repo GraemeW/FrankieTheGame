@@ -191,8 +191,25 @@ As shown above, the preview provides the below functionality:
 * play / pause, restart, frame stepping, looping + playback speed, and toggles for stepped time / flicker / jitter (to compare w/ + w/o the retro settings)
 * a timeline w/ one bar per item (click / drag to scrub)
   * incl. expandable header bar per instance, spanning its items, sorted in among the items by start time (re-timed by the instance's offset, incl. nested instances)
+  * scrubbing selects the recipe in the inspector, and while paused, selects the items + instances active at the scrub time in its inspector
 * reference frames:  a folder of PNGs played at their own frame rate, side by side or overlaid on the effect
 * export frames:  renders every frame offscreen to `Temp/BattleEffectPreview/<recipe>/frame_####.png` (optionally w/ a transparent background)
+
+### Authoring:  Recipe Inspector
+
+A custom recipe inspector is provided to simplify editing recipes.  It contains a listview with all items + instances in timeline order, as well as entry view to display the editable properties of selected items/instances.
+
+Some notable additional features:
+* list view:
+  * editable core properties (label, shape type, start time) from the list view
+  * item/instance-specific highlighting
+  * `Add` / `Add+` buttons with `From selected` discriminator to add items adjacent / after selected entries
+  * shift selected button to move selected items, with left-shift clamped by the viable offset of the most-limited item
+* entry view:
+  * auto-expand in-use sections && auto-collapse unused sections
+  * green-highlight in-use section headers 
+* full copy/paste functionality (via header or list view right click copy/paste) w/ option for copying/leaving out start time  
+* full undo/redo functionality
 
 *N.B.  The preview + export both draw through an offscreen runtime panel (`BattleEffectOffscreenRenderer`) instead of the editor window itself:  editor UI renders in gamma even in a linear project, so a material drawn straight into it shows its linear output unconverted / gamma mismatched.*
 

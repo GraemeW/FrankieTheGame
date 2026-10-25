@@ -1,13 +1,32 @@
+using System;
+using UnityEngine;
+
 namespace LowDefMustard.Rendering
 {
-    [BattleEffectMirroredEnum]
-    public enum BattleEffectRepetition
+    [Serializable]
+    public sealed class BattleEffectRepetition
     {
-        None = 0,
-        Line = 1, // Count copies along the spacing vector
-        Cross = 2, // A line along the spacing vector + one across it (e.g. forms a plus of 5 w/ count 3)
-        Grid = 3, // Count x by count y copies, spacing x / y apart
-        Radial = 4, // Count copies rotated evenly about the shape's origin, the first offset by the spacing vector (e.g. a pinwheel / starburst)
-        StaggeredGrid = 5 // Count y rows, spacing y apart:  even rows hold count x copies, odd rows one fewer (so they sit half a spacing x across, e.g. a honeycomb)
+        // Notes:
+        //  - Operates in the shape's own space (after the transform) ~ i.e. the pattern scales / rotates w/ the entire item
+        //  - Mirrors apply w/ or w/o copies
+
+        [SerializeField] private BattleEffectRepetitionMode mode = BattleEffectRepetitionMode.None;
+        [SerializeField][Tooltip("Copies (line / cross:  per line;  radial:  around;  grids:  along x) - y:  grids' rows")] private Vector2Int count = new(3, 3);
+        [SerializeField][Tooltip("A unit circle spans 2. Line / cross:  the vector between copies.  Grid:  x / y gaps.  Radial:  the first copy's offset from the centre")] private BattleEffectVector2Range spacingSU = new(new Vector2(2.5f, 2.5f));
+        [SerializeField][Tooltip("Folds the shape across its local y axis (left / right halves match)")] private bool mirrorX = false;
+        [SerializeField][Tooltip("Folds the shape across its local x axis (top / bottom halves match)")] private bool mirrorY = false;
+
+        // Editor Field References
+        public const string modeField = nameof(mode);
+        public const string countField = nameof(count);
+        public const string spacingSUField = nameof(spacingSU);
+        public const string mirrorXField = nameof(mirrorX);
+        public const string mirrorYField = nameof(mirrorY);
+
+        internal void WriteData(Color[] texels, int rowStart)
+        {
+            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f));
+            texels[rowStart + BattleEffectDataLayout.spacing] = new Color(spacingSU.GetStart().x, spacingSU.GetStart().y, spacingSU.GetEnd().x, spacingSU.GetEnd().y);
+        }
     }
 }

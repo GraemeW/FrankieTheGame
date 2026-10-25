@@ -18,6 +18,7 @@ namespace LowDefMustard.Rendering.Editor
         //  - Optional reference frames (a folder of PNGs) play alongside / over the effect at their own frame rate
         //  - The preview + export both render offscreen through a runtime panel (BattleEffectOffscreenRenderer) to ensure accurate colour repro
         //  - Export renders every frame to Temp/BattleEffectPreview/<recipe>/
+        //  - Seeking (scrub / step / restart) selects the recipe's active items + instances in its inspector (paused-only)
         //  - Internal methods/properties are for test visibility
 
         // Time Preview Settings
@@ -243,6 +244,7 @@ namespace LowDefMustard.Rendering.Editor
             timeline.scrubbed += scrubTime =>
             {
                 isPlaying = false;
+                SelectRecipeAsset();
                 Seek(scrubTime);
             };
             root.Add(timeline);
@@ -283,34 +285,21 @@ namespace LowDefMustard.Rendering.Editor
         }
         #endregion
 
-        #region PrivateInternalMethods
+        #region UIState
         internal float GetTime() => time;
         internal bool IsPlaying() => isPlaying;
         internal bool IsExporting() => exporter != null;
         internal BattleEffectRenderSettings GetRenderSettings() => render;
+        internal RenderTexture GetPreviewTexture() => preview?.image as RenderTexture;
         
-        internal void SetRecipe(BattleEffectRecipe setRecipe)
+        internal void TogglePlaying()
         {
-            render.recipe = setRecipe;
-            recipeField?.SetValueWithoutNotify(setRecipe);
-            Seek(0f);
+            isPlaying = !isPlaying;
+            RequestRedraw();
+            if (isPlaying && time >= GetTotalTime()) { time = 0f; }
+            if (!isPlaying) { SelectActiveEntries(); }
         }
-
-        internal void SetReferenceFolder(string folder)
-        {
-            reference.folder = folder;
-            LoadReferenceFrames();
-            ApplyLayout();
-        }
-
-        private void LoadReferenceFrames()
-        {
-            referenceFrames?.Dispose();
-            referenceFrames = new BattleEffectReferenceFrames(reference.folder);
-        }
-
-        private void RequestRedraw() => isRedrawPending = true;
-
+        
         private void ApplyLayout()
         {
             RequestRedraw();
@@ -329,7 +318,7 @@ namespace LowDefMustard.Rendering.Editor
             overlayImage.style.display = hasReference && reference.view == BattleEffectReferenceView.Overlay ? DisplayStyle.Flex : DisplayStyle.None;
             overlayImage.style.opacity = reference.overlayOpacity;
         }
-
+        
         private void RefreshPreviewRenderer(Vector2 size)
         {
             var pixelSize = new Vector2Int(Mathf.Max(Mathf.RoundToInt(size.x), 1), Mathf.Max(Mathf.RoundToInt(size.y), 1));
@@ -341,9 +330,42 @@ namespace LowDefMustard.Rendering.Editor
             }
             else { previewRenderer.SetClearColour(render.backgroundColour); }
         }
-
-        internal RenderTexture GetPreviewTexture() => preview?.image as RenderTexture;
-
+        
+        internal void SetReferenceFolder(string folder)
+        {
+            reference.folder = folder;
+            LoadReferenceFrames();
+            ApplyLayout();
+        }
+        
+        private void LoadReferenceFrames()
+        {
+            referenceFrames?.Dispose();
+            referenceFrames = new BattleEffectReferenceFrames(reference.folder);
+        }
+        #endregion
+        
+        #region RecipeProperties
+        internal void SetRecipe(BattleEffectRecipe setRecipe)
+        {
+            render.recipe = setRecipe;
+            recipeField?.SetValueWithoutNotify(setRecipe);
+            Seek(0f);
+        }
+        
+        internal float GetTotalTime()
+        {
+            float effectTime = render.recipe != null ? render.recipe.GetTotalEndTime() : 0f;
+            float referenceTime = referenceFrames is { count: > 0 } && reference.frameRate > 0f ? referenceFrames.count / reference.frameRate : 0f;
+            return Mathf.Max(effectTime, referenceTime) + _endTailSeconds;
+        }
+        internal float GetStepRate()
+        {
+            float recipeFrameRate = retro.GetFrameRate(render.recipe);
+            if (recipeFrameRate > 0f) { return recipeFrameRate; }
+            return referenceFrames is { count: > 0 } && reference.frameRate > 0f ? reference.frameRate : _defaultStepFrameRate;
+        }
+        
         internal Vector2 GetPreviewSize()
         {
             IReadOnlyList<BattleEffectPreviewSize> presets = BattleEffectPreviewSizes.GetPresets();
@@ -354,41 +376,10 @@ namespace LowDefMustard.Rendering.Editor
             
             return presets[Mathf.Clamp(sizePresetIndex, 0, presets.Count - 1)].size;
         }
-
-        internal void StartExport()
-        {
-            if (!render.isRenderable || exporter != null) { return; }
-
-            float exportRate = referenceFrames is { count: > 0 } && reference.frameRate > 0f ? reference.frameRate : GetStepRate();
-            int frameCount = Mathf.Max(Mathf.CeilToInt((GetTotalTime() - _endTailSeconds) * exportRate), 1);
-            Vector2 size = GetPreviewSize();
-            var request = new BattleEffectExportRequest(new Vector2Int(Mathf.RoundToInt(size.x), Mathf.RoundToInt(size.y)), exportRate, frameCount, System.IO.Path.Combine(_exportRoot, render.recipe.name), isTransparentExport);
-            exporter = new BattleEffectFrameExporter(render, retro, request);
-            exporter.finished += () => exporter = null;
-            exporter.Start();
-        }
-
-        internal float GetTotalTime()
-        {
-            float effectTime = render.recipe != null ? render.recipe.GetTotalEndTime() : 0f;
-            float referenceTime = referenceFrames is { count: > 0 } && reference.frameRate > 0f ? referenceFrames.count / reference.frameRate : 0f;
-            return Mathf.Max(effectTime, referenceTime) + _endTailSeconds;
-        }
-
-        internal float GetStepRate()
-        {
-            float recipeFrameRate = retro.GetFrameRate(render.recipe);
-            if (recipeFrameRate > 0f) { return recipeFrameRate; }
-            return referenceFrames is { count: > 0 } && reference.frameRate > 0f ? reference.frameRate : _defaultStepFrameRate;
-        }
-
-        internal void TogglePlaying()
-        {
-            isPlaying = !isPlaying;
-            RequestRedraw();
-            if (isPlaying && time >= GetTotalTime()) { time = 0f; }
-        }
-
+        #endregion
+        
+        #region Playback
+        private void RequestRedraw() => isRedrawPending = true;
         internal void Step(int frames)
         {
             isPlaying = false;
@@ -400,6 +391,7 @@ namespace LowDefMustard.Rendering.Editor
         {
             time = Mathf.Clamp(seekTime, 0f, GetTotalTime());
             Redraw();
+            if (!isPlaying) { SelectActiveEntries(); }
         }
 
         private void Tick()
@@ -458,12 +450,37 @@ namespace LowDefMustard.Rendering.Editor
             timeLabel.text = $"{time:F2}s / {GetTotalTime():F2}s   frame {Mathf.FloorToInt(time * GetStepRate()) + 1} @ {GetStepRate():0.#} fps{referenceText}   {status}";
             timeline.Refresh(render.recipe, time, GetTotalTime());
         }
+        #endregion
 
+        #region Utility
+        private void SelectRecipeAsset()
+        {
+            if (render.recipe != null && Selection.activeObject != render.recipe) { Selection.activeObject = render.recipe; }
+        }
+
+        private void SelectActiveEntries()
+        {
+            if (render.recipe != null) { BattleEffectRecipeSelection.Set(render.recipe, BattleEffectRecipeEntries.GetActiveEntries(render.recipe, time)); }
+        }
+        
         private static List<string> GetSizePresetNames()
         {
             var names = BattleEffectPreviewSizes.GetPresets().Select(preset => preset.name).ToList();
             names.AddRange(_referencePreviewScales.Select(scale => $"Reference frames x{scale.ToString("0.##", CultureInfo.InvariantCulture)}"));
             return names;
+        }
+        
+        internal void StartExport()
+        {
+            if (!render.isRenderable || exporter != null) { return; }
+
+            float exportRate = referenceFrames is { count: > 0 } && reference.frameRate > 0f ? reference.frameRate : GetStepRate();
+            int frameCount = Mathf.Max(Mathf.CeilToInt((GetTotalTime() - _endTailSeconds) * exportRate), 1);
+            Vector2 size = GetPreviewSize();
+            var request = new BattleEffectExportRequest(new Vector2Int(Mathf.RoundToInt(size.x), Mathf.RoundToInt(size.y)), exportRate, frameCount, System.IO.Path.Combine(_exportRoot, render.recipe.name), isTransparentExport);
+            exporter = new BattleEffectFrameExporter(render, retro, request);
+            exporter.finished += () => exporter = null;
+            exporter.Start();
         }
         #endregion
     }

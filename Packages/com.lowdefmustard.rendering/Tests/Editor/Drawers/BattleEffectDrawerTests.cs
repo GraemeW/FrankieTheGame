@@ -6,24 +6,32 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
+using LowDefMustard.Rendering.Editor;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
     public class BattleEffectDrawerTests
     {
         // Notes:
-        //  - Drawers only run through a real InspectorElement (a bare PropertyField never calls CreatePropertyGUI)
-        //  - Bound values + TrackPropertyValue callbacks land over the next editor updates ~ tests wait on the expected state (w/ a timeout) rather than a fixed frame count
+        //  - Bound values + TrackPropertyValue callbacks land over the next editor updates ~ so tests wait on the expected state
+        //  - The drawers + sections track only their own property (tests verify that parent tracks on child edits)
+        //      - this does NOT apply to [SerializeReference] parents (e.g. a shape)
+        //      - the shape drawer + the recipe inspector's item / instance headers track the whole object instead
 
         // Data Structures
         private sealed class DrawerTarget : ScriptableObject
         {
             public BattleEffectFloatRange floatRange = new(1f, 2f);
+            public BattleEffectFloatRange constantRange = new(3f);
+            public BattleEffectVector2Range halfChangingRange = new(Vector2.zero, new Vector2(0f, 1f));
             public BattleEffectVector2Range vectorRange = new(Vector2.zero, Vector2.one);
             public BattleEffectTint tint = new();
             public BattleEffectAltColours altColours = new();
             public BattleEffectColourCycle colourCycle = new();
             public BattleEffectBeats beats = new();
+            public BattleEffectStripes stripes = new();
+            public BattleEffectClip clip = new();
+            public BattleEffectOutlineEdgeGradient outlineEdgeGradient = new();
             [SerializeReference] public BattleEffectShape shape = new BattleEffectCircle();
         }
 
@@ -53,13 +61,52 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
         #region PrivateMethods
         private PropertyField FindPropertyField(string propertyPath) => window.root.Query<PropertyField>().Where(field => field.bindingPath == propertyPath).First();
+        private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
+        private BattleEffectSection FindSection(string title) => window.root.Query<BattleEffectSection>().Where(section => section.text == title).First();
         private PropertyField FindTintField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.tint)}.{fieldName}");
         private PropertyField FindColourCycleField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.colourCycle)}.{fieldName}");
         private PropertyField FindAltColoursField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.altColours)}.{fieldName}");
+        private static StyleColor GetInputColour(VisualElement field, int index) => field.Query(className: TextInputBaseField<float>.inputUssClassName).AtIndex(index).style.backgroundColor;
         private PropertyField FindBeatsField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.beats)}.{fieldName}");
-        private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
         #endregion
         
+        #region Tracking
+        [UnityTest]
+        public IEnumerator TrackPropertyValue_Parent_FiresOnAChildEdit([Values(nameof(DrawerTarget.altColours), nameof(DrawerTarget.floatRange))] string parentName)
+        {
+            bool isFired = false;
+            var tracker = new VisualElement();
+            window.root.Add(tracker);
+            tracker.TrackPropertyValue(serializedObject.FindProperty(parentName), _ => isFired = true);
+            yield return null;
+            yield return null;
+            isFired = false;
+
+            if (parentName == nameof(DrawerTarget.altColours)) { serializedObject.FindProperty($"{parentName}.{BattleEffectAltColours.countField}").intValue = 2; }
+            else { serializedObject.FindProperty($"{parentName}.{BattleEffectFloatRange.endField}").floatValue = 7f; }
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => isFired);
+
+            Assert.IsTrue(isFired);
+        }
+
+        [UnityTest]
+        public IEnumerator TrackPropertyValue_Parent_IgnoresASiblingsEdit()
+        {
+            bool isFired = false;
+            var tracker = new VisualElement();
+            window.root.Add(tracker);
+            tracker.TrackPropertyValue(serializedObject.FindProperty(nameof(DrawerTarget.altColours)), _ => isFired = true);
+            yield return null;
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 2;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => isFired, 0.5f);
+
+            Assert.IsFalse(isFired);
+        }
+        #endregion
+
         #region RangeDrawer
         [UnityTest]
         public IEnumerator RangeDrawer_FloatRange_IsOneRowBoundToStartAndEnd()
@@ -100,6 +147,35 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield return HeadlessEditorWindow.WaitUntil(() => endField.value == Vector2.one);
             Assert.AreEqual(Vector2.zero, startField.value);
             Assert.AreEqual(Vector2.one, endField.value);
+        }
+        
+        [Test]
+        public void RangeDrawer_TintsOnlyTheChangingInputs()
+        {
+            FloatField changing = window.root.Query<FloatField>().Where(field => field.label == "Float Range").First();
+            FloatField constant = window.root.Query<FloatField>().Where(field => field.label == "Constant Range").First();
+            Vector2Field half = window.root.Query<Vector2Field>().Where(field => field.label == "Half Changing Range").First();
+            StyleColor tint = BattleEffectInspectorColours.changingInput;
+
+            Assert.AreEqual(tint, GetInputColour(changing, 0), "1 -> 2:  start");
+            Assert.AreEqual(tint, GetInputColour(changing, 1), "1 -> 2:  end");
+            Assert.AreEqual(StyleKeyword.Null, GetInputColour(constant, 0).keyword, "3 -> 3");
+            Assert.AreEqual(StyleKeyword.Null, GetInputColour(half, 0).keyword, "x 0 -> 0:  start");
+            Assert.AreEqual(tint, GetInputColour(half, 1), "y 0 -> 1:  start");
+            Assert.AreEqual(StyleKeyword.Null, GetInputColour(half, 2).keyword, "x 0 -> 0:  end");
+            Assert.AreEqual(tint, GetInputColour(half, 3), "y 0 -> 1:  end");
+        }
+
+        [UnityTest]
+        public IEnumerator RangeDrawer_EndEdit_RefreshesTheTint()
+        {
+            FloatField constant = window.root.Query<FloatField>().Where(field => field.label == "Constant Range").First();
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.constantRange)}.{BattleEffectFloatRange.endField}").floatValue = 4f;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => GetInputColour(constant, 0).keyword != StyleKeyword.Null);
+
+            Assert.AreEqual((StyleColor)BattleEffectInspectorColours.changingInput, GetInputColour(constant, 0));
         }
         #endregion
 
@@ -217,6 +293,45 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
         #endregion
 
+        #region SectionDrawers
+        [Test]
+        public void SectionDrawers_Unused_AreFoldedWithTheirSettingsHidden()
+        {
+            Assert.IsFalse(FindSection("Stripes").value, "stripes (0 per EU) folded");
+            Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.stripes)}.{BattleEffectStripes.dutyFractionField}")));
+            Assert.IsFalse(FindSection("Clip").value, "clip (none) folded");
+            Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}")));
+            Assert.IsFalse(FindSection("Outline Edge Gradient").value, "edge gradient (off) folded");
+            Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.outlineEdgeGradient)}.{BattleEffectOutlineEdgeGradient.colourField}")));
+            Assert.IsFalse(FindSection("Alt Colours").IsEnabled(), "alt colours (count 0)");
+        }
+
+        [UnityTest]
+        public IEnumerator SectionDrawers_TurningOn_EnablesAndShowsTheSettings()
+        {
+            PropertyField dutyField = FindPropertyField($"{nameof(DrawerTarget.stripes)}.{BattleEffectStripes.dutyFractionField}");
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.stripes)}.{BattleEffectStripes.stripesPerEUField}").floatValue = 8f;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(dutyField));
+
+            Assert.IsTrue(IsShown(dutyField));
+            Assert.IsTrue(FindSection("Stripes").IsEnabled());
+        }
+
+        [Test]
+        public void SectionDrawers_InUse_StartUnfolded()
+        {
+            serializedObject.FindProperty($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.shapeField}").intValue = (int)BattleEffectClipShape.Diamond;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            window.root.Clear();
+            window.root.Add(new InspectorElement(serializedObject));
+
+            Assert.IsTrue(FindSection("Clip").value);
+            Assert.IsTrue(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}")));
+        }
+        #endregion
+
         #region ShapeDrawer
         [Test]
         public void ShapeDrawer_ListsEveryShapeAndShowsTheCurrentOne()
@@ -253,6 +368,22 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual("Squiggle", typeField.value);
             Assert.IsNotNull(FindPropertyField("shape.wavelengthSU"), "squiggle settings shown");
+        }
+
+        [UnityTest]
+        public IEnumerator ShapeDrawer_ShownWhen_ShowsTheSettingOnlyForItsValues()
+        {
+            serializedObject.FindProperty(nameof(DrawerTarget.shape)).managedReferenceValue = new BattleEffectSquiggle();
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => FindPropertyField("shape.plateauFraction") != null);
+            PropertyField plateauField = FindPropertyField("shape.plateauFraction");
+            Assert.IsFalse(IsShown(plateauField), "sine");
+
+            serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Trapezoid;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(plateauField));
+
+            Assert.IsTrue(IsShown(plateauField), "trapezoid");
         }
         #endregion
     }

@@ -3,8 +3,6 @@ namespace LowDefMustard.Rendering.Editor
 {
     internal readonly struct BattleEffectTimelineRow
     {
-        // Note:  one timeline row ~ an item (re-timed by any instances it sits in) or an instance's header (spanning its items)
-
         public string label { get; }
         public float startTime { get; }
         public float endTime { get; }

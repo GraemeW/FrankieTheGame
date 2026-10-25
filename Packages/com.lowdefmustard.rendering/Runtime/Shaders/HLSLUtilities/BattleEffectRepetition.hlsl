@@ -154,17 +154,17 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     SDFMirror(shapeInput.localPoint, fmod(repetition.w, 2.0), floor(repetition.w / 2.0), mirroredPoint);
 
     // Repetition families
-    if (repetitionMode == BATTLE_EFFECT_REPETITION_LINE || repetitionMode == BATTLE_EFFECT_REPETITION_CROSS)
+    if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_LINE || repetitionMode == BATTLE_EFFECT_REPETITIONMODE_CROSS)
     {
-        bool isCross = repetitionMode == BATTLE_EFFECT_REPETITION_CROSS;
+        bool isCross = repetitionMode == BATTLE_EFFECT_REPETITIONMODE_CROSS;
         return GetBattleEffectLineCopiesDistance(copyShape, mirroredPoint, spacing, count.x, isCross, copyIndex);
     }
-    if (repetitionMode == BATTLE_EFFECT_REPETITION_GRID || repetitionMode == BATTLE_EFFECT_REPETITION_STAGGEREDGRID)
+    if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_GRID || repetitionMode == BATTLE_EFFECT_REPETITIONMODE_STAGGEREDGRID)
     {
-        bool isStaggered = repetitionMode == BATTLE_EFFECT_REPETITION_STAGGEREDGRID;
+        bool isStaggered = repetitionMode == BATTLE_EFFECT_REPETITIONMODE_STAGGEREDGRID;
         return GetBattleEffectGridCopiesDistance(copyShape, mirroredPoint, spacing, count, isStaggered, copyIndex);
     }
-    if (repetitionMode == BATTLE_EFFECT_REPETITION_RADIAL)
+    if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_RADIAL)
     {
         return GetBattleEffectRadialCopiesDistance(copyShape, mirroredPoint, spacing, count.x, copyIndex);
     }

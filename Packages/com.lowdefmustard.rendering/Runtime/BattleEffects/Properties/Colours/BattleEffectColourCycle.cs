@@ -7,8 +7,7 @@ namespace LowDefMustard.Rendering
     public sealed class BattleEffectColourCycle
     {
         // Notes:
-        //  - Steps through the palette:  the item's colour (A), then its alt colours (B -> C -> D, up to their count)
-        //  - Source:  time steps through the palette at the rate;  copy gives each repetition copy the next entry (rate unused)
+        //  - Steps through the palette:  the item's colour (A), and THEN its alt colours (B -> C -> D, up to their count)
 
         [SerializeField][Tooltip("Time:  steps through the palette over time.  Copy:  each repetition copy takes the next entry")] private BattleEffectColourSource source = BattleEffectColourSource.Time;
         [SerializeField][Tooltip("Time source:  palette steps per second (0 = off)")][Min(0f)] private float rate = 0f;
@@ -17,6 +16,7 @@ namespace LowDefMustard.Rendering
         // Editor Field References
         public const string sourceField = nameof(source);
         public const string rateField = nameof(rate);
+        public const string phaseOffsetField = nameof(phaseOffset);
 
         internal bool IsPaletteUsed() => source == BattleEffectColourSource.Copy || rate > 0f;
 
