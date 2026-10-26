@@ -9,6 +9,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Persistent Stat Effect", menuName = "BattleAction/Effects/Persistent Stat Effect", order = 15)]
     public class ApplyPersistentStatEffect : EffectStrategy, IPersistentStatusApplier
     {
+        // Tunables
         [SerializeField][Tooltip("Used if statContest is false")][Range(0, 1)] private float fractionProbabilityToApply = 0.5f;
         [SerializeField][Tooltip("Alternate probability derivation via stat contest")] private bool useStatContestProbabilityToApply = false;
         [SerializeField][Tooltip("Used if statContest is true")] private Stat statForContest = Stat.Luck;
@@ -17,6 +18,10 @@ namespace Frankie.Combat
         [SerializeField] private float value = 1f;
         [SerializeField] private bool persistAfterCombat = false;
         [SerializeField] private int numberOfDuplicateEffectsAllowed = 3;
+
+        // Public Methods
+        public Stat GetStat() => stat;
+        public float GetValue() => value;
 
         public bool CheckForEffect(CombatParticipant recipient) => PersistentStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration); 
         

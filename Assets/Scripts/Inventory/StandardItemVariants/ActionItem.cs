@@ -12,6 +12,10 @@ namespace Frankie.Inventory
         [SerializeField] private bool consumable = true;
         [SerializeField] private BattleAction battleAction;
 
+        // Editor Field References
+        public const string consumableField = nameof(consumable);
+        public const string battleActionField = nameof(battleAction);
+
         private bool IsConsumable() => consumable;
         public bool IsItem() => true;
         public string GetName() => GetDisplayName();

@@ -20,6 +20,10 @@ namespace Frankie.Combat
         [SerializeField] private float cooldown;
         [SerializeField] private float apCost;
 
+        // Editor Field References
+        public const string targetingStrategyField = nameof(targetingStrategy);
+        public const string effectStrategiesField = nameof(effectStrategies);
+
         // State
         [AutoStaticsCleanup] private static AsyncOperationHandle<IList<BattleAction>> _addressablesLoadHandle;
         [AutoStaticsCleanup] private static Dictionary<string, BattleAction> _battleActionLookupCache;

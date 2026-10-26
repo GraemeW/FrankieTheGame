@@ -8,15 +8,22 @@ namespace Frankie.Combat
 {
     public abstract class EffectStrategy : ScriptableObject
     {
+        // Tunables
         [SerializeField] protected string effectGUID;
 
+        // Editor Field References
+        public const string effectGUIDField = nameof(effectGUID);
+        
+        // Abstract Methods
+        public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);
+
+        // Unity Methods
         private void OnValidate()
         {
             if (string.IsNullOrWhiteSpace(effectGUID)) { effectGUID = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
         }
         
-        public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);
-
+        // Static Methods
         protected static bool DoesAttackHit(bool canMiss, CombatParticipant sender, CombatParticipant recipient)
         {
             if (!canMiss) { return true; }

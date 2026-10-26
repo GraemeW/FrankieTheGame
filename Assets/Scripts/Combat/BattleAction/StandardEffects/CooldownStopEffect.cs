@@ -18,6 +18,7 @@ namespace Frankie.Combat
         // Fixed
         private const int _numberOfDuplicateEffectsAllowed = 1;
         
+        // Public Methods
         public bool CheckForEffect(CombatParticipant recipient) => PersistentStatus.DoesEffectExist(recipient, effectGUID, _numberOfDuplicateEffectsAllowed, duration);
         
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)

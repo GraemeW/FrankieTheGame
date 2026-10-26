@@ -7,8 +7,12 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New AP Effect", menuName = "BattleAction/Effects/AP Effect", order = 15)]
     public class APEffect : EffectStrategy
     {
+        // Tunables
         [SerializeField] private float apChange;
         [Tooltip("Additional variability on base AP change")][SerializeField][Min(0f)] private float jitter;
+
+        // Public Methods
+        public float GetAPChange() => apChange;
 
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {

@@ -18,7 +18,8 @@ namespace Frankie.Combat
         [SerializeField] private bool persistAfterCombat = false;
         [SerializeField] private int numberOfDuplicateEffectsAllowed = 1;
         
-        
+        // Public Methods
+        public float GetHealthChangePerTick() => healthChangePerTick;
         public bool CheckForEffect(CombatParticipant recipient) => PersistentStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration);
         
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)

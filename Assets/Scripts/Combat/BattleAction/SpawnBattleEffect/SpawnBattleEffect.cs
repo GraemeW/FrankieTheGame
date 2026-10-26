@@ -12,6 +12,7 @@ namespace Frankie.Combat
         // Note:
         //  - A recipe is drawn by the shared BattleEffect material (w/o a recipe, the material is drawn as-is)
 
+        // Tunables
         [SerializeField] private Material effectMaterial;
         [SerializeField] private BattleEffectRecipe effectRecipe;
         [SerializeField] private BattleEffectTint effectTint = new();
@@ -19,6 +20,7 @@ namespace Frankie.Combat
         [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
         
+        // Public Methods
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             if (effectMaterial == null || effectRecipe == null) { yield break; }
@@ -44,6 +46,7 @@ namespace Frankie.Combat
             yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));
         }
 
+        // Private Methods
         private static HashSet<BattleRow> GetEnemyRows(IList<BattleEntity> recipients)
         {
             // Note:  Party members are skipped (they're not actually on a battle row, despite defaulting to Middle)

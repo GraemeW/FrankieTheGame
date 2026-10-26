@@ -14,6 +14,7 @@ namespace Frankie.Combat
         [SerializeField] [Range(0, 1)] private float fractionProbabilityToRemove = 1.0f;
         [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] private int numberOfEffectsToRemove;
 
+        // Public Methods
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             if (!removePersistentRecurring && !removePersistentStatModifier) { yield break; }
@@ -40,6 +41,7 @@ namespace Frankie.Combat
             }
         }
 
+        // Private Methods
         private IList<PersistentStatus> GetRelevantStatuses(CombatParticipant combatParticipant)
         {
             var persistentStatuses = new List<PersistentStatus>();

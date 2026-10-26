@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Combat
@@ -7,6 +8,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Health Sequence Effect", menuName = "BattleAction/Effects/Health Sequence Effect", order = 15)]
     public class HealthSequenceEffect : EffectStrategy
     {
+        // Tunables
         [Tooltip("Effective minimum change")][SerializeField] private float[] healthChangeSequence;
         [Tooltip("Added on top as range (0 to jitter), sign based on health change")][SerializeField][Min(0f)] private float jitter;
         [SerializeField] private float delaySecondsBetweenHits = 0.5f;
@@ -14,6 +16,9 @@ namespace Frankie.Combat
         [SerializeField] private bool canMiss = true;
         [SerializeField] private bool canCrit = true;
         [SerializeField][Min(1f)] private float critMultiplier = 2f;
+
+        // Public Methods
+        public float GetTotalHealthChange() => healthChangeSequence?.Sum() ?? 0f;
 
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {

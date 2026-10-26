@@ -9,8 +9,13 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Permanent Stat Effect", menuName = "BattleAction/Effects/Permanent Stat Effect", order = 15)]
     public class ApplyPermanentStatEffect : EffectStrategy
     {
+        // Tunables
         [SerializeField] private Stat stat = Stat.HP;
         [SerializeField] private float value = 1f;
+
+        // Public Methods
+        public Stat GetStat() => stat;
+        public float GetValue() => value;
 
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
