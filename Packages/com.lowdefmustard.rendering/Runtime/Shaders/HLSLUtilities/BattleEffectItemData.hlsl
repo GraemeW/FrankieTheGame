@@ -72,18 +72,21 @@ float2 GetBattleEffectBeatPair(UnityTexture2D itemData, int item, int beat, int 
     return (beat % 2) == 0 ? pair.xy : pair.zw;
 }
 
-BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item, float elapsedTime, float disableFlicker, float disableJitter)
+BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item, float elapsedTime, float itemTime, float disableFlicker, float disableJitter)
 {
     // On the effect's clock (not the item's) - items w/ the same settings stay in sync
+    //  - except a flicker pattern, which runs from the item's start
 
     float4 jitter = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_JITTER); // (rate, amount.x, amount.y, seed)
     float4 jitterMode = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_JITTERMODE); // (mode, phase, -, -)
-    float4 flicker = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_FLICKER); // (rate, depth, phase, -)
+    float4 flicker = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_FLICKER); // (rate, depth, phase, pattern)
     float4 pulse = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PULSE); // (rate, amount, phase, -)
 
     BattleEffectModifiers modifiers;
     Jitter(elapsedTime, disableJitter > 0.5 ? 0.0 : jitter.x, jitter.yz, jitter.w, jitterMode.x, jitterMode.y, modifiers.jitterOffset);
-    Flicker(elapsedTime, disableFlicker > 0.5 ? 0.0 : flicker.x, flicker.y, flicker.z, modifiers.flickerAlpha);
+    float flickerRate = disableFlicker > 0.5 ? 0.0 : flicker.x;
+    if (flicker.w >= 2.0) { FlickerPattern(itemTime, flickerRate, flicker.y, flicker.z, flicker.w, modifiers.flickerAlpha); }
+    else { Flicker(elapsedTime, flickerRate, flicker.y, flicker.z, modifiers.flickerAlpha); }
     Pulse(elapsedTime, pulse.x, pulse.y, pulse.z, modifiers.pulseScale);
     return modifiers;
 }

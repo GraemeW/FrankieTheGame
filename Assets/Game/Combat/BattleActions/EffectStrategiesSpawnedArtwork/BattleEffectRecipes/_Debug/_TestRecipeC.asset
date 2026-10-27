@@ -19,7 +19,7 @@ MonoBehaviour:
   items:
   - label: 
     shape:
-      rid: 5082563387439710884
+      rid: 5082563497971679304
     startTimeSeconds: 0
     durationSeconds: 1
     easing: 0
@@ -28,17 +28,17 @@ MonoBehaviour:
       start: {x: 0.5, y: 0.5}
       end: {x: 0.5, y: 0.5}
     scaleEU:
-      start: {x: 0.25, y: 0.25}
-      end: {x: 0.25, y: 0.25}
+      start: {x: 0.05, y: 0.05}
+      end: {x: 0.05, y: 0.05}
     elongationSU:
       start: {x: 0, y: 0}
-      end: {x: 2, y: 0}
+      end: {x: 0, y: 0}
     itemRotationDegrees:
       start: 0
-      end: 360
+      end: 0
     shapeRotationDegrees:
       start: 0
-      end: -360
+      end: 0
     style:
       mode: 1
       blend: 0
@@ -71,8 +71,11 @@ MonoBehaviour:
       mode: 4
       count: {x: 3, y: 3}
       spacingSU:
-        start: {x: 0.01, y: 0.01}
-        end: {x: 0.01, y: 0.01}
+        start: {x: 5, y: 5}
+        end: {x: 5, y: 5}
+      copyScaleRatio:
+        start: 2
+        end: 0
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -108,475 +111,18 @@ MonoBehaviour:
       seed: 0
       phaseFraction: 0
     flicker:
-      rate: 0
-      depthFraction: 0.5
+      rate: 10
+      depthFraction: 0.387
       phaseFraction: 0
+      pattern: 1
     pulse:
       rate: 0
       amountFraction: 0.25
-      phaseFraction: 0
-  - label: 
-    shape:
-      rid: 5082563387439710887
-    startTimeSeconds: 2
-    durationSeconds: 1
-    easing: 0
-    progressSteps: 0
-    positionEU:
-      start: {x: 0.5, y: 0.5}
-      end: {x: 0.5, y: 0.5}
-    scaleEU:
-      start: {x: 0.25, y: 0.25}
-      end: {x: 0.25, y: 0.25}
-    elongationSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    itemRotationDegrees:
-      start: 0
-      end: 0
-    shapeRotationDegrees:
-      start: 0
-      end: 0
-    style:
-      mode: 1
-      blend: 0
-      outlineThicknessEU:
-        start: 0.05
-        end: 0.05
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      outlineColour: {r: 1, g: 1, b: 1, a: 1}
-    altColours:
-      count: 0
-      colourB: {r: 1, g: 1, b: 1, a: 1}
-      colourC: {r: 1, g: 1, b: 1, a: 1}
-      colourD: {r: 1, g: 1, b: 1, a: 1}
-    outlineEdgeGradient:
-      isEnabled: 0
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      steps: 0
-    stripes:
-      stripesPerEU: 0
-      angleDegrees: 0
-      dutyFraction: 0.5
-      phaseFraction: 0
-    clip:
-      shape: 0
-      halfSizeSU:
-        start: {x: 1, y: 1}
-        end: {x: 1, y: 1}
-      angleDegrees: 0
-    repetition:
-      mode: 0
-      count: {x: 3, y: 3}
-      spacingSU:
-        start: {x: 2.5, y: 2.5}
-        end: {x: 2.5, y: 2.5}
-      mirrorX: 0
-      mirrorY: 0
-    colourCycle:
-      source: 0
-      rate: 0
-      phaseOffset: 0
-    beats:
-      count: 0
-      beatA:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatB:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatC:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatD:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-    jitter:
-      rate: 0
-      mode: 0
-      amountEU: {x: 0.02, y: 0.02}
-      seed: 0
-      phaseFraction: 0
-    flicker:
-      rate: 0
-      depthFraction: 0.5
-      phaseFraction: 0
-    pulse:
-      rate: 0
-      amountFraction: 0.25
-      phaseFraction: 0
-  - label: 
-    shape:
-      rid: 5082563425645364004
-    startTimeSeconds: 1
-    durationSeconds: 1
-    easing: 0
-    progressSteps: 0
-    positionEU:
-      start: {x: 0.5, y: 0.5}
-      end: {x: 0.5, y: 0.5}
-    scaleEU:
-      start: {x: 0.25, y: 0.25}
-      end: {x: 0.25, y: 0.25}
-    elongationSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    itemRotationDegrees:
-      start: 0
-      end: 0
-    shapeRotationDegrees:
-      start: 0
-      end: 0
-    style:
-      mode: 1
-      blend: 0
-      outlineThicknessEU:
-        start: 0.05
-        end: 0.05
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      outlineColour: {r: 1, g: 1, b: 1, a: 1}
-    altColours:
-      count: 0
-      colourB: {r: 1, g: 1, b: 1, a: 1}
-      colourC: {r: 1, g: 1, b: 1, a: 1}
-      colourD: {r: 1, g: 1, b: 1, a: 1}
-    outlineEdgeGradient:
-      isEnabled: 0
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      steps: 0
-    stripes:
-      stripesPerEU: 0
-      angleDegrees: 0
-      dutyFraction: 0.5
-      phaseFraction: 0
-    clip:
-      shape: 0
-      halfSizeSU:
-        start: {x: 1, y: 1}
-        end: {x: 1, y: 1}
-      angleDegrees: 0
-    repetition:
-      mode: 0
-      count: {x: 3, y: 3}
-      spacingSU:
-        start: {x: 2.5, y: 2.5}
-        end: {x: 2.5, y: 2.5}
-      mirrorX: 0
-      mirrorY: 0
-    colourCycle:
-      source: 0
-      rate: 0
-      phaseOffset: 0
-    beats:
-      count: 0
-      beatA:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatB:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatC:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatD:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-    jitter:
-      rate: 0
-      mode: 0
-      amountEU: {x: 0.02, y: 0.02}
-      seed: 0
-      phaseFraction: 0
-    flicker:
-      rate: 0
-      depthFraction: 0.5
-      phaseFraction: 0
-    pulse:
-      rate: 0
-      amountFraction: 0.25
-      phaseFraction: 0
-  - label: 
-    shape:
-      rid: 5082563425645364207
-    startTimeSeconds: 3
-    durationSeconds: 1
-    easing: 0
-    progressSteps: 0
-    positionEU:
-      start: {x: 0.5, y: 0.5}
-      end: {x: 0.5, y: 0.5}
-    scaleEU:
-      start: {x: 0.1, y: 0.1}
-      end: {x: 0.1, y: 0.1}
-    elongationSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    itemRotationDegrees:
-      start: 0
-      end: 0
-    shapeRotationDegrees:
-      start: 0
-      end: 0
-    style:
-      mode: 1
-      blend: 0
-      outlineThicknessEU:
-        start: 0.01
-        end: 0.01
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      outlineColour: {r: 1, g: 1, b: 1, a: 1}
-    altColours:
-      count: 0
-      colourB: {r: 1, g: 1, b: 1, a: 1}
-      colourC: {r: 1, g: 1, b: 1, a: 1}
-      colourD: {r: 1, g: 1, b: 1, a: 1}
-    outlineEdgeGradient:
-      isEnabled: 0
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      steps: 0
-    stripes:
-      stripesPerEU: 112
-      angleDegrees: 0
-      dutyFraction: 0.5
-      phaseFraction: 0
-    clip:
-      shape: 0
-      halfSizeSU:
-        start: {x: 1, y: 1}
-        end: {x: 1, y: 1}
-      angleDegrees: 0
-    repetition:
-      mode: 5
-      count: {x: 3, y: 3}
-      spacingSU:
-        start: {x: 2.5, y: 2.5}
-        end: {x: 2.5, y: 2.5}
-      mirrorX: 0
-      mirrorY: 0
-    colourCycle:
-      source: 0
-      rate: 0
-      phaseOffset: 0
-    beats:
-      count: 0
-      beatA:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatB:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatC:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatD:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-    jitter:
-      rate: 0
-      mode: 0
-      amountEU: {x: 0.02, y: 0.02}
-      seed: 0
-      phaseFraction: 0
-    flicker:
-      rate: 0
-      depthFraction: 0.5
-      phaseFraction: 0
-    pulse:
-      rate: 0
-      amountFraction: 0.25
-      phaseFraction: 0
-  - label: Plus
-    shape:
-      rid: 5082563425645364220
-    startTimeSeconds: 1
-    durationSeconds: 0.533333
-    easing: 0
-    progressSteps: 0
-    positionEU:
-      start: {x: 0.5, y: 0.5}
-      end: {x: 0.5, y: 0.5}
-    scaleEU:
-      start: {x: 0.11571, y: 0.07448}
-      end: {x: 0.11571, y: 0.07448}
-    elongationSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
-    itemRotationDegrees:
-      start: 0
-      end: 0
-    shapeRotationDegrees:
-      start: 0
-      end: 0
-    style:
-      mode: 2
-      blend: 0
-      outlineThicknessEU:
-        start: 0.008
-        end: 0.008
-      colour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-      outlineColour: {r: 1, g: 1, b: 1, a: 1}
-    altColours:
-      count: 0
-      colourB: {r: 1, g: 1, b: 1, a: 1}
-      colourC: {r: 1, g: 1, b: 1, a: 1}
-      colourD: {r: 1, g: 1, b: 1, a: 1}
-    outlineEdgeGradient:
-      isEnabled: 0
-      colour: {r: 1, g: 1, b: 1, a: 1}
-      steps: 0
-    stripes:
-      stripesPerEU: 0
-      angleDegrees: 0
-      dutyFraction: 0.5
-      phaseFraction: 0
-    clip:
-      shape: 0
-      halfSizeSU:
-        start: {x: 1, y: 1}
-        end: {x: 1, y: 1}
-      angleDegrees: 0
-    repetition:
-      mode: 2
-      count: {x: 3, y: 1}
-      spacingSU:
-        start: {x: 2, y: 0}
-        end: {x: 2, y: 0}
-      mirrorX: 0
-      mirrorY: 0
-    colourCycle:
-      source: 0
-      rate: 0
-      phaseOffset: 0
-    beats:
-      count: 0
-      beatA:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatB:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatC:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-      beatD:
-        startSeconds: 0
-        offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
-        colourIndex: 0
-    jitter:
-      rate: 13
-      mode: 1
-      amountEU: {x: 0.11837, y: 0.24}
-      seed: 1
-      phaseFraction: 0.25
-    flicker:
-      rate: 7.5
-      depthFraction: 0.7
-      phaseFraction: 0.5
-    pulse:
-      rate: 3
-      amountFraction: -0.05
       phaseFraction: 0
   instances: []
   references:
     version: 2
     RefIds:
-    - rid: 5082563387439710884
-      type: {class: BattleEffectJaggedLine, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data:
-        halfLengthSU:
-          start: 1
-          end: 1
-        cellWidthSU:
-          start: 0.25
-          end: 0.25
-        amplitudeSU:
-          start: 0.1
-          end: 0.1
-        calmFraction:
-          start: 0.3
-          end: 0.3
-        seed:
-          start: 0
-          end: 0
-        bumpHalfWidthSU:
-          start: 1
-          end: 1
-        variationFraction:
-          start: 0
-          end: 0
-        scrollSU:
-          start: 0
-          end: 1
-    - rid: 5082563387439710887
-      type: {class: BattleEffectWedge, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data:
-        halfAngleDegrees:
-          start: 45
-          end: 45
-        apexOffsetSU:
-          start: 0
-          end: 0
-    - rid: 5082563425645364004
+    - rid: 5082563497971679304
       type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data: 
-    - rid: 5082563425645364207
-      type: {class: BattleEffectZiggurat, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data:
-        baseHalfHeightSU:
-          start: 0.2
-          end: 0.2
-        tiers:
-          start: 3
-          end: 3
-        riserSizeSU:
-          start: 0.5
-          end: 0.5
-        treadWidthSU:
-          start: 0.3
-          end: 0.5
-        topHalfWidthSU:
-          start: 0
-          end: 0
-        halfLengthSU:
-          start: 0
-          end: 5
-        riserSlopeRatio:
-          start: 1
-          end: 1
-    - rid: 5082563425645364220
-      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data:
-        aspectRatio:
-          start: 1
-          end: 1

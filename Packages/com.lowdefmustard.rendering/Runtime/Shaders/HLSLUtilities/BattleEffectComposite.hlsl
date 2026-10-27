@@ -105,7 +105,7 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     if (!TryGetBattleEffectItemTime(itemData, item, elapsedTime, shapeId, itemTime, progress)) { return accumulated; }
 
     // Geometry:  the shape's distance (effect units) at its nearest copy
-    BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, item, elapsedTime, disableFlicker, disableJitter);
+    BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, item, elapsedTime, itemTime, disableFlicker, disableJitter);
     int beat = GetBattleEffectBeat(itemData, item, itemTime);
     float distanceScale, copyIndex;
     BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, fittedUV, itemTime, progress, beat, modifiers, distanceScale);

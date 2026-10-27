@@ -65,6 +65,32 @@ UNITY_EXPORT_REFLECTION void Flicker(float time, float rate, float depth, float 
 }
 
 ///<funchints>
+/// <sg:ProviderKey>FlickerPattern</sg:ProviderKey>
+/// <sg:DisplayName>Flicker Pattern</sg:DisplayName>
+/// <sg:SearchCategory>LDM/FlickerPattern</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void FlickerPattern(float time, float rate, float depth, float phase, float pattern,
+    out float alphaMultiplier)
+{
+    // Irregular steps at rate (steps per second), repeating:  on for a 1 bit, (1 - depth) for a 0
+    //  - pattern:  its bits (step 0 = lowest) under a leading 1 that marks its length (e.g. 0b1101 = 3 steps:  on, off, on);  < 2 = always on
+    //  - rate 0 = off
+    //  - time < 0 holds step 0
+    // Phase shifts the steps by that fraction of a step
+
+    alphaMultiplier = 1.0;
+    if (rate <= 0.0 || pattern < 2.0) { return; }
+
+    float patternLength = floor(log2(pattern));
+    patternLength += exp2(patternLength + 1.0) <= pattern ? 1.0 : (exp2(patternLength) > pattern ? -1.0 : 0.0); // log2 rounding near powers of 2
+    float bits = pattern - exp2(patternLength);
+    float stepIndex = max(floor(time * rate + phase), 0.0); // before the start (e.g. the item window's tolerance) = step 0
+    stepIndex -= patternLength * floor(stepIndex / patternLength);
+    bool isDim = fmod(floor(bits / exp2(stepIndex)), 2.0) < 0.5;
+    alphaMultiplier = isDim ? 1.0 - saturate(depth) : 1.0;
+}
+
+///<funchints>
 /// <sg:ProviderKey>Pulse</sg:ProviderKey>
 /// <sg:DisplayName>Pulse</sg:DisplayName>
 /// <sg:SearchCategory>LDM/Pulse</sg:SearchCategory>

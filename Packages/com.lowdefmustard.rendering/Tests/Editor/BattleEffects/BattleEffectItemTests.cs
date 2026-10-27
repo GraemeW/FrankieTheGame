@@ -6,7 +6,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 {
     public class BattleEffectItemTests
     {
-        // Scope here is primarily to check TryWriteData's texel layout (one row of BattleEffectDataLayout.texelsPerItem texels) + effect-scale handling
+        // Test scope:  primarily checking TryWriteData's texel layout (one row of BattleEffectDataLayout.texelsPerItem texels) + effect-scale handling
 
         // State
         private Color[] texels;
@@ -205,6 +205,63 @@ namespace LowDefMustard.Rendering.Tests.Editor
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
             AssertTexel(new Color((int)BattleEffectRepetitionMode.Grid, 1f, 1f, 3f), texels[BattleEffectDataLayout.repetition]);
+        }
+
+        [Test]
+        public void TryWriteData_Repetition_WritesCopyScaleRatioRange()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"repetition\":{\"mode\":1,\"copyScaleRatio\":{\"start\":0.5,\"end\":0.75}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(0.5f, 0.75f, 0f, 0f), texels[BattleEffectDataLayout.copyScale]);
+        }
+
+        [Test]
+        public void TryWriteData_Repetition_CopyScaleRatioDefaultsAndZeroAreOff()
+        {
+            CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
+            CreateItem(new BattleEffectCircle(), "{\"repetition\":{\"copyScaleRatio\":{\"start\":0,\"end\":-1}}}").TryWriteData(texels, BattleEffectDataLayout.texelsPerItem, parameterBuffer, 1f);
+
+            AssertTexel(new Color(1f, 1f, 0f, 0f), texels[BattleEffectDataLayout.copyScale], "default");
+            AssertTexel(new Color(1f, 1f, 0f, 0f), texels[BattleEffectDataLayout.texelsPerItem + BattleEffectDataLayout.copyScale], "zero-filled / negative");
+        }
+
+        [Test]
+        public void TryWriteData_Flicker_PacksPatternBitsUnderALeadingOne()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"flicker\":{\"rate\":30,\"depthFraction\":1,\"pattern\":\"110 1\"}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(30f, 1f, 0f, 0b1_1011), texels[BattleEffectDataLayout.flicker], "steps 0, 1, 3 bright (spaces ignored)");
+        }
+
+        [Test]
+        public void TryWriteData_Flicker_NoPatternIsTheSquareWave()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"flicker\":{\"rate\":10}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(0f, texels[BattleEffectDataLayout.flicker].a);
+        }
+
+        [TestCase("", 0f)]
+        [TestCase("x y", 0f)]
+        [TestCase("0", 2f)]
+        [TestCase("1", 3f)]
+        [TestCase("01", 0b110)]
+        public void EncodeFlickerPattern_LeadingOneMarksLength(string pattern, float expected)
+        {
+            Assert.AreEqual(expected, BattleEffectFlicker.EncodePattern(pattern));
+        }
+
+        [Test]
+        public void EncodeFlickerPattern_ClampsToMaxStepsAndStaysExact()
+        {
+            float encoded = BattleEffectFlicker.EncodePattern(new string('1', BattleEffectFlicker.maxPatternSteps + 5));
+
+            Assert.AreEqual((1 << (BattleEffectFlicker.maxPatternSteps + 1)) - 1, (int)encoded, "23 bright steps under the leading 1");
+            Assert.AreEqual(encoded, (float)(int)encoded, "exact in a float");
         }
 
         [Test]

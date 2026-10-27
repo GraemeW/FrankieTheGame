@@ -548,6 +548,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual(isCountShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".x"))), "count");
             Assert.AreEqual(isCountYShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".y"))), "count y");
+            Assert.AreEqual(isCountShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.copyScaleRatioField))), "copy scale ratio");
             Assert.AreEqual(countLabel, FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".x")).label);
         }
 
