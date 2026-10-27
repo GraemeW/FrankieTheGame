@@ -66,6 +66,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 6, y: 6}
         end: {x: 0, y: 0}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 3
@@ -73,6 +76,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2, y: 2}
         end: {x: 2, y: 2}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -111,6 +117,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -164,6 +171,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 4
@@ -171,6 +181,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -209,6 +222,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -262,6 +276,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 6, y: 1}
         end: {x: 6, y: 6}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 3
@@ -269,6 +286,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2, y: 2}
         end: {x: 2, y: 2}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -307,6 +327,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25

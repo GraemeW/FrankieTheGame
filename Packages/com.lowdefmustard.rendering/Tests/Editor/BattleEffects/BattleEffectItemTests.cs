@@ -187,14 +187,24 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
-        public void TryWriteData_Clip_WritesShapeAngleAndSizes()
+        public void TryWriteData_Clip_WritesShapeAngleSizesAndOffsets()
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"clip\":{\"shape\":2,\"halfSizeSU\":{\"start\":{\"x\":3,\"y\":4},\"end\":{\"x\":5,\"y\":6}},\"angleDegrees\":90}}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"clip\":{\"shape\":2,\"halfSizeSU\":{\"start\":{\"x\":3,\"y\":4},\"end\":{\"x\":5,\"y\":6}}," +
+                "\"offsetSU\":{\"start\":{\"x\":-1,\"y\":2},\"end\":{\"x\":0.5,\"y\":-3}},\"angleDegrees\":90}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
             AssertTexel(new Color((int)BattleEffectClipShape.Diamond, Mathf.PI / 2f, 0f, 0f), texels[BattleEffectDataLayout.clip]);
             AssertTexel(new Color(3f, 4f, 5f, 6f), texels[BattleEffectDataLayout.clipSize]);
+            AssertTexel(new Color(-1f, 2f, 0.5f, -3f), texels[BattleEffectDataLayout.clipOffset]);
+        }
+
+        [Test]
+        public void TryWriteData_Clip_OffsetDefaultsToTheItemsPosition()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"clip\":{\"shape\":1}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.clipOffset]);
         }
 
         [Test]

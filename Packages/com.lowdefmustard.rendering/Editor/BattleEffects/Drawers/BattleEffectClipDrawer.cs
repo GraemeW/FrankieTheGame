@@ -13,6 +13,7 @@ namespace LowDefMustard.Rendering.Editor
             return new BattleEffectSection(property, IsEnabled, section =>
             {
                 section.SetShown(BattleEffectClip.halfSizeSUField, IsEnabled());
+                section.SetShown(BattleEffectClip.offsetSUField, IsEnabled());
                 section.SetShown(BattleEffectClip.angleDegreesField, IsEnabled());
             });
 

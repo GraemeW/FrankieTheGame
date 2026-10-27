@@ -301,6 +301,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.stripes)}.{BattleEffectStripes.dutyFractionField}")));
             Assert.IsFalse(FindSection("Clip").value, "clip (none) folded");
             Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}")));
+            Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.offsetSUField}")));
             Assert.IsFalse(FindSection("Outline Edge Gradient").value, "edge gradient (off) folded");
             Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.outlineEdgeGradient)}.{BattleEffectOutlineEdgeGradient.colourField}")));
             Assert.IsFalse(FindSection("Alt Colours").IsEnabled(), "alt colours (count 0)");
@@ -329,6 +330,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.IsTrue(FindSection("Clip").value);
             Assert.IsTrue(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}")));
+            Assert.IsTrue(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.offsetSUField}")));
         }
         #endregion
 
