@@ -1,71 +1,19 @@
 /* Battle Action Editor
- *  - Each scope sets the --bae-* variables && every rule reads those (browser re-skins by overriding them)
- *  - Built-in controls are restyled by .bae-window-prefixed rules:  the editor theme's rules use literal colours (its --unity-colors-* variables can't be overridden from here)
+ *  - Window-specific elements (rules are .bae-window-prefixed where they need to win over the theme's Label rule)
+ *  - Palette + built-in controls come from StandardBrownTheme.uss (i.e. --theme-* variables)
  */
-
-.bae-window {
-    --bae-background: #2D2620;
-    --bae-card-background: #352C24;
-    --bae-card-border: #5E4B39;
-    --bae-header-background: #6A4826;
-    --bae-section-background: #46341F;
-    --bae-accent: #C9A47A;
-    --bae-text: #E2D6C6;
-    --bae-dim-text: #A8977F;
-    --bae-divider: #1C1712;
-    --bae-input-background: #211B16;
-    --bae-input-border: #5A4836;
-    --bae-input-border-hover: #8B6E4E;
-    --bae-button-background: #4B3A2B;
-    --bae-button-background-hover: #5C4735;
-    --bae-button-background-pressed: #6E553F;
-    --bae-button-border: #6E5640;
-    --bae-list-background: #251F19;
-    --bae-row-hover: #3D3127;
-    --bae-selected: #8A6232;
-    --bae-scroll-groove: #241E19;
-    --bae-scroll-thumb: #5A4836;
-
-    background-color: var(--bae-background);
-}
-
-.bae-column--library {
-    --bae-background: #1F1B17;
-    --bae-card-background: #27211B;
-    --bae-card-border: #8A6D2B;
-    --bae-header-background: #6E3A12;
-    --bae-accent: #D2A33A;
-    --bae-input-background: #18140F;
-    --bae-input-border: #4F3F2C;
-    --bae-input-border-hover: #8A6D2B;
-    --bae-button-background: #3E2E1C;
-    --bae-button-background-hover: #4E3A22;
-    --bae-button-background-pressed: #604628;
-    --bae-button-border: #6A5230;
-    --bae-list-background: #1A1612;
-    --bae-row-hover: #2E261D;
-    --bae-selected: #7A5520;
-    --bae-scroll-groove: #1A1612;
-    --bae-scroll-thumb: #4F3F2C;
-
-    background-color: var(--bae-background);
-}
 
 .bae-column--dependent {
     border-left-width: 3px;
-    border-left-color: var(--bae-accent);
+    border-left-color: var(--theme-accent);
 }
 
 /* Window elements */
 
-.bae-window Label {
-    color: var(--bae-text);
-}
-
 .bae-column-header {
-    background-color: var(--bae-header-background);
+    background-color: var(--theme-header-background);
     border-bottom-width: 2px;
-    border-bottom-color: var(--bae-accent);
+    border-bottom-color: var(--theme-accent);
 }
 
 .bae-column-header__title {
@@ -74,9 +22,9 @@
 }
 
 .bae-section-header {
-    background-color: var(--bae-section-background);
+    background-color: var(--theme-section-background);
     border-left-width: 3px;
-    border-left-color: var(--bae-accent);
+    border-left-color: var(--theme-accent);
 }
 
 .bae-section-header__title {
@@ -85,141 +33,32 @@
 }
 
 .bae-card {
-    background-color: var(--bae-card-background);
+    background-color: var(--theme-card-background);
     border-width: 1px;
-    border-color: var(--bae-card-border);
+    border-color: var(--theme-card-border);
     border-radius: 3px;
 }
 
 .bae-window .bae-hint {
     -unity-font-style: italic;
-    color: var(--bae-dim-text);
+    color: var(--theme-dim-text);
     white-space: normal;
 }
 
 .bae-window .bae-dim {
     -unity-font-style: italic;
-    color: var(--bae-dim-text);
+    color: var(--theme-dim-text);
     -unity-text-align: middle-right;
 }
 
 .bae-divider {
     height: 1px;
-    background-color: var(--bae-divider);
+    background-color: var(--theme-divider);
 }
 
 .bae-window .bae-tree-header {
     -unity-font-style: bold;
-    color: var(--bae-accent);
-}
-
-/* Built-in controls:  inputs */
-
-.bae-window .unity-base-text-field__input,
-.bae-window .unity-object-field__input,
-.bae-window .unity-base-popup-field__input,
-.bae-window .unity-toggle__checkmark {
-    background-color: var(--bae-input-background);
-    border-color: var(--bae-input-border);
-}
-
-.bae-window .unity-base-popup-field__input {
-    background-color: var(--bae-button-background);
-    border-color: var(--bae-button-border);
-}
-
-.bae-window .unity-base-field:hover > .unity-base-field__input,
-.bae-window .unity-base-popup-field__input:hover,
-.bae-window .unity-toggle:hover .unity-toggle__checkmark {
-    border-color: var(--bae-input-border-hover);
-}
-
-.bae-window .unity-base-field:focus > .unity-base-field__input {
-    border-color: var(--bae-accent);
-}
-
-.bae-window .unity-object-field__selector {
-    background-color: var(--bae-button-background);
-}
-
-.bae-window .unity-object-field__selector:hover {
-    background-color: var(--bae-button-background-hover);
-}
-
-.bae-window .unity-search-field-base .unity-base-text-field__input {
-    background-color: var(--bae-input-background);
-    border-color: var(--bae-input-border);
-}
-
-/* Built-in controls:  buttons */
-
-.bae-window .unity-button {
-    background-color: var(--bae-button-background);
-    border-color: var(--bae-button-border);
-}
-
-.bae-window .unity-button:hover:enabled {
-    background-color: var(--bae-button-background-hover);
-}
-
-.bae-window .unity-button:hover:active:enabled {
-    background-color: var(--bae-button-background-pressed);
-}
-
-/* Built-in controls:  sliders + scrollbars */
-
-.bae-window .unity-base-slider__tracker {
-    background-color: var(--bae-input-background);
-    border-color: var(--bae-input-border);
-}
-
-.bae-window .unity-base-slider__dragger {
-    background-color: var(--bae-scroll-thumb);
-    border-color: var(--bae-button-border);
-}
-
-.bae-window .unity-base-slider__dragger:hover {
-    background-color: var(--bae-accent);
-}
-
-.bae-window .unity-scroller {
-    background-color: var(--bae-scroll-groove);
-}
-
-.bae-window .unity-scroller .unity-base-slider__tracker {
-    background-color: var(--bae-scroll-groove);
-    border-color: var(--bae-scroll-groove);
-}
-
-.bae-window .unity-repeat-button {
-    background-color: var(--bae-scroll-groove);
-}
-
-/* Built-in controls:  lists + trees */
-
-.bae-window .unity-collection-view,
-.bae-window .unity-collection-view__scroll-view {
-    background-color: var(--bae-list-background);
-    border-color: var(--bae-card-border);
-}
-
-.bae-window .unity-list-view__reorderable-item,
-.bae-window .unity-list-view__footer {
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.bae-window .unity-collection-view__item:hover {
-    background-color: var(--bae-row-hover);
-}
-
-.bae-window .unity-collection-view__item--selected,
-.bae-window .unity-collection-view__item--selected:hover,
-.bae-window .unity-collection-view:focus .unity-collection-view__item--selected {
-    background-color: var(--bae-selected);
-}
-
-.bae-window .unity-two-pane-split-view__dragline-anchor {
-    background-color: var(--bae-divider);
+    color: var(--theme-accent);
 }
 
 /* Last so a flagged element wins over its card / header / row styling */

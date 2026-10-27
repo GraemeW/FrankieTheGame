@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.Utils.UI.Editor
+namespace LowDefMustard.Utils.Editor
 {
     public sealed class AssetNameLabel : VisualElement
     {

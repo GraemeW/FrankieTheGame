@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -10,7 +12,19 @@ namespace Frankie.Combat.Editor
 {
     public class SkillTreeEditor : EditorWindow
     {
+        // Const Tunables
+        private const string _themeStyleSheetField = nameof(themeStyleSheet);
+        private const string _skillsToggleText = "Skills";
+        private const string _skillsToggleTooltip = "Show / hide the skill list";
+        
+        // Keys
+        private const string _skillsPanelPrefsKey = "Frankie.Combat.Editor.SkillTreeEditor.isSkillListShown";
+
+        // Tunables
+        [SerializeField] private StyleSheet themeStyleSheet; // Set as the script's default reference
+
         // State
+        private readonly List<Skill> allSkills = new();
         private SkillTree selectedSkillTree;
         private SkillTree lastFramedSkillTree;
 
@@ -21,6 +35,8 @@ namespace Frankie.Combat.Editor
         private VisualElement nodesLayer;
         private SkillTreeEdgesLayer edgesLayer;
         private StandardCanvasZoomManipulator zoomManipulator;
+        private SkillListPanel skillListPanel;
+        private AutocompleteDropdown skillAutocomplete;
 
         [MenuItem("Window/SkillTree Editor")]
         public static void ShowEditorWindow()
@@ -41,11 +57,15 @@ namespace Frankie.Combat.Editor
         private void OnEnable()
         {
             Selection.selectionChanged += OnSelectionChanged;
+            EditorApplication.projectChanged += RefreshSkills;
+            Undo.undoRedoPerformed += RedrawCanvas;
         }
 
         private void OnDisable()
         {
             Selection.selectionChanged -= OnSelectionChanged;
+            EditorApplication.projectChanged -= RefreshSkills;
+            Undo.undoRedoPerformed -= RedrawCanvas;
         }
 
         private void OnSelectionChanged()
@@ -61,8 +81,12 @@ namespace Frankie.Combat.Editor
         #region Layout
         public void CreateGUI()
         {
+            if (themeStyleSheet == null) { themeStyleSheet = StandardBrownTheme.GetDefaultReference(this, _themeStyleSheetField); }
+            StandardBrownTheme.Apply(rootVisualElement, themeStyleSheet);
+
             Toolbar toolbar = MakeToolbar(out treeNameLabel, out zoomLabel, out ToolbarButton resetViewButton);
             resetViewButton.RegisterCallback<ClickEvent>(_ => ResetView());
+            toolbar.Add(MakeSkillsListToggle());
             
             viewportContainer = MakeViewport();
             canvasContent = MakeCanvasContent();
@@ -81,10 +105,21 @@ namespace Frankie.Combat.Editor
             zoomManipulator.zoomChanged += pct => zoomLabel.text = $"{Mathf.RoundToInt(pct * 100f)}%";
             viewportContainer.AddManipulator(zoomManipulator);
             viewportContainer.AddManipulator(new StandardCanvasPanManipulator(canvasContent));
+            
+            skillListPanel = new SkillListPanel();
+            SetSkillListShown(IsSkillListShown());
+            
+            var body = new VisualElement { style = { flexGrow = 1 } };
+            body.Add(viewportContainer);
+            body.Add(skillListPanel);
 
+            skillAutocomplete = new AutocompleteDropdown();
+            
             rootVisualElement.Add(toolbar);
-            rootVisualElement.Add(viewportContainer);
+            rootVisualElement.Add(body);
+            rootVisualElement.Add(skillAutocomplete);
 
+            RefreshSkills();
             UpdateTitleLabel();
             RedrawCanvas();
         }
@@ -96,12 +131,13 @@ namespace Frankie.Combat.Editor
         }
         #endregion
 
-        #region Canvas Building
+        #region CanvasDraws
         private void RedrawCanvas()
         {
             if (nodesLayer == null) { return; } // UI not built yet
 
             nodesLayer.Clear();
+            RefreshSelectedSkillTreeSkills();
 
             if (selectedSkillTree == null)
             {
@@ -113,9 +149,7 @@ namespace Frankie.Combat.Editor
             foreach (SkillBranch skillBranch in selectedSkillTree.GetAllBranches())
             {
                 bool isRoot = skillBranch == rootSkillBranch;
-                var nodeView = new SkillBranchView(
-                    skillBranch, selectedSkillTree, isRoot,
-                    RedrawCanvas, OnNodeDragLive, OnNodeDragComplete, () => zoomManipulator.zoomFactor);
+                var nodeView = new SkillBranchView(skillBranch, selectedSkillTree, isRoot, RedrawCanvas, RefreshSelectedSkillTreeSkills, OnNodeDragLive, OnNodeDragComplete, () => zoomManipulator.zoomFactor, AttachSkillAutocomplete);
                 nodesLayer.Add(nodeView);
             }
             edgesLayer.MarkDirtyRepaint();
@@ -137,7 +171,7 @@ namespace Frankie.Combat.Editor
             edgesLayer.MarkDirtyRepaint();
         }
         #endregion
-
+        
         #region View Control
         private void ResetView()
         {
@@ -155,6 +189,37 @@ namespace Frankie.Combat.Editor
             canvasContent.style.left = newOffset.x;
             canvasContent.style.top = newOffset.y;
         }
+        #endregion
+
+        #region SkillsList
+        private ToolbarToggle MakeSkillsListToggle()
+        {
+            var toggle = new ToolbarToggle { text = _skillsToggleText, tooltip = _skillsToggleTooltip, value = IsSkillListShown() };
+            toggle.RegisterValueChangedCallback(changeEvent => SetSkillListShown(changeEvent.newValue));
+            return toggle;
+        }
+        
+        private static bool IsSkillListShown() => EditorPrefs.GetBool(_skillsPanelPrefsKey, true);
+        
+        private void SetSkillListShown(bool isShown)
+        {
+            EditorPrefs.SetBool(_skillsPanelPrefsKey, isShown);
+            if (skillListPanel != null) { skillListPanel.style.display = isShown ? DisplayStyle.Flex : DisplayStyle.None; }
+        }
+        
+        private void RefreshSkills()
+        {
+            allSkills.Clear();
+            allSkills.AddRange(AssetDatabase.FindAssets($"t:{nameof(Skill)}")
+                .Select(guid => AssetDatabase.LoadAssetAtPath<Skill>(AssetDatabase.GUIDToAssetPath(guid)))
+                .Where(skill => skill != null)
+                .OrderBy(skill => skill.name, StringComparer.OrdinalIgnoreCase));
+            skillListPanel?.SetSkills(allSkills);
+        }
+
+        private void RefreshSelectedSkillTreeSkills() => skillListPanel?.SetSelectedSkillTreeSkills(selectedSkillTree != null ? selectedSkillTree.GetAllBranches().SelectMany(branch => branch.GetAllSkills()) : null);
+
+        private void AttachSkillAutocomplete(TextField skillField) => skillAutocomplete?.Attach(skillField, allSkills.Where(skill => skill != null).Select(skill => skill.name)); // Deferred so it can follow RefreshSkills
         #endregion
 
         #region StaticUIBuilders
@@ -193,16 +258,17 @@ namespace Frankie.Combat.Editor
 
         private static VisualElement MakeViewport()
         {
-            return new VisualElement
+            var viewport = new VisualElement
             {
                 name = "skill-tree-viewport",
                 style =
                 {
                     flexGrow = 1,
-                    overflow = Overflow.Hidden,
-                    backgroundColor = new Color(0.15f, 0.15f, 0.16f)
+                    overflow = Overflow.Hidden
                 }
             };
+            viewport.AddToClassList(StandardBrownTheme.canvasClass);
+            return viewport;
         }
 
         private static VisualElement MakeCanvasContent()

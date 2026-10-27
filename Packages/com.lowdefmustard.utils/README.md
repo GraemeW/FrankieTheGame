@@ -22,59 +22,69 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ### Data Structures & Extensions (`Runtime/DataStructuresExtensions`)
 
-- **`LazyValue<T>` / `ReInitLazyValue<T>`** — Deferred-initialization wrapper. 
-  - `LazyValue<T>` runs its initializer delegate once, on first access. 
-  - `ReInitLazyValue<T>` re-runs the initializer whenever the cached value is `null`, even after the first init (useful for values that can be destroyed/unloaded, e.g. Unity objects).
-- **`CircularBuffer<T>`** — Fixed-size FIFO buffer backed by a `LinkedList<T>`; oldest entry drops off once capacity is reached.
-- **`EnumLookup<TEnum, TValue>` / `EnumLookupBase<TValue>`** (`Runtime/DataStructuresExtensions/EnumLookup`) — Dictionary-like lookup keyed by a specific enum type, exposed through a non-generic-friendly abstract base so callers can hold a reference without knowing the enum type.
-- **`EnumKeyedCollection<TEnum, TData>` / `IEnumKeyedCollection`** (`Runtime/DataStructuresExtensions/EnumKeyedCollection`) — Serializable alternative to a `Dictionary<TEnum, TData>` field (which Unity can't serialize natively), guaranteeing exactly one `TData` entry per `TEnum` value. 
-  - Backed by a `List<Entry>` of explicit `(TEnum key, TData value)` pairs with a lazily-built `Dictionary<TEnum, TData>` read cache. 
-  - Paired with the `[EnumKeyedCollection]` attribute/drawer below, which calls `SyncEntriesToEnum()` to force-enumerate every member in the inspector.
-- **`EnumExtensions.NextClamped<T>()`** — Returns the next value in an enum's declaration order, clamped to the last value (no wraparound).
-- **`ListExtensions.Shuffle<T>()`** — In-place Fisher–Yates shuffle for any `IList<T>`.
-- **`ApproximateFloatComparer`** — `IEqualityComparer<float>` that treats floats as equal within a configurable tolerance (default `0.005`); handles `NaN`/`±Infinity`.
-- **`SmartVector2.CheckDistance(...)`** — Squared-distance threshold check between two `Vector2`s (avoids a `sqrt`), with an overload that also returns the squared delta.
-- **`SerializableVector2` / `SerializableVector3`** — Plain serializable float-based mirrors of Unity's vector types, for contexts where you need `[Serializable]` fields without the `Vector2`/`Vector3` overhead.
-- **`SerializablePolygon`** — Serializable list of `Vector2` points.
-- **`ChoiceActionPair`** — Simple `(string choice, Action action)` struct pairing a label with a callback (e.g. for building dialogue/menu choices).
-- **`IStandardGraphNode`** — Interface for node-graph elements (`ScriptableObject`, position getter/setter) used by the `StandardNodeDragManipulator` editor tool below.
+- **`LazyValue<T>` / `ReInitLazyValue<T>`** — Deferred-initialization wrapper
+  - `LazyValue<T>` runs its initializer delegate once, on first access
+  - `ReInitLazyValue<T>` re-runs the initializer whenever the cached value is `null`, even after the first init (useful for values that can be destroyed/unloaded, e.g. Unity objects)
+- **`CircularBuffer<T>`** — Fixed-size FIFO buffer backed by a `LinkedList<T>`; oldest entry drops off once capacity is reached
+- **`EnumLookup<TEnum, TValue>` / `EnumLookupBase<TValue>`** (`Runtime/DataStructuresExtensions/EnumLookup`) — Dictionary-like lookup keyed by a specific enum type, exposed through a non-generic-friendly abstract base so callers can hold a reference without knowing the enum type
+- **`EnumKeyedCollection<TEnum, TData>` / `IEnumKeyedCollection`** (`Runtime/DataStructuresExtensions/EnumKeyedCollection`) — Serializable alternative to a `Dictionary<TEnum, TData>` field (which Unity can't serialize natively), guaranteeing exactly one `TData` entry per `TEnum` value 
+  - Backed by a `List<Entry>` of explicit `(TEnum key, TData value)` pairs with a lazily-built `Dictionary<TEnum, TData>` read cache 
+  - Paired with the `[EnumKeyedCollection]` attribute/drawer below, which calls `SyncEntriesToEnum()` to force-enumerate every member in the inspector
+- **`EnumExtensions.NextClamped<T>()`** — Returns the next value in an enum's declaration order, clamped to the last value (no wraparound)
+- **`ListExtensions.Shuffle<T>()`** — In-place Fisher–Yates shuffle for any `IList<T>`
+- **`ApproximateFloatComparer`** — `IEqualityComparer<float>` that treats floats as equal within a configurable tolerance (default `0.005`); handles `NaN`/`±Infinity`
+- **`SmartVector2.CheckDistance(...)`** — Squared-distance threshold check between two `Vector2`s (avoids a `sqrt`), with an overload that also returns the squared delta
+- **`SerializableVector2` / `SerializableVector3`** — Plain serializable float-based mirrors of Unity's vector types, for contexts where you need `[Serializable]` fields without the `Vector2`/`Vector3` overhead
+- **`SerializablePolygon`** — Serializable list of `Vector2` points
+- **`ChoiceActionPair`** — Simple `(string choice, Action action)` struct pairing a label with a callback (e.g. for building dialogue/menu choices)
+- **`IStandardGraphNode`** — Interface for node-graph elements (`ScriptableObject`, position getter/setter) used by the `StandardNodeDragManipulator` editor tool below
 
 ### Custom Attribute Drawers (`Runtime/CustomAttributesDrawers` + `Editor/CustomAttributesDrawers`)
 
-- **`[ReadOnly]`** — Marks an inspector field as visible but non-editable.
-- **`[RestrictedEnum(params int[] hiddenValues)]`** — Hides specific enum values from the inspector popup for a field, without removing them from the underlying enum.
-- **`[EnumKeyedCollection]`** — Applied to a field typed as an `EnumKeyedCollection<TEnum, TData>` (via `IEnumKeyedCollection`). 
-  - Before rendering, the drawer calls `SyncEntriesToEnum()` on the boxed value to reconcile the backing list against the enum's current members (adding missing keys, dropping orphaned keys, sorting), and writes that back into the `SerializedProperty` — so no enum value can be left silently unset.
+- **`[ReadOnly]`** — Marks an inspector field as visible but non-editable
+- **`[RestrictedEnum(params int[] hiddenValues)]`** — Hides specific enum values from the inspector popup for a field, without removing them from the underlying enum
+- **`[EnumKeyedCollection]`** — Applied to a field typed as an `EnumKeyedCollection<TEnum, TData>` (via `IEnumKeyedCollection`)
+  - Before rendering, the drawer calls `SyncEntriesToEnum()` on the boxed value to reconcile the backing list against the enum's current members (adding missing keys, dropping orphaned keys, sorting), and writes that back into the `SerializedProperty`
+  - this process ensures no enum value can be left silently unset
 
 ### Predicates (`Runtime/Predicates`)
 
 A small serializable boolean-expression system for data-driven conditions (e.g. quest/dialogue gating):
 
-- **`Predicate`** — Abstract `ScriptableObject` base; concrete predicates are authored as assets.
-- **`IPredicateEvaluator`** — Implemented by whatever runtime system knows how to evaluate a given `Predicate`, returning a nullable bool.
-- **`Condition`** — Serializable AND-of-ORs (conjunction of disjunctions) over `Predicate` references, each optionally negated. `Condition.Check(evaluators)` runs every predicate against all supplied evaluators.
+- **`Predicate`** — Abstract `ScriptableObject` base; concrete predicates are authored as assets
+- **`IPredicateEvaluator`** — Implemented by whatever runtime system knows how to evaluate a given `Predicate`, returning a nullable bool
+- **`Condition`** — Serializable AND-of-ORs (conjunction of disjunctions) over `Predicate` references, each optionally negated. `Condition.Check(evaluators)` runs every predicate against all supplied evaluators
 
 ### Probability (`Runtime/Probability`)
 
-- **`IObjectProbabilityPair<T>`** — Interface for an object + integer-weight pair.
-- **`ProbabilityPairOperation<T>.GetRandomObject(...)`** — Weighted-random selection over a collection of `IObjectProbabilityPair<T>`.
+- **`IObjectProbabilityPair<T>`** — Interface for an object + integer-weight pair
+- **`ProbabilityPairOperation<T>.GetRandomObject(...)`** — Weighted-random selection over a collection of `IObjectProbabilityPair<T>`
 
 ### Addressables (`Runtime/Addressables`)
 
-- **`IAddressablesCache`** — Convention interface for Addressables-backed caches.
+- **`IAddressablesCache`** — Convention interface for Addressables-backed caches
 
 ### Editor State Check (`Runtime/EditorStateCheck.cs`)
 
-- **`EditorStateCheck.IsStandardEditorState(GameObject)`** — Guards editor-only callbacks (e.g. `OnValidate`) against firing during play mode transitions, domain reload/compilation, prefab editing, preview scenes, or on persistent (non-scene) assets.
+- **`EditorStateCheck.IsStandardEditorState(GameObject)`** — Guards editor-only callbacks (e.g. `OnValidate`) against firing during play mode transitions, domain reload/compilation, prefab editing, preview scenes, or on persistent (non-scene) assets
 
 ### Standard Editor Tools (`Editor/StandardEditorTools`)
 
-Reusable UI Toolkit building blocks for custom node/graph editor windows:
+Reusable UI Toolkit building blocks for custom editor windows (node/graph canvases, theming, inline editing):
 
-- **`StandardBackgroundLayer`** — `VisualElement` that renders an infinite dot or line grid background (`StandardBackgroundType`).
-- **`StandardCanvasPanManipulator`** — Left/middle mouse-drag panning for a canvas element.
-- **`StandardCanvasZoomManipulator`** — Scroll-wheel zoom (clamped 0.25×–2×) that zooms toward the cursor.
-- **`StandardNodeDragManipulator`** — Drag-to-move for graph nodes implementing `IStandardGraphNode`; clicks below a movement threshold select the node's backing asset instead of dragging.
+- **`StandardBrownTheme`** (+ `StandardBrownTheme.uss`) — Warm brown theme for an editor window: a palette of `--theme-*` USS variables, plus restyled built-in controls (fields, dropdowns, buttons, toggles, sliders, scrollbars, lists/trees, toolbars)
+  - `StandardBrownTheme.Apply(root, styleSheets...)` adds the stylesheet(s) and the theme class to a window's root
+  - Add `StandardBrownTheme.darkClass` to a section (e.g. a side panel) for a darker variant ~ shared element classes (`canvasClass`, `panelClass`, `panelHeaderClass`, `groupHeaderClass`, `dimClass`) cover common window parts
+  - Windows reference the stylesheet through a serialized `StyleSheet` field set as their script's default reference (Inspector → script → Default References)
+    - use `GetDefaultReference(window, fieldName)` to read it back for windows serialized in the editor layout before the reference existed
+- **`StandardBackgroundLayer`** — `VisualElement` that renders an infinite dot or line grid background (`StandardBackgroundType`)
+- **`StandardCanvasPanManipulator`** — Left/middle mouse-drag panning for a canvas element
+- **`StandardCanvasZoomManipulator`** — Scroll-wheel zoom (clamped 0.25×–2×) that zooms toward the cursor
+- **`StandardNodeDragManipulator`** — Drag-to-move for graph nodes implementing `IStandardGraphNode`; clicks below a movement threshold select the node's backing asset instead of dragging
+- **`AutocompleteDropdown`** — Suggestion list shown under a `TextField` while typing; `Attach(field, options)` hooks up any number of fields to one shared dropdown
+  - Pass the full set of options:  matching is case-insensitive, listing options that start with the typed text first && then options containing it
+  - Add it to the window root:  it positions itself in that space, so it stays unscaled over zoomed canvases.
+- **`AssetNameLabel`** — Label showing an asset's name ~ double-click swaps it for a text field that renames the asset file
 
 ### Sprite Animation Generator (`Editor/SpriteAnimationGenerator`)
 
@@ -106,16 +116,16 @@ Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), ru
 
 ### Coverage at a glance
 
-| Category                       | Types | Tested | Notes                                                                                 |
-|--------------------------------|:-----:|:------:|---------------------------------------------------------------------------------------|
-| Data Structures & Extensions   | 16    |   15   | `IStandardGraphNode` has no concrete implementation in this package to test against   |
-| Custom Attribute Drawers       | 3     |   3†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered |
-| Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                           |
-| Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                 |
-| Addressables                   | 1     |   0    | `IAddressablesCache` has no concrete implementation in this package to test against   |
-| Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                 |
-| Standard Editor Tools          | 4     |   4†   | `StandardBackgroundLayer`'s actual pixel rendering isn't reachable                    |
-| Sprite Animation Generator     | 8     |   6    | `OverrideDirectionLookup` and the full `Generate()` pipeline aren't covered           |
+| Category                       | Types | Tested | Notes                                                                                                      |
+|--------------------------------|:-----:|:------:|------------------------------------------------------------------------------------------------------------|
+| Data Structures & Extensions   | 16    |   15   | `IStandardGraphNode` has no concrete implementation in this package to test against                        |
+| Custom Attribute Drawers       | 3     |   3†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered                      |
+| Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                                                |
+| Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                                      |
+| Addressables                   | 1     |   0    | `IAddressablesCache` has no concrete implementation in this package to test against                        |
+| Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                                      |
+| Standard Editor Tools          | 7     |   7†   | `StandardBackgroundLayer`'s pixel rendering + `StandardBrownTheme.uss`'s resolved colours aren't reachable |
+| Sprite Animation Generator     | 8     |   6    | `OverrideDirectionLookup` and the full `Generate()` pipeline aren't covered                                |
 
 \* Interface covered only via a test double standing in for a real implementation, not a concrete type of its own
 
@@ -139,7 +149,7 @@ Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), ru
 | `ChoiceActionPair`                                     | Yes      | `ChoiceActionPairTests.cs`                                     |                                                                                                                                                      |
 | `IStandardGraphNode`                                   | No       | —                                                              | No concrete implementation                                                                                                                           |
 | `[ReadOnly]`                                           | Yes      | `ReadOnlyDrawerTests.cs`                                       |                                                                                                                                                      |
-| `[RestrictedEnum(...)]`                                | Partial  | `RestrictedEnumDrawerTests.cs`                                 | `RegisterValueChangedCallback`/`TrackPropertyValue` write-back & prefab-override not covered (requires UI Toolkit panel or prefab instance) |
+| `[RestrictedEnum(...)]`                                | Partial  | `RestrictedEnumDrawerTests.cs`                                 | `RegisterValueChangedCallback`/`TrackPropertyValue` write-back & prefab-override not covered (requires UI Toolkit panel or prefab instance)          |
 | `[EnumKeyedCollection]` drawer                         | Yes      | `EnumKeyedCollectionDrawerTests.cs`                            |                                                                                                                                                      |
 | `Predicate`                                            | Indirect | `ConditionTests.cs` (via `TestPredicate` stand-in)             | Abstract with no members of its own to test directly                                                                                                 |
 | `IPredicateEvaluator`                                  | Indirect | `ConditionTests.cs` (via test-double evaluators)               | No concrete implementation                                                                                                                           |
@@ -152,6 +162,9 @@ Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), ru
 | `StandardCanvasPanManipulator`                         | Yes      | `StandardCanvasPanManipulatorTests.cs`                         |                                                                                                                                                      |
 | `StandardCanvasZoomManipulator`                        | Yes      | `StandardCanvasZoomManipulatorTests.cs`                        |                                                                                                                                                      |
 | `StandardNodeDragManipulator`                          | Yes      | `StandardNodeDragManipulatorTests.cs`                          |                                                                                                                                                      |
+| `StandardBrownTheme`                                   | Partial  | `StandardBrownThemeTests.cs`                                   | USS's resolved colours aren't covered                                                                                                                |
+| `AutocompleteDropdown`                                 | Partial  | `AutocompleteDropdownTests.cs`                                 | Delayed hide on focus-out and on-screen positioning skipped                                                                                          |
+| `AssetNameLabel`                                       | Yes      | `AssetNameLabelTests.cs`                                       | Focus-out is simulated (headless windows don't hold focus)                                                                                           |
 | `SpriteAnimationGenerator` (bits below)                |          |                                                                |                                                                                                                                                      | 
 | ^-`.ClassifyAction(...)`                               | Yes      | `ClassifyActionTests.cs`                                       | 
 | ^-`.OverrideConfiguration.IsOverrideMatch(...)`        | Yes      | `OverrideConfigurationIsOverrideMatchTests.cs`                 |                                                                                                                                                      |

@@ -26,17 +26,20 @@ namespace Frankie.Combat.Editor
         private readonly SkillTree skillTree;
         private readonly bool isRoot;
         private readonly Action onStructureChanged;
+        private readonly Action onSkillsChanged;
+        private readonly Action<TextField> attachSkillAutocomplete;
         
         // UI State
         private readonly VisualElement body;
 
-        public SkillBranchView(SkillBranch skillBranch, SkillTree skillTree, bool isRoot,
-            Action onStructureChanged, Action onPositionChangedLive, Action onPositionChangedComplete, Func<float> zoomProvider)
+        public SkillBranchView(SkillBranch skillBranch, SkillTree skillTree, bool isRoot, Action onStructureChanged, Action onSkillsChanged, Action onPositionChangedLive, Action onPositionChangedComplete, Func<float> zoomProvider, Action<TextField> attachSkillAutocomplete)
         {
             this.skillBranch = skillBranch;
             this.skillTree = skillTree;
             this.isRoot = isRoot;
             this.onStructureChanged = onStructureChanged;
+            this.onSkillsChanged = onSkillsChanged;
+            this.attachSkillAutocomplete = attachSkillAutocomplete;
             if (skillBranch == null || skillTree == null) { return; }
 
             name = $"skill-node-{skillBranch.name}";
@@ -106,6 +109,7 @@ namespace Frankie.Combat.Editor
             foreach (SkillBranchMapping skillBranchMapping in Enum.GetValues(typeof(SkillBranchMapping)))
             {
                 VisualElement detailRow = MakeDetailRow(skillBranchMapping.ToString(), skillBranch.GetSkill(skillBranchMapping), ShouldShowAddButton(skillBranchMapping), out TextField skillField, out Button addButton);
+                attachSkillAutocomplete?.Invoke(skillField);
                 skillField?.RegisterValueChangedCallback(changeEvent =>
                 {
                     if (!UpdateSkillField(changeEvent.newValue, skillBranchMapping))
@@ -113,6 +117,7 @@ namespace Frankie.Combat.Editor
                         skillField.SetValueWithoutNotify(string.Empty);
                     }
                     addButton.style.display = ShouldShowAddButton(skillBranchMapping) ? DisplayStyle.Flex : DisplayStyle.None;
+                    onSkillsChanged?.Invoke();
                 });
                 addButton?.RegisterCallback<ClickEvent>(_ =>
                 {

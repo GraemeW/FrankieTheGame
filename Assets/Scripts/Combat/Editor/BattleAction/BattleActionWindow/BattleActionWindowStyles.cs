@@ -3,13 +3,14 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Editor;
 
 namespace Frankie.Combat.Editor
 {
     public static class BattleActionWindowStyles
     {
         // Notes:
-        //  - Colours live in BattleActionWindow.uss (this sets layout + the classes it styles)
+        //  - Colours live in StandardBrownTheme.uss + BattleActionWindow.uss (this sets layout + the classes they style)
 
         // Const Tunables
         public const float columnPadding = 6f;
@@ -22,7 +23,6 @@ namespace Frankie.Combat.Editor
 
         // Classes
         public const string windowClass = "bae-window";
-        private const string _libraryColumnClass = "bae-column--library";
         private const string _dependentColumnClass = "bae-column--dependent";
         private const string _columnHeaderClass = "bae-column-header";
         private const string _columnHeaderTitleClass = "bae-column-header__title";
@@ -37,7 +37,7 @@ namespace Frankie.Combat.Editor
 
         #region PublicMethods
         public static void ApplyDependentColumn(VisualElement column) => column.AddToClassList(_dependentColumnClass);
-        public static void ApplyLibraryColumn(VisualElement column) => column.AddToClassList(_libraryColumnClass);
+        public static void ApplyLibraryColumn(VisualElement column) => column.AddToClassList(StandardBrownTheme.darkClass);
         public static void ApplyTreeHeader(VisualElement element, bool isHeader) => element.EnableInClassList(_treeHeaderClass, isHeader);
         public static void SetMissing(VisualElement element, bool isMissing) => element.EnableInClassList(_missingClass, isMissing);
         

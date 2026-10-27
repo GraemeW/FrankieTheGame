@@ -4,7 +4,6 @@ Battle actions may be taken by characters in Frankie to deal damage, heal, apply
 
 <img src="../../../../InfoTools/Documentation/Game/Combat/BattleActionExample.png" width="350">
 
-
 A high-level summary on Battle Actions and their overall role in the combat system is described in [Game/Combat](../../Combat/).
 
 ## Battle Actions: Quick Start Guide

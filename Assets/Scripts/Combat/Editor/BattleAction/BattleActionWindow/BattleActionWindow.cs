@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Editor;
 using Frankie.Inventory;
 
 namespace Frankie.Combat.Editor
@@ -19,9 +20,11 @@ namespace Frankie.Combat.Editor
         private const float _browserColumnWidth = 380f;
         private const float _minColumnWidth = 220f;
         private const string _styleSheetField = nameof(styleSheet);
+        private const string _themeStyleSheetField = nameof(themeStyleSheet);
 
         // Tunables
-        [SerializeField] private StyleSheet styleSheet; // Set as the script's default reference
+        [SerializeField] private StyleSheet styleSheet;
+        [SerializeField] private StyleSheet themeStyleSheet;
 
         // State
         [SerializeField] private Object owner;
@@ -64,8 +67,9 @@ namespace Frankie.Combat.Editor
         private void CreateGUI()
         {
             minSize = new Vector2(_minColumnWidth * 3f, 400f);
-            if (styleSheet == null) { styleSheet = GetDefaultStyleSheet(); } // Windows opened before the default reference was set
-            if (styleSheet != null) { rootVisualElement.styleSheets.Add(styleSheet); }
+            if (themeStyleSheet == null) { themeStyleSheet = StandardBrownTheme.GetDefaultReference(this, _themeStyleSheetField); }
+            if (styleSheet == null) { styleSheet = StandardBrownTheme.GetDefaultReference(this, _styleSheetField); }
+            StandardBrownTheme.Apply(rootVisualElement, themeStyleSheet, styleSheet);
             rootVisualElement.AddToClassList(BattleActionWindowStyles.windowClass);
 
             ownerColumn = new BattleActionOwnerColumn();
@@ -110,12 +114,6 @@ namespace Frankie.Combat.Editor
 
         #region PrivateMethods
         private static bool IsOwner(Object asset) => asset is Skill or ActionItem;
-
-        private StyleSheet GetDefaultStyleSheet()
-        {
-            var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this))) as MonoImporter;
-            return importer != null ? importer.GetDefaultReference(_styleSheetField) as StyleSheet : null;
-        }
 
         private static VisualElement WrapColumn(VisualElement column)
         {

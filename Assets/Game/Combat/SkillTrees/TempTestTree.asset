@@ -108,6 +108,33 @@ MonoBehaviour:
     y: 479
     width: 250
     height: 155
+--- !u!114 &-3318787160879674947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: b5f19675-2f8b-48dc-ba72-b3e25a4c3be2
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  upSkillReference: Preen
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: BlatherOn
+  downBranch: 
+  mappedFromBranch: 3
+  rect:
+    serializedVersion: 2
+    x: 376
+    y: 1138
+    width: 250
+    height: 155
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +161,7 @@ MonoBehaviour:
   - {fileID: 8885085004548582250}
   - {fileID: -9106053293084428090}
   - {fileID: -9056755904045281000}
+  - {fileID: -3318787160879674947}
 --- !u!114 &1232647665919983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,14 +309,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 198dd545-f6e8-4dc2-856c-cb701f358153
   m_EditorClassIdentifier: 
-  upSkillReference: 
+  upSkillReference: Fortify
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: EdgeCloser
   leftBranch: 
   rightSkillReference: 
   rightBranch: 
   downSkillReference: Whinny
-  downBranch: 
+  downBranch: b5f19675-2f8b-48dc-ba72-b3e25a4c3be2
   mappedFromBranch: 3
   rect:
     serializedVersion: 2
