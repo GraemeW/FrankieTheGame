@@ -148,7 +148,7 @@ UNITY_EXPORT_REFLECTION void Jitter(float time, float rate, float2 amount, float
 /// <sg:DisplayName>Ease Progress</sg:DisplayName>
 /// <sg:SearchCategory>LDM/EaseProgress</sg:SearchCategory>
 ///</funchints>
-UNITY_EXPORT_REFLECTION void EaseProgress(float progress, float easingType,
+UNITY_EXPORT_REFLECTION void EaseProgress(float progress, float easingType, float approachRatio,
     out float easedProgress)
 {
     // Easing types:  
@@ -156,6 +156,8 @@ UNITY_EXPORT_REFLECTION void EaseProgress(float progress, float easingType,
     //  - 1 = ease in (quadratic)
     //  - 2 = ease out (quadratic)
     //  - 3 = ease in-out (smoothstep)
+    //  - 4 = approach:  as if rushing at the camera (apparent size ~ 1 / distance), ending approach ratio * as big as it starts
+    //      - p / (R - (R - 1) p):  R 1 = linear;  a range from r -> R r is then exactly 1 / (linear distance)
     // BattleEffectEasing's values follow these same indices
     
     float clampedProgress = saturate(progress);
@@ -163,6 +165,7 @@ UNITY_EXPORT_REFLECTION void EaseProgress(float progress, float easingType,
     if (easing == 1) { easedProgress = clampedProgress * clampedProgress; }
     else if (easing == 2) { easedProgress = clampedProgress * (2.0 - clampedProgress); }
     else if (easing == 3) { easedProgress = smoothstep(0.0, 1.0, clampedProgress); }
+    else if (easing == 4) { float ratio = max(approachRatio, 1.0); easedProgress = clampedProgress / (ratio - (ratio - 1.0) * clampedProgress); }
     else { easedProgress = clampedProgress; }
 }
 

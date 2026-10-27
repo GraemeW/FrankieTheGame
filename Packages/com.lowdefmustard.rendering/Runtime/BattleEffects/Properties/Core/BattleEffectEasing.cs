@@ -6,6 +6,7 @@ namespace LowDefMustard.Rendering
         Linear = 0,
         EaseIn = 1,
         EaseOut = 2,
-        EaseInOut = 3
+        EaseInOut = 3,
+        Approach = 4
     }
 }

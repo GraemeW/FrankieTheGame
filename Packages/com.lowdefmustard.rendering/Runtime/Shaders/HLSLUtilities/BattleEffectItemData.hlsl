@@ -47,7 +47,8 @@ bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsed
     progress = 0.0;
     if (itemTime < -1e-4 || itemTime >= timing.y - 1e-4) { return false; } // ensure stepped frames on an item's boundaries land on exactly one item
 
-    EaseProgress(timing.y > 0.0 ? itemTime / timing.y : 1.0, timing.z, progress);
+    float4 easingParameters = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EASINGPARAMETERS); // (approach ratio, -, -, -)
+    EaseProgress(timing.y > 0.0 ? itemTime / timing.y : 1.0, timing.z, easingParameters.x, progress);
     StepProgress(progress, timing.w, progress);
     return true;
 }

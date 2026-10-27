@@ -20,6 +20,7 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("After the effect spawns")][Min(0f)] private float startTimeSeconds = 0f;
         [SerializeField][Tooltip("The item is not drawn outside of its start + duration")][Min(0f)] private float durationSeconds = 1f;
         [SerializeField] private BattleEffectEasing easing = BattleEffectEasing.Linear;
+        [SerializeField][Tooltip("Approach only:  how much bigger it ends than it starts, as if rushing at the camera (1 = linear; 10 = from 10x as far)")][Min(1f)] private float approachRatio = 4f;
         [SerializeField][Tooltip("Holds every range on this many evenly spaced values, each for an equal share of the duration (3 = start, middle, end; 0 = smooth)")][Min(0)] private int progressSteps = 0;
 
         [SerializeField] private BattleEffectVector2Range positionEU = new(new Vector2(0.5f, 0.5f));
@@ -49,6 +50,7 @@ namespace LowDefMustard.Rendering
         public const string startTimeSecondsField = nameof(startTimeSeconds);
         public const string durationSecondsField = nameof(durationSeconds);
         public const string easingField = nameof(easing);
+        public const string approachRatioField = nameof(approachRatio);
         public const string progressStepsField = nameof(progressSteps);
         public const string positionEUField = nameof(positionEU);
         public const string scaleEUField = nameof(scaleEU);
@@ -95,6 +97,7 @@ namespace LowDefMustard.Rendering
 
             // Timing
             texels[rowStart + BattleEffectDataLayout.timing] = new Color(startTimeSeconds, durationSeconds, (int)easing, progressSteps);
+            texels[rowStart + BattleEffectDataLayout.easingParameters] = new Color(Mathf.Max(approachRatio, 1f), 0f, 0f, 0f);
 
             // Transform
             Vector2 centre = new(0.5f, 0.5f);

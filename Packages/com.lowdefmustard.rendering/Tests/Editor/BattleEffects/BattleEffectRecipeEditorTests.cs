@@ -535,6 +535,18 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsTrue(FindSection("Timing").value, "core sections open");
         }
 
+        [TestCase(BattleEffectEasing.Linear, false)]
+        [TestCase(BattleEffectEasing.EaseIn, false)]
+        [TestCase(BattleEffectEasing.Approach, true)]
+        public void Timing_ShowsApproachRatioForApproachOnly(BattleEffectEasing easing, bool isRatioShown)
+        {
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{BattleEffectItem.easingField}").intValue = (int)easing;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+
+            Assert.AreEqual(isRatioShown, IsShown(FindItemField(1, BattleEffectItem.approachRatioField)));
+        }
+
         [TestCase(BattleEffectRepetitionMode.None, false, false, "Count")]
         [TestCase(BattleEffectRepetitionMode.Line, true, false, "Count")]
         [TestCase(BattleEffectRepetitionMode.Radial, true, false, "Count")]

@@ -23,6 +23,7 @@ MonoBehaviour:
     startTimeSeconds: 0
     durationSeconds: 1
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}

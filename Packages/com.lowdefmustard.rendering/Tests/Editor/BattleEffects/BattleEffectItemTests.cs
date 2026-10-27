@@ -56,6 +56,23 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Approach_WritesEasingAndRatio()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"easing\":4,\"approachRatio\":10.5}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual((int)BattleEffectEasing.Approach, texels[BattleEffectDataLayout.timing].b);
+            AssertTexel(new Color(10.5f, 0f, 0f, 0f), texels[BattleEffectDataLayout.easingParameters]);
+        }
+
+        [Test]
+        public void TryWriteData_Approach_RatioBelowOneIsLinear()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"approachRatio\":0}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(1f, texels[BattleEffectDataLayout.easingParameters].r);
+        }
+
+        [Test]
         public void TryWriteData_RowStart_OffsetsEveryTexel()
         {
             int rowStart = BattleEffectDataLayout.texelsPerItem;

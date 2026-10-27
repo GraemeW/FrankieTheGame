@@ -22,7 +22,8 @@ MonoBehaviour:
       rid: 5082563360854901003
     startTimeSeconds: 0
     durationSeconds: 2
-    easing: 0
+    easing: 4
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -66,6 +67,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 0
@@ -73,6 +77,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2.5, y: 2.5}
         end: {x: 2.5, y: 2.5}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -111,6 +118,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -120,7 +128,8 @@ MonoBehaviour:
       rid: 5082563360854901004
     startTimeSeconds: 0
     durationSeconds: 2
-    easing: 0
+    easing: 4
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -164,6 +173,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 0
@@ -171,6 +183,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2.5, y: 2.5}
         end: {x: 2.5, y: 2.5}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -209,6 +224,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -218,7 +234,8 @@ MonoBehaviour:
       rid: 5082563360854901005
     startTimeSeconds: 1
     durationSeconds: 1
-    easing: 0
+    easing: 4
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -262,6 +279,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 0
@@ -269,6 +289,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2.5, y: 2.5}
         end: {x: 2.5, y: 2.5}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -307,6 +330,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -316,7 +340,8 @@ MonoBehaviour:
       rid: 5082563360854901006
     startTimeSeconds: 1
     durationSeconds: 1
-    easing: 0
+    easing: 4
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -360,6 +385,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 0
@@ -367,6 +395,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2.5, y: 2.5}
         end: {x: 2.5, y: 2.5}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -405,6 +436,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -414,7 +446,8 @@ MonoBehaviour:
       rid: 5082563360854901029
     startTimeSeconds: 2
     durationSeconds: 0.1
-    easing: 0
+    easing: 4
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -458,6 +491,9 @@ MonoBehaviour:
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
       mode: 0
@@ -465,6 +501,9 @@ MonoBehaviour:
       spacingSU:
         start: {x: 2.5, y: 2.5}
         end: {x: 2.5, y: 2.5}
+      copyScaleRatio:
+        start: 1
+        end: 1
       mirrorX: 0
       mirrorY: 0
     colourCycle:
@@ -503,6 +542,7 @@ MonoBehaviour:
       rate: 0
       depthFraction: 0.5
       phaseFraction: 0
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25

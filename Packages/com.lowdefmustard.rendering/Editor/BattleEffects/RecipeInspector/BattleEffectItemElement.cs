@@ -72,7 +72,9 @@ namespace LowDefMustard.Rendering.Editor
         {
             Add(new PropertyField(labelProperty));
             Add(new PropertyField(shapeProperty));
-            Add(new BattleEffectSection("Timing", item, new[] { BattleEffectItem.startTimeSecondsField, BattleEffectItem.durationSecondsField, BattleEffectItem.easingField, BattleEffectItem.progressStepsField }.Select(Find)));
+            Add(new BattleEffectSection("Timing", item, new[] { BattleEffectItem.startTimeSecondsField, BattleEffectItem.durationSecondsField, BattleEffectItem.easingField, BattleEffectItem.approachRatioField, BattleEffectItem.progressStepsField }.Select(Find), 
+                null,
+                section => RefreshTimingFields(section, Find(BattleEffectItem.easingField))));
             Add(new BattleEffectSection("Transform", item, new[] { BattleEffectItem.positionEUField, BattleEffectItem.scaleEUField, BattleEffectItem.elongationSUField, BattleEffectItem.itemRotationDegreesField, BattleEffectItem.shapeRotationDegreesField }.Select(Find)));
             foreach (string groupField in _groupFields)
             {
@@ -91,6 +93,12 @@ namespace LowDefMustard.Rendering.Editor
             float endTime = startTime + durationProperty.floatValue;
             text = $"{label}  ~  {shapeName}  ~  {startTime.ToString(_timeFormat, CultureInfo.InvariantCulture)} → {endTime.ToString(_timeFormat, CultureInfo.InvariantCulture)}s";
             edgeGradientField.style.display = HasOutline() ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        private static void RefreshTimingFields(BattleEffectSection section, SerializedProperty easingProperty)
+        {
+            var easing = (BattleEffectEasing)easingProperty.intValue;
+            section.SetShown(BattleEffectItem.approachRatioField, easing == BattleEffectEasing.Approach);
         }
         #endregion
     }
