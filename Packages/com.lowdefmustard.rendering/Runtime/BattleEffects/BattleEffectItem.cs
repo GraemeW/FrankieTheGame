@@ -109,7 +109,7 @@ namespace LowDefMustard.Rendering
 
             // Style (+ its settings groups)
             style?.WriteData(texels, rowStart, effectScale);
-            bool isPaletteUsed = (colourCycle != null && colourCycle.IsPaletteUsed()) || (beats != null && beats.IsPaletteUsed());
+            bool isPaletteUsed = (colourCycle != null && colourCycle.IsPaletteUsed()) || (beats != null && beats.IsPaletteUsed()) || (style != null && style.IsPaletteUsed());
             int paletteCount = altColours?.WriteData(texels, rowStart, isPaletteUsed) ?? 1;
             outlineEdgeGradient?.WriteData(texels, rowStart);
             stripes?.WriteData(texels, rowStart, effectScale);

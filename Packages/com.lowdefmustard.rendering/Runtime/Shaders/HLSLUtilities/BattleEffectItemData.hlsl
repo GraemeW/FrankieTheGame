@@ -92,9 +92,9 @@ BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item
     return modifiers;
 }
 
-float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTime, float itemTime, float copyIndex, int beat)
+float GetBattleEffectPaletteIndex(UnityTexture2D itemData, int item, float elapsedTime, float itemTime, float copyIndex, int beat)
 {
-    // The palette:  the item's colour (A) + its alt colours (B-D, up to the palette count)
+    // The palette:  the item's colour (A) + its alt colours (B-D, up to the palette count) ~ returns index -> to get colour entry via GetBattleEffectPaletteColour
     // - Source Options:
     //      - time source:  steps through the palette on the effect's clock (rate 0 = stays on A)
     //      - copy source:  each repetition copy takes the next entry (+ the phase offset)
@@ -108,20 +108,33 @@ float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTim
     if (source == BATTLE_EFFECT_COLOURSOURCE_COPY) { paletteIndex = floor(copyIndex + cycle.z); }
     else if (source == BATTLE_EFFECT_COLOURSOURCE_PATTERN) { PatternIndex(itemTime, cycle.y, cycle.z, LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURPATTERN), paletteIndex); }
     else { CycleIndex(elapsedTime, cycle.y, paletteCount, cycle.z, paletteIndex); }
-    paletteIndex += beat >= 0 ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATCOLOURS)[beat] : 0.0;
+    return paletteIndex + (beat >= 0 ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATCOLOURS)[beat] : 0.0);
+}
 
+float4 GetBattleEffectPaletteColour(UnityTexture2D itemData, int item, float paletteIndex)
+{
+    // The palette entry at an index (wrapped to the palette count)
+
+    float paletteCount = max(round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURCYCLE).w), 1.0);
     int entry = (int)round(fmod(fmod(paletteIndex, paletteCount) + paletteCount, paletteCount));
     return LoadBattleEffectTexel(itemData, item, entry == 0 ? BATTLE_EFFECT_LAYOUT_COLOUR : BATTLE_EFFECT_LAYOUT_ALTCOLOURB + entry - 1);
 }
 
-float4 GetBattleEffectStrokeColour(UnityTexture2D itemData, int item, float4 colour, float shapeDistance, float progress)
+float4 GetBattleEffectStrokeColour(UnityTexture2D itemData, int item, float4 colour, float paletteIndex, float shapeDistance, float progress)
 {
-    // The outline's colour:  outline = the item's colour (its palette entry);  fill and outline = the outline colour
-    // + its edge gradient:  from that colour on the stroke's inside edge -> the edge colour on its outside edge
+    // Returns the stroked outline colour:  
+    //  - for outline: the item's colour (its palette entry)
+    //  - for fill and outline: the outline colour (or the stepped/offset palette entry)
+    // && edge gradient:  from outline colour on the stroke's inside edge -> the edge colour on its outside edge
     //  - for edge steps > 0, creates a banding effect (steps 3 -> inside / middle / outside colours)
 
     float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, blend, outline thickness start, end)
-    float4 strokeColour = (int)round(style.x) == BATTLE_EFFECT_STYLEMODE_FILLANDOUTLINE ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINECOLOUR) : colour;
+    float4 strokeColour = colour;
+    if ((int)round(style.x) == BATTLE_EFFECT_STYLEMODE_FILLANDOUTLINE)
+    {
+        float4 outlineSource = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINESOURCE); // (from the palette, palette step, -, -)
+        strokeColour = outlineSource.x > 0.5 ? GetBattleEffectPaletteColour(itemData, item, paletteIndex + outlineSource.y) : LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINECOLOUR);
+    }
     float4 edgeGradient = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EDGEGRADIENT); // (on, steps, -, -)
     if (edgeGradient.x < 0.5) { return strokeColour; }
 

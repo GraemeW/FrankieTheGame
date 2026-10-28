@@ -151,7 +151,7 @@ UNITY_EXPORT_REFLECTION void SDFJaggedLine(float2 uv, float2 position, float hal
 /// <sg:DisplayName>SDF Squiggle</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFShapes/Squiggle</sg:SearchCategory>
 ///</funchints>
-UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform, float plateau, float duty,
+UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform, float plateau, float duty, float bumps,
     out float distanceOutput)
 {
     // A wave along x, centred on position (crests +/- amplitude, wavelength crest to crest), each starting at 0 and rising (negative amplitude flips it)
@@ -163,7 +163,7 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
     //  - 2 = square
     //  - 3 = steps (a square wave's flats only)
     //  - 4 = trapezoid
-    //  - 5 = pulse (a flat line w/ one trapezoid bump per wavelength)
+    //  - 5 = pulse (a flat line w/ a run of trapezoid bumps per wavelength)
     // Note:  never negative, like a segment
     
     float2 local = uv - position;
@@ -225,8 +225,11 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
     }
     else if (form == 5)  // Pulse
     {
-        // Per wavelength:  a rise from the line, a flat top, a fall, then the line until the next bump
-        float bump = safeWavelength * clamp(duty, 1e-3, 1.0);
+        // Per wavelength:  bumps (each a rise from the line, a flat top, a fall) back to back across the duty, then the line until the next run
+        //  - per cell:  its bump nearest the point + either side (the neighbouring cells' nearest = their last / first)
+        float bumpCount = max(round(bumps), 1.0);
+        float run = safeWavelength * clamp(duty, 1e-3, 1.0);
+        float bump = run / bumpCount;
         float top = bump * saturate(plateau);
         float rise = 0.5 * (bump - top);
         float nearestCell = floor(waveX / safeWavelength);
@@ -234,13 +237,21 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
         [unroll]
         for (int offset = -1; offset <= 1; offset++)
         {
-            float start = (nearestCell + offset) * safeWavelength;
-            float riseDistance, topDistance, fallDistance, lineDistance;
-            SDFSegment(float2(waveX, local.y), float2(start, 0.0), float2(start + rise, amplitude), riseDistance);
-            SDFSegment(float2(waveX, local.y), float2(start + rise, amplitude), float2(start + rise + top, amplitude), topDistance);
-            SDFSegment(float2(waveX, local.y), float2(start + rise + top, amplitude), float2(start + bump, 0.0), fallDistance);
-            SDFSegment(float2(waveX, local.y), float2(start + bump, 0.0), float2(start + safeWavelength, 0.0), lineDistance);
-            acrossDistance = min(acrossDistance, min(min(riseDistance, topDistance), min(fallDistance, lineDistance)));
+            float cellStart = (nearestCell + offset) * safeWavelength;
+            float nearestBump = clamp(floor((waveX - cellStart) / bump), 0.0, bumpCount - 1.0);
+            float lineDistance;
+            SDFSegment(float2(waveX, local.y), float2(cellStart + run, 0.0), float2(cellStart + safeWavelength, 0.0), lineDistance);
+            acrossDistance = min(acrossDistance, lineDistance);
+            [unroll]
+            for (int side = -1; side <= 1; side++)
+            {
+                float start = cellStart + clamp(nearestBump + side, 0.0, bumpCount - 1.0) * bump;
+                float riseDistance, topDistance, fallDistance;
+                SDFSegment(float2(waveX, local.y), float2(start, 0.0), float2(start + rise, amplitude), riseDistance);
+                SDFSegment(float2(waveX, local.y), float2(start + rise, amplitude), float2(start + rise + top, amplitude), topDistance);
+                SDFSegment(float2(waveX, local.y), float2(start + rise + top, amplitude), float2(start + bump, 0.0), fallDistance);
+                acrossDistance = min(acrossDistance, min(riseDistance, min(topDistance, fallDistance)));
+            }
         }
     }
     else  // Sine (acts as default / catch)

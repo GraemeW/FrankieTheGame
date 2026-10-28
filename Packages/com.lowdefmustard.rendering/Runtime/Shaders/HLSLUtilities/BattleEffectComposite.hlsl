@@ -127,7 +127,8 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     int style = GetBattleEffectStyle(itemData, item);
     bool isErase = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).y) == BATTLE_EFFECT_BLEND_ERASE;
     float stripeMask = GetBattleEffectStripeMask(itemData, item, fittedUV);
-    float4 colour = GetBattleEffectColour(itemData, item, elapsedTime, itemTime, copyIndex, beat);
+    float paletteIndex = GetBattleEffectPaletteIndex(itemData, item, elapsedTime, itemTime, copyIndex, beat);
+    float4 colour = GetBattleEffectPaletteColour(itemData, item, paletteIndex);
 
     // Fill (fill + fill and outline styles):  stripes + the erase blend apply to it
     if (style != BATTLE_EFFECT_STYLEMODE_OUTLINE)
@@ -141,7 +142,7 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     // Outline (outline + fill and outline styles):  over the fill;  stripes + erase only when it's the item's whole style
     bool isOutlineOnly = style == BATTLE_EFFECT_STYLEMODE_OUTLINE;
     float outlineDistance = ApplyBattleEffectClip(itemData, item, ApplyBattleEffectOutline(itemData, item, shapeDistance, progress), shapeInput.localPoint, distanceScale, progress);
-    float4 strokeColour = GetBattleEffectStrokeColour(itemData, item, colour, shapeDistance, progress);
+    float4 strokeColour = GetBattleEffectStrokeColour(itemData, item, colour, paletteIndex, shapeDistance, progress);
     float strokeAlpha = strokeColour.a * GetBattleEffectCoverage(outlineDistance, edgeHalfWidth, edgeOuter) * (isOutlineOnly ? stripeMask : 1.0) * modifiers.flickerAlpha;
     return isOutlineOnly && isErase ? CompositeBattleEffectErase(accumulated, strokeAlpha) : CompositeBattleEffectOver(accumulated, strokeColour.rgb, strokeAlpha);
 }

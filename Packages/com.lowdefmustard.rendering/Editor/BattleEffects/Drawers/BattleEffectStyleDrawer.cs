@@ -15,7 +15,10 @@ namespace LowDefMustard.Rendering.Editor
             {
                 var mode = (BattleEffectStyleMode)modeProperty.intValue;
                 section.SetShown(BattleEffectStyle.outlineThicknessEUField, mode != BattleEffectStyleMode.Fill);
-                section.SetShown(BattleEffectStyle.outlineColourField, mode == BattleEffectStyleMode.FillAndOutline);
+                bool isFromPalette = property.FindPropertyRelative(BattleEffectStyle.isOutlineFromPaletteField).boolValue;
+                section.SetShown(BattleEffectStyle.outlineColourField, mode == BattleEffectStyleMode.FillAndOutline && !isFromPalette);
+                section.SetShown(BattleEffectStyle.isOutlineFromPaletteField, mode == BattleEffectStyleMode.FillAndOutline);
+                section.SetShown(BattleEffectStyle.outlinePaletteStepField, mode == BattleEffectStyleMode.FillAndOutline && isFromPalette);
             });
         }
     }

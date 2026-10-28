@@ -18,8 +18,9 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Crest height either side of the line")] private BattleEffectFloatRange amplitudeSU = new(0.1f);
         [SerializeField][Tooltip("Slides the wave along the line")] private BattleEffectFloatRange scrollSU = new(0f);
         [SerializeField][Tooltip("Sine / triangle / trapezoid / pulse start on the line + rise;  square / steps start on the crest (negative amplitude flips them)")] private BattleEffectWaveform waveform = BattleEffectWaveform.Sine;
-        [SerializeField][Tooltip("Trapezoid:  each half wavelength's flat crest share (0 = triangle, 1 = square).  Pulse:  the bump's flat top share")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Trapezoid, (int)BattleEffectWaveform.Pulse)] private BattleEffectFloatRange plateauFraction = new(0.25f);
-        [SerializeField][Tooltip("Pulse only:  the bump's share of each wavelength (the line fills the rest)")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Pulse)] private BattleEffectFloatRange dutyFraction = new(0.5f);
+        [SerializeField][Tooltip("Trapezoid:  each half wavelength's flat crest share (0 = triangle, 1 = square).  Pulse:  each bump's flat top share")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Trapezoid, (int)BattleEffectWaveform.Pulse)] private BattleEffectFloatRange plateauFraction = new(0.25f);
+        [SerializeField][Tooltip("Pulse only:  the bumps' share of each wavelength (the line fills the rest)")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Pulse)] private BattleEffectFloatRange dutyFraction = new(0.5f);
+        [SerializeField][Tooltip("Pulse only:  bumps per wavelength, back to back across the duty (e.g. 2 = a double bump)")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Pulse)][Min(1)] private int bumps = 1;
 
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {
@@ -30,6 +31,7 @@ namespace LowDefMustard.Rendering
             parameters[4] = new BattleEffectFloatRange((int)waveform);
             parameters[5] = plateauFraction;
             parameters[6] = dutyFraction;
+            parameters[7] = new BattleEffectFloatRange(Mathf.Max(bumps, 1));
         }
     }
 }

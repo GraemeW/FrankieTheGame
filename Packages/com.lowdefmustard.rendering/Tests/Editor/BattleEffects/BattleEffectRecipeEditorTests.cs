@@ -506,6 +506,23 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [UnityTest]
+        public IEnumerator Style_OutlineFromPalette_SwapsTheOutlineColourForItsStep()
+        {
+            // Item 2:  fill and outline
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(2) });
+            PropertyField outlineColour = FindItemField(2, StylePath(BattleEffectStyle.outlineColourField));
+            yield return HeadlessEditorWindow.WaitUntil(() => outlineColour != null && IsShown(outlineColour));
+            Assert.IsFalse(IsShown(FindItemField(2, StylePath(BattleEffectStyle.outlinePaletteStepField))), "off:  no step");
+
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[2].{StylePath(BattleEffectStyle.isOutlineFromPaletteField)}").boolValue = true;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(outlineColour));
+
+            Assert.IsFalse(IsShown(outlineColour), "on:  no outline colour");
+            Assert.IsTrue(IsShown(FindItemField(2, StylePath(BattleEffectStyle.outlinePaletteStepField))), "on:  its step");
+        }
+
+        [UnityTest]
         public IEnumerator StyleChange_RefreshesTheOutlineSettings()
         {
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(0) });

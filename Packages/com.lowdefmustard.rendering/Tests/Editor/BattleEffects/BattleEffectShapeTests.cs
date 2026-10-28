@@ -91,7 +91,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             new BattleEffectSquiggle().GetParameters(parameters);
 
-            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0.25f, 0.5f, 0f };
+            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0.25f, 0.5f, 1f };
             for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
         }
 
@@ -123,11 +123,11 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
-        public void GetParameters_SquigglePulse_WritesItsIndexPlateauThenDuty()
+        public void GetParameters_SquigglePulse_WritesItsIndexPlateauDutyThenBumps()
         {
             var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
             var squiggle = new BattleEffectSquiggle();
-            JsonUtility.FromJsonOverwrite($"{{\"waveform\":{(int)BattleEffectWaveform.Pulse},\"plateauFraction\":{{\"start\":0.5,\"end\":0.5}},\"dutyFraction\":{{\"start\":0.2,\"end\":0.4}}}}", squiggle);
+            JsonUtility.FromJsonOverwrite($"{{\"waveform\":{(int)BattleEffectWaveform.Pulse},\"plateauFraction\":{{\"start\":0.5,\"end\":0.5}},\"dutyFraction\":{{\"start\":0.2,\"end\":0.4}},\"bumps\":2}}", squiggle);
 
             squiggle.GetParameters(parameters);
 
@@ -135,6 +135,19 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(0.5f, parameters[5].GetStart(), 1e-5f, "plateau");
             Assert.AreEqual(0.2f, parameters[6].GetStart(), 1e-5f, "duty start");
             Assert.AreEqual(0.4f, parameters[6].GetEnd(), 1e-5f, "duty end");
+            Assert.AreEqual(2f, parameters[7].GetStart(), "bumps");
+        }
+
+        [Test]
+        public void GetParameters_SquigglePulse_ClampsBumpsToOne()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+            var squiggle = new BattleEffectSquiggle();
+            JsonUtility.FromJsonOverwrite("{\"bumps\":0}", squiggle);
+
+            squiggle.GetParameters(parameters);
+
+            Assert.AreEqual(1f, parameters[7].GetStart(), "zero-filled = one bump");
         }
 
         [Test]

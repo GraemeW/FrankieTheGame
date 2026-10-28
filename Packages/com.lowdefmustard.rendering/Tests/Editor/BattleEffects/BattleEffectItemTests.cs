@@ -159,6 +159,25 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Style_OutlineFromPalette_WritesItsStepAndKeepsThePalette()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"style\":{\"mode\":2,\"isOutlineFromPalette\":true,\"outlinePaletteStep\":-1},\"altColours\":{\"count\":2}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(1f, -1f, 0f, 0f), texels[BattleEffectDataLayout.outlineSource]);
+            Assert.AreEqual(3f, texels[BattleEffectDataLayout.colourCycle].a, "the stroke's palette entries count as palette use");
+        }
+
+        [Test]
+        public void TryWriteData_Style_OutlineFromPalette_OffUnlessFillAndOutline()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"style\":{\"mode\":1,\"isOutlineFromPalette\":true}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(0f, texels[BattleEffectDataLayout.outlineSource].r);
+        }
+
+        [Test]
         public void TryWriteData_AltColours_ClampsTheCountToTheLayout()
         {
             // i.e. a count set past the inspector's range (e.g. in the asset file)
