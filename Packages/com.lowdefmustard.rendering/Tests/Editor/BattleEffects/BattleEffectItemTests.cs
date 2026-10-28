@@ -131,6 +131,34 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_ColourCycle_PatternSource_PacksBase4DigitsAndStepCount()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"colourCycle\":{{\"source\":2,\"rate\":30,\"pattern\":\"012 3\"}},\"altColours\":{{\"count\":3}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color((int)BattleEffectColourSource.Pattern, 30f, 0f, 4f), texels[BattleEffectDataLayout.colourCycle]);
+            AssertTexel(new Color(0 + 1 * 4 + 2 * 16 + 3 * 64, 0f, 0f, 4f), texels[BattleEffectDataLayout.colourPattern], "step 0 lowest (spaces ignored)");
+        }
+
+        [Test]
+        public void TryWriteData_ColourCycle_TimeSource_LeavesThePatternClear()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"colourCycle\":{\"rate\":10,\"pattern\":\"0123\"}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.colourPattern]);
+        }
+
+        [Test]
+        public void EncodeColourPattern_SpillsIntoLaterFloatsAndClampsToMaxSteps()
+        {
+            Color encoded = BattleEffectColourCycle.EncodePattern(new string('3', BattleEffectColourCycle.maxPatternSteps + 5));
+
+            float fullFloat = Mathf.Pow(4f, BattleEffectColourCycle.patternStepsPerFloat) - 1f;
+            AssertTexel(new Color(fullFloat, fullFloat, fullFloat, BattleEffectColourCycle.maxPatternSteps), encoded, "every digit 3, exact in a float");
+        }
+
+        [Test]
         public void TryWriteData_AltColours_ClampsTheCountToTheLayout()
         {
             // i.e. a count set past the inspector's range (e.g. in the asset file)
@@ -232,6 +260,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
             AssertTexel(new Color((int)BattleEffectRepetitionMode.Grid, 1f, 1f, 3f), texels[BattleEffectDataLayout.repetition]);
+        }
+
+        [TestCase(true, false, 5f)]
+        [TestCase(false, false, 0f)]
+        public void TryWriteData_Repetition_PacksBeatOffsetsSpreadOnlyWhenMirrored(bool mirrorX, bool mirrorY, float expected)
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"repetition\":{{\"mirrorX\":{(mirrorX ? "true" : "false")},\"mirrorY\":{(mirrorY ? "true" : "false")},\"beatOffsetsSpread\":true}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(expected, texels[BattleEffectDataLayout.repetition].a, "x = 1 + spread = 4;  unmirrored:  nothing to spread");
         }
 
         [Test]

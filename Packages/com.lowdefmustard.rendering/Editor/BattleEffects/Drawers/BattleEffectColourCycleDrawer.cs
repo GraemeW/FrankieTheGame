@@ -15,6 +15,7 @@ namespace LowDefMustard.Rendering.Editor
             {
                 section.SetShown(BattleEffectColourCycle.rateField, !IsCopySource());
                 section.SetShown(BattleEffectColourCycle.phaseOffsetField, IsEnabled());
+                section.SetShown(BattleEffectColourCycle.patternField, sourceProperty.enumValueIndex == (int)BattleEffectColourSource.Pattern);
             });
 
             // Local Functions

@@ -3,7 +3,7 @@
 
 // Notes:
 //  - BattleEffect graph only (via BattleEffectComposite):  an item's shape, at its nearest repetition copies
-//      - mirror -> repetition -> shape rotation -> elongation -> shape (generated dispatch)
+//      - mirror (+ spread beat offset) -> repetition -> shape rotation -> elongation -> shape (generated dispatch)
 //  - Each repetition family evaluates its nearest + neighbouring copies + keeps the closest - its copy index (the copy's number) feeds:
 //      - per-copy colour:  line / radial = along;  grid = column + row
 //      - per-copy size:  copy n = copy scale ratio ^ n, about its own centre (warning:  copies that outgrow ~1.5x spacings // past neighbours' cells can clip)
@@ -29,8 +29,9 @@ float GetBattleEffectCopyDistance(BattleEffectCopyShape copyShape, float2 copyPo
     float2 rotation = copyShape.shapeRotation;
     float2 turnedPoint = float2(rotation.y * copyPoint.x + rotation.x * copyPoint.y, -rotation.x * copyPoint.x + rotation.y * copyPoint.y);
     BattleEffectShapeInput shapeInput = copyShape.shapeInput;
-    SDFElongate(turnedPoint, copyShape.elongation, shapeInput.localPoint);
-    return BattleEffectShapeDistance(copyShape.shapeId, shapeInput);
+    float interiorDistance;
+    SDFElongate(turnedPoint, copyShape.elongation, shapeInput.localPoint, interiorDistance);
+    return BattleEffectShapeDistance(copyShape.shapeId, shapeInput) + interiorDistance;
 }
 
 float GetBattleEffectScaledCopyDistance(BattleEffectCopyShape copyShape, float2 copyPoint, float copyNumber)
@@ -152,14 +153,15 @@ float GetBattleEffectRadialCopiesDistance(BattleEffectCopyShape copyShape, float
     return distance;
 }
 
-float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float progress, int beat,
+float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float2 spreadOffset, float progress, int beat,
     out float copyIndex)
 {
-    // The item's distance in its local space (mirror -> repetition -> shape rotation -> elongation -> shape), at its nearest copies
+    // The item's distance in its local space (mirror -> spread offset -> repetition -> shape rotation -> elongation -> shape), at its nearest copies
     //  - the current beat adds to the elongation
+    //  - spread offset (local):  a spread beat's offset, after the fold - mirrored halves move apart (0 otherwise)
 
     // Settings at this point in the item's progress
-    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2])
+    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2, spread = 4])
     float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING);
     float4 copyScaleRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYSCALE); // (copy scale ratio start, end, -, -)
     float4 copyWave = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVE); // (waveform, copies per cycle, amplitude start, end)
@@ -181,7 +183,9 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     copyShape.elongation = lerp(elongationRange.xy, elongationRange.zw, progress) + GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATELONGATIONS01);
 
     float2 mirroredPoint;
-    SDFMirror(shapeInput.localPoint, fmod(repetition.w, 2.0), floor(repetition.w / 2.0), mirroredPoint);
+    float mirrorFlags = round(repetition.w); // (x = 1, y = 2, spread = 4)
+    SDFMirror(shapeInput.localPoint, fmod(mirrorFlags, 2.0), fmod(floor(mirrorFlags / 2.0), 2.0), mirroredPoint);
+    mirroredPoint -= spreadOffset;
 
     // Repetition families
     if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_LINE || repetitionMode == BATTLE_EFFECT_REPETITIONMODE_CROSS)

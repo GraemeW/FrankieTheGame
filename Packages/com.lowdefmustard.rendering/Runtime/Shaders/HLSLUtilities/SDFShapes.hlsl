@@ -151,13 +151,19 @@ UNITY_EXPORT_REFLECTION void SDFJaggedLine(float2 uv, float2 position, float hal
 /// <sg:DisplayName>SDF Squiggle</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFShapes/Squiggle</sg:SearchCategory>
 ///</funchints>
-UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform, float plateau,
+UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfLength, float wavelength, float amplitude, float scroll, float waveform, float plateau, float duty,
     out float distanceOutput)
 {
     // A wave along x, centred on position (crests +/- amplitude, wavelength crest to crest), each starting at 0 and rising (negative amplitude flips it)
     //  - scroll slides the wave along the line
     //  - round ends at +/- half-length
-    // Waveforms:  0 = sine, 1 = triangle, 2 = square, 3 = steps (a square wave's flats only), 4 = trapezoid
+    // Waveforms:  
+    //  - 0 = sine
+    //  - 1 = triangle
+    //  - 2 = square
+    //  - 3 = steps (a square wave's flats only)
+    //  - 4 = trapezoid
+    //  - 5 = pulse (a flat line w/ one trapezoid bump per wavelength)
     // Note:  never negative, like a segment
     
     float2 local = uv - position;
@@ -215,6 +221,26 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
             SDFSegment(float2(waveX, local.y), float2(slopeStart, -level), float2(slopeStart + slopeLength, level), slopeDistance);
             SDFSegment(float2(waveX, local.y), float2(slopeStart + slopeLength, level), float2(slopeStart + halfPeriod, level), crestDistance);
             acrossDistance = min(acrossDistance, min(slopeDistance, crestDistance));
+        }
+    }
+    else if (form == 5)  // Pulse
+    {
+        // Per wavelength:  a rise from the line, a flat top, a fall, then the line until the next bump
+        float bump = safeWavelength * clamp(duty, 1e-3, 1.0);
+        float top = bump * saturate(plateau);
+        float rise = 0.5 * (bump - top);
+        float nearestCell = floor(waveX / safeWavelength);
+        acrossDistance = 1e5;
+        [unroll]
+        for (int offset = -1; offset <= 1; offset++)
+        {
+            float start = (nearestCell + offset) * safeWavelength;
+            float riseDistance, topDistance, fallDistance, lineDistance;
+            SDFSegment(float2(waveX, local.y), float2(start, 0.0), float2(start + rise, amplitude), riseDistance);
+            SDFSegment(float2(waveX, local.y), float2(start + rise, amplitude), float2(start + rise + top, amplitude), topDistance);
+            SDFSegment(float2(waveX, local.y), float2(start + rise + top, amplitude), float2(start + bump, 0.0), fallDistance);
+            SDFSegment(float2(waveX, local.y), float2(start + bump, 0.0), float2(start + safeWavelength, 0.0), lineDistance);
+            acrossDistance = min(acrossDistance, min(min(riseDistance, topDistance), min(fallDistance, lineDistance)));
         }
     }
     else  // Sine (acts as default / catch)

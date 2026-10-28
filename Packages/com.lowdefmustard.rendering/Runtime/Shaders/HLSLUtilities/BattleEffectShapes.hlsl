@@ -57,10 +57,10 @@ float BattleEffectChevronDistance(BattleEffectShapeInput input)
 
 float BattleEffectSquiggleDistance(BattleEffectShapeInput input)
 {
-    // Along local x;  A: (half-length SU, wavelength SU, amplitude SU, scroll SU), B: (waveform, plateau fraction, -, -) (never negative ~ draw w/ the outline style)
+    // Along local x;  A: (half-length SU, wavelength SU, amplitude SU, scroll SU), B: (waveform, plateau fraction, duty fraction, -) (never negative ~ draw w/ the outline style)
     
     float distance;
-    SDFSquiggle(input.localPoint, float2(0.0, 0.0), input.parametersA.x, input.parametersA.y, input.parametersA.z, input.parametersA.w, input.parametersB.x, input.parametersB.y, distance);
+    SDFSquiggle(input.localPoint, float2(0.0, 0.0), input.parametersA.x, input.parametersA.y, input.parametersA.z, input.parametersA.w, input.parametersB.x, input.parametersB.y, input.parametersB.z, distance);
     return distance;
 }
 

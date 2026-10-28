@@ -21,7 +21,8 @@ namespace LowDefMustard.Rendering.Editor
             var properties = new[] { modeProperty, property.FindPropertyRelative(_countXPath), property.FindPropertyRelative(_countYPath), // Split out x/y for different label/visibility behaviours (dependent on if grid)
                 property.FindPropertyRelative(BattleEffectRepetition.spacingSUField), property.FindPropertyRelative(BattleEffectRepetition.copyScaleRatioField),
                 property.FindPropertyRelative(BattleEffectRepetition.waveAmplitudeSUField), waveformProperty, property.FindPropertyRelative(BattleEffectRepetition.waveCopiesPerCycleField),
-                property.FindPropertyRelative(BattleEffectRepetition.wavePhaseFractionField), property.FindPropertyRelative(BattleEffectRepetition.wavePlateauFractionField), mirrorXProperty, mirrorYProperty }; 
+                property.FindPropertyRelative(BattleEffectRepetition.wavePhaseFractionField), property.FindPropertyRelative(BattleEffectRepetition.wavePlateauFractionField), mirrorXProperty, mirrorYProperty,
+                property.FindPropertyRelative(BattleEffectRepetition.beatOffsetsSpreadField) }; 
 
             var section = new BattleEffectSection(property.displayName, property, properties, IsEnabled, refreshSection =>
             {
@@ -35,7 +36,8 @@ namespace LowDefMustard.Rendering.Editor
                 refreshSection.SetShown(BattleEffectRepetition.waveformField, IsLine());
                 refreshSection.SetShown(BattleEffectRepetition.waveCopiesPerCycleField, IsLine());
                 refreshSection.SetShown(BattleEffectRepetition.wavePhaseFractionField, IsLine());
-                refreshSection.SetShown(BattleEffectRepetition.wavePlateauFractionField, IsLine() && (BattleEffectWaveform)waveformProperty.intValue == BattleEffectWaveform.Trapezoid);
+                refreshSection.SetShown(BattleEffectRepetition.wavePlateauFractionField, IsLine() && (BattleEffectWaveform)waveformProperty.intValue is BattleEffectWaveform.Trapezoid or BattleEffectWaveform.Pulse);
+                refreshSection.SetShown(BattleEffectRepetition.beatOffsetsSpreadField, mirrorXProperty.boolValue || mirrorYProperty.boolValue);
             }, property);
             section.SetLabel(_countXPath, IsGrid() ? "Count X" : "Count", countTooltip);
             section.SetLabel(_countYPath, "Count Y", countTooltip);

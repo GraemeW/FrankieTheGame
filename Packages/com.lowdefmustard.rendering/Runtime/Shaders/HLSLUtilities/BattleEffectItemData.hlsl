@@ -4,7 +4,7 @@
 // Notes:
 //  - BattleEffect graph only (via BattleEffectComposite):  reads one item's settings from the recipe's data texture
 //      - one row per item, columns per BattleEffectDataLayout (mirrored into the generated dispatch as BATTLE_EFFECT_LAYOUT_*)
-//  - Per-item values that aren't geometry:  timing, beats, modifiers (jitter / flicker / pulse), colours + stripes
+//  - Per-item values that aren't geometry:  timing, beats, modifiers (jitter / flicker / pulse), colours (+ patterns) + stripes
 
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/SDFDomain.hlsl"
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/TimeUtility.hlsl"
@@ -92,17 +92,21 @@ BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item
     return modifiers;
 }
 
-float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTime, float copyIndex, int beat)
+float4 GetBattleEffectColour(UnityTexture2D itemData, int item, float elapsedTime, float itemTime, float copyIndex, int beat)
 {
     // The palette:  the item's colour (A) + its alt colours (B-D, up to the palette count)
-    //  - time source:  steps through the palette on the effect's clock (rate 0 = stays on A)
-    //  - copy source:  each repetition copy takes the next entry (+ the phase offset)
-    //  - the current beat's colour index shifts either (e.g. a beat that's B)
+    // - Source Options:
+    //      - time source:  steps through the palette on the effect's clock (rate 0 = stays on A)
+    //      - copy source:  each repetition copy takes the next entry (+ the phase offset)
+    //      - pattern source:  the pattern's palette index per step
+    //  - Note that the current beat's colour index shifts any of the above (e.g. a beat that's B)
 
     float4 cycle = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURCYCLE); // (source, rate, phase offset [steps], palette count)
     float paletteCount = max(round(cycle.w), 1.0);
+    int source = (int)round(cycle.x);
     float paletteIndex;
-    if ((int)round(cycle.x) == BATTLE_EFFECT_COLOURSOURCE_COPY) { paletteIndex = floor(copyIndex + cycle.z); }
+    if (source == BATTLE_EFFECT_COLOURSOURCE_COPY) { paletteIndex = floor(copyIndex + cycle.z); }
+    else if (source == BATTLE_EFFECT_COLOURSOURCE_PATTERN) { PatternIndex(itemTime, cycle.y, cycle.z, LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURPATTERN), paletteIndex); }
     else { CycleIndex(elapsedTime, cycle.y, paletteCount, cycle.z, paletteIndex); }
     paletteIndex += beat >= 0 ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATCOLOURS)[beat] : 0.0;
 

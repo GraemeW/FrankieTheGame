@@ -9,6 +9,7 @@ namespace LowDefMustard.Rendering
         // Notes:
         //  - Operates in the shape's own space (after the transform) ~ i.e. the pattern scales / rotates w/ the entire item
         //  - Mirrors apply w/ or w/o copies
+        //  - Spread beat offsets apply after the fold (in the shape's space)
         //  - Copy wave (line / cross):  copy n sits amplitude * wave(phase + n / copies per cycle) across its line
 
         [SerializeField] private BattleEffectRepetitionMode mode = BattleEffectRepetitionMode.None;
@@ -19,9 +20,10 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Line / cross:  the wave's shape (starting at 0 + rising)")] private BattleEffectWaveform waveform = BattleEffectWaveform.Sine;
         [SerializeField][Tooltip("Line / cross:  # copies per full wave")][Min(0.01f)] private float waveCopiesPerCycle = 8f;
         [SerializeField][Tooltip("Line / cross:  slides the wave along the copies by this fraction of a cycle")] private BattleEffectFloatRange wavePhaseFraction = new(0f);
-        [SerializeField][Tooltip("Trapezoid only:  each half cycle's flat crest share (0 = triangle, 1 = square)")] private BattleEffectFloatRange wavePlateauFraction = new(0.25f);
+        [SerializeField][Tooltip("Trapezoid / pulse:  each half cycle's flat crest share (0 = triangle, 1 = square;  pulse = the trapezoid's upper half)")] private BattleEffectFloatRange wavePlateauFraction = new(0.25f);
         [SerializeField][Tooltip("Folds the shape across its local y axis (left / right halves match)")] private bool mirrorX = false;
         [SerializeField][Tooltip("Folds the shape across its local x axis (top / bottom halves match)")] private bool mirrorY = false;
+        [SerializeField][Tooltip("Mirrored:  beat offsets move each half away from its fold (the halves spread apart)")] private bool beatOffsetsSpread = false;
 
         // Editor Field References
         public const string modeField = nameof(mode);
@@ -35,10 +37,11 @@ namespace LowDefMustard.Rendering
         public const string wavePlateauFractionField = nameof(wavePlateauFraction);
         public const string mirrorXField = nameof(mirrorX);
         public const string mirrorYField = nameof(mirrorY);
+        public const string beatOffsetsSpreadField = nameof(beatOffsetsSpread);
 
         internal void WriteData(Color[] texels, int rowStart)
         {
-            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f));
+            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f) + (beatOffsetsSpread && (mirrorX || mirrorY) ? 4f : 0f));
             texels[rowStart + BattleEffectDataLayout.spacing] = new Color(spacingSU.GetStart().x, spacingSU.GetStart().y, spacingSU.GetEnd().x, spacingSU.GetEnd().y);
             texels[rowStart + BattleEffectDataLayout.copyScale] = new Color(GetCopyScaleRatio(copyScaleRatio.GetStart()), GetCopyScaleRatio(copyScaleRatio.GetEnd()), 0f, 0f);
             texels[rowStart + BattleEffectDataLayout.copyWave] = new Color((int)waveform, Mathf.Max(waveCopiesPerCycle, 0.01f), waveAmplitudeSU.GetStart(), waveAmplitudeSU.GetEnd());

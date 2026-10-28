@@ -168,15 +168,17 @@ UNITY_EXPORT_REFLECTION void SDFRepeatStaggeredGrid(float2 localPoint, float2 sp
 /// <sg:SearchCategory>LDM/SDFDomain/Elongate</sg:SearchCategory>
 ///</funchints>
 UNITY_EXPORT_REFLECTION void SDFElongate(float2 localPoint, float2 elongation,
-    out float2 elongatedPoint)
+    out float2 elongatedPoint, out float interiorDistance)
 {
     // Stretch shape's middle by +/- elongation along x / y (e.g. a diamond -> a long hexagon, a circle -> a capsule)
-    //  - exact outside (approximate inside)
+    //  - add interior distance to the shape's distance at the elongated point:  exact outside, + inside the stretched core
     //  - no folding (asymmetric shapes keep their form)
     //  - zero elongation = no change
     
     float2 halfStretch = max(elongation, 0.0);
     elongatedPoint = localPoint - clamp(localPoint, -halfStretch, halfStretch);
+    float2 inside = abs(localPoint) - halfStretch;
+    interiorDistance = min(max(inside.x, inside.y), 0.0);
 }
 
 ///<funchints>
@@ -206,13 +208,23 @@ UNITY_EXPORT_REFLECTION void WaveformValue(float waveform, float phase, float pl
     out float valueOutput)
 {
     // A unit wave's height at phase (in cycles):  starts at 0 + rises, crests +/- 1
-    // Waveforms:  0 = sine, 1 = triangle, 2 = square, 3 = steps (= square, as values), 4 = trapezoid (plateau = each half cycle's flat crest share)
+    // Waveforms:  
+    //  - 0 = sine
+    //  - 1 = triangle
+    //  - 2 = square
+    //  - 3 = steps (= square, as values)
+    //  - 4 = trapezoid (plateau = each half cycle's flat crest share)
+    //  - 5 = pulse (= the trapezoid's upper half:  0 for the rest of the cycle)
 
     int form = (int)round(waveform);
     float triangleWave = 1.0 - 4.0 * abs(frac(phase + 0.25) - 0.5);
     if (form == 1) { valueOutput = triangleWave; }
     else if (form == 2 || form == 3) { valueOutput = frac(phase) < 0.5 ? 1.0 : -1.0; }
-    else if (form == 4) { valueOutput = clamp(triangleWave / max(1.0 - saturate(plateau), 1e-4), -1.0, 1.0); }
+    else if (form == 4 || form == 5)
+    {
+        float trapezoidWave = clamp(triangleWave / max(1.0 - saturate(plateau), 1e-4), -1.0, 1.0);
+        valueOutput = form == 5 ? max(trapezoidWave, 0.0) : trapezoidWave;
+    }
     else { valueOutput = sin(phase * 6.28318531); }
 }
 

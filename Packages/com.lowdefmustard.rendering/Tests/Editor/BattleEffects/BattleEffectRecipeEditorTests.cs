@@ -550,6 +550,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TestCase(BattleEffectRepetitionMode.None, BattleEffectWaveform.Trapezoid, false, false)]
         [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Sine, true, false)]
         [TestCase(BattleEffectRepetitionMode.Cross, BattleEffectWaveform.Trapezoid, true, true)]
+        [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Pulse, true, true)]
         [TestCase(BattleEffectRepetitionMode.Radial, BattleEffectWaveform.Trapezoid, false, false)]
         [TestCase(BattleEffectRepetitionMode.Grid, BattleEffectWaveform.Trapezoid, false, false)]
         public void Repetition_ShowsCopyWaveForLinesOnly(BattleEffectRepetitionMode repetition, BattleEffectWaveform waveform, bool isWaveShown, bool isPlateauShown)
@@ -561,7 +562,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveAmplitudeSUField))), "amplitude");
             Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveCopiesPerCycleField))), "copies per cycle");
-            Assert.AreEqual(isPlateauShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.wavePlateauFractionField))), "plateau (trapezoid only)");
+            Assert.AreEqual(isPlateauShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.wavePlateauFractionField))), "plateau (trapezoid / pulse only)");
+        }
+
+        [TestCase(false, false, false)]
+        [TestCase(true, false, true)]
+        [TestCase(false, true, true)]
+        public void Repetition_ShowsBeatOffsetsSpreadWhenMirrored(bool mirrorX, bool mirrorY, bool isSpreadShown)
+        {
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.mirrorXField)}").boolValue = mirrorX;
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.mirrorYField)}").boolValue = mirrorY;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+
+            Assert.AreEqual(isSpreadShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.beatOffsetsSpreadField))));
         }
 
         [TestCase(BattleEffectRepetitionMode.None, false, false, "Count")]

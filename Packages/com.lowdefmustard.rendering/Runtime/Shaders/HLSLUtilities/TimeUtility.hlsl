@@ -83,10 +83,9 @@ UNITY_EXPORT_REFLECTION void FlickerPattern(float time, float rate, float depth,
 
     float patternLength = floor(log2(pattern));
     patternLength += exp2(patternLength + 1.0) <= pattern ? 1.0 : (exp2(patternLength) > pattern ? -1.0 : 0.0); // log2 rounding near powers of 2
-    float bits = pattern - exp2(patternLength);
-    float stepIndex = max(floor(time * rate + phase), 0.0); // before the start (e.g. the item window's tolerance) = step 0
-    stepIndex -= patternLength * floor(stepIndex / patternLength);
-    bool isDim = fmod(floor(bits / exp2(stepIndex)), 2.0) < 0.5;
+    // Integer steps + bits:  float division can land just under a whole number on the GPU
+    uint stepIndex = uint(max(floor(time * rate + phase), 0.0)) % uint(patternLength); // before the start (e.g. the item window's tolerance) = step 0
+    bool isDim = ((uint(round(pattern)) >> stepIndex) & 1u) == 0u;
     alphaMultiplier = isDim ? 1.0 - saturate(depth) : 1.0;
 }
 
@@ -184,6 +183,30 @@ UNITY_EXPORT_REFLECTION void CycleIndex(float time, float rate, float count, flo
     float steps = max(round(count), 1.0);
     index = rate > 0.0 ? fmod(floor(time * rate + phaseOffset), steps) : 0.0;
     index = index < 0.0 ? index + steps : index;
+}
+
+///<funchints>
+/// <sg:ProviderKey>PatternIndex</sg:ProviderKey>
+/// <sg:DisplayName>Pattern Index</sg:DisplayName>
+/// <sg:SearchCategory>LDM/PatternIndex</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void PatternIndex(float time, float rate, float phaseOffset, float4 pattern,
+    out float index)
+{
+    // Irregular steps at rate (steps per second), repeating:  each step's index (0-3), e.g. palette indices
+    //  - pattern:  (steps 0-11, 12-23, 24-35 [base-4 digits, step 0 = lowest], step count);  no steps = 0
+    //  - rate 0 = holds step 0
+    //  - time < 0 holds step 0
+    // Phase offset starts that many steps ahead
+
+    index = 0.0;
+    float stepCount = round(pattern.w);
+    if (stepCount < 1.0) { return; }
+
+    // Integer steps + digits:  float division can land just under a whole number on the GPU
+    uint stepIndex = uint(rate > 0.0 ? max(floor(time * rate + phaseOffset + 1e-3), 0.0) : max(floor(phaseOffset), 0.0)) % uint(stepCount);
+    float digits = stepIndex < 12u ? pattern.x : (stepIndex < 24u ? pattern.y : pattern.z);
+    index = float((uint(round(digits)) >> (2u * (stepIndex % 12u))) & 3u); // extract 2-bit colour entry @ stepIndex from digits
 }
 
 ///<funchints>

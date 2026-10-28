@@ -274,6 +274,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.IsFalse(IsShown(rateField));
         }
+
+        [UnityTest]
+        public IEnumerator ColourCycleDrawer_PatternSource_ShowsThePatternAndRate()
+        {
+            PropertyField patternField = FindColourCycleField(BattleEffectColourCycle.patternField);
+            Assert.IsFalse(IsShown(patternField), "time source hides the pattern");
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.colourCycle)}.{BattleEffectColourCycle.sourceField}").enumValueIndex = (int)BattleEffectColourSource.Pattern;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(patternField));
+
+            Assert.IsTrue(IsShown(patternField));
+            Assert.IsTrue(IsShown(FindColourCycleField(BattleEffectColourCycle.rateField)), "its steps per second");
+        }
         #endregion
 
         #region BeatsDrawer
@@ -386,6 +400,14 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield return HeadlessEditorWindow.WaitUntil(() => IsShown(plateauField));
 
             Assert.IsTrue(IsShown(plateauField), "trapezoid");
+            Assert.IsFalse(IsShown(FindPropertyField("shape.dutyFraction")), "duty:  pulse only");
+
+            serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Pulse;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(FindPropertyField("shape.dutyFraction")));
+
+            Assert.IsTrue(IsShown(plateauField), "pulse plateau");
+            Assert.IsTrue(IsShown(FindPropertyField("shape.dutyFraction")), "pulse duty");
         }
         #endregion
     }

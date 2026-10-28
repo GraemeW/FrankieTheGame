@@ -91,7 +91,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             new BattleEffectSquiggle().GetParameters(parameters);
 
-            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0.25f, 0f, 0f };
+            float[] expected = { 0.9f, 0.2f, 0.1f, 0f, 0f, 0.25f, 0.5f, 0f };
             for (int i = 0; i < expected.Length; i++) { Assert.AreEqual(expected[i], parameters[i].GetStart(), 1e-5f, $"parameter {i}"); }
         }
 
@@ -120,6 +120,21 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(4f, parameters[4].GetStart(), "waveform");
             Assert.AreEqual(0.1f, parameters[5].GetStart(), 1e-5f, "plateau start");
             Assert.AreEqual(0.9f, parameters[5].GetEnd(), 1e-5f, "plateau end");
+        }
+
+        [Test]
+        public void GetParameters_SquigglePulse_WritesItsIndexPlateauThenDuty()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+            var squiggle = new BattleEffectSquiggle();
+            JsonUtility.FromJsonOverwrite($"{{\"waveform\":{(int)BattleEffectWaveform.Pulse},\"plateauFraction\":{{\"start\":0.5,\"end\":0.5}},\"dutyFraction\":{{\"start\":0.2,\"end\":0.4}}}}", squiggle);
+
+            squiggle.GetParameters(parameters);
+
+            Assert.AreEqual(5f, parameters[4].GetStart(), "waveform");
+            Assert.AreEqual(0.5f, parameters[5].GetStart(), 1e-5f, "plateau");
+            Assert.AreEqual(0.2f, parameters[6].GetStart(), 1e-5f, "duty start");
+            Assert.AreEqual(0.4f, parameters[6].GetEnd(), 1e-5f, "duty end");
         }
 
         [Test]
