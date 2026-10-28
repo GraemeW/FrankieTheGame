@@ -19,33 +19,33 @@ MonoBehaviour:
   items:
   - label: 
     shape:
-      rid: 5082563497971679304
+      rid: 5082563515100692982
     startTimeSeconds: 0
-    durationSeconds: 1
+    durationSeconds: 3
     easing: 0
     approachRatio: 4
     progressSteps: 0
     positionEU:
-      start: {x: 0.5, y: 0.5}
-      end: {x: 0.5, y: 0.5}
+      start: {x: 0.5, y: -1}
+      end: {x: 0.5, y: 2}
     scaleEU:
-      start: {x: 0.05, y: 0.05}
-      end: {x: 0.05, y: 0.05}
+      start: {x: 0.01, y: 0.01}
+      end: {x: 0.01, y: 0.01}
     elongationSU:
       start: {x: 0, y: 0}
       end: {x: 0, y: 0}
     itemRotationDegrees:
-      start: 0
-      end: 0
+      start: 90
+      end: 90
     shapeRotationDegrees:
       start: 0
-      end: 0
+      end: 180
     style:
       mode: 1
       blend: 0
       outlineThicknessEU:
-        start: 0.02
-        end: 0.02
+        start: 0.005
+        end: 0.005
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
     altColours:
@@ -63,25 +63,36 @@ MonoBehaviour:
       dutyFraction: 0.5
       phaseFraction: 0
     clip:
-      shape: 1
+      shape: 0
       halfSizeSU:
-        start: {x: 10, y: 5}
-        end: {x: 5, y: 5}
+        start: {x: 1, y: 1}
+        end: {x: 1, y: 1}
       offsetSU:
         start: {x: 0, y: 0}
-        end: {x: 0, y: 10}
+        end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
-      mode: 4
-      count: {x: 3, y: 3}
+      mode: 1
+      count: {x: 5, y: 3}
       spacingSU:
-        start: {x: 5, y: 5}
-        end: {x: 5, y: 5}
+        start: {x: 15, y: 0}
+        end: {x: 15, y: 0}
       copyScaleRatio:
         start: 1
-        end: 1
+        end: 2
+      waveAmplitudeSU:
+        start: 20
+        end: -20
+      waveform: 0
+      waveCopiesPerCycle: 10
+      wavePhaseFraction:
+        start: 0.5
+        end: 5
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
-      mirrorY: 0
+      mirrorY: 1
     colourCycle:
       source: 0
       rate: 0
@@ -115,10 +126,10 @@ MonoBehaviour:
       seed: 0
       phaseFraction: 0
     flicker:
-      rate: 10
-      depthFraction: 0.387
+      rate: 0
+      depthFraction: 0.5
       phaseFraction: 0
-      pattern: 1
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0.25
@@ -127,6 +138,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5082563497971679304
-      type: {class: BattleEffectCircle, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
-      data: 
+    - rid: 5082563515100692982
+      type: {class: BattleEffectBox, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data:
+        aspectRatio:
+          start: 1
+          end: 1
+        cornerRadiusSU:
+          start: 0
+          end: 0

@@ -547,6 +547,23 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(isRatioShown, IsShown(FindItemField(1, BattleEffectItem.approachRatioField)));
         }
 
+        [TestCase(BattleEffectRepetitionMode.None, BattleEffectWaveform.Trapezoid, false, false)]
+        [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Sine, true, false)]
+        [TestCase(BattleEffectRepetitionMode.Cross, BattleEffectWaveform.Trapezoid, true, true)]
+        [TestCase(BattleEffectRepetitionMode.Radial, BattleEffectWaveform.Trapezoid, false, false)]
+        [TestCase(BattleEffectRepetitionMode.Grid, BattleEffectWaveform.Trapezoid, false, false)]
+        public void Repetition_ShowsCopyWaveForLinesOnly(BattleEffectRepetitionMode repetition, BattleEffectWaveform waveform, bool isWaveShown, bool isPlateauShown)
+        {
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.modeField)}").intValue = (int)repetition;
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.waveformField)}").intValue = (int)waveform;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+
+            Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveAmplitudeSUField))), "amplitude");
+            Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveCopiesPerCycleField))), "copies per cycle");
+            Assert.AreEqual(isPlateauShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.wavePlateauFractionField))), "plateau (trapezoid only)");
+        }
+
         [TestCase(BattleEffectRepetitionMode.None, false, false, "Count")]
         [TestCase(BattleEffectRepetitionMode.Line, true, false, "Count")]
         [TestCase(BattleEffectRepetitionMode.Radial, true, false, "Count")]

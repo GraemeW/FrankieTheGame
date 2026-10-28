@@ -7,17 +7,19 @@
 //  - Each repetition family evaluates its nearest + neighbouring copies + keeps the closest - its copy index (the copy's number) feeds:
 //      - per-copy colour:  line / radial = along;  grid = column + row
 //      - per-copy size:  copy n = copy scale ratio ^ n, about its own centre (warning:  copies that outgrow ~1.5x spacings // past neighbours' cells can clip)
+//      - line / cross copy wave:  copy n sits amplitude * wave(phase + n / copies per cycle) across its line
 
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectItemData.hlsl"
 
 struct BattleEffectCopyShape
 {
-    // What every copy draws (only the point it's evaluated at differs)
     int shapeId;
     BattleEffectShapeInput shapeInput;
-    float2 shapeRotation; // (sine, cosine)
+    float2 shapeRotation;
     float2 elongation;
     float copyScaleRatio;
+    float4 copyWave;
+    float wavePhase;
 };
 
 float GetBattleEffectCopyDistance(BattleEffectCopyShape copyShape, float2 copyPoint)
@@ -33,7 +35,7 @@ float GetBattleEffectCopyDistance(BattleEffectCopyShape copyShape, float2 copyPo
 
 float GetBattleEffectScaledCopyDistance(BattleEffectCopyShape copyShape, float2 copyPoint, float copyNumber)
 {
-    // The copy at its own size (ratio ^ its number)
+    // The copy at its own size (ratio ^ copy number)
 
     float copyScale = copyShape.copyScaleRatio == 1.0 ? 1.0 : max(pow(max(copyShape.copyScaleRatio, 0.0), copyNumber), 1e-4);
     return GetBattleEffectCopyDistance(copyShape, copyPoint / copyScale) * copyScale;
@@ -42,6 +44,17 @@ float GetBattleEffectScaledCopyDistance(BattleEffectCopyShape copyShape, float2 
 void KeepNearestBattleEffectCopy(float candidateDistance, float candidateIndex, inout float distance, inout float copyIndex)
 {
     if (candidateDistance < distance) { distance = candidateDistance; copyIndex = candidateIndex; }
+}
+
+float2 GetBattleEffectCopyWaveOffset(BattleEffectCopyShape copyShape, float2 lineSpacing, float copyNumber)
+{
+    // Line / cross:  copy n's offset across its line (to the left of the spacing vector)
+
+    if (copyShape.copyWave.z == 0.0) { return 0.0; }
+    float waveValue;
+    WaveformValue(copyShape.copyWave.x, copyShape.wavePhase + copyNumber / max(copyShape.copyWave.y, 0.01), copyShape.copyWave.w, waveValue);
+    float2 across = float2(-lineSpacing.y, lineSpacing.x) / max(length(lineSpacing), 1e-8);
+    return across * copyShape.copyWave.z * waveValue;
 }
 
 float GetBattleEffectLineCopyIndex(float2 samplePoint, float2 copyPoint, float2 spacing, float count)
@@ -86,7 +99,8 @@ float GetBattleEffectLineCopiesDistance(BattleEffectCopyShape copyShape, float2 
         for (int copy = 0; copy < 2; copy++)
         {
             float copyNumber = GetBattleEffectLineCopyIndex(mirroredPoint, copyPoints[copy], lineSpacing, count);
-            float copyDistance = GetBattleEffectScaledCopyDistance(copyShape, copyPoints[copy], copyNumber);
+            float2 wavedPoint = copyPoints[copy] - GetBattleEffectCopyWaveOffset(copyShape, lineSpacing, copyNumber);
+            float copyDistance = GetBattleEffectScaledCopyDistance(copyShape, wavedPoint, copyNumber);
             KeepNearestBattleEffectCopy(copyDistance, copyNumber, distance, copyIndex);
         }
     }
@@ -148,6 +162,8 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2])
     float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING);
     float4 copyScaleRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYSCALE); // (copy scale ratio start, end, -, -)
+    float4 copyWave = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVE); // (waveform, copies per cycle, amplitude start, end)
+    float4 copyWavePhase = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVEPHASE); // (phase start, end, plateau start, end)
     float4 elongationRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ELONGATION);
     float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION); // (item rotation start, end, shape rotation start, end)
     int repetitionMode = (int)round(repetition.x);
@@ -160,6 +176,8 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     copyShape.shapeInput = shapeInput;
     copyShape.shapeRotation = float2(sin(shapeAngle), cos(shapeAngle));
     copyShape.copyScaleRatio = lerp(copyScaleRange.x, copyScaleRange.y, progress);
+    copyShape.copyWave = float4(copyWave.x, copyWave.y, lerp(copyWave.z, copyWave.w, progress), lerp(copyWavePhase.z, copyWavePhase.w, progress));
+    copyShape.wavePhase = lerp(copyWavePhase.x, copyWavePhase.y, progress);
     copyShape.elongation = lerp(elongationRange.xy, elongationRange.zw, progress) + GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATELONGATIONS01);
 
     float2 mirroredPoint;

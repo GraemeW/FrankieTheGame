@@ -245,6 +245,27 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Repetition_WritesCopyWave()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"repetition\":{\"mode\":1,\"waveform\":4,\"waveCopiesPerCycle\":14,\"waveAmplitudeSU\":{\"start\":6,\"end\":-2}," +
+                "\"wavePhaseFraction\":{\"start\":0.25,\"end\":0.5},\"wavePlateauFraction\":{\"start\":0.5,\"end\":0.75}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color((int)BattleEffectWaveform.Trapezoid, 14f, 6f, -2f), texels[BattleEffectDataLayout.copyWave]);
+            AssertTexel(new Color(0.25f, 0.5f, 0.5f, 0.75f), texels[BattleEffectDataLayout.copyWavePhase]);
+        }
+
+        [Test]
+        public void TryWriteData_Repetition_CopyWaveDefaultIsOff()
+        {
+            CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(0f, texels[BattleEffectDataLayout.copyWave].b, "amplitude start");
+            Assert.AreEqual(0f, texels[BattleEffectDataLayout.copyWave].a, "amplitude end");
+        }
+
+        [Test]
         public void TryWriteData_Repetition_CopyScaleRatioDefaultsAndZeroAreOff()
         {
             CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);

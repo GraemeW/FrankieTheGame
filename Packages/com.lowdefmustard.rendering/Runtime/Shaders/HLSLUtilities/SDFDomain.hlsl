@@ -197,4 +197,23 @@ UNITY_EXPORT_REFLECTION void SDFStripeMask(float2 uv, float2 position, float str
     maskOutput = stripe < duty ? 1.0 : 0.0;
 }
 
+///<funchints>
+/// <sg:ProviderKey>WaveformValue</sg:ProviderKey>
+/// <sg:DisplayName>Waveform Value</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFDomain/WaveformValue</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void WaveformValue(float waveform, float phase, float plateau,
+    out float valueOutput)
+{
+    // A unit wave's height at phase (in cycles):  starts at 0 + rises, crests +/- 1
+    // Waveforms:  0 = sine, 1 = triangle, 2 = square, 3 = steps (= square, as values), 4 = trapezoid (plateau = each half cycle's flat crest share)
+
+    int form = (int)round(waveform);
+    float triangleWave = 1.0 - 4.0 * abs(frac(phase + 0.25) - 0.5);
+    if (form == 1) { valueOutput = triangleWave; }
+    else if (form == 2 || form == 3) { valueOutput = frac(phase) < 0.5 ? 1.0 : -1.0; }
+    else if (form == 4) { valueOutput = clamp(triangleWave / max(1.0 - saturate(plateau), 1e-4), -1.0, 1.0); }
+    else { valueOutput = sin(phase * 6.28318531); }
+}
+
 #endif
