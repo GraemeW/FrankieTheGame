@@ -300,6 +300,30 @@ UNITY_EXPORT_REFLECTION void SDFBox(float2 uv, float2 position, float2 halfSize,
 }
 
 ///<funchints>
+/// <sg:ProviderKey>SDFTrapezoid</sg:ProviderKey>
+/// <sg:DisplayName>SDF Trapezoid</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/Trapezoid</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFTrapezoid(float2 uv, float2 position, float bottomHalfWidth, float topHalfWidth, float halfHeight,
+    out float distanceOutput)
+{
+    // Isosceles trapezoid, its parallel edges horizontal
+    //  - bottom at -half height, top at +half height (exact distance, Inigo Quilez)
+
+    float2 local = uv - position;
+    float safeHalfHeight = max(abs(halfHeight), 1e-5);
+    float bottom = max(bottomHalfWidth, 0.0);
+    float top = max(topHalfWidth, 0.0);
+    float2 slantEnd = float2(top, safeHalfHeight);
+    float2 slant = float2(top - bottom, 2.0 * safeHalfHeight);
+    local.x = abs(local.x);
+    float2 toEdge = float2(local.x - min(local.x, local.y < 0.0 ? bottom : top), abs(local.y) - safeHalfHeight);
+    float2 toSlant = local - slantEnd + slant * saturate(dot(slantEnd - local, slant) / max(dot(slant, slant), 1e-8));
+    float sign = toSlant.x < 0.0 && toEdge.y < 0.0 ? -1.0 : 1.0;
+    distanceOutput = sign * sqrt(min(dot(toEdge, toEdge), dot(toSlant, toSlant)));
+}
+
+///<funchints>
 /// <sg:ProviderKey>SDFTriangle</sg:ProviderKey>
 /// <sg:DisplayName>SDF Triangle</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFShapes/Triangle</sg:SearchCategory>

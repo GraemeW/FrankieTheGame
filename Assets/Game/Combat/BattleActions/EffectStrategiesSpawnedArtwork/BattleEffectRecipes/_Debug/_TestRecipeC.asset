@@ -19,35 +19,37 @@ MonoBehaviour:
   items:
   - label: 
     shape:
-      rid: 5082563515100692982
+      rid: 5082563521398440873
     startTimeSeconds: 0
-    durationSeconds: 3
+    durationSeconds: 1
     easing: 0
     approachRatio: 4
     progressSteps: 0
     positionEU:
-      start: {x: 0.5, y: -1}
-      end: {x: 0.5, y: 2}
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
     scaleEU:
-      start: {x: 0.01, y: 0.01}
-      end: {x: 0.01, y: 0.01}
+      start: {x: 0.25, y: 0.25}
+      end: {x: 0.25, y: 0.25}
     elongationSU:
       start: {x: 0, y: 0}
       end: {x: 0, y: 0}
     itemRotationDegrees:
-      start: 90
-      end: 90
+      start: 0
+      end: 0
     shapeRotationDegrees:
       start: 0
-      end: 180
+      end: 0
     style:
       mode: 1
       blend: 0
       outlineThicknessEU:
-        start: 0.005
-        end: 0.005
+        start: 0.05
+        end: 0.05
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -72,31 +74,33 @@ MonoBehaviour:
         end: {x: 0, y: 0}
       angleDegrees: 0
     repetition:
-      mode: 1
-      count: {x: 5, y: 3}
+      mode: 0
+      count: {x: 3, y: 3}
       spacingSU:
-        start: {x: 15, y: 0}
-        end: {x: 15, y: 0}
+        start: {x: 2.5, y: 2.5}
+        end: {x: 2.5, y: 2.5}
       copyScaleRatio:
         start: 1
-        end: 2
+        end: 1
       waveAmplitudeSU:
-        start: 20
-        end: -20
+        start: 0
+        end: 0
       waveform: 0
-      waveCopiesPerCycle: 10
+      waveCopiesPerCycle: 8
       wavePhaseFraction:
-        start: 0.5
-        end: 5
+        start: 0
+        end: 0
       wavePlateauFraction:
         start: 0.25
         end: 0.25
       mirrorX: 0
-      mirrorY: 1
+      mirrorY: 0
+      beatOffsetsSpread: 0
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
       beatA:
@@ -138,12 +142,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5082563515100692982
-      type: {class: BattleEffectBox, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+    - rid: 5082563521398440873
+      type: {class: BattleEffectTrapezoid, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
-        aspectRatio:
+        bottomHalfWidthSU:
           start: 1
           end: 1
-        cornerRadiusSU:
-          start: 0
-          end: 0
+        topHalfWidthSU:
+          start: 0.5
+          end: 0.5

@@ -55,6 +55,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TestCase(typeof(BattleEffectSquiggle), 10)]
         [TestCase(typeof(BattleEffectJaggedLine), 11)]
         [TestCase(typeof(BattleEffectZiggurat), 12)]
+        [TestCase(typeof(BattleEffectTrapezoid), 13)]
         public void PackageShapes_KeepTheirStableIds(Type shapeType, int expectedId)
         {
             var shape = (BattleEffectShape)Activator.CreateInstance(shapeType);
@@ -189,6 +190,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(2f, parameters[0].GetEnd(), "aspect ratio end");
             Assert.AreEqual(0f, parameters[1].GetStart(), "corner radius start");
             Assert.AreEqual(0.25f, parameters[1].GetEnd(), "corner radius end");
+        }
+
+        [Test]
+        public void GetParameters_Trapezoid_WritesBottomThenTopHalfWidth()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+            var trapezoid = new BattleEffectTrapezoid();
+            JsonUtility.FromJsonOverwrite("{\"bottomHalfWidthSU\":{\"start\":3,\"end\":3},\"topHalfWidthSU\":{\"start\":1,\"end\":2}}", trapezoid);
+
+            trapezoid.GetParameters(parameters);
+
+            Assert.AreEqual(3f, parameters[0].GetStart(), "bottom half width");
+            Assert.AreEqual(1f, parameters[1].GetStart(), "top half width start");
+            Assert.AreEqual(2f, parameters[1].GetEnd(), "top half width end");
         }
 
         [Test]

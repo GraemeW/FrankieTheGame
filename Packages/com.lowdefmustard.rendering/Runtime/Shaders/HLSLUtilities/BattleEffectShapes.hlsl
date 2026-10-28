@@ -91,6 +91,15 @@ float BattleEffectWedgeDistance(BattleEffectShapeInput input)
     return distance;
 }
 
+float BattleEffectTrapezoidDistance(BattleEffectShapeInput input)
+{
+    // Parallel edges at y = +/- 1;  A: (bottom half width SU, top half width SU, -, -)
+
+    float distance;
+    SDFTrapezoid(input.localPoint, float2(0.0, 0.0), input.parametersA.x, input.parametersA.y, 1.0, distance);
+    return distance;
+}
+
 float BattleEffectBoxDistance(BattleEffectShapeInput input)
 {
     // Edges at x = +/- 1;  A: (aspect ratio [height / width], corner radius SU, -, -)
