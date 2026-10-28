@@ -51,8 +51,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
             var child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             child.name = "Child";
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"label\":\"Ring\",\"startTimeSeconds\":0.5,\"durationSeconds\":0.5}") });
-            child.SetInstances(new[] { new BattleEffectInstance(grandchild, 0.25f, false, false, new BattleEffectColourSwap[0]) });
-            recipe.SetInstances(new[] { new BattleEffectInstance(child, 2f, true, false, new BattleEffectColourSwap[0]) });
+            child.SetInstances(new[] { new BattleEffectInstance(grandchild, 0.25f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
+            recipe.SetInstances(new[] { new BattleEffectInstance(child, 2f, true, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
             return child;
         }
         #endregion
@@ -195,7 +195,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             var child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             child.name = "Child";
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0,\"durationSeconds\":0.25}") });
-            recipe.SetInstances(new[] { new BattleEffectInstance(child, 0.5f, false, false, new BattleEffectColourSwap[0]) });
+            recipe.SetInstances(new[] { new BattleEffectInstance(child, 0.5f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
             try
             {
                 timeline.Refresh(recipe, 0f, 2f);

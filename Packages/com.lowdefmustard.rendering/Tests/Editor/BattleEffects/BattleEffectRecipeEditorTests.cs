@@ -43,7 +43,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
                 CreateItem(new BattleEffectDiamond(), "{\"label\":\"Long\",\"startTimeSeconds\":0,\"durationSeconds\":2,\"jitter\":{\"rate\":4}}"),
                 CreateItem(new BattleEffectCircle(), "{\"label\":\"Short\",\"startTimeSeconds\":0,\"durationSeconds\":1,\"style\":{\"mode\":2}}")
             });
-            recipe.SetInstances(new[] { new BattleEffectInstance(child, 0.5f, false, false, new BattleEffectColourSwap[0]) });
+            recipe.SetInstances(new[] { new BattleEffectInstance(child, 0.5f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             window = new HeadlessEditorWindow();
             editor = (BattleEffectRecipeEditor)UnityEditor.Editor.CreateEditor(recipe);
@@ -347,7 +347,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Clipboard_WholeInstanceWithoutStartTime_KeepsTheTargetsOffset()
         {
-            recipe.AddInstance(new BattleEffectInstance(null, 3f, false, false, new BattleEffectColourSwap[0]));
+            recipe.AddInstance(new BattleEffectInstance(null, 3f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]));
             editor.serializedObject.Update();
 
             BattleEffectClipboard.Copy(InstanceProperty(0), BattleEffectSection.GetChildren(InstanceProperty(0)), false);
@@ -411,8 +411,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             recipe.SetInstances(new[]
             {
-                new BattleEffectInstance(child, 0.5f, true, false, new[] { new BattleEffectColourSwap(Color.white, Color.red), new BattleEffectColourSwap(Color.red, Color.blue) }),
-                new BattleEffectInstance(null, 3f, false, false, new BattleEffectColourSwap[0])
+                new BattleEffectInstance(child, 0.5f, true, false, Vector2.one, Vector2.zero, new[] { new BattleEffectColourSwap(Color.white, Color.red), new BattleEffectColourSwap(Color.red, Color.blue) }),
+                new BattleEffectInstance(null, 3f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0])
             });
             editor.serializedObject.Update();
 
@@ -608,7 +608,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void GetActiveEntries_SkipsInstancesWithoutARecipe()
         {
-            recipe.SetInstances(new[] { new BattleEffectInstance(null, 0f, false, false, new BattleEffectColourSwap[0]) });
+            recipe.SetInstances(new[] { new BattleEffectInstance(null, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             CollectionAssert.DoesNotContain(BattleEffectRecipeEntries.GetActiveEntries(recipe, 0f), Instance(0));
         }

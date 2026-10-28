@@ -74,10 +74,11 @@ Note that the library guards its own inputs - every graph using a node is protec
 
 Battle effects employ one shared shader graph (built around the `Battle Effect Composite` node) with custom recipe assets to define their behaviour.
 
-- **`BattleEffectRecipe`** (`ScriptableObject`, `BattleAction/Effects/Battle Effect Recipe`) — Frame rate (stepped, held-frame time), scale ratio, edge softness (pixels), glow width (EU), a list of items, and instances (other recipes flattened in at bake:  re-timed, mirrored about the centre, recoloured)
+- **`BattleEffectRecipe`** (`ScriptableObject`, `BattleAction/Effects/Battle Effect Recipe`) — Frame rate (stepped, held-frame time), scale ratio, edge softness (pixels), glow width (EU), a list of items, and instances (other recipes flattened in at bake:  re-timed, mirrored about the centre, scaled per axis about the centre + offset, recoloured)
   - Items are baked into a cached `RGBAFloat` data texture (one row per item, columns per `BattleEffectDataLayout`), and updated in place on edit so live effects + previews pick up changes
   - `ApplyTo(ref MaterialDefinition)` binds the texture + recipe settings onto an element's material
   - Editor-only `ValidateShapes` repairs inspector list edits - e.g. zero-filled first entries, shapeless entries (→ circle) and duplicated entries sharing one `[SerializeReference]` shape
+  - Editor-only `ValidateInstances` resets a zero-filled instance scale ratio (a fresh first list entry) to 1
 - **`BattleEffectItem`** — Label, `[SerializeReference]` shape, timing (start / duration / easing [incl. approach + its ratio] / progress steps), transform ranges (position, scale, elongation, item rotation, shape rotation), style (fill / outline / fill and outline, blend over / erase, thickness, colour, outline colour), alt colours (palette entries B-D), outline edge gradient, stripes (hard band mask in effect space, e.g. scanlines), clip (box / diamond cut in local space, w/ animatable centre offset), repetition (none / line / cross / grid / radial / staggered grid, count, spacing, copy scale ratio, copy wave [line / cross copies offset across their line by a waveform], mirror x / y), colour cycle (by time or per repetition copy), beats (up to 4 held steps:  offset, elongation, colour), jitter (random / orbit), flicker (square wave or step pattern) and pulse
   - Ranges run start → end over the eased duration
   - Flicker / jitter / pulse run on the effect's clock to ensure items stay in sync (flicker pattern runs from the item's start)
@@ -147,25 +148,25 @@ A `BattleEffectDataLayout` const (in its section's group) + its write in `Battle
 
 ### Coverage at a glance
 
-| Category                        | Tested / Total | Notes                                                                                          |
-|---------------------------------|----------------|------------------------------------------------------------------------------------------------|
-| `BattleEffectItem`              | 6 / 6          | Texel layout, effect scale, guards, accessors                                                  |
-| `BattleEffectRecipe`            | 8 / 8          | Bake, `ApplyTo`, `OnDisable` cleanup, end time, revision, `ValidateShapes`                     |
-| `BattleEffectInstance`          | 7 / 7          | Flattening order, start offset + end time, mirror x / x+y, colour swaps, depth limit, rebake   |
-| Shapes                          | 2 / 2          | Unique + stable IDs, parameters fit the layout                                                 |
-| Ranges + tint                   | 6 / 6          | Constructors, `ApplyTo`, drawer field names                                                    |
-| `BattleEffectPropertyRefs`      | 4 / 4          | Material detection + every `MaterialDefinition` write                                          |
-| `BattleEffectDispatchGenerator` | 2 / 3          | Shape validation + generated content + file write (via up-to-date check)                       |
-| HLSL library                    | 2 / 2          | Includes resolve, none reach into `Assets`                                                     |
-| Preview window support          | 12 / 12        | Size presets, retro toggles, render settings, reference frames                                 |
-| Preview window                  | 8 / 10         | Controls, transport + buttons, sizes, reference frames, export                                 |
-| Timeline                        | 4 / 4          | Rows + bars, highlighting, rebuild-on-change, scrubbing, instance headers (expand / collapse)  |
-| Frame exporter                  | 5 / 5          | Frames + size, stale frames, background / transparent / drawn pixels, cancel, un-premultiply   |
-| Drawers                         | 9 / 9          | Range, tint (per mode + live mode change), shape (picker, swap, external swap), sections       |
-| Recipe inspector                | 1 / 1          | Entry order, selection, add / delete, item sections + shown fields, copy / paste, undo         |
-| Display                         | 5 / 7          | Value types, `DisplayResolutions` invariants, monitor (configured path + save on destroy)      |
-| Camera                          | 2 / 2          | `CameraControllerBase` lifecycle, following, ortho sizes, tag lookup + `CameraSpawnAssist`     |
-| Shaders (C#)                    | 2 / 3          | `ShaderPropertyRefs`, `BattleEntryShaderControl`                                               |
+| Category                        | Tested / Total | Notes                                                                                                        |
+|---------------------------------|----------------|--------------------------------------------------------------------------------------------------------------|
+| `BattleEffectItem`              | 6 / 6          | Texel layout, effect scale, guards, accessors                                                                |
+| `BattleEffectRecipe`            | 8 / 8          | Bake, `ApplyTo`, `OnDisable` cleanup, end time, revision, `ValidateShapes`                                   |
+| `BattleEffectInstance`          | 14 / 14        | Flattening order, start offset + end time, mirror x / x+y, scale + offset, colour swaps, depth limit, rebake |
+| Shapes                          | 2 / 2          | Unique + stable IDs, parameters fit the layout                                                               |
+| Ranges + tint                   | 6 / 6          | Constructors, `ApplyTo`, drawer field names                                                                  |
+| `BattleEffectPropertyRefs`      | 4 / 4          | Material detection + every `MaterialDefinition` write                                                        |
+| `BattleEffectDispatchGenerator` | 2 / 3          | Shape validation + generated content + file write (via up-to-date check)                                     |
+| HLSL library                    | 2 / 2          | Includes resolve, none reach into `Assets`                                                                   |
+| Preview window support          | 12 / 12        | Size presets, retro toggles, render settings, reference frames                                               |
+| Preview window                  | 8 / 10         | Controls, transport + buttons, sizes, reference frames, export                                               |
+| Timeline                        | 4 / 4          | Rows + bars, highlighting, rebuild-on-change, scrubbing, instance headers (expand / collapse)                |
+| Frame exporter                  | 5 / 5          | Frames + size, stale frames, background / transparent / drawn pixels, cancel, un-premultiply                 |
+| Drawers                         | 9 / 9          | Range, tint (per mode + live mode change), shape (picker, swap, external swap), sections                     |
+| Recipe inspector                | 1 / 1          | Entry order, selection, add / delete, item sections + shown fields, copy / paste, undo                       |
+| Display                         | 5 / 7          | Value types, `DisplayResolutions` invariants, monitor (configured path + save on destroy)                    |
+| Camera                          | 2 / 2          | `CameraControllerBase` lifecycle, following, ortho sizes, tag lookup + `CameraSpawnAssist`                   |
+| Shaders (C#)                    | 2 / 3          | `ShaderPropertyRefs`, `BattleEntryShaderControl`                                                             |
 
 ### Detail by type
 

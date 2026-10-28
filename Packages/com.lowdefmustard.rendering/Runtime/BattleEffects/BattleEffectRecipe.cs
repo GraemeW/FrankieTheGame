@@ -103,6 +103,7 @@ namespace LowDefMustard.Rendering
             revision++;
 #if UNITY_EDITOR
             ValidateShapes();
+            ValidateInstances();
 #endif
         }
 
@@ -250,6 +251,15 @@ namespace LowDefMustard.Rendering
                 BattleEffectShape shape = item.GetShape();
                 if (shape == null) { item.SetShape(new BattleEffectCircle()); }
                 else if (!seenShapes.Add(shape)) { item.SetShape(JsonUtility.FromJson(JsonUtility.ToJson(shape), shape.GetType()) as BattleEffectShape); }
+            }
+        }
+
+        internal void ValidateInstances()
+        {
+            // The first entry added to an empty list skips field initializers ~ a zero scale ratio would collapse the instance
+            foreach (BattleEffectInstance instance in instances)
+            {
+                if (instance != null && instance.IsScaleUnset()) { instance.ResetScale(); }
             }
         }
 #endif

@@ -246,7 +246,7 @@ namespace LowDefMustard.Rendering.Editor
         {
             float startOffset = GetAddTime(isAfterLastEntry);
             Undo.RecordObject(recipe, addInstanceUndoName);
-            int instanceIndex = recipe.AddInstance(new BattleEffectInstance(null, startOffset, false, false, System.Array.Empty<BattleEffectColourSwap>()));
+            int instanceIndex = recipe.AddInstance(new BattleEffectInstance(null, startOffset, false, false, Vector2.one, Vector2.zero, System.Array.Empty<BattleEffectColourSwap>()));
             Undo.FlushUndoRecordObjects();
             Undo.SetCurrentGroupName(addInstanceUndoName);
             EditorUtility.SetDirty(recipe);

@@ -33,7 +33,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void Bake_Instance_AddsItsItemsAfterTheParentsOwn()
         {
             parent.SetItems(new[] { CreateItem(new BattleEffectCircle()) });
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new BattleEffectColourSwap[0]) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out int itemCount);
 
@@ -45,7 +45,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Bake_StartOffset_DelaysTheInstancedItems()
         {
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 2f, false, false, new BattleEffectColourSwap[0]) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 2f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);
 
@@ -56,7 +56,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Bake_MirrorX_FlipsPositionRotationLocalYAndStripes()
         {
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, false, new BattleEffectColourSwap[0]) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);
 
@@ -72,7 +72,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void Bake_MirrorX_FlipsBeatOffsets()
         {
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":1,\"beatA\":{\"offsetEU\":{\"x\":0.1,\"y\":0.2}}}}") });
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, false, new BattleEffectColourSwap[0]) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);
 
@@ -84,7 +84,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Bake_MirrorXAndY_IsAHalfTurnWithoutAFlip()
         {
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, true, new BattleEffectColourSwap[0]) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, true, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);
 
@@ -96,7 +96,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Bake_ColourSwap_ReplacesMatchingColoursOnly()
         {
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new[] { new BattleEffectColourSwap(Color.blue, Color.white), new BattleEffectColourSwap(Color.red, Color.green) }) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new[] { new BattleEffectColourSwap(Color.blue, Color.white), new BattleEffectColourSwap(Color.red, Color.green) }) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);
 
@@ -107,7 +107,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void Bake_ColourSwap_AlsoSwapsTheOutlineAndAltColours()
         {
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), $"{{\"style\":{{\"mode\":2,\"outlineColour\":{ToJson(Color.blue)}}},\"colourCycle\":{{\"rate\":1}},\"altColours\":{{\"count\":1,\"colourB\":{ToJson(Color.blue)}}}}}") });
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new[] { new BattleEffectColourSwap(Color.blue, Color.yellow) }) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new[] { new BattleEffectColourSwap(Color.blue, Color.yellow) }) });
 
             Texture2D dataTexture = parent.BakeDataTexture(out _);
 
@@ -118,7 +118,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Bake_SelfInstance_StopsAtTheDepthLimit()
         {
-            child.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new BattleEffectColourSwap[0]) });
+            child.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
             child.BakeDataTexture(out int itemCount);
 
@@ -126,15 +126,90 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void Bake_ScaleAndOffset_PlaceThePositionAboutTheCentre()
+        {
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new Vector2(0.5f, 0.25f), new Vector2(0.1f, -0.2f), new BattleEffectColourSwap[0]) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            AssertTexel(new Color(0.45f, 0.25f, 0.55f, 0.325f), dataTexture.GetPixel(BattleEffectDataLayout.position, 0), "0.5 + (p - 0.5) x ratio + offset");
+        }
+
+        [Test]
+        public void Bake_Scale_SizesUnrotatedItemsPerAxisAndOutlinesByTheSmallerAxis()
+        {
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"scaleEU\":{\"start\":{\"x\":0.2,\"y\":0.4},\"end\":{\"x\":0.2,\"y\":0.4}},\"style\":{\"outlineThicknessEU\":{\"start\":0.1,\"end\":0.2}},\"jitter\":{\"amountEU\":{\"x\":0.1,\"y\":0.1}}}") });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new Vector2(0.5f, 0.25f), Vector2.zero, new BattleEffectColourSwap[0]) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            AssertTexel(new Color(0.1f, 0.1f, 0.1f, 0.1f), dataTexture.GetPixel(BattleEffectDataLayout.scale, 0), "scale");
+            Color style = dataTexture.GetPixel(BattleEffectDataLayout.style, 0);
+            Assert.AreEqual(0.025f, style.b, 1e-5f, "thickness start");
+            Assert.AreEqual(0.05f, style.a, 1e-5f, "thickness end");
+            Color jitter = dataTexture.GetPixel(BattleEffectDataLayout.jitter, 0);
+            Assert.AreEqual(0.05f, jitter.g, 1e-5f, "jitter x");
+            Assert.AreEqual(0.025f, jitter.b, 1e-5f, "jitter y");
+        }
+
+        [Test]
+        public void Bake_Scale_SwapsTheAxesOfQuarterTurnedItems()
+        {
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"scaleEU\":{\"start\":{\"x\":0.2,\"y\":0.4},\"end\":{\"x\":0.2,\"y\":0.4}},\"itemRotationDegrees\":{\"start\":90,\"end\":90}}") });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new Vector2(0.5f, 0.25f), Vector2.zero, new BattleEffectColourSwap[0]) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            AssertTexel(new Color(0.05f, 0.2f, 0.05f, 0.2f), dataTexture.GetPixel(BattleEffectDataLayout.scale, 0), "local x lies along y");
+        }
+
+        [Test]
+        public void Bake_ScaleAndOffset_KeepTheStripesOnTheItems()
+        {
+            var ratio = new Vector2(0.5f, 0.25f);
+            var offset = new Vector2(0.1f, -0.2f);
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, ratio, offset, new BattleEffectColourSwap[0]) });
+            Color before = child.BakeDataTexture(out _).GetPixel(BattleEffectDataLayout.stripes, 0);
+
+            Color after = parent.BakeDataTexture(out _).GetPixel(BattleEffectDataLayout.stripes, 0);
+
+            foreach (Vector2 point in new[] { new Vector2(0.3f, 0.7f), new Vector2(0.9f, 0.1f), new Vector2(0.5f, 0.5f) })
+            {
+                Vector2 placed = new Vector2(0.5f, 0.5f) + Vector2.Scale(point - new Vector2(0.5f, 0.5f), ratio) + offset;
+                float stripeBefore = StripeCoordinate(before, point), stripeAfter = StripeCoordinate(after, placed);
+                Assert.AreEqual(0f, Mathf.Abs(Mathf.DeltaAngle(stripeBefore * 360f, stripeAfter * 360f)), 1e-2f, $"stripe at {point}");
+            }
+        }
+
+        [Test]
+        public void ValidateInstances_ResetsAZeroFilledScale()
+        {
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.zero, Vector2.zero, new BattleEffectColourSwap[0]) });
+
+            parent.ValidateInstances();
+
+            Assert.IsFalse(parent.GetInstances()[0].IsScaleUnset());
+        }
+
+        [Test]
         public void Bake_InstancedRecipeEdit_RebakesTheParent()
         {
-            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new BattleEffectColourSwap[0]) });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
             parent.BakeDataTexture(out _);
 
             child.SetItems(new[] { CreateItem(new BattleEffectCircle()), CreateItem(new BattleEffectCircle()) });
             parent.BakeDataTexture(out int itemCount);
 
             Assert.AreEqual(2, itemCount);
+        }
+        #endregion
+
+        #region PrivateMethods
+        private static float StripeCoordinate(Color stripes, Vector2 uv)
+        {
+            // SDFStripeMask's band coordinate (before frac)
+            var across = new Vector2(-Mathf.Sin(stripes.g), Mathf.Cos(stripes.g));
+            return Vector2.Dot(uv - new Vector2(0.5f, 0.5f), across) * stripes.r - stripes.a;
         }
         #endregion
     }

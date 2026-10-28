@@ -94,6 +94,7 @@ A recipe has:
 * `Instances`:  other recipes drawn after the items in order (flattened in at bake), w/ each:
   * re-timed (start offset)
   * mirrored left / right and / or top / bottom about the effect's centre
+  * placed:  scaled per axis about the effect's centre (`Scale Ratio`), then moved (`Offset EU`)
   * recoloured (via colour swaps)
 
 Important Notes:
