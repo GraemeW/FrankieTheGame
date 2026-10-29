@@ -17,6 +17,8 @@ namespace LowDefMustard.Rendering.Editor
                 section.SetShown(BattleEffectBeats.beatBField, count > 1);
                 section.SetShown(BattleEffectBeats.beatCField, count > 2);
                 section.SetShown(BattleEffectBeats.beatDField, count > 3);
+                section.SetShown(BattleEffectBeats.patternField, count > 0);
+                section.SetShown(BattleEffectBeats.patternRateField, count > 0);
             });
         }
     }

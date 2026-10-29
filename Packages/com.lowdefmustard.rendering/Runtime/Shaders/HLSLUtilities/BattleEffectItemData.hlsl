@@ -56,6 +56,18 @@ bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsed
 int GetBattleEffectBeat(UnityTexture2D itemData, int item, float itemTime)
 {
     // The item's current beat (the last one started), or -1 before / w/o beats (unused beats start never)
+    //  - optional pattern can pick beat per step instead:  base-5 digits (0 = none, 1-4 = beats 0-3), from the item's start, repeating
+
+    float4 beatPattern = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATPATTERN); // (steps 0-9, 10-19, rate, step count)
+    if (beatPattern.w >= 1.0)
+    {
+        // Integer steps + digits:  float division can land just under a whole number on the GPU
+        uint stepIndex = uint(max(floor(itemTime * beatPattern.z + 1e-3), 0.0)) % uint(round(beatPattern.w));
+        uint digits = uint(round(stepIndex < 10u ? beatPattern.x : beatPattern.y));
+        [unroll]
+        for (uint shift = 0u; shift < 9u; shift++) { digits = shift < stepIndex % 10u ? digits / 5u : digits; } // extract 5-bit colour entry @ stepIndex from digits 
+        return int(digits % 5u) - 1;
+    }
 
     float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS);
     int beat = -1;

@@ -305,6 +305,39 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsTrue(IsShown(FindBeatsField(BattleEffectBeats.beatBField)), "beat B");
             Assert.IsFalse(IsShown(beatCField), "beat C");
         }
+
+        [UnityTest]
+        public IEnumerator BeatsDrawer_ShowsThePatternOnceBeatsAreInUse()
+        {
+            PropertyField patternField = FindBeatsField(BattleEffectBeats.patternField);
+            Assert.IsFalse(IsShown(patternField), "a count of 0 hides the pattern");
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 1;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(patternField));
+
+            Assert.IsTrue(IsShown(patternField));
+            Assert.IsTrue(IsShown(FindBeatsField(BattleEffectBeats.patternRateField)), "its steps per second");
+        }
+
+        [UnityTest]
+        public IEnumerator BeatsDrawer_APatternInUse_HidesTheBeatStarts()
+        {
+            PropertyField startField = FindBeatsField($"{BattleEffectBeats.beatAField}.{BattleEffectBeat.startSecondsField}");
+            Assert.IsTrue(IsShown(startField), "no pattern shows the start");
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.patternField}").stringValue = "0101";
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return null;
+            yield return null;
+            Assert.IsTrue(IsShown(startField), "a pattern w/o a rate is unused");
+
+            serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.patternRateField}").floatValue = 20f;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(startField));
+
+            Assert.IsFalse(IsShown(startField));
+        }
         #endregion
 
         #region SectionDrawers

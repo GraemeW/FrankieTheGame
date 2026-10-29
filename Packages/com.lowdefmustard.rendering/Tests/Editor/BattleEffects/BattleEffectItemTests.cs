@@ -390,11 +390,42 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Beats_PatternPacksBase5DigitsRateAndStepCount()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":4,\"pattern\":\"014 23\",\"patternRate\":20}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(0 + 1 * 5 + 4 * 25 + 2 * 125 + 3 * 625, 0f, 20f, 5f), texels[BattleEffectDataLayout.beatPattern], "step 0 lowest (spaces ignored)");
+        }
+
+        [Test]
+        public void TryWriteData_Beats_PatternNeedsBeatsAndARate()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":0,\"pattern\":\"0123\",\"patternRate\":20}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.beatPattern], "no beats");
+
+            CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":2,\"pattern\":\"0123\"}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.beatPattern], "no rate");
+        }
+
+        [Test]
+        public void EncodeBeatPattern_SpillsIntoTheSecondFloatAndClampsToMaxSteps()
+        {
+            Color encoded = BattleEffectBeats.EncodePattern(new string('4', BattleEffectBeats.maxPatternSteps + 5), 10f);
+
+            float fullFloat = Mathf.Pow(5f, BattleEffectBeats.patternStepsPerFloat) - 1f;
+            AssertTexel(new Color(fullFloat, fullFloat, 10f, BattleEffectBeats.maxPatternSteps), encoded, "every digit 4, exact in a float");
+            Assert.AreEqual(Color.clear, BattleEffectBeats.EncodePattern("x9 ", 10f), "no digits = off");
+        }
+
+        [Test]
         public void TryWriteData_Beats_DefaultIsOff()
         {
             CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
 
             Assert.Greater(texels[BattleEffectDataLayout.beatStarts].r, 1e6f);
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.beatPattern]);
         }
 
         [Test]

@@ -57,7 +57,7 @@ namespace LowDefMustard.Rendering
 
         // Colour cycle
         public const int colourCycle = 29;          // (source, rate, phase offset [steps], palette count [colour + alt colours in use])
-        public const int colourPattern = 30;        // Pattern source:  (steps 0-11, 12-23, 24-35 [base-4 digits, step 0 = lowest], step count)
+        public const int colourPattern = 30;        // Pattern source:  (steps 0-11, 12-23, 24-35 [base-4 digits], step count)
 
         // Beats
         public const int beatStarts = 31;           // Beats 0-3 start (item seconds;  unused = never)
@@ -66,19 +66,20 @@ namespace LowDefMustard.Rendering
         public const int beatOffsets23 = 34;        // Beats 2 + 3
         public const int beatElongations01 = 35;    // Beat 0 elongation.xy, beat 1 .xy
         public const int beatElongations23 = 36;    // Beats 2 + 3
+        public const int beatPattern = 37;          // (steps 0-9, 10-19 [base-5 digits:  0 = no beat, 1-4 = beats 0-3], rate, step count [0 = by start times])
 
         // Jitter
-        public const int jitter = 37;               // (rate, amount.x, amount.y, seed)
-        public const int jitterMode = 38;           // (mode, phase, -, -)
+        public const int jitter = 38;               // (rate, amount.x, amount.y, seed)
+        public const int jitterMode = 39;           // (mode, phase, -, -)
 
         // Flicker
-        public const int flicker = 39;              // (rate, depth, phase, pattern [0 = off;  bits + a leading 1])
+        public const int flicker = 40;              // (rate, depth, phase, pattern [0 = off;  bits + a leading 1])
 
         // Pulse
-        public const int pulse = 40;                // (rate, amount, phase, -)
+        public const int pulse = 41;                // (rate, amount, phase, -)
 
         // Sizes
-        public const int texelsPerItem = 41;
+        public const int texelsPerItem = 42;
         public const int shapeParameterCapacity = 8;
         public const int maxAltColours = 3;         // Alt colours B-D
         public const int maxBeats = 4;

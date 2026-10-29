@@ -29,8 +29,8 @@ MonoBehaviour:
       start: {x: 0.5, y: 0.5}
       end: {x: 0.5, y: 0.5}
     scaleEU:
-      start: {x: 0.25, y: 0.25}
-      end: {x: 0.25, y: 0.25}
+      start: {x: 0.05, y: 0.05}
+      end: {x: 0.05, y: 0.05}
     elongationSU:
       start: {x: 0, y: 0}
       end: {x: 0, y: 0}
@@ -44,8 +44,8 @@ MonoBehaviour:
       mode: 1
       blend: 0
       outlineThicknessEU:
-        start: 0.05
-        end: 0.05
+        start: 0.005
+        end: 0.005
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
       isOutlineFromPalette: 0
@@ -102,21 +102,23 @@ MonoBehaviour:
       phaseOffset: 0
       pattern: 
     beats:
-      count: 0
+      count: 3
+      pattern: 1110022010
+      patternRate: 10
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
+        elongationSU: {x: 1, y: 1}
         colourIndex: 0
       beatB:
-        startSeconds: 0
+        startSeconds: 0.2
         offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
+        elongationSU: {x: 2, y: 2}
         colourIndex: 0
       beatC:
-        startSeconds: 0
+        startSeconds: 0.4
         offsetEU: {x: 0, y: 0}
-        elongationSU: {x: 0, y: 0}
+        elongationSU: {x: 3, y: 3}
         colourIndex: 0
       beatD:
         startSeconds: 0
@@ -146,8 +148,8 @@ MonoBehaviour:
       type: {class: BattleEffectTrapezoid, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
         bottomHalfWidthSU:
-          start: 1
-          end: 1
-        topHalfWidthSU:
           start: 0.5
           end: 0.5
+        topHalfWidthSU:
+          start: 1
+          end: 1
