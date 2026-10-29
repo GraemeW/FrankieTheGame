@@ -11,7 +11,7 @@
 //          time window -> ease -> progress steps -> beat -> interpolate (+ beat offset, jitter)
 //          -> transform -> mirror (+ spread beat offset) -> repetition -> shape rotation -> elongation
 //          -> shape (generated dispatch) -> style (fill + outline:  the fill first) -> clip -> coverage (x flicker x stripes)
-//          -> colour (palette, outline colour + edge gradient) -> composite (over / erase)
+//          -> colour (palette [+ shade], outline colour + edge gradient) -> composite (over / erase)
 //  - Logic Splits:
 //      - BattleEffectItemData:  reading an item's settings (timing, beats, modifiers, colours, stripes)
 //      - BattleEffectRepetition:  an item's shape at its nearest repetition copies (+ which copy)
@@ -92,6 +92,21 @@ float GetBattleEffectCoverage(float distance, float edgeHalfWidth, float edgeOut
     return 1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance);
 }
 
+float GetBattleEffectShadeWeight(UnityTexture2D itemData, int item, float2 copyPoint, float distanceScale, float progress, float edgeHalfWidth)
+{
+    // How much of the shaded side (0-1) at the copy's point:  past the line (the copy's centre + the offset, along the shaded direction, which turns w/ the shape rotation)
+    //  - hard:  a step;  smooth:  antialiased across the line (matching the shapes' edges)
+
+    float4 shade = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADE); // (mode [0 = off, 1 = hard, 2 = smooth], fill step, outline step, -)
+    if (shade.x < 0.5) { return 0.0; }
+    
+    float4 shadeLine = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADELINE); // (angle start, end, offset start, end)
+    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION);
+    float angle = lerp(shadeLine.x, shadeLine.y, progress) + lerp(rotation.z, rotation.w, progress);
+    float past = (dot(copyPoint, float2(cos(angle), sin(angle))) - lerp(shadeLine.z, shadeLine.w, progress)) * distanceScale; // effect units
+    return shade.x > 1.5 ? 1.0 - GetBattleEffectCoverage(past, edgeHalfWidth, edgeHalfWidth) : (past > 0.0 ? 1.0 : 0.0);
+}
+
 float4 CompositeBattleEffectErase(float4 accumulated, float alpha)
 {
     // Punches the item's coverage out of everything drawn so far
@@ -119,16 +134,19 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, item, elapsedTime, itemTime, disableFlicker, disableJitter);
     int beat = GetBattleEffectBeat(itemData, item, itemTime);
     float distanceScale, copyIndex;
-    float2 spreadOffset;
+    float2 spreadOffset, copyPoint;
     BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, fittedUV, itemTime, progress, beat, modifiers, distanceScale, spreadOffset);
-    float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, spreadOffset, progress, beat, copyIndex) * distanceScale;
+    float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, spreadOffset, progress, beat, copyIndex, copyPoint) * distanceScale;
 
     // Style + colour
     int style = GetBattleEffectStyle(itemData, item);
     bool isErase = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).y) == BATTLE_EFFECT_BLEND_ERASE;
     float stripeMask = GetBattleEffectStripeMask(itemData, item, fittedUV);
     float paletteIndex = GetBattleEffectPaletteIndex(itemData, item, elapsedTime, itemTime, copyIndex, beat);
+    float shadeWeight = GetBattleEffectShadeWeight(itemData, item, copyPoint, distanceScale, progress, edgeHalfWidth);
+    float2 shadeSteps = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADE).yz; // (fill, outline) on the shaded side
     float4 colour = GetBattleEffectPaletteColour(itemData, item, paletteIndex);
+    if (shadeWeight > 0.0) { colour = lerp(colour, GetBattleEffectPaletteColour(itemData, item, paletteIndex + shadeSteps.x), shadeWeight); }
 
     // Fill (fill + fill and outline styles):  stripes + the erase blend apply to it
     if (style != BATTLE_EFFECT_STYLEMODE_OUTLINE)
@@ -142,7 +160,13 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     // Outline (outline + fill and outline styles):  over the fill;  stripes + erase only when it's the item's whole style
     bool isOutlineOnly = style == BATTLE_EFFECT_STYLEMODE_OUTLINE;
     float outlineDistance = ApplyBattleEffectClip(itemData, item, ApplyBattleEffectOutline(itemData, item, shapeDistance, progress), shapeInput.localPoint, distanceScale, progress);
-    float4 strokeColour = GetBattleEffectStrokeColour(itemData, item, colour, paletteIndex, shapeDistance, progress);
+    float4 strokeColour = GetBattleEffectStrokeColour(itemData, item, GetBattleEffectPaletteColour(itemData, item, paletteIndex), paletteIndex, shapeDistance, progress);
+    if (shadeWeight > 0.0)
+    {
+        float shadedIndex = paletteIndex + shadeSteps.y;
+        float4 shadedStroke = GetBattleEffectStrokeColour(itemData, item, GetBattleEffectPaletteColour(itemData, item, shadedIndex), shadedIndex, shapeDistance, progress);
+        strokeColour = lerp(strokeColour, shadedStroke, shadeWeight);
+    }
     float strokeAlpha = strokeColour.a * GetBattleEffectCoverage(outlineDistance, edgeHalfWidth, edgeOuter) * (isOutlineOnly ? stripeMask : 1.0) * modifiers.flickerAlpha;
     return isOutlineOnly && isErase ? CompositeBattleEffectErase(accumulated, strokeAlpha) : CompositeBattleEffectOver(accumulated, strokeColour.rgb, strokeAlpha);
 }

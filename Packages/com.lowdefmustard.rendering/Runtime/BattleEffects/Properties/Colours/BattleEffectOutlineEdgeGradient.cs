@@ -7,7 +7,7 @@ namespace LowDefMustard.Rendering
     public sealed class BattleEffectOutlineEdgeGradient
     {
         // Notes:
-        //  - Blend rom outline colour on the inside edge to this colour on the outside edge
+        //  - Blend from outline colour on the inside edge to this colour on the outside edge
         //      - Style -> outline = the item's colour (incl. its palette)
         //      - Style -> fill and outline = the outline colour
         //  - Steps band the blend ~ e.g. where 0 = smooth, 3 = inside / middle / outside colours

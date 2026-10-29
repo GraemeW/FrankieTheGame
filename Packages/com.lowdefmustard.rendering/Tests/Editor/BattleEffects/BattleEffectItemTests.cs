@@ -233,6 +233,27 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Shade_WritesModePaletteStepsRadianAndOffsetRanges([Values(false, true)] bool isSmooth)
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(),
+                $"{{\"shade\":{{\"isEnabled\":true,\"angleDegrees\":{{\"start\":90,\"end\":-180}},\"offsetSU\":{{\"start\":0.25,\"end\":-0.5}},\"isSmooth\":{(isSmooth ? "true" : "false")},\"fillPaletteStep\":2,\"outlinePaletteStep\":-1}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(isSmooth ? 2f : 1f, 2f, -1f, 0f), texels[BattleEffectDataLayout.shade]);
+            AssertTexel(new Color(Mathf.PI / 2f, -Mathf.PI, 0.25f, -0.5f), texels[BattleEffectDataLayout.shadeLine]);
+        }
+
+        [Test]
+        public void TryWriteData_Shade_DefaultIsOff()
+        {
+            CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.shade]);
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.shadeLine]);
+        }
+
+        [Test]
         public void TryWriteData_Stripes_WritesCountRadiansDutyAndPhase()
         {
             BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"stripes\":{\"stripesPerEU\":112,\"angleDegrees\":90,\"dutyFraction\":0.25,\"phaseFraction\":0.5}}");

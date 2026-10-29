@@ -71,6 +71,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
         private static string StylePath(string fieldName) => $"{BattleEffectItem.styleField}.{fieldName}";
         private static string RepetitionPath(string fieldName) => $"{BattleEffectItem.repetitionField}.{fieldName}";
+        private static string ShadePath(string fieldName) => $"{BattleEffectItem.shadeField}.{fieldName}";
+        private IEnumerator WaitForItemField(int itemIndex, string fieldPath) => HeadlessEditorWindow.WaitUntil(() => FindItemField(itemIndex, fieldPath) != null); // Group sections build as their drawers bind
 
         private static void UndoStep(string expectedName)
         {
@@ -494,8 +496,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator Style_ShowsOnlyTheOutlineSettingsItDraws()
         {
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(0), Item(2) });
-            PropertyField fillThickness = FindItemField(0, StylePath(BattleEffectStyle.outlineThicknessEUField));
-            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(fillThickness));
+            PropertyField fillThickness = null;
+            yield return HeadlessEditorWindow.WaitUntil(() => (fillThickness = FindItemField(0, StylePath(BattleEffectStyle.outlineThicknessEUField))) != null && !IsShown(fillThickness));
 
             Assert.IsFalse(IsShown(fillThickness), "fill:  no outline thickness");
             Assert.IsFalse(IsShown(FindItemField(0, StylePath(BattleEffectStyle.outlineColourField))), "fill:  no outline colour");
@@ -510,8 +512,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             // Item 2:  fill and outline
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(2) });
-            PropertyField outlineColour = FindItemField(2, StylePath(BattleEffectStyle.outlineColourField));
-            yield return HeadlessEditorWindow.WaitUntil(() => outlineColour != null && IsShown(outlineColour));
+            PropertyField outlineColour = null;
+            yield return HeadlessEditorWindow.WaitUntil(() => (outlineColour = FindItemField(2, StylePath(BattleEffectStyle.outlineColourField))) != null && IsShown(outlineColour));
             Assert.IsFalse(IsShown(FindItemField(2, StylePath(BattleEffectStyle.outlinePaletteStepField))), "off:  no step");
 
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[2].{StylePath(BattleEffectStyle.isOutlineFromPaletteField)}").boolValue = true;
@@ -523,11 +525,45 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [UnityTest]
+        public IEnumerator Shade_ShowsOnlyTheStepsItsStyleDraws()
+        {
+            // Items 0 / 1 / 2:  fill / outline / fill and outline (its outline colour, not from the palette) ~ each w/ its shade on
+            for (int index = 0; index < 3; index++) { ItemProperty(index, ShadePath(BattleEffectShade.isEnabledField)).boolValue = true; }
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(0), Item(1), Item(2) });
+
+            // (each item's fields build over the next editor updates:  wait for all of them + the last refresh)
+            PropertyField fillStep = null, fillStroke = null, outlineFill = null, outlineStroke = null, fillAndOutlineStroke = null;
+            yield return HeadlessEditorWindow.WaitUntil(() =>
+            {
+                fillStep = FindItemField(0, ShadePath(BattleEffectShade.fillPaletteStepField));
+                fillStroke = FindItemField(0, ShadePath(BattleEffectShade.outlinePaletteStepField));
+                outlineFill = FindItemField(1, ShadePath(BattleEffectShade.fillPaletteStepField));
+                outlineStroke = FindItemField(1, ShadePath(BattleEffectShade.outlinePaletteStepField));
+                fillAndOutlineStroke = FindItemField(2, ShadePath(BattleEffectShade.outlinePaletteStepField));
+                return fillStep != null && fillStroke != null && outlineFill != null && outlineStroke != null && fillAndOutlineStroke != null
+                    && IsShown(fillStep) && !IsShown(fillStroke) && !IsShown(outlineFill) && IsShown(outlineStroke) && !IsShown(fillAndOutlineStroke);
+            });
+
+            Assert.IsTrue(IsShown(fillStep), "fill:  fill step");
+            Assert.IsFalse(IsShown(fillStroke), "fill:  no stroke step");
+            Assert.IsFalse(IsShown(outlineFill), "outline:  no fill step");
+            Assert.IsTrue(IsShown(outlineStroke), "outline:  stroke step");
+            Assert.IsFalse(IsShown(fillAndOutlineStroke), "fill and outline w/ its outline colour:  no stroke step");
+
+            ItemProperty(2, StylePath(BattleEffectStyle.isOutlineFromPaletteField)).boolValue = true;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(fillAndOutlineStroke));
+
+            Assert.IsTrue(IsShown(fillAndOutlineStroke), "outline from the palette:  stroke step");
+        }
+
+        [UnityTest]
         public IEnumerator StyleChange_RefreshesTheOutlineSettings()
         {
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(0) });
-            PropertyField thickness = FindItemField(0, StylePath(BattleEffectStyle.outlineThicknessEUField));
-            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(thickness));
+            PropertyField thickness = null;
+            yield return HeadlessEditorWindow.WaitUntil(() => (thickness = FindItemField(0, StylePath(BattleEffectStyle.outlineThicknessEUField))) != null && !IsShown(thickness));
 
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[0].{StylePath(BattleEffectStyle.modeField)}").intValue = (int)BattleEffectStyleMode.Outline;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -541,8 +577,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator OptionalSections_OpenOnlyWhileInUse()
         {
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
-            PropertyField flickerDepth = FindItemField(1, $"{BattleEffectItem.flickerField}.depthFraction");
-            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(flickerDepth));
+            PropertyField flickerDepth = null;
+            yield return HeadlessEditorWindow.WaitUntil(() => (flickerDepth = FindItemField(1, $"{BattleEffectItem.flickerField}.depthFraction")) != null && !IsShown(flickerDepth));
 
             Assert.IsTrue(FindSection("Jitter").value, "jitter (rate 4) open");
             Assert.IsTrue(FindSection("Jitter").IsEnabled());
@@ -564,47 +600,53 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(isRatioShown, IsShown(FindItemField(1, BattleEffectItem.approachRatioField)));
         }
 
-        [TestCase(BattleEffectRepetitionMode.None, BattleEffectWaveform.Trapezoid, false, false)]
-        [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Sine, true, false)]
-        [TestCase(BattleEffectRepetitionMode.Cross, BattleEffectWaveform.Trapezoid, true, true)]
-        [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Pulse, true, true)]
-        [TestCase(BattleEffectRepetitionMode.Radial, BattleEffectWaveform.Trapezoid, false, false)]
-        [TestCase(BattleEffectRepetitionMode.Grid, BattleEffectWaveform.Trapezoid, false, false)]
-        public void Repetition_ShowsCopyWaveForLinesOnly(BattleEffectRepetitionMode repetition, BattleEffectWaveform waveform, bool isWaveShown, bool isPlateauShown)
+        [UnityTest]
+        [TestCase(BattleEffectRepetitionMode.None, BattleEffectWaveform.Trapezoid, false, false, ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Sine, true, false, ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Cross, BattleEffectWaveform.Trapezoid, true, true, ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Line, BattleEffectWaveform.Pulse, true, true, ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Radial, BattleEffectWaveform.Trapezoid, false, false, ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Grid, BattleEffectWaveform.Trapezoid, false, false, ExpectedResult = null)]
+        public IEnumerator Repetition_ShowsCopyWaveForLinesOnly(BattleEffectRepetitionMode repetition, BattleEffectWaveform waveform, bool isWaveShown, bool isPlateauShown)
         {
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.modeField)}").intValue = (int)repetition;
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.waveformField)}").intValue = (int)waveform;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, RepetitionPath(BattleEffectRepetition.wavePlateauFractionField));
 
             Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveAmplitudeSUField))), "amplitude");
             Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveCopiesPerCycleField))), "copies per cycle");
             Assert.AreEqual(isPlateauShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.wavePlateauFractionField))), "plateau (trapezoid / pulse only)");
         }
 
-        [TestCase(false, false, false)]
-        [TestCase(true, false, true)]
-        [TestCase(false, true, true)]
-        public void Repetition_ShowsBeatOffsetsSpreadWhenMirrored(bool mirrorX, bool mirrorY, bool isSpreadShown)
+        [UnityTest]
+        [TestCase(false, false, false, ExpectedResult = null)]
+        [TestCase(true, false, true, ExpectedResult = null)]
+        [TestCase(false, true, true, ExpectedResult = null)]
+        public IEnumerator Repetition_ShowsBeatOffsetsSpreadWhenMirrored(bool mirrorX, bool mirrorY, bool isSpreadShown)
         {
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.mirrorXField)}").boolValue = mirrorX;
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.mirrorYField)}").boolValue = mirrorY;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, RepetitionPath(BattleEffectRepetition.beatOffsetsSpreadField));
 
             Assert.AreEqual(isSpreadShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.beatOffsetsSpreadField))));
         }
 
-        [TestCase(BattleEffectRepetitionMode.None, false, false, "Count")]
-        [TestCase(BattleEffectRepetitionMode.Line, true, false, "Count")]
-        [TestCase(BattleEffectRepetitionMode.Radial, true, false, "Count")]
-        [TestCase(BattleEffectRepetitionMode.Grid, true, true, "Count X")]
-        [TestCase(BattleEffectRepetitionMode.StaggeredGrid, true, true, "Count X")]
-        public void Repetition_ShowsCountYForGridsOnly(BattleEffectRepetitionMode repetition, bool isCountShown, bool isCountYShown, string countLabel)
+        [UnityTest]
+        [TestCase(BattleEffectRepetitionMode.None, false, false, "Count", ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Line, true, false, "Count", ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Radial, true, false, "Count", ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.Grid, true, true, "Count X", ExpectedResult = null)]
+        [TestCase(BattleEffectRepetitionMode.StaggeredGrid, true, true, "Count X", ExpectedResult = null)]
+        public IEnumerator Repetition_ShowsCountYForGridsOnly(BattleEffectRepetitionMode repetition, bool isCountShown, bool isCountYShown, string countLabel)
         {
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.modeField)}").intValue = (int)repetition;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, RepetitionPath(BattleEffectRepetition.copyScaleRatioField));
 
             Assert.AreEqual(isCountShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".x"))), "count");
             Assert.AreEqual(isCountYShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".y"))), "count y");

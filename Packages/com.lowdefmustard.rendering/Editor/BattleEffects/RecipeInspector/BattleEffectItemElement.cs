@@ -21,7 +21,7 @@ namespace LowDefMustard.Rendering.Editor
         private static readonly Color _dividerColour = new(0f, 0f, 0f, 0.3f);
         private static readonly string[] _groupFields =
         {
-            BattleEffectItem.styleField, BattleEffectItem.altColoursField, BattleEffectItem.outlineEdgeGradientField, BattleEffectItem.stripesField, BattleEffectItem.clipField,
+            BattleEffectItem.styleField, BattleEffectItem.altColoursField, BattleEffectItem.outlineEdgeGradientField, BattleEffectItem.shadeField, BattleEffectItem.stripesField, BattleEffectItem.clipField,
             BattleEffectItem.repetitionField, BattleEffectItem.colourCycleField, BattleEffectItem.beatsField, BattleEffectItem.jitterField, BattleEffectItem.flickerField, BattleEffectItem.pulseField
         };
 

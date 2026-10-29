@@ -57,6 +57,17 @@ namespace LowDefMustard.Rendering.Editor
             if (fields.TryGetValue(fieldName, out PropertyField field)) { field.style.display = isShown ? DisplayStyle.Flex : DisplayStyle.None; }
         }
 
+        public void TrackAlso(SerializedProperty property)
+        {
+            // Used to enable property tracking across sibling sections ~ e.g. Shade dependent on Style
+            // Force-refresh section when another property updates
+            
+            var tracker = new VisualElement();
+            Add(tracker);
+            tracker.TrackPropertyValue(property, _ => Refresh());
+            Refresh();
+        }
+
         public static IEnumerable<SerializedProperty> GetChildren(SerializedProperty property)
         {
             SerializedProperty child = property.Copy();

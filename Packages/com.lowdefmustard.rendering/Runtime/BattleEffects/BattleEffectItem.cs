@@ -32,6 +32,7 @@ namespace LowDefMustard.Rendering
         [SerializeField] private BattleEffectStyle style = new();
         [SerializeField] private BattleEffectAltColours altColours = new();
         [SerializeField] private BattleEffectOutlineEdgeGradient outlineEdgeGradient = new();
+        [SerializeField][Tooltip("Steps one side of each copy through the palette")] private BattleEffectShade shade = new();
         [SerializeField] private BattleEffectStripes stripes = new();
         [SerializeField] private BattleEffectClip clip = new();
 
@@ -60,6 +61,7 @@ namespace LowDefMustard.Rendering
         public const string styleField = nameof(style);
         public const string altColoursField = nameof(altColours);
         public const string outlineEdgeGradientField = nameof(outlineEdgeGradient);
+        public const string shadeField = nameof(shade);
         public const string stripesField = nameof(stripes);
         public const string clipField = nameof(clip);
         public const string repetitionField = nameof(repetition);
@@ -109,9 +111,9 @@ namespace LowDefMustard.Rendering
 
             // Style (+ its settings groups)
             style?.WriteData(texels, rowStart, effectScale);
-            bool isPaletteUsed = (colourCycle != null && colourCycle.IsPaletteUsed()) || (beats != null && beats.IsPaletteUsed()) || (style != null && style.IsPaletteUsed());
-            int paletteCount = altColours?.WriteData(texels, rowStart, isPaletteUsed) ?? 1;
+            int paletteCount = altColours?.WriteData(texels, rowStart, IsPaletteUsed()) ?? 1;
             outlineEdgeGradient?.WriteData(texels, rowStart);
+            shade?.WriteData(texels, rowStart);
             stripes?.WriteData(texels, rowStart, effectScale);
             clip?.WriteData(texels, rowStart);
 
@@ -131,6 +133,15 @@ namespace LowDefMustard.Rendering
             return true;
         }
 
+        private bool IsPaletteUsed()
+        {
+            bool inStyle = style != null && style.IsPaletteUsed();
+            bool inShade = shade != null && shade.IsPaletteUsed();
+            bool inColourCycle = colourCycle != null && colourCycle.IsPaletteUsed();
+            bool inBeats = beats != null && beats.IsPaletteUsed();
+            return inStyle || inShade || inColourCycle || inBeats;
+        }
+        
         private static Color ToTexel(BattleEffectVector2Range range) => ToTexel(range.GetStart(), range.GetEnd());
         private static Color ToTexel(Vector2 start, Vector2 end) => new(start.x, start.y, end.x, end.y);
     }
