@@ -60,6 +60,19 @@ UNITY_EXPORT_REFLECTION void SDFMirror(float2 localPoint, float mirrorX, float m
 }
 
 ///<funchints>
+/// <sg:ProviderKey>SDFHalfTurn</sg:ProviderKey>
+/// <sg:DisplayName>SDF Half Turn</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFDomain/HalfTurn</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFHalfTurn(float2 localPoint,
+    out float2 turnedPoint)
+{
+    // Fold the left half onto the right through the origin (point symmetry:  each half = the other turned 180 degrees)
+    
+    turnedPoint = localPoint.x < 0.0 ? -localPoint : localPoint;
+}
+
+///<funchints>
 /// <sg:ProviderKey>SDFRepeatLine</sg:ProviderKey>
 /// <sg:DisplayName>SDF Repeat Line</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFDomain/RepeatLine</sg:SearchCategory>

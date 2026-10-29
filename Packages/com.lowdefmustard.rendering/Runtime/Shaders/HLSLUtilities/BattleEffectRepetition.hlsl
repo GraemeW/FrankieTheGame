@@ -165,7 +165,7 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     //  - spread offset (local):  a spread beat's offset, after the fold - mirrored halves move apart (0 otherwise)
 
     // Settings at this point in the item's progress
-    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2, spread = 4])
+    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8])
     float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING);
     float4 copyScaleRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYSCALE); // (copy scale ratio start, end, -, -)
     float4 copyWave = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVE); // (waveform, copies per cycle, amplitude start, end)
@@ -186,11 +186,17 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     copyShape.wavePhase = lerp(copyWavePhase.x, copyWavePhase.y, progress);
     copyShape.elongation = lerp(elongationRange.xy, elongationRange.zw, progress) + GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATELONGATIONS01);
 
+    // Folds: half turn, then x / y mirrors (unfold = their signs, to put the copy's point back on the item's side)
+    uint mirrorFlags = (uint)round(repetition.w); // (x = 1, y = 2, half turn = 4, spread = 8)
+    bool isMirrorX = (mirrorFlags & 1u) != 0u;
+    bool isMirrorY = (mirrorFlags & 2u) != 0u;
+    bool isTurned = (mirrorFlags & 4u) != 0u && shapeInput.localPoint.x < 0.0;
+    float2 turnedPoint = shapeInput.localPoint;
+    if (isTurned) { SDFHalfTurn(shapeInput.localPoint, turnedPoint); }
     float2 mirroredPoint;
-    float mirrorFlags = round(repetition.w); // (x = 1, y = 2, spread = 4)
-    SDFMirror(shapeInput.localPoint, fmod(mirrorFlags, 2.0), fmod(floor(mirrorFlags / 2.0), 2.0), mirroredPoint);
+    SDFMirror(turnedPoint, isMirrorX ? 1.0 : 0.0, isMirrorY ? 1.0 : 0.0, mirroredPoint);
     mirroredPoint -= spreadOffset;
-    float2 unfold = float2(fmod(mirrorFlags, 2.0) > 0.5 && shapeInput.localPoint.x < 0.0 ? -1.0 : 1.0, fmod(floor(mirrorFlags / 2.0), 2.0) > 0.5 && shapeInput.localPoint.y < 0.0 ? -1.0 : 1.0);
+    float2 unfold = float2(isMirrorX && turnedPoint.x < 0.0 ? -1.0 : 1.0, isMirrorY && turnedPoint.y < 0.0 ? -1.0 : 1.0) * (isTurned ? -1.0 : 1.0);
 
     // Repetition families
     float distance;

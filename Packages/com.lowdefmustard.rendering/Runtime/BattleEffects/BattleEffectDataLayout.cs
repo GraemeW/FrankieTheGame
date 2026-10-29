@@ -53,7 +53,7 @@ namespace LowDefMustard.Rendering
         public const int clipOffset = 25;           // (centre offset start.xy, end.xy)
 
         // Repetition
-        public const int repetition = 26;           // (repetition, count x, count y, mirror [x = 1, y = 2, beat offsets after the fold = 4])
+        public const int repetition = 26;           // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, beat offsets after the fold = 8])
         public const int spacing = 27;              // (start.xy, end.xy)
         public const int copyScale = 28;            // (copy scale ratio start, end, -, -)
         public const int copyWave = 29;             // (waveform, copies per cycle, amplitude start, end) ~ line / cross copies offset across their line

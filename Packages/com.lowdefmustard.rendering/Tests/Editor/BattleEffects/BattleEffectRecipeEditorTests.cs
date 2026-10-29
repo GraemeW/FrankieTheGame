@@ -667,13 +667,15 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [UnityTest]
-        [TestCase(false, false, false, ExpectedResult = null)]
-        [TestCase(true, false, true, ExpectedResult = null)]
-        [TestCase(false, true, true, ExpectedResult = null)]
-        public IEnumerator Repetition_ShowsBeatOffsetsSpreadWhenMirrored(bool mirrorX, bool mirrorY, bool isSpreadShown)
+        [TestCase(false, false, false, false, ExpectedResult = null)]
+        [TestCase(true, false, false, true, ExpectedResult = null)]
+        [TestCase(false, true, false, true, ExpectedResult = null)]
+        [TestCase(false, false, true, true, ExpectedResult = null)]
+        public IEnumerator Repetition_ShowsBeatOffsetsSpreadWhenMirrored(bool mirrorX, bool mirrorY, bool halfTurn, bool isSpreadShown)
         {
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.mirrorXField)}").boolValue = mirrorX;
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.mirrorYField)}").boolValue = mirrorY;
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.halfTurnField)}").boolValue = halfTurn;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
             yield return WaitForItemField(1, RepetitionPath(BattleEffectRepetition.beatOffsetsSpreadField));

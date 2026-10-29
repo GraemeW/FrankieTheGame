@@ -8,7 +8,7 @@ namespace LowDefMustard.Rendering
     {
         // Notes:
         //  - Operates in the shape's own space (after the transform) ~ i.e. the pattern scales / rotates w/ the entire item
-        //  - Mirrors apply w/ or w/o copies
+        //  - Mirrors apply w/ or w/o copies (half turn first, then x / y)
         //  - Spread beat offsets apply after the fold (in the shape's space)
         //  - Copy wave (line / cross):  copy n sits amplitude * wave(phase + n / copies per cycle) across its line
 
@@ -23,6 +23,7 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Trapezoid / pulse:  each half cycle's flat crest share (0 = triangle, 1 = square;  pulse = the trapezoid's upper half)")] private BattleEffectFloatRange wavePlateauFraction = new(0.25f);
         [SerializeField][Tooltip("Folds the shape across its local y axis (left / right halves match)")] private bool mirrorX = false;
         [SerializeField][Tooltip("Folds the shape across its local x axis (top / bottom halves match)")] private bool mirrorY = false;
+        [SerializeField][Tooltip("Folds the left half onto the right through the centre (each half = the other turned 180 degrees; before x / y mirrors)")] private bool halfTurn = false;
         [SerializeField][Tooltip("Mirrored:  beat offsets move each half away from its fold (the halves spread apart)")] private bool beatOffsetsSpread = false;
 
         // Editor Field References
@@ -37,17 +38,19 @@ namespace LowDefMustard.Rendering
         public const string wavePlateauFractionField = nameof(wavePlateauFraction);
         public const string mirrorXField = nameof(mirrorX);
         public const string mirrorYField = nameof(mirrorY);
+        public const string halfTurnField = nameof(halfTurn);
         public const string beatOffsetsSpreadField = nameof(beatOffsetsSpread);
 
         internal void WriteData(Color[] texels, int rowStart)
         {
-            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f) + (beatOffsetsSpread && (mirrorX || mirrorY) ? 4f : 0f));
+            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f) + (halfTurn ? 4f : 0f) + (beatOffsetsSpread && IsMirrored() ? 8f : 0f));
             texels[rowStart + BattleEffectDataLayout.spacing] = new Color(spacingSU.GetStart().x, spacingSU.GetStart().y, spacingSU.GetEnd().x, spacingSU.GetEnd().y);
             texels[rowStart + BattleEffectDataLayout.copyScale] = new Color(GetCopyScaleRatio(copyScaleRatio.GetStart()), GetCopyScaleRatio(copyScaleRatio.GetEnd()), 0f, 0f);
             texels[rowStart + BattleEffectDataLayout.copyWave] = new Color((int)waveform, Mathf.Max(waveCopiesPerCycle, 0.01f), waveAmplitudeSU.GetStart(), waveAmplitudeSU.GetEnd());
             texels[rowStart + BattleEffectDataLayout.copyWavePhase] = new Color(wavePhaseFraction.GetStart(), wavePhaseFraction.GetEnd(), wavePlateauFraction.GetStart(), wavePlateauFraction.GetEnd());
         }
 
+        private bool IsMirrored() => mirrorX || mirrorY || halfTurn;
         private static float GetCopyScaleRatio(float ratio) => ratio > 0f ? ratio : 1f; // Zero-filled (e.g. older / new list entries) = off
     }
 }

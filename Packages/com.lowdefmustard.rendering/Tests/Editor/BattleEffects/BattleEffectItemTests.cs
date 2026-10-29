@@ -302,15 +302,26 @@ namespace LowDefMustard.Rendering.Tests.Editor
             AssertTexel(new Color((int)BattleEffectRepetitionMode.Grid, 1f, 1f, 3f), texels[BattleEffectDataLayout.repetition]);
         }
 
-        [TestCase(true, false, 5f)]
-        [TestCase(false, false, 0f)]
-        public void TryWriteData_Repetition_PacksBeatOffsetsSpreadOnlyWhenMirrored(bool mirrorX, bool mirrorY, float expected)
+        [TestCase(true, false, false, 9f)]
+        [TestCase(false, false, true, 12f)]
+        [TestCase(false, false, false, 0f)]
+        public void TryWriteData_Repetition_PacksBeatOffsetsSpreadOnlyWhenMirrored(bool mirrorX, bool mirrorY, bool halfTurn, float expected)
         {
-            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"repetition\":{{\"mirrorX\":{(mirrorX ? "true" : "false")},\"mirrorY\":{(mirrorY ? "true" : "false")},\"beatOffsetsSpread\":true}}}}");
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"repetition\":{{\"mirrorX\":{(mirrorX ? "true" : "false")},\"mirrorY\":{(mirrorY ? "true" : "false")},\"halfTurn\":{(halfTurn ? "true" : "false")},\"beatOffsetsSpread\":true}}}}");
 
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
-            Assert.AreEqual(expected, texels[BattleEffectDataLayout.repetition].a, "x = 1 + spread = 4;  unmirrored:  nothing to spread");
+            Assert.AreEqual(expected, texels[BattleEffectDataLayout.repetition].a, "x = 1 + half turn = 4 + spread = 8;  unmirrored:  nothing to spread");
+        }
+
+        [Test]
+        public void TryWriteData_Repetition_PacksHalfTurnWithTheMirrors()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"repetition\":{\"mirrorY\":true,\"halfTurn\":true}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(6f, texels[BattleEffectDataLayout.repetition].a, "y = 2 + half turn = 4");
         }
 
         [Test]

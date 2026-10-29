@@ -35,7 +35,7 @@ BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int it
     float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
     float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE);
     float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION);
-    bool isSpread = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w >= 3.5; // mirror bit 4
+    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
     float2 beatOffset = GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01);
     float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : beatOffset) + modifiers.jitterOffset;
     float2 itemScale = lerp(scale.xy, scale.zw, progress) * modifiers.pulseScale;
