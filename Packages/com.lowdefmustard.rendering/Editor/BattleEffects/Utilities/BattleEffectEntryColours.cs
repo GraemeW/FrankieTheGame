@@ -6,10 +6,14 @@ namespace LowDefMustard.Rendering.Editor
     public static class BattleEffectEntryColours
     {
         // Const Tunables
-        public static readonly Color item = new(0.35f, 0.55f, 0.85f, 1f);
-        public static readonly Color activeItem = new(0.55f, 0.8f, 1f, 1f);
-        public static readonly Color instance = new(0.55f, 0.4f, 0.75f, 1f);
-        public static readonly Color activeInstance = new(0.8f, 0.6f, 1f, 1f);
+        public static readonly Color item = Color.cornflowerBlue;
+        public static readonly Color activeItem = Color.lightSkyBlue;
+        public static readonly Color instance = Color.mediumPurple;
+        public static readonly Color activeInstance = Color.plum;
+        public static readonly Color hidden = Color.gray3;
+        public static readonly Color activeHidden = Color.gray5;
+        public static readonly Color overall = Color.sienna;
+        public static readonly Color activeOverall = Color.darkGoldenRod;
 
         // Inspector list row backgrounds
         private const float _rowAlpha = 0.25f;

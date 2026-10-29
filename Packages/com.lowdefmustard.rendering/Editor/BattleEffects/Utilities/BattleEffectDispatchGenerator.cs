@@ -31,7 +31,7 @@ namespace LowDefMustard.Rendering.Editor
             EditorApplication.delayCall += () => Generate(false);
         }
 
-        [MenuItem("Tools/Battle Effects/Regenerate Shape Dispatch")]
+        [MenuItem("Tools/Battle Effects/Regenerate Shape Dispatch", priority = 32)]
         private static void RegenerateFromMenu() => Generate(true);
 
         private static void Generate(bool isVerbose)

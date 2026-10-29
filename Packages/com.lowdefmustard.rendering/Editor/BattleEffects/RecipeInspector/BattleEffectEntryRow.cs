@@ -15,13 +15,20 @@ namespace LowDefMustard.Rendering.Editor
         internal const float kindWidth = 90f;
         internal const float startWidth = 52f;
         internal const float deleteWidth = 20f;
+        internal const float visibilityWidth = 20f;
+        private const float _hiddenOpacity = 0.45f;
         internal const float columnGap = 6f;
         private const string _timeFormat = "0.###";
         private const string _noRecipeLabel = "No recipe";
+        
+        // Keys/Names
+        private const string _visibleIconName = "scenevis_visible";
+        private const string _hiddenIconName = "scenevis_hidden";
 
         // Element References
         private readonly Label labelText;
         private readonly TextField labelField;
+        private readonly Button visibilityButton;
         private readonly DropdownField shapeField;
         private readonly Label recipeText;
         private readonly Label startText;
@@ -34,9 +41,10 @@ namespace LowDefMustard.Rendering.Editor
         private bool isStartEditable;
         private bool isSelected;
         private bool isHovered;
+        private bool isHidden;
 
         // Constructor
-        public BattleEffectEntryRow(Action<BattleEffectEntryId> deleteEntry)
+        public BattleEffectEntryRow(Action<BattleEffectEntryId> deleteEntry, Action<BattleEffectEntryId> toggleVisibility)
         {
             // Row Styling
             style.flexDirection = FlexDirection.Row;
@@ -46,6 +54,7 @@ namespace LowDefMustard.Rendering.Editor
             // Draw Elements
             labelText = CreateText(1f);
             labelField = new TextField { isDelayed = true, style = { flexGrow = 1f, flexShrink = 1f, display = DisplayStyle.None } };
+            visibilityButton = new Button(() => toggleVisibility(entryId)) { style = { width = visibilityWidth, height = visibilityWidth - 4f, flexShrink = 0f, paddingLeft = 0f, paddingRight = 0f } };
             shapeField = new DropdownField(BattleEffectShapeTypes.GetNames(), 0) { style = { width = kindWidth, flexShrink = 0f } };
             
             recipeText = CreateText(0f);
@@ -63,6 +72,7 @@ namespace LowDefMustard.Rendering.Editor
             
             Add(labelText);
             Add(labelField);
+            Add(visibilityButton);
             Add(shapeField);
             Add(recipeText);
             Add(startText);
@@ -89,7 +99,7 @@ namespace LowDefMustard.Rendering.Editor
         }
 
         #region PublicMethods
-        public void Bind(SerializedProperty setEntryProperty, BattleEffectRecipeEntry entry, int setRowIndex, bool setSelected)
+        public void Bind(SerializedProperty setEntryProperty, BattleEffectRecipeEntry entry, int setRowIndex, bool setSelected, bool setHidden)
         {
             rowIndex = setRowIndex;
             isSelected = setSelected;
@@ -115,6 +125,7 @@ namespace LowDefMustard.Rendering.Editor
             shapeField.style.display = entry.isInstance ? DisplayStyle.None : DisplayStyle.Flex;
             recipeText.style.display = entry.isInstance ? DisplayStyle.Flex : DisplayStyle.None;
             RefreshColour();
+            RefreshVisibility(setHidden);
             tooltip = entry.isInstance ? "Instance (its start is where its items begin;  set the offset in its settings)" : null;
             EndEditing(labelText, labelField);
             EndEditing(startText, startField);
@@ -128,6 +139,20 @@ namespace LowDefMustard.Rendering.Editor
         }
 
         public Color GetColour() => style.backgroundColor.value;
+        public bool IsShownHidden() => isHidden;
+
+        public void RefreshVisibility(bool setHidden)
+        {
+            isHidden = setHidden;
+            Texture2D icon = EditorGUIUtility.FindTexture(isHidden ? _hiddenIconName : _visibleIconName);
+            visibilityButton.iconImage = Background.FromTexture2D(icon);
+            visibilityButton.text = icon != null ? "" : isHidden ? "-" : "o";
+            visibilityButton.tooltip = isHidden ? "Hidden in the preview (+ export) only:  click to show" : "Shown in the preview:  click to hide it";
+            labelText.style.opacity = isHidden ? _hiddenOpacity : 1f;
+            shapeField.style.opacity = isHidden ? _hiddenOpacity : 1f;
+            recipeText.style.opacity = isHidden ? _hiddenOpacity : 1f;
+            startText.style.opacity = isHidden ? _hiddenOpacity : 1f;
+        }
 
         public void UnbindRow()
         {

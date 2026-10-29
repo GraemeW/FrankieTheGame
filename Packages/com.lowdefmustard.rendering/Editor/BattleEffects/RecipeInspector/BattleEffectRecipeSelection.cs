@@ -9,7 +9,7 @@ namespace LowDefMustard.Rendering.Editor
     internal static class BattleEffectRecipeSelection
     {
         // Notes:
-        //  - Held statically rather than on the inspector so it survives the inspector being rebuilt + the preview's timeline can drive it
+        //  - Held statically so it survives the inspector being rebuilt && so the preview's timeline can drive it
 
         // State
         [NoAutoStaticsCleanup] private static readonly Dictionary<BattleEffectRecipe, List<BattleEffectEntryId>> _selectedEntries = new();

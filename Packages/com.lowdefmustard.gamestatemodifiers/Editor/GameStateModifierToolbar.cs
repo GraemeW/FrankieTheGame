@@ -14,7 +14,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
         private const string _assetsFolderRef = "Assets";
         
         #region PublicMethods
-        [MenuItem("Tools/GameStateModifiers/CleanAllDanglingModifiers", false, 401)]
+        [MenuItem("Tools/GameStateModifiers/CleanAllDanglingModifiers", false, 25)]
         public static void CleanAllDanglingModifiers()
         {
             List<GameStateModifier> gameStateModifiers = FindAllGameStateModifiers(_assetsFolderRef);
@@ -39,7 +39,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
             }
         }
 
-        [MenuItem("Tools/GameStateModifiers/ForceSerializeAllHandlers", false, 402)]
+        [MenuItem("Tools/GameStateModifiers/ForceSerializeAllHandlers", false, 26)]
         public static void SerializeAllHandlersAcrossAllScenes()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;

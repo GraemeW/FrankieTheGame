@@ -58,6 +58,26 @@ namespace LowDefMustard.Rendering
         #endregion
 
         #region InternalMethods
+        internal void ApplyTo(ref MaterialDefinition materialDefinition, BattleEffectFit fit, Texture2D filteredTexture, Func<BattleEffectRecipe, int, bool, bool> isHidden)
+        {
+            // Bakes into the caller's texture, skipping entries isHidden(recipe, index, isInstance) flags ~ the cached texture (+ live effects using it) stay untouched
+            // Only used for BattleEffectPreviewWindow - not for standard runtime execution
+            int filteredItemCount = WriteDataTexture(filteredTexture, isHidden);
+            BattleEffectPropertyRefs.SetRecipe(ref materialDefinition, filteredTexture, filteredItemCount, frameRate, edgeSoftnessPixels, glowWidthEU * scaleRatio);
+            BattleEffectPropertyRefs.SetFit(ref materialDefinition, fit);
+        }
+
+        internal Texture2D CreateDataTexture(string suffix)
+        {
+            return new Texture2D(BattleEffectDataLayout.texelsPerItem, 1, TextureFormat.RGBAFloat, false, true)
+            {
+                name = $"{name} ({suffix})",
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp,
+                hideFlags = HideFlags.HideAndDontSave
+            };
+        }
+
         internal Texture2D BakeDataTexture(out int bakedItemCount)
         {
             RefreshDataTexture();
@@ -123,30 +143,27 @@ namespace LowDefMustard.Rendering
             int instanceRevision = GetInstanceRevision();
             if (dataTexture != null && !isDirty && instanceRevision == bakedInstanceRevision) { return; }
 
-            int rowCount = Mathf.Max(CountRows(), 1);
-            if (dataTexture == null)
-            {
-                dataTexture = new Texture2D(BattleEffectDataLayout.texelsPerItem, rowCount, TextureFormat.RGBAFloat, false, true)
-                {
-                    name = $"{name} (Battle Effect Data)",
-                    filterMode = FilterMode.Point,
-                    wrapMode = TextureWrapMode.Clamp,
-                    hideFlags = HideFlags.HideAndDontSave
-                };
-            }
-            else if (dataTexture.height != rowCount) { dataTexture.Reinitialize(BattleEffectDataLayout.texelsPerItem, rowCount); }
-
-            // Note:  items w/o a shape (or w/o a shape ID) are skipped, so rows are packed
-            var texels = new Color[BattleEffectDataLayout.texelsPerItem * rowCount];
-            itemCount = WriteRows(texels, 0, scaleRatio);
-
-            dataTexture.SetPixels(texels);
-            dataTexture.Apply(false);
+            if (dataTexture == null) { dataTexture = CreateDataTexture("Battle Effect Data"); }
+            itemCount = WriteDataTexture(dataTexture, null);
             isDirty = false;
             bakedInstanceRevision = instanceRevision;
         }
 
-        private int WriteRows(Color[] texels, int firstRow, float effectScale, int depth = 0)
+        private int WriteDataTexture(Texture2D texture, Func<BattleEffectRecipe, int, bool, bool> isHidden)
+        {
+            int rowCount = Mathf.Max(CountRows(), 1);
+            if (texture.height != rowCount) { texture.Reinitialize(BattleEffectDataLayout.texelsPerItem, rowCount); }
+
+            // Note:  items w/o a shape (or w/o a shape ID) + hidden entries are skipped, so rows are packed
+            var texels = new Color[BattleEffectDataLayout.texelsPerItem * rowCount];
+            int writtenCount = WriteRows(texels, 0, scaleRatio, isHidden);
+
+            texture.SetPixels(texels);
+            texture.Apply(false);
+            return writtenCount;
+        }
+
+        private int WriteRows(Color[] texels, int firstRow, float effectScale, Func<BattleEffectRecipe, int, bool, bool> isHidden, int depth = 0)
         {
             // This recipe's items, then each instance's - stacked into the 1D texels array (i.e. texelsPerItem entries per item 0; texelsPerItem entries per item1; etc.)
             //  - each instance's items written by its recipe, then re-timed / mirrored / recoloured
@@ -154,18 +171,20 @@ namespace LowDefMustard.Rendering
             
             parameterBuffer ??= new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
             int row = firstRow;
-            foreach (BattleEffectItem item in items)
+            for (int i = 0; i < items.Count; i++)
             {
-                if (item != null && item.TryWriteData(texels, row * BattleEffectDataLayout.texelsPerItem, parameterBuffer, effectScale)) { row++; }
+                BattleEffectItem item = items[i];
+                if (item != null && (isHidden == null || !isHidden(this, i, false)) && item.TryWriteData(texels, row * BattleEffectDataLayout.texelsPerItem, parameterBuffer, effectScale)) { row++; }
             }
             if (depth >= maxInstanceDepth) { return row - firstRow; }
 
-            foreach (BattleEffectInstance instance in instances)
+            for (int i = 0; i < instances.Count; i++)
             {
+                BattleEffectInstance instance = instances[i];
                 BattleEffectRecipe instancedRecipe = instance?.GetRecipe();
-                if (instancedRecipe == null) { continue; }
+                if (instancedRecipe == null || (isHidden != null && isHidden(this, i, true))) { continue; }
                 int instanceFirstRow = row;
-                row += instancedRecipe.WriteRows(texels, row, effectScale * instancedRecipe.scaleRatio, depth + 1); // Write the instance recipe's data as-is
+                row += instancedRecipe.WriteRows(texels, row, effectScale * instancedRecipe.scaleRatio, isHidden, depth + 1); // Write the instance recipe's data as-is
                 for (int instanceRow = instanceFirstRow; instanceRow < row; instanceRow++) { instance.ApplyTo(texels, instanceRow * BattleEffectDataLayout.texelsPerItem); } // Then re-time/mirror/re-colour
             }
             return row - firstRow;

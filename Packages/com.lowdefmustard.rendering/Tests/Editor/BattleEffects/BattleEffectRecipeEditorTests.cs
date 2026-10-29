@@ -56,6 +56,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void TearDown()
         {
             window.Close();
+            BattleEffectPreviewVisibility.ShowAll(recipe);
             Undo.ClearUndo(recipe);
             Object.DestroyImmediate(editor);
             Object.DestroyImmediate(recipe);
@@ -119,6 +120,51 @@ namespace LowDefMustard.Rendering.Tests.Editor
             
             // Local Function
             BattleEffectEntryRow FindRow(int rowIndex) => window.root.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
+        }
+
+        [UnityTest]
+        public IEnumerator VisibilityButton_TogglesPreviewVisibility_NotTheRecipe()
+        {
+            yield return HeadlessEditorWindow.WaitUntil(() => FindRow(2) != null);
+            int revision = recipe.GetRevision();
+
+            ClickVisibility(FindRow(2));
+            yield return HeadlessEditorWindow.WaitUntil(() => BattleEffectPreviewVisibility.IsHidden(recipe, Instance(0)));
+            Assert.IsTrue(BattleEffectPreviewVisibility.IsHidden(recipe, Instance(0)), "row 2 = the Child instance");
+            Assert.IsTrue(FindRow(2).IsShownHidden());
+            Assert.IsFalse(FindRow(0).IsShownHidden());
+            Assert.AreEqual(revision, recipe.GetRevision(), "the recipe is untouched");
+
+            ClickVisibility(FindRow(2));
+            yield return HeadlessEditorWindow.WaitUntil(() => !BattleEffectPreviewVisibility.IsHidden(recipe, Instance(0)));
+            Assert.IsFalse(BattleEffectPreviewVisibility.IsHidden(recipe, Instance(0)));
+            Assert.IsFalse(FindRow(2).IsShownHidden());
+            yield break;
+
+            
+            // Local Functions
+            BattleEffectEntryRow FindRow(int rowIndex) => window.root.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
+            
+            void ClickVisibility(BattleEffectEntryRow row)
+            {
+                using NavigationSubmitEvent clickEvent = NavigationSubmitEvent.GetPooled();
+                Button button = row.Q<Button>();
+                clickEvent.target = button;
+                button.SendEvent(clickEvent);
+            }
+        }
+
+        [Test]
+        public void DeleteEntry_ShiftsLaterHiddenEntriesDown()
+        {
+            BattleEffectPreviewVisibility.SetHidden(recipe, Item(0), true);
+            BattleEffectPreviewVisibility.SetHidden(recipe, Item(2), true);
+
+            editor.DeleteEntry(Item(1));
+
+            Assert.IsTrue(BattleEffectPreviewVisibility.IsHidden(recipe, Item(0)));
+            Assert.IsTrue(BattleEffectPreviewVisibility.IsHidden(recipe, Item(1)), "Short moved up a slot");
+            Assert.AreEqual(2, BattleEffectPreviewVisibility.GetHiddenCount(recipe));
         }
 
         [TestCase(true, false, 0.5f, TestName = "AddFromSelected_On_Add_LatestSelectedStart")]

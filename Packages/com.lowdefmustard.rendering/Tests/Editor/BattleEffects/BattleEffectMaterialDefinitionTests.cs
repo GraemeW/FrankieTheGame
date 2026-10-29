@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -25,6 +26,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TearDown]
         public void TearDown()
         {
+            BattleEffectPreviewVisibility.ShowAll(recipe);
             if (recipe != null) { Object.DestroyImmediate(recipe); }
             Object.DestroyImmediate(material);
         }
@@ -54,6 +56,30 @@ namespace LowDefMustard.Rendering.Tests.Editor
             recipe.ApplyTo(ref materialDefinition, BattleEffectFit.Stretch);
 
             Assert.AreEqual((int)BattleEffectFit.Stretch, materialDefinition.GetFloat("_FitMode"));
+        }
+
+        [Test]
+        public void RecipeApplyTo_Filtered_SkipsHiddenEntries_AndLeavesTheCachedBake()
+        {
+            var child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle()), CreateItem(new BattleEffectCircle()) });
+            recipe.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
+            Texture2D filteredTexture = recipe.CreateDataTexture("Test");
+            try
+            {
+                var materialDefinition = new MaterialDefinition(material);
+
+                recipe.ApplyTo(ref materialDefinition, BattleEffectFit.AspectFit, filteredTexture, (hiddenRecipe, index, isInstance) => hiddenRecipe == recipe ? !isInstance && index == 0 : index == 1);
+
+                Assert.AreSame(filteredTexture, materialDefinition.GetTexture("_ItemData"));
+                Assert.AreEqual(2f, materialDefinition.GetFloat("_ItemCount"), "4 items - the recipe's first - the child's second");
+                recipe.BakeDataTexture(out int cachedItemCount);
+                Assert.AreEqual(4, cachedItemCount, "the shared bake keeps everything");
+
+                recipe.ApplyTo(ref materialDefinition, BattleEffectFit.AspectFit, filteredTexture, (_, _, isInstance) => isInstance);
+                Assert.AreEqual(2f, materialDefinition.GetFloat("_ItemCount"), "a hidden instance drops all its items");
+            }
+            finally { Object.DestroyImmediate(filteredTexture); Object.DestroyImmediate(child); }
         }
 
         [Test]
@@ -123,6 +149,50 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(Color.yellow, materialDefinition.GetColor("_TintColourA"));
             Assert.AreEqual(1.25f, materialDefinition.GetFloat("_PreviewTime"));
             Assert.AreEqual(12f, materialDefinition.GetFloat("_FrameRate"), "stepped time keeps the recipe's frame rate");
+        }
+
+        [Test]
+        public void CreateMaterialDefinition_PreviewHidden_SkipsThoseItems()
+        {
+            var renderSettings = new BattleEffectRenderSettings { recipe = recipe, material = material };
+            try
+            {
+                BattleEffectPreviewVisibility.SetHidden(recipe, BattleEffectEntryId.Item(1), true);
+                MaterialDefinition hiddenDefinition = renderSettings.CreateMaterialDefinition(0f, new BattleEffectRetroToggles());
+                Assert.AreEqual(1f, hiddenDefinition.GetFloat("_ItemCount"));
+                Assert.AreNotSame(recipe.BakeDataTexture(out _), hiddenDefinition.GetTexture("_ItemData"), "its own bake");
+
+                BattleEffectPreviewVisibility.ShowAll(recipe);
+                MaterialDefinition shownDefinition = renderSettings.CreateMaterialDefinition(0f, new BattleEffectRetroToggles());
+                Assert.AreEqual(2f, shownDefinition.GetFloat("_ItemCount"));
+                Assert.AreSame(recipe.BakeDataTexture(out _), shownDefinition.GetTexture("_ItemData"), "back on the shared bake");
+            }
+            finally { renderSettings.ReleaseTextures(); }
+        }
+
+        [Test]
+        public void ShowAllRecipes_ClearsEveryRecipe_AndRaisesChangedForEach()
+        {
+            var other = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            var changedRecipes = new List<BattleEffectRecipe>();
+            void HandleChanged(BattleEffectRecipe changedRecipe) => changedRecipes.Add(changedRecipe);
+            try
+            {
+                BattleEffectPreviewVisibility.SetHidden(recipe, BattleEffectEntryId.Item(0), true);
+                BattleEffectPreviewVisibility.SetHidden(other, BattleEffectEntryId.Instance(1), true);
+                BattleEffectPreviewVisibility.changed += HandleChanged;
+
+                BattleEffectPreviewVisibility.ShowAllRecipes();
+
+                Assert.IsFalse(BattleEffectPreviewVisibility.HasAnyHidden());
+                CollectionAssert.AreEquivalent(new[] { recipe, other }, changedRecipes);
+            }
+            finally
+            {
+                BattleEffectPreviewVisibility.changed -= HandleChanged;
+                BattleEffectPreviewVisibility.ShowAll(other);
+                Object.DestroyImmediate(other);
+            }
         }
 
         [Test]

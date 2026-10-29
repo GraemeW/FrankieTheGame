@@ -63,8 +63,16 @@ namespace LowDefMustard.Rendering.Editor
             Refresh();
 
             root.TrackSerializedObjectValue(serializedObject, _ => Refresh());
-            root.RegisterCallback<AttachToPanelEvent>(_ => BattleEffectRecipeSelection.changed += HandleSelectionChanged);
-            root.RegisterCallback<DetachFromPanelEvent>(_ => BattleEffectRecipeSelection.changed -= HandleSelectionChanged);
+            root.RegisterCallback<AttachToPanelEvent>(_ =>
+            {
+                BattleEffectRecipeSelection.changed += HandleSelectionChanged;
+                BattleEffectPreviewVisibility.changed += HandleVisibilityChanged;
+            });
+            root.RegisterCallback<DetachFromPanelEvent>(_ =>
+            {
+                BattleEffectRecipeSelection.changed -= HandleSelectionChanged;
+                BattleEffectPreviewVisibility.changed -= HandleVisibilityChanged;
+            });
             return root;
         }
         #endregion
@@ -87,6 +95,15 @@ namespace LowDefMustard.Rendering.Editor
             // Header
             var header = new VisualElement { style = { flexDirection = FlexDirection.Row, unityFontStyleAndWeight = FontStyle.Bold } };
             header.Add(new Label("Label") { style = { flexGrow = 1f, paddingLeft = 3f } });
+            var showAllButton = new Button(() => BattleEffectPreviewVisibility.ShowAll(recipe))
+            {
+                text = "",
+                iconImage = Background.FromTexture2D(EditorGUIUtility.FindTexture("scenevis_visible")),
+                tooltip = "Preview visibility (preview + export only):  click here to show every entry again",
+                style = { width = BattleEffectEntryRow.visibilityWidth, height = BattleEffectEntryRow.visibilityWidth - 4f, flexShrink = 0f, paddingLeft = 0f, paddingRight = 0f }
+            };
+            if (showAllButton.iconImage.texture == null) { showAllButton.text = "o"; }
+            header.Add(showAllButton);
             header.Add(new Label("Shape / Recipe") { style = { width = BattleEffectEntryRow.kindWidth } });
             header.Add(new Label("Start") { style = { width = BattleEffectEntryRow.startWidth, marginLeft = BattleEffectEntryRow.columnGap, unityTextAlign = TextAnchor.MiddleCenter } });
             header.Add(new VisualElement { style = { width = BattleEffectEntryRow.deleteWidth } });
@@ -101,7 +118,7 @@ namespace LowDefMustard.Rendering.Editor
 
         private VisualElement BuildEntryList(VisualElement headerReference)
         {
-            entryList = new ListView(entries, _rowHeight, () => new BattleEffectEntryRow(DeleteEntry), BindRow)
+            entryList = new ListView(entries, _rowHeight, () => new BattleEffectEntryRow(DeleteEntry, entryId => BattleEffectPreviewVisibility.Toggle(recipe, entryId)), BindRow)
             {
                 selectionType = SelectionType.Multiple,
                 showBorder = true,
@@ -172,7 +189,7 @@ namespace LowDefMustard.Rendering.Editor
         private void BindRow(VisualElement element, int rowIndex)
         {
             BattleEffectRecipeEntry entry = entries[rowIndex];
-            ((BattleEffectEntryRow)element).Bind(GetListProperty(entry.id).GetArrayElementAtIndex(entry.index), entry, rowIndex, entryList.selectedIndices.Contains(rowIndex));
+            ((BattleEffectEntryRow)element).Bind(GetListProperty(entry.id).GetArrayElementAtIndex(entry.index), entry, rowIndex, entryList.selectedIndices.Contains(rowIndex), BattleEffectPreviewVisibility.IsHidden(recipe, entry.id));
         }
         #endregion
 
@@ -189,6 +206,15 @@ namespace LowDefMustard.Rendering.Editor
             if (changedRecipe != recipe) { return; }
             ApplyListSelection();
             RefreshEntryView();
+        }
+
+        private void HandleVisibilityChanged(BattleEffectRecipe changedRecipe)
+        {
+            if (changedRecipe != recipe) { return; }
+            entryList.Query<BattleEffectEntryRow>().ForEach(row =>
+            {
+                if (row.rowIndex >= 0 && row.rowIndex < entries.Count) { row.RefreshVisibility(BattleEffectPreviewVisibility.IsHidden(recipe, entries[row.rowIndex].id)); }
+            });
         }
         #endregion
 
@@ -264,6 +290,7 @@ namespace LowDefMustard.Rendering.Editor
             serializedObject.ApplyModifiedProperties();
             Undo.SetCurrentGroupName(entryId.isInstance ? deleteInstanceUndoName : deleteItemUndoName);
             BattleEffectRecipeSelection.Remove(recipe, entryId);
+            BattleEffectPreviewVisibility.Remove(recipe, entryId);
             Refresh();
         }
 

@@ -181,6 +181,18 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void ScrubTo_MovesTimeButLeavesTheInspectorSelection()
+        {
+            // Mid-scrub:  the selection waits for the release (the timeline's scrubEnded)
+            window.SetRecipe(recipe);
+
+            window.ScrubTo(1f);
+
+            Assert.AreEqual(1f, window.GetTime(), 1e-5f);
+            CollectionAssert.IsEmpty(BattleEffectRecipeSelection.Get(recipe));
+        }
+
+        [Test]
         public void Seek_Playing_LeavesTheInspectorSelection()
         {
             window.SetRecipe(recipe);

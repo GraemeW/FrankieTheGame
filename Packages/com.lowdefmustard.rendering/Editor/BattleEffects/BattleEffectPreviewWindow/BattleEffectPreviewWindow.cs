@@ -18,7 +18,8 @@ namespace LowDefMustard.Rendering.Editor
         //  - Optional reference frames (a folder of PNGs) play alongside / over the effect at their own frame rate
         //  - The preview + export both render offscreen through a runtime panel (BattleEffectOffscreenRenderer) to ensure accurate colour repro
         //  - Export renders every frame to Temp/BattleEffectPreview/<recipe>/
-        //  - Seeking (scrub / step / restart) selects the recipe's active items + instances in its inspector (paused-only)
+        //  - Seeking (step / restart / scrub release) selects the recipe's active items + instances in its inspector (paused-only)
+        //      - mid-scrub only the preview + timeline follow (redrawn once per tick) to prevent lag
         //  - Internal methods/properties are for test visibility
 
         // Time Preview Settings
@@ -41,6 +42,7 @@ namespace LowDefMustard.Rendering.Editor
         [SerializeField] private BattleEffectReferenceSettings reference = new();
         [SerializeField] private int sizePresetIndex = 0;
         [SerializeField] private bool isTransparentExport = false;
+        [SerializeField] private bool isTimelineCollapsed = false; // Mirrored state to BattleEffectTimelineElement for serialization/editor window memory
 
         // UI State
         private bool isPlaying = true;
@@ -66,7 +68,7 @@ namespace LowDefMustard.Rendering.Editor
         
         
         #region Menus
-        [MenuItem("Tools/Battle Effects/Preview")]
+        [MenuItem("Tools/Battle Effects/Preview", priority = 30)]
         private static void Open()
         {
             BattleEffectPreviewWindow window = GetWindow<BattleEffectPreviewWindow>("Battle Effect Preview");
@@ -104,18 +106,21 @@ namespace LowDefMustard.Rendering.Editor
 
             LoadReferenceFrames();
             ApplyLayout();
+            BattleEffectPreviewVisibility.changed += HandleVisibilityChanged;
             lastTickTime = EditorApplication.timeSinceStartup;
             root.schedule.Execute(Tick).Every(_tickMilliseconds);
         }
 
         private void OnDisable()
         {
+            BattleEffectPreviewVisibility.changed -= HandleVisibilityChanged;
             exporter?.Cancel();
             exporter = null;
             previewRenderer?.Dispose();
             previewRenderer = null;
             referenceFrames?.Dispose();
             referenceFrames = null;
+            render.ReleaseTextures();
         }
         #endregion
 
@@ -241,12 +246,15 @@ namespace LowDefMustard.Rendering.Editor
         private void BuildTimelineAndStage(VisualElement root)
         {
             timeline = new BattleEffectTimelineElement();
+            timeline.SetCollapsed(isTimelineCollapsed);
+            timeline.collapseToggled += isCollapsed => isTimelineCollapsed = isCollapsed;
             timeline.scrubbed += scrubTime =>
             {
                 isPlaying = false;
                 SelectRecipeAsset();
-                Seek(scrubTime);
+                ScrubTo(scrubTime);
             };
+            timeline.scrubEnded += SelectActiveEntries;
             root.Add(timeline);
 
             // Preview (w/ the overlay reference on top) + the side-by-side reference
@@ -394,6 +402,13 @@ namespace LowDefMustard.Rendering.Editor
             if (!isPlaying) { SelectActiveEntries(); }
         }
 
+        internal void ScrubTo(float scrubTime)
+        {
+            // Drawn on the next tick ~ pointer moves between ticks coalesce
+            time = Mathf.Clamp(scrubTime, 0f, GetTotalTime());
+            RequestRedraw();
+        }
+
         private void Tick()
         {
             double now = EditorApplication.timeSinceStartup;
@@ -453,6 +468,13 @@ namespace LowDefMustard.Rendering.Editor
         #endregion
 
         #region Utility
+        private void HandleVisibilityChanged(BattleEffectRecipe _)
+        {
+            // Trigger redraw on any recipe (since it may be instanced in the previewed one)
+            timeline?.MarkRowsStale();
+            RequestRedraw();
+        }
+
         private void SelectRecipeAsset()
         {
             if (render.recipe != null && Selection.activeObject != render.recipe) { Selection.activeObject = render.recipe; }
