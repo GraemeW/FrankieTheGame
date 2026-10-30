@@ -444,6 +444,26 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Beats_WritesScaleRatiosDefaultingToUnchanged()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":2,\"beatA\":{\"scaleRatio\":0.5},\"beatB\":{\"startSeconds\":0.5}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 2f);
+
+            AssertTexel(new Color(0.5f, 1f, 1f, 1f), texels[BattleEffectDataLayout.beatScales], "not x the effect scale;  default + unused = 1");
+        }
+
+        [Test]
+        public void TryWriteData_Beats_InterpolatedReplacesThePattern()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":2,\"isInterpolated\":true,\"pattern\":\"0123\",\"patternRate\":10}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+            AssertTexel(new Color(0f, 0f, 0f, -1f), texels[BattleEffectDataLayout.beatPattern]);
+
+            CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":0,\"isInterpolated\":true}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+            AssertTexel(Color.clear, texels[BattleEffectDataLayout.beatPattern], "no beats:  off");
+        }
+
+        [Test]
         public void TryWriteData_Beats_PatternPacksBase5DigitsRateAndStepCount()
         {
             BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"beats\":{\"count\":4,\"pattern\":\"014 23\",\"patternRate\":20}}");

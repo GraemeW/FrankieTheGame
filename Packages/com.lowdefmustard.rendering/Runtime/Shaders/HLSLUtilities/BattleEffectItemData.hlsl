@@ -25,6 +25,13 @@ struct BattleEffectModifiers
     float pulseScale;
 };
 
+struct BattleEffectBeatPose
+{
+    int beat;       // -1 = the item's base
+    int nextBeat;
+    float blend;    // Towards the next beat (0 = held at beat)
+};
+
 float4 LoadBattleEffectTexel(UnityTexture2D itemData, int item, int column)
 {
     return LOAD_TEXTURE2D(itemData.tex, int2(column, item));
@@ -86,6 +93,46 @@ float2 GetBattleEffectBeatPair(UnityTexture2D itemData, int item, int beat, int 
     uint beatIndex = (uint)beat; // (unsigned:  the shifts below are cheaper than signed divides)
     float4 pair = LoadBattleEffectTexel(itemData, item, firstColumn + (int)(beatIndex >> 1u));
     return (beatIndex & 1u) == 0u ? pair.xy : pair.zw;
+}
+
+BattleEffectBeatPose GetBattleEffectBeatPose(UnityTexture2D itemData, int item, int beat, float progress)
+{
+    // Geometry's beat pose:  held at the current beat, or between two (interpolated beats:  start times map onto progress, from the item's base at 0, holding after the last)
+
+    BattleEffectBeatPose pose;
+    pose.beat = beat;
+    pose.nextBeat = beat;
+    pose.blend = 0.0;
+    if (LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATPATTERN).w >= 0.0) { return pose; }
+
+    float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS);
+    float time = progress * LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TIMING).y;
+    int current = -1;
+    [unroll]
+    for (int candidate = 0; candidate < BATTLE_EFFECT_LAYOUT_MAXBEATS; candidate++) { current = time >= beatStarts[candidate] - 1e-4 ? candidate : current; }
+    pose.beat = current;
+    pose.nextBeat = current;
+    if (current >= BATTLE_EFFECT_LAYOUT_MAXBEATS - 1) { return pose; }
+
+    float currentStart = current < 0 ? 0.0 : beatStarts[max(current, 0)];
+    float nextStart = beatStarts[current + 1];
+    if (nextStart > 1e8) { return pose; } // Unused beats start never
+    pose.nextBeat = current + 1;
+    pose.blend = saturate((time - currentStart) / max(nextStart - currentStart, 1e-5));
+    return pose;
+}
+
+float2 GetBattleEffectPosePair(UnityTexture2D itemData, int item, BattleEffectBeatPose pose, int firstColumn)
+{
+    float2 value = GetBattleEffectBeatPair(itemData, item, pose.beat, firstColumn);
+    return pose.blend > 0.0 ? lerp(value, GetBattleEffectBeatPair(itemData, item, pose.nextBeat, firstColumn), pose.blend) : value;
+}
+
+float GetBattleEffectPoseScale(UnityTexture2D itemData, int item, BattleEffectBeatPose pose)
+{
+    float4 beatScales = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSCALES);
+    float scale = pose.beat < 0 ? 1.0 : beatScales[max(pose.beat, 0)];
+    return pose.blend > 0.0 ? lerp(scale, beatScales[max(pose.nextBeat, 0)], pose.blend) : scale;
 }
 
 BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item, float elapsedTime, float itemTime, float disableFlicker, float disableJitter)

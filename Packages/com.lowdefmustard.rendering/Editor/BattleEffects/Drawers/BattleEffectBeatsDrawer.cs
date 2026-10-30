@@ -10,6 +10,7 @@ namespace LowDefMustard.Rendering.Editor
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             SerializedProperty countProperty = property.FindPropertyRelative(BattleEffectBeats.countField);
+            SerializedProperty isInterpolatedProperty = property.FindPropertyRelative(BattleEffectBeats.isInterpolatedField);
             return new BattleEffectSection(property, () => countProperty.intValue > 0, section =>
             {
                 int count = countProperty.intValue;
@@ -17,8 +18,9 @@ namespace LowDefMustard.Rendering.Editor
                 section.SetShown(BattleEffectBeats.beatBField, count > 1);
                 section.SetShown(BattleEffectBeats.beatCField, count > 2);
                 section.SetShown(BattleEffectBeats.beatDField, count > 3);
-                section.SetShown(BattleEffectBeats.patternField, count > 0);
-                section.SetShown(BattleEffectBeats.patternRateField, count > 0);
+                section.SetShown(BattleEffectBeats.isInterpolatedField, count > 0);
+                section.SetShown(BattleEffectBeats.patternField, count > 0 && !isInterpolatedProperty.boolValue);
+                section.SetShown(BattleEffectBeats.patternRateField, count > 0 && !isInterpolatedProperty.boolValue);
             });
         }
     }

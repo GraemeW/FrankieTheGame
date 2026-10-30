@@ -12,21 +12,25 @@ namespace LowDefMustard.Rendering
         //  - Two main implementations:
         //      - A. Start-Time Offset:  when pattern is unset / pattern rate = 0, beats start at their defined start times
         //      - B. Pattern:  picks the beat per step, pattern packed into two floats of base-5 digits w/ its rate + step count
+        //  - Start-Time Offset, option for `Interpolated`:  offset, elongation + scale run piecewise interpolated between the beats (holding after the last start time)
+        //      - beats must be in start order && colour indices stay held
 
         // Const Tunables
         public const int patternStepsPerFloat = 10;
         public const int maxPatternSteps = 2 * patternStepsPerFloat;
 
         [SerializeField][Tooltip("Beats in use (0 = off)")][Range(0, BattleEffectDataLayout.maxBeats)] private int count = 0;
+        [SerializeField][Tooltip("Runs offset, elongation + scale smoothly from beat to beat")] private bool isInterpolated = false;
         [SerializeField][Tooltip("Beat per step from the item's start, then repeating:  0 = none, 1 = beat A, ... 4 = beat D (e.g. 01123), spaces ignored, up to 20 steps")] private string pattern = "";
         [SerializeField][Tooltip("Pattern steps per second")][Min(0f)] private float patternRate = 0f;
-        [SerializeField] private BattleEffectBeat beatA;
-        [SerializeField] private BattleEffectBeat beatB;
-        [SerializeField] private BattleEffectBeat beatC;
-        [SerializeField] private BattleEffectBeat beatD;
+        [SerializeField] private BattleEffectBeat beatA = new();
+        [SerializeField] private BattleEffectBeat beatB = new();
+        [SerializeField] private BattleEffectBeat beatC = new();
+        [SerializeField] private BattleEffectBeat beatD = new();
 
         // Editor Field References
         public const string countField = nameof(count);
+        public const string isInterpolatedField = nameof(isInterpolated);
         public const string patternField = nameof(pattern);
         public const string patternRateField = nameof(patternRate);
         public const string beatAField = nameof(beatA);
@@ -36,6 +40,7 @@ namespace LowDefMustard.Rendering
 
         // Constants
         private const float _neverSeconds = 1e9f;
+        private static readonly Color _interpolatedSkipPattern = new(0f, 0f, 0f, -1f);
 
         #region InternalMethods
         internal bool IsPaletteUsed()
@@ -48,6 +53,7 @@ namespace LowDefMustard.Rendering
         {
             var starts = new Color(_neverSeconds, _neverSeconds, _neverSeconds, _neverSeconds);
             var colours = new Color(0f, 0f, 0f, 0f);
+            var scales = new Color(1f, 1f, 1f, 1f);
             var offsets = new Vector2[BattleEffectDataLayout.maxBeats];
             var elongations = new Vector2[BattleEffectDataLayout.maxBeats];
             for (int i = 0; i < GetCount(); i++)
@@ -55,6 +61,7 @@ namespace LowDefMustard.Rendering
                 BattleEffectBeat beat = GetBeat(i);
                 starts[i] = beat.GetStartSeconds();
                 colours[i] = beat.GetColourIndex();
+                scales[i] = beat.GetScaleRatio();
                 offsets[i] = beat.GetOffset() * effectScale;
                 elongations[i] = beat.GetElongation();
             }
@@ -64,12 +71,14 @@ namespace LowDefMustard.Rendering
             texels[rowStart + BattleEffectDataLayout.beatOffsets23] = new Color(offsets[2].x, offsets[2].y, offsets[3].x, offsets[3].y);
             texels[rowStart + BattleEffectDataLayout.beatElongations01] = new Color(elongations[0].x, elongations[0].y, elongations[1].x, elongations[1].y);
             texels[rowStart + BattleEffectDataLayout.beatElongations23] = new Color(elongations[2].x, elongations[2].y, elongations[3].x, elongations[3].y);
-            texels[rowStart + BattleEffectDataLayout.beatPattern] = GetCount() > 0 ? EncodePattern(pattern, patternRate) : Color.clear;
+            texels[rowStart + BattleEffectDataLayout.beatScales] = scales;
+            texels[rowStart + BattleEffectDataLayout.beatPattern] = GetCount() == 0 ? Color.clear : isInterpolated ? _interpolatedSkipPattern : EncodePattern(pattern, patternRate);
         }
 
         internal static void WriteEmpty(Color[] texels, int rowStart)
         {
             texels[rowStart + BattleEffectDataLayout.beatStarts] = new Color(_neverSeconds, _neverSeconds, _neverSeconds, _neverSeconds);
+            texels[rowStart + BattleEffectDataLayout.beatScales] = new Color(1f, 1f, 1f, 1f);
             texels[rowStart + BattleEffectDataLayout.beatPattern] = Color.clear;
         }
 

@@ -140,7 +140,7 @@ void GetBattleEffectRadialCandidates(float2 mirroredPoint, float2 spacing, float
     }
 }
 
-float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float2 spreadOffset, float progress, int beat,
+float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float2 spreadOffset, float progress, BattleEffectBeatPose pose,
     out float copyIndex, out float2 copyPoint)
 {
     // The item's distance in its local space (mirror -> spread offset -> repetition -> shape rotation -> elongation -> shape), at its nearest copies
@@ -167,7 +167,7 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     copyShape.copyScaleRatio = lerp(copyScaleRange.x, copyScaleRange.y, progress);
     copyShape.copyWave = float4(copyWave.x, copyWave.y, lerp(copyWave.z, copyWave.w, progress), lerp(copyWavePhase.z, copyWavePhase.w, progress));
     copyShape.wavePhase = lerp(copyWavePhase.x, copyWavePhase.y, progress);
-    copyShape.elongation = lerp(elongationRange.xy, elongationRange.zw, progress) + GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATELONGATIONS01);
+    copyShape.elongation = lerp(elongationRange.xy, elongationRange.zw, progress) + GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATELONGATIONS01);
 
     // Folds: half turn, then x / y mirrors (unfold = their signs, to put the copy's point back on the item's side)
     uint mirrorFlags = (uint)round(repetition.w); // (x = 1, y = 2, half turn = 4, spread = 8)

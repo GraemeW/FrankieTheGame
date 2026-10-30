@@ -25,20 +25,20 @@
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectRepetition.hlsl"
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/ColourUtility.hlsl"
 
-BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int item, float2 fittedUV, float itemTime, float progress, int beat, BattleEffectModifiers modifiers,
+BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int item, float2 fittedUV, float itemTime, float progress, BattleEffectBeatPose pose, BattleEffectModifiers modifiers,
     out float distanceScale, out float2 spreadOffset)
 {
     // Effect units -> the shape's local space (+ its interpolated parameters && relevant offsetting)
-    //  - position:  its range + the current beat's offset + jitter;  scale:  its range x pulse;  item rotation:  its range
+    //  - position:  its range + the current beat's offset + jitter;  scale:  its range x the beat's ratio x pulse;  item rotation:  its range
     //  - spread beat offsets (mirrored items) skip the position:  returned in local space instead (for after the fold)
 
     float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
     float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE);
     float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION);
     bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
-    float2 beatOffset = GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01);
+    float2 beatOffset = GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01);
     float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : beatOffset) + modifiers.jitterOffset;
-    float2 itemScale = lerp(scale.xy, scale.zw, progress) * modifiers.pulseScale;
+    float2 itemScale = lerp(scale.xy, scale.zw, progress) * GetBattleEffectPoseScale(itemData, item, pose) * modifiers.pulseScale;
     float itemAngle = lerp(rotation.x, rotation.y, progress);
 
     BattleEffectShapeInput shapeInput;
@@ -56,7 +56,7 @@ BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int it
     return shapeInput;
 }
 
-float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fittedUV, float progress, int beat, BattleEffectModifiers modifiers)
+float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fittedUV, float progress, BattleEffectBeatPose pose, BattleEffectModifiers modifiers)
 {
     // Tiling:  the point moved into its nearest lattice cell, relative to the item's position as if that cell were the item (untiled:  unchanged)
     //  - the nearest cell only (no neighbours, deliberately) ~ shapes reaching past their cell are cut at its edge
@@ -67,7 +67,7 @@ float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fitte
 
     float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
     bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
-    float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01)) + modifiers.jitterOffset;
+    float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01)) + modifiers.jitterOffset;
     float4 spacingAnchor = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING); // (spacing, anchor)
     float2 spacing = spacingAnchor.xy;
     float2 latticeCentre = tiling.w > 0.5 ? spacingAnchor.zw : itemPosition;
@@ -154,10 +154,11 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     // Geometry:  the shape's distance (effect units) at its nearest copy
     BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, item, elapsedTime, itemTime, disableFlicker, disableJitter);
     int beat = GetBattleEffectBeat(itemData, item, itemTime);
+    BattleEffectBeatPose pose = GetBattleEffectBeatPose(itemData, item, beat, progress);
     float distanceScale, copyIndex;
     float2 spreadOffset, copyPoint;
-    BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, GetBattleEffectTiledPoint(itemData, item, fittedUV, progress, beat, modifiers), itemTime, progress, beat, modifiers, distanceScale, spreadOffset);
-    float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, spreadOffset, progress, beat, copyIndex, copyPoint) * distanceScale;
+    BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, GetBattleEffectTiledPoint(itemData, item, fittedUV, progress, pose, modifiers), itemTime, progress, pose, modifiers, distanceScale, spreadOffset);
+    float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, spreadOffset, progress, pose, copyIndex, copyPoint) * distanceScale;
 
     // Style + colour
     int style = GetBattleEffectStyle(itemData, item);

@@ -74,20 +74,21 @@ namespace LowDefMustard.Rendering
         public const int beatOffsets23 = 38;        // Beats 2 + 3
         public const int beatElongations01 = 39;    // Beat 0 elongation.xy, beat 1 .xy
         public const int beatElongations23 = 40;    // Beats 2 + 3
-        public const int beatPattern = 41;          // (steps 0-9, 10-19 [base-5 digits:  0 = no beat, 1-4 = beats 0-3], rate, step count [0 = by start times])
+        public const int beatScales = 41;           // Beats 0-3 scale ratio (x the item's scale;  1 = unchanged)
+        public const int beatPattern = 42;          // (steps 0-9, 10-19 [base-5 digits:  0 = no beat, 1-4 = beats 0-3], rate, step count [-1 = interpolated;  0 = by start times])
 
         // Jitter
-        public const int jitter = 42;               // (rate, amount.x, amount.y, seed)
-        public const int jitterMode = 43;           // (mode, phase, -, -)
+        public const int jitter = 43;               // (rate, amount.x, amount.y, seed)
+        public const int jitterMode = 44;           // (mode, phase, -, -)
 
         // Flicker
-        public const int flicker = 44;              // (rate, depth, phase, pattern [0 = off;  bits + a leading 1])
+        public const int flicker = 45;              // (rate, depth, phase, pattern [0 = off;  bits + a leading 1])
 
         // Pulse
-        public const int pulse = 45;                // (rate, amount, phase, -)
+        public const int pulse = 46;                // (rate, amount, phase, -)
 
         // Sizes
-        public const int texelsPerItem = 46;
+        public const int texelsPerItem = 47;
         public const int shapeParameterCapacity = 8;
         public const int maxAltColours = 3;         // Alt colours B-D
         public const int maxBeats = 4;

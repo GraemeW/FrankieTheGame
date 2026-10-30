@@ -683,6 +683,23 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [UnityTest]
+        [TestCase(false, ExpectedResult = null)]
+        [TestCase(true, ExpectedResult = null)]
+        public IEnumerator Beats_InterpolatedHidesThePattern(bool isInterpolated)
+        {
+            string BeatsPath(string fieldName) => $"{BattleEffectItem.beatsField}.{fieldName}";
+            
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{BeatsPath(BattleEffectBeats.countField)}").intValue = 1;
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{BeatsPath(BattleEffectBeats.isInterpolatedField)}").boolValue = isInterpolated;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, BeatsPath(BattleEffectBeats.patternField));
+
+            Assert.AreEqual(!isInterpolated, IsShown(FindItemField(1, BeatsPath(BattleEffectBeats.patternField))), "pattern");
+            Assert.AreEqual(!isInterpolated, IsShown(FindItemField(1, BeatsPath(BattleEffectBeats.patternRateField))), "pattern rate");
+        }
+
+        [UnityTest]
         [TestCase(false, false, ExpectedResult = null)]
         [TestCase(true, true, ExpectedResult = null)]
         public IEnumerator Tiling_ShowsAnchorOnlyWhenAnchored(bool isAnchored, bool isShown)
