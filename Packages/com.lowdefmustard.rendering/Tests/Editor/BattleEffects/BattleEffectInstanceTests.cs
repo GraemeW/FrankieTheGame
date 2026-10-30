@@ -155,6 +155,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void Bake_MirrorAndPlacement_MoveAnAnchoredLatticesCentre()
+        {
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"tiling\":{\"mode\":1,\"count\":{\"x\":2,\"y\":2},\"spacingEU\":{\"x\":0.2,\"y\":0.4},\"isAnchored\":true,\"anchorEU\":{\"x\":0.3,\"y\":0.7}}}") });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, true, false, new Vector2(0.5f, 2f), new Vector2(0.1f, -0.1f), new BattleEffectColourSwap[0]) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            AssertTexel(new Color(0.1f, 0.8f, 0.7f, 0.8f), dataTexture.GetPixel(BattleEffectDataLayout.tilingSpacing, 0), "spacing scaled;  anchor mirrored, then placed");
+        }
+
+        [Test]
         public void Bake_SelfInstance_StopsAtTheDepthLimit()
         {
             child.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });

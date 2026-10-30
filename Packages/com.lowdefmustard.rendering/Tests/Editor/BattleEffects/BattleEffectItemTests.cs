@@ -325,6 +325,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Tiling_PacksAnAnchoredLatticesCentre()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"tiling\":{\"mode\":1,\"count\":{\"x\":2,\"y\":3},\"spacingEU\":{\"x\":0.25,\"y\":0.5},\"isAnchored\":true,\"anchorEU\":{\"x\":0.4,\"y\":0.6}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 2f);
+
+            AssertTexel(new Color((int)BattleEffectTilingMode.Grid, 2f, 3f, 1f), texels[BattleEffectDataLayout.tiling], "anchored flag");
+            AssertTexel(new Color(0.5f, 1f, 0.4f, 0.6f), texels[BattleEffectDataLayout.tilingSpacing], "spacing x effect scale + anchor (a point:  unscaled)");
+        }
+
+        [Test]
         public void TryWriteData_Tiling_PacksModeClampedCountAndEffectScaledSpacing()
         {
             BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"tiling\":{\"mode\":2,\"count\":{\"x\":0,\"y\":3},\"spacingEU\":{\"x\":0.25,\"y\":0.5}}}");

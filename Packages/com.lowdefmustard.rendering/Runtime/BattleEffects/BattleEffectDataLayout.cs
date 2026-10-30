@@ -60,8 +60,8 @@ namespace LowDefMustard.Rendering
         public const int copyWavePhase = 30;        // (phase start, end, plateau start, end)
 
         // Tiling (the whole item on a lattice)
-        public const int tiling = 31;               // (mode [0 = off, 1 = grid, 2 = staggered grid], count x, count y, -)
-        public const int tilingSpacing = 32;        // (spacing EU x, y, -, -)
+        public const int tiling = 31;               // (mode [0 = off, 1 = grid, 2 = staggered grid], count x, count y, is anchored)
+        public const int tilingSpacing = 32;        // (spacing EU x, y, anchor EU x, y)
 
         // Colour cycle
         public const int colourCycle = 33;          // (source, rate, phase offset [steps], palette count [colour + alt colours in use])

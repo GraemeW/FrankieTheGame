@@ -77,6 +77,15 @@ namespace LowDefMustard.Rendering
                 if (mirrorY) { position.g = 1f - position.g; position.a = 1f - position.a; }
                 texels[rowStart + BattleEffectDataLayout.position] = position;
 
+                // An anchored lattice's centre is an effect-space point too
+                Color tilingSpacing = texels[rowStart + BattleEffectDataLayout.tilingSpacing];
+                if (texels[rowStart + BattleEffectDataLayout.tiling].a > 0.5f)
+                {
+                    if (mirrorX) { tilingSpacing.b = 1f - tilingSpacing.b; }
+                    if (mirrorY) { tilingSpacing.a = 1f - tilingSpacing.a; }
+                    texels[rowStart + BattleEffectDataLayout.tilingSpacing] = tilingSpacing;
+                }
+
                 // Mirroring = an item rotation + a flip of the item's local y (negative scale) ~ local space (shape rotation, clip) is unchanged
                 Color rotation = texels[rowStart + BattleEffectDataLayout.rotation];
                 rotation.r = MirrorAngle(rotation.r);
@@ -130,7 +139,10 @@ namespace LowDefMustard.Rendering
 
             // Effect-space lengths
             ScalePair(texels, rowStart + BattleEffectDataLayout.beatOffsets01);
-            ScalePair(texels, rowStart + BattleEffectDataLayout.tilingSpacing);
+            Color spacing = texels[rowStart + BattleEffectDataLayout.tilingSpacing];
+            bool isAnchored = texels[rowStart + BattleEffectDataLayout.tiling].a > 0.5f;
+            texels[rowStart + BattleEffectDataLayout.tilingSpacing] = new Color(spacing.r * scaleRatio.x, spacing.g * scaleRatio.y,
+                isAnchored ? 0.5f + (spacing.b - 0.5f) * scaleRatio.x + offsetEU.x : 0f, isAnchored ? 0.5f + (spacing.a - 0.5f) * scaleRatio.y + offsetEU.y : 0f);
             ScalePair(texels, rowStart + BattleEffectDataLayout.beatOffsets23);
             Color jitter = texels[rowStart + BattleEffectDataLayout.jitter];
             jitter.g *= scaleRatio.x;

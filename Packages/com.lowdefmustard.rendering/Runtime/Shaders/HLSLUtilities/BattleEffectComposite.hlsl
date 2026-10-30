@@ -61,18 +61,20 @@ float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fitte
     // Tiling:  the point moved into its nearest lattice cell, relative to the item's position as if that cell were the item (untiled:  unchanged)
     //  - the nearest cell only (no neighbours, deliberately) ~ shapes reaching past their cell are cut at its edge
 
-    float4 tiling = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILING); // (mode, count x, count y, -)
+    float4 tiling = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILING); // (mode, count x, count y, is anchored)
     int tilingMode = (int)round(tiling.x);
     if (tilingMode == BATTLE_EFFECT_TILINGMODE_NONE) { return fittedUV; }
 
     float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
     bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
     float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01)) + modifiers.jitterOffset;
-    float2 spacing = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING).xy;
+    float4 spacingAnchor = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING); // (spacing, anchor)
+    float2 spacing = spacingAnchor.xy;
+    float2 latticeCentre = tiling.w > 0.5 ? spacingAnchor.zw : itemPosition;
     float2 nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint;
-    if (tilingMode == BATTLE_EFFECT_TILINGMODE_STAGGEREDGRID) { SDFRepeatStaggeredGrid(fittedUV - itemPosition, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
-    else { SDFRepeatGrid(fittedUV - itemPosition, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
-    return itemPosition + nearestPoint;
+    if (tilingMode == BATTLE_EFFECT_TILINGMODE_STAGGEREDGRID) { SDFRepeatStaggeredGrid(fittedUV - latticeCentre, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
+    else { SDFRepeatGrid(fittedUV - latticeCentre, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
+    return latticeCentre + nearestPoint;
 }
 
 float ApplyBattleEffectOutline(UnityTexture2D itemData, int item, float distance, float progress)

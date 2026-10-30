@@ -152,7 +152,7 @@ A `BattleEffectDataLayout` const (in its section's group) + its write in `Battle
 |---------------------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | `BattleEffectItem`              | 6 / 6          | Texel layout, effect scale, guards, accessors                                                                                                    |
 | `BattleEffectRecipe`            | 8 / 8          | Bake, `ApplyTo`, `OnDisable` cleanup, end time, revision, `ValidateShapes`                                                                       |
-| `BattleEffectInstance`          | 18 / 18        | Flattening order, start offset + end time, mirror x / x+y, scale + offset, colour swaps, tiling (override + placed spacing), depth limit, rebake |
+| `BattleEffectInstance`          | 19 / 19        | Flattening order, start offset + end time, mirror x / x+y, scale + offset, colour swaps, tiling (override + placed spacing), depth limit, rebake |
 | Shapes                          | 2 / 2          | Unique + stable IDs, parameters fit the layout                                                                                                   |
 | Ranges + tint                   | 6 / 6          | Constructors, `ApplyTo`, drawer field names                                                                                                      |
 | `BattleEffectPropertyRefs`      | 4 / 4          | Material detection + every `MaterialDefinition` write                                                                                            |

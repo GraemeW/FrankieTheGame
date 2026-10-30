@@ -683,6 +683,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [UnityTest]
+        [TestCase(false, false, ExpectedResult = null)]
+        [TestCase(true, true, ExpectedResult = null)]
+        public IEnumerator Tiling_ShowsAnchorOnlyWhenAnchored(bool isAnchored, bool isShown)
+        {
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{TilingPath(BattleEffectTiling.modeField)}").intValue = (int)BattleEffectTilingMode.Grid;
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{TilingPath(BattleEffectTiling.isAnchoredField)}").boolValue = isAnchored;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, TilingPath(BattleEffectTiling.anchorEUField));
+
+            Assert.AreEqual(isShown, IsShown(FindItemField(1, TilingPath(BattleEffectTiling.anchorEUField))), "anchor");
+        }
+
+        [UnityTest]
         [TestCase(false, false, false, false, ExpectedResult = null)]
         [TestCase(true, false, false, true, ExpectedResult = null)]
         [TestCase(false, true, false, true, ExpectedResult = null)]
