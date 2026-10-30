@@ -12,6 +12,8 @@
 
 #include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectItemData.hlsl"
 
+#define BATTLE_EFFECT_MAX_COPY_CANDIDATES 4 // Line = 2, cross = 4, grid = 4, radial = 3, none = 1
+
 struct BattleEffectCopyShape
 {
     int shapeId;
@@ -48,17 +50,6 @@ void KeepNearestBattleEffectCopy(float candidateDistance, float candidateIndex, 
     if (candidateDistance < distance) { distance = candidateDistance; copyIndex = candidateIndex; copyPoint = candidatePoint; }
 }
 
-float2 GetBattleEffectCopyWaveOffset(BattleEffectCopyShape copyShape, float2 lineSpacing, float copyNumber)
-{
-    // Line / cross:  copy n's offset across its line (to the left of the spacing vector)
-
-    if (copyShape.copyWave.z == 0.0) { return 0.0; }
-    float waveValue;
-    WaveformValue(copyShape.copyWave.x, copyShape.wavePhase + copyNumber / max(copyShape.copyWave.y, 0.01), copyShape.copyWave.w, waveValue);
-    float2 across = float2(-lineSpacing.y, lineSpacing.x) / max(length(lineSpacing), 1e-8);
-    return across * copyShape.copyWave.z * waveValue;
-}
-
 float GetBattleEffectLineCopyIndex(float2 samplePoint, float2 copyPoint, float2 spacing, float count)
 {
     // A copy's number along a line repetition, from where its point sits (sample point - copy point = the copy's offset)
@@ -81,15 +72,24 @@ float GetBattleEffectGridCopyIndex(float2 samplePoint, float2 copyPoint, float2 
     return column + row;
 }
 
-float GetBattleEffectLineCopiesDistance(BattleEffectCopyShape copyShape, float2 mirroredPoint, float2 spacing, float count, bool isCross,
-    out float copyIndex, out float2 nearestPoint)
+float2 GetBattleEffectCopyWaveOffset(BattleEffectCopyShape copyShape, float2 lineSpacing, float copyNumber)
+{
+    // Line / cross:  copy n's offset across its line (to the left of the spacing vector)
+
+    if (copyShape.copyWave.z == 0.0) { return 0.0; }
+    float waveValue;
+    WaveformValue(copyShape.copyWave.x, copyShape.wavePhase + copyNumber / max(copyShape.copyWave.y, 0.01), copyShape.copyWave.w, waveValue);
+    float2 across = float2(-lineSpacing.y, lineSpacing.x) / max(length(lineSpacing), 1e-8);
+    return across * copyShape.copyWave.z * waveValue;
+}
+
+void GetBattleEffectLineCandidates(BattleEffectCopyShape copyShape, float2 mirroredPoint, float2 spacing, float count, bool isCross,
+    inout float2 candidatePoints[BATTLE_EFFECT_MAX_COPY_CANDIDATES], inout float candidateNumbers[BATTLE_EFFECT_MAX_COPY_CANDIDATES], out int candidateCount)
 {
     // Line:  count copies along the spacing vector (the nearest + its neighbour)
     // Cross:  + a second line across it (the same count + spacing, turned a quarter)
 
-    float distance = 1e5;
-    copyIndex = 0.0;
-    nearestPoint = 0.0;
+    candidateCount = isCross ? 4 : 2;
     float2 lineSpacings[2] = { spacing, float2(-spacing.y, spacing.x) };
     [unroll]
     for (int lineIndex = 0; lineIndex < 2; lineIndex++)
@@ -102,59 +102,42 @@ float GetBattleEffectLineCopiesDistance(BattleEffectCopyShape copyShape, float2 
         for (int copy = 0; copy < 2; copy++)
         {
             float copyNumber = GetBattleEffectLineCopyIndex(mirroredPoint, copyPoints[copy], lineSpacing, count);
-            float2 wavedPoint = copyPoints[copy] - GetBattleEffectCopyWaveOffset(copyShape, lineSpacing, copyNumber);
-            float copyDistance = GetBattleEffectScaledCopyDistance(copyShape, wavedPoint, copyNumber);
-            KeepNearestBattleEffectCopy(copyDistance, copyNumber, wavedPoint, distance, copyIndex, nearestPoint);
+            candidateNumbers[lineIndex * 2 + copy] = copyNumber;
+            candidatePoints[lineIndex * 2 + copy] = copyPoints[copy] - GetBattleEffectCopyWaveOffset(copyShape, lineSpacing, copyNumber);
         }
     }
-    return distance;
 }
 
-float GetBattleEffectGridCopiesDistance(BattleEffectCopyShape copyShape, float2 mirroredPoint, float2 spacing, float2 count, bool isStaggered,
-    out float copyIndex, out float2 nearestPoint)
+void GetBattleEffectGridCandidates(float2 mirroredPoint, float2 spacing, float2 count, bool isStaggered,
+    inout float2 candidatePoints[BATTLE_EFFECT_MAX_COPY_CANDIDATES], inout float candidateNumbers[BATTLE_EFFECT_MAX_COPY_CANDIDATES], out int candidateCount)
 {
     // Grid:  count.x by count.y copies;  staggered:  odd rows hold one fewer (half a spacing across) ~ the nearest copy + its x / y / xy neighbours
 
-    float2 copyPoints[4];
-    if (isStaggered) { SDFRepeatStaggeredGrid(mirroredPoint, spacing, count, copyPoints[0], copyPoints[1], copyPoints[2], copyPoints[3]); }
-    else { SDFRepeatGrid(mirroredPoint, spacing, count, copyPoints[0], copyPoints[1], copyPoints[2], copyPoints[3]); }
-
-    float distance = 1e5;
-    copyIndex = 0.0;
-    nearestPoint = 0.0;
+    candidateCount = 4;
+    if (isStaggered) { SDFRepeatStaggeredGrid(mirroredPoint, spacing, count, candidatePoints[0], candidatePoints[1], candidatePoints[2], candidatePoints[3]); }
+    else { SDFRepeatGrid(mirroredPoint, spacing, count, candidatePoints[0], candidatePoints[1], candidatePoints[2], candidatePoints[3]); }
     [unroll]
-    for (int copy = 0; copy < 4; copy++)
-    {
-        float copyNumber = GetBattleEffectGridCopyIndex(mirroredPoint, copyPoints[copy], spacing, count, isStaggered);
-        float copyDistance = GetBattleEffectScaledCopyDistance(copyShape, copyPoints[copy], copyNumber);
-        KeepNearestBattleEffectCopy(copyDistance, copyNumber, copyPoints[copy], distance, copyIndex, nearestPoint);
-    }
-    return distance;
+    for (int copy = 0; copy < 4; copy++) { candidateNumbers[copy] = GetBattleEffectGridCopyIndex(mirroredPoint, candidatePoints[copy], spacing, count, isStaggered); }
 }
 
-float GetBattleEffectRadialCopiesDistance(BattleEffectCopyShape copyShape, float2 mirroredPoint, float2 spacing, float count,
-    out float copyIndex, out float2 nearestPoint)
+void GetBattleEffectRadialCandidates(float2 mirroredPoint, float2 spacing, float count,
+    inout float2 candidatePoints[BATTLE_EFFECT_MAX_COPY_CANDIDATES], inout float candidateNumbers[BATTLE_EFFECT_MAX_COPY_CANDIDATES], out int candidateCount)
 {
     // Radial:  count copies turned evenly about the origin, copy 0 offset by the spacing ~ the nearest copy + either side
     //  - a copy's number comes from how far it's turned
 
+    candidateCount = 3;
     float2 copyPoints[3];
     SDFRepeatRadial(mirroredPoint, count, copyPoints[0], copyPoints[1], copyPoints[2]);
     float copies = max(round(count), 1.0);
     float sector = 6.28318531 / copies;
-
-    float distance = 1e5;
-    copyIndex = 0.0;
-    nearestPoint = 0.0;
     [unroll]
     for (int copy = 0; copy < 3; copy++)
     {
         float turns = round((atan2(mirroredPoint.y, mirroredPoint.x) - atan2(copyPoints[copy].y, copyPoints[copy].x)) / sector);
-        float copyNumber = fmod(fmod(turns, copies) + copies, copies);
-        float copyDistance = GetBattleEffectScaledCopyDistance(copyShape, copyPoints[copy] - spacing, copyNumber);
-        KeepNearestBattleEffectCopy(copyDistance, copyNumber, copyPoints[copy] - spacing, distance, copyIndex, nearestPoint);
+        candidateNumbers[copy] = fmod(fmod(turns, copies) + copies, copies);
+        candidatePoints[copy] = copyPoints[copy] - spacing;
     }
-    return distance;
 }
 
 float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeId, BattleEffectShapeInput shapeInput, float2 spreadOffset, float progress, int beat,
@@ -198,28 +181,38 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     mirroredPoint -= spreadOffset;
     float2 unfold = float2(isMirrorX && turnedPoint.x < 0.0 ? -1.0 : 1.0, isMirrorY && turnedPoint.y < 0.0 ? -1.0 : 1.0) * (isTurned ? -1.0 : 1.0);
 
-    // Repetition families
-    float distance;
+    // Repetition families:  each only works out its candidates (while no repetition = the one shape at its own size)
+    float2 candidatePoints[BATTLE_EFFECT_MAX_COPY_CANDIDATES] = { mirroredPoint, float2(0.0, 0.0), float2(0.0, 0.0), float2(0.0, 0.0) };
+    float candidateNumbers[BATTLE_EFFECT_MAX_COPY_CANDIDATES] = { 0.0, 0.0, 0.0, 0.0 };
+    int candidateCount = 1;
     if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_LINE || repetitionMode == BATTLE_EFFECT_REPETITIONMODE_CROSS)
     {
-        bool isCross = repetitionMode == BATTLE_EFFECT_REPETITIONMODE_CROSS;
-        distance = GetBattleEffectLineCopiesDistance(copyShape, mirroredPoint, spacing, count.x, isCross, copyIndex, copyPoint);
+        GetBattleEffectLineCandidates(copyShape, mirroredPoint, spacing, count.x, repetitionMode == BATTLE_EFFECT_REPETITIONMODE_CROSS, candidatePoints, candidateNumbers, candidateCount);
     }
     else if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_GRID || repetitionMode == BATTLE_EFFECT_REPETITIONMODE_STAGGEREDGRID)
     {
-        bool isStaggered = repetitionMode == BATTLE_EFFECT_REPETITIONMODE_STAGGEREDGRID;
-        distance = GetBattleEffectGridCopiesDistance(copyShape, mirroredPoint, spacing, count, isStaggered, copyIndex, copyPoint);
+        GetBattleEffectGridCandidates(mirroredPoint, spacing, count, repetitionMode == BATTLE_EFFECT_REPETITIONMODE_STAGGEREDGRID, candidatePoints, candidateNumbers, candidateCount);
     }
     else if (repetitionMode == BATTLE_EFFECT_REPETITIONMODE_RADIAL)
     {
-        distance = GetBattleEffectRadialCopiesDistance(copyShape, mirroredPoint, spacing, count.x, copyIndex, copyPoint);
+        GetBattleEffectRadialCandidates(mirroredPoint, spacing, count.x, candidatePoints, candidateNumbers, candidateCount);
     }
     else
     {
-        // No repetition:  the one shape
-        copyIndex = 0.0;
-        copyPoint = mirroredPoint;
-        distance = GetBattleEffectCopyDistance(copyShape, mirroredPoint);
+        copyShape.copyScaleRatio = 1.0;
+    }
+
+    // Fixed single shape evaluation site
+    // N.B. Avoid splits, as each extra site inlines the whole dispatch (compile time multiplier)
+    float distance = 1e5;
+    copyIndex = candidateNumbers[0];
+    copyPoint = candidatePoints[0];
+    [unroll]
+    for (int candidate = 0; candidate < BATTLE_EFFECT_MAX_COPY_CANDIDATES; candidate++)
+    {
+        if (candidate >= candidateCount) { break; }
+        float candidateDistance = GetBattleEffectScaledCopyDistance(copyShape, candidatePoints[candidate], candidateNumbers[candidate]);
+        KeepNearestBattleEffectCopy(candidateDistance, candidateNumbers[candidate], candidatePoints[candidate], distance, copyIndex, copyPoint);
     }
     copyPoint *= unfold;
     return distance;
