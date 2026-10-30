@@ -170,7 +170,7 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
     float waveX = local.x - scroll;
     float safeWavelength = max(abs(wavelength), 1e-4);
     int form = (int)round(waveform);
-    if (form == 3)  // Steps ~ special handling + early return
+    if (form == 3)  // Steps ~ special handling
     {
         float stepWidth = 0.5 * safeWavelength;
         float nearestStep = floor(waveX / stepWidth);
@@ -185,83 +185,84 @@ UNITY_EXPORT_REFLECTION void SDFSquiggle(float2 uv, float2 position, float halfL
             SDFSegment(local, float2(ends.x, level), float2(ends.y, level), stepDistance);
             distanceOutput = ends.y > ends.x ? min(distanceOutput, stepDistance) : distanceOutput;
         }
-        return;
     }
-    
-    float acrossDistance;
-    if (form == 1)  // Triangle
+    else
     {
-        float triangleWave = 4.0 * abs(frac(waveX / safeWavelength - 0.25) - 0.5) - 1.0;
-        float slope = 4.0 * amplitude / safeWavelength;
-        acrossDistance = abs(local.y - amplitude * triangleWave) / sqrt(1.0 + slope * slope);
-    }
-    else if (form == 2)  // Square
-    {
-        // A flat per half wavelength (up, then down), joined by risers
-        float halfPeriod = 0.5 * safeWavelength;
-        float cell = floor(waveX / halfPeriod);
-        float level = frac(cell * 0.5) < 0.25 ? amplitude : -amplitude;
-        float riserGap = min(abs(waveX - cell * halfPeriod), abs(waveX - (cell + 1.0) * halfPeriod));
-        acrossDistance = min(abs(local.y - level), length(float2(riserGap, max(abs(local.y) - abs(amplitude), 0.0))));
-    }
-    else if (form == 4)  // Trapezoid
-    {
-        // Per half wavelength:  a slope (centred on a zero crossing) then a flat crest ~ alternating up / down
-        float halfPeriod = 0.5 * safeWavelength;
-        float slopeLength = halfPeriod * (1.0 - saturate(plateau));
-        float nearestCell = floor((waveX + 0.5 * slopeLength) / halfPeriod);
-        acrossDistance = 1e5;
-        [unroll]
-        for (int offset = -1; offset <= 1; offset++)
+        float acrossDistance;
+        if (form == 1)  // Triangle
         {
-            float cell = nearestCell + offset;
-            float level = frac(cell * 0.5) < 0.25 ? amplitude : -amplitude;
-            float slopeStart = cell * halfPeriod - 0.5 * slopeLength;
-            float slopeDistance, crestDistance;
-            SDFSegment(float2(waveX, local.y), float2(slopeStart, -level), float2(slopeStart + slopeLength, level), slopeDistance);
-            SDFSegment(float2(waveX, local.y), float2(slopeStart + slopeLength, level), float2(slopeStart + halfPeriod, level), crestDistance);
-            acrossDistance = min(acrossDistance, min(slopeDistance, crestDistance));
+            float triangleWave = 4.0 * abs(frac(waveX / safeWavelength - 0.25) - 0.5) - 1.0;
+            float slope = 4.0 * amplitude / safeWavelength;
+            acrossDistance = abs(local.y - amplitude * triangleWave) / sqrt(1.0 + slope * slope);
         }
-    }
-    else if (form == 5)  // Pulse
-    {
-        // Per wavelength:  bumps (each a rise from the line, a flat top, a fall) back to back across the duty, then the line until the next run
-        //  - per cell:  its bump nearest the point + either side (the neighbouring cells' nearest = their last / first)
-        float bumpCount = max(round(bumps), 1.0);
-        float run = safeWavelength * clamp(duty, 1e-3, 1.0);
-        float bump = run / bumpCount;
-        float top = bump * saturate(plateau);
-        float rise = 0.5 * (bump - top);
-        float nearestCell = floor(waveX / safeWavelength);
-        acrossDistance = 1e5;
-        [unroll]
-        for (int offset = -1; offset <= 1; offset++)
+        else if (form == 2)  // Square
         {
-            float cellStart = (nearestCell + offset) * safeWavelength;
-            float nearestBump = clamp(floor((waveX - cellStart) / bump), 0.0, bumpCount - 1.0);
-            float lineDistance;
-            SDFSegment(float2(waveX, local.y), float2(cellStart + run, 0.0), float2(cellStart + safeWavelength, 0.0), lineDistance);
-            acrossDistance = min(acrossDistance, lineDistance);
+            // A flat per half wavelength (up, then down), joined by risers
+            float halfPeriod = 0.5 * safeWavelength;
+            float cell = floor(waveX / halfPeriod);
+            float level = frac(cell * 0.5) < 0.25 ? amplitude : -amplitude;
+            float riserGap = min(abs(waveX - cell * halfPeriod), abs(waveX - (cell + 1.0) * halfPeriod));
+            acrossDistance = min(abs(local.y - level), length(float2(riserGap, max(abs(local.y) - abs(amplitude), 0.0))));
+        }
+        else if (form == 4)  // Trapezoid
+        {
+            // Per half wavelength:  a slope (centred on a zero crossing) then a flat crest ~ alternating up / down
+            float halfPeriod = 0.5 * safeWavelength;
+            float slopeLength = halfPeriod * (1.0 - saturate(plateau));
+            float nearestCell = floor((waveX + 0.5 * slopeLength) / halfPeriod);
+            acrossDistance = 1e5;
             [unroll]
-            for (int side = -1; side <= 1; side++)
+            for (int offset = -1; offset <= 1; offset++)
             {
-                float start = cellStart + clamp(nearestBump + side, 0.0, bumpCount - 1.0) * bump;
-                float riseDistance, topDistance, fallDistance;
-                SDFSegment(float2(waveX, local.y), float2(start, 0.0), float2(start + rise, amplitude), riseDistance);
-                SDFSegment(float2(waveX, local.y), float2(start + rise, amplitude), float2(start + rise + top, amplitude), topDistance);
-                SDFSegment(float2(waveX, local.y), float2(start + rise + top, amplitude), float2(start + bump, 0.0), fallDistance);
-                acrossDistance = min(acrossDistance, min(riseDistance, min(topDistance, fallDistance)));
+                float cell = nearestCell + offset;
+                float level = frac(cell * 0.5) < 0.25 ? amplitude : -amplitude;
+                float slopeStart = cell * halfPeriod - 0.5 * slopeLength;
+                float slopeDistance, crestDistance;
+                SDFSegment(float2(waveX, local.y), float2(slopeStart, -level), float2(slopeStart + slopeLength, level), slopeDistance);
+                SDFSegment(float2(waveX, local.y), float2(slopeStart + slopeLength, level), float2(slopeStart + halfPeriod, level), crestDistance);
+                acrossDistance = min(acrossDistance, min(slopeDistance, crestDistance));
             }
         }
+        else if (form == 5)  // Pulse
+        {
+            // Per wavelength:  bumps (each a rise from the line, a flat top, a fall) back to back across the duty, then the line until the next run
+            //  - per cell:  its bump nearest the point + either side (the neighbouring cells' nearest = their last / first)
+            float bumpCount = max(round(bumps), 1.0);
+            float run = safeWavelength * clamp(duty, 1e-3, 1.0);
+            float bump = run / bumpCount;
+            float top = bump * saturate(plateau);
+            float rise = 0.5 * (bump - top);
+            float nearestCell = floor(waveX / safeWavelength);
+            acrossDistance = 1e5;
+            [unroll]
+            for (int offset = -1; offset <= 1; offset++)
+            {
+                float cellStart = (nearestCell + offset) * safeWavelength;
+                float nearestBump = clamp(floor((waveX - cellStart) / bump), 0.0, bumpCount - 1.0);
+                float lineDistance;
+                SDFSegment(float2(waveX, local.y), float2(cellStart + run, 0.0), float2(cellStart + safeWavelength, 0.0), lineDistance);
+                acrossDistance = min(acrossDistance, lineDistance);
+                [unroll]
+                for (int side = -1; side <= 1; side++)
+                {
+                    float start = cellStart + clamp(nearestBump + side, 0.0, bumpCount - 1.0) * bump;
+                    float riseDistance, topDistance, fallDistance;
+                    SDFSegment(float2(waveX, local.y), float2(start, 0.0), float2(start + rise, amplitude), riseDistance);
+                    SDFSegment(float2(waveX, local.y), float2(start + rise, amplitude), float2(start + rise + top, amplitude), topDistance);
+                    SDFSegment(float2(waveX, local.y), float2(start + rise + top, amplitude), float2(start + bump, 0.0), fallDistance);
+                    acrossDistance = min(acrossDistance, min(riseDistance, min(topDistance, fallDistance)));
+                }
+            }
+        }
+        else  // Sine (acts as default / catch)
+        {
+            float waveNumber = 6.28318531 / safeWavelength;
+            float phase = waveX * waveNumber;
+            float slope = amplitude * waveNumber * cos(phase);
+            acrossDistance = abs(local.y - amplitude * sin(phase)) / sqrt(1.0 + slope * slope);
+        }
+        distanceOutput = length(float2(max(abs(local.x) - halfLength, 0.0), acrossDistance));
     }
-    else  // Sine (acts as default / catch)
-    {
-        float waveNumber = 6.28318531 / safeWavelength;
-        float phase = waveX * waveNumber;
-        float slope = amplitude * waveNumber * cos(phase);
-        acrossDistance = abs(local.y - amplitude * sin(phase)) / sqrt(1.0 + slope * slope);
-    }
-    distanceOutput = length(float2(max(abs(local.x) - halfLength, 0.0), acrossDistance));
 }
 
 ///<funchints>

@@ -59,6 +59,7 @@ int GetBattleEffectBeat(UnityTexture2D itemData, int item, float itemTime)
     //  - optional pattern can pick beat per step instead:  base-5 digits (0 = none, 1-4 = beats 0-3), from the item's start, repeating
 
     float4 beatPattern = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATPATTERN); // (steps 0-9, 10-19, rate, step count)
+    int beat = -1;
     if (beatPattern.w >= 1.0)
     {
         // Integer steps + digits:  float division can land just under a whole number on the GPU
@@ -66,13 +67,14 @@ int GetBattleEffectBeat(UnityTexture2D itemData, int item, float itemTime)
         uint digits = uint(round(stepIndex < 10u ? beatPattern.x : beatPattern.y));
         [unroll]
         for (uint shift = 0u; shift < 9u; shift++) { digits = shift < stepIndex % 10u ? digits / 5u : digits; } // extract 5-bit colour entry @ stepIndex from digits 
-        return int(digits % 5u) - 1;
+        beat = int(digits % 5u) - 1;
     }
-
-    float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS);
-    int beat = -1;
-    [unroll]
-    for (int candidate = 0; candidate < BATTLE_EFFECT_LAYOUT_MAXBEATS; candidate++) { beat = itemTime >= beatStarts[candidate] - 1e-4 ? candidate : beat; }
+    else
+    {
+        float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS);
+        [unroll]
+        for (int candidate = 0; candidate < BATTLE_EFFECT_LAYOUT_MAXBEATS; candidate++) { beat = itemTime >= beatStarts[candidate] - 1e-4 ? candidate : beat; }
+    }
     return beat;
 }
 
@@ -81,8 +83,9 @@ float2 GetBattleEffectBeatPair(UnityTexture2D itemData, int item, int beat, int 
     // Beats' 2D values always pack two per texel (beats 0 + 1, then 2 + 3 immediately after)
 
     if (beat < 0) { return 0.0; }
-    float4 pair = LoadBattleEffectTexel(itemData, item, firstColumn + beat / 2);
-    return (beat % 2) == 0 ? pair.xy : pair.zw;
+    uint beatIndex = (uint)beat; // (unsigned:  the shifts below are cheaper than signed divides)
+    float4 pair = LoadBattleEffectTexel(itemData, item, firstColumn + (int)(beatIndex >> 1u));
+    return (beatIndex & 1u) == 0u ? pair.xy : pair.zw;
 }
 
 BattleEffectModifiers GetBattleEffectModifiers(UnityTexture2D itemData, int item, float elapsedTime, float itemTime, float disableFlicker, float disableJitter)

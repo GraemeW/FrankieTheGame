@@ -115,6 +115,45 @@ namespace LowDefMustard.Rendering.Tests.Editor
             AssertTexel(Color.yellow.linear, dataTexture.GetPixel(BattleEffectDataLayout.altColourB, 0), "alt colour B");
         }
 
+        [TestCase(-0.2f, 0.3f, 1f)]
+        [TestCase(-1f, 0f, 0.5f)]
+        public void Bake_NegativeStartOffset_StartsNoEarlierThanZeroKeepingTheEnd(float offset, float expectedStart, float expectedDuration)
+        {
+            parent.SetInstances(new[] { new BattleEffectInstance(child, offset, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            Color timing = dataTexture.GetPixel(BattleEffectDataLayout.timing, 0);
+            Assert.AreEqual(expectedStart, timing.r, 1e-5f, "start");
+            Assert.AreEqual(expectedDuration, timing.g, 1e-5f, "duration (the child's item:  0.5 -> 1.5)");
+        }
+
+        [Test]
+        public void Bake_Tiling_ReplacesTheItemsTilingAfterThePlacement()
+        {
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"tiling\":{\"mode\":1,\"count\":{\"x\":2,\"y\":2},\"spacingEU\":{\"x\":0.1,\"y\":0.1}}}") });
+            var tiling = new BattleEffectTiling(BattleEffectTilingMode.StaggeredGrid, new Vector2Int(6, 3), new Vector2(0.25f, 0.5f));
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new Vector2(0.5f, 0.5f), Vector2.zero, new BattleEffectColourSwap[0], tiling) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            AssertTexel(new Color((int)BattleEffectTilingMode.StaggeredGrid, 6f, 3f, 0f), dataTexture.GetPixel(BattleEffectDataLayout.tiling, 0));
+            AssertTexel(new Color(0.25f, 0.5f, 0f, 0f), dataTexture.GetPixel(BattleEffectDataLayout.tilingSpacing, 0), "the instance's own units (unscaled)");
+        }
+
+        [Test]
+        public void Bake_ScaleRatio_ScalesTheItemsOwnTilingSpacing()
+        {
+            child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"tiling\":{\"mode\":1,\"count\":{\"x\":2,\"y\":2},\"spacingEU\":{\"x\":0.2,\"y\":0.4}}}") });
+            parent.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, new Vector2(0.5f, 2f), Vector2.zero, new BattleEffectColourSwap[0]) });
+
+            Texture2D dataTexture = parent.BakeDataTexture(out _);
+
+            Color spacing = dataTexture.GetPixel(BattleEffectDataLayout.tilingSpacing, 0);
+            Assert.AreEqual(0.1f, spacing.r, 1e-5f);
+            Assert.AreEqual(0.8f, spacing.g, 1e-5f);
+        }
+
         [Test]
         public void Bake_SelfInstance_StopsAtTheDepthLimit()
         {

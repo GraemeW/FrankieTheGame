@@ -13,16 +13,19 @@ namespace LowDefMustard.Rendering
         //      - then we apply scale ratio (about the effect's centre) + offset to place it
         //      - the instanced recipe's own instances come along (up to `maxInstanceDepth` levels deep, per BattleEffectRecipe)
         //  - Global recipe parameters (scale ratio, frame rate, edge softness + glow) derive from the original recipe holder
+        //  - A negative start offset brings the items in earlier, up to t=0
+        //  - Tiling (if set) replaces every instanced item's own - set using this recipe's effect units (after the placement)
 
         // Tunables
         [SerializeField][Tooltip("Inspector name only")] private string label = "";
         [SerializeField] private BattleEffectRecipe recipe;
-        [SerializeField][Tooltip("Added to every instanced item's start")][Min(0f)] private float startOffsetSeconds = 0f;
+        [SerializeField][Tooltip("Added to every instanced item's start (negative = earlier, up to t=0)")] private float startOffsetSeconds = 0f;
         [SerializeField][Tooltip("Left <-> right, about the effect's centre")] private bool mirrorX = false;
         [SerializeField][Tooltip("Top <-> bottom, about the effect's centre")] private bool mirrorY = false;
         [SerializeField][Tooltip("Sizes the instance about the effect's centre, per axis (after the mirror)")] private Vector2 scaleRatio = Vector2.one;
         [SerializeField][Tooltip("Moves the instance (after the scale)")] private Vector2 offsetEU = Vector2.zero;
         [SerializeField][Tooltip("Replaces item colours (colour, outline colour, alt colours + edge gradient colour)")] private List<BattleEffectColourSwap> colourSwaps = new();
+        [SerializeField][Tooltip("Repeats every instanced item on a lattice (replaces their own tiling)")] private BattleEffectTiling tiling = new();
 
         // Editor Field References
         public const string labelField = nameof(label);
@@ -33,10 +36,12 @@ namespace LowDefMustard.Rendering
         public const string scaleRatioField = nameof(scaleRatio);
         public const string offsetEUField = nameof(offsetEU);
         public const string colourSwapsField = nameof(colourSwaps);
+        public const string tilingField = nameof(tiling);
 
         // Constructors
         public BattleEffectInstance() { }
-        public BattleEffectInstance(BattleEffectRecipe recipe, float startOffsetSeconds, bool mirrorX, bool mirrorY, Vector2 scaleRatio, Vector2 offsetEU, IEnumerable<BattleEffectColourSwap> colourSwaps)
+        public BattleEffectInstance(BattleEffectRecipe recipe, float startOffsetSeconds, 
+            bool mirrorX, bool mirrorY, Vector2 scaleRatio, Vector2 offsetEU, IEnumerable<BattleEffectColourSwap> colourSwaps, BattleEffectTiling tiling = null)
         {
             this.recipe = recipe;
             this.startOffsetSeconds = startOffsetSeconds;
@@ -45,6 +50,7 @@ namespace LowDefMustard.Rendering
             this.scaleRatio = scaleRatio;
             this.offsetEU = offsetEU;
             this.colourSwaps = new List<BattleEffectColourSwap>(colourSwaps);
+            this.tiling = tiling ?? new BattleEffectTiling();
         }
 
         #region Public Methods
@@ -61,6 +67,7 @@ namespace LowDefMustard.Rendering
             // Re-times, mirrors + recolours one baked item row
             Color timing = texels[rowStart + BattleEffectDataLayout.timing];
             timing.r += startOffsetSeconds;
+            if (timing.r < 0f) { timing.g = Mathf.Max(timing.g + timing.r, 0f); timing.r = 0f; } // Can't start before 0:  keep the end
             texels[rowStart + BattleEffectDataLayout.timing] = timing;
 
             if (mirrorX || mirrorY)
@@ -94,6 +101,7 @@ namespace LowDefMustard.Rendering
             }
 
             if (scaleRatio != Vector2.one || offsetEU != Vector2.zero) { Place(texels, rowStart); }
+            if (tiling != null && tiling.IsTiled()) { tiling.WriteData(texels, rowStart, 1f); }
 
             if (colourSwaps == null || colourSwaps.Count == 0) { return; }
             SwapColour(texels, rowStart + BattleEffectDataLayout.colour);
@@ -122,6 +130,7 @@ namespace LowDefMustard.Rendering
 
             // Effect-space lengths
             ScalePair(texels, rowStart + BattleEffectDataLayout.beatOffsets01);
+            ScalePair(texels, rowStart + BattleEffectDataLayout.tilingSpacing);
             ScalePair(texels, rowStart + BattleEffectDataLayout.beatOffsets23);
             Color jitter = texels[rowStart + BattleEffectDataLayout.jitter];
             jitter.g *= scaleRatio.x;

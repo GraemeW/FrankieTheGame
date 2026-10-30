@@ -73,6 +73,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private static string StylePath(string fieldName) => $"{BattleEffectItem.styleField}.{fieldName}";
         private static string RepetitionPath(string fieldName) => $"{BattleEffectItem.repetitionField}.{fieldName}";
         private static string ShadePath(string fieldName) => $"{BattleEffectItem.shadeField}.{fieldName}";
+        private static string TilingPath(string fieldName) => $"{BattleEffectItem.tilingField}.{fieldName}";
         private IEnumerator WaitForItemField(int itemIndex, string fieldPath) => HeadlessEditorWindow.WaitUntil(() => FindItemField(itemIndex, fieldPath) != null); // Group sections build as their drawers bind
 
         private static void UndoStep(string expectedName)
@@ -664,6 +665,21 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveAmplitudeSUField))), "amplitude");
             Assert.AreEqual(isWaveShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.waveCopiesPerCycleField))), "copies per cycle");
             Assert.AreEqual(isPlateauShown, IsShown(FindItemField(1, RepetitionPath(BattleEffectRepetition.wavePlateauFractionField))), "plateau (trapezoid / pulse only)");
+        }
+
+        [UnityTest]
+        [TestCase(BattleEffectTilingMode.None, false, ExpectedResult = null)]
+        [TestCase(BattleEffectTilingMode.Grid, true, ExpectedResult = null)]
+        [TestCase(BattleEffectTilingMode.StaggeredGrid, true, ExpectedResult = null)]
+        public IEnumerator Tiling_ShowsCountAndSpacingOnlyWhenTiled(BattleEffectTilingMode mode, bool isShown)
+        {
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{TilingPath(BattleEffectTiling.modeField)}").intValue = (int)mode;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, TilingPath(BattleEffectTiling.spacingEUField));
+
+            Assert.AreEqual(isShown, IsShown(FindItemField(1, TilingPath(BattleEffectTiling.countField))), "count");
+            Assert.AreEqual(isShown, IsShown(FindItemField(1, TilingPath(BattleEffectTiling.spacingEUField))), "spacing");
         }
 
         [UnityTest]

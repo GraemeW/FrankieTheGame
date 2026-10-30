@@ -59,31 +59,35 @@ namespace LowDefMustard.Rendering
         public const int copyWave = 29;             // (waveform, copies per cycle, amplitude start, end) ~ line / cross copies offset across their line
         public const int copyWavePhase = 30;        // (phase start, end, plateau start, end)
 
+        // Tiling (the whole item on a lattice)
+        public const int tiling = 31;               // (mode [0 = off, 1 = grid, 2 = staggered grid], count x, count y, -)
+        public const int tilingSpacing = 32;        // (spacing EU x, y, -, -)
+
         // Colour cycle
-        public const int colourCycle = 31;          // (source, rate, phase offset [steps], palette count [colour + alt colours in use])
-        public const int colourPattern = 32;        // Pattern source:  (steps 0-11, 12-23, 24-35 [base-4 digits], step count)
+        public const int colourCycle = 33;          // (source, rate, phase offset [steps], palette count [colour + alt colours in use])
+        public const int colourPattern = 34;        // Pattern source:  (steps 0-11, 12-23, 24-35 [base-4 digits], step count)
 
         // Beats
-        public const int beatStarts = 33;           // Beats 0-3 start (item seconds;  unused = never)
-        public const int beatColours = 34;          // Beats 0-3 palette index (added to the colour cycle's)
-        public const int beatOffsets01 = 35;        // Beat 0 position offset.xy, beat 1 .xy
-        public const int beatOffsets23 = 36;        // Beats 2 + 3
-        public const int beatElongations01 = 37;    // Beat 0 elongation.xy, beat 1 .xy
-        public const int beatElongations23 = 38;    // Beats 2 + 3
-        public const int beatPattern = 39;          // (steps 0-9, 10-19 [base-5 digits:  0 = no beat, 1-4 = beats 0-3], rate, step count [0 = by start times])
+        public const int beatStarts = 35;           // Beats 0-3 start (item seconds;  unused = never)
+        public const int beatColours = 36;          // Beats 0-3 palette index (added to the colour cycle's)
+        public const int beatOffsets01 = 37;        // Beat 0 position offset.xy, beat 1 .xy
+        public const int beatOffsets23 = 38;        // Beats 2 + 3
+        public const int beatElongations01 = 39;    // Beat 0 elongation.xy, beat 1 .xy
+        public const int beatElongations23 = 40;    // Beats 2 + 3
+        public const int beatPattern = 41;          // (steps 0-9, 10-19 [base-5 digits:  0 = no beat, 1-4 = beats 0-3], rate, step count [0 = by start times])
 
         // Jitter
-        public const int jitter = 40;               // (rate, amount.x, amount.y, seed)
-        public const int jitterMode = 41;           // (mode, phase, -, -)
+        public const int jitter = 42;               // (rate, amount.x, amount.y, seed)
+        public const int jitterMode = 43;           // (mode, phase, -, -)
 
         // Flicker
-        public const int flicker = 42;              // (rate, depth, phase, pattern [0 = off;  bits + a leading 1])
+        public const int flicker = 44;              // (rate, depth, phase, pattern [0 = off;  bits + a leading 1])
 
         // Pulse
-        public const int pulse = 43;                // (rate, amount, phase, -)
+        public const int pulse = 45;                // (rate, amount, phase, -)
 
         // Sizes
-        public const int texelsPerItem = 44;
+        public const int texelsPerItem = 46;
         public const int shapeParameterCapacity = 8;
         public const int maxAltColours = 3;         // Alt colours B-D
         public const int maxBeats = 4;

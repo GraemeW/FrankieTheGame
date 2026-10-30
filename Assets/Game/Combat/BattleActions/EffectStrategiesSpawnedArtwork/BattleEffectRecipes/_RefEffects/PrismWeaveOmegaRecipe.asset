@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
+  m_Name: PrismWeaveOmegaRecipe
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
+  frameRate: 60
+  scaleRatio: 1
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0
+  items:
+  instances:
+  - label: Pinwheel lattice
+    recipe: {fileID: 11400000, guid: 2dbc410fe4d61417eafb08874a50c1fe, type: 2}
+    startOffsetSeconds: -0.05
+    mirrorX: 0
+    mirrorY: 0
+    scaleRatio: {x: 0.3125, y: 0.357143}
+    offsetEU: {x: 0, y: 0.00558}
+    colourSwaps:
+    - from: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+      to: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+    - from: {r: 0.952941, g: 0.086275, b: 0, a: 1}
+      to: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+    - from: {r: 0, g: 0.533333, b: 0.901961, a: 1}
+      to: {r: 0.360784, g: 0.568627, b: 0, a: 1}
+    tiling:
+      mode: 2
+      count: {x: 6, y: 3}
+      spacingEU: {x: 0.25, y: 0.285714}
+  references:
+    version: 2
+    RefIds:

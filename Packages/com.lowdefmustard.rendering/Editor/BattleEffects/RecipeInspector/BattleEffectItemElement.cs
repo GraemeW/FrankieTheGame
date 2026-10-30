@@ -22,7 +22,7 @@ namespace LowDefMustard.Rendering.Editor
         private static readonly string[] _groupFields =
         {
             BattleEffectItem.styleField, BattleEffectItem.altColoursField, BattleEffectItem.outlineEdgeGradientField, BattleEffectItem.shadeField, BattleEffectItem.stripesField, BattleEffectItem.clipField,
-            BattleEffectItem.repetitionField, BattleEffectItem.colourCycleField, BattleEffectItem.beatsField, BattleEffectItem.jitterField, BattleEffectItem.flickerField, BattleEffectItem.pulseField
+            BattleEffectItem.repetitionField, BattleEffectItem.tilingField, BattleEffectItem.colourCycleField, BattleEffectItem.beatsField, BattleEffectItem.jitterField, BattleEffectItem.flickerField, BattleEffectItem.pulseField
         };
 
         // State

@@ -325,6 +325,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Tiling_PacksModeClampedCountAndEffectScaledSpacing()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"tiling\":{\"mode\":2,\"count\":{\"x\":0,\"y\":3},\"spacingEU\":{\"x\":0.25,\"y\":0.5}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 2f);
+
+            AssertTexel(new Color((int)BattleEffectTilingMode.StaggeredGrid, 1f, 3f, 0f), texels[BattleEffectDataLayout.tiling], "mode + count (at least 1)");
+            AssertTexel(new Color(0.5f, 1f, 0f, 0f), texels[BattleEffectDataLayout.tilingSpacing], "spacing x effect scale");
+        }
+
+        [Test]
         public void TryWriteData_Repetition_WritesCopyScaleRatioRange()
         {
             BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"repetition\":{\"mode\":1,\"copyScaleRatio\":{\"start\":0.5,\"end\":0.75}}}");

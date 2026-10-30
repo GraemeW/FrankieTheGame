@@ -37,6 +37,7 @@ namespace LowDefMustard.Rendering
         [SerializeField] private BattleEffectClip clip = new();
 
         [SerializeField] private BattleEffectRepetition repetition = new();
+        [SerializeField] private BattleEffectTiling tiling = new();
 
         [SerializeField] private BattleEffectColourCycle colourCycle = new();
         [SerializeField][Tooltip("Held steps that move, stretch + recolour the item")] private BattleEffectBeats beats = new();
@@ -65,6 +66,7 @@ namespace LowDefMustard.Rendering
         public const string stripesField = nameof(stripes);
         public const string clipField = nameof(clip);
         public const string repetitionField = nameof(repetition);
+        public const string tilingField = nameof(tiling);
         public const string colourCycleField = nameof(colourCycle);
         public const string beatsField = nameof(beats);
         public const string jitterField = nameof(jitter);
@@ -117,8 +119,9 @@ namespace LowDefMustard.Rendering
             stripes?.WriteData(texels, rowStart, effectScale);
             clip?.WriteData(texels, rowStart);
 
-            // Repetition
+            // Repetition + tiling
             repetition?.WriteData(texels, rowStart);
+            tiling?.WriteData(texels, rowStart, effectScale);
 
             // Sequencing
             if (colourCycle != null) { colourCycle.WriteData(texels, rowStart, paletteCount); }

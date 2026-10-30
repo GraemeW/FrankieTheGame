@@ -9,7 +9,7 @@
 //      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
 //      - Per item:
 //          time window -> ease -> progress steps -> beat -> interpolate (+ beat offset, jitter)
-//          -> transform -> mirror (+ spread beat offset) -> repetition -> shape rotation -> elongation
+//          -> tiling -> transform -> mirror (+ spread beat offset) -> repetition -> shape rotation -> elongation
 //          -> shape (generated dispatch) -> style (fill + outline:  the fill first) -> clip -> coverage (x flicker x stripes)
 //          -> colour (palette [+ shade], outline colour + edge gradient) -> composite (over / erase)
 //  - Logic Splits:
@@ -54,6 +54,25 @@ BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int it
     shapeInput.itemTime = itemTime;
     shapeInput.progress = progress;
     return shapeInput;
+}
+
+float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fittedUV, float progress, int beat, BattleEffectModifiers modifiers)
+{
+    // Tiling:  the point moved into its nearest lattice cell, relative to the item's position as if that cell were the item (untiled:  unchanged)
+    //  - the nearest cell only (no neighbours, deliberately) ~ shapes reaching past their cell are cut at its edge
+
+    float4 tiling = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILING); // (mode, count x, count y, -)
+    int tilingMode = (int)round(tiling.x);
+    if (tilingMode == BATTLE_EFFECT_TILINGMODE_NONE) { return fittedUV; }
+
+    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
+    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
+    float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : GetBattleEffectBeatPair(itemData, item, beat, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01)) + modifiers.jitterOffset;
+    float2 spacing = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING).xy;
+    float2 nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint;
+    if (tilingMode == BATTLE_EFFECT_TILINGMODE_STAGGEREDGRID) { SDFRepeatStaggeredGrid(fittedUV - itemPosition, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
+    else { SDFRepeatGrid(fittedUV - itemPosition, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
+    return itemPosition + nearestPoint;
 }
 
 float ApplyBattleEffectOutline(UnityTexture2D itemData, int item, float distance, float progress)
@@ -135,7 +154,7 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
     int beat = GetBattleEffectBeat(itemData, item, itemTime);
     float distanceScale, copyIndex;
     float2 spreadOffset, copyPoint;
-    BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, fittedUV, itemTime, progress, beat, modifiers, distanceScale, spreadOffset);
+    BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, GetBattleEffectTiledPoint(itemData, item, fittedUV, progress, beat, modifiers), itemTime, progress, beat, modifiers, distanceScale, spreadOffset);
     float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, spreadOffset, progress, beat, copyIndex, copyPoint) * distanceScale;
 
     // Style + colour
