@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
+  m_Name: BandCascadeOmegaRecipe
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
+  frameRate: 60
+  scaleRatio: 1
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0
+  items:
+  instances:
+  - label: Cells
+    recipe: {fileID: 11400000, guid: 6b5f59f6d3d3047c8bd3302b521c22ad, type: 2}
+    startOffsetSeconds: 0
+    mirrorX: 0
+    mirrorY: 0
+    scaleRatio: {x: 1, y: 1}
+    offsetEU: {x: 0, y: 0}
+    colourSwaps: []
+    tiling:
+      mode: 1
+      count: {x: 3, y: 2}
+      spacingEU: {x: 0.333333, y: 0.5}
+      isAnchored: 1
+      anchorEU: {x: 0.5, y: 0.625}
+  - label: Cells mirrored
+    recipe: {fileID: 11400000, guid: 6b5f59f6d3d3047c8bd3302b521c22ad, type: 2}
+    startOffsetSeconds: 0
+    mirrorX: 0
+    mirrorY: 1
+    scaleRatio: {x: 1, y: 1}
+    offsetEU: {x: 0, y: 0}
+    colourSwaps: []
+    tiling:
+      mode: 1
+      count: {x: 3, y: 2}
+      spacingEU: {x: 0.333333, y: 0.5}
+      isAnchored: 1
+      anchorEU: {x: 0.5, y: 0.375}
+  references:
+    version: 2
+    RefIds:
