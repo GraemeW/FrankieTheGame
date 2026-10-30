@@ -24,7 +24,7 @@ namespace Frankie.Combat.UI
         private bool isReleased = false;
 
         // Constructor
-        public EnemySlideHandle(UIToolkitBoxView view, BattleEntity battleEntity, BattleSlideText slideText, Material targetShadowMaterial, Action onClicked) : base(view, GetRowType(battleEntity))
+        public EnemySlideHandle(UIToolkitBoxView view, BattleEntity battleEntity, BattleSlideText slideText, Material targetShadowMaterial, Action onClicked) : base(view, EnemySlideRow.GetRowType(battleEntity?.row ?? BattleRow.Middle))
         {
             this.battleEntity = battleEntity;
             this.targetShadowMaterial = targetShadowMaterial;
@@ -35,13 +35,6 @@ namespace Frankie.Combat.UI
             participantModel = new CombatParticipantModel(enemy);
             participantModel.stateAltered += ParseState;
         }
-
-        private static Type GetRowType(BattleEntity battleEntity) => battleEntity?.row switch
-        {
-            BattleRow.Top => typeof(EnemySlideTopRow),
-            BattleRow.Bottom => typeof(EnemySlideBottomRow),
-            _ => typeof(EnemySlideMiddleRow)
-        };
 
         #region EntryHandle
         protected override VisualElement CreateElement()

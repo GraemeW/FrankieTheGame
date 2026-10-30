@@ -22,7 +22,7 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   skillStat: 4
-  battleAction: {fileID: 11400000, guid: 6af0ec46b214c7941acbe7c471aeb303, type: 2}
+  battleAction: {fileID: 11400000, guid: 5340be1202c3c4283afb1d199b7d9552, type: 2}
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9

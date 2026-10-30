@@ -8,9 +8,11 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Character Filtering", menuName = "BattleAction/Filters/Character", order = 15)]
     public class CharacterFilter : FilterStrategy
     {
+        // Tunables
         [SerializeField] private List<CharacterProperties> characterPropertiesToFilter = new();
         [SerializeField] private bool negate = false;
 
+        // Public Methods
         public override IEnumerable<BattleEntity> Filter(IEnumerable<BattleEntity> objectsToFilter)
         {
             if (objectsToFilter == null || characterPropertiesToFilter.Count == 0) { yield break; }

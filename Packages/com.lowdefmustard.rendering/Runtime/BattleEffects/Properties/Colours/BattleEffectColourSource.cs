@@ -1,0 +1,10 @@
+namespace LowDefMustard.Rendering
+{
+    [BattleEffectMirroredEnum]
+    public enum BattleEffectColourSource
+    {
+        Time = 0,
+        Copy = 1, // line / radial:  along;  grid:  column + row
+        Pattern = 2 // palette index per step
+    }
+}

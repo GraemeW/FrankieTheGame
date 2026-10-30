@@ -82,9 +82,9 @@
 
 ### Rendering Notes
 
-Frankie uses a custom shader [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.shader), as described in [Rendering](../../Assets/Scripts/Rendering/).
+Frankie uses a custom shader [PixelArtShader](../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/_PixelArtShaders/PixelArtShader.shader), as described in [Rendering](../../Assets/Scripts/Rendering/).
 
-The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.shader) allows pixel-perfect game artwork to render properly on any screen resolution, monitor/display pipeline scaling or window resolution.  It, notably, also assumes pre-multiplied alpha for any rendered artwork, as well as specific artwork construction + alpha/transparency padding (as described below).  Failure to adhere to the requirements described below **will** result in visual glitches for certain window resolutions or display configurations (such as flicker, shimmer, jutter, etc.).
+The [PixelArtShader](../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/_PixelArtShaders/PixelArtShader.shader) allows pixel-perfect game artwork to render properly on any screen resolution, monitor/display pipeline scaling or window resolution.  It, notably, also assumes pre-multiplied alpha for any rendered artwork, as well as specific artwork construction + alpha/transparency padding (as described below).  Failure to adhere to the requirements described below **will** result in visual glitches for certain window resolutions or display configurations (such as flicker, shimmer, jutter, etc.).
 
 *Note:  For sprite import/configuration and placement guidance, see [Game/WorldObjects](../../Assets/Game/WorldObjects/README.md#sprite-import--setup)*
 

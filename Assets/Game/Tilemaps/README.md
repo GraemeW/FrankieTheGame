@@ -117,7 +117,7 @@ A standard TileMap GameObject must include two components:
 The TileMap must be configured with its appropriate `Animation Frame Rate` (if using animated tiles).
 
 The TileMapRenderer must be configured with the below settings:
-* `Material`:  [PixelArtShader](../../Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.mat)
+* `Material`:  [PixelArtShader](../../../Packages/com.lowdefmustard.rendering/Runtime/Shaders/_PixelArtShaders/PixelArtShader.mat)
   * **Note:  this step is critical and failure to set up the correct material will result in rendering artifacts!**
 * `SortingLayer`:  
   * `Background`:  if the TileMap will always appear behind the characters / world objects

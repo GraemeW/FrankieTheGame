@@ -1,0 +1,22 @@
+{
+  "name": "com.lowdefmustard.rendering",
+  "version": "0.1.0",
+  "displayName": "Low Def Mustard Rendering",
+  "description": "Camera + display resolution handling, pixel-art shaders, an HLSL library of Shader Graph nodes (SDFs, domain ops, time, colour), and a composable SDF battle effect framework (recipes, preview window and frame export).",
+  "unity": "6000.6",
+  "author": {
+    "name": "Low Def Mustard Games"
+  },
+  "dependencies": {
+    "com.unity.cinemachine": "6.6.0",
+    "com.unity.render-pipelines.universal": "17.6.0",
+    "com.unity.modules.uielements": "1.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Battle Effect",
+      "description": "Shared battle effect shader graph, a material using it and an example recipe.",
+      "path": "Samples~/BattleEffect"
+    }
+  ]
+}

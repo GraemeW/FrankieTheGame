@@ -1,0 +1,237 @@
+/* Standard brown theme:  warm brown palette for editor windows (see StandardBrownTheme.cs to apply it)
+ *  - Burlywood / peru browns by default
+ *      - w/ dark swaps in saddle-brown && goldenrod for a darker section (e.g. a side panel or library column)
+ *  - Each scope sets the --theme-* variables && every rule reads those (a --dark section re-skins by overriding them)
+ *  - Built-in controls are restyled by .standard-brown-theme-prefixed rules:  the editor theme's rules use literal colours (its --unity-colors-* variables can't be overridden from here)
+ */
+
+.standard-brown-theme {
+    --theme-background: #2D2620;
+    --theme-canvas: #221C17;
+    --theme-card-background: #352C24;
+    --theme-card-border: #5E4B39;
+    --theme-header-background: #6A4826;
+    --theme-section-background: #46341F;
+    --theme-accent: #C9A47A;
+    --theme-text: #E2D6C6;
+    --theme-dim-text: #A8977F;
+    --theme-divider: #1C1712;
+    --theme-input-background: #211B16;
+    --theme-input-border: #5A4836;
+    --theme-input-border-hover: #8B6E4E;
+    --theme-button-background: #4B3A2B;
+    --theme-button-background-hover: #5C4735;
+    --theme-button-background-pressed: #6E553F;
+    --theme-button-border: #6E5640;
+    --theme-list-background: #251F19;
+    --theme-row-hover: #3D3127;
+    --theme-selected: #8A6232;
+    --theme-scroll-groove: #241E19;
+    --theme-scroll-thumb: #5A4836;
+
+    background-color: var(--theme-background);
+}
+
+.standard-brown-theme--dark {
+    --theme-background: #1F1B17;
+    --theme-canvas: #191512;
+    --theme-card-background: #27211B;
+    --theme-card-border: #8A6D2B;
+    --theme-header-background: #6E3A12;
+    --theme-accent: #D2A33A;
+    --theme-input-background: #18140F;
+    --theme-input-border: #4F3F2C;
+    --theme-input-border-hover: #8A6D2B;
+    --theme-button-background: #3E2E1C;
+    --theme-button-background-hover: #4E3A22;
+    --theme-button-background-pressed: #604628;
+    --theme-button-border: #6A5230;
+    --theme-list-background: #1A1612;
+    --theme-row-hover: #2E261D;
+    --theme-selected: #7A5520;
+    --theme-scroll-groove: #1A1612;
+    --theme-scroll-thumb: #4F3F2C;
+
+    background-color: var(--theme-background);
+}
+
+.standard-brown-theme Label {
+    color: var(--theme-text);
+}
+
+/* Shared elements */
+
+.standard-brown-theme__canvas {
+    background-color: var(--theme-canvas);
+}
+
+.standard-brown-theme__panel {
+    background-color: var(--theme-card-background);
+    border-width: 1px;
+    border-color: var(--theme-card-border);
+    border-radius: 3px;
+}
+
+.standard-brown-theme__panel-header {
+    background-color: var(--theme-header-background);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--theme-accent);
+    -unity-font-style: bold;
+}
+
+.standard-brown-theme .standard-brown-theme__group-header {
+    -unity-font-style: bold;
+    color: var(--theme-accent);
+}
+
+.standard-brown-theme .standard-brown-theme__dim {
+    -unity-font-style: italic;
+    color: var(--theme-dim-text);
+}
+
+.standard-brown-theme .unity-toolbar {
+    background-color: var(--theme-header-background);
+    border-bottom-color: var(--theme-accent);
+}
+
+.standard-brown-theme .unity-toolbar-button,
+.standard-brown-theme .unity-toolbar-toggle {
+    background-color: var(--theme-button-background);
+    border-color: var(--theme-button-border);
+}
+
+.standard-brown-theme .unity-toolbar-button:hover,
+.standard-brown-theme .unity-toolbar-toggle:hover {
+    background-color: var(--theme-button-background-hover);
+}
+
+.standard-brown-theme .unity-toolbar-toggle:checked {
+    background-color: var(--theme-selected);
+}
+
+/* Autocomplete dropdown (AutocompleteDropdown) */
+
+.autocomplete-dropdown {
+    background-color: var(--theme-list-background);
+    border-width: 1px;
+    border-color: var(--theme-accent);
+    border-radius: 2px;
+}
+
+.autocomplete-dropdown__row:hover {
+    background-color: var(--theme-row-hover);
+}
+
+.autocomplete-dropdown__row--highlighted,
+.autocomplete-dropdown__row--highlighted:hover {
+    background-color: var(--theme-selected);
+}
+
+/* Built-in controls:  inputs */
+
+.standard-brown-theme .unity-base-text-field__input,
+.standard-brown-theme .unity-object-field__input,
+.standard-brown-theme .unity-base-popup-field__input,
+.standard-brown-theme .unity-toggle__checkmark {
+    background-color: var(--theme-input-background);
+    border-color: var(--theme-input-border);
+}
+
+.standard-brown-theme .unity-base-popup-field__input {
+    background-color: var(--theme-button-background);
+    border-color: var(--theme-button-border);
+}
+
+.standard-brown-theme .unity-base-field:hover > .unity-base-field__input,
+.standard-brown-theme .unity-base-popup-field__input:hover,
+.standard-brown-theme .unity-toggle:hover .unity-toggle__checkmark {
+    border-color: var(--theme-input-border-hover);
+}
+
+.standard-brown-theme .unity-base-field:focus > .unity-base-field__input {
+    border-color: var(--theme-accent);
+}
+
+.standard-brown-theme .unity-object-field__selector {
+    background-color: var(--theme-button-background);
+}
+
+.standard-brown-theme .unity-object-field__selector:hover {
+    background-color: var(--theme-button-background-hover);
+}
+
+.standard-brown-theme .unity-search-field-base .unity-base-text-field__input {
+    background-color: var(--theme-input-background);
+    border-color: var(--theme-input-border);
+}
+
+/* Built-in controls:  buttons */
+
+.standard-brown-theme .unity-button {
+    background-color: var(--theme-button-background);
+    border-color: var(--theme-button-border);
+}
+
+.standard-brown-theme .unity-button:hover:enabled {
+    background-color: var(--theme-button-background-hover);
+}
+
+.standard-brown-theme .unity-button:hover:active:enabled {
+    background-color: var(--theme-button-background-pressed);
+}
+
+/* Built-in controls:  sliders + scrollbars */
+
+.standard-brown-theme .unity-base-slider__tracker {
+    background-color: var(--theme-input-background);
+    border-color: var(--theme-input-border);
+}
+
+.standard-brown-theme .unity-base-slider__dragger {
+    background-color: var(--theme-scroll-thumb);
+    border-color: var(--theme-button-border);
+}
+
+.standard-brown-theme .unity-base-slider__dragger:hover {
+    background-color: var(--theme-accent);
+}
+
+.standard-brown-theme .unity-scroller {
+    background-color: var(--theme-scroll-groove);
+}
+
+.standard-brown-theme .unity-scroller .unity-base-slider__tracker {
+    background-color: var(--theme-scroll-groove);
+    border-color: var(--theme-scroll-groove);
+}
+
+.standard-brown-theme .unity-repeat-button {
+    background-color: var(--theme-scroll-groove);
+}
+
+/* Built-in controls:  lists + trees */
+
+.standard-brown-theme .unity-collection-view,
+.standard-brown-theme .unity-collection-view__scroll-view {
+    background-color: var(--theme-list-background);
+    border-color: var(--theme-card-border);
+}
+
+.standard-brown-theme .unity-list-view__reorderable-item,
+.standard-brown-theme .unity-list-view__footer {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.standard-brown-theme .unity-collection-view__item:hover {
+    background-color: var(--theme-row-hover);
+}
+
+.standard-brown-theme .unity-collection-view__item--selected,
+.standard-brown-theme .unity-collection-view__item--selected:hover,
+.standard-brown-theme .unity-collection-view:focus .unity-collection-view__item--selected {
+    background-color: var(--theme-selected);
+}
+
+.standard-brown-theme .unity-two-pane-split-view__dragline-anchor {
+    background-color: var(--theme-divider);
+}

@@ -36,7 +36,7 @@ MonoBehaviour:
   price: 17
   cachedName: ChocolateCheeseCurds
   consumable: 1
-  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
+  battleAction: {fileID: 11400000, guid: 51bd4efa4096742049b6fddb1fe9c678, type: 2}
   references:
     version: 2
     RefIds: []

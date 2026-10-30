@@ -1,0 +1,69 @@
+/* Battle Action Editor
+ *  - Window-specific elements (rules are .bae-window-prefixed where they need to win over the theme's Label rule)
+ *  - Palette + built-in controls come from StandardBrownTheme.uss (i.e. --theme-* variables)
+ */
+
+.bae-column--dependent {
+    border-left-width: 3px;
+    border-left-color: var(--theme-accent);
+}
+
+/* Window elements */
+
+.bae-column-header {
+    background-color: var(--theme-header-background);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--theme-accent);
+}
+
+.bae-column-header__title {
+    -unity-font-style: bold;
+    font-size: 15px;
+}
+
+.bae-section-header {
+    background-color: var(--theme-section-background);
+    border-left-width: 3px;
+    border-left-color: var(--theme-accent);
+}
+
+.bae-section-header__title {
+    -unity-font-style: bold;
+    font-size: 13px;
+}
+
+.bae-card {
+    background-color: var(--theme-card-background);
+    border-width: 1px;
+    border-color: var(--theme-card-border);
+    border-radius: 3px;
+}
+
+.bae-window .bae-hint {
+    -unity-font-style: italic;
+    color: var(--theme-dim-text);
+    white-space: normal;
+}
+
+.bae-window .bae-dim {
+    -unity-font-style: italic;
+    color: var(--theme-dim-text);
+    -unity-text-align: middle-right;
+}
+
+.bae-divider {
+    height: 1px;
+    background-color: var(--theme-divider);
+}
+
+.bae-window .bae-tree-header {
+    -unity-font-style: bold;
+    color: var(--theme-accent);
+}
+
+/* Last so a flagged element wins over its card / header / row styling */
+.bae-window .bae-missing {
+    background-color: rgba(204, 38, 38, 0.25);
+    border-width: 1px;
+    border-color: #E64040;
+}

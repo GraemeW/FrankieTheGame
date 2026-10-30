@@ -73,6 +73,7 @@ A box's visuals come from a view component on the same GameObject, backed by a `
 
 - **`UIToolkitBoxView`** (abstract) — binds whenever the renderer reloads its UI: applies the view's style sheets, visibility, pointer blocking (an inactive box ignores clicks), a root data source for model-bound elements, and the back-exit button (`BackExitButton` in the UXML, shown once the box sets an action && skipped when `preventEscapeOptionExit` is set)
   - It owns the box's **entries** and places each in the first UXML element of the entry's container type
+  - `TryGetEntryContainer(type, out container)` returns that element (once bound), e.g. to position something over a container
 - **`UIToolkitMenuView`** — the view for menus
   - **`UIToolkitTextScanView`** — adds text entries and the choice layout for `TextScanBox`
 - **Entries (`EntryHandles/`)** — The box logic holds the `EntryHandle`, while the view rebuilds its element on every UI reload
