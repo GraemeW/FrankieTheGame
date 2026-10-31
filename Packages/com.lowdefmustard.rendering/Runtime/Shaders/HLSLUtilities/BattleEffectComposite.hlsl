@@ -89,7 +89,7 @@ float ApplyBattleEffectOutline(UnityTexture2D itemData, int item, float distance
 
 float ApplyBattleEffectClip(UnityTexture2D itemData, int item, float distance, float2 localPoint, float distanceScale, float progress)
 {
-    // Intersects what the item draws (after its style) w/ a box / diamond in its local space, centred on its position + the clip offset, turned by the clip angle
+    // Intersects what the item draws (after its style) w/ a box / diamond / ring [half size = (outer, inner radius)] in its local space, centred on its position + the clip offset, turned by the clip angle
 
     float4 clip = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIP);
     int clipShape = (int)round(clip.x);
@@ -102,6 +102,7 @@ float ApplyBattleEffectClip(UnityTexture2D itemData, int item, float distance, f
     float2 clipPoint = float2(cos(clip.y) * offsetPoint.x + sin(clip.y) * offsetPoint.y, -sin(clip.y) * offsetPoint.x + cos(clip.y) * offsetPoint.y);
     float clipDistance;
     if (clipShape == BATTLE_EFFECT_CLIPSHAPE_DIAMOND) { SDFRhombus(clipPoint, float2(0.0, 0.0), halfSize, clipDistance); }
+    else if (clipShape == BATTLE_EFFECT_CLIPSHAPE_RING) { clipDistance = max(length(clipPoint) - halfSize.x, halfSize.y - length(clipPoint)); }
     else { SDFBox(clipPoint, float2(0.0, 0.0), halfSize, 0.0, clipDistance); }
     return max(distance, clipDistance * distanceScale);
 }

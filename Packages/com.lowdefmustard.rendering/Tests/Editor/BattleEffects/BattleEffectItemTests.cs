@@ -285,6 +285,15 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Clip_RingWritesOuterAndInnerRadiiAsTheHalfSize()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"clip\":{\"shape\":3,\"halfSizeSU\":{\"start\":{\"x\":5,\"y\":3},\"end\":{\"x\":7,\"y\":4}}}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color((int)BattleEffectClipShape.Ring, 0f, 0f, 0f), texels[BattleEffectDataLayout.clip]);
+            AssertTexel(new Color(5f, 3f, 7f, 4f), texels[BattleEffectDataLayout.clipSize]);
+        }
+
+        [Test]
         public void TryWriteData_Clip_OffsetDefaultsToTheItemsPosition()
         {
             CreateItem(new BattleEffectCircle(), "{\"clip\":{\"shape\":1}}").TryWriteData(texels, 0, parameterBuffer, 1f);

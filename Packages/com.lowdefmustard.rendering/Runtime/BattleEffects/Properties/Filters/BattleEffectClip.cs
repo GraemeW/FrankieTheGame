@@ -11,7 +11,7 @@ namespace LowDefMustard.Rendering
         //  - In shape units ->  scales + rotates w/ the item (half size 1 = the item's scale)
 
         [SerializeField] private BattleEffectClipShape shape = BattleEffectClipShape.None;
-        [SerializeField][Tooltip("Half width / height (a diamond's points)")] private BattleEffectVector2Range halfSizeSU = new(Vector2.one);
+        [SerializeField][Tooltip("Half width / height (a diamond's points);  a ring:  x = outer radius, y = inner radius")][BattleEffectAxisLabelsWhen(nameof(shape), (int)BattleEffectClipShape.Ring, "OR", "IR")] private BattleEffectVector2Range halfSizeSU = new(Vector2.one);
         [SerializeField][Tooltip("Moves the clip's centre from the item's position (before the angle turns it)")] private BattleEffectVector2Range offsetSU = new(Vector2.zero);
         [SerializeField][Tooltip("Turns the clip shape in the item's local space (counter-clockwise)")] private float angleDegrees = 0f;
 

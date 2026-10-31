@@ -5,6 +5,7 @@ namespace LowDefMustard.Rendering
     {
         None = 0,
         Box = 1,
-        Diamond = 2
+        Diamond = 2,
+        Ring = 3
     }
 }

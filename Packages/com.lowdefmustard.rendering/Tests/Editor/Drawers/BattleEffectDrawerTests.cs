@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
@@ -164,6 +165,76 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(tint, GetInputColour(half, 1), "y 0 -> 1:  start");
             Assert.AreEqual(StyleKeyword.Null, GetInputColour(half, 2).keyword, "x 0 -> 0:  end");
             Assert.AreEqual(tint, GetInputColour(half, 3), "y 0 -> 1:  end");
+        }
+
+        [UnityTest]
+        public IEnumerator RangeDrawer_NarrowWindow_KeepsEveryInputInsideTheRow([Values(nameof(DrawerTarget.floatRange), nameof(DrawerTarget.vectorRange))] string rangeName, [Values(300f, 260f)] float width)
+        {
+            var narrow = new HeadlessEditorWindow(width: width);
+            narrow.root.Add(new InspectorElement(serializedObject));
+            PropertyField range = null;
+            List<VisualElement> inputs = null;
+            yield return HeadlessEditorWindow.WaitUntil(() =>
+            {
+                range = narrow.root.Query<PropertyField>().Where(field => field.bindingPath == rangeName).First();
+                inputs = range?.Query(className: TextInputBaseField<float>.inputUssClassName).ToList();
+                return inputs is { Count: > 0 } && inputs[^1].resolvedStyle.width > 0f && !float.IsNaN(inputs[^1].resolvedStyle.width);
+            });
+
+            for (int frame = 0; frame < 20; frame++) { yield return null; } // Layout settles over a few updates
+            float rowEdge = narrow.root.worldBound.xMax;
+            foreach (VisualElement input in inputs)
+            {
+                Assert.LessOrEqual(input.worldBound.xMax, rowEdge + 0.5f, $"{input.parent.name} past the edge");
+                if (width >= 300f) { Assert.GreaterOrEqual(input.resolvedStyle.width, 12f, "still has room for its value"); }
+            }
+            Assert.AreEqual(inputs[0].resolvedStyle.width, inputs[inputs.Count / 2].resolvedStyle.width, 7f, "start + end share the row (the end's margin aside)");
+            narrow.Close();
+        }
+
+        [UnityTest]
+        public IEnumerator ClipDrawer_RingLabels_AreNotCutOff()
+        {
+            serializedObject.FindProperty($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.shapeField}").intValue = (int)BattleEffectClipShape.Ring;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            string path = $"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}";
+            List<FloatField> axes = null;
+            yield return HeadlessEditorWindow.WaitUntil(() =>
+            {
+                PropertyField field = window.root.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First();
+                axes = field?.Query<FloatField>().ToList();
+                if (field?.GetFirstAncestorOfType<BattleEffectSection>() is { } section) { section.value = true; }
+                return axes is { Count: 4 } && axes[0].label == "OR" && axes[0].labelElement.resolvedStyle.width > 0f;
+            });
+
+            foreach (FloatField axis in axes)
+            {
+                Vector2 text = axis.labelElement.MeasureTextSize(axis.label, 0f, VisualElement.MeasureMode.Undefined, 0f, VisualElement.MeasureMode.Undefined);
+                IResolvedStyle style = axis.labelElement.resolvedStyle;
+                Assert.GreaterOrEqual(style.width - style.paddingLeft - style.paddingRight, text.x, axis.label);
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator ClipDrawer_ShapeEdit_SwapsTheAxisLabels()
+        {
+            SerializedProperty shape = serializedObject.FindProperty($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.shapeField}");
+            string path = $"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}";
+            FloatField axis = null;
+            yield return HeadlessEditorWindow.WaitUntil(() =>
+            {
+                axis = window.root.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First()?.Q<FloatField>();
+                return axis != null;
+            });
+            Assert.AreEqual("X", axis.label);
+
+            shape.intValue = (int)BattleEffectClipShape.Ring;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => axis.label == "OR");
+
+            shape.intValue = (int)BattleEffectClipShape.Box;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            yield return HeadlessEditorWindow.WaitUntil(() => axis.label == "X");
         }
 
         [UnityTest]

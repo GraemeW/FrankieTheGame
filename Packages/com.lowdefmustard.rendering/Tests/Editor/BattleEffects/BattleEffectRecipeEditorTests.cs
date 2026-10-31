@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
@@ -680,6 +681,25 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             Assert.AreEqual(isShown, IsShown(FindItemField(1, TilingPath(BattleEffectTiling.countField))), "count");
             Assert.AreEqual(isShown, IsShown(FindItemField(1, TilingPath(BattleEffectTiling.spacingEUField))), "spacing");
+        }
+
+        [UnityTest]
+        [TestCase(BattleEffectClipShape.Box, true, "X", "Y", ExpectedResult = null)]
+        [TestCase(BattleEffectClipShape.Diamond, true, "X", "Y", ExpectedResult = null)]
+        [TestCase(BattleEffectClipShape.Ring, false, "OR", "IR", ExpectedResult = null)]
+        public IEnumerator Clip_RingHidesTheAngleAndRelabelsTheHalfSize(BattleEffectClipShape shape, bool isAngleShown, string xLabel, string yLabel)
+        {
+            string ClipPath(string fieldName) => $"{BattleEffectItem.clipField}.{fieldName}";
+            editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{ClipPath(BattleEffectClip.shapeField)}").intValue = (int)shape;
+            editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, ClipPath(BattleEffectClip.halfSizeSUField));
+            VisualElement halfSize = FindItemField(1, ClipPath(BattleEffectClip.halfSizeSUField));
+            yield return HeadlessEditorWindow.WaitUntil(() => halfSize.Query<FloatField>().ToList().Count == 4 && halfSize.Query<FloatField>().First().label == xLabel);
+
+            List<FloatField> axes = halfSize.Query<FloatField>().ToList();
+            Assert.AreEqual(isAngleShown, IsShown(FindItemField(1, ClipPath(BattleEffectClip.angleDegreesField))), "angle");
+            CollectionAssert.AreEqual(new[] { xLabel, yLabel, xLabel, yLabel }, axes.Select(axis => axis.label).ToArray());
         }
 
         [UnityTest]
