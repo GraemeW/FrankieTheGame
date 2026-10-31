@@ -149,11 +149,11 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
 
     // Settings at this point in the item's progress
     float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8])
-    float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING);
+    float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING); // (start.xy, end.xy)
     float4 copyScaleRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYSCALE); // (copy scale ratio start, end, -, -)
     float4 copyWave = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVE); // (waveform, copies per cycle, amplitude start, end)
     float4 copyWavePhase = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVEPHASE); // (phase start, end, plateau start, end)
-    float4 elongationRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ELONGATION);
+    float4 elongationRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ELONGATION); // (start.xy, end.xy)
     float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION); // (item rotation start, end, shape rotation start, end)
     int repetitionMode = (int)round(repetition.x);
     float2 count = repetition.yz;

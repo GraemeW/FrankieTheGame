@@ -39,7 +39,7 @@ float4 LoadBattleEffectTexel(UnityTexture2D itemData, int item, int column)
 
 int GetBattleEffectStyle(UnityTexture2D itemData, int item)
 {
-    return (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).x);
+    return (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).x); // (style, blend, outline thickness start, end)
 }
 
 bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsedTime,
@@ -49,7 +49,7 @@ bool TryGetBattleEffectItemTime(UnityTexture2D itemData, int item, float elapsed
     // Eased, then held on the item's progress steps
 
     float4 timing = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TIMING); // (start time, duration, easing, progress steps)
-    shapeId = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHAPE).x);
+    shapeId = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHAPE).x); // (shape ID, -, -, -)
     itemTime = elapsedTime - timing.x;
     progress = 0.0;
     if (itemTime < -1e-4 || itemTime >= timing.y - 1e-4) { return false; } // ensure stepped frames on an item's boundaries land on exactly one item
@@ -78,7 +78,7 @@ int GetBattleEffectBeat(UnityTexture2D itemData, int item, float itemTime)
     }
     else
     {
-        float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS);
+        float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS); // (beats 0-3 start)
         [unroll]
         for (int candidate = 0; candidate < BATTLE_EFFECT_LAYOUT_MAXBEATS; candidate++) { beat = itemTime >= beatStarts[candidate] - 1e-4 ? candidate : beat; }
     }
@@ -103,10 +103,10 @@ BattleEffectBeatPose GetBattleEffectBeatPose(UnityTexture2D itemData, int item, 
     pose.beat = beat;
     pose.nextBeat = beat;
     pose.blend = 0.0;
-    if (LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATPATTERN).w >= 0.0) { return pose; }
+    if (LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATPATTERN).w >= 0.0) { return pose; } // (steps 0-9, 10-19, rate, step count)
 
-    float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS);
-    float time = progress * LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TIMING).y;
+    float4 beatStarts = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSTARTS); // (beats 0-3 start)
+    float time = progress * LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TIMING).y; // (start time, duration, easing, progress steps)
     int current = -1;
     [unroll]
     for (int candidate = 0; candidate < BATTLE_EFFECT_LAYOUT_MAXBEATS; candidate++) { current = time >= beatStarts[candidate] - 1e-4 ? candidate : current; }
@@ -130,7 +130,7 @@ float2 GetBattleEffectPosePair(UnityTexture2D itemData, int item, BattleEffectBe
 
 float GetBattleEffectPoseScale(UnityTexture2D itemData, int item, BattleEffectBeatPose pose)
 {
-    float4 beatScales = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSCALES);
+    float4 beatScales = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATSCALES); // (beats 0-3 scale ratio)
     float scale = pose.beat < 0 ? 1.0 : beatScales[max(pose.beat, 0)];
     return pose.blend > 0.0 ? lerp(scale, beatScales[max(pose.nextBeat, 0)], pose.blend) : scale;
 }
@@ -168,16 +168,16 @@ float GetBattleEffectPaletteIndex(UnityTexture2D itemData, int item, float elaps
     int source = (int)round(cycle.x);
     float paletteIndex;
     if (source == BATTLE_EFFECT_COLOURSOURCE_COPY) { paletteIndex = floor(copyIndex + cycle.z); }
-    else if (source == BATTLE_EFFECT_COLOURSOURCE_PATTERN) { PatternIndex(itemTime, cycle.y, cycle.z, LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURPATTERN), paletteIndex); }
+    else if (source == BATTLE_EFFECT_COLOURSOURCE_PATTERN) { PatternIndex(itemTime, cycle.y, cycle.z, LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURPATTERN), paletteIndex); } // (steps 0-11, 12-23, 24-35, step count)
     else { CycleIndex(elapsedTime, cycle.y, paletteCount, cycle.z, paletteIndex); }
-    return paletteIndex + (beat >= 0 ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATCOLOURS)[beat] : 0.0);
+    return paletteIndex + (beat >= 0 ? LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_BEATCOLOURS)[beat] : 0.0); // (beats 0-3 palette index)
 }
 
 float4 GetBattleEffectPaletteColour(UnityTexture2D itemData, int item, float paletteIndex)
 {
     // The palette entry at an index (wrapped to the palette count)
 
-    float paletteCount = max(round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURCYCLE).w), 1.0);
+    float paletteCount = max(round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COLOURCYCLE).w), 1.0); // (source, rate, phase offset [steps], palette count)
     int entry = (int)round(fmod(fmod(paletteIndex, paletteCount) + paletteCount, paletteCount));
     return LoadBattleEffectTexel(itemData, item, entry == 0 ? BATTLE_EFFECT_LAYOUT_COLOUR : BATTLE_EFFECT_LAYOUT_ALTCOLOURB + entry - 1);
 }
@@ -195,16 +195,17 @@ float4 GetBattleEffectStrokeColour(UnityTexture2D itemData, int item, float4 col
     if ((int)round(style.x) == BATTLE_EFFECT_STYLEMODE_FILLANDOUTLINE)
     {
         float4 outlineSource = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINESOURCE); // (from the palette, palette step, -, -)
-        strokeColour = outlineSource.x > 0.5 ? GetBattleEffectPaletteColour(itemData, item, paletteIndex + outlineSource.y) : LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINECOLOUR);
+        strokeColour = outlineSource.x > 0.5 ? GetBattleEffectPaletteColour(itemData, item, paletteIndex + outlineSource.y) : LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_OUTLINECOLOUR); // (linear rgba)
     }
-    float4 edgeGradient = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EDGEGRADIENT); // (on, steps, -, -)
+    float4 edgeGradient = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EDGEGRADIENT); // (on, steps, from the palette, palette step)
     if (edgeGradient.x < 0.5) { return strokeColour; }
 
     float thickness = max(lerp(style.z, style.w, progress), 1e-5);
     float across = saturate((shapeDistance + thickness) / (2.0 * thickness)); // 0 = the stroke's inside edge, 1 = its outside edge
     float steps = round(edgeGradient.y);
     across = steps > 0.5 ? (steps > 1.5 ? min(floor(across * steps), steps - 1.0) / (steps - 1.0) : 0.0) : across;
-    return lerp(strokeColour, LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EDGECOLOUR), across);
+    float4 edgeColour = edgeGradient.z > 0.5 ? GetBattleEffectPaletteColour(itemData, item, paletteIndex + edgeGradient.w) : LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_EDGECOLOUR); // (linear rgba)
+    return lerp(strokeColour, edgeColour, across);
 }
 
 float GetBattleEffectStripeMask(UnityTexture2D itemData, int item, float2 fittedUV)

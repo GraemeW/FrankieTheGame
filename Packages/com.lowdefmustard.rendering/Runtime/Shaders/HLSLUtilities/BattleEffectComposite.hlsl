@@ -32,10 +32,10 @@ BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int it
     //  - position:  its range + the current beat's offset + jitter;  scale:  its range x the beat's ratio x pulse;  item rotation:  its range
     //  - spread beat offsets (mirrored items) skip the position:  returned in local space instead (for after the fold)
 
-    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
-    float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE);
-    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION);
-    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
+    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION); // (start.xy, end.xy)
+    float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE); // (start.xy, end.xy)
+    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION); // (item rotation start, end, shape rotation start, end)
+    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8])
     float2 beatOffset = GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01);
     float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : beatOffset) + modifiers.jitterOffset;
     float2 itemScale = lerp(scale.xy, scale.zw, progress) * GetBattleEffectPoseScale(itemData, item, pose) * modifiers.pulseScale;
@@ -49,8 +49,8 @@ BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int it
         float spreadDistanceScale;
         SDFTransform(itemPosition + beatOffset, itemPosition, itemAngle, itemScale, spreadOffset, spreadDistanceScale);
     }
-    shapeInput.parametersA = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSASTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSAEND), progress);
-    shapeInput.parametersB = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBSTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBEND), progress);
+    shapeInput.parametersA = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSASTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSAEND), progress); // (shape parameters 0-3)
+    shapeInput.parametersB = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBSTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBEND), progress); // (shape parameters 4-7)
     shapeInput.itemTime = itemTime;
     shapeInput.progress = progress;
     return shapeInput;
@@ -65,10 +65,10 @@ float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fitte
     int tilingMode = (int)round(tiling.x);
     if (tilingMode == BATTLE_EFFECT_TILINGMODE_NONE) { return fittedUV; }
 
-    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION);
-    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // mirror bit 8
+    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION); // (start.xy, end.xy)
+    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8])
     float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01)) + modifiers.jitterOffset;
-    float4 spacingAnchor = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING); // (spacing, anchor)
+    float4 spacingAnchor = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING); // (spacing x, y, anchor x, y)
     float2 spacing = spacingAnchor.xy;
     float2 latticeCentre = tiling.w > 0.5 ? spacingAnchor.zw : itemPosition;
     float2 nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint;
@@ -81,7 +81,7 @@ float ApplyBattleEffectOutline(UnityTexture2D itemData, int item, float distance
 {
     // An onion of the interpolated outline thickness (the outline + fill and outline styles' stroke)
 
-    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE);
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, blend, outline thickness start, end)
     float outlineDistance;
     SDFOnion(distance, lerp(style.z, style.w, progress), outlineDistance);
     return outlineDistance;
@@ -91,12 +91,12 @@ float ApplyBattleEffectClip(UnityTexture2D itemData, int item, float distance, f
 {
     // Intersects what the item draws (after its style) w/ a box / diamond / ring [half size = (outer, inner radius)] in its local space, centred on its position + the clip offset, turned by the clip angle
 
-    float4 clip = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIP);
+    float4 clip = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIP); // (clip shape, angle, -, -)
     int clipShape = (int)round(clip.x);
     if (clipShape == BATTLE_EFFECT_CLIPSHAPE_NONE) { return distance; }
 
-    float4 clipSizeRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPSIZE);
-    float4 clipOffsetRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPOFFSET);
+    float4 clipSizeRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPSIZE); // (half size start.xy, end.xy)
+    float4 clipOffsetRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPOFFSET); // (centre offset start.xy, end.xy)
     float2 halfSize = lerp(clipSizeRange.xy, clipSizeRange.zw, progress);
     float2 offsetPoint = localPoint - lerp(clipOffsetRange.xy, clipOffsetRange.zw, progress);
     float2 clipPoint = float2(cos(clip.y) * offsetPoint.x + sin(clip.y) * offsetPoint.y, -sin(clip.y) * offsetPoint.x + cos(clip.y) * offsetPoint.y);
@@ -123,7 +123,7 @@ float GetBattleEffectShadeWeight(UnityTexture2D itemData, int item, float2 copyP
     if (shade.x < 0.5) { return 0.0; }
     
     float4 shadeLine = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADELINE); // (angle start, end, offset start, end)
-    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION);
+    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION); // (item rotation start, end, shape rotation start, end)
     float angle = lerp(shadeLine.x, shadeLine.y, progress) + lerp(rotation.z, rotation.w, progress);
     float past = (dot(copyPoint, float2(cos(angle), sin(angle))) - lerp(shadeLine.z, shadeLine.w, progress)) * distanceScale; // effect units
     return shade.x > 1.5 ? 1.0 - GetBattleEffectCoverage(past, edgeHalfWidth, edgeHalfWidth) : (past > 0.0 ? 1.0 : 0.0);
@@ -163,11 +163,11 @@ float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accum
 
     // Style + colour
     int style = GetBattleEffectStyle(itemData, item);
-    bool isErase = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).y) == BATTLE_EFFECT_BLEND_ERASE;
+    bool isErase = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).y) == BATTLE_EFFECT_BLEND_ERASE; // (style, blend, outline thickness start, end)
     float stripeMask = GetBattleEffectStripeMask(itemData, item, fittedUV);
     float paletteIndex = GetBattleEffectPaletteIndex(itemData, item, elapsedTime, itemTime, copyIndex, beat);
     float shadeWeight = GetBattleEffectShadeWeight(itemData, item, copyPoint, distanceScale, progress, edgeHalfWidth);
-    float2 shadeSteps = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADE).yz; // (fill, outline) on the shaded side
+    float2 shadeSteps = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADE).yz; // (mode [0 = off, 1 = hard, 2 = smooth], fill step, outline step, -)
     float4 colour = GetBattleEffectPaletteColour(itemData, item, paletteIndex);
     if (shadeWeight > 0.0) { colour = lerp(colour, GetBattleEffectPaletteColour(itemData, item, paletteIndex + shadeSteps.x), shadeWeight); }
 

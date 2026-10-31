@@ -136,6 +136,16 @@ float BattleEffectStarDistance(BattleEffectShapeInput input)
     return distance;
 }
 
+float BattleEffectChamferedBoxDistance(BattleEffectShapeInput input)
+{
+    // A: (half width SU, half height SU, top left SU, bottom left SU), B: (bottom right SU, top right SU, top right step width SU, top right lower SU)
+
+    float distance;
+    SDFChamferedBox(input.localPoint, float2(0.0, 0.0), input.parametersA.xy, input.parametersA.z, input.parametersA.w,
+        input.parametersB.x, input.parametersB.y, input.parametersB.z, input.parametersB.w, distance);
+    return distance;
+}
+
 float BattleEffectZigguratDistance(BattleEffectShapeInput input)
 {
     // Along local x, mirrored top / bottom;  A: (base half-height SU, tiers, riser size SU, tread width SU), B: (top half width SU, half-length SU, riser slope, -)

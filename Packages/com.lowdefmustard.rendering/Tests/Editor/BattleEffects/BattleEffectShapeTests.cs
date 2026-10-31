@@ -56,6 +56,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TestCase(typeof(BattleEffectJaggedLine), 11)]
         [TestCase(typeof(BattleEffectZiggurat), 12)]
         [TestCase(typeof(BattleEffectTrapezoid), 13)]
+        [TestCase(typeof(BattleEffectChamferedBox), 14)]
         public void PackageShapes_KeepTheirStableIds(Type shapeType, int expectedId)
         {
             var shape = (BattleEffectShape)Activator.CreateInstance(shapeType);
@@ -204,6 +205,19 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(3f, parameters[0].GetStart(), "bottom half width");
             Assert.AreEqual(1f, parameters[1].GetStart(), "top half width start");
             Assert.AreEqual(2f, parameters[1].GetEnd(), "top half width end");
+        }
+
+        [Test]
+        public void GetParameters_ChamferedBox_WritesSizeThenCornersThenTheStep()
+        {
+            var parameters = new BattleEffectFloatRange[BattleEffectDataLayout.shapeParameterCapacity];
+            var box = new BattleEffectChamferedBox();
+            string[] names = { "halfWidthSU", "halfHeightSU", "topLeftChamferSU", "bottomLeftChamferSU", "bottomRightChamferSU", "topRightChamferSU", "topRightStepWidthSU", "topRightLowerChamferSU" };
+            JsonUtility.FromJsonOverwrite("{" + string.Join(",", names.Select((name, index) => $"\"{name}\":{{\"start\":{index + 1},\"end\":{index + 1}}}")) + "}", box);
+
+            box.GetParameters(parameters);
+
+            CollectionAssert.AreEqual(new[] { 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f }, parameters.Select(parameter => parameter.GetStart()).ToArray());
         }
 
         [Test]

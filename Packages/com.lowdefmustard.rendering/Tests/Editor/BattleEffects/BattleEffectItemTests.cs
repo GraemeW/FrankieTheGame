@@ -224,6 +224,16 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_OutlineEdgeGradient_FromThePalette_WritesTheStep()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"outlineEdgeGradient\":{\"isEnabled\":true,\"steps\":2,\"isFromPalette\":true,\"paletteStep\":-1}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(1f, 2f, 1f, -1f), texels[BattleEffectDataLayout.edgeGradient]);
+        }
+
+        [Test]
         public void TryWriteData_OutlineEdgeGradient_DefaultIsOff()
         {
             CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);

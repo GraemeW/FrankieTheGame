@@ -388,6 +388,52 @@ UNITY_EXPORT_REFLECTION void SDFRegularPolygon(float2 uv, float2 position, float
 }
 
 ///<funchints>
+/// <sg:ProviderKey>SDFChamferedBox</sg:ProviderKey>
+/// <sg:DisplayName>SDF Chamfered Box</sg:DisplayName>
+/// <sg:SearchCategory>LDM/SDFShapes/ChamferedBox</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void SDFChamferedBox(float2 uv, float2 position, float2 halfSize, float topLeft, float bottomLeft, float bottomRight, float topRight, float stepWidth, float lowerChamfer,
+    out float distanceOutput)
+{
+    // A box w/ its corners cut at 45 degrees;  the top right can step (chamfer -> flat -> lower chamfer) (exact distance, concave allowed)
+
+    float2 local = uv - position;
+    float2 size = max(halfSize, 1e-5);
+    float topRun = max(topRight, 0.0);
+    float lowerRun = max(lowerChamfer, 0.0);
+    float stepRun = max(stepWidth, 0.0);
+    float2 outline[10];
+    outline[0] = float2(-size.x + max(topLeft, 0.0), size.y);
+    outline[1] = float2(size.x - topRun - stepRun - lowerRun, size.y);
+    outline[2] = float2(size.x - stepRun - lowerRun, size.y - topRun);
+    outline[3] = float2(size.x - lowerRun, size.y - topRun);
+    outline[4] = float2(size.x, size.y - topRun - lowerRun);
+    outline[5] = float2(size.x, -size.y + max(bottomRight, 0.0));
+    outline[6] = float2(size.x - max(bottomRight, 0.0), -size.y);
+    outline[7] = float2(-size.x + max(bottomLeft, 0.0), -size.y);
+    outline[8] = float2(-size.x, -size.y + max(bottomLeft, 0.0));
+    outline[9] = float2(-size.x, size.y - max(topLeft, 0.0));
+
+    float2 toFirst = local - outline[0];
+    float nearest = dot(toFirst, toFirst);
+    float sign = 1.0;
+    [loop]
+    for (int corner = 0; corner < 10; corner++)
+    {
+        float2 start = outline[corner];
+        float2 side = outline[(corner + 9) % 10] - start;
+        float2 toStart = local - start;
+        float2 toSide = toStart - side * saturate(dot(toStart, side) / max(dot(side, side), 1e-8));
+        nearest = min(nearest, dot(toSide, toSide));
+        bool isAbove = local.y >= start.y;
+        bool isBelowEnd = local.y < start.y + side.y;
+        bool isRight = side.x * toStart.y > side.y * toStart.x;
+        if ((isAbove && isBelowEnd && isRight) || (!isAbove && !isBelowEnd && !isRight)) { sign = -sign; }
+    }
+    distanceOutput = sign * sqrt(nearest);
+}
+
+///<funchints>
 /// <sg:ProviderKey>SDFZiggurat</sg:ProviderKey>
 /// <sg:DisplayName>SDF Ziggurat</sg:DisplayName>
 /// <sg:SearchCategory>LDM/SDFShapes/Ziggurat</sg:SearchCategory>

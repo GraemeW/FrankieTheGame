@@ -37,7 +37,7 @@ namespace LowDefMustard.Rendering
         public const int altColourD = 17;
 
         // Outline edge gradient
-        public const int edgeGradient = 18;         // (on [0 / 1], steps [0 = smooth], -, -)
+        public const int edgeGradient = 18;         // (on [0 / 1], steps [0 = smooth], from the palette [0 / 1], palette step)
         public const int edgeColour = 19;           // Linear rgba (the stroke's outside edge)
 
         // Shade (a palette step on one side of each copy)

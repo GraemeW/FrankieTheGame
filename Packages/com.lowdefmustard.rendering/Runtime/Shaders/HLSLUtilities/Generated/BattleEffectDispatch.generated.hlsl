@@ -113,6 +113,7 @@ float BattleEffectShapeDistance(int shapeId, BattleEffectShapeInput input)
     if (shapeId == 11) { return BattleEffectJaggedLineDistance(input); }
     if (shapeId == 12) { return BattleEffectZigguratDistance(input); }
     if (shapeId == 13) { return BattleEffectTrapezoidDistance(input); }
+    if (shapeId == 14) { return BattleEffectChamferedBoxDistance(input); }
     return 1e5;
 }
 

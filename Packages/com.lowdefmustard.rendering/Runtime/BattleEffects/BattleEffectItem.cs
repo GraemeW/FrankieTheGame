@@ -142,7 +142,8 @@ namespace LowDefMustard.Rendering
             bool inShade = shade != null && shade.IsPaletteUsed();
             bool inColourCycle = colourCycle != null && colourCycle.IsPaletteUsed();
             bool inBeats = beats != null && beats.IsPaletteUsed();
-            return inStyle || inShade || inColourCycle || inBeats;
+            bool inEdgeGradient = outlineEdgeGradient != null && outlineEdgeGradient.IsPaletteUsed();
+            return inStyle || inShade || inColourCycle || inBeats || inEdgeGradient;
         }
         
         private static Color ToTexel(BattleEffectVector2Range range) => ToTexel(range.GetStart(), range.GetEnd());
