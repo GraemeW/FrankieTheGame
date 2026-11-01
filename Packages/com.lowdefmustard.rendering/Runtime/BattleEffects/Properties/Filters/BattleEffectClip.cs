@@ -14,16 +14,18 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Half width / height (a diamond's points);  a ring:  x = outer radius, y = inner radius")][BattleEffectAxisLabelsWhen(nameof(shape), (int)BattleEffectClipShape.Ring, "OR", "IR")] private BattleEffectVector2Range halfSizeSU = new(Vector2.one);
         [SerializeField][Tooltip("Moves the clip's centre from the item's position (before the angle turns it)")] private BattleEffectVector2Range offsetSU = new(Vector2.zero);
         [SerializeField][Tooltip("Turns the clip shape in the item's local space (counter-clockwise)")] private float angleDegrees = 0f;
+        [SerializeField][Tooltip("Keeps or drops the shape whole (each tile, if tiled), by whether its centre is inside the clip")] private bool clipWholeShape = false;
 
         // Editor Field References
         public const string shapeField = nameof(shape);
         public const string halfSizeSUField = nameof(halfSizeSU);
         public const string offsetSUField = nameof(offsetSU);
         public const string angleDegreesField = nameof(angleDegrees);
+        public const string clipWholeShapeField = nameof(clipWholeShape);
 
         internal void WriteData(Color[] texels, int rowStart)
         {
-            texels[rowStart + BattleEffectDataLayout.clip] = new Color((int)shape, angleDegrees * Mathf.Deg2Rad, 0f, 0f);
+            texels[rowStart + BattleEffectDataLayout.clip] = new Color((int)shape, angleDegrees * Mathf.Deg2Rad, clipWholeShape ? 1f : 0f, 0f);
             texels[rowStart + BattleEffectDataLayout.clipSize] = new Color(halfSizeSU.GetStart().x, halfSizeSU.GetStart().y, halfSizeSU.GetEnd().x, halfSizeSU.GetEnd().y);
             texels[rowStart + BattleEffectDataLayout.clipOffset] = new Color(offsetSU.GetStart().x, offsetSU.GetStart().y, offsetSU.GetEnd().x, offsetSU.GetEnd().y);
         }

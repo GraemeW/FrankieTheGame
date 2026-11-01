@@ -14,7 +14,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
     public class BattleEffectDrawerTests
     {
         // Notes:
-        //  - Bound values + TrackPropertyValue callbacks land over the next editor updates ~ so tests wait on the expected state
+        //  - Bound values + TrackPropertyValue callbacks land over the next editor updates ~ tests wait on the expected state
+        //  - Tracking takes its starting value on an update, missing any edit before it ~ a fresh inspector settles before a test touches it
         //  - The drawers + sections track only their own property (tests verify that parent tracks on child edits)
         //      - this does NOT apply to [SerializeReference] parents (e.g. a shape)
         //      - the shape drawer + the recipe inspector's item / instance headers track the whole object instead
@@ -42,13 +43,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private SerializedObject serializedObject;
 
         #region Setup
-        [SetUp]
-        public void SetUp()
+        [UnitySetUp]
+        public IEnumerator SetUp()
         {
             window = new HeadlessEditorWindow();
             target = ScriptableObject.CreateInstance<DrawerTarget>();
             serializedObject = new SerializedObject(target);
-            window.root.Add(new InspectorElement(serializedObject));
+            yield return RebuildInspector();
         }
 
         [TearDown]
@@ -61,6 +62,15 @@ namespace LowDefMustard.Rendering.Tests.Editor
         #endregion
 
         #region PrivateMethods
+        private IEnumerator RebuildInspector()
+        {
+            window.root.Clear();
+            window.root.Add(new InspectorElement(serializedObject));
+            yield return HeadlessEditorWindow.WaitUntil(() => window.root.Query<PropertyField>().First() != null);
+            yield return null;
+            yield return null;
+        }
+
         private PropertyField FindPropertyField(string propertyPath) => window.root.Query<PropertyField>().Where(field => field.bindingPath == propertyPath).First();
         private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
         private BattleEffectSection FindSection(string title) => window.root.Query<BattleEffectSection>().Where(section => section.text == title).First();
@@ -257,17 +267,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsNotNull(window.root.Query<Foldout>().Where(foldout => foldout.text == "Tint").First());
         }
 
-        [TestCase(BattleEffectTintMode.Solid, false, false, false, false)]
-        [TestCase(BattleEffectTintMode.Linear, true, true, true, false)]
-        [TestCase(BattleEffectTintMode.Wave, true, true, true, true)]
-        [TestCase(BattleEffectTintMode.Radial, true, false, true, true)]
-        public void TintDrawer_ShowsOnlyTheModesFields(BattleEffectTintMode mode, bool isColourBShown, bool isAngleShown, bool isFrequencyShown, bool isSpeedShown)
+        [UnityTest]
+        [TestCase(BattleEffectTintMode.Solid, false, false, false, false, ExpectedResult = null)]
+        [TestCase(BattleEffectTintMode.Linear, true, true, true, false, ExpectedResult = null)]
+        [TestCase(BattleEffectTintMode.Wave, true, true, true, true, ExpectedResult = null)]
+        [TestCase(BattleEffectTintMode.Radial, true, false, true, true, ExpectedResult = null)]
+        public IEnumerator TintDrawer_ShowsOnlyTheModesFields(BattleEffectTintMode mode, bool isColourBShown, bool isAngleShown, bool isFrequencyShown, bool isSpeedShown)
         {
             // Rebuilt per mode (the drawer reads the mode when it's created)
             serializedObject.FindProperty($"{nameof(DrawerTarget.tint)}.{BattleEffectTint.modeField}").intValue = (int)mode;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            window.root.Clear();
-            window.root.Add(new InspectorElement(serializedObject));
+            yield return RebuildInspector();
 
             Assert.AreEqual(isColourBShown, IsShown(FindTintField(BattleEffectTint.colourBField)), "colour B");
             Assert.AreEqual(isAngleShown, IsShown(FindTintField(BattleEffectTint.angleDegreesField)), "angle");
@@ -296,16 +306,16 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsNotNull(window.root.Query<Foldout>().Where(foldout => foldout.text == "Alt Colours").First());
         }
 
-        [TestCase(0, false, false, false)]
-        [TestCase(1, true, false, false)]
-        [TestCase(3, true, true, true)]
-        public void AltColoursDrawer_ShowsOnlyTheCountsColours(int count, bool isColourBShown, bool isColourCShown, bool isColourDShown)
+        [UnityTest]
+        [TestCase(0, false, false, false, ExpectedResult = null)]
+        [TestCase(1, true, false, false, ExpectedResult = null)]
+        [TestCase(3, true, true, true, ExpectedResult = null)]
+        public IEnumerator AltColoursDrawer_ShowsOnlyTheCountsColours(int count, bool isColourBShown, bool isColourCShown, bool isColourDShown)
         {
             // Rebuilt per count (the drawer reads the count when it's created)
             serializedObject.FindProperty($"{nameof(DrawerTarget.altColours)}.{BattleEffectAltColours.countField}").intValue = count;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            window.root.Clear();
-            window.root.Add(new InspectorElement(serializedObject));
+            yield return RebuildInspector();
 
             Assert.AreEqual(isColourBShown, IsShown(FindAltColoursField(BattleEffectAltColours.colourBField)), "colour B");
             Assert.AreEqual(isColourCShown, IsShown(FindAltColoursField(BattleEffectAltColours.colourCField)), "colour C");
@@ -438,13 +448,12 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsTrue(FindSection("Stripes").IsEnabled());
         }
 
-        [Test]
-        public void SectionDrawers_InUse_StartUnfolded()
+        [UnityTest]
+        public IEnumerator SectionDrawers_InUse_StartUnfolded()
         {
             serializedObject.FindProperty($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.shapeField}").intValue = (int)BattleEffectClipShape.Diamond;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            window.root.Clear();
-            window.root.Add(new InspectorElement(serializedObject));
+            yield return RebuildInspector();
 
             Assert.IsTrue(FindSection("Clip").value);
             Assert.IsTrue(IsShown(FindPropertyField($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}")));

@@ -16,8 +16,8 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Bottom left corner cut")] private BattleEffectFloatRange bottomLeftChamferSU = new(0.25f);
         [SerializeField][Tooltip("Bottom right corner cut")] private BattleEffectFloatRange bottomRightChamferSU = new(0.25f);
         [SerializeField][Tooltip("Top right corner cut, from the top edge")] private BattleEffectFloatRange topRightChamferSU = new(0.25f);
-        [SerializeField][Tooltip("The flat run below the top right chamfer (0 = no step)")] private BattleEffectFloatRange topRightStepWidthSU = new(0f);
-        [SerializeField][Tooltip("The chamfer from the step down to the right edge")] private BattleEffectFloatRange topRightLowerChamferSU = new(0f);
+        [SerializeField][Tooltip("Flat run below the top right chamfer (0 = no step)")] private BattleEffectFloatRange topRightStepWidthSU = new(0f);
+        [SerializeField][Tooltip("Chamfer from the step down to the right edge")] private BattleEffectFloatRange topRightLowerChamferSU = new(0f);
 
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {

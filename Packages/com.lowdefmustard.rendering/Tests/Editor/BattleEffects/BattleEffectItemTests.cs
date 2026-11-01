@@ -274,6 +274,32 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Stipple_WritesDotsDensityAndSeed()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"stipple\":{\"dotsPerEU\":224,\"density\":{\"start\":0.25,\"end\":0.1},\"seed\":7}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color(224f, 0.25f, 0.1f, 7f), texels[BattleEffectDataLayout.stipple]);
+        }
+
+        [Test]
+        public void TryWriteData_Stipple_DefaultIsOff()
+        {
+            CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(0f, texels[BattleEffectDataLayout.stipple].r);
+        }
+
+        [Test]
+        public void TryWriteData_Clip_WholeShape_WritesTheFlag()
+        {
+            CreateItem(new BattleEffectCircle(), "{\"clip\":{\"shape\":3,\"clipWholeShape\":true}}").TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(1f, texels[BattleEffectDataLayout.clip].b);
+        }
+
+        [Test]
         public void TryWriteData_Stripes_DefaultIsOff()
         {
             CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);
@@ -331,6 +357,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
             item.TryWriteData(texels, 0, parameterBuffer, 1f);
 
             Assert.AreEqual(expected, texels[BattleEffectDataLayout.repetition].a, "x = 1 + half turn = 4 + spread = 8;  unmirrored:  nothing to spread");
+        }
+
+        [TestCase(true, 17f)]
+        [TestCase(false, 0f)]
+        public void TryWriteData_Repetition_PacksFlipXOnlyWhenMirrored(bool mirrorX, float expected)
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), $"{{\"repetition\":{{\"mirrorX\":{(mirrorX ? "true" : "false")},\"flipX\":true}}}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            Assert.AreEqual(expected, texels[BattleEffectDataLayout.repetition].a, "x = 1 + flip x = 16;  unmirrored:  nothing to flip");
         }
 
         [Test]

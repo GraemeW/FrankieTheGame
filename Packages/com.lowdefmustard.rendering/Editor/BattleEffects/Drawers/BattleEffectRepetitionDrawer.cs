@@ -23,7 +23,7 @@ namespace LowDefMustard.Rendering.Editor
                 property.FindPropertyRelative(BattleEffectRepetition.spacingSUField), property.FindPropertyRelative(BattleEffectRepetition.copyScaleRatioField),
                 property.FindPropertyRelative(BattleEffectRepetition.waveAmplitudeSUField), waveformProperty, property.FindPropertyRelative(BattleEffectRepetition.waveCopiesPerCycleField),
                 property.FindPropertyRelative(BattleEffectRepetition.wavePhaseFractionField), property.FindPropertyRelative(BattleEffectRepetition.wavePlateauFractionField), mirrorXProperty, mirrorYProperty, halfTurnProperty,
-                property.FindPropertyRelative(BattleEffectRepetition.beatOffsetsSpreadField) }; 
+                property.FindPropertyRelative(BattleEffectRepetition.beatOffsetsSpreadField), property.FindPropertyRelative(BattleEffectRepetition.flipXField) }; 
 
             var section = new BattleEffectSection(property.displayName, property, properties, IsEnabled, refreshSection =>
             {
@@ -39,6 +39,7 @@ namespace LowDefMustard.Rendering.Editor
                 refreshSection.SetShown(BattleEffectRepetition.wavePhaseFractionField, IsLine());
                 refreshSection.SetShown(BattleEffectRepetition.wavePlateauFractionField, IsLine() && (BattleEffectWaveform)waveformProperty.intValue is BattleEffectWaveform.Trapezoid or BattleEffectWaveform.Pulse);
                 refreshSection.SetShown(BattleEffectRepetition.beatOffsetsSpreadField, IsMirrored());
+                refreshSection.SetShown(BattleEffectRepetition.flipXField, IsMirrored());
             }, property);
             section.SetLabel(_countXPath, IsGrid() ? "Count X" : "Count", countTooltip);
             section.SetLabel(_countYPath, "Count Y", countTooltip);

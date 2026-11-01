@@ -195,6 +195,29 @@ namespace LowDefMustard.Rendering.Tests.Editor
             }
         }
 
+        [TestCase(false, TestName = "ShowAllRecipes_RecipeShownAgainThenDestroyed_IsForgotten")]
+        [TestCase(true, TestName = "ShowAllRecipes_RecipeDestroyedWhileHidden_IsSkipped")]
+        public void ShowAllRecipes_DestroyedRecipe_RaisesNoChange(bool isStillHidden)
+        {
+            var destroyed = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            var changedRecipes = new List<BattleEffectRecipe>();
+            BattleEffectPreviewVisibility.SetHidden(destroyed, BattleEffectEntryId.Item(0), true);
+            if (!isStillHidden) { BattleEffectPreviewVisibility.SetHidden(destroyed, BattleEffectEntryId.Item(0), false); }
+            Object.DestroyImmediate(destroyed);
+            BattleEffectPreviewVisibility.changed += HandleChanged;
+            try
+            {
+                BattleEffectPreviewVisibility.ShowAllRecipes();
+
+                CollectionAssert.IsEmpty(changedRecipes);
+            }
+            finally { BattleEffectPreviewVisibility.changed -= HandleChanged; }
+            return;
+            
+            // Local Functions
+            void HandleChanged(BattleEffectRecipe changedRecipe) => changedRecipes.Add(changedRecipe);
+        }
+
         [Test]
         public void CreateMaterialDefinition_SmoothTime_OverridesTheRecipeFrameRate()
         {

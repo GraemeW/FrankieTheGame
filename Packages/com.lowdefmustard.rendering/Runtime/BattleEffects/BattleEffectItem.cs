@@ -34,6 +34,7 @@ namespace LowDefMustard.Rendering
         [SerializeField] private BattleEffectOutlineEdgeGradient outlineEdgeGradient = new();
         [SerializeField][Tooltip("Steps one side of each copy through the palette")] private BattleEffectShade shade = new();
         [SerializeField] private BattleEffectStripes stripes = new();
+        [SerializeField] private BattleEffectStipple stipple = new();
         [SerializeField] private BattleEffectClip clip = new();
 
         [SerializeField] private BattleEffectRepetition repetition = new();
@@ -64,6 +65,7 @@ namespace LowDefMustard.Rendering
         public const string outlineEdgeGradientField = nameof(outlineEdgeGradient);
         public const string shadeField = nameof(shade);
         public const string stripesField = nameof(stripes);
+        public const string stippleField = nameof(stipple);
         public const string clipField = nameof(clip);
         public const string repetitionField = nameof(repetition);
         public const string tilingField = nameof(tiling);
@@ -117,6 +119,7 @@ namespace LowDefMustard.Rendering
             outlineEdgeGradient?.WriteData(texels, rowStart);
             shade?.WriteData(texels, rowStart);
             stripes?.WriteData(texels, rowStart, effectScale);
+            stipple?.WriteData(texels, rowStart, effectScale);
             clip?.WriteData(texels, rowStart);
 
             // Repetition + tiling

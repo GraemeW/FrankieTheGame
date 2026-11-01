@@ -14,6 +14,7 @@ namespace LowDefMustard.Rendering.Editor
             {
                 section.SetShown(BattleEffectClip.halfSizeSUField, IsEnabled());
                 section.SetShown(BattleEffectClip.offsetSUField, IsEnabled());
+                section.SetShown(BattleEffectClip.clipWholeShapeField, IsEnabled());
                 section.SetShown(BattleEffectClip.angleDegreesField, IsEnabled() && shapeProperty.intValue != (int)BattleEffectClipShape.Ring); // Symmetric about its centre:  no effect
             });
 

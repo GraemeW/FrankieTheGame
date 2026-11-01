@@ -25,6 +25,7 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Folds the shape across its local x axis (top / bottom halves match)")] private bool mirrorY = false;
         [SerializeField][Tooltip("Folds the left half onto the right through the centre (each half = the other turned 180 degrees; before x / y mirrors)")] private bool halfTurn = false;
         [SerializeField][Tooltip("Mirrored:  beat offsets move each half away from its fold (the halves spread apart)")] private bool beatOffsetsSpread = false;
+        [SerializeField][Tooltip("Mirrored:  flips the shape left <-> right after the fold")] private bool flipX = false;
 
         // Editor Field References
         public const string modeField = nameof(mode);
@@ -40,10 +41,11 @@ namespace LowDefMustard.Rendering
         public const string mirrorYField = nameof(mirrorY);
         public const string halfTurnField = nameof(halfTurn);
         public const string beatOffsetsSpreadField = nameof(beatOffsetsSpread);
+        public const string flipXField = nameof(flipX);
 
         internal void WriteData(Color[] texels, int rowStart)
         {
-            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f) + (halfTurn ? 4f : 0f) + (beatOffsetsSpread && IsMirrored() ? 8f : 0f));
+            texels[rowStart + BattleEffectDataLayout.repetition] = new Color((int)mode, Mathf.Max(count.x, 1), Mathf.Max(count.y, 1), (mirrorX ? 1f : 0f) + (mirrorY ? 2f : 0f) + (halfTurn ? 4f : 0f) + (beatOffsetsSpread && IsMirrored() ? 8f : 0f) + (flipX && IsMirrored() ? 16f : 0f));
             texels[rowStart + BattleEffectDataLayout.spacing] = new Color(spacingSU.GetStart().x, spacingSU.GetStart().y, spacingSU.GetEnd().x, spacingSU.GetEnd().y);
             texels[rowStart + BattleEffectDataLayout.copyScale] = new Color(GetCopyScaleRatio(copyScaleRatio.GetStart()), GetCopyScaleRatio(copyScaleRatio.GetEnd()), 0f, 0f);
             texels[rowStart + BattleEffectDataLayout.copyWave] = new Color((int)waveform, Mathf.Max(waveCopiesPerCycle, 0.01f), waveAmplitudeSU.GetStart(), waveAmplitudeSU.GetEnd());

@@ -148,7 +148,7 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     //  - spread offset (local):  a spread beat's offset, after the fold - mirrored halves move apart (0 otherwise)
 
     // Settings at this point in the item's progress
-    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8])
+    float4 repetition = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION); // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8, flip x = 16])
     float4 spacingRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SPACING); // (start.xy, end.xy)
     float4 copyScaleRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYSCALE); // (copy scale ratio start, end, -, -)
     float4 copyWave = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_COPYWAVE); // (waveform, copies per cycle, amplitude start, end)
@@ -170,7 +170,7 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     copyShape.elongation = lerp(elongationRange.xy, elongationRange.zw, progress) + GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATELONGATIONS01);
 
     // Folds: half turn, then x / y mirrors (unfold = their signs, to put the copy's point back on the item's side)
-    uint mirrorFlags = (uint)round(repetition.w); // (x = 1, y = 2, half turn = 4, spread = 8)
+    uint mirrorFlags = (uint)round(repetition.w); // (x = 1, y = 2, half turn = 4, spread = 8, flip x = 16)
     bool isMirrorX = (mirrorFlags & 1u) != 0u;
     bool isMirrorY = (mirrorFlags & 2u) != 0u;
     bool isTurned = (mirrorFlags & 4u) != 0u && shapeInput.localPoint.x < 0.0;
@@ -180,6 +180,7 @@ float GetBattleEffectLocalDistance(UnityTexture2D itemData, int item, int shapeI
     SDFMirror(turnedPoint, isMirrorX ? 1.0 : 0.0, isMirrorY ? 1.0 : 0.0, mirroredPoint);
     mirroredPoint -= spreadOffset;
     float2 unfold = float2(isMirrorX && turnedPoint.x < 0.0 ? -1.0 : 1.0, isMirrorY && turnedPoint.y < 0.0 ? -1.0 : 1.0) * (isTurned ? -1.0 : 1.0);
+    if ((mirrorFlags & 16u) != 0u) { mirroredPoint.x = -mirroredPoint.x; unfold.x = -unfold.x; }
 
     // Repetition families:  each only works out its candidates (while no repetition = the one shape at its own size)
     float2 candidatePoints[BATTLE_EFFECT_MAX_COPY_CANDIDATES] = { mirroredPoint, float2(0.0, 0.0), float2(0.0, 0.0), float2(0.0, 0.0) };

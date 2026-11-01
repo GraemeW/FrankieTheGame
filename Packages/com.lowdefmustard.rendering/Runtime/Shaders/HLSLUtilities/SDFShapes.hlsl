@@ -396,18 +396,19 @@ UNITY_EXPORT_REFLECTION void SDFChamferedBox(float2 uv, float2 position, float2 
     out float distanceOutput)
 {
     // A box w/ its corners cut at 45 degrees;  the top right can step (chamfer -> flat -> lower chamfer) (exact distance, concave allowed)
+    //  - a negative lower chamfer pushes the step past the right edge, then cuts back in
 
     float2 local = uv - position;
     float2 size = max(halfSize, 1e-5);
     float topRun = max(topRight, 0.0);
-    float lowerRun = max(lowerChamfer, 0.0);
+    float lowerRun = lowerChamfer;
     float stepRun = max(stepWidth, 0.0);
     float2 outline[10];
     outline[0] = float2(-size.x + max(topLeft, 0.0), size.y);
     outline[1] = float2(size.x - topRun - stepRun - lowerRun, size.y);
     outline[2] = float2(size.x - stepRun - lowerRun, size.y - topRun);
     outline[3] = float2(size.x - lowerRun, size.y - topRun);
-    outline[4] = float2(size.x, size.y - topRun - lowerRun);
+    outline[4] = float2(size.x, size.y - topRun - abs(lowerRun));
     outline[5] = float2(size.x, -size.y + max(bottomRight, 0.0));
     outline[6] = float2(size.x - max(bottomRight, 0.0), -size.y);
     outline[7] = float2(-size.x + max(bottomLeft, 0.0), -size.y);

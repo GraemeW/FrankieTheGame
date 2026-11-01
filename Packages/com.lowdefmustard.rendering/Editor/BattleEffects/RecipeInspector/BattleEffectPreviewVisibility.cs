@@ -25,7 +25,7 @@ namespace LowDefMustard.Rendering.Editor
         {
             List<BattleEffectRecipe> recipes = _hiddenEntries.Keys.ToList();
             _hiddenEntries.Clear();
-            foreach (BattleEffectRecipe recipe in recipes) { changed?.Invoke(recipe); }
+            foreach (BattleEffectRecipe recipe in recipes.Where(recipe => recipe != null)) { changed?.Invoke(recipe); }
         }
         #endregion
 
@@ -50,6 +50,7 @@ namespace LowDefMustard.Rendering.Editor
             }
             if (isHidden) { hiddenIds.Add(entryId); }
             else { hiddenIds.Remove(entryId); }
+            if (hiddenIds.Count == 0) { _hiddenEntries.Remove(recipe); }
             changed?.Invoke(recipe);
         }
 
@@ -69,7 +70,8 @@ namespace LowDefMustard.Rendering.Editor
             List<BattleEffectEntryId> shiftedIds = hiddenIds.Where(id => !id.Equals(removedId))
                 .Select(id => id.isInstance == removedId.isInstance && id.index > removedId.index ? new BattleEffectEntryId(id.index - 1, id.isInstance) : id).ToList();
             if (shiftedIds.Count == hiddenIds.Count && shiftedIds.All(hiddenIds.Contains)) { return; }
-            _hiddenEntries[recipe] = new HashSet<BattleEffectEntryId>(shiftedIds);
+            if (shiftedIds.Count == 0) { _hiddenEntries.Remove(recipe); }
+            else { _hiddenEntries[recipe] = new HashSet<BattleEffectEntryId>(shiftedIds); }
             changed?.Invoke(recipe);
         }
         #endregion

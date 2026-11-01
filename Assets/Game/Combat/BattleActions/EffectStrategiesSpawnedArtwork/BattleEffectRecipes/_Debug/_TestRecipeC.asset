@@ -19,18 +19,18 @@ MonoBehaviour:
   items:
   - label: 
     shape:
-      rid: 5082563562719412320
+      rid: 9086808330134619011
     startTimeSeconds: 0
     durationSeconds: 1
     easing: 0
     approachRatio: 4
     progressSteps: 0
     positionEU:
-      start: {x: 0.25, y: 0.5}
-      end: {x: 0.75, y: 0.5}
+      start: {x: 0.5, y: 0.5}
+      end: {x: 0.5, y: 0.5}
     scaleEU:
-      start: {x: 0.05, y: 0.05}
-      end: {x: 0.05, y: 0.05}
+      start: {x: 0.25, y: 0.25}
+      end: {x: 0.25, y: 0.25}
     elongationSU:
       start: {x: 0, y: 0}
       end: {x: 0, y: 0}
@@ -38,14 +38,14 @@ MonoBehaviour:
       start: 0
       end: 0
     shapeRotationDegrees:
-      start: 90
-      end: 90
+      start: 0
+      end: 0
     style:
-      mode: 1
+      mode: 0
       blend: 0
       outlineThicknessEU:
-        start: 0.01
-        end: 0.01
+        start: 0.05
+        end: 0.05
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
       isOutlineFromPalette: 0
@@ -59,6 +59,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -75,6 +77,12 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      dotsPerEU: 1
+      density:
+        start: 1
+        end: 0
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -84,6 +92,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 3, y: 3}
@@ -109,44 +118,44 @@ MonoBehaviour:
       halfTurn: 0
       beatOffsetsSpread: 0
     tiling:
-      mode: 1
+      mode: 0
       count: {x: 3, y: 3}
-      spacingEU: {x: 0.33, y: 0.33}
-      isAnchored: 1
-      anchorEU: {x: 0.5, y: 0.2}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
       pattern: 
     beats:
-      count: 4
-      isInterpolated: 1
+      count: 0
+      isInterpolated: 0
       pattern: 
       patternRate: 0
       beatA:
         startSeconds: 0
-        offsetEU: {x: 0.05, y: 0.05}
+        offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
         scaleRatio: 1
         colourIndex: 0
       beatB:
-        startSeconds: 0.3
-        offsetEU: {x: 0.05, y: -0.1}
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
-        scaleRatio: 1.3
+        scaleRatio: 1
         colourIndex: 0
       beatC:
-        startSeconds: 0.7
-        offsetEU: {x: -0.1, y: -0.1}
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
-        scaleRatio: 1.5
+        scaleRatio: 1
         colourIndex: 0
       beatD:
-        startSeconds: 1
-        offsetEU: {x: -0.4, y: 0.3}
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
-        scaleRatio: 1.8
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -167,9 +176,30 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5082563562719412320
-      type: {class: BattleEffectChevron, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+    - rid: 9086808330134619011
+      type: {class: BattleEffectChamferedBox, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
-        depthRatio:
-          start: 0.6
-          end: 0.6
+        halfWidthSU:
+          start: 1
+          end: 1
+        halfHeightSU:
+          start: 1
+          end: 1
+        topLeftChamferSU:
+          start: 0.78
+          end: 0.25
+        bottomLeftChamferSU:
+          start: 2.72
+          end: 0.25
+        bottomRightChamferSU:
+          start: 0.77
+          end: 0.25
+        topRightChamferSU:
+          start: 0.32
+          end: 0.25
+        topRightStepWidthSU:
+          start: 0.75
+          end: 0
+        topRightLowerChamferSU:
+          start: -1.58
+          end: 0
