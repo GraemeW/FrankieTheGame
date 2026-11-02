@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
-  m_Name: SpawnDiamondBurst
+  m_Name: SpawnDiamondBurstOmega
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SpawnBattleEffect
   effectGUID: 3f7b9d4f-03ef-4ade-97bf-384887f80aba
   effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
-  effectRecipe: {fileID: 11400000, guid: e88ad70f0de049e98f6505532502239e, type: 2}
+  effectRecipe: {fileID: 11400000, guid: d02b9736fbcc14f9386f7d3df74272bf, type: 2}
   effectTint:
     mode: 2
     colourA: {r: 0.22694907, g: 0.89810395, b: 0.9433962, a: 1}

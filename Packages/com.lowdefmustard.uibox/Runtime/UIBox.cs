@@ -186,7 +186,11 @@ namespace LowDefMustard.UIBox
             if (!keepPointerInputWhenInactive && TryGetBoxView(out UIToolkitBoxView view)) { view.SetPointerInputEnabled(enable); }
         }
         
-        private void HandleInputWrapper(ControllerInputType controllerInputType) => HandleGlobalInput(controllerInputType);
+        private void HandleInputWrapper(ControllerInputType controllerInputType)
+        {
+            if (!gameObject.activeInHierarchy) { return; } // A box can be registered for global input while inactive (pre-Awake) -> ignore input until it's shown
+            HandleGlobalInput(controllerInputType);
+        }
         
         protected bool StandardHandleGlobalInput(ControllerInputType controllerInputType)
         {

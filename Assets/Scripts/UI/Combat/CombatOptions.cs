@@ -44,8 +44,9 @@ namespace Frankie.Combat.UI
         #region UnityMethods
         protected override void AwakeTriggered()
         {
+            // Note:  Set here, as well as in Setup (see below)
             preventEscapeOptionExit = true;
-
+            
             // Note:  Choice order is row-by-row over two columns (MoveCursor2D)
             AddNonDestroyChoiceOption(localizedFightText.GetSafeLocalizedString(), InitiateCombat);
             AddNonDestroyChoiceOption(localizedItemText.GetSafeLocalizedString(), OpenKnapsack);
@@ -61,6 +62,10 @@ namespace Frankie.Combat.UI
             partyCombatConduit = setPartyCombatConduit;
             combatMessages = setCombatMessages;
             boxParent = setBoxParent;
+
+            // Note:  Set here as well as in Awake
+            // Standard use - CombatOptions box is registered for global input while still inactive (pre-Awake) -> an escape during the intro message otherwise queues it for destroy
+            preventEscapeOptionExit = true;
         }
 
         public void EnableCombatOptions()
