@@ -1,0 +1,253 @@
+#include "ShaderApiReflectionSupport.hlsl"
+
+#ifndef BATTLEEFFECTCOMPOSITE_INCLUDED
+#define BATTLEEFFECTCOMPOSITE_INCLUDED
+
+// Notes:
+//  - This node is used in BattleEffect graph only (not general utility)
+//  - BattleEffect ShaderGraph's blackboard properties are wired into the node's inputs (property names must match ShaderPropertyRefs)
+//      - Items are read from the item data texture (one row per item, columns per BattleEffectDataLayout ~ mirrored by the generated dispatch)
+//      - Per item:
+//          time window -> ease -> progress steps -> beat -> interpolate (+ beat offset, jitter)
+//          -> tiling -> transform -> mirror (+ spread beat offset) -> repetition -> shape rotation -> elongation
+//          -> shape (generated dispatch) -> style (fill + outline:  the fill first) -> clip -> coverage (x flicker x stripes)
+//          -> colour (palette [+ shade], outline colour + edge gradient) -> composite (over / erase)
+//  - Logic Splits:
+//      - BattleEffectItemData:  reading an item's settings (timing, beats, modifiers, colours, stripes)
+//      - BattleEffectRepetition:  an item's shape at its nearest repetition copies (+ which copy)
+//      - here:  the transform, style + clip, compositing + the node itself
+//  - Fit mode (BattleEffectFit) sets the effect units
+//      - aspect fit:  units of the effect's shorter side (see SDFAspectFit) - shapes keep their proportions on any slide size
+//      - stretch:  the element's own 0-1 UV - fills it (e.g. full screen), shapes stretch w/ it
+//  - Output is straight (non-premultiplied) colour + alpha
+
+#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectItemData.hlsl"
+#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/BattleEffectRepetition.hlsl"
+#include "Packages/com.lowdefmustard.rendering/Runtime/Shaders/HLSLUtilities/ColourUtility.hlsl"
+
+BattleEffectShapeInput GetBattleEffectShapeInput(UnityTexture2D itemData, int item, float2 fittedUV, float itemTime, float progress, BattleEffectBeatPose pose, BattleEffectModifiers modifiers, float2 tileOffset,
+    out float distanceScale, out float2 spreadOffset, out float2 tileCentre)
+{
+    // Effect units -> the shape's local space (+ its interpolated parameters && relevant offsetting)
+    //  - position:  its range + the current beat's offset + jitter;  scale:  its range x the beat's ratio x pulse;  item rotation:  its range
+    //  - spread beat offsets (mirrored items) skip the position:  returned in local space instead (for after the fold)
+    //  - the tile's centre:  in local space (for whole shape clip)
+
+    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION); // (start.xy, end.xy)
+    float4 scale = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SCALE); // (start.xy, end.xy)
+    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION); // (item rotation start, end, shape rotation start, end)
+    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8, flip x = 16])
+    float2 beatOffset = GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01);
+    float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : beatOffset) + modifiers.jitterOffset;
+    float2 itemScale = lerp(scale.xy, scale.zw, progress) * GetBattleEffectPoseScale(itemData, item, pose) * modifiers.pulseScale;
+    float itemAngle = lerp(rotation.x, rotation.y, progress);
+
+    BattleEffectShapeInput shapeInput;
+    SDFTransform(fittedUV, itemPosition, itemAngle, itemScale, shapeInput.localPoint, distanceScale);
+    float tileDistanceScale;
+    SDFTransform(itemPosition + tileOffset, itemPosition, itemAngle, itemScale, tileCentre, tileDistanceScale);
+    spreadOffset = 0.0;
+    if (isSpread)
+    {
+        float spreadDistanceScale;
+        SDFTransform(itemPosition + beatOffset, itemPosition, itemAngle, itemScale, spreadOffset, spreadDistanceScale);
+    }
+    shapeInput.parametersA = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSASTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSAEND), progress); // (shape parameters 0-3)
+    shapeInput.parametersB = lerp(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBSTART), LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_PARAMETERSBEND), progress); // (shape parameters 4-7)
+    shapeInput.itemTime = itemTime;
+    shapeInput.progress = progress;
+    return shapeInput;
+}
+
+float2 GetBattleEffectTiledPoint(UnityTexture2D itemData, int item, float2 fittedUV, float progress, BattleEffectBeatPose pose, BattleEffectModifiers modifiers)
+{
+    // Tiling:  the point moved into its nearest lattice cell, relative to the item's position as if that cell were the item (untiled:  unchanged)
+    //  - the nearest cell only (no neighbours, deliberately) ~ shapes reaching past their cell are cut at its edge
+
+    float4 tiling = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILING); // (mode, count x, count y, is anchored)
+    int tilingMode = (int)round(tiling.x);
+    if (tilingMode == BATTLE_EFFECT_TILINGMODE_NONE) { return fittedUV; }
+
+    float4 position = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_POSITION); // (start.xy, end.xy)
+    bool isSpread = ((uint)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_REPETITION).w) & 8u) != 0u; // (repetition, count x, count y, mirror [x = 1, y = 2, half turn = 4, spread = 8, flip x = 16])
+    float2 itemPosition = lerp(position.xy, position.zw, progress) + (isSpread ? 0.0 : GetBattleEffectPosePair(itemData, item, pose, BATTLE_EFFECT_LAYOUT_BEATOFFSETS01)) + modifiers.jitterOffset;
+    float4 spacingAnchor = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_TILINGSPACING); // (spacing x, y, anchor x, y)
+    float2 spacing = spacingAnchor.xy;
+    float2 latticeCentre = tiling.w > 0.5 ? spacingAnchor.zw : itemPosition;
+    float2 nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint;
+    if (tilingMode == BATTLE_EFFECT_TILINGMODE_STAGGEREDGRID || tilingMode == BATTLE_EFFECT_TILINGMODE_STAGGEREDGRIDOVERLAPPING)
+    {
+        SDFRepeatStaggeredGrid(fittedUV - latticeCentre, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint);
+        if (tilingMode == BATTLE_EFFECT_TILINGMODE_STAGGEREDGRIDOVERLAPPING && dot(neighbourYPoint, neighbourYPoint) < dot(nearestPoint, nearestPoint)) { nearestPoint = neighbourYPoint; }
+    }
+    else { SDFRepeatGrid(fittedUV - latticeCentre, spacing, tiling.yz, nearestPoint, neighbourXPoint, neighbourYPoint, neighbourXYPoint); }
+    return latticeCentre + nearestPoint;
+}
+
+float ApplyBattleEffectOutline(UnityTexture2D itemData, int item, float distance, float progress)
+{
+    // An onion of the interpolated outline thickness (the outline + fill and outline styles' stroke)
+
+    float4 style = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE); // (style, blend, outline thickness start, end)
+    float outlineDistance;
+    SDFOnion(distance, lerp(style.z, style.w, progress), outlineDistance);
+    return outlineDistance;
+}
+
+float ApplyBattleEffectClip(UnityTexture2D itemData, int item, float distance, float2 localPoint, float2 tileCentre, float distanceScale, float progress)
+{
+    // Intersects what the item draws (after its style) w/ a box / diamond / ring [half size = (outer, inner radius)] in its local space, centred on its position + the clip offset, turned by the clip angle
+    //  - whole shape:  tested at the centre, keeping or dropping the shape whole (each tile, if tiled)
+
+    float4 clip = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIP); // (clip shape, angle, clip whole shape, -)
+    int clipShape = (int)round(clip.x);
+    if (clipShape == BATTLE_EFFECT_CLIPSHAPE_NONE) { return distance; }
+
+    float4 clipSizeRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPSIZE); // (half size start.xy, end.xy)
+    float4 clipOffsetRange = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_CLIPOFFSET); // (centre offset start.xy, end.xy)
+    float2 halfSize = lerp(clipSizeRange.xy, clipSizeRange.zw, progress);
+    bool clipWholeShape = clip.z > 0.5;
+    float2 offsetPoint = (clipWholeShape ? tileCentre : localPoint) - lerp(clipOffsetRange.xy, clipOffsetRange.zw, progress);
+    float2 clipPoint = float2(cos(clip.y) * offsetPoint.x + sin(clip.y) * offsetPoint.y, -sin(clip.y) * offsetPoint.x + cos(clip.y) * offsetPoint.y);
+    float clipDistance;
+    if (clipShape == BATTLE_EFFECT_CLIPSHAPE_DIAMOND) { SDFRhombus(clipPoint, float2(0.0, 0.0), halfSize, clipDistance); }
+    else if (clipShape == BATTLE_EFFECT_CLIPSHAPE_RING) { clipDistance = max(length(clipPoint) - halfSize.x, halfSize.y - length(clipPoint)); }
+    else { SDFBox(clipPoint, float2(0.0, 0.0), halfSize, 0.0, clipDistance); }
+    if (clipWholeShape) { return clipDistance > 0.0 ? 1.0 : distance; }
+    return max(distance, clipDistance * distanceScale);
+}
+
+float GetBattleEffectCoverage(float distance, float edgeHalfWidth, float edgeOuter)
+{
+    // Antialiased (+ glow) coverage of a distance in effect units
+
+    return 1.0 - smoothstep(-edgeHalfWidth, edgeOuter, distance);
+}
+
+float GetBattleEffectShadeWeight(UnityTexture2D itemData, int item, float2 copyPoint, float distanceScale, float progress, float edgeHalfWidth)
+{
+    // How much of the shaded side (0-1) at the copy's point:  past the line (the copy's centre + the offset, along the shaded direction, which turns w/ the shape rotation)
+    //  - hard:  a step;  smooth:  antialiased across the line (matching the shapes' edges)
+
+    float4 shade = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADE); // (mode [0 = off, 1 = hard, 2 = smooth], fill step, outline step, -)
+    if (shade.x < 0.5) { return 0.0; }
+    
+    float4 shadeLine = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADELINE); // (angle start, end, offset start, end)
+    float4 rotation = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_ROTATION); // (item rotation start, end, shape rotation start, end)
+    float angle = lerp(shadeLine.x, shadeLine.y, progress) + lerp(rotation.z, rotation.w, progress);
+    float past = (dot(copyPoint, float2(cos(angle), sin(angle))) - lerp(shadeLine.z, shadeLine.w, progress)) * distanceScale; // effect units
+    return shade.x > 1.5 ? 1.0 - GetBattleEffectCoverage(past, edgeHalfWidth, edgeHalfWidth) : (past > 0.0 ? 1.0 : 0.0);
+}
+
+float4 CompositeBattleEffectErase(float4 accumulated, float alpha)
+{
+    // Punches the item's coverage out of everything drawn so far
+
+    return accumulated * (1.0 - alpha);
+}
+
+float4 CompositeBattleEffectOver(float4 accumulated, float3 colour, float alpha)
+{
+    // Premultiplied 'over':  the new item paints over everything drawn so far
+
+    return float4(colour * alpha, alpha) + accumulated * (1.0 - alpha);
+}
+
+float4 CompositeBattleEffectItem(UnityTexture2D itemData, int item, float4 accumulated, float elapsedTime, float2 fittedUV, float edgeHalfWidth, float edgeOuter,
+    float disableFlicker, float disableJitter)
+{
+    // One item (if it's in its time window), composited onto everything drawn before it
+
+    int shapeId;
+    float itemTime, progress;
+    if (!TryGetBattleEffectItemTime(itemData, item, elapsedTime, shapeId, itemTime, progress)) { return accumulated; }
+
+    // Geometry:  the shape's distance (effect units) at its nearest copy
+    BattleEffectModifiers modifiers = GetBattleEffectModifiers(itemData, item, elapsedTime, itemTime, disableFlicker, disableJitter);
+    int beat = GetBattleEffectBeat(itemData, item, itemTime);
+    BattleEffectBeatPose pose = GetBattleEffectBeatPose(itemData, item, beat, progress);
+    float distanceScale, copyIndex;
+    float2 spreadOffset, copyPoint, tileCentre;
+    float2 tiledUV = GetBattleEffectTiledPoint(itemData, item, fittedUV, progress, pose, modifiers);
+    BattleEffectShapeInput shapeInput = GetBattleEffectShapeInput(itemData, item, tiledUV, itemTime, progress, pose, modifiers, fittedUV - tiledUV, distanceScale, spreadOffset, tileCentre);
+    float shapeDistance = GetBattleEffectLocalDistance(itemData, item, shapeId, shapeInput, spreadOffset, progress, pose, copyIndex, copyPoint) * distanceScale;
+
+    // Style + colour
+    int style = GetBattleEffectStyle(itemData, item);
+    bool isErase = (int)round(LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STYLE).y) == BATTLE_EFFECT_BLEND_ERASE; // (style, blend, outline thickness start, end)
+    float filterMask = GetBattleEffectStripeMask(itemData, item, fittedUV) * GetBattleEffectStippleMask(itemData, item, fittedUV, progress);
+    float paletteIndex = GetBattleEffectPaletteIndex(itemData, item, elapsedTime, itemTime, copyIndex, beat);
+    float shadeWeight = GetBattleEffectShadeWeight(itemData, item, copyPoint, distanceScale, progress, edgeHalfWidth);
+    float2 shadeSteps = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_SHADE).yz; // (mode [0 = off, 1 = hard, 2 = smooth], fill step, outline step, -)
+    float4 colour = GetBattleEffectPaletteColour(itemData, item, paletteIndex);
+    if (shadeWeight > 0.0) { colour = lerp(colour, GetBattleEffectPaletteColour(itemData, item, paletteIndex + shadeSteps.x), shadeWeight); }
+
+    // Fill (fill + fill and outline styles):  stripes, stipple + the erase blend apply to it
+    if (style != BATTLE_EFFECT_STYLEMODE_OUTLINE)
+    {
+        float fillDistance = ApplyBattleEffectClip(itemData, item, shapeDistance, shapeInput.localPoint, tileCentre, distanceScale, progress);
+        float fillAlpha = colour.a * GetBattleEffectCoverage(fillDistance, edgeHalfWidth, edgeOuter) * filterMask * modifiers.flickerAlpha;
+        accumulated = isErase ? CompositeBattleEffectErase(accumulated, fillAlpha) : CompositeBattleEffectOver(accumulated, colour.rgb, fillAlpha);
+    }
+    if (style == BATTLE_EFFECT_STYLEMODE_FILL) { return accumulated; }
+
+    // Outline (outline + fill and outline styles):  over the fill;  stripes, stipple + erase only when it's the item's whole style
+    bool isOutlineOnly = style == BATTLE_EFFECT_STYLEMODE_OUTLINE;
+    float outlineDistance = ApplyBattleEffectClip(itemData, item, ApplyBattleEffectOutline(itemData, item, shapeDistance, progress), shapeInput.localPoint, tileCentre, distanceScale, progress);
+    float4 strokeColour = GetBattleEffectStrokeColour(itemData, item, GetBattleEffectPaletteColour(itemData, item, paletteIndex), paletteIndex, shapeDistance, progress);
+    if (shadeWeight > 0.0)
+    {
+        float shadedIndex = paletteIndex + shadeSteps.y;
+        float4 shadedStroke = GetBattleEffectStrokeColour(itemData, item, GetBattleEffectPaletteColour(itemData, item, shadedIndex), shadedIndex, shapeDistance, progress);
+        strokeColour = lerp(strokeColour, shadedStroke, shadeWeight);
+    }
+    float strokeAlpha = strokeColour.a * GetBattleEffectCoverage(outlineDistance, edgeHalfWidth, edgeOuter) * (isOutlineOnly ? filterMask : 1.0) * modifiers.flickerAlpha;
+    return isOutlineOnly && isErase ? CompositeBattleEffectErase(accumulated, strokeAlpha) : CompositeBattleEffectOver(accumulated, strokeColour.rgb, strokeAlpha);
+}
+
+
+///<funchints>
+/// <sg:ProviderKey>BattleEffectComposite</sg:ProviderKey>
+/// <sg:DisplayName>Battle Effect Composite</sg:DisplayName>
+/// <sg:SearchCategory>LDM/BattleEffects/Composite</sg:SearchCategory>
+///</funchints>
+UNITY_EXPORT_REFLECTION void BattleEffectComposite(float2 uv, float isPreview, float previewTime,
+    float itemCount, UnityTexture2D itemData,
+    float4 tintColourA, float4 tintColourB, float4 tintSettings,
+    float phase, float frameRate,
+    float edgeSoftness, float glowWidth,
+    float disableFlicker, float disableJitter, float fitMode,
+    out float3 colorOutput, out float alphaOutput)
+{
+    // Effect clock (stepped)
+    float elapsedTime, sineElapsedTime, cosineElapsedTime;
+    TimeSinceInitialization(phase, elapsedTime, sineElapsedTime, cosineElapsedTime);
+    if (isPreview > 0.5) { elapsedTime = previewTime; } // Editor preview drives time directly
+    SteppedTime(elapsedTime, frameRate, elapsedTime);
+
+    // Fitted space
+    //  - Edge = antialiasing (in screen pixels) + optional glow (in fitted units)
+    //  - Derivatives are taken via SDFAspectFit/fwidth outside the loop (otherwise undefined under per-pixel branching)
+    //  - Fit mode is a select (not a branch), so derivatives stay defined
+    float2 fittedUV;
+    SDFAspectFit(uv, fittedUV);
+    fittedUV = (int)round(fitMode) == BATTLE_EFFECT_FIT_STRETCH ? uv : fittedUV;
+    float edgeHalfWidth = max(length(fwidth(fittedUV)) * edgeSoftness, 1e-5);
+    float edgeOuter = edgeHalfWidth + max(glowWidth, 0.0);
+
+    float4 accumulated = 0.0; // Premultiplied - later items paint over earlier ones
+    int count = (int)itemCount;
+    [loop]
+    for (int i = 0; i < count; i++)
+    {
+        accumulated = CompositeBattleEffectItem(itemData, i, accumulated, elapsedTime, fittedUV, edgeHalfWidth, edgeOuter, disableFlicker, disableJitter);
+    }
+
+    // Overall tint (solid / gradient, in effect units;  scrolls on the stepped clock)
+    float4 tint;
+    ColourGradient(fittedUV, tintSettings.x, tintColourA, tintColourB, tintSettings.y, tintSettings.z, elapsedTime * tintSettings.w, tint);
+    alphaOutput = accumulated.a * tint.a;
+    colorOutput = (accumulated.a > 0.0 ? accumulated.rgb / accumulated.a : 0.0) * tint.rgb;
+}
+
+#endif

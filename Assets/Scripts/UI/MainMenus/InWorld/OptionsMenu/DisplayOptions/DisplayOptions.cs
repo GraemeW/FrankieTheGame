@@ -6,7 +6,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
-using Frankie.Rendering;
+using LowDefMustard.Rendering;
 using Frankie.Saving;
 using Frankie.Utils.Localization;
 

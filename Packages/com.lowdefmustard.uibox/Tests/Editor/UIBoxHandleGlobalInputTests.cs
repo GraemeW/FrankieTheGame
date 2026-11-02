@@ -61,6 +61,18 @@ namespace LowDefMustard.UIBox.Tests.Editor
         }
 
         [Test]
+        public void HandleGlobalInput_InactiveBox_IgnoresInput()
+        {
+            TestUIBox testUIBox = CreateTestUIBox();
+            testUIBox.gameObject.SetActive(false);
+            testUIBox.publicHandleGlobalInput = true;
+
+            testUIBox.GetInputHandler().Invoke(ControllerInputType.Cancel);
+
+            Assert.IsFalse(testUIBox.destroyQueued);
+        }
+
+        [Test]
         public void HandleGlobalInput_NonExitInputWithNoChoicesAvailable_ReturnsFalse()
         {
             TestUIBox testUIBox = CreateTestUIBox();

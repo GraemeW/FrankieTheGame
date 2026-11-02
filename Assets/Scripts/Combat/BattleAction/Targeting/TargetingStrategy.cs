@@ -7,6 +7,7 @@ namespace Frankie.Combat
 {
     public abstract class TargetingStrategy : ScriptableObject
     {
+        // Tunables
         [SerializeField] protected CombatParticipantType combatParticipantType;
         [SerializeField] protected FilterStrategy[] filterStrategies;
         

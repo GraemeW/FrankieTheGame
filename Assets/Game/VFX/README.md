@@ -22,10 +22,10 @@ Notably, this effect is used to generate the mystical trail that follows [PhilRa
 
 ## Shaders
 
-[Custom shaders](./Shaders/) in Frankie are built using [Unity's Shader Graph](https://docs.unity3d.com/Manual/shader-graph.html) tool.  They are used for a host of applications, including:
+[Custom shaders](./Shaders/) in Frankie are built using [Unity's Shader Graph](https://docs.unity3d.com/Manual/shader-graph.html) tool, with their heavier logic written as reusable HLSL nodes (e.g. signed distance functions).  Combat shaders target UI Toolkit, and are applied per UI element.  They are used for a host of applications, including:
 * psychedelic battle backgrounds
-* swirling battle entry screens
-* special attack animations during combat
+* swirling battle entry screens *(via UITK filter shader)*
+* special attack animations during combat *(shared shader w/ effect recipes)*
 * to enhance specific world objects *(make them pop)*
 
 More detail on these specific use cases is provided in the [Shaders](./Shaders/) sub-directory.

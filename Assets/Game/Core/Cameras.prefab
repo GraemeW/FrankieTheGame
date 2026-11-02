@@ -745,6 +745,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e81588c29b954744a58a321974234b0a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.CameraSpawnAssist
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.CameraSpawnAssist
   cameraController: {fileID: 781377061876055829}
   orthoSpawnViewMultiplier: 1.25

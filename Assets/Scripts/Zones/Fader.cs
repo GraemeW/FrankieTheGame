@@ -1,7 +1,7 @@
 using UnityEngine;
 using LowDefMustard.UIBox;
+using LowDefMustard.Rendering;
 using LowDefMustard.Zones;
-using Frankie.Rendering;
 using Frankie.Saving;
 using Frankie.Zones.UI;
 
@@ -12,6 +12,11 @@ namespace Frankie.Zones
     public sealed class Fader : FaderBase<TransitionType>
     {
         // Note:  Overlays live on a top-sorted panel (see FaderPanelSettings) - i.e. fades cover every other box / UI element rendered on the screen
+
+        // Tunables
+        [SerializeField] private Color goodEntryColor = Color.lightGreen;
+        [SerializeField] private Color badEntryColor = Color.softRed;
+        [SerializeField] private Color neutralEntryColor = Color.mediumPurple;
 
         // State
         private readonly FaderModel faderModel = new();
@@ -76,9 +81,16 @@ namespace Frankie.Zones
 
         protected override void TriggerStandaloneFadeIn(TransitionType transitionType)
         {
-            battleEntryShaderControl.SetBattleEntryParameters(transitionType, GetFadeTime(true, transitionType), GetFadeTime(false, transitionType));
+            battleEntryShaderControl.SetBattleEntryParameters(GetBattleEntryColor(transitionType), GetFadeTime(true, transitionType), GetFadeTime(false, transitionType));
             faderModel.isBattleEntryActive = true;
         }
+
+        private Color GetBattleEntryColor(TransitionType transitionType) => transitionType switch
+        {
+            TransitionType.BattleGood => goodEntryColor,
+            TransitionType.BattleBad => badEntryColor,
+            _ => neutralEntryColor
+        };
 
         protected override void TriggerStandaloneFadeCleanup()
         {

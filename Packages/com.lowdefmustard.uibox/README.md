@@ -47,6 +47,8 @@ This package ships Runtime-only (no custom inspector required). Every box is con
   - 1- `TryAcquireDependencies()` (virtual, default `true`) — override for any box that self-acquires a controller/dependency in `Awake`; returning `false` destroys the box immediately, before `OnEnable`/`Start` ever run
   - 2- A `Start()`-launched coroutine gives a one-frame grace period, then destroys the box if `controller` is still `null` while `handleGlobalInput` is true — catching the case where a *parent* forgets to call `controller.AddInputReceiver(...)` after spawning a child box
     - Because of this, any box **must** have its controller link established by the end of `Start()` — in practice, this means instantiating and calling `AddInputReceiver` in the same synchronous block, before the new box's own `Start()` runs
+- **Inactive boxes ignore input:** a box can be registered with a controller while its GameObject is still inactive (e.g. a pre-placed child shown later), which subscribes it to global input before its `Awake` has run
+  - Input is dropped while the box's GameObject is inactive ~ this prevents a hidden box from acting on input
 
 ### Cursor Movement (`Runtime/UIBoxBase.cs`, `Runtime/Utility/CursorMovementStyle.cs`, `Runtime/EntryHandles/IUIMoveInterceptor.cs`)
 
@@ -73,6 +75,7 @@ A box's visuals come from a view component on the same GameObject, backed by a `
 
 - **`UIToolkitBoxView`** (abstract) — binds whenever the renderer reloads its UI: applies the view's style sheets, visibility, pointer blocking (an inactive box ignores clicks), a root data source for model-bound elements, and the back-exit button (`BackExitButton` in the UXML, shown once the box sets an action && skipped when `preventEscapeOptionExit` is set)
   - It owns the box's **entries** and places each in the first UXML element of the entry's container type
+  - `TryGetEntryContainer(type, out container)` returns that element (once bound), e.g. to position something over a container
 - **`UIToolkitMenuView`** — the view for menus
   - **`UIToolkitTextScanView`** — adds text entries and the choice layout for `TextScanBox`
 - **Entries (`EntryHandles/`)** — The box logic holds the `EntryHandle`, while the view rebuilds its element on every UI reload
@@ -96,7 +99,7 @@ A concrete `UIBox<UIBoxState>` implementation for scrolling/typewriter-style tex
 
 ### Testing Notes
 
-Any test activating a `UIBox<TBoxState>` double needs a controller set via `TrySetController` first, or the missing-controller destroy coroutine kills it mid-test.
+Any test activating a `UIBox<TBoxState>` double needs a controller set via `TrySetController` first, or the missing-controller destroy coroutine kills it mid-test. Likewise, a test driving input through `GetInputHandler()` needs the box active, or the input is dropped.
 
 Box and handle logic is tested without any UI loaded: `TestChoice` is a plain `IUIChoice` (with a given navigation rect), and a view with no loaded panel simply never binds, leaving its entries as handles + models (the handles expose a few `internal` model values for this).
 

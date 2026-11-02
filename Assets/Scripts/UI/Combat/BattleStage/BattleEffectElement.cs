@@ -1,40 +1,48 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Rendering;
 
 namespace Frankie.Combat.UI
 {
     public sealed class BattleEffectElement : VisualElement
     {
         // Note:
-        //  - Each effect gets its own _Phase (spawn time) + tint, so effects sharing a material animate / colour independently
+        //  - Each effect gets its own _Phase (spawn time), tint + recipe, so effects sharing a material animate / colour / shape independently
         //  - An anchored effect expires with its anchor (i.e. when the anchor leaves the panel / if it was never there to begin with)
 
         // Const Tunables
         private const string _ussClassName = "battle-effect";
         private const string _fullScreenUssClassName = _ussClassName + "--full-screen";
-        private const string _phaseReference = "_Phase";
+        private const float _slideOversize = 1.25f;
 
         // State
-        private readonly bool isFullScreen;
+        private readonly BattleEffectPlacement placement;
         private readonly VisualElement targetAnchor; // Unused for full-screen effects
-        private readonly Color tint;
+        private readonly Color vertexTint;
         private bool isExpired = false;
 
         // Events
         public event Action expired;
 
-        public BattleEffectElement(bool isFullScreen, VisualElement targetAnchor, Material material, Color tint, float phase, float lifetime)
+        public BattleEffectElement(BattleEffectPlacement placement, VisualElement targetAnchor, Material material, BattleEffectRecipe recipe, BattleEffectTint tint, float phase, float lifetime)
         {
-            this.isFullScreen = isFullScreen;
+            this.placement = placement;
             this.targetAnchor = targetAnchor;
-            this.tint = tint;
             AddToClassList(_ussClassName);
-            EnableInClassList(_fullScreenUssClassName, isFullScreen);
+            EnableInClassList(_fullScreenUssClassName, placement == BattleEffectPlacement.FullScreen);
             pickingMode = PickingMode.Ignore;
 
             var materialDefinition = new MaterialDefinition(material);
-            materialDefinition.SetFloat(_phaseReference, phase);
+            ShaderPropertyRefs.SetShaderPhase(ref materialDefinition, phase);
+            if (recipe != null)
+            {
+                // Recipe effects are coloured in the shader (solid / gradient), while other materials keep the vertex tint
+                recipe.ApplyTo(ref materialDefinition, placement == BattleEffectPlacement.Slide ? BattleEffectFit.AspectFit : BattleEffectFit.Stretch);
+                tint?.ApplyTo(ref materialDefinition);
+                vertexTint = Color.white;
+            }
+            else { vertexTint = tint?.GetColourA() ?? Color.white; }
             style.unityMaterial = new StyleMaterialDefinition(materialDefinition);
             generateVisualContent += DrawEffect;
             RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
@@ -46,21 +54,43 @@ namespace Frankie.Combat.UI
         #region PrivateMethods
         private void HandleAttachToPanel(AttachToPanelEvent attachToPanelEvent)
         {
-            if (isFullScreen) { return; }
+            if (placement == BattleEffectPlacement.FullScreen) { return; }
             if (targetAnchor?.panel == null || targetAnchor.panel != panel || parent == null) { schedule.Execute(Expire); return; } // Deferred:  avoid removing the effect while it is still being attached
 
-            // Converted between the two elements directly
-            Rect layerRect = targetAnchor.ChangeCoordinatesTo(parent, new Rect(Vector2.zero, targetAnchor.layout.size));
-            style.left = layerRect.x;
+            // Positioning the effect over the anchor in two steps:
+            //  1. anchorRect:  the area to cover, in the anchor's own local space (0, 0 = the anchor's top-left)
+            //      - slide:  the whole slide (oversized about its centre)
+            //      - row:  the row's content rect (only its y + height are used)
+            Rect anchorRect = placement == BattleEffectPlacement.Row ? targetAnchor.contentRect : new Rect(Vector2.zero, targetAnchor.layout.size);
+            
+            //  2. layerRect:  that same area converted into the effect layer's space (this element's parent), which is what style.left / top position against
+            //      - the anchor + effect sit in different branches of the stage, so converted between the two elements directly
+            Rect layerRect = targetAnchor.ChangeCoordinatesTo(parent, anchorRect);
+            if (placement == BattleEffectPlacement.Slide)
+            {
+                Vector2 oversizedSize = layerRect.size * _slideOversize;
+                layerRect = new Rect(layerRect.center - oversizedSize * 0.5f, oversizedSize);
+            }
             style.top = layerRect.y;
-            style.width = layerRect.width;
             style.height = layerRect.height;
+
+            //  3. width:  a row spans the whole layer (a fixed width, however many enemies it holds), while a slide matches its oversizedSlide
+            if (placement == BattleEffectPlacement.Row)
+            {
+                style.left = 0f;
+                style.right = 0f;
+            }
+            else
+            {
+                style.left = layerRect.x;
+                style.width = layerRect.width;
+            }
             targetAnchor.RegisterCallback<DetachFromPanelEvent>(HandleAnchorDetached);
         }
 
         private void HandleDetachFromPanel(DetachFromPanelEvent detachFromPanelEvent)
         {
-            if (!isFullScreen) { targetAnchor?.UnregisterCallback<DetachFromPanelEvent>(HandleAnchorDetached); }
+            if (placement != BattleEffectPlacement.FullScreen) { targetAnchor?.UnregisterCallback<DetachFromPanelEvent>(HandleAnchorDetached); }
         }
 
         private void HandleAnchorDetached(DetachFromPanelEvent detachFromPanelEvent) => Expire();
@@ -72,7 +102,7 @@ namespace Frankie.Combat.UI
             expired?.Invoke();
         }
 
-        private void DrawEffect(MeshGenerationContext meshGenerationContext) => ShaderQuad.Draw(meshGenerationContext, new Rect(0f, 0f, 1f, 1f), tint);
+        private void DrawEffect(MeshGenerationContext meshGenerationContext) => ShaderQuad.Draw(meshGenerationContext, new Rect(0f, 0f, 1f, 1f), vertexTint);
         #endregion
     }
 }

@@ -22,6 +22,10 @@ namespace Frankie.Combat
         [SerializeField] private BattleAction battleAction;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Skills, true)] private LocalizedString localizedDetail;
 
+        // Editor Field References
+        public const string skillStatField = nameof(skillStat);
+        public const string battleActionField = nameof(battleAction);
+
         // State
         [HideInInspector][SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }

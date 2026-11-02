@@ -32,7 +32,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  cachedName: 
+  cachedName: zz_TestAction
   references:
     version: 2
     RefIds: []

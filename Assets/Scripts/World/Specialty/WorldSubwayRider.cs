@@ -6,9 +6,9 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
+using LowDefMustard.Rendering;
 using Frankie.Core;
 using Frankie.Control;
-using Frankie.Rendering;
 using Frankie.Utils.Localization;
 
 namespace Frankie.World
@@ -35,7 +35,7 @@ namespace Frankie.World
         // Cached References
         private NPCMover npcMover;
         private Animator animator;
-        private CameraController cameraController;
+        private CameraControllerBase cameraController;
 
         #region UnityMethods
         private void Awake()
@@ -103,7 +103,7 @@ namespace Frankie.World
 
         private void HandleRideStart(SubwayRide subwayRide, PlayerStateMachine playerStateMachine)
         {
-            cameraController = CameraController.GetCameraController();
+            cameraController = CameraControllerBase.GetCameraController();
             if (cameraController == null) { return; }
             
             DisableAllConductors();
@@ -121,7 +121,7 @@ namespace Frankie.World
         
         private void HandleRideEnd(PlayerStateMachine playerStateMachine)
         {
-            if (cameraController == null) { CameraController.GetCameraController(); }
+            if (cameraController == null) { cameraController = CameraControllerBase.GetCameraController(); }
 
             npcMover.arrivedAtFinalWaypoint -= handleRideEndDelegate;
             cameraController.RefreshDefaultCameras();

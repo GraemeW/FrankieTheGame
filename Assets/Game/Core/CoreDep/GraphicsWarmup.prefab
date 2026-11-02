@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2812402990059612489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3198074557337948542}
+  - component: {fileID: 2138074442494709319}
+  m_Layer: 0
+  m_Name: GraphicsWarmup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3198074557337948542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812402990059612489}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2138074442494709319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812402990059612489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28577c371b85440a83e01371407d845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.GraphicsWarmup
+  mode: 1
+  entries:
+  - path: 2
+    material: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 0}
+    targetTexture: {fileID: 0}
+  - path: 2
+    material: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 0}
+    targetTexture: {fileID: 8400000, guid: 8e0950af32c78c94ca431e24f3eced61, type: 2}
+  - path: 2
+    material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 0}
+    targetTexture: {fileID: 0}
+  - path: 3
+    material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 0}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: 29f2f069c930343eb83fa85896e1ad9c, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 1
+    material: {fileID: 0}
+    filter: {fileID: 11400000, guid: 3e8cce2e8508e43958de7885e00dbb1b, type: 2}
+    panelSettings: {fileID: 11400000, guid: 9d2e85dfed6c42488bf5c3d2109dae31, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: c95ecd05fdd444ed7b1f3824720f85b0, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: 336c743cf227e42abbda6c31dd121ab6, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: efc7bde02ee9e488696ad0d1d42689e0, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: 32b4c139a5c79ce46a7bfae5b269ac9b, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  - path: 0
+    material: {fileID: 2100000, guid: fb208115c97366b45a5e7f13b5938d1a, type: 2}
+    filter: {fileID: 0}
+    panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
+    targetTexture: {fileID: 0}
+  preDrawFrames: 2
+  progressiveCountPerFrame: 0
+  traceInDevelopmentBuilds: 0
+  traceFileName: GraphicsWarmupTrace

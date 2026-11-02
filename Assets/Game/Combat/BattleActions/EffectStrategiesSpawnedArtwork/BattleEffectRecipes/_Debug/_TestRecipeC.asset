@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158efb4138aca4774a69df25379bbc9e, type: 3}
+  m_Name: _TestRecipeC
+  m_EditorClassIdentifier: LowDefMustard.Rendering::LowDefMustard.Rendering.BattleEffectRecipe
+  frameRate: 0
+  scaleRatio: 1
+  edgeSoftnessPixels: 1
+  glowWidthEU: 0
+  items:
+  - label: Cells growing
+    shape:
+      rid: 1508179246966112630
+    startTimeSeconds: 0
+    durationSeconds: 0.5
+    easing: 0
+    approachRatio: 4
+    progressSteps: 10
+    positionEU:
+      start: {x: 0.5, y: 0.522321}
+      end: {x: 0.5, y: 0.522321}
+    scaleEU:
+      start: {x: 0.0625, y: 0.040816}
+      end: {x: 0.0625, y: 0.040816}
+    elongationSU:
+      start: {x: 0, y: 0.492188}
+      end: {x: 0, y: 0.492188}
+    itemRotationDegrees:
+      start: 0
+      end: 0
+    shapeRotationDegrees:
+      start: 0
+      end: 0
+    style:
+      mode: 0
+      blend: 0
+      outlineThicknessEU:
+        start: 0.05
+        end: 0.05
+      colour: {r: 0.952941, g: 0.839216, b: 0, a: 1}
+      outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
+    altColours:
+      count: 1
+      colourB: {r: 1, g: 0.094118, b: 0, a: 1}
+      colourC: {r: 1, g: 1, b: 1, a: 1}
+      colourD: {r: 1, g: 1, b: 1, a: 1}
+    outlineEdgeGradient:
+      isEnabled: 0
+      colour: {r: 1, g: 1, b: 1, a: 1}
+      steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
+    stripes:
+      stripesPerEU: 0
+      angleDegrees: 0
+      dutyFraction: 0.5
+      phaseFraction: 0
+    stipple:
+      pattern: 1
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
+    clip:
+      shape: 3
+      halfSizeSU:
+        start: {x: 0.519378, y: -0.109375}
+        end: {x: 8.76833, y: -0.109375}
+      offsetSU:
+        start: {x: -0.21875, y: -0.601562}
+        end: {x: -0.21875, y: -0.601562}
+      angleDegrees: 0
+      clipWholeShape: 1
+    repetition:
+      mode: 0
+      count: {x: 1, y: 1}
+      spacingSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
+      mirrorX: 0
+      mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 3
+      count: {x: 6, y: 7}
+      spacingEU: {x: 0.1875, y: 0.107143}
+      isAnchored: 1
+      anchorEU: {x: 0.5, y: 0.522321}
+    colourCycle:
+      source: 2
+      rate: 20
+      phaseOffset: 0
+      pattern: 01
+    beats:
+      count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
+      beatA:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
+        colourIndex: 0
+      beatB:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
+        colourIndex: 0
+      beatC:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
+        colourIndex: 0
+      beatD:
+        startSeconds: 0
+        offsetEU: {x: 0, y: 0}
+        elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
+        colourIndex: 0
+    jitter:
+      rate: 0
+      mode: 0
+      amountEU: {x: 0, y: 0}
+      seed: 0
+      phaseFraction: 0
+    flicker:
+      rate: 0
+      depthFraction: 0.5
+      phaseFraction: 0
+      pattern: 
+    pulse:
+      rate: 0
+      amountFraction: 0
+      phaseFraction: 0
+  instances: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1508179246966112630
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+      data:
+        aspectRatio:
+          start: 1.75
+          end: 1.75

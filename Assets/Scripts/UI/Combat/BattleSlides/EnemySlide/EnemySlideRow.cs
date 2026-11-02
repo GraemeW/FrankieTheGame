@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UIElements;
 
 namespace Frankie.Combat.UI
@@ -14,6 +15,13 @@ namespace Frankie.Combat.UI
             AddToClassList(_ussClassName);
             pickingMode = PickingMode.Ignore;
         }
+        
+        public static Type GetRowType(BattleRow battleRow) => battleRow switch
+        {
+            BattleRow.Top => typeof(EnemySlideTopRow),
+            BattleRow.Bottom => typeof(EnemySlideBottomRow),
+            _ => typeof(EnemySlideMiddleRow)
+        };
 
         // Note:  UI Toolkit raises no child-added event - slides call this once attached
         public void SortByColumn() => Sort((first, second) => GetColumn(first).CompareTo(GetColumn(second)));

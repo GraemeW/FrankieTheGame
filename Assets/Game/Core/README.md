@@ -30,7 +30,7 @@ The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefa
 * [Fader](./CoreDep/Fader/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [CoreAudio](../Sound/CoreAudio.prefab):  contains the sole reference to the audio mixer to manage audio levels
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)
-* [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Rendering/Camera/MapCamera.cs) to generate the mini-map
+* [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Rendering/MapCamera.cs) to generate the mini-map
 * [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Utils/Debugger/FrankieDebugger.cs) for debug functionality (not for release)
 
 ### Addressables Loader (Singleton)
@@ -49,14 +49,14 @@ Thus, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) creates the cach
 
 ## Cameras Prefab
 
-[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Rendering/Camera/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply contains the main Unity [Camera](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
+[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Rendering/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply contains the main Unity [Camera](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
 
 The State Driven Camera child object employs a [Cinemachine State-Driven Camera](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineStateDrivenCamera.html), which allows us to:
 * follow the player as they move around the map
 * modify the camera zoom as a function of the player's lead character's animator state
   * *so we can add a neat zoom out effect when the player is idle*
 
-The latter functionality is established using two separate virtual cameras (`VCam Active` and `VCam Idle`), which are childed to the State Driven Camera.  The [CameraController](../../Scripts/Rendering/Camera/CameraController.cs) script then ensures that the state-driven camera is correctly following the player's lead party member.
+The latter functionality is established using two separate virtual cameras (`VCam Active` and `VCam Idle`), which are childed to the State Driven Camera.  The [CameraController](../../Scripts/Rendering/CameraController.cs) script then ensures that the state-driven camera is correctly following the player's lead party member.
 
 ### On Pixel-Perfect Rendering
 

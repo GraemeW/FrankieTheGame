@@ -61,6 +61,12 @@ namespace LowDefMustard.UIBox
             ApplyDataSource();
         }
         
+        public bool TryGetEntryContainer(Type containerType, out VisualElement container) // The element entries of this container type are placed in (e.g. to position something over a container)
+        {
+            container = GetEntryContainer(containerType);
+            return container != null;
+        }
+        
         public void SetVisible(bool enable)
         {
             isVisible = enable;

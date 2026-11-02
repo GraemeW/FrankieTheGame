@@ -64,7 +64,7 @@ Scripts are located in: [Scripts](./Assets/Scripts/)
 * [Quests](./Assets/Scripts/Quests/):  Tracker/status, objectives, givers, rewards
 * [UI](./Assets/Scripts/UI/):  Main menus, world menus, speech text, stats/inventories, combat/skills menus
   * *incl. [UIBox](./Packages/com.lowdefmustard.uibox/) & [StandardElements](./Assets/Scripts/UI/StandardElements/), support code for key UI elements (such as the text/menu scroll box used in all key UI)*
-* [Rendering](./Assets/Scripts/Rendering/):  Shaders (pixel art rendering, shader property setting, battle background swirl), display/resolution interfacing & capability, etc.
+* [Rendering](./Assets/Scripts/Rendering/):  Shader code (pixel art rendering, HLSL shader graph nodes incl. SDFs, shader property setting), display/resolution interfacing & capability, etc.
 * [Sound](./Assets/Scripts/Sound/):  Music and sound effects
 * [Saving](./Assets/Scripts/Saving/):  Flexible to any arbitrary game/player/NPC state parameters
   * *incl. [PlayerPrefsController](./Assets/Scripts/Saving/PlayerPrefs/PlayerPrefsController.cs) for saving game settings, such as volume, window resolution, etc.*
