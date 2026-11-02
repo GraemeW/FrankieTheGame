@@ -49,7 +49,6 @@ Code and art style requirements/recommendations are detailed in the [Frankie Sty
 Scripts are located in: [Scripts](./Assets/Scripts/)
 
 * [Core](./Assets/Scripts/Core/):  Camera, scene management, addressables loading
-    * *incl.: [Predicates](./Assets/Scripts/Predicates/), logic for any state-based conditional evaluations
 * [Control](./Assets/Scripts/Control/):  Player and NPC -to- world interface, including player/NPC state machines
     * *incl. [Check Interactions](./Assets/Scripts/CheckInteractions/)*
     * *incl. [World Interactables](./Assets/Scripts/World/)*

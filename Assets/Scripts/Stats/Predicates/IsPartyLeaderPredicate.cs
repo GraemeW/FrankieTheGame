@@ -1,7 +1,6 @@
-using Frankie.Stats;
 using UnityEngine;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Stats
 {
     [CreateAssetMenu(fileName = "New Is Party Leader Predicate", menuName = "Predicates/BaseStats/Is Party Leader", order = 5)]
     public class IsPartyLeaderPredicate : PredicateBaseStats

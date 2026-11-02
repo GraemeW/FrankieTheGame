@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.Stats;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Stats
 {
     [CreateAssetMenu(fileName = "New Character Is Leader Predicate", menuName = "Predicates/Party/Is Character Party Leader", order = 5)]
     public class CharacterIsLeaderPredicate : PredicateParty

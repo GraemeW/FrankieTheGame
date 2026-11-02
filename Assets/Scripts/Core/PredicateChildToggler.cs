@@ -2,7 +2,7 @@ using UnityEngine;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Core
 {
     public class PredicateChildToggler : MonoBehaviour, ISaveable<bool>
     {

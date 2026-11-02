@@ -1,7 +1,6 @@
 using UnityEngine;
-using Frankie.Combat;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Is Anyone Alive Predicate", menuName = "Predicates/CombatParticipant/Is Anyone Alive", order = 5)]
     public class IsAnyoneAlivePredicate : PredicateCombatParticipant

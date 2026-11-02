@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 using Frankie.Control;
 using Frankie.Combat;
 

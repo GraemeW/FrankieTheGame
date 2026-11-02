@@ -1,7 +1,6 @@
 using LowDefMustard.Utils;
-using Frankie.Stats;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Stats
 {
     public abstract class PredicateBaseStats : Predicate
     {

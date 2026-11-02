@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.Combat;
 using Frankie.Stats;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Is Character Dead Predicate", menuName = "Predicates/CombatParticipant/Is Character Dead", order = 5)]
     public class IsCharacterDeadPredicate : PredicateCombatParticipant

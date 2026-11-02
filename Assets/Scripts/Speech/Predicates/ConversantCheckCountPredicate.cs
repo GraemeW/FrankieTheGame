@@ -1,7 +1,6 @@
 using UnityEngine;
-using Frankie.Speech;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Speech
 {
     [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/Conversant Check Count", order = 5)]
     public class ConversantCheckCountPredicate : PredicateAIConversant

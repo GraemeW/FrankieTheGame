@@ -1,7 +1,6 @@
 using LowDefMustard.Utils;
-using Frankie.Inventory;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Inventory
 {
     public abstract class PredicateKnapsack : Predicate
     {

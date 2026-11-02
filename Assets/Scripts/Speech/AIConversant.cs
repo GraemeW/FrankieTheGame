@@ -4,7 +4,6 @@ using LowDefMustard.Control;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 using Frankie.Control;
 
 namespace Frankie.Speech

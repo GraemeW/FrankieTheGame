@@ -1,7 +1,6 @@
 using LowDefMustard.Utils;
-using Frankie.Quests;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Quests
 {
     public abstract class PredicateQuestList : Predicate
     {

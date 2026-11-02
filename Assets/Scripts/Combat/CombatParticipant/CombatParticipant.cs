@@ -9,7 +9,6 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
-using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;

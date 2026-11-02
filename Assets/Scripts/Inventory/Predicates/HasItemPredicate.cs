@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.Inventory;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Inventory
 {
     [CreateAssetMenu(fileName = "New Has Item Predicate", menuName = "Predicates/Knapsack/Has Item", order = 5)]
     public class HasItemPredicate : PredicateKnapsack

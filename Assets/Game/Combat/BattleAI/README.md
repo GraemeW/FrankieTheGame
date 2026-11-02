@@ -86,7 +86,7 @@ Select `Default to Random Target` if the skill should be used even if the target
    * i.e. setting the number of AND and OR conditions that need to be checked together
 2. Navigate to the [BattleAIPredicates](./BattleAIPredicates/) folder
 3. Right click and select `Create` -> `BattleAI` -> `Predicates` -> *and select the relevant predicate*
-   * if the desired predicate does not exist, a new predicate script derivative of the [BattleAIPredicate](../../../Scripts/Combat/BattleAI/BattleAIPredicates/BattleAIPredicate.cs) abstract class may need to be developed
+   * if the desired predicate does not exist, a new predicate script derivative of the [BattleAIPredicate](../../../Scripts/Combat/BattleAI/Predicates/BattleAIPredicate.cs) abstract class may need to be developed
 4. Configure the predicate
    * e.g. such as with [MayaPresent](./BattleAIPredicates/MayaPresent.asset) 'CharacterPresent' predicate
 

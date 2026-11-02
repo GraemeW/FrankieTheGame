@@ -1,7 +1,6 @@
 using LowDefMustard.Utils;
-using Frankie.Speech;
 
-namespace Frankie.Core.Predicates
+namespace Frankie.Speech
 {
     public abstract class PredicateAIConversant : Predicate
     {

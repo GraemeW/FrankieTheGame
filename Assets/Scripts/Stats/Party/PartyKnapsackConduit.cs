@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using LowDefMustard.Utils;
 using Frankie.Combat;
-using Frankie.Core.Predicates;
 using Frankie.Stats;
 
 namespace Frankie.Inventory
