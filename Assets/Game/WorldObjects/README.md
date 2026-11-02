@@ -20,7 +20,7 @@ The directories are structured as:
 #### Note on Document Scope
 
 *This README largely covers asset configuration of world objects.  For detail on*
-* *artwork design/construction requirements:  see the [Style Guide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
+* *artwork design/construction requirements:  see the [Style Guide](../../../InfoTools/StyleGuide/README.md#artwork)*
 * *Tilemap-specific configuration:  see [Tilemaps](../Tilemaps/)*
 
 ## Placement of World Objects

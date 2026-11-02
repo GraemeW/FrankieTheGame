@@ -118,7 +118,7 @@ Character objects are broken down into:
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/SaveableEntityUniqueIdentifier.png" width="400">
 
 * Adjust the default sprite image for this character (Character Sprite -> Sprite Renderer -> Sprite) - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
-  * *Note:  Sprite artwork should follow the style guide, per [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
+  * *Note:  Sprite artwork should follow the style guide, per [StyleGuide](../../../InfoTools/StyleGuide/README.md#artwork)*
   * *Note:  Sprite import settings should be adjusted, per [Game/WorldObjects](../WorldObjects/README.md#sprite-import--setup)*
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucySpriteOverride.png" width="450">
@@ -246,7 +246,7 @@ Enabling `usingPathFinding` will allow the NPC to use A* pathfinding to periodic
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/PathFinderSettings.png" width="400">
 
-Note that the PathFinder will check if the NPC is sitting on a configured [MoveMesh](../WorldObjects/README.md#movemesh-pathfinding-mesh-for-rooms-and-world-maps), and (if so) it will initialize a pathfinding grid.  The move mesh will be adjusted by the specific NPCMover's CapsuleCollider2D || CircleCollider2D size to ensure the NPC can properly fit as it traverses the grid.  If no MoveMesh has been created, the NPCMover will fall back to the default simplistic approach.
+Note that the PathFinder will check if the NPC is sitting on a configured [MoveMesh](../WorldObjects/README.md#movemesh--pathfinding-mesh-for-rooms-and-world-maps), and (if so) it will initialize a pathfinding grid.  The move mesh will be adjusted by the specific NPCMover's CapsuleCollider2D || CircleCollider2D size to ensure the NPC can properly fit as it traverses the grid.  If no MoveMesh has been created, the NPCMover will fall back to the default simplistic approach.
 
 ### Summary of Key Components
 

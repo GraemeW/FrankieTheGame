@@ -152,12 +152,12 @@ The creation and placement of Tiles is an exercise in trying to re-use tile art 
 
 #### On Rendering Artifacts
 
-Above stated, the [StyleGuide](../../../InfoTools/StyleGuide/README.md#tilemap-artwork-considerations) provides an overview of requirements with regard to creating TileMaps to avoid rendering artifacts.  The placement of the tiles to avoid tile-edge seams discussed here is equally important to avoid these rendering artifacts.
+Above stated, the [StyleGuide](../../../InfoTools/StyleGuide/README.md#tilemap-artwork---additional-considerations) provides an overview of requirements with regard to creating TileMaps to avoid rendering artifacts.  The placement of the tiles to avoid tile-edge seams discussed here is equally important to avoid these rendering artifacts.
 
 When drawing **Layered Tiles**:
 * avoid terminating the edge of a tiled feature with a tile that fills to sed edge
   * wherever possible, use tiles that terminate with at least 1px transparency (alpha = 0) at the specific feature edge
-  * this is shown in the [StyleGuide](../../../InfoTools/StyleGuide/README.md#tilemap-artwork-considerations) as the example for Edge Layered Tiles
+  * this is shown in the [StyleGuide](../../../InfoTools/StyleGuide/README.md#tilemap-artwork---additional-considerations) as the example for Edge Layered Tiles
 * where this cannot be avoided (e.g. when using full-fill basic floor tiles):
   * ensure that the edge of the tiled feature is fully covered by another TileMap
   * this is commonly accomplished by having `X = 0.25` or `Y = 0.25` positional offsets in the Layered TileMaps
@@ -168,7 +168,7 @@ When drawing **Layered Tiles**:
 When drawing **Back-Most Tiles**:
 * avoid terminating the edge of a tiled feature that lives above the Camera Background with a transparent tile edge
   * use tiles that terminate with a color matching the Camera Background Color (typically black)
-  * this is shown in the [StyleGuide](../../../InfoTools/StyleGuide/README.md#tilemap-artwork-considerations) as the example for Back-Most Tiles
+  * this is shown in the [StyleGuide](../../../InfoTools/StyleGuide/README.md#tilemap-artwork---additional-considerations) as the example for Back-Most Tiles
 * it is further recommended to place a backing TileMap with full-fill tiles matching the Camera Background Color (i.e. typically 50px by 50px black squares) behind any edge seams
 * for example, see the backing layer applied in a PrimInterior room, which:
   * sits behind the edge seams of the left/right walls of the room
