@@ -16,7 +16,7 @@ MonoBehaviour:
   scaleRatio: 1
   edgeSoftnessPixels: 1
   glowWidthEU: 0
-  items:
+  items: []
   instances:
   - label: Pinwheel lattice
     recipe: {fileID: 11400000, guid: 2dbc410fe4d61417eafb08874a50c1fe, type: 2}
@@ -36,6 +36,8 @@ MonoBehaviour:
       mode: 2
       count: {x: 6, y: 3}
       spacingEU: {x: 0.25, y: 0.285714}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   references:
     version: 2
-    RefIds:
+    RefIds: []

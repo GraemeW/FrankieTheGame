@@ -16,7 +16,7 @@ MonoBehaviour:
   scaleRatio: 1
   edgeSoftnessPixels: 1
   glowWidthEU: 0
-  items: 
+  items: []
   instances:
   - label: Halo A
     recipe: {fileID: 11400000, guid: 7acee0d7edaa348b89b562a318c0f6bf, type: 2}
@@ -32,6 +32,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Halo B
     recipe: {fileID: 11400000, guid: 7acee0d7edaa348b89b562a318c0f6bf, type: 2}
     startOffsetSeconds: 0.1
@@ -46,6 +52,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Halo C
     recipe: {fileID: 11400000, guid: 7acee0d7edaa348b89b562a318c0f6bf, type: 2}
     startOffsetSeconds: 0.2
@@ -60,6 +72,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Bud D
     recipe: {fileID: 11400000, guid: 215f18682395b4640a633963f3624167, type: 2}
     startOffsetSeconds: 0.6
@@ -74,6 +92,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Bud F
     recipe: {fileID: 11400000, guid: 215f18682395b4640a633963f3624167, type: 2}
     startOffsetSeconds: 0.666667
@@ -88,6 +112,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Bud E
     recipe: {fileID: 11400000, guid: 215f18682395b4640a633963f3624167, type: 2}
     startOffsetSeconds: 0.833333
@@ -102,6 +132,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Bud H
     recipe: {fileID: 11400000, guid: 215f18682395b4640a633963f3624167, type: 2}
     startOffsetSeconds: 0.933333
@@ -116,6 +152,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Bud I
     recipe: {fileID: 11400000, guid: 215f18682395b4640a633963f3624167, type: 2}
     startOffsetSeconds: 0.933333
@@ -130,6 +172,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Wane G
     recipe: {fileID: 11400000, guid: 735a50f9b201b4267b47bba100aa1411, type: 2}
     startOffsetSeconds: 0.933333
@@ -144,6 +192,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Wane J
     recipe: {fileID: 11400000, guid: 735a50f9b201b4267b47bba100aa1411, type: 2}
     startOffsetSeconds: 1.1
@@ -158,6 +212,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   - label: Wane K
     recipe: {fileID: 11400000, guid: 735a50f9b201b4267b47bba100aa1411, type: 2}
     startOffsetSeconds: 1.2
@@ -172,6 +232,12 @@ MonoBehaviour:
       to: {r: 0.25098, g: 0.878431, b: 0.92549, a: 1}
     - from: {r: 0.015686, g: 0.062745, b: 0.941176, a: 1}
       to: {r: 0.878431, g: 0.8, b: 0.094118, a: 1}
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
   references:
     version: 2
-    RefIds: 
+    RefIds: []

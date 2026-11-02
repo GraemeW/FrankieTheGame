@@ -16,7 +16,7 @@ MonoBehaviour:
   scaleRatio: 1
   edgeSoftnessPixels: 1
   glowWidthEU: 0
-  items:
+  items: []
   instances:
   - label: Cells
     recipe: {fileID: 11400000, guid: 6b5f59f6d3d3047c8bd3302b521c22ad, type: 2}
@@ -48,4 +48,4 @@ MonoBehaviour:
       anchorEU: {x: 0.5, y: 0.375}
   references:
     version: 2
-    RefIds:
+    RefIds: []

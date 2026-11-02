@@ -59,6 +59,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -75,6 +77,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -84,6 +94,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -108,6 +119,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -205,6 +217,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -221,6 +235,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -230,6 +252,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -254,6 +277,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -351,6 +375,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -367,6 +393,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -376,6 +410,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -400,6 +435,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -497,6 +533,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -513,6 +551,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -522,6 +568,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -546,6 +593,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -643,6 +691,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -659,6 +709,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -668,6 +726,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -692,6 +751,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -789,6 +849,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -805,6 +867,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -814,6 +884,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -838,6 +909,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -935,6 +1007,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -951,6 +1025,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0.5
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -960,6 +1042,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -984,6 +1067,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1081,6 +1165,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1097,6 +1183,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1106,6 +1200,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -1130,6 +1225,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1227,6 +1323,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1243,6 +1341,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1252,6 +1358,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -1276,6 +1383,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1373,6 +1481,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1389,6 +1499,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1398,6 +1516,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -1422,6 +1541,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1519,6 +1639,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1535,6 +1657,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1544,6 +1674,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -1568,6 +1699,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1665,6 +1797,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1681,6 +1815,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1690,6 +1832,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -1714,6 +1857,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1811,6 +1955,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1827,6 +1973,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1836,6 +1990,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -1860,6 +2015,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -1957,6 +2113,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -1973,6 +2131,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -1982,6 +2148,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -2006,6 +2173,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2103,6 +2271,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2119,6 +2289,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -2128,6 +2306,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -2152,6 +2331,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2249,6 +2429,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2265,6 +2447,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -2274,6 +2464,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -2298,6 +2489,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2395,6 +2587,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2411,6 +2605,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -2420,6 +2622,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -2444,6 +2647,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2541,6 +2745,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2557,6 +2763,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -2566,6 +2780,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -2590,6 +2805,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2687,6 +2903,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2703,6 +2921,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -2712,6 +2938,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -2736,6 +2963,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2833,6 +3061,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2849,6 +3079,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -2858,6 +3096,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -2882,6 +3121,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -2979,6 +3219,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -2995,6 +3237,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3004,6 +3254,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -3028,6 +3279,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -3125,6 +3377,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -3141,6 +3395,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3150,6 +3412,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -3174,6 +3437,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -3271,6 +3535,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -3287,6 +3553,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3296,6 +3570,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -3320,6 +3595,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -3417,6 +3693,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -3433,6 +3711,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3442,6 +3728,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -3466,6 +3753,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -3563,6 +3851,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -3579,6 +3869,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3588,6 +3886,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -3612,6 +3911,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -3709,6 +4009,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -3725,6 +4027,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3734,6 +4044,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -3758,6 +4069,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -3855,6 +4167,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -3871,6 +4185,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -3880,6 +4202,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -3904,6 +4227,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4001,6 +4325,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4017,6 +4343,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4026,6 +4360,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
@@ -4050,6 +4385,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4147,6 +4483,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4163,6 +4501,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.5
       phaseFraction: 0.25
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4172,6 +4518,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -4196,6 +4543,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4293,6 +4641,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4309,6 +4659,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.75
       phaseFraction: 0.125
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4318,6 +4676,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -4342,6 +4701,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4439,6 +4799,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4455,6 +4817,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4464,6 +4834,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -4488,6 +4859,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4585,6 +4957,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4601,6 +4975,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4610,6 +4992,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -4634,6 +5017,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4731,6 +5115,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4747,6 +5133,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4756,6 +5150,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -4780,6 +5175,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -4877,6 +5273,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -4893,6 +5291,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -4902,6 +5308,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -4926,6 +5333,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -5023,6 +5431,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -5039,6 +5449,14 @@ MonoBehaviour:
       angleDegrees: 90
       dutyFraction: 0.75
       phaseFraction: 0.125
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -5048,6 +5466,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -5072,6 +5491,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -5169,6 +5589,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -5185,6 +5607,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -5194,6 +5624,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -5218,6 +5649,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -5315,6 +5747,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -5331,6 +5765,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -5340,6 +5782,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -5364,6 +5807,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -5461,6 +5905,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -5477,6 +5923,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -5486,6 +5940,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -5510,6 +5965,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 1
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -5607,6 +6063,8 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
     shade:
       isEnabled: 0
       angleDegrees:
@@ -5623,6 +6081,14 @@ MonoBehaviour:
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
@@ -5632,6 +6098,7 @@ MonoBehaviour:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
@@ -5656,6 +6123,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}

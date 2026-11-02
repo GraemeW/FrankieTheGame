@@ -78,7 +78,9 @@ MonoBehaviour:
       dutyFraction: 0.25
       phaseFraction: 0.5
     stipple:
+      pattern: 0
       dotsPerEU: 0
+      aspectRatio: 1
       density:
         start: 0.5
         end: 0.5
@@ -117,6 +119,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -233,7 +236,9 @@ MonoBehaviour:
       dutyFraction: 0.25
       phaseFraction: 0
     stipple:
+      pattern: 0
       dotsPerEU: 0
+      aspectRatio: 1
       density:
         start: 0.5
         end: 0.5
@@ -272,6 +277,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -388,7 +394,9 @@ MonoBehaviour:
       dutyFraction: 0.25
       phaseFraction: 0.25
     stipple:
+      pattern: 0
       dotsPerEU: 0
+      aspectRatio: 1
       density:
         start: 0.5
         end: 0.5
@@ -427,6 +435,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -543,7 +552,9 @@ MonoBehaviour:
       dutyFraction: 0.25
       phaseFraction: 0.75
     stipple:
+      pattern: 0
       dotsPerEU: 0
+      aspectRatio: 1
       density:
         start: 0.5
         end: 0.5
@@ -582,6 +593,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}
@@ -698,7 +710,9 @@ MonoBehaviour:
       dutyFraction: 0.25
       phaseFraction: 0.75
     stipple:
+      pattern: 0
       dotsPerEU: 0
+      aspectRatio: 1
       density:
         start: 0.5
         end: 0.5
@@ -737,6 +751,7 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
       mode: 0
       count: {x: 3, y: 3}

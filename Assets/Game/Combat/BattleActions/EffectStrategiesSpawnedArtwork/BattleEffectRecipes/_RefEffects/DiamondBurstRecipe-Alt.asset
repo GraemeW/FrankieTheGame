@@ -23,6 +23,7 @@ MonoBehaviour:
     startTimeSeconds: 0.233333
     durationSeconds: 0.266667
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -47,6 +48,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -56,50 +59,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
       spacingSU:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -111,6 +170,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -121,6 +181,7 @@ MonoBehaviour:
     startTimeSeconds: 0.233333
     durationSeconds: 0.166667
     easing: 2
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -145,6 +206,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -154,50 +217,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
       spacingSU:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -209,6 +328,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -219,6 +339,7 @@ MonoBehaviour:
     startTimeSeconds: 0.4
     durationSeconds: 0.1
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -243,6 +364,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -252,50 +375,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
       spacingSU:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -307,6 +486,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -317,6 +497,7 @@ MonoBehaviour:
     startTimeSeconds: 0.4
     durationSeconds: 0.1
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -341,6 +522,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -350,50 +533,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
       spacingSU:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -405,6 +644,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -415,6 +655,7 @@ MonoBehaviour:
     startTimeSeconds: 0.4
     durationSeconds: 0.1
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -439,6 +680,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -448,50 +691,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
       spacingSU:
         start: {x: 11.4, y: 0}
         end: {x: 11.4, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -503,6 +802,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -513,6 +813,7 @@ MonoBehaviour:
     startTimeSeconds: 0.5
     durationSeconds: 0.066667
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -537,6 +838,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 0.6, g: 0.6, b: 0.6, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -546,50 +849,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 2
       count: {x: 3, y: 1}
       spacingSU:
         start: {x: 2, y: 0}
         end: {x: 2, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -601,6 +960,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -611,6 +971,7 @@ MonoBehaviour:
     startTimeSeconds: 0.566667
     durationSeconds: 0.533333
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -635,6 +996,8 @@ MonoBehaviour:
         end: 0.008
       colour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -644,50 +1007,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 2
       count: {x: 3, y: 1}
       spacingSU:
         start: {x: 2, y: 0}
         end: {x: 2, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 13
@@ -699,6 +1118,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 3
       amountFraction: -0.05
@@ -709,6 +1129,7 @@ MonoBehaviour:
     startTimeSeconds: 1.1
     durationSeconds: 0.066667
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -733,6 +1154,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -742,50 +1165,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 3
       count: {x: 2, y: 12}
       spacingSU:
         start: {x: 4.8, y: 2.6}
         end: {x: 4.8, y: 2.6}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -797,6 +1276,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -807,6 +1287,7 @@ MonoBehaviour:
     startTimeSeconds: 1.16667
     durationSeconds: 0.066667
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -831,6 +1312,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -840,50 +1323,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 3
       count: {x: 2, y: 8}
       spacingSU:
         start: {x: 12.8, y: 2.6}
         end: {x: 12.8, y: 2.6}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -895,6 +1434,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -905,6 +1445,7 @@ MonoBehaviour:
     startTimeSeconds: 1.23333
     durationSeconds: 0.133333
     easing: 1
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -929,6 +1470,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -938,50 +1481,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 3
       count: {x: 2, y: 4}
       spacingSU:
         start: {x: 21, y: 2.6}
         end: {x: 30.4, y: 2.6}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -993,6 +1592,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -1003,6 +1603,7 @@ MonoBehaviour:
     startTimeSeconds: 1.36667
     durationSeconds: 0.033333
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -1027,6 +1628,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1036,50 +1639,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 1
       count: {x: 2, y: 1}
       spacingSU:
         start: {x: 10, y: 0}
         end: {x: 10, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -1091,6 +1750,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0
@@ -1101,6 +1761,7 @@ MonoBehaviour:
     startTimeSeconds: 1.4
     durationSeconds: 0.1
     easing: 0
+    approachRatio: 4
     progressSteps: 0
     positionEU:
       start: {x: 0.5, y: 0.5}
@@ -1125,6 +1786,8 @@ MonoBehaviour:
         end: 0.007
       colour: {r: 1, g: 1, b: 1, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
+      isOutlineFromPalette: 0
+      outlinePaletteStep: 1
     altColours:
       count: 0
       colourB: {r: 1, g: 1, b: 1, a: 1}
@@ -1134,50 +1797,106 @@ MonoBehaviour:
       isEnabled: 0
       colour: {r: 1, g: 1, b: 1, a: 1}
       steps: 0
+      isFromPalette: 0
+      paletteStep: 1
+    shade:
+      isEnabled: 0
+      angleDegrees:
+        start: 0
+        end: 0
+      offsetSU:
+        start: 0
+        end: 0
+      isSmooth: 0
+      fillPaletteStep: 0
+      outlinePaletteStep: 0
     stripes:
       stripesPerEU: 0
       angleDegrees: 0
       dutyFraction: 0.5
       phaseFraction: 0
+    stipple:
+      pattern: 0
+      dotsPerEU: 0
+      aspectRatio: 1
+      density:
+        start: 0.5
+        end: 0.5
+      seed: 0
     clip:
       shape: 0
       halfSizeSU:
         start: {x: 1, y: 1}
         end: {x: 1, y: 1}
+      offsetSU:
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       angleDegrees: 0
+      clipWholeShape: 0
     repetition:
       mode: 0
       count: {x: 1, y: 1}
       spacingSU:
         start: {x: 0, y: 0}
         end: {x: 0, y: 0}
+      copyScaleRatio:
+        start: 1
+        end: 1
+      waveAmplitudeSU:
+        start: 0
+        end: 0
+      waveform: 0
+      waveCopiesPerCycle: 8
+      wavePhaseFraction:
+        start: 0
+        end: 0
+      wavePlateauFraction:
+        start: 0.25
+        end: 0.25
       mirrorX: 0
       mirrorY: 0
+      halfTurn: 0
+      beatOffsetsSpread: 0
+      flipX: 0
+    tiling:
+      mode: 0
+      count: {x: 3, y: 3}
+      spacingEU: {x: 0.25, y: 0.25}
+      isAnchored: 0
+      anchorEU: {x: 0.5, y: 0.5}
     colourCycle:
       source: 0
       rate: 0
       phaseOffset: 0
+      pattern: 
     beats:
       count: 0
+      isInterpolated: 0
+      pattern: 
+      patternRate: 0
       beatA:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatB:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatC:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
       beatD:
         startSeconds: 0
         offsetEU: {x: 0, y: 0}
         elongationSU: {x: 0, y: 0}
+        scaleRatio: 1
         colourIndex: 0
     jitter:
       rate: 0
@@ -1189,6 +1908,7 @@ MonoBehaviour:
       rate: 7.5
       depthFraction: 0.7
       phaseFraction: 0.5
+      pattern: 
     pulse:
       rate: 0
       amountFraction: 0

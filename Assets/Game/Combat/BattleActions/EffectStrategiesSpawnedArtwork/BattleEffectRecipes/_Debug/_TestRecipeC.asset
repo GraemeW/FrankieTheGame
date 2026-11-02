@@ -78,7 +78,9 @@ MonoBehaviour:
       dutyFraction: 0.5
       phaseFraction: 0
     stipple:
+      pattern: 1
       dotsPerEU: 0
+      aspectRatio: 1
       density:
         start: 0.5
         end: 0.5
