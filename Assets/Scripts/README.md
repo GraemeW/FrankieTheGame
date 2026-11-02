@@ -21,6 +21,14 @@ The game logic for Frankie is broken down into the below high-level organization
 |     **Zones**      |                                      Intra- and inter-zone (scene) attributes & transition logic _(backed by com.lowdefmustard.zones)_                                       |       |                           [Zones](./Zones/)                           |
 |     **Utils**      |                            Debugger & editor tools, Addressables Loader & Localization Tools _(backed by com.lowdefmustard.utils / localization)_                            |       |                           [Utils](./Utils/)                           |
 
+## Assemblies
+
+|      Assembly      |                            Location                            |                                                             Notes                                                             |
+|:------------------:|:--------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------:|
+|    **Frankie**     |               [Frankie.asmdef](./Frankie.asmdef)               |                                All runtime game logic under `Scripts/` (every namespace above)                                |
+| **Frankie.Editor** | [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef) | Editor-only; each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder |
+| **Frankie.Input**  |              `UnityConfigurables/InputProfiles/`               |                                    Generated `PlayerInput` wrapper + `StickToPadProcessor`                                    |
+
 ## Standalone Packages
 
 Several of the above namespaces implement common Low Def Mustard packages (as noted above) -- see each package's own README for full details.

@@ -1,0 +1,35 @@
+{
+  "name": "Frankie.Editor",
+  "rootNamespace": "Frankie",
+  "references": [
+    "Frankie",
+    "Frankie.Input",
+    "LowDefMustard.Control",
+    "LowDefMustard.GameStateModifiers",
+    "LowDefMustard.GameStateModifiers.Editor",
+    "LowDefMustard.Localization",
+    "LowDefMustard.Localization.Editor",
+    "LowDefMustard.Rendering",
+    "LowDefMustard.Rendering.Editor",
+    "LowDefMustard.Saving",
+    "LowDefMustard.Saving.Editor",
+    "LowDefMustard.UIBox",
+    "LowDefMustard.Utils",
+    "LowDefMustard.Utils.Editor",
+    "LowDefMustard.Zones",
+    "LowDefMustard.Zones.Editor",
+    "Unity.InputSystem",
+    "Unity.Localization"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

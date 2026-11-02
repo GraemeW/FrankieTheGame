@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Unity.Scripting.LifecycleManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
