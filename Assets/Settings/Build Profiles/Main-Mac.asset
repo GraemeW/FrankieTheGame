@@ -87,8 +87,8 @@ MonoBehaviour:
     - rid: 775035020260671488
       type: {class: OSXStandaloneBuildProfile, ns: UnityEditor.OSXStandalone, asm: UnityEditor.OSXStandalone.Extensions}
       data:
-        m_Development: 0
-        m_ConnectProfiler: 0
+        m_Development: 1
+        m_ConnectProfiler: 1
         m_BuildWithDeepProfilingSupport: 0
         m_BuildWithCodeCoverage: 0
         m_AllowDebugging: 0

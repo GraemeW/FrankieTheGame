@@ -109,6 +109,21 @@ Battle effects employ one shared shader graph (built around the `Battle Effect C
   - Each item's settings are `BattleEffectSection` foldouts:  timing, transform + style always open;  the rest open + label green only while in use;  fields that don't apply are hidden (e.g. outline settings for a fill, a rate's settings at rate 0, count y outside grids)
 - **Drawers** — `BattleEffectShapeDrawer` (type picker listing every shape subclass;  honours `[BattleEffectShownWhen]`), `BattleEffectRangeDrawer` (start → end on one row;  inputs tinted green where start != end;  honours `[BattleEffectAxisLabelsWhen]`), `BattleEffectTintDrawer` (shows only the selected mode's fields), one per item settings group (`BattleEffectSection`s:  optional groups go green + open while in use;  `BattleEffectRateDrawer` serves jitter / flicker / pulse)
 
+### Graphics Warm-Up (`Runtime/Warmup`, `Editor/Warmup`)
+Removes the first-use hitch of a heavy shader by warming its shaders + pipeline states (PSOs) up front.
+- **`GraphicsWarmup`** (`MonoBehaviour`) — Warms its entries on `Start`, raising `completed`
+  - `GraphicsWarmupMode.PreDraw` draws each entry once ~ exact on every graphics API, but blocks the frames it runs in
+  - `GraphicsWarmupMode.StateCollection` builds a `GraphicsStateCollection` procedurally on the device (`GraphicsWarmupStates`) && warms it up in the background
+  - `traceInDevelopmentBuilds` traces every PSO drawn in a development build session:  saved on quit to `persistentDataPath` && sent to the editor (with Autoconnect Profiler)
+- **`GraphicsWarmupEntry`** — A material (or backdrop filter) and its draw path (`GraphicsWarmupPath`):  A. `UIToolkitMaterial`, `UIToolkitBackdropFilter` (w/ the `PanelSettings` they're drawn on) or B. `Sprite` (optionally w/ a `targetTexture` a camera draws it into)
+- **`GraphicsWarmupStates`** (static) — Builds the collection for the current graphics API (w/ no PSO trace):  render state comes from the material's own pass, vertex layout(s) + render target + forced state (UI Toolkit's stencil) from the draw path
+- **`GraphicsWarmupPreDraw`** / **`GraphicsWarmupProbe`** — Pre-draw helpers: A. 1px clear probe element per UI Toolkit entry (in a `PanelRenderer` joining the entry's panel), and B. 1px clear `SpriteRenderer` per sprite entry
+- **`GraphicsWarmupTools`** (editor, `Tools/GraphicsTools/`)
+  - `WarmUp: Reconcile shader collection` checks the registered material folders for materials w/ no `GraphicsWarmup` entry && auto-binds those in a registered UI Toolkit material folder
+  - `WarmUp: Report Trace File` writes a traced collection out as text
+  - `WarmUp: Compare Trace With Selected Warmup` diffs a trace against the selected `GraphicsWarmup`'s procedural collection (matched / missed / unused states)
+- **`GraphicsWarmupFolders`** (editor, static) — Project's folders for `Reconcile shader collection`:  register them from an `[InitializeOnLoad]` class (`RegisterMaterialFolder`, `RegisterUIToolkitMaterialFolder`)
+
 ## Extending Battle Effects
 
 ### Adding a battle effect shape
@@ -148,27 +163,28 @@ A `BattleEffectDataLayout` const (in its section's group) + its write in `Battle
 
 ### Coverage at a glance
 
-Tested = test cases (each `[TestCase]` counts);  Total adds the known gaps (see the detail table).  Editor + PlayMode:  388 + 16 tests.
+Tested = test cases (each `[TestCase]` counts);  Total adds the known gaps (see the detail table).  Editor + PlayMode:  397 + 16 tests.
 
-| Category                        | Tested / Total | Notes                                                                                                                                            |
-|---------------------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| `BattleEffectItem`              | 67 / 67        | Texel layout, effect scale, guards, accessors                                                                                                    |
-| `BattleEffectRecipe`            | 11 / 11        | Bake, `ApplyTo`, `OnDisable` cleanup, end time, revision, `ValidateShapes`                                                                       |
-| `BattleEffectInstance`          | 19 / 19        | Flattening order, start offset + end time, mirror x / x+y, scale + offset, colour swaps, tiling (override + placed spacing), depth limit, rebake |
-| Shapes                          | 30 / 30        | Unique + stable IDs, parameters fit the layout                                                                                                   |
-| Ranges + tint                   | 9 / 9          | Constructors, `ApplyTo`, drawer field names                                                                                                      |
-| `BattleEffectPropertyRefs`      | 14 / 14        | Material detection + every `MaterialDefinition` write                                                                                            |
-| `BattleEffectDispatchGenerator` | 6 / 7          | Shape validation + generated content + file write (via up-to-date check)                                                                         |
-| HLSL library                    | 2 / 2          | Includes resolve, none reach into `Assets`                                                                                                       |
-| Preview window support          | 27 / 27        | Size presets, retro toggles, render settings, reference frames, offscreen renderer                                                               |
-| Preview window                  | 24 / 26        | Controls, transport + buttons, sizes, reference frames, export                                                                                   |
-| Timeline                        | 29 / 29        | Rows + bars, highlighting, rebuild-on-change, scrubbing, instance headers (expand / collapse)                                                    |
-| Frame exporter                  | 10 / 10        | Frames + size, stale frames, background / transparent / drawn pixels, cancel, un-premultiply                                                     |
-| Drawers                         | 38 / 38        | Range, tint (per mode + live mode change), shape (picker, swap, external swap), sections                                                         |
-| Recipe inspector                | 73 / 73        | Entry order, selection, add / delete, item sections + shown fields, copy / paste, undo                                                           |
-| Display                         | 17 / 19        | Value types, `DisplayResolutions` invariants, monitor (configured path + save on destroy)                                                        |
-| Camera                          | 14 / 14        | `CameraControllerBase` lifecycle, following, ortho sizes, tag lookup + `CameraSpawnAssist`                                                       |
-| Shaders (C#)                    | 9 / 10         | `ShaderPropertyRefs`, `BattleEntryShaderControl`                                                                                                 |
+| Category                        | Tested / Total | Notes                                                                                                                   |
+|---------------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------|
+| `BattleEffectItem`              | 67 / 67        | Texel layout, effect scale, guards, accessors                                                                           |
+| `BattleEffectRecipe`            | 11 / 11        | Bake, `ApplyTo`, `OnDisable` cleanup, end time, revision, `ValidateShapes`                                              |
+| `BattleEffectInstance`          | 19 / 19        | Flattening order, start offset + end time, mirror x / x+y, scale + offset, colour swaps, tiling, depth limit, rebake    |
+| Shapes                          | 30 / 30        | Unique + stable IDs, parameters fit the layout                                                                          |
+| Ranges + tint                   | 9 / 9          | Constructors, `ApplyTo`, drawer field names                                                                             |
+| `BattleEffectPropertyRefs`      | 14 / 14        | Material detection + every `MaterialDefinition` write                                                                   |
+| `BattleEffectDispatchGenerator` | 6 / 7          | Shape validation + generated content + file write (via up-to-date check)                                                |
+| HLSL library                    | 2 / 2          | Includes resolve, none reach into `Assets`                                                                              |
+| Preview window support          | 27 / 27        | Size presets, retro toggles, render settings, reference frames, offscreen renderer                                      |
+| Preview window                  | 24 / 26        | Controls, transport + buttons, sizes, reference frames, export                                                          |
+| Timeline                        | 29 / 29        | Rows + bars, highlighting, rebuild-on-change, scrubbing, instance headers (expand / collapse)                           |
+| Frame exporter                  | 10 / 10        | Frames + size, stale frames, background / transparent / drawn pixels, cancel, un-premultiply                            |
+| Drawers                         | 38 / 38        | Range, tint (per mode + live mode change), shape (picker, swap, external swap), sections                                |
+| Recipe inspector                | 73 / 73        | Entry order, selection, add / delete, item sections + shown fields, copy / paste, undo                                  |
+| Display                         | 17 / 19        | Value types, `DisplayResolutions` invariants, monitor (configured path + save on destroy)                               |
+| Camera                          | 14 / 14        | `CameraControllerBase` lifecycle, following, ortho sizes, tag lookup + `CameraSpawnAssist`                              |
+| Shaders (C#)                    | 9 / 10         | `ShaderPropertyRefs`, `BattleEntryShaderControl`                                                                        |
+| Graphics warm-up                | 9 / 9          | `GraphicsWarmupStates` (drawn pass/layouts, UI target/stencil, sprite target texture, material blend, invalid entries)  |
 
 ### Detail by type
 
@@ -202,6 +218,8 @@ Tested = test cases (each `[TestCase]` counts);  Total adds the known gaps (see 
 | `ShaderPropertyRefs`                                            | Yes      | `ShaderPropertyRefsTests.cs`                                                    | Round trips through the test-only shader                                                                                       |
 | `BattleEntryShaderControl`                                      | Yes      | `BattleEntryShaderControlTests.cs`                                              |                                                                                                                                |
 | `ShaderQuad`                                                    | No       | —                                                                               | Skipped, thin quad-write (low value)                                                                                           |
+| `GraphicsWarmupStates`                                          | Yes      | `GraphicsWarmupStatesTests.cs`                                                  |                                                                                                                                |
+| `GraphicsWarmup` + pre-draw + `GraphicsWarmupTools`             | No       | —                                                                               | Runtime warm-up, tracing + pre-draw not possible; checked via a development build trace instead                                |
 
 ## License
 
