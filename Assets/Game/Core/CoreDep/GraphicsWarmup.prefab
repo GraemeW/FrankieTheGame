@@ -118,5 +118,5 @@ MonoBehaviour:
     targetTexture: {fileID: 0}
   preDrawFrames: 2
   progressiveCountPerFrame: 0
-  traceInDevelopmentBuilds: 1
+  traceInDevelopmentBuilds: 0
   traceFileName: GraphicsWarmupTrace
