@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleAction
   targetingStrategy: {fileID: 11400000, guid: ded4043d1642d964a820631fa6ac224c, type: 2}
   effectStrategies:
-  - {fileID: 11400000, guid: 98b6ff2e4001a4554820d093c2dc2ec7, type: 2}
   - {fileID: 11400000, guid: 17847ff42746f44cf89795ed5a0e749a, type: 2}
   damageType: 2
   cooldown: 6
