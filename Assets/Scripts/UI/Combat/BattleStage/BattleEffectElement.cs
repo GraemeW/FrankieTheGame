@@ -59,16 +59,26 @@ namespace Frankie.Combat.UI
             // Positioning the effect over the anchor in two steps:
             //  1. anchorRect:  the area to cover, in the anchor's own local space (0, 0 = the anchor's top-left)
             //      - slide:  the whole slide
-            //      - row:  the row's content rect, i.e. excluding its padding (the offset rows' stagger)
+            //      - row:  the row's content rect (only its y + height are used)
             Rect anchorRect = placement == BattleEffectPlacement.Row ? targetAnchor.contentRect : new Rect(Vector2.zero, targetAnchor.layout.size);
             
             //  2. layerRect:  that same area converted into the effect layer's space (this element's parent), which is what style.left / top position against
             //      - the anchor + effect sit in different branches of the stage, so converted between the two elements directly
             Rect layerRect = targetAnchor.ChangeCoordinatesTo(parent, anchorRect);
-            style.left = layerRect.x;
             style.top = layerRect.y;
-            style.width = layerRect.width;
             style.height = layerRect.height;
+
+            //  3. width:  a row spans the whole layer (a fixed width, however many enemies it holds), while a slide matches its slide
+            if (placement == BattleEffectPlacement.Row)
+            {
+                style.left = 0f;
+                style.right = 0f;
+            }
+            else
+            {
+                style.left = layerRect.x;
+                style.width = layerRect.width;
+            }
             targetAnchor.RegisterCallback<DetachFromPanelEvent>(HandleAnchorDetached);
         }
 

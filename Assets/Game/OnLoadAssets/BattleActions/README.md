@@ -157,7 +157,7 @@ These effects are stored separately in [EffectStrategiesSpawnedArtwork](../../Co
 * `Effect Tint`:  the colour over the whole effect (solid, or a linear / wave / radial gradient), so one recipe can serve several colour variants (e.g. [SpawnMultiPopBlue](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopBlue.asset) and [SpawnMultiPopYellow](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnMultiPopYellow.asset))
 * `Placement`:  where the effect is drawn
   * `Slide`:  over each target's slide (aspect fit) ~ default
-  * `Row`:  across each target's row, spanning its enemies (stretched)
+  * `Row`:  across each target's row, spanning the full stage width at the row's height (stretched)
   * `FullScreen`:  over the whole battle stage (stretched)
 * `Delay After Seconds`:  how long the battle action waits before moving on to its next effect
 * `Destroy After Seconds`:  the effect's lifetime (zero to keep it until the end of combat)

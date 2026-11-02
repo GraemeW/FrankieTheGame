@@ -72,7 +72,7 @@ Briefly:
   * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
   * , but they are also used to generate any relevant animations/artwork when the battle action is activated
 * a [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) spawns its effect by its [placement](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/BattleEffectPlacement.cs)
-  * placement defines whether the effect is over each target's enemy slide, across each target's row (spanning that row's enemies, per row), or over the whole battle stage
+  * placement defines whether the effect is over each target's enemy slide, across each target's row (the full stage width at that row's height, per row), or over the whole battle stage
   * row and full-screen effects stretch to fill their area (see `BattleEffectFit`), while slide effects keep their proportions (sized to match)
 
 The framework itself (incl. recipe library, items, shapes, tints, HLSL library, preview window + the dispatch generator) lives in the [com.lowdefmustard.rendering](../../../../Packages/com.lowdefmustard.rendering/README.md) package.  Frankie implements the [SpawnBattleEffect](../../../Scripts/Combat/BattleAction/SpawnBattleEffect/SpawnBattleEffect.cs) strategy, the battle stage elements that draw it, the shader graphs + materials, and the recipe asset files.

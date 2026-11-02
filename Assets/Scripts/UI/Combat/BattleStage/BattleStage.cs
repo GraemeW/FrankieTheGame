@@ -82,7 +82,7 @@ namespace Frankie.Combat.UI
             AddEffect(BattleEffectHandle.OverSlide(stageView, slideElement, effectMaterial, effectRecipe, effectTint, lifetime));
         }
 
-        // Effect across a row of enemies (spanning that row's enemies)
+        // Effect across a row of enemies (the full stage width, at the row's height)
         public void SpawnRowEffect(BattleRow row, Material effectMaterial, BattleEffectRecipe effectRecipe, BattleEffectTint effectTint, float lifetime)
         {
             if (effectMaterial == null) { return; }
