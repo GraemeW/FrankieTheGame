@@ -50,6 +50,13 @@ namespace LowDefMustard.Rendering
             new(VertexAttribute.Color, VertexAttributeFormat.UNorm8, 4),
             new(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2)
         };
+        private static readonly VertexAttributeDescriptor[] _spriteShapeLayout = // SpriteShapeRenderer:  one stream per attribute w/ a normal
+        {
+            new(VertexAttribute.Position, VertexAttributeFormat.Float32, 3, 0),
+            new(VertexAttribute.Normal, VertexAttributeFormat.Float32, 3, 2),
+            new(VertexAttribute.Color, VertexAttributeFormat.UNorm8, 4, 3),
+            new(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2, 1)
+        };
 
         // UI Toolkit forces its clipping stencil test on every draw w/ a depth-stencil target
         private static readonly StencilState _uiToolkitStencil = new(true, _stencilMask, _stencilMask,
@@ -79,10 +86,11 @@ namespace LowDefMustard.Rendering
             GraphicsWarmupPath.UIToolkitMaterial => new[] { _uiToolkitLayout },
             GraphicsWarmupPath.UIToolkitBackdropFilter => new[] { _filterBlitLayout },
             GraphicsWarmupPath.Sprite => new[] { _spriteLayout, _spriteBatchedLayout },
+            GraphicsWarmupPath.SpriteShape => new[] { _spriteShapeLayout },
             _ => new[] { _uiToolkitLayout }
         };
 
-        public static GraphicsFormat GetColorFormat(GraphicsWarmupEntry entry) => entry.GetPath() == GraphicsWarmupPath.Sprite && entry.GetTargetTexture() != null ? entry.GetTargetTexture().graphicsFormat : SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
+        public static GraphicsFormat GetColorFormat(GraphicsWarmupEntry entry) => entry.IsSprite() && entry.GetTargetTexture() != null ? entry.GetTargetTexture().graphicsFormat : SystemInfo.GetGraphicsFormat(DefaultFormat.LDR);
         #endregion
 
         #region PrivateMethods
@@ -95,7 +103,7 @@ namespace LowDefMustard.Rendering
                 // Backdrop filters draw into a colour-only intermediate target
                 GraphicsWarmupPath.UIToolkitBackdropFilter => new DrawTarget(color, GraphicsFormat.None, false, -1, false),
                 // Sprites draw in URP's native render pass:  depth first, colour as its output
-                GraphicsWarmupPath.Sprite => new DrawTarget(color, GetSpriteDepthFormat(entry, depthStencil), true, 0, false),
+                GraphicsWarmupPath.Sprite or GraphicsWarmupPath.SpriteShape => new DrawTarget(color, GetSpriteDepthFormat(entry, depthStencil), true, 0, false),
                 _ => new DrawTarget(color, depthStencil, false, -1, true)
             };
         }
@@ -114,6 +122,7 @@ namespace LowDefMustard.Rendering
                     foreach (var pass in entry.GetFilter().passes) { if (pass.material != null) { yield return (pass.material, pass.passIndex); } }
                     break;
                 case GraphicsWarmupPath.Sprite:
+                case GraphicsWarmupPath.SpriteShape:
                     yield return (entry.GetMaterial(), _spritePass);
                     break;
                 case GraphicsWarmupPath.UIToolkitMaterial:

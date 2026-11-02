@@ -115,9 +115,9 @@ Removes the first-use hitch of a heavy shader by warming its shaders + pipeline 
   - `GraphicsWarmupMode.PreDraw` draws each entry once ~ exact on every graphics API, but blocks the frames it runs in
   - `GraphicsWarmupMode.StateCollection` builds a `GraphicsStateCollection` procedurally on the device (`GraphicsWarmupStates`) && warms it up in the background
   - `traceInDevelopmentBuilds` traces every PSO drawn in a development build session:  saved on quit to `persistentDataPath` && sent to the editor (with Autoconnect Profiler)
-- **`GraphicsWarmupEntry`** — A material (or backdrop filter) and its draw path (`GraphicsWarmupPath`):  A. `UIToolkitMaterial`, `UIToolkitBackdropFilter` (w/ the `PanelSettings` they're drawn on) or B. `Sprite` (optionally w/ a `targetTexture` a camera draws it into)
+- **`GraphicsWarmupEntry`** — A material (or backdrop filter) and its draw path (`GraphicsWarmupPath`):  A. `UIToolkitMaterial`, `UIToolkitBackdropFilter` (w/ the `PanelSettings` they're drawn on) or B. `Sprite` / `SpriteShape` (optionally w/ a `targetTexture` a camera draws it into)
 - **`GraphicsWarmupStates`** (static) — Builds the collection for the current graphics API (w/ no PSO trace):  render state comes from the material's own pass, vertex layout(s) + render target + forced state (UI Toolkit's stencil) from the draw path
-- **`GraphicsWarmupPreDraw`** / **`GraphicsWarmupProbe`** — Pre-draw helpers: A. 1px clear probe element per UI Toolkit entry (in a `PanelRenderer` joining the entry's panel), and B. 1px clear `SpriteRenderer` per sprite entry
+- **`GraphicsWarmupPreDraw`** / **`GraphicsWarmupProbe`** — Pre-draw helpers: A. 1px clear probe element per UI Toolkit entry (in a `PanelRenderer` joining the entry's panel), and B. 1px clear `SpriteRenderer` per Sprite/SpriteShape entry (SpriteShapes warm the shader, but not their exact pipeline state)
 - **`GraphicsWarmupTools`** (editor, `Tools/GraphicsTools/`)
   - `WarmUp: Reconcile shader collection` checks the registered material folders for materials w/ no `GraphicsWarmup` entry && auto-binds those in a registered UI Toolkit material folder
   - `WarmUp: Report Trace File` writes a traced collection out as text
@@ -163,7 +163,7 @@ A `BattleEffectDataLayout` const (in its section's group) + its write in `Battle
 
 ### Coverage at a glance
 
-Tested = test cases (each `[TestCase]` counts);  Total adds the known gaps (see the detail table).  Editor + PlayMode:  397 + 16 tests.
+Tested = test cases (each `[TestCase]` counts);  Total adds the known gaps (see the detail table).  Editor + PlayMode:  399 + 16 tests.
 
 | Category                        | Tested / Total | Notes                                                                                                                   |
 |---------------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------|
@@ -184,7 +184,7 @@ Tested = test cases (each `[TestCase]` counts);  Total adds the known gaps (see 
 | Display                         | 17 / 19        | Value types, `DisplayResolutions` invariants, monitor (configured path + save on destroy)                               |
 | Camera                          | 14 / 14        | `CameraControllerBase` lifecycle, following, ortho sizes, tag lookup + `CameraSpawnAssist`                              |
 | Shaders (C#)                    | 9 / 10         | `ShaderPropertyRefs`, `BattleEntryShaderControl`                                                                        |
-| Graphics warm-up                | 9 / 9          | `GraphicsWarmupStates` (drawn pass/layouts, UI target/stencil, sprite target texture, material blend, invalid entries)  |
+| Graphics warm-up                | 11 / 11        | `GraphicsWarmupStates` (drawn pass/layouts, UI target/stencil, sprite target texture, material blend, invalid entries)  |
 
 ### Detail by type
 

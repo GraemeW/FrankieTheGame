@@ -60,6 +60,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         #region Tests
         [TestCase(GraphicsWarmupPath.UIToolkitMaterial, 1)]
         [TestCase(GraphicsWarmupPath.Sprite, 2)]
+        [TestCase(GraphicsWarmupPath.SpriteShape, 1)]
         public void Build_AddsAStatePerLayoutForTheDrawnPassOnly(GraphicsWarmupPath path, int expectedStates)
         {
             collection = GraphicsWarmupStates.Build(new[] { new GraphicsWarmupEntry(path, material, null, panelSettings) });
@@ -73,6 +74,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
         [TestCase(GraphicsWarmupPath.UIToolkitMaterial)]
         [TestCase(GraphicsWarmupPath.Sprite)]
+        [TestCase(GraphicsWarmupPath.SpriteShape)]
         public void Build_StatesUseThePathsLayouts(GraphicsWarmupPath path)
         {
             collection = GraphicsWarmupStates.Build(new[] { new GraphicsWarmupEntry(path, material, null, panelSettings) });

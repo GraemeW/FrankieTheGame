@@ -35,12 +35,13 @@ namespace LowDefMustard.Rendering
         public PanelSettings GetPanelSettings() => panelSettings;
         public RenderTexture GetTargetTexture() => targetTexture;
         public bool IsUIToolkit() => path is GraphicsWarmupPath.UIToolkitMaterial or GraphicsWarmupPath.UIToolkitBackdropFilter;
+        public bool IsSprite() => path is GraphicsWarmupPath.Sprite or GraphicsWarmupPath.SpriteShape;
 
         public bool IsValid() => path switch
         {
             GraphicsWarmupPath.UIToolkitMaterial => material != null && panelSettings != null,
             GraphicsWarmupPath.UIToolkitBackdropFilter => filter != null && filter.passes is { Length: > 0 } && panelSettings != null,
-            GraphicsWarmupPath.Sprite => material != null,
+            GraphicsWarmupPath.Sprite or GraphicsWarmupPath.SpriteShape => material != null,
             _ => false
         };
         #endregion
