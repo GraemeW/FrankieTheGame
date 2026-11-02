@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
+  m_Name: SpawnDebugEffect
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SpawnBattleEffect
+  effectGUID: a82d12c2-28cb-41b7-a433-1388936ecf9e
+  effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+  effectRecipe: {fileID: 11400000, guid: 5a82df7c6caa14a4db9873f078a7077b, type: 2}
+  effectTint:
+    mode: 0
+    colourA: {r: 1, g: 1, b: 1, a: 1}
+    colourB: {r: 1, g: 1, b: 1, a: 1}
+    angleDegrees: 0
+    bandsPerEU: 1
+    scrollRate: 0
+  placement: 2
+  delayAfterSeconds: 4.5
+  destroyAfterSeconds: 6

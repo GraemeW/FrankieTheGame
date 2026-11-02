@@ -22,6 +22,8 @@ namespace Frankie.Utils.Editor
         private const string _characterObjectsFolderRef = "Assets/Game/CharacterObjects";
         private const string _skillsFolderRef = "Assets/Game/OnLoadAssets/Skills";
         private const string _skillTreesFolderRef = "Assets/Game/Combat/SkillTrees";
+        private const string _battleActionsFolderRef = "Assets/Game/OnLoadAssets/BattleActions";
+        private const string _battleActionPartsFolderRef = "Assets/Game/Combat/BattleActions";
         private const string _inventoryFolderRef = "Assets/Game/OnLoadAssets/Inventory";
         private const string _questsFolderRef = "Assets/Game/OnLoadAssets/Quests";
         private const string _startSceneRef = "Assets/Scenes/StartScreen.unity";
@@ -50,22 +52,28 @@ namespace Frankie.Utils.Editor
         [MenuItem("Tools/Select/Zones", false, 3)]
         private static void SelectZonesFolder() => OpenFolder(_zonesFolderRef);
 
-        [MenuItem("Tools/Select/CharacterProperties", false, 4)]
+        [MenuItem("Tools/Select/Character/CharacterProperties", false, 4)]
         private static void SelectCharacterPropertiesFolder() => OpenFolder(_characterPropertiesFolderRef);
 
-        [MenuItem("Tools/Select/CharacterObjects", false, 5)]
+        [MenuItem("Tools/Select/Character/CharacterObjects", false, 5)]
         private static void SelectCharacterObjectsFolder() => OpenFolder(_characterObjectsFolderRef);
 
-        [MenuItem("Tools/Select/Skills", false, 6)]
+        [MenuItem("Tools/Select/Combat/Skills", false, 6)]
         private static void SelectSkillsFolder() => OpenFolder(_skillsFolderRef);
 
-        [MenuItem("Tools/Select/SkillTrees", false, 7)]
+        [MenuItem("Tools/Select/Combat/SkillTrees", false, 7)]
         private static void SelectSkillTreesFolder() => OpenFolder(_skillTreesFolderRef);
+        
+        [MenuItem("Tools/Select/Combat/BattleActions", false, 8)]
+        private static void SelectBattleActions() => OpenFolder(_battleActionsFolderRef);
+        
+        [MenuItem("Tools/Select/Combat/BattleActionParts", false, 9)]
+        private static void SelectBattleActionParts() => OpenFolder(_battleActionPartsFolderRef);
 
-        [MenuItem("Tools/Select/Inventory", false, 8)]
+        [MenuItem("Tools/Select/Inventory", false, 10)]
         private static void SelectInventoryFolder() => OpenFolder(_inventoryFolderRef);
 
-        [MenuItem("Tools/Select/Quests", false, 9)]
+        [MenuItem("Tools/Select/Quests", false, 11)]
         private static void SelectQuestsFolder() => OpenFolder(_questsFolderRef);
 
         [MenuItem("Tools/Make Selection Dirty", false, 100)]

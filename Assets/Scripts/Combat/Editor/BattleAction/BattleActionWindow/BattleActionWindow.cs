@@ -108,7 +108,7 @@ namespace Frankie.Combat.Editor
         }
 
         private void HandleSlotsChanged() => selectionColumn?.SetSlots(ownerColumn.GetSelectedSlots());
-        private void HandleBattleActionChanged() => browserColumn?.RefreshAddButton();
+        private void HandleBattleActionChanged() => browserColumn?.RefreshAddDeleteBindButtons();
         private void HandleEffectStrategyChanged() => browserColumn?.RequestRebuild();
         #endregion
 

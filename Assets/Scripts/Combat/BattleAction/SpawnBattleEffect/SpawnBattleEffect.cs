@@ -19,6 +19,9 @@ namespace Frankie.Combat
         [SerializeField] private BattleEffectPlacement placement = BattleEffectPlacement.Slide;
         [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
+
+        // Editor Field References
+        public const string effectMaterialField = nameof(effectMaterial);
         
         // Public Methods
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)

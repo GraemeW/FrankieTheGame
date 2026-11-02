@@ -17,23 +17,23 @@ MonoBehaviour:
   edgeSoftnessPixels: 1
   glowWidthEU: 0
   items:
-  - label: 
+  - label: Cells growing
     shape:
-      rid: 9086808330134619011
+      rid: 1508179246966112630
     startTimeSeconds: 0
-    durationSeconds: 1
+    durationSeconds: 0.5
     easing: 0
     approachRatio: 4
-    progressSteps: 0
+    progressSteps: 10
     positionEU:
-      start: {x: 0.5, y: 0.5}
-      end: {x: 0.5, y: 0.5}
+      start: {x: 0.5, y: 0.522321}
+      end: {x: 0.5, y: 0.522321}
     scaleEU:
-      start: {x: 0.25, y: 0.25}
-      end: {x: 0.25, y: 0.25}
+      start: {x: 0.0625, y: 0.040816}
+      end: {x: 0.0625, y: 0.040816}
     elongationSU:
-      start: {x: 0, y: 0}
-      end: {x: 0, y: 0}
+      start: {x: 0, y: 0.492188}
+      end: {x: 0, y: 0.492188}
     itemRotationDegrees:
       start: 0
       end: 0
@@ -46,13 +46,13 @@ MonoBehaviour:
       outlineThicknessEU:
         start: 0.05
         end: 0.05
-      colour: {r: 1, g: 1, b: 1, a: 1}
+      colour: {r: 0.952941, g: 0.839216, b: 0, a: 1}
       outlineColour: {r: 1, g: 1, b: 1, a: 1}
       isOutlineFromPalette: 0
       outlinePaletteStep: 1
     altColours:
-      count: 0
-      colourB: {r: 1, g: 1, b: 1, a: 1}
+      count: 1
+      colourB: {r: 1, g: 0.094118, b: 0, a: 1}
       colourC: {r: 1, g: 1, b: 1, a: 1}
       colourD: {r: 1, g: 1, b: 1, a: 1}
     outlineEdgeGradient:
@@ -78,27 +78,27 @@ MonoBehaviour:
       dutyFraction: 0.5
       phaseFraction: 0
     stipple:
-      dotsPerEU: 1
+      dotsPerEU: 0
       density:
-        start: 1
-        end: 0
+        start: 0.5
+        end: 0.5
       seed: 0
     clip:
-      shape: 0
+      shape: 3
       halfSizeSU:
-        start: {x: 1, y: 1}
-        end: {x: 1, y: 1}
+        start: {x: 0.519378, y: -0.109375}
+        end: {x: 8.76833, y: -0.109375}
       offsetSU:
-        start: {x: 0, y: 0}
-        end: {x: 0, y: 0}
+        start: {x: -0.21875, y: -0.601562}
+        end: {x: -0.21875, y: -0.601562}
       angleDegrees: 0
-      clipWholeShape: 0
+      clipWholeShape: 1
     repetition:
       mode: 0
-      count: {x: 3, y: 3}
+      count: {x: 1, y: 1}
       spacingSU:
-        start: {x: 2.5, y: 2.5}
-        end: {x: 2.5, y: 2.5}
+        start: {x: 0, y: 0}
+        end: {x: 0, y: 0}
       copyScaleRatio:
         start: 1
         end: 1
@@ -117,17 +117,18 @@ MonoBehaviour:
       mirrorY: 0
       halfTurn: 0
       beatOffsetsSpread: 0
+      flipX: 0
     tiling:
-      mode: 0
-      count: {x: 3, y: 3}
-      spacingEU: {x: 0.25, y: 0.25}
-      isAnchored: 0
-      anchorEU: {x: 0.5, y: 0.5}
+      mode: 3
+      count: {x: 6, y: 7}
+      spacingEU: {x: 0.1875, y: 0.107143}
+      isAnchored: 1
+      anchorEU: {x: 0.5, y: 0.522321}
     colourCycle:
-      source: 0
-      rate: 0
+      source: 2
+      rate: 20
       phaseOffset: 0
-      pattern: 
+      pattern: 01
     beats:
       count: 0
       isInterpolated: 0
@@ -160,7 +161,7 @@ MonoBehaviour:
     jitter:
       rate: 0
       mode: 0
-      amountEU: {x: 0.02, y: 0.02}
+      amountEU: {x: 0, y: 0}
       seed: 0
       phaseFraction: 0
     flicker:
@@ -170,36 +171,15 @@ MonoBehaviour:
       pattern: 
     pulse:
       rate: 0
-      amountFraction: 0.25
+      amountFraction: 0
       phaseFraction: 0
   instances: []
   references:
     version: 2
     RefIds:
-    - rid: 9086808330134619011
-      type: {class: BattleEffectChamferedBox, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
+    - rid: 1508179246966112630
+      type: {class: BattleEffectDiamond, ns: LowDefMustard.Rendering, asm: LowDefMustard.Rendering}
       data:
-        halfWidthSU:
-          start: 1
-          end: 1
-        halfHeightSU:
-          start: 1
-          end: 1
-        topLeftChamferSU:
-          start: 0.78
-          end: 0.25
-        bottomLeftChamferSU:
-          start: 2.72
-          end: 0.25
-        bottomRightChamferSU:
-          start: 0.77
-          end: 0.25
-        topRightChamferSU:
-          start: 0.32
-          end: 0.25
-        topRightStepWidthSU:
-          start: 0.75
-          end: 0
-        topRightLowerChamferSU:
-          start: -1.58
-          end: 0
+        aspectRatio:
+          start: 1.75
+          end: 1.75

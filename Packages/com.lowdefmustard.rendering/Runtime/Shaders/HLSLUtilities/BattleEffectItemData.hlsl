@@ -223,14 +223,18 @@ float GetBattleEffectStripeMask(UnityTexture2D itemData, int item, float2 fitted
 
 float GetBattleEffectStippleMask(UnityTexture2D itemData, int item, float2 fittedUV, float progress)
 {
-    // Hard-edged random dots, one cell per dot
+    // Hard-edged dots, one cell per dot:  random, or a regular checker
     // In effect units
 
     float4 stipple = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STIPPLE); // (dots per EU [0 = off], density start, end, seed)
     if (stipple.x <= 0.0) { return 1.0; }
 
+    float4 stippleShape = LoadBattleEffectTexel(itemData, item, BATTLE_EFFECT_LAYOUT_STIPPLESHAPE); // (pattern, dot aspect ratio, -, -)
+    float aspectRatio = stippleShape.y > 0.0 ? stippleShape.y : 1.0;
+    float2 cell = floor(fittedUV * stipple.x / float2(max(1.0 / aspectRatio, 1.0), max(aspectRatio, 1.0))); // Dots per EU along the shorter side
     float2 hash;
-    Hash22(floor(fittedUV * stipple.x) + stipple.w, hash);
+    if ((int)round(stippleShape.x) == BATTLE_EFFECT_STIPPLEPATTERN_CHECKER) { hash.x = frac((cell.x + cell.y + round(stipple.w)) * 0.5) < 0.25 ? 0.25 : 0.75; }
+    else { Hash22(cell + stipple.w, hash); }
     return hash.x < lerp(stipple.y, stipple.z, progress) ? 1.0 : 0.0;
 }
 

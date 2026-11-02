@@ -16,11 +16,12 @@ namespace Frankie.Combat.Editor
 
         // Element References
         private readonly AssetNameLabel nameLabel;
+        private readonly VisualElement card;
 
         // Constructor
         public EffectStrategyElement(EffectStrategy strategy, string slotLabel, Action changed)
         {
-            VisualElement card = BattleActionWindowStyles.CreateCard();
+            card = BattleActionWindowStyles.CreateCard();
             Add(card);
 
             nameLabel = new AssetNameLabel(true);
@@ -39,6 +40,7 @@ namespace Frankie.Combat.Editor
 
         #region PublicMethods
         public void RefreshName() => nameLabel.RefreshName();
+        public void AddToCard(VisualElement element) => card.Add(element);
         #endregion
 
         #region GUI

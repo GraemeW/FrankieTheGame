@@ -284,6 +284,16 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         [Test]
+        public void TryWriteData_Stipple_WritesPatternAndAspectRatio()
+        {
+            BattleEffectItem item = CreateItem(new BattleEffectCircle(), "{\"stipple\":{\"dotsPerEU\":256,\"pattern\":1,\"aspectRatio\":2.5}}");
+
+            item.TryWriteData(texels, 0, parameterBuffer, 1f);
+
+            AssertTexel(new Color((int)BattleEffectStipplePattern.Checker, 2.5f, 0f, 0f), texels[BattleEffectDataLayout.stippleShape]);
+        }
+
+        [Test]
         public void TryWriteData_Stipple_DefaultIsOff()
         {
             CreateItem(new BattleEffectCircle()).TryWriteData(texels, 0, parameterBuffer, 1f);

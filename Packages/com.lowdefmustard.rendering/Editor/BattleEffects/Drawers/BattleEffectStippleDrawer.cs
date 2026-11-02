@@ -12,6 +12,8 @@ namespace LowDefMustard.Rendering.Editor
             SerializedProperty dotsProperty = property.FindPropertyRelative(BattleEffectStipple.dotsPerEUField);
             return new BattleEffectSection(property, IsEnabled, section =>
             {
+                section.SetShown(BattleEffectStipple.patternField, IsEnabled());
+                section.SetShown(BattleEffectStipple.aspectRatioField, IsEnabled());
                 section.SetShown(BattleEffectStipple.densityField, IsEnabled());
                 section.SetShown(BattleEffectStipple.seedField, IsEnabled());
             });

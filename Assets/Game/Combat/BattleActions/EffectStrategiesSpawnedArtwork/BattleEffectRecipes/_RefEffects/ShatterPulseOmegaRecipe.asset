@@ -1042,11 +1042,13 @@ MonoBehaviour:
         scaleRatio: 1
         colourIndex: 0
     stipple:
-      dotsPerEU: 224
+      pattern: 1
+      dotsPerEU: 256
+      aspectRatio: 2.2857144
       density:
         start: 0.5
         end: 0.5
-      seed: 5
+      seed: 0
     clip:
       shape: 0
       clipWholeShape: 0
@@ -1197,11 +1199,13 @@ MonoBehaviour:
         scaleRatio: 1
         colourIndex: 0
     stipple:
-      dotsPerEU: 224
+      pattern: 1
+      dotsPerEU: 256
+      aspectRatio: 2.2857144
       density:
         start: 0.5
         end: 0.5
-      seed: 5
+      seed: 0
     clip:
       shape: 0
       clipWholeShape: 0

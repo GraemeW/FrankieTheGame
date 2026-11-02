@@ -28,16 +28,8 @@ namespace LowDefMustard.Rendering.Editor
 
         public void FindMaterialIfUnset()
         {
-            // Note:  matched on the shader's recipe property (not by name / path)
             tint ??= new BattleEffectTint(); // e.g. state saved before the tint existed
-            if (material != null) { return; }
-            foreach (string guid in AssetDatabase.FindAssets($"t:{nameof(Material)}", new[] { "Assets" }))
-            {
-                var candidate = AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid));
-                if (!BattleEffectPropertyRefs.IsBattleEffectMaterial(candidate)) { continue; }
-                material = candidate;
-                return;
-            }
+            if (material == null) { material = BattleEffectMaterials.Find(); }
         }
 
         public MaterialDefinition CreateMaterialDefinition(float time, BattleEffectRetroToggles retro)

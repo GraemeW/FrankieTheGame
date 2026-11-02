@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Rendering.Editor;
 
 namespace Frankie.Combat.Editor
 {
@@ -22,6 +23,11 @@ namespace Frankie.Combat.Editor
         private const string _makeNewTooltip = "Creates a new asset of this type in its folder, then selects it";
         private const string _addText = "Add to Battle Action";
         private const string _addTooltip = "Appends the selected effect strategy to the battle action's effect strategies";
+        private const string _bindMaterialText = "Bind Material";
+        private const string _bindMaterialTooltip = "Sets the selected spawn battle effect's material to the shared BattleEffect material";
+        private const string _deleteText = "Delete Effect";
+        private const string _deleteTooltip = "Deletes the selected effect strategy asset";
+        private const string _deleteDialogTitle = "Delete Effect Strategy";
         private const string _filtersText = "Filters";
         private const string _allFiltersText = "All";
         private const string _noFiltersText = "None";
@@ -35,6 +41,8 @@ namespace Frankie.Combat.Editor
         private readonly ScrollView detailsView;
         private readonly DropdownField typeField;
         private readonly Button addButton;
+        private readonly Button bindMaterialButton;
+        private readonly Button deleteButton;
         private readonly ToolbarSearchField searchField;
         private readonly TreeView tree;
         private readonly Dictionary<EffectStrategyCategory, Toggle> filterToggles = new();
@@ -66,6 +74,8 @@ namespace Frankie.Combat.Editor
             detailsView = BuildDetailsView();
             typeField = BuildTypeField();
             addButton = BuildAddButton();
+            bindMaterialButton = new Button(BindMaterial) { text = _bindMaterialText, tooltip = _bindMaterialTooltip, style = { flexGrow = 1f, marginLeft = 0f } };
+            deleteButton = new Button(DeleteSelected) { text = _deleteText, tooltip = _deleteTooltip, style = { flexGrow = 1f, marginRight = 0f } };
             searchField = BuildSearchField();
             tree = BuildTree();
 
@@ -85,7 +95,12 @@ namespace Frankie.Combat.Editor
 
         #region PublicMethods
         public void RefreshNames() => detailsElement?.RefreshName();
-        public void RefreshAddButton() => addButton.SetEnabled(selectedStrategy != null && canAddToBattleAction != null && canAddToBattleAction());
+        public void RefreshAddDeleteBindButtons()
+        {
+            addButton.SetEnabled(selectedStrategy != null && canAddToBattleAction != null && canAddToBattleAction());
+            deleteButton.SetEnabled(selectedStrategy != null);
+            bindMaterialButton.style.display = selectedStrategy is SpawnBattleEffect ? DisplayStyle.Flex : DisplayStyle.None;
+        }
         public void RequestRebuild()
         {
             pendingRebuild?.Pause();
@@ -121,7 +136,7 @@ namespace Frankie.Combat.Editor
             }
             tree.Rebuild();
             ApplySelection();
-            RefreshAddButton();
+            RefreshAddDeleteBindButtons();
         }
         #endregion
 
@@ -146,6 +161,14 @@ namespace Frankie.Combat.Editor
             createRow.Add(setTypeField);
             createRow.Add(new Button(MakeNew) { text = _makeNewText, tooltip = _makeNewTooltip });
             return createRow;
+        }
+
+        private VisualElement BuildSelectionRow()
+        {
+            var selectionRow = new VisualElement { style = { flexDirection = FlexDirection.Row, flexShrink = 0f, marginTop = 4f } };
+            selectionRow.Add(bindMaterialButton);
+            selectionRow.Add(deleteButton);
+            return selectionRow;
         }
 
         private Button BuildAddButton() => new(AddSelected) { text = _addText, tooltip = _addTooltip, style = { marginLeft = 0f, marginRight = 0f, flexShrink = 0f } };
@@ -205,7 +228,7 @@ namespace Frankie.Combat.Editor
             if (entry.isHeader) { return; }
             selectedStrategy = entry.strategy;
             ShowDetails(selectedStrategy);
-            RefreshAddButton();
+            RefreshAddDeleteBindButtons();
         }
         #endregion
 
@@ -259,6 +282,7 @@ namespace Frankie.Combat.Editor
             }
             detailsElement = new EffectStrategyElement(strategy, null, changed);
             detailsView.Add(detailsElement);
+            detailsElement.AddToCard(BuildSelectionRow());
         }
         #endregion
         
@@ -273,6 +297,43 @@ namespace Frankie.Combat.Editor
                 toggle.SetValueWithoutNotify(isShown);
             }
             Rebuild();
+        }
+        #endregion
+
+        #region SelectionActions
+        private void BindMaterial()
+        {
+            if (selectedStrategy is not SpawnBattleEffect) { return; }
+            Material material = BattleEffectMaterials.Find();
+            if (material == null)
+            {
+                Debug.LogWarning("No BattleEffect material found under Assets");
+                return;
+            }
+            var serializedObject = new SerializedObject(selectedStrategy);
+            serializedObject.FindProperty(SpawnBattleEffect.effectMaterialField).objectReferenceValue = material;
+            serializedObject.ApplyModifiedProperties();
+            changed?.Invoke();
+        }
+
+        private void DeleteSelected()
+        {
+            if (selectedStrategy == null) { return; }
+            string path = AssetDatabase.GetAssetPath(selectedStrategy);
+            if (string.IsNullOrEmpty(path)) { return; }
+
+            int referenceCount = AssetDatabase.FindAssets($"t:{nameof(BattleAction)}")
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Count(battleActionPath => AssetDatabase.GetDependencies(battleActionPath, false).Contains(path));
+            string message = $"Delete {selectedStrategy.name}?";
+            if (referenceCount > 0) { message += $"\n\nIt is used by {referenceCount} battle action(s), which will be left with a missing entry."; }
+            if (!EditorUtility.DisplayDialog(_deleteDialogTitle, message, "Yes", "No")) { return; }
+            if (!AssetDatabase.MoveAssetToTrash(path)) { return; }
+
+            selectedStrategy = null;
+            ShowDetails(null);
+            Rebuild();
+            changed?.Invoke();
         }
         #endregion
 

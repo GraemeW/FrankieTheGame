@@ -49,6 +49,7 @@ namespace LowDefMustard.Rendering
 
         // Stipple
         public const int stipple = 23;              // (dots per EU [0 = off], density start, end, seed)
+        public const int stippleShape = 48;         // (pattern, dot aspect ratio, -, -)
 
         // Clip
         public const int clip = 24;                 // (clip shape, angle [radians], clip whole shape, -)
@@ -91,7 +92,7 @@ namespace LowDefMustard.Rendering
         public const int pulse = 47;                // (rate, amount, phase, -)
 
         // Sizes
-        public const int texelsPerItem = 48;
+        public const int texelsPerItem = 49;
         public const int shapeParameterCapacity = 8;
         public const int maxAltColours = 3;         // Alt colours B-D
         public const int maxBeats = 4;
