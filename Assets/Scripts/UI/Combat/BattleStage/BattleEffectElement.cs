@@ -14,6 +14,7 @@ namespace Frankie.Combat.UI
         // Const Tunables
         private const string _ussClassName = "battle-effect";
         private const string _fullScreenUssClassName = _ussClassName + "--full-screen";
+        private const float _slideOversize = 1.25f;
 
         // State
         private readonly BattleEffectPlacement placement;
@@ -58,17 +59,22 @@ namespace Frankie.Combat.UI
 
             // Positioning the effect over the anchor in two steps:
             //  1. anchorRect:  the area to cover, in the anchor's own local space (0, 0 = the anchor's top-left)
-            //      - slide:  the whole slide
+            //      - slide:  the whole slide (oversized about its centre)
             //      - row:  the row's content rect (only its y + height are used)
             Rect anchorRect = placement == BattleEffectPlacement.Row ? targetAnchor.contentRect : new Rect(Vector2.zero, targetAnchor.layout.size);
             
             //  2. layerRect:  that same area converted into the effect layer's space (this element's parent), which is what style.left / top position against
             //      - the anchor + effect sit in different branches of the stage, so converted between the two elements directly
             Rect layerRect = targetAnchor.ChangeCoordinatesTo(parent, anchorRect);
+            if (placement == BattleEffectPlacement.Slide)
+            {
+                Vector2 oversizedSize = layerRect.size * _slideOversize;
+                layerRect = new Rect(layerRect.center - oversizedSize * 0.5f, oversizedSize);
+            }
             style.top = layerRect.y;
             style.height = layerRect.height;
 
-            //  3. width:  a row spans the whole layer (a fixed width, however many enemies it holds), while a slide matches its slide
+            //  3. width:  a row spans the whole layer (a fixed width, however many enemies it holds), while a slide matches its oversizedSlide
             if (placement == BattleEffectPlacement.Row)
             {
                 style.left = 0f;
