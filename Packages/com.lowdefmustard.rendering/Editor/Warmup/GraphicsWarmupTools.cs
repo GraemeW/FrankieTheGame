@@ -22,7 +22,7 @@ namespace LowDefMustard.Rendering.Editor
         private const string _compareSuffix = ".compare.txt";
 
         #region MenuItems
-        [MenuItem(_menuRoot + "WarmUp: Reconcile shader collection")]
+        [MenuItem(_menuRoot + "WarmUp: Reconcile shader collection", false, 16)]
         private static void ReconcileShaderCollection()
         {
             string[] materialFolders = GraphicsWarmupFolders.GetMaterialFolders().Where(AssetDatabase.IsValidFolder).ToArray();
