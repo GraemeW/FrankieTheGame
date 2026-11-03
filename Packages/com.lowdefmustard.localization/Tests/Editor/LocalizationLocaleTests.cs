@@ -64,7 +64,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         {
             string projectLocaleCode = LocalizationSettings.ProjectLocale.Identifier.Code;
 
-            LogAssert.Expect(LogType.Warning, $"No locale found for zz-Invalid - setting to fallback {projectLocaleCode}");
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex($"No locale found for code 'zz-Invalid'\\. Falling back to '{projectLocaleCode}'\\.$"));
             LocalizationLocale.SetLocale("zz-Invalid");
 
             Assert.AreEqual(projectLocaleCode, LocalizationSettings.SelectedLocale.Identifier.Code);

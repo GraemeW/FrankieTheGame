@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Utils.Editor
 {
@@ -108,7 +109,7 @@ namespace LowDefMustard.Utils.Editor
             if (asset == null || string.IsNullOrEmpty(newName) || newName == asset.name) { return; }
 
             string error = AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(asset), newName);
-            if (!string.IsNullOrEmpty(error)) { Debug.LogWarning($"Could not rename {asset.name} to {newName}:  {error}"); }
+            if (!string.IsNullOrEmpty(error)) { LDMLog.Warning(LDMLogCategory.Utilities, $"Could not rename asset '{asset.name}' to '{newName}' (reason: {error}).", asset); }
         }
         #endregion
     }

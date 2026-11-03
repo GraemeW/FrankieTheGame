@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Rendering.Editor
 {
@@ -26,7 +27,7 @@ namespace LowDefMustard.Rendering.Editor
         private static void ReconcileShaderCollection()
         {
             string[] materialFolders = GraphicsWarmupFolders.GetMaterialFolders().Where(AssetDatabase.IsValidFolder).ToArray();
-            if (materialFolders.Length == 0) { Debug.LogWarning($"[GraphicsWarmup] No valid material folders registered ~ register them via {nameof(GraphicsWarmupFolders)} from an [InitializeOnLoad] class"); return; }
+            if (materialFolders.Length == 0) { LDMLog.Warning(LDMLogCategory.Rendering, $"No valid graphics warmup material folders are registered. Register them via {nameof(GraphicsWarmupFolders)} from an [InitializeOnLoad] class."); return; }
             if (!TryLoadWarmupPrefab(out string prefabPath, out GraphicsWarmup warmup)) { return; }
             
             var serializedWarmup = new SerializedObject(warmup);
@@ -52,10 +53,10 @@ namespace LowDefMustard.Rendering.Editor
             {
                 serializedWarmup.ApplyModifiedPropertiesWithoutUndo();
                 PrefabUtility.SavePrefabAsset(warmup.gameObject);
-                Debug.Log($"[GraphicsWarmup] Auto-bound {boundMaterials.Count} new material(s) to {prefabPath}:\n    {string.Join("\n    ", boundMaterials)}");
+                LDMLog.Info(LDMLogCategory.Rendering, $"Bound {boundMaterials.Count} new material(s) to graphics warmup prefab '{prefabPath}':\n    {string.Join("\n    ", boundMaterials)}", warmup);
             }
-            if (unboundMaterials.Count > 0) { Debug.LogWarning($"[GraphicsWarmup] {unboundMaterials.Count} material(s) found but not bound to {prefabPath} ~ these will not be warmed (add their entries by hand):\n    {string.Join("\n    ", unboundMaterials)}"); }
-            if (boundMaterials.Count == 0 && unboundMaterials.Count == 0) { Debug.Log($"[GraphicsWarmup] Every material in {string.Join(", ", materialFolders)} already has an entry in {prefabPath}"); }
+            if (unboundMaterials.Count > 0) { LDMLog.Warning(LDMLogCategory.Rendering, $"{unboundMaterials.Count} material(s) could not be bound to graphics warmup prefab '{prefabPath}' and will not be warmed. Add their entries by hand:\n    {string.Join("\n    ", unboundMaterials)}", warmup); }
+            if (boundMaterials.Count == 0 && unboundMaterials.Count == 0) { LDMLog.Info(LDMLogCategory.Rendering, $"Every material in the warmup folders already has an entry in '{prefabPath}' (folders: {string.Join(", ", materialFolders)}).", warmup); }
         }
         
         [MenuItem(_menuRoot + "WarmUp: Report Trace File", false, 15)]
@@ -134,11 +135,11 @@ namespace LowDefMustard.Rendering.Editor
             {
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 if (prefab == null || !prefab.TryGetComponent(out GraphicsWarmup prefabWarmup)) { continue; }
-                if (warmup != null) { Debug.LogError($"[GraphicsWarmup] More than one GraphicsWarmup prefab ({prefabPath}, {path}) ~ unsure which to reconcile"); return false; }
+                if (warmup != null) { LDMLog.Error(LDMLogCategory.Rendering, $"Found more than one graphics warmup prefab ('{prefabPath}', '{path}'). Skipping the reconcile; keep only one."); return false; }
                 warmup = prefabWarmup;
                 prefabPath = path;
             }
-            if (warmup == null) { Debug.LogError("[GraphicsWarmup] No prefab w/ a GraphicsWarmup on its root found"); }
+            if (warmup == null) { LDMLog.Error(LDMLogCategory.Rendering, "No prefab with a GraphicsWarmup on its root found. Skipping the reconcile."); }
             return warmup != null;
         }
 
@@ -184,7 +185,7 @@ namespace LowDefMustard.Rendering.Editor
 
             trace = new GraphicsStateCollection();
             if (trace.LoadFromFile(path)) { return true; }
-            Debug.LogError($"[GraphicsWarmup] Couldn't load {path}");
+            LDMLog.Error(LDMLogCategory.Rendering, $"Could not load graphics warmup trace '{path}'.");
             Object.DestroyImmediate(trace);
             trace = null;
             return false;
@@ -251,7 +252,7 @@ namespace LowDefMustard.Rendering.Editor
         private static void WriteReport(string reportPath, StringBuilder report)
         {
             File.WriteAllText(reportPath, report.ToString());
-            Debug.Log($"[GraphicsWarmup] Wrote {reportPath}");
+            LDMLog.Info(LDMLogCategory.Rendering, $"Wrote graphics warmup report '{reportPath}'.");
             EditorUtility.RevealInFinder(reportPath);
         }
         #endregion

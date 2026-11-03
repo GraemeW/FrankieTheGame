@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Rendering
@@ -27,7 +28,7 @@ namespace LowDefMustard.Rendering
                 if (entry == null || !entry.IsValid()) { continue; }
                 if (entry.IsUIToolkit()) { AddPanelEntry(entry); }
                 else if (camera != null) { CreateSprite(parent, camera, entry.GetMaterial()); }
-                else { Debug.LogWarning($"[GraphicsWarmup] No main camera:  skipped pre-drawing {entry.GetMaterial().name}"); }
+                else { LDMLog.Warning(LDMLogCategory.Rendering, $"No main camera found. Skipping the warmup pre-draw for material '{entry.GetMaterial().name}'."); }
             }
             foreach (PanelSettings panelSettings in new List<PanelSettings>(pendingPanelEntries.Keys)) { CreatePanel(parent, panelSettings); }
         }

@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using LowDefMustard.Core;
 using UnityEditor;
-using UnityEngine;
 
 namespace LowDefMustard.Rendering.Editor
 {
@@ -41,14 +41,14 @@ namespace LowDefMustard.Rendering.Editor
             string output = BuildOutput(shapes);
             if (File.Exists(outputPath) && File.ReadAllText(outputPath) == output)
             {
-                if (isVerbose) { Debug.Log("Battle effect shape dispatch is up to date"); }
+                if (isVerbose) { LDMLog.Info(LDMLogCategory.Rendering, "Battle effect shape dispatch is up to date."); }
                 return;
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(outputPath) ?? string.Empty);
             File.WriteAllText(outputPath, output);
             AssetDatabase.ImportAsset(outputPath);
-            Debug.Log($"Regenerated battle effect shape dispatch ({shapes.Count} shapes):  {outputPath}");
+            LDMLog.Info(LDMLogCategory.Rendering, $"Regenerated the battle effect shape dispatch ({shapes.Count} shapes, path: '{outputPath}').");
         }
 
         internal static bool TryGetShapes(out List<(int id, Type type)> shapes)
@@ -60,7 +60,7 @@ namespace LowDefMustard.Rendering.Editor
                 var shapeIdAttribute = type.GetCustomAttribute<BattleEffectShapeIdAttribute>();
                 if (shapeIdAttribute == null)
                 {
-                    Debug.LogError($"Battle effect shape {type.Name} has no [BattleEffectShapeId] - shape dispatch not regenerated");
+                    LDMLog.Error(LDMLogCategory.Rendering, $"Battle effect shape '{type.Name}' has no [BattleEffectShapeId]. Skipping shape dispatch regeneration.");
                     isValid = false;
                     continue;
                 }
@@ -69,7 +69,7 @@ namespace LowDefMustard.Rendering.Editor
 
             foreach (IGrouping<int, (int id, Type type)> duplicate in shapes.GroupBy(shape => shape.id).Where(group => group.Count() > 1))
             {
-                Debug.LogError($"Battle effect shape ID {duplicate.Key} is used by {string.Join(", ", duplicate.Select(shape => shape.type.Name))} - shape dispatch not regenerated");
+                LDMLog.Error(LDMLogCategory.Rendering, $"Battle effect shape ID {duplicate.Key} is used by more than one shape ({string.Join(", ", duplicate.Select(shape => shape.type.Name))}). Skipping shape dispatch regeneration.");
                 isValid = false;
             }
 

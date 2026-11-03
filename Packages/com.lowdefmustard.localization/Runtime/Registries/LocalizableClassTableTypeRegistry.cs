@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Localization
 {
@@ -14,8 +15,8 @@ namespace LowDefMustard.Localization
 
         public static void Register(Type owningType, Enum tableType)
         {
-            if (owningType == null) { Debug.LogWarning($"{nameof(LocalizableClassTableTypeRegistry)}.{nameof(Register)} called with a null owningType."); return; }
-            if (tableType == null) { Debug.LogWarning($"{nameof(LocalizableClassTableTypeRegistry)}.{nameof(Register)} called with a null tableType for '{owningType.Name}'."); return; }
+            if (owningType == null) { LDMLog.Error(LDMLogCategory.Localization, "Cannot register a localization table type for a null owning type. Ignoring the registration."); return; }
+            if (tableType == null) { LDMLog.Error(LDMLogCategory.Localization, $"Cannot register a null localization table type for '{owningType.Name}'. Ignoring the registration."); return; }
 
             _registeredTableTypes[owningType] = tableType;
         }

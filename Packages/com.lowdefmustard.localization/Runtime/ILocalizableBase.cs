@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Localization
@@ -87,8 +88,8 @@ namespace LowDefMustard.Localization
             if (targetObject == null || string.IsNullOrWhiteSpace(targetObject.name)) { return; }
 
             Enum tableType = localizable.localizationTableTypeValue;
-            if (tableType == null) { Debug.LogWarning($"{targetObject.name} ({targetObject.GetType().Name}) has no table type registered"); return; }
-            if (!LocalizationToolBridgeRegistry.TryGetBridge(tableType.GetType(), out ILocalizationToolBridge localizationToolBridge)) { Debug.LogWarning($"No localization bridge registered for table type '{tableType}'"); return; }
+            if (tableType == null) { LDMLog.Warning(LDMLogCategory.Localization, $"'{targetObject.name}' ({targetObject.GetType().Name}) has no localization table type registered. Skipping localization.", targetObject); return; }
+            if (!LocalizationToolBridgeRegistry.TryGetBridge(tableType.GetType(), out ILocalizationToolBridge localizationToolBridge)) { LDMLog.Warning(LDMLogCategory.Localization, $"No localization bridge registered for table type '{tableType}'. Skipping localization for '{targetObject.name}'.", targetObject); return; }
 
             if (string.IsNullOrWhiteSpace(localizable.iCachedName)) { localizable.iCachedName = targetObject.name; }
             ReconcileCachedName(localizable, targetObject, standardEntries, onRename);

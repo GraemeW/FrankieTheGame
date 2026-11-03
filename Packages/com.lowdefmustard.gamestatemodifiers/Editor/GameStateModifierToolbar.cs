@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.GameStateModifiers.Editor
 {
@@ -60,7 +61,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
                     foreach (IGameStateModifierHandler gameStateModifierHandler in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>())
                     {
                         string gameStateModifierHandlerName = gameStateModifierHandler.gameObject.transform.parent != null ? $"{gameStateModifierHandler.gameObject.transform.parent.name}/{gameStateModifierHandler.gameObject.name}" : $"{gameStateModifierHandler.gameObject.name}";
-                        Debug.Log($"Force Serialize: {gameStateModifierHandlerName}");
+                        LDMLog.Info(LDMLogCategory.World, $"Force-serializing handler '{gameStateModifierHandlerName}'.");
                         gameStateModifierHandler.OnBeforeSerialize();
                     }
 

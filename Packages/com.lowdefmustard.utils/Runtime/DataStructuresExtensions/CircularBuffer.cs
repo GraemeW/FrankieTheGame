@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Utils
 {
@@ -17,12 +18,16 @@ namespace LowDefMustard.Utils
         #region PublicMethods
         public CircularBuffer(int size)
         {
-            if (size <= 0) { size = 2; }
+            if (size <= 0)
+            {
+                LDMLog.Warning(LDMLogCategory.Utilities, $"Circular buffer size must be positive (requested: {size}). Using 2.");
+                size = 2;
+            }
             if ((size & (size - 1)) != 0)
             {
-                Debug.Log($"CircularBuffer size must be a power of two. Got {size}.");
+                int requestedSize = size;
                 size = CeilToPowerOf2(size);
-                Debug.Log($"Updated size to {size}.");
+                LDMLog.Warning(LDMLogCategory.Utilities, $"Circular buffer size must be a power of two (requested: {requestedSize}). Rounding up to {size}.");
             }
 
             buffer = new T[size];

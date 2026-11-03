@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.UIBox
 {
@@ -189,7 +190,7 @@ namespace LowDefMustard.UIBox
             if (containers.TryGetValue(containerType, out VisualElement container)) { return container; }
 
             container = boundRoot.Query<VisualElement>().Where(containerType.IsInstanceOfType).First();
-            if (container == null) { Debug.LogWarning($"{GetType().Name}[{name}]:  UXML has no {containerType.Name} for entries."); }
+            if (container == null) { LDMLog.Warning(LDMLogCategory.UI, $"UXML for view '{name}' ({GetType().Name}) has no {containerType.Name} for entries.", this); }
             containers[containerType] = container;
             return container;
         }
