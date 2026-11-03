@@ -36,7 +36,7 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
-        private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateContext playerStateContext)
+        private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateInfo playerStateInfo)
         {
             if (playerStateForEnable == null || playerStateForEnable.Count == 0) { return; }
 

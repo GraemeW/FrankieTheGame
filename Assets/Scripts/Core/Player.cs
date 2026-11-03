@@ -73,7 +73,7 @@ namespace Frankie.Core
             }
         }
 
-        private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateContext playerStateContext)
+        private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateInfo playerStateInfo)
         {
             // On player state change, load game over -- skip cutscene transition to allow for player locking
                 // Early return on cutscene required or endless loop b/w cutscene state change -> enter cutscene   

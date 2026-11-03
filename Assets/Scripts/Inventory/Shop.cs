@@ -116,7 +116,7 @@ namespace Frankie.Inventory
         #endregion
         
         #region PrivateMethods
-        private void HandlePlayerState(PlayerStateType playerState, IPlayerStateContext playerStateContext)
+        private void HandlePlayerState(PlayerStateType playerState, IPlayerStateInfo playerStateInfo)
         {
             // Any state change implies exit shop, unsubscribe
             playerStateMachine.playerStateChanged -= HandlePlayerState;
