@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Zones",
   "rootNamespace": "LowDefMustard.Zones",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Utils",
     "LowDefMustard.Localization",
     "Unity.Addressables",

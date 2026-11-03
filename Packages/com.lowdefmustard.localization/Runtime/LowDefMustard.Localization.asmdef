@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Localization",
   "rootNamespace": "LowDefMustard.Localization",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Utils",
     "Unity.ResourceManager",
     "Unity.Localization",

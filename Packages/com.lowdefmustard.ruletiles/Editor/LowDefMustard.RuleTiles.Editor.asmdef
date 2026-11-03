@@ -4,6 +4,7 @@
   "references": [
     "Unity.2D.Tilemap",
     "Unity.2D.Tilemap.Extras",
+    "LowDefMustard.Core",
     "LowDefMustard.RuleTiles"
   ],
   "includePlatforms": [

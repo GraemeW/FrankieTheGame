@@ -2,6 +2,7 @@
   "name": "LowDefMustard.RuleTiles",
   "rootNamespace": "LowDefMustard.RuleTiles",
   "references": [
+    "LowDefMustard.Core",
     "Unity.2D.Tilemap",
     "Unity.2D.Tilemap.Extras"
   ],

@@ -1,7 +1,9 @@
 {
   "name": "LowDefMustard.Utils",
   "rootNamespace": "LowDefMustard.Utils",
-  "references": [],
+  "references": [
+    "LowDefMustard.Core"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

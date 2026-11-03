@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Zones.Editor
@@ -133,14 +134,14 @@ namespace LowDefMustard.Zones.Editor
 
                 if (foundGameObject == null)
                 {
-                    Debug.LogWarning("Warning: ZoneNode GUID not found.  Zone Node not hooked up!");
+                    LDMLog.Warning(LDMLogCategory.Zones, $"No zone handler in the open scene is linked to zone node '{zoneNode.GetNodeID()}'. Hook one up to select it from here.");
                     return;
                 }
 
                 Selection.activeGameObject = foundGameObject;
                 var sceneView = SceneView.lastActiveSceneView;
                 if (sceneView != null) { sceneView.FrameSelected(); }
-                Debug.Log($"{foundGameObject.name} found and selected.");
+                LDMLog.Info(LDMLogCategory.Zones, $"Selected '{foundGameObject.name}' for zone node '{zoneNode.GetNodeID()}'.", foundGameObject);
             }
         }
 

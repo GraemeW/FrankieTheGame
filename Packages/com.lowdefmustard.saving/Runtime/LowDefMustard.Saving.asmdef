@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Saving",
   "rootNamespace": "LowDefMustard.Saving",
   "references": [
+    "LowDefMustard.Core",
     "Newtonsoft.Json"
   ],
   "includePlatforms": [],

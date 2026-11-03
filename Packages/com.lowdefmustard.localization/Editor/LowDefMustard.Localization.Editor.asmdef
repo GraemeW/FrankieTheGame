@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Localization.Editor",
   "rootNamespace": "LowDefMustard.Localization.Editor",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Localization",
     "LowDefMustard.Utils",
     "Unity.Localization",

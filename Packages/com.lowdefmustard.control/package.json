@@ -8,6 +8,7 @@
     "name": "Low Def Mustard Games"
   },
   "dependencies": {
+    "com.lowdefmustard.core": "0.1.0",
     "com.lowdefmustard.utils": "0.1.0"
   }
 }

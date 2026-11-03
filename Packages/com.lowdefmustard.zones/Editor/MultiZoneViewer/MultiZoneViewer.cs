@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Zones.Editor
 {
@@ -580,7 +581,7 @@ namespace LowDefMustard.Zones.Editor
             string scenePath = zoneView != null && zoneView.data != null ? zoneView.data.scenePath : null;
             if (scenePath == null) { return; }
             
-            if (string.IsNullOrEmpty(scenePath) || !File.Exists(scenePath) || !scenePath.EndsWith(".unity")) { return; }
+            if (string.IsNullOrEmpty(scenePath) || !File.Exists(scenePath) || !scenePath.EndsWith(".unity")) { LDMLog.Warning(LDMLogCategory.Zones, $"Cannot open zone '{zoneView.data.zoneName}': scene file '{scenePath}' not found. Recapture the zone to refresh its scene path."); return; }
 
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
@@ -659,11 +660,9 @@ namespace LowDefMustard.Zones.Editor
 
         internal void OnNodeDotDragEnded(Vector2 canvasPosition)
         {
-            Debug.Log("A");
             if (!isDraggingNodeLink) { return; }
             isDraggingNodeLink = false;
 
-            Debug.Log("B");
             if (!IsPastLinkDragThreshold(canvasPosition))
             {
                 ZoneNode clickedZoneNode = GetZoneNodeByID(activeDragSource.zoneName, activeDragSource.zoneNodeID);
@@ -672,11 +671,9 @@ namespace LowDefMustard.Zones.Editor
                 return;
             }
 
-            Debug.Log("C");
             (string zoneName, string zoneNodeID)? dropTarget = FindNodeDotAtCanvasPosition(canvasPosition, activeDragSource);
             if (dropTarget.HasValue)
             {
-                Debug.Log("D");
                 TryLinkZoneNodes(activeDragSource.zoneName, activeDragSource.zoneNodeID, dropTarget.Value.zoneName, dropTarget.Value.zoneNodeID);
             }
             else
@@ -704,7 +701,7 @@ namespace LowDefMustard.Zones.Editor
 
             ZoneNode sourceNode = GetZoneNodeByID(sourceZoneName, sourceZoneNodeID);
             ZoneNode targetNode = GetZoneNodeByID(targetZoneName, targetZoneNodeID);
-            if (sourceNode == null || targetNode == null) { return; }
+            if (sourceNode == null || targetNode == null) { LDMLog.Warning(LDMLogCategory.Zones, $"Cannot link zone nodes: node not found (source: '{sourceZoneName}/{sourceZoneNodeID}', target: '{targetZoneName}/{targetZoneNodeID}'). Skipping the link."); return; }
             
             // Save On Asset
             if (!sourceNode.TrySetExternalLink(targetNode)) { return; }
@@ -713,12 +710,16 @@ namespace LowDefMustard.Zones.Editor
             // Update MultiZone Serialized Data
             ZoneViewData sourceZoneViewData = FindZoneViewDataByName(sourceZoneName);
             ZoneViewData targetZoneViewData = FindZoneViewDataByName(targetZoneName);
-            if (sourceZoneViewData == null || targetZoneViewData == null) { return; }
-            if (!targetZoneViewData.TryGetZoneNodeData(targetZoneNodeID, out ZoneNodeData targetZoneNodeData)) { return; }
+            if (sourceZoneViewData == null || targetZoneViewData == null || !targetZoneViewData.TryGetZoneNodeData(targetZoneNodeID, out ZoneNodeData targetZoneNodeData))
+            {
+                LDMLog.Warning(LDMLogCategory.Zones, $"Linked zone node '{sourceZoneNodeID}' in '{sourceZoneName}' to '{targetZoneName}', but the multi-zone view has no capture data for it. Recapture both zones to show the link.", activeMultiZoneView);
+                return;
+            }
 
             Undo.RecordObject(sourceZoneViewData, "Link Zone Nodes");
             sourceZoneViewData.TrySetLink(sourceZoneNodeID, targetZoneName, targetZoneNodeID, targetZoneNodeData.relativePosition);
             SaveMultiZoneViewAsset(activeMultiZoneView, "Link Zone Nodes");
+            LDMLog.Info(LDMLogCategory.Zones, $"Linked zone node '{sourceZoneNodeID}' in '{sourceZoneName}' to '{targetZoneNodeID}' in '{targetZoneName}'.");
 
             RefreshNodeDots();
         }
@@ -770,7 +771,7 @@ namespace LowDefMustard.Zones.Editor
                     Bounds zoneBounds = CalculateZoneBounds();
                     zoneDimensionsLookup[zoneName] = zoneBounds;
                     
-                    Debug.Log($"Positioning camera on Scene: {zoneName}");
+                    LDMLog.Info(LDMLogCategory.Zones, $"Capturing zone '{zoneName}'.");
                     Texture2D texture2D = CaptureZone(zoneBounds);
                     string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
                     File.WriteAllBytes(snapshotPNGPath, texture2D.EncodeToPNG());
@@ -861,7 +862,7 @@ namespace LowDefMustard.Zones.Editor
             if (tilemaps.Count == 0)
             {
                 List<Renderer> renderers = FindObjectsByType<Renderer>().ToList();
-                Debug.Log($"Using standard renderers to calculate bounds with {renderers.Count} renderers");
+                LDMLog.Info(LDMLogCategory.Zones, $"Calculating zone bounds from {renderers.Count} renderers (no tilemaps found).");
                 
                 bool maxBoundsSet = false;
                 foreach (Renderer renderer in renderers)
@@ -872,7 +873,7 @@ namespace LowDefMustard.Zones.Editor
             }
             else
             {
-                Debug.Log($"Using tilemap renderers to calculate bounds with {tilemaps.Count} tilemaps");
+                LDMLog.Info(LDMLogCategory.Zones, $"Calculating zone bounds from {tilemaps.Count} tilemaps.");
                 bool maxBoundsSet = false;
                 foreach (Tilemap tilemap in tilemaps)
                 {
@@ -895,7 +896,7 @@ namespace LowDefMustard.Zones.Editor
                     }
                 }
             }
-            Debug.Log($"Max Bounding at {zoneBounds.center} with extents: {zoneBounds.extents}");
+            LDMLog.Info(LDMLogCategory.Zones, $"Zone bounds (center: {zoneBounds.center}, extents: {zoneBounds.extents}).");
             return zoneBounds;
         }
         
@@ -908,7 +909,7 @@ namespace LowDefMustard.Zones.Editor
             
             Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera, zoneBounds);
             Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
-            Debug.Log($"Snapshot texture dimensions are {snapshotTexture.width}, {snapshotTexture.height}");
+            LDMLog.Info(LDMLogCategory.Zones, $"Snapshot texture size: {snapshotTexture.width}x{snapshotTexture.height}.");
 
             return snapshotTexture;
         }
@@ -1142,7 +1143,7 @@ namespace LowDefMustard.Zones.Editor
 
                     if (!zoneViewLookup.TryGetValue(targetZoneName, out ZoneView targetZoneView) || targetZoneView?.data == null)
                     {
-                        Debug.LogWarning($"MultiZoneViewer: Zone node '{zoneNodeData.zoneNodeID}' in '{zoneViewData.zoneName}' now links to zone '{targetZoneName}', which isn't part of this Multi-Zone View. Capture that zone to include this connection.");
+                        LDMLog.Warning(LDMLogCategory.Zones, $"Zone node '{zoneNodeData.zoneNodeID}' in '{zoneViewData.zoneName}' links to zone '{targetZoneName}', which is not in this multi-zone view. Capture that zone to show the connection.");
                         continue;
                     }
 

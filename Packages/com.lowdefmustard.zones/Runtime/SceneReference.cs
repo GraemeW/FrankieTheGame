@@ -1,4 +1,5 @@
 using UnityEngine;
+using LowDefMustard.Core;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -50,7 +51,7 @@ namespace LowDefMustard.Zones
             var trySceneAsset = sceneAsset as SceneAsset;
             if (sceneAsset != null) { return AssetDatabase.GetAssetPath(trySceneAsset); }
 #endif
-            Debug.LogWarning("Scene path is not configured!  Please re-link the scene reference in editor");
+            LDMLog.Warning(LDMLogCategory.Zones, $"Scene path for '{sceneName}' is not configured. Re-link the scene reference in the editor.");
             return string.Empty;
         }
         

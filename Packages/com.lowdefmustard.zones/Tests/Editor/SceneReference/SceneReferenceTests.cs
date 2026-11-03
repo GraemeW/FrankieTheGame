@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -10,7 +11,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class SceneReferenceTests
     {
         // Const Tunables
-        private const string _noPathWarning = "Scene path is not configured!  Please re-link the scene reference in editor";
+        private static readonly Regex _noPathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
         private const string _scratchScenePath = "Assets/ScratchTest_SceneReferenceGetScenePath_SafeToDelete.unity";
 
         // State
@@ -21,6 +22,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             if (!createdScratchSceneAsset) { return; }
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
             AssetDatabase.DeleteAsset(_scratchScenePath);
             AssetDatabase.Refresh();
             createdScratchSceneAsset = false;

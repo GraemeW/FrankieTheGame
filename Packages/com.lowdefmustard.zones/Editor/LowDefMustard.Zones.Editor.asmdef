@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Zones.Editor",
   "rootNamespace": "LowDefMustard.Zones.Editor",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Zones",
     "LowDefMustard.Utils",
     "LowDefMustard.Utils.Editor",

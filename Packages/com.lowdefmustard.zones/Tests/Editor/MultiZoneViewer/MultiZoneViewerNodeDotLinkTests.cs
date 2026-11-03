@@ -112,10 +112,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.OnNodeDotDragStarted("ZoneA", nodeA.GetNodeID());
             viewer.OnNodeDotDragUpdated(targetCentre);
             viewer.OnNodeDotDragEnded(targetCentre);
-            
-            Debug.Log(sourceCentre);
-            Debug.Log(targetCentre);
-            
+
             Assert.AreSame(nodeB, nodeA.GetLinkedZoneNode());
             Assert.IsTrue(zoneViewDataA.TryGetZoneNodeData(nodeA.GetNodeID(), out ZoneNodeData resultData));
             Assert.IsTrue(resultData.HasLink());

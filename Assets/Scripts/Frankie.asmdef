@@ -4,6 +4,7 @@
   "references": [
     "Frankie.Input",
     "LowDefMustard.Control",
+    "LowDefMustard.Core",
     "LowDefMustard.GameStateModifiers",
     "LowDefMustard.Localization",
     "LowDefMustard.Rendering",

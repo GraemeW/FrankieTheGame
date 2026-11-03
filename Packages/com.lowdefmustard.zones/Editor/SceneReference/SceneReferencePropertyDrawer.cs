@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Zones.Editor
 {
@@ -100,12 +101,12 @@ namespace LowDefMustard.Zones.Editor
             SceneAsset scene = FindSceneAsset(scenePath, sceneName);
             if (scene == null)
             {
-                Debug.LogWarning($"Could not repair scene reference for {assetProperty.displayName} (path: '{scenePath}', name: '{sceneName}')");
+                LDMLog.Warning(LDMLogCategory.Zones, $"Could not repair scene reference for '{assetProperty.displayName}' (path: '{scenePath}', name: '{sceneName}'). Re-link it manually.");
                 return;
             }
 
             ApplyScene(assetProperty, sceneNameProperty, scenePathProperty, scene, recordUndo: false);
-            Debug.Log($"Repaired scene reference for {assetProperty.displayName}: {AssetDatabase.GetAssetPath(scene)}");
+            LDMLog.Info(LDMLogCategory.Zones, $"Repaired scene reference for '{assetProperty.displayName}' (path: '{AssetDatabase.GetAssetPath(scene)}').", assetProperty.serializedObject.targetObject);
         }
 
         private static SceneAsset FindSceneAsset(string scenePath, string sceneName)
@@ -127,7 +128,7 @@ namespace LowDefMustard.Zones.Editor
 
                 if (match != null)
                 {
-                    Debug.LogWarning($"Attempting to repair scene reference for {sceneName}, but duplicate scene references found at 1. {AssetDatabase.GetAssetPath(match)} && 2. {path}.  Skipping repair process.");
+                    LDMLog.Warning(LDMLogCategory.Zones, $"Found duplicate scenes named '{sceneName}' ('{AssetDatabase.GetAssetPath(match)}', '{path}'). Skipping scene reference repair.");
                     return null;
                 }
                 match = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);

@@ -40,9 +40,9 @@ namespace LowDefMustard.Core
         internal static void HandleSettingsEnabled(LDMLogSettings enabledSettings)
         {
 #if !UNITY_EDITOR
-            if (settings != null) { return; }
-            settings = enabledSettings;
-            settings.ApplyStackTraceSettings();
+            if (_settings != null) { return; }
+            _settings = enabledSettings;
+            _settings.ApplyStackTraceSettings();
 #endif
         }
 

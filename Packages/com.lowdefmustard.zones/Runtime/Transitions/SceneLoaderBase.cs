@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Zones
@@ -76,13 +77,15 @@ namespace LowDefMustard.Zones
         #region PublicMethods
         public static IEnumerator LoadNewSceneAsync(Zone zone)
         {
-            if (isCurrentlyLoading) { yield break; }
+            if (zone == null) { LDMLog.Error(LDMLogCategory.Zones, "Cannot load a scene for a null zone. Ignoring the request."); yield break; }
+            if (isCurrentlyLoading) { LDMLog.Info(LDMLogCategory.Zones, $"Already loading a scene. Ignoring the request to load zone '{zone.name}'."); yield break; }
             
             isCurrentlyLoading = true;
             SetLastZone();
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
             isCurrentlyLoading = false;
+            LDMLog.Important(LDMLogCategory.Zones, $"Loaded zone '{zone.name}'.");
         }
         
         public static void QueueDelayedDestroy(IList<GameObject> entries)
@@ -108,6 +111,7 @@ namespace LowDefMustard.Zones
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
             isCurrentlyLoading = false;
+            LDMLog.Important(LDMLogCategory.Zones, $"Loaded zone '{zone.name}'.");
             sceneLoadedCallback?.Invoke();
         }
 
@@ -161,10 +165,10 @@ namespace LowDefMustard.Zones
         #region PublicMethods
         public static void QueueScene(TSceneType sceneType, SceneQueueData sceneQueueData)
         {
-            if (isCurrentlyLoading) { return; }
+            if (isCurrentlyLoading) { LDMLog.Info(LDMLogCategory.Zones, $"Already loading a scene. Ignoring the request to queue scene type '{sceneType}'."); return; }
             
             if (activeSceneLoader == null) { activeSceneLoader = FindSceneLoader<TSceneType>(); }
-            if (activeSceneLoader == null) { return; }
+            if (activeSceneLoader == null) { LDMLog.Error(LDMLogCategory.Zones, $"No scene loader found (tag: '{sceneLoaderTag}'). Cannot queue scene type '{sceneType}'."); return; }
             activeSceneLoader.StartLoadScene(sceneType, sceneQueueData);
         }
         #endregion
@@ -173,7 +177,7 @@ namespace LowDefMustard.Zones
         private void StartLoadScene(TSceneType sceneType, SceneQueueData sceneQueueData)
         {
             Zone zone = ReconcileZone(sceneType);
-            if (zone == null) { return; }
+            if (zone == null) { LDMLog.Error(LDMLogCategory.Zones, $"No zone mapped to scene type '{sceneType}'. Add it to the scene loader's zone scene type lookup.", this); return; }
 
             if (sceneQueueData.useFader && sceneLoadFadeProvider != null)
             {
