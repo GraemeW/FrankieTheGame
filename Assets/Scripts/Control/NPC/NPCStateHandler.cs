@@ -17,6 +17,7 @@ namespace Frankie.Control
         [Min(0)][Tooltip("in seconds")][SerializeField] private float delayToDestroyAfterInvisible = 2f;
 
         // State
+        private bool hasStarted = false;
         private NPCStateType npcState = NPCStateType.Idle;
         private bool npcOccupied = false;
         private bool queueDeathOnNextPlayerStateChange = false;
@@ -47,6 +48,7 @@ namespace Frankie.Control
             playerStateMachine ??= new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
             playerStateMachine.ForceInit();
             
+            hasStarted = true;
             InitializeNPCRunDisposition(); // Must init in Start due to object readiness
         }
 
@@ -56,7 +58,7 @@ namespace Frankie.Control
             if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.playerStateChanged += ParsePlayerStateChange; }
             if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
-            SetNPCState(NPCStateType.Idle);
+            if (hasStarted) { SetNPCState(NPCStateType.Idle); } // First broadcast deferred to Start - listeners (e.g. CombatParticipant) may not have run Awake
         }
 
         private void OnDisable()

@@ -19,13 +19,21 @@ namespace Frankie.Combat.Spawner
         [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
 
         // State
+        private bool hasStarted = false;
         private float timeUntilNextSpawn = -1f;
         private readonly List<GameObject> spawnedEnemies = new();
 
         #region UnityMethods
+        private void Start()
+        {
+            // First spawn deferred to Start - Awake/OnEnable order across the scene is undefined on first activation
+            hasStarted = true;
+            if (spawnOnEnable) { SpawnEnemies(); }
+        }
+
         private void OnEnable()
         {
-            if (spawnOnEnable) { SpawnEnemies(); }
+            if (hasStarted && spawnOnEnable) { SpawnEnemies(); }
         }
 
         private void OnDisable()

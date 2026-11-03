@@ -10,6 +10,7 @@ namespace Frankie.Control
         [SerializeField] private LayerMask playerProbeLayerMask;
         
         // State
+        private bool hasStarted = false;
         private bool isPlayerInRange;
         private float defaultShoutDistance;
         private GameObject chaseTarget;
@@ -21,23 +22,29 @@ namespace Frankie.Control
         public event Action<GameObject> chaseTargetUpdated;
 
         #region UnityMethods
-        private void Awake()
-        {
-            circleCollider2D = GetComponent<CircleCollider2D>();
-            defaultShoutDistance = circleCollider2D.radius;
-        }
-        
         // Note:
         // Only need to handle:
         // 1. NPC pop-in via OnEnable (check for overlap)
         // 2. OnTrigger2D Enter/Exit events
         // , but NOT player instantiation / destruction, since player is singleton and is expected to never pop in/out
         // This logic does NOT hold for probing things that can be destroyed, as this does not prompt a trigger event
+        
+        private void Awake()
+        {
+            circleCollider2D = GetComponent<CircleCollider2D>();
+            defaultShoutDistance = circleCollider2D.radius;
+        }
+        
+        private void Start()
+        {
+            // Initial probe deferred to Start - Awake/OnEnable order across components is undefined on first activation
+            hasStarted = true;
+            ProbeForPlayerOverlap();
+        }
 
         private void OnEnable()
         {
-            Collider2D probeCollider = Physics2D.OverlapCircle(transform.position, circleCollider2D.radius, playerProbeLayerMask);
-            if (probeCollider != null) { SetupChaseTargetReference(true, probeCollider.gameObject); }
+            if (hasStarted) { ProbeForPlayerOverlap(); }
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -70,6 +77,12 @@ namespace Frankie.Control
         #endregion
         
         #region PrivateMethods
+        private void ProbeForPlayerOverlap()
+        {
+            Collider2D probeCollider = Physics2D.OverlapCircle(transform.position, circleCollider2D.radius, playerProbeLayerMask);
+            if (probeCollider != null) { SetupChaseTargetReference(true, probeCollider.gameObject); }
+        }
+
         private void SetupChaseTargetReference(bool enable, GameObject playerProbe)
         {
             isPlayerInRange = enable;
