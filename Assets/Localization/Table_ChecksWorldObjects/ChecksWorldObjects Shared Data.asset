@@ -355,18 +355,6 @@ MonoBehaviour:
     m_Key: Check.GO.TEST_BattleRoyale.Spawner-Office.CheckMessage.62c0ac95
     m_Metadata:
       m_Items: []
-  - m_Id: 4767785908428800
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBlack (1).CheckMessage.1d9fe5f1
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786013286400
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBlack (1).MessageAccept.96c28cb
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786113949696
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBlack (1).MessageReject.2ec682b0
-    m_Metadata:
-      m_Items: []
   - m_Id: 4767786218807296
     m_Key: Check.GO.TEST_BattleRoyale.Spawner-Monks.CheckMessage.5a1d4b48
     m_Metadata:
@@ -377,90 +365,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 4767786428522496
     m_Key: Check.GO.TEST_BattleRoyale.LucyNPC (1).MessageAccept.54ad37fd
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786533380096
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBlonde (1).CheckMessage.3f081ce0
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786638237696
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBlonde (1).MessageAccept.7e98a11
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786743095296
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBlonde (1).MessageReject.1fb4288
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786847952896
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBrown (1).CheckMessage.68afcf0f
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786952810496
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBrown (1).MessageAccept.15522dc0
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787053473792
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerBrown (1).MessageReject.360d222a
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787158331392
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerRed (1).CheckMessage.7244760
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787263188992
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerRed (1).MessageAccept.c577123
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787363852288
-    m_Key: Check.GO.TEST_BattleRoyale.GenericOfficeWorkerRed (1).MessageReject.55e59c88
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787464515584
-    m_Key: Check.GO.TEST_BattleRoyale.SkilledOfficeWorker (1).CheckMessage.22b8b0cd
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787569373184
-    m_Key: Check.GO.TEST_BattleRoyale.SkilledOfficeWorker (1).MessageAccept.62f6e1f2
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787674230784
-    m_Key: Check.GO.TEST_BattleRoyale.SkilledOfficeWorker (1).MessageReject.220ff648
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787779088384
-    m_Key: Check.GO.TEST_BattleRoyale.HipsterOfficeWorker (1).CheckMessage.49abf875
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787883945984
-    m_Key: Check.GO.TEST_BattleRoyale.HipsterOfficeWorker (1).MessageAccept.5de18cc5
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787984609280
-    m_Key: Check.GO.TEST_BattleRoyale.HipsterOfficeWorker (1).MessageReject.630a9928
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788089466880
-    m_Key: Check.GO.TEST_BattleRoyale.Maya.CheckMessage.5733c41
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788194324480
-    m_Key: Check.GO.TEST_BattleRoyale.Maya.MessageAccept.24fdef01
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788294987776
-    m_Key: Check.GO.TEST_BattleRoyale.Maya.MessageReject.17746892
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788395651072
-    m_Key: Check.GO.TEST_BattleRoyale.Steve5000 (1).CheckMessage.ab7e5df
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788500508672
-    m_Key: Check.GO.TEST_BattleRoyale.Steve5000 (1).MessageAccept.103a62cb
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788605366272
-    m_Key: Check.GO.TEST_BattleRoyale.Steve5000 (1).MessageReject.4d37715d
     m_Metadata:
       m_Items: []
   - m_Id: 4767788710223872
@@ -479,144 +383,12 @@ MonoBehaviour:
     m_Key: Check.GO.TEST_BattleRoyale.TillyNPC.MessageAccept.55f3e0c2
     m_Metadata:
       m_Items: []
-  - m_Id: 4767789133848576
-    m_Key: Check.GO.TEST_BattleRoyale.BroOfficeWorker (1).CheckMessage.5c88993
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789234511872
-    m_Key: Check.GO.TEST_BattleRoyale.BroOfficeWorker (1).MessageAccept.54d82d15
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789339369472
-    m_Key: Check.GO.TEST_BattleRoyale.BroOfficeWorker (1).MessageReject.2bcd6826
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789440032768
-    m_Key: Check.GO.TEST_BattleRoyale.Horse (1).CheckMessage.3765a150
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789540696064
-    m_Key: Check.GO.TEST_BattleRoyale.Horse (1).MessageAccept.6dd3e3ea
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789645553664
-    m_Key: Check.GO.TEST_BattleRoyale.Horse (1).MessageReject.4770ac85
-    m_Metadata:
-      m_Items: []
   - m_Id: 4767789750411264
     m_Key: Check.GO.TEST_BattleRoyale.PhilTooNPC.CheckMessage.63e3fb3a
     m_Metadata:
       m_Items: []
   - m_Id: 4767789855268864
     m_Key: Check.GO.TEST_BattleRoyale.PhilTooNPC.MessageAccept.c0dd1e3
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789960126464
-    m_Key: Check.GO.TEST_BattleRoyale.CleverOfficeWorker (1).CheckMessage.4892971e
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790060789760
-    m_Key: Check.GO.TEST_BattleRoyale.CleverOfficeWorker (1).MessageAccept.65c3b47
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790165647360
-    m_Key: Check.GO.TEST_BattleRoyale.CleverOfficeWorker (1).MessageReject.2e7028ec
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790278893568
-    m_Key: Check.GO.TEST_BattleRoyale.GraySquirrel (1).CheckMessage.5310cc26
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790383751168
-    m_Key: Check.GO.TEST_BattleRoyale.GraySquirrel (1).MessageAccept.1a0d9be8
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790484414464
-    m_Key: Check.GO.TEST_BattleRoyale.GraySquirrel (1).MessageReject.30c88ccd
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790589272064
-    m_Key: Check.GO.TEST_BattleRoyale.Snail.CheckMessage.68f2fff9
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790694129664
-    m_Key: Check.GO.TEST_BattleRoyale.Snail.MessageAccept.77435ca8
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790798987264
-    m_Key: Check.GO.TEST_BattleRoyale.Snail.MessageReject.e12ab48
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790916427776
-    m_Key: Check.GO.TEST_BattleRoyale.Rock.CheckMessage.26b8e1a4
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791038062592
-    m_Key: Check.GO.TEST_BattleRoyale.Rock.MessageAccept.3ddac8f2
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791147114496
-    m_Key: Check.GO.TEST_BattleRoyale.Rock.MessageReject.4845dda7
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791260360704
-    m_Key: Check.GO.TEST_BattleRoyale.SongBird.CheckMessage.762d454a
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791377801216
-    m_Key: Check.GO.TEST_BattleRoyale.SongBird.MessageAccept.630646eb
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791499436032
-    m_Key: Check.GO.TEST_BattleRoyale.SongBird.MessageReject.3a41133e
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791629459456
-    m_Key: Check.GO.TEST_BattleRoyale.BaldMonk.CheckMessage.6545ec8c
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791759482880
-    m_Key: Check.GO.TEST_BattleRoyale.BaldMonk.MessageAccept.1c476cb5
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791881117696
-    m_Key: Check.GO.TEST_BattleRoyale.BaldMonk.MessageReject.10f8da0
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791998558208
-    m_Key: Check.GO.TEST_BattleRoyale.BeardedMonk.CheckMessage.295cb9b9
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792111804416
-    m_Key: Check.GO.TEST_BattleRoyale.BeardedMonk.MessageAccept.2ba4f7d8
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792220856320
-    m_Key: Check.GO.TEST_BattleRoyale.BeardedMonk.MessageReject.36cc71d3
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792329908224
-    m_Key: Check.GO.TEST_BattleRoyale.FlatMonk.CheckMessage.206bac28
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792447348736
-    m_Key: Check.GO.TEST_BattleRoyale.FlatMonk.MessageAccept.33906d57
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792560594944
-    m_Key: Check.GO.TEST_BattleRoyale.FlatMonk.MessageReject.5731599c
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792665452544
-    m_Key: Check.GO.TEST_BattleRoyale.NewMonk.CheckMessage.4e8f51e4
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792774504448
-    m_Key: Check.GO.TEST_BattleRoyale.NewMonk.MessageAccept.4a4da3f
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792896139264
-    m_Key: Check.GO.TEST_BattleRoyale.NewMonk.MessageReject.635b013e
     m_Metadata:
       m_Items: []
   - m_Id: 4767793017774080
@@ -829,6 +601,30 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 57546319026184192
     m_Key: Check.Prefab.Fridge_Beer-R.CheckMessage.6ee1ca1b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72897381354430464
+    m_Key: StandardDynamicChecker.Prefab.CheckWithStandardDynamicOptions.dynamicCheckMessage.110fa3e
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72899730848342016
+    m_Key: StandardDynamicChecker.GO.TEST_BattleRoyale.BroOfficeWorker (1).dynamicCheckMessage.26f02932
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904036825686016
+    m_Key: DynamicCheckOption.Prefab.Debug-DynamicCheckFight.Choice.7a418bc6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904037047984128
+    m_Key: DynamicCheckOption.Prefab.Debug-DynamicCheckFight.Choice.8594f9d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904037207367680
+    m_Key: DynamicCheckOption.Prefab.Debug-DynamicCheckFight.Choice.294c20ea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904037345779712
+    m_Key: DynamicCheckOption.Prefab.Debug-DynamicCheckFight.Choice.712e3b9c
     m_Metadata:
       m_Items: []
   m_Metadata:

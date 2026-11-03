@@ -25,7 +25,7 @@ namespace Frankie.Control
                 if (interactActions.Count == 0) { return false; }
 
                 checkInteraction?.Invoke(playerStateMachine);
-                string message = checkDynamic.GetMessage();
+                string message = checkDynamic.GetMessage(playerStateMachine);
                 message ??= "";
 
                 playerStateMachine.EnterDialogue(message, interactActions);

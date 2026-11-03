@@ -358,18 +358,6 @@ MonoBehaviour:
     m_Localized: "Faire appara\xEEtre des trucs ?"
     m_Metadata:
       m_Items: []
-  - m_Id: 4767785908428800
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786013286400
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786113949696
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
   - m_Id: 4767786218807296
     m_Localized: "Faire appara\xEEtre des trucs ?"
     m_Metadata:
@@ -380,90 +368,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 4767786428522496
     m_Localized: Ouais
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786533380096
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786638237696
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786743095296
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786847952896
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767786952810496
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787053473792
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787158331392
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787263188992
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787363852288
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787464515584
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787569373184
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787674230784
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787779088384
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787883945984
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767787984609280
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788089466880
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788194324480
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788294987776
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788395651072
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788500508672
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767788605366272
-    m_Localized: "R\xE9initialiser"
     m_Metadata:
       m_Items: []
   - m_Id: 4767788710223872
@@ -482,144 +386,12 @@ MonoBehaviour:
     m_Localized: Oui
     m_Metadata:
       m_Items: []
-  - m_Id: 4767789133848576
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789234511872
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789339369472
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789440032768
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789540696064
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789645553664
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
   - m_Id: 4767789750411264
     m_Localized: "Est-ce que PhilToo devrait rejoindre l'\xE9quipe ?"
     m_Metadata:
       m_Items: []
   - m_Id: 4767789855268864
     m_Localized: Oui
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767789960126464
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790060789760
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790165647360
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790278893568
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790383751168
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790484414464
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790589272064
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790694129664
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790798987264
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767790916427776
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791038062592
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791147114496
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791260360704
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791377801216
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791499436032
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791629459456
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791759482880
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791881117696
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767791998558208
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792111804416
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792220856320
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792329908224
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792447348736
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792560594944
-    m_Localized: "R\xE9initialiser"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792665452544
-    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792774504448
-    m_Localized: Combattre
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4767792896139264
-    m_Localized: "R\xE9initialiser"
     m_Metadata:
       m_Items: []
   - m_Id: 4767793017774080
@@ -828,6 +600,34 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 7282524999901184
     m_Localized: Il ne semble pas fonctionner pour le moment.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 57546319026184192
+    m_Localized: Givrant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72897381354430464
+    m_Localized: "{0} a v\xE9rifi\xE9 l\u2019objet de fa\xE7on dynamique !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72899730848342016
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904036825686016
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904037047984128
+    m_Localized: Combattre (normal)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904037207367680
+    m_Localized: Combattre (avantage)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72904037345779712
+    m_Localized: "Combattre (d\xE9savantage)"
     m_Metadata:
       m_Items: []
   references:

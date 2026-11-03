@@ -4,6 +4,7 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.Saving;
 using Frankie.Core;
+using Frankie.Stats;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Control
@@ -25,8 +26,14 @@ namespace Frankie.Control
         // Static + Const
         private const string _defaultLayerMask = "Interactable";
         private const string _inactiveLayerMask = "Ignore Raycast";
-        protected const string defaultPartyLeaderName = "Frankie";
-        
+        public static string defaultPartyLeaderName { get; private set; } = "Frankie";
+        public static string GetCheckObjectName(Transform transform)
+        {
+            if (transform.parent == null) { return transform.TryGetComponent(out BaseStats baseStats) ? CharacterProperties.GetCharacterDisplayName(baseStats) : transform.name; }
+            return transform.parent.TryGetComponent(out BaseStats parentBaseStats) ? CharacterProperties.GetCharacterDisplayName(parentBaseStats) : transform.parent.name;
+        }
+
+
         protected void OnDestroy()
         {
             ILocalizable.TriggerOnDestroy(this);

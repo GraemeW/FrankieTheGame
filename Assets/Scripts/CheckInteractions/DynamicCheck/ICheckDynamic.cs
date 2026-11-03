@@ -6,7 +6,7 @@ namespace Frankie.Control
 {
     public interface ICheckDynamic
     {
-        public string GetMessage();
+        public string GetMessage(PlayerStateMachine playerStateMachine);
         public List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine);
     }
 }
