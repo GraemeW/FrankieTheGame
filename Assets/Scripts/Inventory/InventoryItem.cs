@@ -5,6 +5,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
@@ -76,13 +77,14 @@ namespace Frankie.Inventory
                 {
                     if (_itemLookupCache.TryGetValue(inventoryItem.guid, out InventoryItem matchInventoryItem))
                     {
-                        Debug.LogError($"Looks like there's a duplicate ID for objects: {matchInventoryItem} and {inventoryItem}");
+                        AddressablesCacheLog.LogDuplicate(LDMLogCategory.Inventory, nameof(InventoryItem), inventoryItem.guid, matchInventoryItem, inventoryItem);
                     }
 
                     _itemLookupCache[inventoryItem.guid] = inventoryItem;
                 }
             );
             _addressablesLoadHandle.WaitForCompletion();
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Inventory, nameof(InventoryItem), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _itemLookupCache.Count);
         }
 
         public static void ReleaseCache()

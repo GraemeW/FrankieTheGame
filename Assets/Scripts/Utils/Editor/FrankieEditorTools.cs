@@ -7,6 +7,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+using LowDefMustard.Core;
 using LowDefMustard.Control;
 using Frankie.Combat;
 using Frankie.Core;
@@ -82,7 +83,7 @@ namespace Frankie.Utils.Editor
             foreach (Object selectedObject in Selection.objects)
             {
                 if (selectedObject == null) { continue; }
-                Debug.Log($"Dirtying {selectedObject.name}");
+                LDMLog.Info(LDMLogCategory.Utilities, $"Marking '{selectedObject.name}' dirty.", selectedObject);
                 EditorUtility.SetDirty(selectedObject);
             }
         }
@@ -137,7 +138,7 @@ namespace Frankie.Utils.Editor
                 if (!string.IsNullOrEmpty(originalScenePath)) { EditorSceneManager.OpenScene(originalScenePath, OpenSceneMode.Single); }
             }
 
-            Debug.Log($"Generate All Move Meshes - Done. Processed {scenesComplete} / {totalScenes} scene(s).");
+            LDMLog.Info(LDMLogCategory.Control, $"Generated move meshes ({scenesComplete} of {totalScenes} scenes processed).");
 
             EditorUtility.DisplayDialog("Generate All Move Meshes", $"Processed {scenesComplete} / {totalScenes} scene(s).", "OK");
         }

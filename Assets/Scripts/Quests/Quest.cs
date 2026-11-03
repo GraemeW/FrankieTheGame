@@ -9,6 +9,7 @@ using Unity.Scripting.LifecycleManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using LowDefMustard.Core;
 using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
@@ -169,12 +170,13 @@ namespace Frankie.Quests
                 {
                     if (_questLookupCache.TryGetValue(quest.guid, out Quest tryQuest))
                     {
-                        Debug.LogError($"Looks like there's a duplicate ID for objects: {tryQuest} and {quest}");
+                        AddressablesCacheLog.LogDuplicate(LDMLogCategory.Quests, nameof(Quest), quest.guid, tryQuest, quest);
                     }
                     _questLookupCache[quest.guid] = quest;
                 }
             );
             _addressablesLoadHandle.WaitForCompletion();
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Quests, nameof(Quest), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _questLookupCache.Count);
         }
 
         public static void ReleaseCache()

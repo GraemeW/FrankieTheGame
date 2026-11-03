@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using LowDefMustard.Rendering.Editor;
 
 namespace Frankie.Combat.Editor
@@ -307,7 +308,7 @@ namespace Frankie.Combat.Editor
             Material material = BattleEffectMaterials.Find();
             if (material == null)
             {
-                Debug.LogWarning("No BattleEffect material found under Assets");
+                LDMLog.Warning(LDMLogCategory.Combat | LDMLogCategory.Rendering, "No battle effect material found under Assets. Skipping the preview.");
                 return;
             }
             var serializedObject = new SerializedObject(selectedStrategy);

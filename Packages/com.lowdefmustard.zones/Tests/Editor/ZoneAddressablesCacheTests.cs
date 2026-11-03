@@ -108,7 +108,7 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             Zone.AddZoneToCache(firstZone);
 
-            LogAssert.Expect(LogType.Error, new Regex(@"\[Zones\]\S* Duplicate zone ID:"));
+            LogAssert.Expect(LogType.Error, new Regex(@"\[Zones\]\S* Duplicate Zone ID "));
             Zone.AddZoneToCache(secondZone);
 
             Assert.AreSame(secondZone, Zone.zoneLookupCache["Dup"]);
@@ -124,7 +124,7 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             Zone.AddZoneToCache(firstZone);
 
-            LogAssert.Expect(LogType.Error, new Regex(@"\[Zones\]\S* Duplicate zone ID:"));
+            LogAssert.Expect(LogType.Error, new Regex(@"\[Zones\]\S* Duplicate Zone ID "));
             Zone.AddZoneToCache(secondZone);
 
             Assert.AreSame(secondZone, Zone.sceneReferenceCache["SharedScene"]);

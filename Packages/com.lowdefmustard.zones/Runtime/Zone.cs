@@ -81,17 +81,15 @@ namespace LowDefMustard.Zones
             sceneReferenceCache = new Dictionary<string, Zone>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) => AddZoneToCache(zone));
             _addressablesLoadHandle.WaitForCompletion();
-
-            if (_addressablesLoadHandle.Status != AsyncOperationStatus.Succeeded) { LDMLog.Error(LDMLogCategory.Zones, $"Failed to load zones from Addressables (label: '{nameof(Zone)}'). Zone lookups will return nothing."); }
-            else if (zoneLookupCache.Count == 0) { LDMLog.Warning(LDMLogCategory.Zones, $"No zones found in Addressables (label: '{nameof(Zone)}'). Check the zone assets are marked Addressable with that label."); }
-            else { LDMLog.Info(LDMLogCategory.Zones, $"Built zone cache ({zoneLookupCache.Count} zones)."); }
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Zones, nameof(Zone), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, zoneLookupCache.Count);
         }
 
         internal static void AddZoneToCache(Zone zone)
         {
             if (zoneLookupCache.TryGetValue(zone.name, out Zone existingZone) || sceneReferenceCache.TryGetValue(zone.GetSceneReference().SceneName, out existingZone))
             {
-                LDMLog.Error(LDMLogCategory.Zones, $"Duplicate zone ID: '{existingZone.name}' and '{zone.name}' share a zone or scene name. Overwriting the cached entry with '{zone.name}'.", zone);
+                string duplicateID = zoneLookupCache.ContainsKey(zone.name) ? zone.name : zone.GetSceneReference().SceneName;
+                AddressablesCacheLog.LogDuplicate(LDMLogCategory.Zones, nameof(Zone), duplicateID, existingZone, zone);
             }
 
             zoneLookupCache[zone.name] = zone;

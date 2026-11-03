@@ -6,6 +6,7 @@ using UnityEngine.Localization.Tables;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using LowDefMustard.Core;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
 
@@ -140,7 +141,7 @@ namespace Frankie.Speech
                 checkBreadth = Mathf.Max(checkBreadth, checkNode.GetNodeBreadth());
             }
             int childBreadth = checkBreadth + 1;
-            Debug.Log($"Adding new node with depth: {childDepth}, Breadth: {childBreadth}");
+            LDMLog.Info(LDMLogCategory.Speech, $"Adding dialogue node to '{name}' (depth: {childDepth}, breadth: {childBreadth}).", this);
             
             DialogueNode childNode = CreateNode(childDepth, childBreadth);
             childNode.SetSpeakerType(parentNode.GetSpeakerType() == SpeakerType.PlayerSpeaker ? SpeakerType.AISpeaker : SpeakerType.PlayerSpeaker);

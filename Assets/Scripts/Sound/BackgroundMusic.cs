@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using LowDefMustard.Core;
 using LowDefMustard.Zones;
 using Frankie.Saving;
 using Frankie.Combat;
@@ -65,7 +66,7 @@ namespace Frankie.Sound
             }
             
             Zone currentZone = SceneLoaderBase.GetCurrentZone();
-            if (currentZone == null) { Debug.Log("Zone load failed");  return; }
+            if (currentZone == null) { LDMLog.Warning(LDMLogCategory.Sound, "No current zone found. Keeping the current background music."); return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
 

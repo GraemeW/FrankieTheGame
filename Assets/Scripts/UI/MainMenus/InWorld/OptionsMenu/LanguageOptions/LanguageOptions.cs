@@ -51,7 +51,6 @@ namespace Frankie.Menu.UI
         #region PrivateMethods
         private void SetLocale(string localeCode)
         {
-            Debug.Log($"Current locale is {LocalizationLocale.GetCurrentLocaleCode()} - updating to {localeCode}");
             LocalizationLocale.SetLocale(localeCode);
             PlayerPrefsController.SetLanguageCode(localeCode);
             localeChanged?.Invoke();

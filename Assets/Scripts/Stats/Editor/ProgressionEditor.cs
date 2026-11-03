@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using Object = UnityEngine.Object;
 
 namespace Frankie.Stats.Editor
@@ -282,7 +283,7 @@ namespace Frankie.Stats.Editor
         }
         private void ReloadProgression()
         {
-            Debug.Log("Reloading Progression");
+            LDMLog.Info(LDMLogCategory.Stats, "Reloading progression.");
             progressionEntries.Clear();
             characterStatPane.Clear();
             if (progression == null) { return; }
@@ -296,7 +297,7 @@ namespace Frankie.Stats.Editor
         private void ReconcileCharacterProperties()
         {
             if (progression == null) { return; }
-            Debug.Log("Reconcile:  Updating Progression for any missing character properties");
+            LDMLog.Info(LDMLogCategory.Stats, "Adding progression entries for any missing character properties.");
             CharacterProperties.BuildCacheIfEmpty(true);
             
             var characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
@@ -311,7 +312,7 @@ namespace Frankie.Stats.Editor
             {
                 if (!entry.Value.HasProgressionStats()) { continue; }
                 
-                Debug.Log($"Missing character properties for {entry.Value}, adding entry to Progression.");
+                LDMLog.Info(LDMLogCategory.Stats, $"Adding a progression entry for '{entry.Value.name}'.", entry.Value);
                 progression.AddToProgressionAsset(entry.Value);
             }
             ReloadProgression();
@@ -345,7 +346,7 @@ namespace Frankie.Stats.Editor
             if (progression == null) { return; }
             if (selectedCharacters.Count == 0) { return; }
             
-            Debug.Log("Removing selected characters");
+            LDMLog.Info(LDMLogCategory.Stats, $"Removing {selectedCharacters.Count} selected character(s) from progression.");
             List<CharacterProperties> selectedCharacterProperties = selectedCharacters.Select(character => character.characterProperties).ToList();
             progression.RemoveFromProgressionAsset(selectedCharacterProperties);
             selectedCharacters.Clear();

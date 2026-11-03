@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using LowDefMustard.Saving;
 using Frankie.Stats;
+using LowDefMustard.Core;
 
 namespace Frankie.Saving.Editor
 {
@@ -131,7 +132,7 @@ namespace Frankie.Saving.Editor
                     var newCharacterProperties = changeEvent.newValue as CharacterProperties;
                     if (newCharacterProperties != null && newCharacterProperties.GetCharacterPrefab() == null)
                     {
-                        Debug.LogWarning("Invalid Character:  Select entry with a character prefab.");
+                        LDMLog.Warning(LDMLogCategory.Saving | LDMLogCategory.Stats, $"Character '{newCharacterProperties.name}' has no character prefab. Select one that does.");
                         characterField.SetValueWithoutNotify(partyCharacters[rowIndex]);
                         return;
                     }
@@ -171,7 +172,7 @@ namespace Frankie.Saving.Editor
                     var newCharacterProperties = changeEvent.newValue as CharacterProperties;
                     if (newCharacterProperties != null && newCharacterProperties.GetCharacterPrefab() == null)
                     {
-                        Debug.LogWarning("Invalid Character:  Select entry with a character prefab.");
+                        LDMLog.Warning(LDMLogCategory.Saving | LDMLogCategory.Stats, $"Character '{newCharacterProperties.name}' has no character prefab. Select one that does.");
                         characterField.SetValueWithoutNotify(unlockedCharacters[rowIndex]);
                         return;
                     }

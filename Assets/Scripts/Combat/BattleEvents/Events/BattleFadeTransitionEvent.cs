@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Frankie.Zones;
+using LowDefMustard.Core;
 
 namespace Frankie.Combat
 {
@@ -29,13 +30,13 @@ namespace Frankie.Combat
 
         public IList<CombatParticipant> GetEnemies()
         {
-            if (!optionalParametersSet) { UnityEngine.Debug.Log("Warning:  Accessing optional event parameters when they have not been set!");}
+            if (!optionalParametersSet) { LDMLog.Warning(LDMLogCategory.Combat, $"Optional {nameof(BattleFadeTransitionEvent)} parameters read before they were set. Returning their defaults."); }
             return enemies;
         }
 
         public TransitionType GetTransitionType()
         {
-            if (!optionalParametersSet) { UnityEngine.Debug.Log("Warning:  Accessing optional event parameters when they have not been set!");}
+            if (!optionalParametersSet) { LDMLog.Warning(LDMLogCategory.Combat, $"Optional {nameof(BattleFadeTransitionEvent)} parameters read before they were set. Returning their defaults."); }
             return transitionType;
         }
     }

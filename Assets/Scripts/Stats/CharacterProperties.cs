@@ -5,6 +5,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Saving;
@@ -123,13 +124,14 @@ namespace Frankie.Stats
             {
                 if (_characterLookupCache.TryGetValue(characterProperties.GetCharacterID(), out CharacterProperties matchedProperties))
                 {
-                    Debug.LogError(string.Format($"Looks like there's a duplicate ID for objects: {matchedProperties} and {characterProperties}"));
+                    AddressablesCacheLog.LogDuplicate(LDMLogCategory.Stats, nameof(CharacterProperties), characterProperties.GetCharacterID(), matchedProperties, characterProperties);
                 }
 
                 _characterLookupCache[characterProperties.GetCharacterID()] = characterProperties;
             }
             );
             _addressablesLoadHandle.WaitForCompletion();
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Stats, nameof(CharacterProperties), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _characterLookupCache.Count);
         }
 
         public static void ReleaseCache()

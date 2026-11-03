@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Zones;
 using LowDefMustard.Utils;
@@ -78,7 +79,7 @@ namespace Frankie.Combat.Spawner
                 spawnedEnemy.transform.position += jitterVector;
                 
                 spawnedEnemies.Add(spawnedEnemy);
-                Debug.Log($"{spawnedEnemy.gameObject.name} has spawned at {spawnedEnemy.transform.position}.");
+                LDMLog.Info(LDMLogCategory.Combat, $"Spawned enemy '{spawnedEnemy.gameObject.name}' (position: {spawnedEnemy.transform.position}).", spawnedEnemy.gameObject);
             }
             timeUntilNextSpawn = timeBetweenSpawns;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Core;
 using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using Frankie.Core.PlayerStates;
@@ -119,7 +120,7 @@ namespace Frankie.Core
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
         {
             PlayerStateType playerStateType = playerState.playerStateType;
-            Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
+            LDMLog.Info(LDMLogCategory.Core, $"Player state set to '{playerStateType}'.", this);
 
             currentPlayerState = playerState;
             playerStateChanged?.Invoke(playerStateType, this);

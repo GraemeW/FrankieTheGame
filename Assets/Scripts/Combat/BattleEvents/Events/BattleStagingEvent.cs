@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Frankie.Zones;
+using LowDefMustard.Core;
 
 namespace Frankie.Combat
 {
@@ -33,19 +34,19 @@ namespace Frankie.Combat
 
         public IList<BattleEntity> GetPlayerEntities()
         {
-            if (!optionalParametersSet) { UnityEngine.Debug.Log("Warning:  Accessing optional event parameters when they have not been set!");}
+            if (!optionalParametersSet) { LDMLog.Warning(LDMLogCategory.Combat, $"Optional {nameof(BattleStagingEvent)} parameters read before they were set. Returning their defaults."); }
             return playerEntities;
         }
 
         public IList<BattleEntity> GetEnemyEntities()
         {
-            if (!optionalParametersSet) { UnityEngine.Debug.Log("Warning:  Accessing optional event parameters when they have not been set!");}
+            if (!optionalParametersSet) { LDMLog.Warning(LDMLogCategory.Combat, $"Optional {nameof(BattleStagingEvent)} parameters read before they were set. Returning their defaults."); }
             return enemyEntities;
         }
 
         public TransitionType GetTransitionType()
         {
-            if (!optionalParametersSet) { UnityEngine.Debug.Log("Warning:  Accessing optional event parameters when they have not been set!");}
+            if (!optionalParametersSet) { LDMLog.Warning(LDMLogCategory.Combat, $"Optional {nameof(BattleStagingEvent)} parameters read before they were set. Returning their defaults."); }
             return transitionType;
         }
     }
