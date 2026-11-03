@@ -79,7 +79,7 @@ namespace Frankie.Menu.UI
 
         protected override void DestroyTriggered()
         {
-            playerStateMachine?.EnterWorld();
+            if (playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         #endregion
         

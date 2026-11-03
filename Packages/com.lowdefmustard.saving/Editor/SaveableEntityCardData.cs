@@ -150,7 +150,7 @@ namespace LowDefMustard.Saving.Editor
             if (saveableEntity == null) { return; }
             
             Selection.activeGameObject = saveableEntity.gameObject;
-            SceneView.lastActiveSceneView?.FrameSelected();
+            if (SceneView.lastActiveSceneView != null) { SceneView.lastActiveSceneView.FrameSelected(); }
         }
         #endregion
         

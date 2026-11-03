@@ -55,8 +55,8 @@ namespace Frankie.Zones
         {
             if (roomParent == null)
             {
-                GameObject parentObject = gameObject.transform.parent?.gameObject;
-                if (parentObject != null) { parentObject.TryGetComponent(out roomParent); }
+                Transform parentTransform = gameObject.transform.parent;
+                if (parentTransform != null) { parentTransform.TryGetComponent(out roomParent); }
             }
             if (roomParent != null) { roomParent.ToggleRoom(enable, true); }
         }
@@ -157,7 +157,8 @@ namespace Frankie.Zones
             
             foreach (ZoneHandler zoneHandler in FindObjectsByType<ZoneHandler>(FindObjectsInactive.Include))
             {
-                if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) { continue; }
+                ZoneNode zoneNode = zoneHandler.GetZoneNode();
+                if (zoneNode == null || nextNodeID != zoneNode.GetNodeID()) { continue; }
                 
                 Vector3 warpPosition = zoneHandler.GetWarpPosition();
                 cachedPlayerController.gameObject.transform.position = warpPosition;

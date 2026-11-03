@@ -56,7 +56,7 @@ namespace Frankie.Inventory.UI
         protected override void DestroyTriggered()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            playerStateMachine?.EnterWorld();
+            if (playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         #endregion
 

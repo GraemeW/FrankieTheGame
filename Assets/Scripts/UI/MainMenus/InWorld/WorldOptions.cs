@@ -93,7 +93,7 @@ namespace Frankie.Menu.UI
             foreach (CharacterSlideHandle characterSlide in characterSlides) { characterSlide.Release(); }
             characterSlides.Clear();
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            playerStateMachine?.EnterWorld();
+            if (playerStateMachine != null) { playerStateMachine.EnterWorld(); }
         }
         #endregion
 

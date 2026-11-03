@@ -25,7 +25,7 @@ namespace Frankie.Speech
         #region UnityMethods
         private void Start()
         {
-            dialogue?.OverrideSpeakerNames(null);
+            if (dialogue != null) { dialogue.OverrideSpeakerNames(null); }
         }
         #endregion
 

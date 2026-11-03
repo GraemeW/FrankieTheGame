@@ -85,7 +85,14 @@ namespace Frankie.Combat
         private void Awake()
         {
             playerInput = new PlayerInput();
-            partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
+            GameObject playerObject = Player.FindPlayerObject();
+            if (playerObject == null || !playerObject.TryGetComponent(out partyCombatConduit))
+            {
+                Debug.LogError("[BattleController] Player Object or PartyCombatConduit could not be found.");
+                destroyQueued = true; 
+                return;
+            }
+            
             battleMat = GetComponent<BattleMat>();
             battleRewards = GetComponent<BattleRewards>();
             
