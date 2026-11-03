@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Saving.Editor;
 using LowDefMustard.Zones;
@@ -56,7 +57,7 @@ namespace Frankie.Saving.Editor
                 SavingSystem.ManualUpdateLastScene(context.SaveState, testSceneName);
                 context.OnSceneDataChanged();
 
-                Debug.LogWarning($"Saved last scene updated to {lastZone} - ensure that player mover is updated!");
+                LDMLog.Warning(LDMLogCategory.Saving, $"Updated the save's last scene to '{lastZone}'. Check the player's saved position matches the new scene.");
             });
 
             openSceneButton.RegisterCallback<ClickEvent>(_ =>
@@ -68,7 +69,7 @@ namespace Frankie.Saving.Editor
                 string scenePath = lastZone.GetSceneReference().GetScenePath();
                 if (string.IsNullOrEmpty(scenePath))
                 {
-                    Debug.LogWarning($"Last Scene not found: {lastZone}");
+                    LDMLog.Warning(LDMLogCategory.Saving, $"No scene found for the save's last zone '{lastZone}'.");
                     return;
                 }
 

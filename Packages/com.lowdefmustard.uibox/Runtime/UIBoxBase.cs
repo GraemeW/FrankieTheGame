@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Control;
 
 namespace LowDefMustard.UIBox
@@ -89,7 +90,7 @@ namespace LowDefMustard.UIBox
 
         private IUIChoice CreateChoiceOption(string choiceText, Action onChoose, Action onHighlight = null)
         {
-            if (!TryGetBoxView(out UIToolkitBoxView view)) { Debug.LogWarning($"UIBox[{name}] has no view to create choice options in."); return null; }
+            if (!TryGetBoxView(out UIToolkitBoxView view)) { LDMLog.Warning(LDMLogCategory.UI, $"UI box '{name}' has no view. Cannot create choice options.", this); return null; }
 
             IUIChoice choice = view.CreateChoiceOption(choiceText, onChoose, onHighlight);
             choiceOptions.Add(choice);

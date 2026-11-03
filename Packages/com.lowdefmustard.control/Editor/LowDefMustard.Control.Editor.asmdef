@@ -2,7 +2,8 @@
   "name": "LowDefMustard.Control.Editor",
   "rootNamespace": "LowDefMustard.Control.Editor",
   "references": [
-    "LowDefMustard.Control"
+    "LowDefMustard.Control",
+    "LowDefMustard.Core"
   ],
   "includePlatforms": [
     "Editor"

@@ -1,0 +1,11 @@
+{
+  "name": "com.lowdefmustard.core",
+  "version": "0.1.0",
+  "displayName": "Low Def Mustard Core",
+  "description": "Core functionality shared by every LDM package, incl. custom logger",
+  "unity": "6000.5",
+  "author": {
+    "name": "Low Def Mustard Games"
+  },
+  "dependencies": {}
+}

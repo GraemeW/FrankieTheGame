@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Localization.Editor
@@ -47,19 +48,18 @@ namespace LowDefMustard.Localization.Editor
 
             if (tableType == null || !LocalizationToolBridgeRegistry.TryGetBridge(tableType.GetType(), out ILocalizationToolBridge localizationToolBridge))
             {
-                Debug.LogWarning("TableType or LocalizationToolBridge could not be not found");
+                LDMLog.Warning(LDMLogCategory.Localization, $"Cannot delete localization entries for '{targetObject.name}': no table type or localization bridge found.");
                 return;
             }
             
-            Debug.Log($"{targetObject.name} is being deleted.  Deleting unique localization entries.");
             int deletionCount = 0;
             foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationToolBridge, tableType, targetObject, localizable, isSceneInstance))
             {
-                Debug.Log($"Removing entry:  {tableEntryReference.KeyId}");
+                LDMLog.Info(LDMLogCategory.Localization, $"Removing localization entry '{tableEntryReference.KeyId}'.");
                 localizationToolBridge.RemoveEntry(tableType, tableEntryReference);
                 deletionCount++;
             }
-            Debug.Log($"{deletionCount} localization entries deleted.");
+            LDMLog.Info(LDMLogCategory.Localization, $"Deleted {deletionCount} localization entries for '{targetObject.name}'.");
         }
 
         private static List<TableEntryReference> FilterLocalizationEntries(ILocalizationToolBridge localizationToolBridge, Enum tableType, Object targetObject, ILocalizableCore targetLocalizable, bool isSceneInstance = true)

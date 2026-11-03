@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Core;
 
 namespace Frankie.Combat.Editor
 {
@@ -32,13 +33,13 @@ namespace Frankie.Combat.Editor
                 if (battleAction == null) { continue; } // Already deleted (e.g. in the same selection)
                 if (BattleActionAssets.IsUsedByAnyOwner(battleAction))
                 {
-                    Debug.LogWarning($"Kept {battleActionPath} - its owner was deleted, but another skill / action item still uses it");
+                    LDMLog.Info(LDMLogCategory.Combat, $"Keeping battle action '{battleActionPath}': its owner was deleted, but another skill or action item still uses it.");
                     continue;
                 }
 
                 bool isDeleted = options == RemoveAssetOptions.MoveAssetToTrash ? AssetDatabase.MoveAssetToTrash(battleActionPath) : AssetDatabase.DeleteAsset(battleActionPath);
-                if (isDeleted) { Debug.Log($"Deleted {battleActionPath} along with the skill / action item that owned it"); }
-                else { Debug.LogWarning($"Could not delete {battleActionPath} (owned by a deleted skill / action item)"); }
+                if (isDeleted) { LDMLog.Info(LDMLogCategory.Combat, $"Deleted battle action '{battleActionPath}' along with the skill or action item that owned it."); }
+                else { LDMLog.Warning(LDMLogCategory.Combat, $"Could not delete battle action '{battleActionPath}' (its owning skill or action item was deleted). Delete it by hand."); }
             }
         }
         #endregion

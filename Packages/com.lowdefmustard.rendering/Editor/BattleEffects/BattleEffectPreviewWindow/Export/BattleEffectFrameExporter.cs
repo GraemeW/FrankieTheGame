@@ -1,9 +1,10 @@
 #if UNITY_EDITOR
 using System;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
+using UnityEditor;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Rendering.Editor
@@ -81,7 +82,7 @@ namespace LowDefMustard.Rendering.Editor
             }
 
             EditorApplication.update -= Update;
-            Debug.Log($"Exported {exportRequest.frameCount} battle effect frames ({exportRequest.size.x}x{exportRequest.size.y} @ {exportRequest.frameRate:0.#} fps) to {exportRequest.folder}");
+            LDMLog.Info(LDMLogCategory.Rendering, $"Exported {exportRequest.frameCount} battle effect frames (size: {exportRequest.size.x}x{exportRequest.size.y}, frame rate: {exportRequest.frameRate:0.#} fps, folder: '{exportRequest.folder}').");
             Cleanup();
             finished?.Invoke();
         }

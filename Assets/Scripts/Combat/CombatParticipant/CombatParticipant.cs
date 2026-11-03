@@ -512,8 +512,7 @@ namespace Frankie.Combat
         private void ReconcileCooldownStore()
         {
             if (cooldownStore == 0.0f) { return; }
-
-            //Debug.Log($"Pre-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+            
             float tryCooldown = cooldownTimer + cooldownStore;
             if (cooldownStore < 0.0f)
             {

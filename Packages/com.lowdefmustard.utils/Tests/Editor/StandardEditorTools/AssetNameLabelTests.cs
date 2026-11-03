@@ -189,7 +189,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             AssetNameLabel nameLabel = SetUpAttached(clip);
             yield return null;
 
-            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex($"Could not rename {_assetName} to Taken"));
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex($"Could not rename asset '{_assetName}' to 'Taken'"));
             SendClick(GetLabel(nameLabel), 2);
             GetField(nameLabel).SetValueWithoutNotify("Taken");
             SendFocusOut(GetField(nameLabel));

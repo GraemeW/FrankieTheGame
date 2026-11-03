@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Control
@@ -117,7 +118,7 @@ namespace LowDefMustard.Control
 
             if (allContours.Count == 0)
             {
-                Debug.LogWarning("[EnclosedRegionFinder] No CompositeCollider2D children found.");
+                LDMLog.Warning(LDMLogCategory.Control, $"No CompositeCollider2D children found under move mesh '{name}'. Skipping region detection.", this);
                 return;
             }
 
@@ -165,7 +166,7 @@ namespace LowDefMustard.Control
             
             currentProgress = 1.0f;
             onProgress?.Invoke("Done.", currentProgress);
-            Debug.Log($"[EnclosedRegionFinder] Found {enclosedRegions.Count} enclosed region(s).");
+            LDMLog.Info(LDMLogCategory.Control, $"Region detection found {enclosedRegions.Count} enclosed region(s) on move mesh '{name}'.", this);
         }
         
         public void ClearData()

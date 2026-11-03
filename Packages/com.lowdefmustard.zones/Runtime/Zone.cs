@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 
@@ -62,9 +63,10 @@ namespace LowDefMustard.Zones
         {
             if (string.IsNullOrWhiteSpace(sceneReference)) { return null; }
 
-            Debug.Log($"Attempting to load zone from scene reference {sceneReference}");
             BuildCacheIfEmpty();
-            return sceneReferenceCache.GetValueOrDefault(sceneReference);
+            Zone zone = sceneReferenceCache.GetValueOrDefault(sceneReference);
+            LDMLog.Info(LDMLogCategory.Zones, zone != null ? $"Found zone '{zone.name}' for scene '{sceneReference}'." : $"No zone found for scene '{sceneReference}'.");
+            return zone;
         }
 
         public static void BuildCacheIfEmpty()
@@ -79,13 +81,15 @@ namespace LowDefMustard.Zones
             sceneReferenceCache = new Dictionary<string, Zone>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) => AddZoneToCache(zone));
             _addressablesLoadHandle.WaitForCompletion();
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Zones, nameof(Zone), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, zoneLookupCache.Count);
         }
 
         internal static void AddZoneToCache(Zone zone)
         {
-            if (zoneLookupCache.ContainsKey(zone.name) || sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
+            if (zoneLookupCache.TryGetValue(zone.name, out Zone existingZone) || sceneReferenceCache.TryGetValue(zone.GetSceneReference().SceneName, out existingZone))
             {
-                Debug.LogError($"Looks like there's a duplicate ID for objects: {zoneLookupCache[zone.name]} and {zone}");
+                string duplicateID = zoneLookupCache.ContainsKey(zone.name) ? zone.name : zone.GetSceneReference().SceneName;
+                AddressablesCacheLog.LogDuplicate(LDMLogCategory.Zones, nameof(Zone), duplicateID, existingZone, zone);
             }
 
             zoneLookupCache[zone.name] = zone;
@@ -346,7 +350,7 @@ namespace LowDefMustard.Zones
 
             if (sceneReference.IsSet() && name != sceneReference.SceneName)
             {
-                Debug.LogWarning($"Warning!  Zone Name {name} does not match scene reference {sceneReference.SceneName}!  Use Zone context menu to auto-match.");
+                LDMLog.Warning(LDMLogCategory.Zones, $"Zone name '{name}' does not match its scene '{sceneReference.SceneName}'. Use the Zone context menu > Match Zone Name to Scene.");
             }
             
             foreach (ZoneNode zoneNode in GetAllNodes())

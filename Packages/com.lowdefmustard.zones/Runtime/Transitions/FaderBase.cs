@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Zones
@@ -81,7 +82,9 @@ namespace LowDefMustard.Zones
         private static FaderBase<TTransitionType> TryFindFader()
         {
             var faderGameObject = GameObject.FindGameObjectWithTag(_faderTag);
-            return faderGameObject != null ? faderGameObject.GetComponent<FaderBase<TTransitionType>>() : null;
+            FaderBase<TTransitionType> fader = faderGameObject != null ? faderGameObject.GetComponent<FaderBase<TTransitionType>>() : null;
+            if (fader == null) { LDMLog.Warning(LDMLogCategory.Zones, $"No fader found (tag: '{_faderTag}'). Skipping the fade."); }
+            return fader;
         }
         #endregion
 

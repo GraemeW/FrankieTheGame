@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Rendering.Editor",
   "rootNamespace": "LowDefMustard.Rendering.Editor",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Rendering"
   ],
   "includePlatforms": [

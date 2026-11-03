@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Core;
 
 namespace Frankie.Combat.Editor
 {
@@ -112,7 +113,7 @@ namespace Frankie.Combat.Editor
         {
             int mapIndex = GetMapIndex(type);
             if (mapIndex < _typeFolders.Length) { return $"{_battleActionsRoot}/{_typeFolders[mapIndex].folder}"; }
-            Debug.LogWarning($"No folder mapped for {type.Name} - creating it in {_fallbackFolder} (add the type to {nameof(EffectStrategyCatalog)}'s folder map)");
+            LDMLog.Warning(LDMLogCategory.Combat, $"No folder mapped for effect strategy '{type.Name}'. Creating it in '{_fallbackFolder}'; add the type to {nameof(EffectStrategyCatalog)}'s folder map.");
             return $"{_battleActionsRoot}/{_fallbackFolder}";
         }
 

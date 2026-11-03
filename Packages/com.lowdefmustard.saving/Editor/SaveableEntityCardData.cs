@@ -6,6 +6,7 @@ using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Saving.Editor
 {
@@ -183,7 +184,7 @@ namespace LowDefMustard.Saving.Editor
         private void UpdateSaveableEntityCardData()
         {
             saveableEntityStateDict ??= new JObject();
-            Debug.Log($"Updating {entityName} ISaveable entries, count: {saveableEntityStateDict.Count}");
+            LDMLog.Info(LDMLogCategory.Saving, $"Updating {saveableEntityStateDict.Count} saveable entries for entity '{entityName}'.");
             foreach (KeyValuePair<string, SaveableSubCardData> typeDataPair in subCards)
             {
                 if (string.IsNullOrWhiteSpace(typeDataPair.Key)) { continue; }

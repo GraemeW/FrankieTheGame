@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Control
 {
@@ -222,7 +223,7 @@ namespace LowDefMustard.Control
 
             OnNoReceiversIdentified();
             
-            Debug.LogWarning($"Identified rogue controller with no active receivers ({gameObject.name}), queuing for destroy.");
+            LDMLog.Warning(LDMLogCategory.Control, $"Controller '{gameObject.name}' has no active input receivers. Queuing it for destroy.", gameObject);
             destroyQueued = true;
         }
         #endregion

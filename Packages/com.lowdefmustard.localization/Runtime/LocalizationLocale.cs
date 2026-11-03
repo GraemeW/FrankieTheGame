@@ -4,6 +4,7 @@ using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Localization
 {
@@ -23,13 +24,14 @@ namespace LowDefMustard.Localization
             {
                 string fallbackLocaleCode = LocalizationSettings.ProjectLocale.Identifier.Code;
                 
-                Debug.LogWarning($"No locale found for {localeCode} - setting to fallback {fallbackLocaleCode}"); 
+                LDMLog.Warning(LDMLogCategory.Localization, $"No locale found for code '{localeCode}'. Falling back to '{fallbackLocaleCode}'.");
                 locale = LocalizationSettings.AvailableLocales.GetLocale(fallbackLocaleCode);
                 
-                if (locale == null) { Debug.LogWarning($"No locale found for {fallbackLocaleCode}"); return; }
+                if (locale == null) { LDMLog.Error(LDMLogCategory.Localization, $"No locale found for the fallback code '{fallbackLocaleCode}'. Leaving the locale unchanged."); return; }
             }
 
             LocalizationSettings.SelectedLocale = locale;
+            LDMLog.Important(LDMLogCategory.Localization, $"Set locale to '{locale.Identifier.Code}'.");
         }
         #endregion
 

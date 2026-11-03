@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Control",
   "rootNamespace": "LowDefMustard.Control",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Utils"
   ],
   "includePlatforms": [],

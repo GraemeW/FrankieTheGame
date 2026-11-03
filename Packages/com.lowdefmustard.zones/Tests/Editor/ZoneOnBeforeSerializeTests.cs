@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             zone.sceneReference = "SomeOtherSceneName";
 
-            LogAssert.Expect(LogType.Warning, $"Warning!  Zone Name {zone.name} does not match scene reference SomeOtherSceneName!  Use Zone context menu to auto-match.");
+            LogAssert.Expect(LogType.Warning, new Regex(Regex.Escape($"Zone name '{zone.name}' does not match its scene 'SomeOtherSceneName'. Use the Zone context menu > Match Zone Name to Scene.") + "$"));
 
             EditorUtility.SetDirty(zone);
             AssetDatabase.SaveAssets();

@@ -123,7 +123,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
             modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("MissingZone", "Object", "Parent", "guid-1"));
 
-            LogAssert.Expect(LogType.Log, new Regex("Removing entry MissingZone.*not found")); // loose match, only pins the branch that fired
+            LogAssert.Expect(LogType.Log, new Regex("Removing handler entry 'MissingZone/.*not found")); // loose match, only pins the branch that fired
             int removedCount = modifier.CleanDanglingModifierHandlerData();
 
             Assert.AreEqual(1, removedCount);

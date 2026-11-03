@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Scripting.LifecycleManagement;
+using UnityEngine;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Rendering
 {
@@ -134,7 +135,7 @@ namespace LowDefMustard.Rendering
 
         public static IEnumerator UpdateScreenResolution(ResolutionSetting resolutionSetting)
         {
-            Debug.Log($"Resolution is updating to {resolutionSetting.width} x {resolutionSetting.height} on FSW: {resolutionSetting.fullScreenMode}");
+            LDMLog.Important(LDMLogCategory.Rendering, $"Setting screen resolution to {resolutionSetting.width}x{resolutionSetting.height} ({resolutionSetting.fullScreenMode}).");
 
             Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
             yield return new WaitForEndOfFrame();
@@ -142,7 +143,7 @@ namespace LowDefMustard.Rendering
 
         public static void ForceScreenResolution(ResolutionSetting resolutionSetting)
         {
-            Debug.Log($"Resolution is updating to {resolutionSetting.width} x {resolutionSetting.height} on FSW: {resolutionSetting.fullScreenMode}");
+            LDMLog.Important(LDMLogCategory.Rendering, $"Setting screen resolution to {resolutionSetting.width}x{resolutionSetting.height} ({resolutionSetting.fullScreenMode}).");
             Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
         }
 

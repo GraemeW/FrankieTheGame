@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 
@@ -42,7 +43,7 @@ namespace LowDefMustard.UIBox
         {
             if (!TryAcquireDependencies())
             {
-                Debug.LogWarning($"Failed to acquire required dependencies.  Destroying UIBox[{name}].");
+                LDMLog.Warning(LDMLogCategory.UI, $"UI box '{name}' is missing required dependencies. Destroying it.", this);
                 Destroy(gameObject);
                 return;
             }
@@ -92,7 +93,7 @@ namespace LowDefMustard.UIBox
             yield return null;
             if (controller == null && handleGlobalInput)
             {
-                Debug.LogWarning($"Failed to find required controller.  Destroying UIBox[{name}].");
+                LDMLog.Warning(LDMLogCategory.UI, $"UI box '{name}' found no controller to handle global input. Destroying it.", this);
                 destroyQueued = true;
             }
         }

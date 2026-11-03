@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Speech;
@@ -28,7 +29,7 @@ namespace Frankie.Utils.UI.Editor
             Directory.CreateDirectory(_captureDirectory);
             string capturePath = Path.Combine(_captureDirectory, $"{DateTime.Now:yyyyMMdd-HHmmss}.png");
             ScreenCapture.CaptureScreenshot(capturePath);
-            Debug.Log($"[UIToolkitDevTools] Game view capture queued:  {Path.GetFullPath(capturePath)}");
+            LDMLog.Info(LDMLogCategory.UI, $"Queued a game view capture (path: '{Path.GetFullPath(capturePath)}').");
         }
         
         // Hover the Game view and press Cmd/Ctrl+Alt+U:  logs what UI Toolkit panels pick
@@ -89,7 +90,7 @@ namespace Frankie.Utils.UI.Editor
             }
             else { log.AppendLine("  No main camera"); }
             
-            Debug.Log(log.ToString());
+            LDMLog.Info(LDMLogCategory.UI, log.ToString());
         }
 
         [MenuItem(_menuRoot + "Spawn Simple Message", false, 31)]
@@ -105,8 +106,8 @@ namespace Frankie.Utils.UI.Editor
             if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new("Yah", () => Debug.Log("[UIToolkitDevTools] Yah chosen")),
-                new("Nah", () => Debug.Log("[UIToolkitDevTools] Nah chosen"))
+                new("Yah", () => LDMLog.Info(LDMLogCategory.UI, "Test choice 'Yah' chosen.")),
+                new("Nah", () => LDMLog.Info(LDMLogCategory.UI, "Test choice 'Nah' chosen."))
             };
             playerStateMachine.EnterDialogue(_testOptionMessage, choiceActionPairs);
         }
@@ -116,7 +117,7 @@ namespace Frankie.Utils.UI.Editor
         {
             if (Selection.activeObject is not Dialogue dialogue)
             {
-                Debug.LogWarning("[UIToolkitDevTools] Select a Dialogue asset in the Project window first.");
+                LDMLog.Warning(LDMLogCategory.UI, "No dialogue asset selected. Select one in the Project window first.");
                 return;
             }
             if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
@@ -124,7 +125,7 @@ namespace Frankie.Utils.UI.Editor
             var aiConversant = Object.FindAnyObjectByType<AIConversant>();
             if (aiConversant == null)
             {
-                Debug.LogWarning("[UIToolkitDevTools] No AIConversant found in scene to host the dialogue.");
+                LDMLog.Warning(LDMLogCategory.UI, "No AIConversant found in the scene to host the dialogue.");
                 return;
             }
             playerStateMachine.EnterDialogue(aiConversant, dialogue);
@@ -149,7 +150,7 @@ namespace Frankie.Utils.UI.Editor
             int fileType = AssetDatabase.IsNativeAsset(asset) ? 2 : 3; // 2: serialized by Unity (e.g. .asset), 3: imported (e.g. .png, .ttf)
             string ussAssetURL = $"url(\"project://database/{Uri.EscapeUriString(assetPath)}?fileID={localFileID}&guid={guid}&type={fileType}#{asset.name}\")";
             EditorGUIUtility.systemCopyBuffer = ussAssetURL;
-            Debug.Log($"[UIToolkitDevTools] Copied USS asset url:  {ussAssetURL}", asset);
+            LDMLog.Info(LDMLogCategory.UI, $"Copied the USS asset URL: {ussAssetURL}", asset);
         }
 
         [MenuItem(_copyUSSAssetURLMenuItem, true)]
@@ -172,7 +173,7 @@ namespace Frankie.Utils.UI.Editor
             playerStateMachine = Object.FindAnyObjectByType<PlayerStateMachine>();
             if (playerStateMachine != null) { return true; }
             
-            Debug.LogWarning("[UIToolkitDevTools] No PlayerStateMachine found -- enter a world scene first.");
+            LDMLog.Warning(LDMLogCategory.UI, "No PlayerStateMachine found. Enter a world scene first.");
             return false;
         }
         #endregion

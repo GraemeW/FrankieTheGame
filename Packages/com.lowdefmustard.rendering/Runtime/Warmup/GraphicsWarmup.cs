@@ -5,6 +5,7 @@ using System.IO;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Rendering;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Rendering
 {
@@ -124,7 +125,7 @@ namespace LowDefMustard.Rendering
         private void Complete(string summary, float startTime)
         {
             isComplete = true;
-            if (Debug.isDebugBuild) { Debug.Log($"[GraphicsWarmup] {mode} ({SystemInfo.graphicsDeviceType}):  {summary} in {(Time.realtimeSinceStartup - startTime) * 1000f:F0} ms"); }
+            LDMLog.Info(LDMLogCategory.Rendering, $"Graphics warmup finished: {summary} (mode: {mode}, device: {SystemInfo.graphicsDeviceType}, time: {(Time.realtimeSinceStartup - startTime) * 1000f:F0} ms).");
             completed?.Invoke();
         }
 
@@ -134,7 +135,7 @@ namespace LowDefMustard.Rendering
             string path = Path.Combine(Application.persistentDataPath, deviceFileName + _fileExtension);
             bool isSaved = collection.SaveToFile(path);
             bool isSent = collection.SendToEditor(deviceFileName);
-            Debug.Log($"[GraphicsWarmup] Trace {deviceFileName}:  {collection.variantCount} variants / {collection.totalGraphicsStateCount} states (saved:  {isSaved} {path}, sent to editor:  {isSent})");
+            LDMLog.Info(LDMLogCategory.Rendering, $"Graphics warmup trace '{deviceFileName}' captured {collection.variantCount} variants and {collection.totalGraphicsStateCount} states (saved: {isSaved}, path: '{path}', sent to editor: {isSent}).");
         }
         #endregion
     }

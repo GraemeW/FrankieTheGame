@@ -10,6 +10,7 @@
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
     "com.lowdefmustard.control": "0.1.0",
+    "com.lowdefmustard.core": "0.1.0",
     "com.lowdefmustard.utils": "0.1.0"
   }
 }

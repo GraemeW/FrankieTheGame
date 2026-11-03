@@ -7,5 +7,7 @@
   "author": {
     "name": "Low Def Mustard Games"
   },
-  "dependencies": {}
+  "dependencies": {
+    "com.lowdefmustard.core": "0.1.0"
+  }
 }

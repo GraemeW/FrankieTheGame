@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40be28ee088304a7e97087b137e25efa, type: 3}
+  m_Name: LDMLogSettings
+  m_EditorClassIdentifier: LowDefMustard.Core::LowDefMustard.Core.LDMLogSettings
+  categoryEntries:
+  - category: 1
+    enabled: 1
+    color: {r: 1, g: 0.55, b: 0.55, a: 1}
+  - category: 2
+    enabled: 1
+    color: {r: 1, g: 0.71875, b: 0.55, a: 1}
+  - category: 4
+    enabled: 1
+    color: {r: 1, g: 0.8875, b: 0.55, a: 1}
+  - category: 8
+    enabled: 1
+    color: {r: 0.94375, g: 1, b: 0.55, a: 1}
+  - category: 16
+    enabled: 1
+    color: {r: 0.775, g: 1, b: 0.55, a: 1}
+  - category: 32
+    enabled: 1
+    color: {r: 0.60625, g: 1, b: 0.55, a: 1}
+  - category: 64
+    enabled: 1
+    color: {r: 0.55, g: 1, b: 0.6625, a: 1}
+  - category: 128
+    enabled: 1
+    color: {r: 0.55, g: 1, b: 0.83125, a: 1}
+  - category: 256
+    enabled: 1
+    color: {r: 0.55, g: 1, b: 1, a: 1}
+  - category: 512
+    enabled: 1
+    color: {r: 0.55, g: 0.83125, b: 1, a: 1}
+  - category: 1024
+    enabled: 1
+    color: {r: 0.55, g: 0.6625, b: 1, a: 1}
+  - category: 2048
+    enabled: 1
+    color: {r: 0.60625, g: 0.55, b: 1, a: 1}
+  - category: 4096
+    enabled: 1
+    color: {r: 0.775, g: 0.55, b: 1, a: 1}
+  - category: 8192
+    enabled: 1
+    color: {r: 0.94375, g: 0.55, b: 1, a: 1}
+  - category: 16384
+    enabled: 1
+    color: {r: 1, g: 0.55, b: 0.8875, a: 1}
+  - category: 32768
+    enabled: 1
+    color: {r: 1, g: 0.55, b: 0.71875, a: 1}
+  logStackTrace: 0
+  warningStackTrace: 1
+  errorStackTrace: 1
+  exceptionStackTrace: 1

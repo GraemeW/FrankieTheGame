@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Zones;
 using Frankie.Core;
@@ -85,7 +86,7 @@ namespace Frankie.Saving
             
             // Need a MonoBehaviour to kick off a Coroutine, SceneLoader is safe to use 
             SceneLoaderBase sceneLoader = SceneLoaderBase.FindSceneLoader();
-            if (sceneLoader == null) { return; }
+            if (sceneLoader == null) { LDMLog.Warning(LDMLogCategory.Saving, $"No scene loader found. Cannot continue from save '{saveName}'."); return; }
             sceneLoader.StartCoroutine(LoadFromSave(saveName));
             
             SavingSystem.CopySaveToSession(saveName, _sessionFile);
@@ -123,6 +124,7 @@ namespace Frankie.Saving
             
             UpdateSavePrefs(saveName);
             SavingSystem.CopySessionToSave(_sessionFile, saveName);
+            LDMLog.Important(LDMLogCategory.Saving, $"Saved the game to '{saveName}'.");
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
 

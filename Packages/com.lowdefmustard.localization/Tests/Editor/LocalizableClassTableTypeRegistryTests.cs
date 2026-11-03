@@ -41,16 +41,16 @@ namespace LowDefMustard.Localization.Tests.Editor
         }
 
         [Test]
-        public void Register_NullOwningType_LogsWarningAndDoesNotThrow()
+        public void Register_NullOwningType_LogsErrorAndDoesNotThrow()
         {
-            LogAssert.Expect(LogType.Warning, "LocalizableClassTableTypeRegistry.Register called with a null owningType.");
+            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("Cannot register a localization table type for a null owning type"));
             Assert.DoesNotThrow(() => LocalizableClassTableTypeRegistry.Register(null, TestTableType.Core));
         }
 
         [Test]
-        public void Register_NullTableType_LogsWarningAndDoesNotThrow()
+        public void Register_NullTableType_LogsErrorAndDoesNotThrow()
         {
-            LogAssert.Expect(LogType.Warning, $"LocalizableClassTableTypeRegistry.Register called with a null tableType for '{nameof(MarkerTypeA)}'.");
+            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex($"Cannot register a null localization table type for '{nameof(MarkerTypeA)}'"));
             Assert.DoesNotThrow(() => LocalizableClassTableTypeRegistry.Register(typeof(MarkerTypeA), null));
         }
     }

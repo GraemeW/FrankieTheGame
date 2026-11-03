@@ -2,6 +2,7 @@
   "name": "LowDefMustard.GameStateModifiers",
   "rootNamespace": "LowDefMustard.GameStateModifiers",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Utils"
   ],
   "includePlatforms": [],

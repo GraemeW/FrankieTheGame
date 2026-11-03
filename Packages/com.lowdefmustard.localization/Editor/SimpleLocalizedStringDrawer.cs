@@ -7,6 +7,7 @@ using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.Localization;
+using LowDefMustard.Core;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Localization.Editor
@@ -297,7 +298,7 @@ namespace LowDefMustard.Localization.Editor
             Object targetObject = state.property.serializedObject.targetObject;
             if (targetObject == null || state.localizedString == null || IsKeyEmpty(state, out TableEntryReference _))
             {
-                Debug.Log("Localized string is not configured, cannot rename.");
+                LDMLog.Warning(LDMLogCategory.Localization, "Cannot rename: the localized string is not configured.", targetObject);
                 return;
             }
 

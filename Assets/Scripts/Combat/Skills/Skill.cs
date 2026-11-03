@@ -6,6 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Stats;
@@ -94,11 +95,12 @@ namespace Frankie.Combat
             _skillLookupCache = new Dictionary<string, Skill>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Skill), (Skill skill) =>
                 {
-                    if (_skillLookupCache.TryGetValue(skill.name, out Skill value)) { Debug.LogError($"Looks like there's a duplicate ID for objects: {value} and {skill}"); }
+                    if (_skillLookupCache.TryGetValue(skill.name, out Skill value)) { AddressablesCacheLog.LogDuplicate(LDMLogCategory.Combat, nameof(Skill), skill.name, value, skill); }
                     _skillLookupCache[skill.name] = skill;
                 }
             );
             _addressablesLoadHandle.WaitForCompletion();
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Combat, nameof(Skill), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _skillLookupCache.Count);
         }
 
         public static void ReleaseCache()

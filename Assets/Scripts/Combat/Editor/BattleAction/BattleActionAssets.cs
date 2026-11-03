@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Frankie.Inventory;
+using LowDefMustard.Core;
 
 namespace Frankie.Combat.Editor
 {
@@ -82,7 +83,7 @@ namespace Frankie.Combat.Editor
         public static void EnsureFolder(string folder)
         {
             if (AssetDatabase.IsValidFolder(folder)) { return; }
-            Debug.LogWarning($"Folder {folder} did not exist - creating it");
+            LDMLog.Info(LDMLogCategory.Combat, $"Creating missing folder '{folder}'.");
 
             string parent = folder[..folder.LastIndexOf('/')];
             EnsureFolder(parent);
@@ -108,7 +109,7 @@ namespace Frankie.Combat.Editor
             {
                 string clashPath = AssetDatabase.GUIDToAssetPath(guid);
                 if (System.IO.Path.GetFileNameWithoutExtension(clashPath) != name) { continue; }
-                Debug.LogWarning($"A battle action named {name} already exists at {clashPath} - rename one of them");
+                LDMLog.Warning(LDMLogCategory.Combat, $"A battle action named '{name}' already exists (path: '{clashPath}'). Rename one of them.");
             }
         }
         #endregion

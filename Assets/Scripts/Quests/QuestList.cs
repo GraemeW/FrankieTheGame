@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using Frankie.Inventory;
@@ -60,7 +61,9 @@ namespace Frankie.Quests
             QuestStatus questStatus = TryAddQuest(quest);
             if (questStatus == null) { return; }
             
+            bool wasComplete = questStatus.IsComplete();
             questStatus.SetObjective(questObjective, true);
+            if (!wasComplete && questStatus.IsComplete()) { LDMLog.Important(LDMLogCategory.Quests, $"Completed quest '{quest.name}'.", quest); }
             questListUpdated?.Invoke();
         }
         #endregion

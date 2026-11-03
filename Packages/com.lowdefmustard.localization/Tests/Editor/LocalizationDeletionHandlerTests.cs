@@ -129,7 +129,7 @@ namespace LowDefMustard.Localization.Tests.Editor
             target.tableTypeOverride = null;
             target.entriesToReturn = new List<TableEntryReference> { "Deletion.NullTableType" };
 
-            LogAssert.Expect(LogType.Warning, "TableType or LocalizationToolBridge could not be not found");
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("Cannot delete localization entries for .*: no table type or localization bridge found"));
             Assert.DoesNotThrow(() => ILocalizableCore.TriggerOnBeforeDestroyedInEditor(null, target, target));
 
             Assert.IsTrue(TestLocalizationTool.HasTableEntry(TestTableType.ScratchAssetDeletion, "Deletion.NullTableType"));

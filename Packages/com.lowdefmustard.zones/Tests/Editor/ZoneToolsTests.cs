@@ -42,6 +42,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             Object.DestroyImmediate(zone);
 
             if (!createdScratchSceneAsset) { return; }
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
             AssetDatabase.DeleteAsset(_scratchScenePath);
             AssetDatabase.Refresh();
             createdScratchSceneAsset = false;

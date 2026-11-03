@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 
 namespace Frankie.Combat
@@ -49,11 +50,12 @@ namespace Frankie.Combat
             _battleActionLookupCache = new Dictionary<string, BattleAction>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(BattleAction), (BattleAction battleAction) =>
             {
-                if (_battleActionLookupCache.TryGetValue(battleAction.name, out BattleAction value)) { Debug.LogError($"Looks like there's a duplicate ID for objects: {value} and {battleAction}"); }
+                if (_battleActionLookupCache.TryGetValue(battleAction.name, out BattleAction value)) { AddressablesCacheLog.LogDuplicate(LDMLogCategory.Combat, nameof(BattleAction), battleAction.name, value, battleAction); }
                 _battleActionLookupCache[battleAction.name] = battleAction;
             }
             );
             _addressablesLoadHandle.WaitForCompletion();
+            AddressablesCacheLog.LogBuild(LDMLogCategory.Combat, nameof(BattleAction), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _battleActionLookupCache.Count);
         }
 
         public static void ReleaseCache()

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -232,7 +233,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.currentSaveName = null;
             VisualElement root = OpenWindow().rootVisualElement;
 
-            LogAssert.Expect(LogType.Warning, "Save file not found.");
+            LogAssert.Expect(LogType.Warning, new Regex(@"Save file '.*' not found\.$"));
             Click(FindButton(root, "Load Scene Data"));
 
             CollectionAssert.Contains(AllLabelText(root), "Status:  Unloaded");

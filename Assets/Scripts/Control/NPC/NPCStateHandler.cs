@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using Frankie.Core;
 using Frankie.Combat;
@@ -121,7 +122,7 @@ namespace Frankie.Control
             }
             
             npcStateChanged?.Invoke(npcOccupied ? NPCStateType.Occupied : setNPCState, isNPCAfraid);
-            if (!inTeardown) { Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.Occupied : setNPCState)}"); }
+            if (!inTeardown) { LDMLog.Info(LDMLogCategory.Control, $"NPC '{gameObject.name}' state set to '{(npcOccupied ? NPCStateType.Occupied : setNPCState)}'.", gameObject); }
         }
 
         public void InitiateCombat(TransitionType transitionType, List<NPCStateHandler> npcMob)
@@ -186,7 +187,7 @@ namespace Frankie.Control
             }
             else
             {
-                Debug.Log($"NPC {gameObject.name} invisible for {delayToDestroyAfterInvisible} seconds.  Destroying.");
+                LDMLog.Info(LDMLogCategory.Control, $"Destroying NPC '{gameObject.name}' after {delayToDestroyAfterInvisible} seconds out of view.");
                 Destroy(gameObject);
             }
         }

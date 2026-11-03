@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using LowDefMustard.Core;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -42,7 +43,7 @@ namespace LowDefMustard.Saving
             if (state == null) { return false; }
 
             stateDictionary = state.ToObject<JObject>();
-            if (stateDictionary == null) { Debug.LogWarning("Malformed data in save file"); return false; }
+            if (stateDictionary == null) { LDMLog.Warning(LDMLogCategory.Saving, "Save data for an entity is malformed (expected a JSON object). Skipping its restore."); return false; }
             return true;
         }
         #endregion
@@ -123,7 +124,7 @@ namespace LowDefMustard.Saving
 
             if (string.IsNullOrWhiteSpace(uniqueIdentifier) || !IsUnique(property.stringValue))
             {
-                if (!IsUnique(property.stringValue)) { Debug.Log($"Warning:  Duplicate GUID identified for {gameObject.name} @ {uniqueIdentifier} -> Generating a new GUID"); }
+                if (!IsUnique(property.stringValue)) { LDMLog.Warning(LDMLogCategory.Saving, $"Saveable entity '{gameObject.name}' has a duplicate GUID ('{uniqueIdentifier}'). Generating a new one.", gameObject); }
                 property.stringValue = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
                 serializedObject.ApplyModifiedProperties();
             }

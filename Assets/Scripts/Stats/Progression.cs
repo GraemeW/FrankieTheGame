@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Core;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -254,7 +255,7 @@ namespace Frankie.Stats
 #if UNITY_EDITOR
             Undo.RegisterCompleteObjectUndo(this, "Rebuild Level Charts");
 #endif
-            Debug.Log("Rebuilding Level Charts");
+            LDMLog.Info(LDMLogCategory.Stats, $"Rebuilding level-averaged charts for '{name}'.", this);
             levelAveragedCharts.Clear();
             foreach (var characterEntry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => entry.Value != null && entry.Value.ShouldIncrementsStatsOnLevelUp()))
             {
@@ -369,11 +370,11 @@ namespace Frankie.Stats
             var catchUpLevelUpSheet = new Dictionary<Stat, float>(levelUpSheet);
             if (!HasLevelAveragedChart(characterProperties, currentLevel, out Dictionary<Stat, float> levelAverageStatSheet))
             {
-                Debug.Log($"Could not find level-averaged chart for {characterProperties.GetCharacterID()}.  Did you forget to generate it?");
+                LDMLog.Warning(LDMLogCategory.Stats, $"No level-averaged chart for character '{characterProperties.GetCharacterID()}'. Skipping stat catch-up; regenerate the charts on '{name}'.", this);
                 return catchUpLevelUpSheet;
             }
             
-            Debug.Log("Special level-up:  Checking for stat catch-up");
+            LDMLog.Info(LDMLogCategory.Stats, $"Checking stat catch-up for character '{characterProperties.GetCharacterID()}'.");
             foreach (Stat stat in levelUpSheet.Keys)
             {
                 if (!activeStatSheet.TryGetValue(stat, out var currentStatEntry)) { continue; }
@@ -381,9 +382,8 @@ namespace Frankie.Stats
                 if (currentStatEntry >= averagedStatEntry * statCatchUpThreshold) { continue; }
                 
                 catchUpLevelUpSheet[stat] += (averagedStatEntry - currentStatEntry) * statCatchUpRatio;
-                Debug.Log($"Stat {stat} below average stat threshold - bolstering by {catchUpLevelUpSheet[stat]}");
+                LDMLog.Info(LDMLogCategory.Stats, $"Stat '{stat}' is below the average threshold. Boosting its level-up gain to {catchUpLevelUpSheet[stat]}.");
             }
-            Debug.Log("Ending stat catch-up checks.");
             return catchUpLevelUpSheet;
         }
         #endregion

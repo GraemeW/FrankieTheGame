@@ -102,7 +102,7 @@ namespace LowDefMustard.UIBox.Tests
         [UnityTest]
         public IEnumerator TryGetEntryContainer_MissingContainerType_WarnsAndReturnsFalse()
         {
-            LogAssert.Expect(LogType.Warning, new Regex("UXML has no ChoiceEntryContainer for entries"));
+            LogAssert.Expect(LogType.Warning, new Regex("has no ChoiceEntryContainer for entries"));
             UIToolkitMenuView view = CreateView<UIToolkitMenuView>(TestPanelAssets.emptyView);
 
             yield return WaitForLoadedUI(view);
@@ -113,7 +113,7 @@ namespace LowDefMustard.UIBox.Tests
         [UnityTest]
         public IEnumerator Bind_MissingContainerType_WarnsAndLeavesEntryUsable()
         {
-            LogAssert.Expect(LogType.Warning, new Regex("UXML has no ChoiceEntryContainer for entries"));
+            LogAssert.Expect(LogType.Warning, new Regex("has no ChoiceEntryContainer for entries"));
             int chosenCount = 0;
             UIToolkitMenuView view = CreateView<UIToolkitMenuView>(TestPanelAssets.emptyView);
             IUIChoice choice = view.CreateChoiceOption("Choice", () => chosenCount++);

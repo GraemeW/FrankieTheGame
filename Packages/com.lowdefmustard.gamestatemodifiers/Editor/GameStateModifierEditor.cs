@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
@@ -140,20 +141,20 @@ namespace LowDefMustard.GameStateModifiers.Editor
 
             if (foundGameObject == null)
             {
-                Debug.LogWarning("Warning: GameStateModifierHandler GUID not found. Attempting to find by name -- check GUID hook-up!");
+                LDMLog.Warning(LDMLogCategory.World, $"No handler found with GUID '{handlerGUID}'. Falling back to a name search for '{handlerGameObjectName}'; check the GUID hook-up.");
                 foundGameObject = FindObjectsByType<GameObject>(FindObjectsInactive.Include).FirstOrDefault(go => go.name == handlerGameObjectName);
             }
 
             if (foundGameObject == null)
             {
-                Debug.LogWarning($"No GameObject {handlerGameObjectName} found.");
+                LDMLog.Warning(LDMLogCategory.World, $"No GameObject named '{handlerGameObjectName}' found in the open scene.");
                 return;
             }
 
             Selection.activeGameObject = foundGameObject;
             var sceneView = SceneView.lastActiveSceneView;
             if (sceneView != null) { sceneView.FrameSelected(); }
-            Debug.Log($"{handlerGameObjectName} found and selected.");
+            LDMLog.Info(LDMLogCategory.World, $"Selected '{handlerGameObjectName}'.", foundGameObject);
         }
         
         private void RemoveInvalidEntries(ClickEvent clickEvent)

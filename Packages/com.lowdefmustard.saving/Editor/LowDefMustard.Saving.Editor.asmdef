@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Saving.Editor",
   "rootNamespace": "LowDefMustard.Saving.Editor",
   "references": [
+    "LowDefMustard.Core",
     "LowDefMustard.Saving",
     "Newtonsoft.Json"
   ],

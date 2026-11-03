@@ -1,4 +1,5 @@
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using Frankie.Sound;
@@ -46,7 +47,7 @@ namespace Frankie.Zones
         #region PublicMethods
         public void ToggleRoom(bool enable, bool roomSetByOtherEntity)
         {
-            Debug.Log($"Toggling {gameObject.name} room to {enable}");
+            LDMLog.Info(LDMLogCategory.Zones, $"{(enable ? "Enabling" : "Disabling")} room '{gameObject.name}'.", gameObject);
 
             isRoomActive = enable;
             isRoomInitialized.value = roomSetByOtherEntity;

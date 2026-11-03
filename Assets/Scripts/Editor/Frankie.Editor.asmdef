@@ -5,6 +5,7 @@
     "Frankie",
     "Frankie.Input",
     "LowDefMustard.Control",
+    "LowDefMustard.Core",
     "LowDefMustard.GameStateModifiers",
     "LowDefMustard.GameStateModifiers.Editor",
     "LowDefMustard.Localization",

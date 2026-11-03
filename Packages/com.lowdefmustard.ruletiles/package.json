@@ -8,6 +8,7 @@
     "name": "Low Def Mustard Games"
   },
   "dependencies": {
+    "com.lowdefmustard.core": "0.1.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.2d.tilemap.extras": "8.0.3"
   }

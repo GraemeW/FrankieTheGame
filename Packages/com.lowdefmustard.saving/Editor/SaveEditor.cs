@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Saving.Editor
 {
@@ -423,7 +424,7 @@ namespace LowDefMustard.Saving.Editor
             if (string.IsNullOrEmpty(sceneName)) { return; }
             if (sceneName == SavingSystem.ManualGetLastScene(cachedFullSaveState)) { return; }
             
-            Debug.Log($"Saved last scene updated to {sceneName}.");
+            LDMLog.Info(LDMLogCategory.Saving, $"Updated the save's last scene to '{sceneName}'.");
             SavingSystem.ManualUpdateLastScene(cachedFullSaveState, sceneName);
             SavingSystem.ManualSave(SaveFileManagerProvider.current.GetCurrentSaveName(), cachedFullSaveState);
             
@@ -435,14 +436,14 @@ namespace LowDefMustard.Saving.Editor
             string currentSave = SaveFileManagerProvider.current.GetCurrentSaveName();
             if (string.IsNullOrEmpty(currentSave) || !SaveFileManagerProvider.current.HasSave(currentSave))
             {
-                Debug.LogWarning($"Save file not found.");
+                LDMLog.Warning(LDMLogCategory.Saving, $"Save file '{currentSave}' not found.");
                 return;
             }
             
             cachedFullSaveState = SavingSystem.ManualGetFullState(currentSave);
             if (cachedFullSaveState == null)
             {
-                Debug.LogWarning($"Save file malformed.");
+                LDMLog.Warning(LDMLogCategory.Saving, $"Save file '{currentSave}' is malformed. Cannot load it into the editor.");
                 return;
             }
             

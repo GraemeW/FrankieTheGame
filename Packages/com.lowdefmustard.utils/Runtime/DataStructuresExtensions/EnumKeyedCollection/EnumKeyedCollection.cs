@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Utils
 {
@@ -75,7 +76,7 @@ namespace LowDefMustard.Utils
             
             foreach (Entry orphan in byKey.Values)
             {
-                Debug.LogWarning($"[EnumKeyedCollection] Dropping entry for removed enum member '{orphan.key}' (value was: {orphan.value}). This data is now unreachable.");
+                LDMLog.Warning(LDMLogCategory.Utilities, $"Dropping the entry for removed enum member '{orphan.key}' (value: {orphan.value}). Its data is no longer reachable.");
             }
 
             entries = reconciled;

@@ -4,6 +4,7 @@ using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Localization;
@@ -43,7 +44,7 @@ namespace LowDefMustard.Localization
         private static string GetTableCollectionName(TTableType tableType)
         {
             if (_tableCollectionNames != null && _tableCollectionNames.TryGetValue(tableType, out string tableCollectionName)) { return tableCollectionName;}
-            Debug.LogWarning($"No table collection name registered for '{typeof(TTableType).Name}.{tableType}'");
+            LDMLog.Error(LDMLogCategory.Localization, $"No string table collection name registered for '{typeof(TTableType).Name}.{tableType}'. Localization operations on it will fail.");
             return "";
         }
         
@@ -98,7 +99,7 @@ namespace LowDefMustard.Localization
             StringTableCollection stringTableCollection = LocalizationEditorSettings.CreateStringTableCollection(tableCollectionName, tableCollectionPath);
             if (stringTableCollection == null) { return stringTableCollection; }
 
-            Debug.Log($"Created StringTableCollection '{tableCollectionName}' at '{tableCollectionPath}'.");
+            LDMLog.Info(LDMLogCategory.Localization, $"Created string table collection '{tableCollectionName}' (path: '{tableCollectionPath}').", stringTableCollection);
             AssetDatabase.SaveAssetIfDirty(stringTableCollection);
             return stringTableCollection;
         }
@@ -212,7 +213,7 @@ namespace LowDefMustard.Localization
                         englishStringTable.SharedData.AddKey(newKey);
                         break;
                     }
-                    Debug.LogWarning($"Key '{newKey}' already exists in StringTableCollection.");
+                    LDMLog.Warning(LDMLogCategory.Localization, $"Key '{newKey}' already exists in the string table collection. Skipping the add.");
                     return false;
                 }
                 default:

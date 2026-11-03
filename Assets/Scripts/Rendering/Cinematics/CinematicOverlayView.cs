@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 using LowDefMustard.UIBox;
 
 namespace Frankie.Rendering.UI
@@ -39,7 +40,7 @@ namespace Frankie.Rendering.UI
             overlayLabel = rootElement.Q<CinematicOverlayLabel>();
             if (overlayLabel == null)
             {
-                Debug.LogWarning($"{nameof(CinematicOverlayView)}[{name}]:  UXML has no {nameof(CinematicOverlayLabel)}.");
+                LDMLog.Warning(LDMLogCategory.UI, $"UXML for cinematic overlay view '{name}' has no {nameof(CinematicOverlayLabel)}. Skipping the bind.", this);
                 return false;
             }
 

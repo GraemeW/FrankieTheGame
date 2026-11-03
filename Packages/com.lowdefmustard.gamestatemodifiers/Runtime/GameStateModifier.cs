@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Core;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -70,7 +71,7 @@ namespace LowDefMustard.GameStateModifiers
             string[] assetGuids = AssetDatabase.FindAssets("t:" + nameof(GameStateModifier));
             if (assetGuids == null || assetGuids.Length == 0) { return newGameStateModifierCache; }
 
-            //Debug.Log($"GameStateModifier:  Building static cache for {assetGuids.Length} guids.");
+            LDMLog.Info(LDMLogCategory.World, $"Building the game state modifier cache from {assetGuids.Length} assets.");
             foreach (string assetGUID in assetGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(assetGUID);
@@ -80,7 +81,7 @@ namespace LowDefMustard.GameStateModifiers
                 string gameStateModifierGUID = gameStateModifier.GetGUID();
                 if (!newGameStateModifierCache.TryAdd(gameStateModifierGUID, gameStateModifier))
                 {
-                    Debug.LogWarning($"GameStateModifier - Duplicate guid found for {gameStateModifier.name} w/ GUID: {gameStateModifierGUID}");
+                    LDMLog.Error(LDMLogCategory.World, $"Duplicate game state modifier GUID '{gameStateModifierGUID}' on '{gameStateModifier.name}'. Only the first asset with this GUID is reachable.", gameStateModifier);
                 }
             }
             return newGameStateModifierCache;
@@ -127,14 +128,14 @@ namespace LowDefMustard.GameStateModifiers
             }
 
             string parentStem = zoneToGameObjectLinkData.GetParentLabelStem();
-            Debug.Log($"GameStateModifier {name} :: Adding new GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName ?? ""}/{parentStem}{zoneToGameObjectLinkData.gameObjectName ?? ""}.");
+            LDMLog.Info(LDMLogCategory.World, $"Adding handler '{zoneToGameObjectLinkData.zoneName ?? ""}/{parentStem}{zoneToGameObjectLinkData.gameObjectName ?? ""}' to game state modifier '{name}'.", this);
             gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
             EditorUtility.SetDirty(this);
         }
 
         public void RemoveGameStateModifierHandler(string handlerGUID)
         {
-            Debug.Log($"GameStateModifier {name} :: Removing GameStateHandler with GUID {handlerGUID} due to Object Deletion.");
+            LDMLog.Info(LDMLogCategory.World, $"Removing handler '{handlerGUID}' from game state modifier '{name}' (its GameObject was deleted).", this);
             gameStateModifierHandlerData.RemoveAll(match => match.guid == handlerGUID);
             EditorUtility.SetDirty(this);
         }
@@ -163,7 +164,7 @@ namespace LowDefMustard.GameStateModifiers
 
                 if (string.IsNullOrEmpty(handlerGUID))
                 {
-                    Debug.Log($"GameStateModifier {name} :: Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — Empty GUID.");
+                    LDMLog.Info(LDMLogCategory.World, $"Removing handler entry '{zoneName ?? ""}/{parentStem}{handlerName ?? ""}' from game state modifier '{name}' (empty GUID).", this);
                 }
                 else
                 {
@@ -176,8 +177,8 @@ namespace LowDefMustard.GameStateModifiers
                     if (isModifierLinked) { continue; }
                     if (!sceneFound && !removeOnSceneCheck) { continue; }
                     
-                    string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
-                    Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");
+                    string reason = !sceneFound ? $"zone '{zoneName ?? ""}' not found" : !objectFound ? $"object '{parentStem}{handlerName ?? ""}' not found" : $"not linked to handler '{parentStem}{handlerName}'";
+                    LDMLog.Info(LDMLogCategory.World, $"Removing handler entry '{zoneName ?? ""}/{parentStem}{handlerName ?? ""}' from game state modifier '{name}' ({reason}).", this);
                 }
 
                 gameStateModifierHandlerData.RemoveAt(i);
@@ -205,7 +206,7 @@ namespace LowDefMustard.GameStateModifiers
             gameStateModifierHandlerData = gameStateModifierHandlerData.Distinct().ToList();
             int removedCount = initialCount - gameStateModifierHandlerData.Count;
             
-            if (removedCount > 0) { Debug.Log($"GameStateModifier {name} :: Duplicate GUIDs found!  Removed {removedCount} entries."); }
+            if (removedCount > 0) { LDMLog.Warning(LDMLogCategory.World, $"Removed {removedCount} duplicate handler entries from game state modifier '{name}'.", this); }
             return removedCount;
         }
         #endregion

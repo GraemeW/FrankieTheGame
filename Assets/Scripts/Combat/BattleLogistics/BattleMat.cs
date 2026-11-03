@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Unity.Scripting.LifecycleManagement;
 using Frankie.Zones;
+using LowDefMustard.Core;
 
 namespace Frankie.Combat
 {
@@ -70,7 +71,7 @@ namespace Frankie.Combat
         public bool IsEnemyPositionAvailable(BattleEntityType battleEntityType)
         {
             if (GetAllowedBattleRows(GetRestrictedBattleRowCount(battleEntityType)).Any(battleRow => GetEnemyCountInRow(battleRow) < _maxEnemiesPerRow)) { return true; }
-            Debug.Log("No remaining positions for enemies to spawn");
+            LDMLog.Info(LDMLogCategory.Combat, "No battle positions left for more enemies.");
             return false;
         }
 
@@ -174,9 +175,9 @@ namespace Frankie.Combat
             RestrictAllowedBattleRows(enemy); // Call within here required for e.g. CallForHelp abilities (mid-combat adds) - adding boss mid-combat would narrow the playfield scope (without removing active enemies)
             BattleRow battleRow = enemy.GetPreferredBattleRow();
             UpdateEnemyPosition(ref battleRow, out int columnIndex);
-            if (battleRow == BattleRow.Any) { Debug.Log($"Warning, could not add {enemy.name} to combat"); return; }
+            if (battleRow == BattleRow.Any) { LDMLog.Info(LDMLogCategory.Combat, $"No battle position available for enemy '{enemy.name}'. Leaving it out of combat."); return; }
             
-            Debug.Log($"New enemy added at position row: {battleRow} ; col: {columnIndex}");
+            LDMLog.Info(LDMLogCategory.Combat, $"Added enemy '{enemy.name}' to combat (row: {battleRow}, column: {columnIndex}).");
 
             var enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), battleRow, columnIndex);
             activeEnemies.Add(enemyBattleEntity);

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.UIBox
 {
@@ -20,7 +21,7 @@ namespace LowDefMustard.UIBox
             textEntryContainer = rootElement.Q<TextEntryContainer>();
             if (textEntryContainer == null)
             {
-                Debug.LogWarning($"UIToolkitTextScanView[{name}] failed to bind:  UXML requires a TextEntryContainer.");
+                LDMLog.Warning(LDMLogCategory.UI, $"Text scan view '{name}' failed to bind: its UXML requires a TextEntryContainer.", this);
                 return false;
             }
             ApplyChoiceLayout();

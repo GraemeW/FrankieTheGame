@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LowDefMustard.Core;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -55,7 +56,7 @@ namespace LowDefMustard.Saving
                 saveableEntity.gameObject.SetActive(true);
                 saveableEntity.gameObject.SetActive(false);
             }
-            Debug.Log($"Identified {saveableEntities.Count} SaveableEntities for SavingSystem.");
+            LDMLog.Info(LDMLogCategory.Saving, $"Found {saveableEntities.Count} saveable entities.");
             return saveableEntities;
         }
         
@@ -84,6 +85,7 @@ namespace LowDefMustard.Saving
                 // Note:  will throw scene existence error if saved scene name does not exist
                 // i.e. scene name changes -> will corrupt save on those scenes -- so don't do it, or prepare for consequences
             RestoreState(state);
+            LDMLog.Important(LDMLogCategory.Saving, $"Loaded save '{saveFile}' (scene: '{sceneName}').");
         }
 
         public static void LoadWithinScene(string saveFile)
@@ -123,7 +125,7 @@ namespace LowDefMustard.Saving
         {
             JObject state = LoadFile(sessionFile);
             CaptureIndividualState(state, saveableEntity);
-            Debug.Log(state);
+            LDMLog.Info(LDMLogCategory.Saving, $"Appended entity state to '{sessionFile}'.");
             SaveFile(sessionFile, state);
         }
 
@@ -137,6 +139,7 @@ namespace LowDefMustard.Saving
         public static void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
+            LDMLog.Info(LDMLogCategory.Saving, $"Deleted save file '{saveFile}'.");
         }
 
         public static string ManualGetLastScene(JObject state)
@@ -150,7 +153,7 @@ namespace LowDefMustard.Saving
 #if UNITY_EDITOR
             if (!EditorBuildSettings.scenes.Any(scene => scene.path.Contains(sceneName)))
             {
-                Debug.LogWarning($"Scene updated to {sceneName}, but not found in build profile!  Save may not load correctly.");
+                LDMLog.Warning(LDMLogCategory.Saving, $"Last scene set to '{sceneName}', but it is not in the build profile. The save may not load correctly.");
             }
 #endif
 
@@ -176,6 +179,7 @@ namespace LowDefMustard.Saving
             string path = GetPathFromSaveFile(saveFile);
             if (!File.Exists(path))
             {
+                LDMLog.Info(LDMLogCategory.Saving, $"No save file '{saveFile}' found. Using an empty state.");
                 return new JObject();
             }
             
@@ -203,7 +207,7 @@ namespace LowDefMustard.Saving
         private static void SaveFile(string saveFile, JObject state)
         {
             string path = GetPathFromSaveFile(saveFile);
-            Debug.Log($"Saving to {path}");
+            LDMLog.Info(LDMLogCategory.Saving, $"Writing save file '{saveFile}' (path: '{path}').");
             
             using (StreamWriter textWriter = File.CreateText(path))
             {

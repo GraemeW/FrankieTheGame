@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 
@@ -165,8 +166,8 @@ namespace LowDefMustard.Zones
             localizationToolBridge = null;
             if (preventLocalizationForTests) { return false; }
 
-            if (tableType == null) { Debug.LogWarning($"{name} ({nameof(ZoneNode)}) has no table type registered - skipping localization operation."); return false; }
-            if (!LocalizationToolBridgeRegistry.TryGetBridge(tableType.GetType(), out localizationToolBridge)) { Debug.LogWarning($"No localization bridge registered for table type - skipping localization operation for {name}"); return false; }
+            if (tableType == null) { LDMLog.Warning(LDMLogCategory.Zones | LDMLogCategory.Localization, $"Zone node '{name}' has no localization table type registered. Skipping localization.", this); return false; }
+            if (!LocalizationToolBridgeRegistry.TryGetBridge(tableType.GetType(), out localizationToolBridge)) { LDMLog.Warning(LDMLogCategory.Zones | LDMLogCategory.Localization, $"No localization bridge registered for table type '{tableType.GetType().Name}'. Skipping localization for zone node '{name}'.", this); return false; }
 
             return true;
         }

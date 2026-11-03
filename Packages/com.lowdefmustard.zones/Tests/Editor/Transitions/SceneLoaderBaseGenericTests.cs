@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 using System;
+using System.Text.RegularExpressions;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -84,12 +86,13 @@ namespace LowDefMustard.Zones.Tests.Editor
         }
 
         [Test]
-        public void QueueScene_SceneTypeWithNoAssignedZone_ReconciledZoneIsNull_DoesNotInvokeProvider()
+        public void QueueScene_SceneTypeWithNoAssignedZone_ReconciledZoneIsNull_LogsErrorAndDoesNotInvokeProvider()
         {
             // TestSceneType.None was never passed to lookup.Set, so it reconciles to a null Zone
             bool invoked = false;
             loader.sceneLoadFadeProvider = (_, _) => invoked = true;
 
+            LogAssert.Expect(LogType.Error, new Regex(@"\[Zones\]\S* No zone mapped to scene type 'None'\."));
             SceneLoaderBase<TestSceneType>.QueueScene(TestSceneType.None, new SceneQueueData(true));
 
             Assert.IsFalse(invoked);

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Utils;
 
 namespace LowDefMustard.Control
@@ -95,7 +96,7 @@ namespace LowDefMustard.Control
         {
             if (movementConfiguration == null)
             {
-                Debug.LogWarning($"{gameObject.name} Mover:  Movement configuration is missing");
+                LDMLog.Warning(LDMLogCategory.Control, $"Mover on '{gameObject.name}' has no movement configuration. Disabling the GameObject.", gameObject);
                 gameObject.SetActive(false);
                 return false;
             }

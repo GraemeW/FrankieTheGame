@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Core;
 using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using Frankie.Core;
@@ -144,19 +145,19 @@ namespace Frankie.Utils
         #region SavingWrapperDebug
         private void Save()
         {
-            Debug.Log($"Frankie Debugger:  Saving Game...");
+            LDMLog.Info(LDMLogCategory.Saving, "Debugger: saving the game.");
             SaveFileManager.Save();
         }
 
         private void Continue()
         {
-            Debug.Log($"Frankie Debugger:  Loading Game...");
+            LDMLog.Info(LDMLogCategory.Saving, "Debugger: loading the game.");
             SaveFileManager.Continue();
         }
 
         private void Delete()
         {
-            Debug.Log($"Frankie Debugger:  Deleting Game...");
+            LDMLog.Info(LDMLogCategory.Saving, "Debugger: deleting the session.");
             SaveFileManager.DeleteSession();
             SaveFileManager.Delete();
         }
@@ -171,7 +172,7 @@ namespace Frankie.Utils
 
         private void ClearPlayerPrefs()
         {
-            Debug.Log($"Frankie Debugger:  Clearing Player Prefs...");
+            LDMLog.Info(LDMLogCategory.Saving, "Debugger: clearing player prefs.");
             PlayerPrefsController.ClearPlayerPrefs();
         }
         #endregion
@@ -197,15 +198,13 @@ namespace Frankie.Utils
 
         private void PrintQuests()
         {
-            if (!questList.TryGetSafely(out QuestList questListInstance)) { Debug.LogWarning("Quest list could not be found."); return; }
+            if (!questList.TryGetSafely(out QuestList questListInstance)) { LDMLog.Warning(LDMLogCategory.Quests, "Debugger: no quest list found. Cannot print quests.", this); return; }
             
-            Debug.Log("Printing Quests:");
+            LDMLog.Info(LDMLogCategory.Quests, "Debugger: active quests:");
             foreach (QuestStatus questStatus in questListInstance.GetActiveQuests())
             {
                 Quest quest = questStatus.GetQuest();
-                Debug.Log($"Quest: {quest.GetName()} - {quest.GetDetail()}");
-                Debug.Log($"Completed:  {questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives");
-                Debug.Log("---Fin---");
+                LDMLog.Info(LDMLogCategory.Quests, $"Quest '{quest.GetName()}': {quest.GetDetail()} ({questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives complete).", quest);
             }
         }
         #endregion
@@ -213,12 +212,11 @@ namespace Frankie.Utils
         #region PartyDebug
         private void LevelUpParty()
         {
-            if (!party.TryGetSafely(out Party partyInstance)) { Debug.LogWarning("Party could not be found."); return; }
+            if (!party.TryGetSafely(out Party partyInstance)) { LDMLog.Warning(LDMLogCategory.Stats, "Debugger: no party found. Cannot level up.", this); return; }
             
-            Debug.Log("Leveling up party:");
             foreach (BaseStats character in partyInstance.GetMembers())
             {
-                Debug.Log($"{CharacterProperties.GetCharacterDisplayName(character)} has gained a level");
+                LDMLog.Info(LDMLogCategory.Stats, $"Debugger: levelling up '{CharacterProperties.GetCharacterDisplayName(character)}'.");
                 character.IncrementLevel();
             }
         }
@@ -227,9 +225,9 @@ namespace Frankie.Utils
         #region WalletDebug
         private void AddFundsToWallet()
         {
-            if (!wallet.TryGetSafely(out Wallet walletInstance)) { Debug.LogWarning("Wallet could not be found."); return; }
+            if (!wallet.TryGetSafely(out Wallet walletInstance)) { LDMLog.Warning(LDMLogCategory.Inventory, "Debugger: no wallet found. Cannot add funds.", this); return; }
             
-            Debug.Log($"Adding ${fundsToAddToWallet} to wallet");
+            LDMLog.Info(LDMLogCategory.Inventory, $"Debugger: adding ${fundsToAddToWallet} to the wallet.");
             walletInstance.UpdateCash(fundsToAddToWallet);
         }
         #endregion

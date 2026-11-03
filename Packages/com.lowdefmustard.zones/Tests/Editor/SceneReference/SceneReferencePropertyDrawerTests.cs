@@ -16,6 +16,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     {
         // Const Tunables
         private const string _rootFolderName = "ScratchTest_SceneReferenceDrawer_SafeToDelete";
+        private const string _zonesLogPrefix = @"\[Zones\]\S* ";
         private const string _rootFolder = "Assets/" + _rootFolderName;
         private const string _alphaName = "ScratchDrawer_Alpha";
         private const string _alphaExtendedName = "ScratchDrawer_AlphaExtended";
@@ -52,6 +53,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             betaScene = CreateSceneAsset(_betaPath);
             CreateSceneAsset(_dupPathOne);
             CreateSceneAsset(_dupPathTwo);
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open
             AssetDatabase.Refresh();
         }
 
@@ -120,7 +122,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             Assert.AreEqual(expectedPath, host.sceneReference.scenePath);
         }
 
-        private static Regex RepairedLog(string path) => new("^Repaired scene reference for .*: " + Regex.Escape(path) + "$");
+        private static Regex RepairedLog(string path) => new(_zonesLogPrefix + "Repaired scene reference for .* \\(path: '" + Regex.Escape(path) + "'\\)\\.$");
         #endregion
 
         #region StructureTests
@@ -247,8 +249,8 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(null, _dupName, string.Empty);
             SerializedProperty property = GetSceneReferenceProperty(host);
 
-            LogAssert.Expect(LogType.Warning, new Regex("^Attempting to repair scene reference for " + _dupName + ", but duplicate scene references found"));
-            LogAssert.Expect(LogType.Warning, new Regex("^Could not repair scene reference for "));
+            LogAssert.Expect(LogType.Warning, new Regex(_zonesLogPrefix + "Found duplicate scenes named '" + _dupName + "'"));
+            LogAssert.Expect(LogType.Warning, new Regex(_zonesLogPrefix + "Could not repair scene reference for "));
             VisualElement root = BuildDrawerUI(property);
 
             Assert.IsTrue(host.sceneReference.sceneAsset == null);
@@ -262,7 +264,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(null, "ScratchDrawer_DoesNotExist", _missingPath);
             SerializedProperty property = GetSceneReferenceProperty(host);
 
-            LogAssert.Expect(LogType.Warning, new Regex("^Could not repair scene reference for .* \\(path: '" + Regex.Escape(_missingPath) + "', name: 'ScratchDrawer_DoesNotExist'\\)$"));
+            LogAssert.Expect(LogType.Warning, new Regex(_zonesLogPrefix + "Could not repair scene reference for .* \\(path: '" + Regex.Escape(_missingPath) + "', name: 'ScratchDrawer_DoesNotExist'\\)\\. Re-link it manually\\.$"));
             BuildDrawerUI(property);
 
             Assert.IsTrue(host.sceneReference.sceneAsset == null);

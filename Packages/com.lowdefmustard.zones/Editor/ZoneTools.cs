@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Core;
 
 namespace LowDefMustard.Zones.Editor
 {
@@ -35,7 +36,7 @@ namespace LowDefMustard.Zones.Editor
                 return false;
             }
             EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
-            Debug.Log($"{zone.name} opened successfully.");
+            LDMLog.Info(LDMLogCategory.Zones, $"Opened scene for zone '{zone.name}'.", zone);
             return true;
         }
     }

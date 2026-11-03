@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Saving.Editor;
 using Frankie.Inventory;
@@ -83,14 +84,14 @@ namespace Frankie.Saving.Editor
             
             if (newEquipableItem.GetEquipLocation() != equipLocation)
             {
-                Debug.Log($"Invalid item {newEquipableItem} :: EquipLocation[{newEquipableItem.GetEquipLocation()}]");
+                LDMLog.Warning(LDMLogCategory.Saving | LDMLogCategory.Inventory, $"Item '{newEquipableItem.name}' equips to '{newEquipableItem.GetEquipLocation()}', not '{equipLocation}'. Skipping the change.");
                 return false;
             }
                     
             if (saveableEntityCardData != null && saveableEntityCardData.TryGetSaveableSubCardData(out KnapsackSaveableSubCard knapsackSubCardData))
             {
                 bool couldEquipItem = knapsackSubCardData.TryEquipItem(newEquipableItem);
-                if (!couldEquipItem) { Debug.Log($"Could not find or add item {newEquipableItem} to inventory.");}
+                if (!couldEquipItem) { LDMLog.Warning(LDMLogCategory.Saving | LDMLogCategory.Inventory, $"Could not find or add item '{newEquipableItem.name}' in the inventory. Skipping the equip."); }
                 return couldEquipItem;
             }
             return true;

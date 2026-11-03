@@ -2,6 +2,7 @@
   "name": "LowDefMustard.Rendering",
   "rootNamespace": "LowDefMustard.Rendering",
   "references": [
+    "LowDefMustard.Core",
     "Unity.Cinemachine",
     "Unity.RenderPipelines.Universal.Runtime"
   ],

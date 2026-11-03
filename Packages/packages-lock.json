@@ -5,14 +5,22 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.lowdefmustard.core": "0.1.0",
         "com.lowdefmustard.utils": "0.1.0"
       }
+    },
+    "com.lowdefmustard.core": {
+      "version": "file:com.lowdefmustard.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.lowdefmustard.gamestatemodifiers": {
       "version": "file:com.lowdefmustard.gamestatemodifiers",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.lowdefmustard.core": "0.1.0",
         "com.lowdefmustard.utils": "0.1.0"
       }
     },
@@ -23,6 +31,7 @@
       "dependencies": {
         "com.unity.localization": "1.5.12",
         "com.unity.addressables": "2.9.1",
+        "com.lowdefmustard.core": "0.1.0",
         "com.lowdefmustard.utils": "0.1.0"
       }
     },
@@ -31,6 +40,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.lowdefmustard.core": "0.1.0",
         "com.unity.cinemachine": "6.6.0",
         "com.unity.render-pipelines.universal": "17.6.0",
         "com.unity.modules.uielements": "1.0.0"
@@ -41,6 +51,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.lowdefmustard.core": "0.1.0",
         "com.unity.2d.tilemap": "1.0.0",
         "com.unity.2d.tilemap.extras": "8.0.3"
       }
@@ -50,6 +61,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.lowdefmustard.core": "0.1.0",
         "com.unity.nuget.newtonsoft-json": "3.2.2"
       }
     },
@@ -60,6 +72,7 @@
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0",
         "com.lowdefmustard.control": "0.1.0",
+        "com.lowdefmustard.core": "0.1.0",
         "com.lowdefmustard.utils": "0.1.0"
       }
     },
@@ -67,7 +80,9 @@
       "version": "file:com.lowdefmustard.utils",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.lowdefmustard.core": "0.1.0"
+      }
     },
     "com.lowdefmustard.zones": {
       "version": "file:com.lowdefmustard.zones",
@@ -76,6 +91,7 @@
       "dependencies": {
         "com.unity.localization": "1.5.12",
         "com.unity.addressables": "2.9.1",
+        "com.lowdefmustard.core": "0.1.0",
         "com.lowdefmustard.utils": "0.1.0",
         "com.lowdefmustard.localization": "0.1.0"
       }

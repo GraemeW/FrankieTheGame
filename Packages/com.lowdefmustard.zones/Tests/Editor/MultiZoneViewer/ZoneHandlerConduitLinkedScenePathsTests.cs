@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -18,7 +19,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         private const string _scratchFolder = "Assets/" + _scratchFolderName;
         private const string _scratchScenePath = "Assets/ScratchTest_OpenLinkedScenePaths_SafeToDelete.unity";
         private const string _scratchSceneName = "ScratchTest_OpenLinkedScenePaths_SafeToDelete";
-        private const string _noScenePathWarning = "Scene path is not configured!  Please re-link the scene reference in editor";
+        private static readonly Regex _noScenePathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
 
         // State
         private Zone rootZone;

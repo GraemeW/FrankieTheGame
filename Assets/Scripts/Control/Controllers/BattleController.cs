@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Control;
 using Frankie.Zones;
 using Frankie.Core;
@@ -88,7 +89,7 @@ namespace Frankie.Combat
             GameObject playerObject = Player.FindPlayerObject();
             if (playerObject == null || !playerObject.TryGetComponent(out partyCombatConduit))
             {
-                Debug.LogError("[BattleController] Player Object or PartyCombatConduit could not be found.");
+                LDMLog.Error(LDMLogCategory.Combat, "No player object with a PartyCombatConduit found. Destroying the battle controller.", this);
                 destroyQueued = true; 
                 return;
             }
@@ -185,7 +186,8 @@ namespace Frankie.Combat
         public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
             battleState = state;
-            Debug.Log($"Battle state set to {battleState}");
+            if (state == BattleState.Complete) { LDMLog.Important(LDMLogCategory.Combat, $"Battle ended (outcome: {battleOutcome})."); }
+            else { LDMLog.Info(LDMLogCategory.Combat, $"Battle state set to '{state}'."); }
             if (canAttemptEarlyRun && state == BattleState.Combat) { canAttemptEarlyRun = false; }
 
             BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()));
@@ -503,8 +505,7 @@ namespace Frankie.Combat
             if (canAttemptEarlyRun) { allCharactersAvailable = true; } // Override for pre-battle run attempt
             
             // Character Availability
-            Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
-            if (!allCharactersAvailable) { return false; }
+            if (!allCharactersAvailable) { LDMLog.Info(LDMLogCategory.Combat, "Run attempt blocked: not every party member is ready."); return false; }
             
             float averagePartySpeed = partySpeed / battleMat.GetCountActivePlayerCharacters();
             int averagePartyLevel = partyLevel / battleMat.GetCountActivePlayerCharacters();
@@ -517,7 +518,7 @@ namespace Frankie.Combat
             float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, averagePartyLevel, averagePartySpeed, enemyLevel, enemySpeed);
             runChance = Mathf.Clamp(runChance + runAttemptCounter * runChanceIncrement, 0f, 1f);
             float runCheck = UnityEngine.Random.value;
-            Debug.Log($"Run Attempt.  Run chance @ {runChance}.  Run check @ {runCheck}");
+            LDMLog.Info(LDMLogCategory.Combat, $"Run attempt (chance: {runChance:F2}, roll: {runCheck:F2}, escaped: {runCheck < runChance}).");
             if (runCheck < runChance)
             {
                 foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
