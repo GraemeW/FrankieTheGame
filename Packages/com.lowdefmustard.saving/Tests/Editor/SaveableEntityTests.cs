@@ -132,7 +132,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         {
             testGameObject.AddComponent<TestSaveableComponent>();
 
-            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("Save data for an entity is malformed"));
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("Save data for an entity is malformed"));
             Assert.DoesNotThrow(() => entity.RestoreState(JValue.CreateNull(), LoadPriority.ObjectProperty));
         }
 
@@ -199,7 +199,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         [Test]
         public void TryGetStateDictionary_JsonNullToken_ReturnsFalseAndLogsError()
         {
-            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("Save data for an entity is malformed"));
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("Save data for an entity is malformed"));
             bool result = SaveableEntity.TryGetStateDictionary(JValue.CreateNull(), out JObject dictionary);
 
             Assert.IsFalse(result);

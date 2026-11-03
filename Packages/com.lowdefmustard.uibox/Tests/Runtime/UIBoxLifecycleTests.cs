@@ -44,7 +44,7 @@ namespace LowDefMustard.UIBox.Tests
             TestUIBox testUIBox = CreateInactiveTestUIBox();
             testUIBox.tryAcquireDependenciesResult = false;
 
-            LogAssert.Expect(LogType.Error, new Regex("is missing required dependencies\\. Destroying it\\."));
+            LogAssert.Expect(LogType.Warning, new Regex("is missing required dependencies\\. Destroying it\\."));
             testUIBox.gameObject.SetActive(true);
             yield return null;
 
@@ -127,7 +127,7 @@ namespace LowDefMustard.UIBox.Tests
         public IEnumerator MissingControllerAfterStart_QueuesDestroyAfterOneFrameGrace()
         {
             TestUIBox testUIBox = CreateInactiveTestUIBox();
-            LogAssert.Expect(LogType.Error, new Regex("found no controller to handle global input\\. Destroying it\\."));
+            LogAssert.Expect(LogType.Warning, new Regex("found no controller to handle global input\\. Destroying it\\."));
             testUIBox.gameObject.SetActive(true); // handleGlobalInput defaults true, no controller set
 
             // Grace period: Start() must run, then the coroutine's own yield return null must elapse
