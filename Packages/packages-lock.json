@@ -8,6 +8,12 @@
         "com.lowdefmustard.utils": "0.1.0"
       }
     },
+    "com.lowdefmustard.core": {
+      "version": "file:com.lowdefmustard.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.lowdefmustard.gamestatemodifiers": {
       "version": "file:com.lowdefmustard.gamestatemodifiers",
       "depth": 0,
