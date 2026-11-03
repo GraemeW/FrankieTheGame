@@ -78,6 +78,40 @@
     * [MainMenuController](../../Assets/Scripts/Control/Controllers/MainMenuController.cs)
     * [FrankieDebugger](../../Assets/Scripts/Utils/Debugger/FrankieDebugger.cs)
 
+### Logging
+
+*Note:  For the logging API and settings, see [LowDefMustard Core](../../Packages/com.lowdefmustard.core/README.md)*
+
+* Logs must go through `LDMLog` (`LowDefMustard.Core`) ~ `UnityEngine.Debug.Log*` must not be called directly outside of `LowDefMustard.Core`
+* Severity must be chosen by the state the game is left in:
+  * `Error`:  the game/tool is no longer viable, or data is unrecoverably broken (e.g. a cache failed to load, a battle cannot start)
+  * `Warning`:  something is wrong or misconfigured, but play continues (default for most problems)
+  * `Important`:  a milestone worth reading in a shipped player log (e.g. zone loaded, game saved, battle ended, quest completed)
+  * `Info`:  diagnostics and tracing, intentionally ignored requests, routine automatic actions, normal gameplay limits
+    * Note:  editor-only code should use `Info` rather than `Important`
+* Category must be the owning subsystem's `LDMLogCategory` (e.g. `Combat`, `Saving`, `Zones`)
+  * a second flag (e.g. `Zones | Localization`) should be added when the message spans multiple systems
+  * debug/editor tools should tag the system they act on, not `Utilities`
+* Messages must follow the standard format:
+  * no source or severity prefixes in the text (no `Warning!`, `Error:`, `ClassName:`, `[ToolName]`)
+  * sentence case, full sentences ending in a period, no exclamation marks
+  * shape:  `<what happened> [for <subject>]. <consequence or fix>.`
+    * warnings/errors should state what the code does next (`Skipping ...`, `Ignoring the request.`) and the fix if known
+  * names, IDs, paths and enum values should be wrapped in single quotes (e.g. `zone 'Forest01'`)
+  * supporting data should be given in parentheses as `key: value` pairs (e.g. `(path: 'Assets/...', count: 3)`)
+  
+  Example Message:
+  
+  ```LDMLog.Warning(LDMLogCategory.Zones, $"Scene path for '{sceneName}' is not configured. Re-link the scene reference in the editor.");```
+
+* A `context` object should be passed when a Unity object is the subject of the message to enable click-to-ping
+* Logs should be added on paths that silently drop expected work or return an unintuitive fallback
+* Logs should not be added for:
+  * optional features that are deliberately unused (e.g. pathfinding, which is not strictly required for all NPCs/situations)
+  * per-frame / per-tick traces ~ remove any debugging breadcrumbs before committing
+  * events already logged one layer down
+* The message must always be the plain `string` parameter directly after the category ~ `params object[]` / format-string overloads must not be added (keeps a future C# 10+ interpolated string handler drop-in)
+
 ## Artwork
 
 ### Rendering Notes
