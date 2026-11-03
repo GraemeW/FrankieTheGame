@@ -256,7 +256,7 @@ namespace Frankie.Inventory
             if (this != destinationKnapsack)
             {
                 destinationKnapsack.SquishItemsInKnapsack();
-                destinationKnapsack.GetComponent<Equipment>()?.ReconcileEquipment(true);
+                if (destinationKnapsack.TryGetComponent(out Equipment destinationEquipment)) { destinationEquipment.ReconcileEquipment(true); }
             }
         }
         #endregion

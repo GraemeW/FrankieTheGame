@@ -1,0 +1,28 @@
+{
+  "name": "Frankie",
+  "rootNamespace": "Frankie",
+  "references": [
+    "Frankie.Input",
+    "LowDefMustard.Control",
+    "LowDefMustard.GameStateModifiers",
+    "LowDefMustard.Localization",
+    "LowDefMustard.Rendering",
+    "LowDefMustard.Saving",
+    "LowDefMustard.UIBox",
+    "LowDefMustard.Utils",
+    "LowDefMustard.Zones",
+    "Unity.Addressables",
+    "Unity.InputSystem",
+    "Unity.Localization",
+    "Unity.ResourceManager"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

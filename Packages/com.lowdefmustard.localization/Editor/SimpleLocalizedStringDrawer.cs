@@ -95,7 +95,7 @@ namespace LowDefMustard.Localization.Editor
             // No explicit table type on the attribute - fall back to the containing object's ILocalizableCore.localizationTableTypeValue (e.g. a shared package type)
             if (state.tableType == null)
             {
-                if (property.serializedObject.targetObject is not ILocalizableCore localizable) { return MakeErrorBox($"[SimpleLocalizedString] on '{property.propertyPath}' has no table type, and '{property.serializedObject.targetObject?.GetType().Name}' does not implement ILocalizableCore to provide one."); }
+                if (property.serializedObject.targetObject is not ILocalizableCore localizable) { return MakeErrorBox($"[SimpleLocalizedString] on '{property.propertyPath}' has no table type, and '{(property.serializedObject.targetObject != null ? property.serializedObject.targetObject.GetType().Name : "null")}' does not implement ILocalizableCore to provide one."); }
                 
                 state.tableType = localizable.localizationTableTypeValue;
                 if (state.tableType == null) { return MakeErrorBox($"'{property.serializedObject.targetObject.GetType().Name}' has no table type registered - see LocalizableClassTableTypeRegistry.Register."); }

@@ -4,7 +4,6 @@ using LowDefMustard.Control;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using Frankie.Core;
-using Frankie.Core.Predicates;
 using Frankie.Control;
 
 namespace Frankie.Speech
@@ -26,7 +25,7 @@ namespace Frankie.Speech
         #region UnityMethods
         private void Start()
         {
-            dialogue?.OverrideSpeakerNames(null);
+            if (dialogue != null) { dialogue.OverrideSpeakerNames(null); }
         }
         #endregion
 
@@ -45,7 +44,7 @@ namespace Frankie.Speech
             playerStateMachine.playerStateChanged += HandlePlayerExitDialogue;
         }
 
-        private void HandlePlayerExitDialogue(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        private void HandlePlayerExitDialogue(PlayerStateType playerStateType, IPlayerStateInfo playerStateInfo)
         {
             if (playerStateType != PlayerStateType.InWorld || playerStateMachine == null) { return; }
             

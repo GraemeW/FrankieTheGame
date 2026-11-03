@@ -97,7 +97,7 @@ Character objects are broken down into:
 * [NPCs](./NPCs/): Non-playable characters, which notably have some form of intelligence to control themselves, whether in the world or in combat
   * e.g. in fixed movements through [NPCMover](../../Scripts/Control/Movement/NPCMover.cs) via [patrol paths](../../../Packages/com.lowdefmustard.control/Runtime/Movement/Patrol/PatrolPath.cs)
   * , or to chase the player through [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs)
-  * , or in combat to attack the player with the [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs) and [BattleAIPredicates](../../Scripts/Combat/BattleAI/BattleAIPredicates/)
+  * , or in combat to attack the player with the [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs) and [BattleAIPredicates](../../Scripts/Combat/BattleAI/Predicates/)
 
 ### New Character Creation Quick Start:  Playable Characters
 

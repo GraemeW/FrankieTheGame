@@ -378,7 +378,7 @@ namespace Frankie.Control
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
-            patrolPath?.OnDrawGizmosSelected();
+            if (patrolPath != null) { patrolPath.OnDrawGizmosSelected(); }
             if (!canRandomWalk) { return; }
             
             Gizmos.color = randomWalkGizmoColor;

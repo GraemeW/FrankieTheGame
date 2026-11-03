@@ -95,7 +95,7 @@ namespace Frankie.Control
             
             if (parentTransformForToggling == null) { parentTransformForToggling = transform; }
 
-            string partyLeaderName = playerStateMachine.GetComponent<Party>()?.GetPartyLeaderName();
+            string partyLeaderName = playerStateMachine.TryGetComponent(out Party party) ? party.GetPartyLeaderName() : null;
             partyLeaderName ??= defaultPartyLeaderName;
             if (CheckCondition(playerStateMachine))
             {

@@ -131,7 +131,7 @@ namespace Frankie.Control
             interactionCentrePoint = newInteractionCentrePoint;
         }
         
-        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateInfo playerStateInfo)
         {
             SetCursor(CursorType.None);
             allowComponentInteraction = false;

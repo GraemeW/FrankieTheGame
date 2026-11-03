@@ -193,7 +193,7 @@ namespace Frankie.Utils.Editor
             EditorUtility.FocusProjectWindow();
 
             EditorWindow projectBrowser = EditorWindow.focusedWindow;
-            MethodInfo showFolderContents = projectBrowser?.GetType().GetMethod("ShowFolderContents", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo showFolderContents = projectBrowser != null ? projectBrowser.GetType().GetMethod("ShowFolderContents", BindingFlags.Instance | BindingFlags.NonPublic) : null;
             if (showFolderContents == null)
             {
                 SelectAsset(path);

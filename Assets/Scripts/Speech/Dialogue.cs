@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using Frankie.Stats;
 using Frankie.Utils.Localization;
 

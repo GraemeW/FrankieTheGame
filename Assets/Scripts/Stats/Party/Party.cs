@@ -51,7 +51,7 @@ namespace Frankie.Stats
         #region EventHandling
         protected override PartyAlteredData PackPartyAlteredData() => new(PartyBehaviourType.Party, members, GetPartyLeaderName(), GetLeadCharacterAnimator());
 
-        private void HandlePlayerStateUpdates(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        private void HandlePlayerStateUpdates(PlayerStateType playerStateType, IPlayerStateInfo playerStateInfo)
         {
             if (playerStateType != PlayerStateType.InWorld) { return; }
             if (ReconcileTheDead()) { TriggerMembersAltered(); }

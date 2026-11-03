@@ -29,7 +29,7 @@ or
 
 * `EnterDialogue()` -- e.g. from an [NPCStateHandler](../../Scripts/Control/NPC/NPCStateHandler.cs)'s `InitiateDialogue()`
 
-As part of this transition, the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) instantiates and sets up the corresponding [BattleController](./Battle%20Controller.prefab) or [DialogueController](./DialogueController.prefab).  The [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) also announces the state change via the `Action<PlayerStateType> playerStateChanged` event, which temporarily pauses input from the [PlayerController](../Core/README.md#player-prefab-singleton) that may cause issues.  
+As part of this transition, the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) instantiates and sets up the corresponding [BattleController](./Battle%20Controller.prefab) or [DialogueController](./DialogueController.prefab).  The [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) also announces the state change via the `Action<PlayerStateType, IPlayerStateInfo> playerStateChanged` event, which temporarily pauses input from the [PlayerController](../Core/README.md#player-prefab-singleton) that may cause issues.  
 
 ### Controller Behaviour
 

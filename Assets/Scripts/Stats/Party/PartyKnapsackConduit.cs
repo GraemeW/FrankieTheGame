@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using LowDefMustard.Utils;
 using Frankie.Combat;
-using Frankie.Core.Predicates;
 using Frankie.Stats;
 
 namespace Frankie.Inventory
@@ -13,8 +12,14 @@ namespace Frankie.Inventory
         // State
         private readonly List<Knapsack> knapsacks = new();
         private readonly List<Equipment> equipments = new();
+        private bool hasStarted = false;
 
         #region UnityMethods
+        private void Start()
+        {
+            hasStarted = true;
+        }
+
         private void OnEnable()
         {
             if (TryGetComponent(out Party party))
@@ -42,7 +47,7 @@ namespace Frankie.Inventory
 
                 if (character.TryGetComponent(out Equipment equipment))
                 {
-                    equipment.ReconcileEquipment(true);
+                    if (hasStarted) { equipment.ReconcileEquipment(true); } // Pre-Start, member Equipment may not have run Awake - it reconciles itself in its own Start
                     equipments.Add(equipment);
                 }
             }

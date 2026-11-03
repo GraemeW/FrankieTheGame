@@ -72,10 +72,10 @@ namespace Frankie.Control
         #endregion
 
         #region EventListeners
-        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateInfo playerStateInfo)
         {
             inWorld = (playerStateType == PlayerStateType.InWorld);
-            if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
+            if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateInfo.CanMoveInCutscene(); }
             RefreshMoverSpeed();
         }
 

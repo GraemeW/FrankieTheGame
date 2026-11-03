@@ -17,6 +17,7 @@ namespace Frankie.Control
         [Min(0)][Tooltip("in seconds")][SerializeField] private float delayToDestroyAfterInvisible = 2f;
 
         // State
+        private bool hasStarted = false;
         private NPCStateType npcState = NPCStateType.Idle;
         private bool npcOccupied = false;
         private bool queueDeathOnNextPlayerStateChange = false;
@@ -47,6 +48,7 @@ namespace Frankie.Control
             playerStateMachine ??= new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
             playerStateMachine.ForceInit();
             
+            hasStarted = true;
             InitializeNPCRunDisposition(); // Must init in Start due to object readiness
         }
 
@@ -56,7 +58,7 @@ namespace Frankie.Control
             if (playerStateMachine.TryGetSafely(out PlayerStateMachine playerStateMachineInstance)) { playerStateMachineInstance.playerStateChanged += ParsePlayerStateChange; }
             if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
-            SetNPCState(NPCStateType.Idle);
+            if (hasStarted) { SetNPCState(NPCStateType.Idle); } // First broadcast deferred to Start - listeners (e.g. CombatParticipant) may not have run Awake
         }
 
         private void OnDisable()
@@ -158,13 +160,13 @@ namespace Frankie.Control
             aiConversant.ForceInteractionEvent(playerStateMachineInstance);
         }
         
-        private void CheckForNPCAfraid(IPlayerStateContext playerStateContext, bool overrideStateCheck = false)
+        private void CheckForNPCAfraid(IPlayerStateInfo playerStateInfo, bool overrideStateCheck = false)
         {
             if (!overrideStateCheck && npcState is not (NPCStateType.Aggravated or NPCStateType.Suspicious)) { return; }
             if (combatParticipant == null) { return; }
             
-            if (!playerStateContext.IsAnyPartyMemberAlive()) { return; }
-            isNPCAfraid = playerStateContext.IsPlayerFearsome(combatParticipant);
+            if (!playerStateInfo.IsAnyPartyMemberAlive()) { return; }
+            isNPCAfraid = playerStateInfo.IsPlayerFearsome(combatParticipant);
         }
 
         private void HandleSpriteVisibility(bool isVisible)
@@ -191,7 +193,7 @@ namespace Frankie.Control
         #endregion
 
         #region EventListeners
-        private void ParsePlayerStateChange(PlayerStateType playerState, IPlayerStateContext playerStateContext)
+        private void ParsePlayerStateChange(PlayerStateType playerState, IPlayerStateInfo playerStateInfo)
         {
             if (queueDeathOnNextPlayerStateChange) { Destroy(gameObject); }
             
@@ -203,11 +205,11 @@ namespace Frankie.Control
                     SetNPCState(NPCStateType.Occupied);
                     break;
                 case PlayerStateType.InTransition:
-                    if (playerStateContext.InZoneTransition())
+                    if (playerStateInfo.InZoneTransition())
                     {
                         SetNPCState(NPCStateType.Occupied);
                     }
-                    else if (playerStateContext.InBattleExitTransition())
+                    else if (playerStateInfo.InBattleExitTransition())
                     {
                         SetNPCState(NPCStateType.Idle);
                         SetNPCState(NPCStateType.Occupied);
@@ -217,7 +219,7 @@ namespace Frankie.Control
                 case PlayerStateType.InCutScene:
                 case PlayerStateType.InWorld:
                 default:
-                    CheckForNPCAfraid(playerStateContext);
+                    CheckForNPCAfraid(playerStateInfo);
                     SetNPCState(npcState);
                     break;
             }

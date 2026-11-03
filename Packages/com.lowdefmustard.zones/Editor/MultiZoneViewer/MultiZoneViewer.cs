@@ -577,7 +577,7 @@ namespace LowDefMustard.Zones.Editor
         private void TryLoadScene(ZoneView zoneView)
         {
             if (!isToolAvailable) { return; }
-            string scenePath = zoneView?.data?.scenePath;
+            string scenePath = zoneView != null && zoneView.data != null ? zoneView.data.scenePath : null;
             if (scenePath == null) { return; }
             
             if (string.IsNullOrEmpty(scenePath) || !File.Exists(scenePath) || !scenePath.EndsWith(".unity")) { return; }

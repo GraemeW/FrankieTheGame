@@ -18,15 +18,15 @@ Predicates are integrated to glean information from most core systems in Frankie
   * for use with `IPredicateEvaluator` implemented by the [CombatParticipant Script](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs), living on [Character Objects](../CharacterObjects/)
 * Inventory - via [Knapsack Predicates](./Knapsack/)
   * e.g. is a specific item in the player's inventory?, does the player have any consumable items?, etc.
-  * for use with `IPredicateEvaluator` implemented by the [Knapsack Script](../../Scripts/Inventory/Knapsack.cs), living on [Playable Character Objects](../CharacterObjects/PCs/)
+  * for use with `IPredicateEvaluator` implemented by the [PartyKnapsackConduit Script](../../Scripts/Stats/Party/PartyKnapsackConduit.cs), living on [Playable Character Objects](../CharacterObjects/PCs/)
 * Party Status - via [Party](./Party/) predicates
   * e.g. is a specific character in the party?, is the leader of the party Frankie?, etc.
-  * for use with `IPredicateEvaluator` implemented by the [Party Script](../../Scripts/Stats/Party/Party.cs), living on the [Player Object](../Core/Player.prefab)
+  * for use with `IPredicateEvaluator` implemented by the [PartyBehaviour Script](../../Scripts/Stats/Party/PartyBehaviour.cs), living on the [Player Object](../Core/Player.prefab)
 * Quests - via [QuestList](./QuestList/) predicates
   * e.g. is a specific quest completed?, how about a specific objective within a quest?, etc.
   * for use with `IPredicateEvaluator` implemented by the [QuestList Script](../../Scripts/Quests/QuestList.cs), living on the [Player Object](../Core/Player.prefab)
 
-Expanding on existing integrations is relatively trivial by defining new concrete child SOs based on the relevant abstract sub-predicate SO.  Creating completely new integrations (e.g. beyond those noted above) can be done via creation of a new abstract sub-predicate SO and a new `IPredicateEvaluator` to evaluate sed sub-predicates.  See [Predicate Scripts](../../Scripts/Predicates/) for more detail.
+Expanding on existing integrations is relatively trivial by defining new concrete child SOs based on the relevant abstract sub-predicate SO.  Creating completely new integrations (e.g. beyond those noted above) can be done via creation of a new abstract sub-predicate SO and a new `IPredicateEvaluator` to evaluate sed sub-predicates.  Predicate scripts live in a `Predicates/` folder beside their evaluator (e.g. [Quests/Predicates](../../Scripts/Quests/Predicates/)).
 
 ### Predicate Creation:  Quick-Start Guide
 

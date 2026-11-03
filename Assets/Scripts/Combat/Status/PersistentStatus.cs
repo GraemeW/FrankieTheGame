@@ -153,7 +153,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void HandlePlayerState(PlayerStateType playerState, IPlayerStateContext playerStateContext)
+        private void HandlePlayerState(PlayerStateType playerState, IPlayerStateInfo playerStateInfo)
         {
             if (playerState == PlayerStateType.InBattle)
             {

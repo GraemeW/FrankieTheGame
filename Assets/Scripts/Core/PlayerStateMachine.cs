@@ -68,7 +68,7 @@ namespace Frankie.Core
         private DialogueController dialogueController;
 
         // Events
-        public event Action<PlayerStateType, IPlayerStateContext> playerStateChanged;
+        public event Action<PlayerStateType, IPlayerStateInfo> playerStateChanged;
         public event Action<int, int, bool> playerLayerChanged;
 
         #region Static
@@ -129,11 +129,11 @@ namespace Frankie.Core
             // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
 
             // Allow swarm / multi-battle entry on same-frame
-            if (playerStateType == PlayerStateType.InTransition && InBattleEntryTransition()) { actionMemory.ChainQueuedCombatAction(); }
+            if (playerStateType == PlayerStateType.InTransition && transitionMemory.InBattleEntryTransition()) { actionMemory.ChainQueuedCombatAction(); }
         }
         
         public Party GetParty() => party;
-        public bool CanMoveInCutscene() => cutsceneMemory.canMoveInCutscene;
+        bool IPlayerStateInfo.CanMoveInCutscene() => cutsceneMemory.canMoveInCutscene;
         
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
         {
@@ -255,22 +255,21 @@ namespace Frankie.Core
         #endregion
 
         #region UtilityTransition
-        
-        public bool InZoneTransition() => transitionMemory.currentTransitionType == TransitionType.Zone;
-        public bool IsZoneTransitionComplete() => transitionMemory.zoneTransitionComplete;
         public void SetZoneTransitionStatus(bool complete) => transitionMemory.zoneTransitionComplete = complete;
-        public void ConfirmTransitionType() => transitionMemory.ConfirmTransitionType();
-        public bool InBattleEntryTransition() => transitionMemory.InBattleEntryTransition();
-        public bool InBattleExitTransition() => transitionMemory.InBattleExitTransition();
+        bool IPlayerStateInfo.InZoneTransition() => transitionMemory.currentTransitionType == TransitionType.Zone;
+        bool ITransitionStateContext.IsZoneTransitionComplete() => transitionMemory.zoneTransitionComplete;
+        void ITransitionStateContext.ConfirmTransitionType() => transitionMemory.ConfirmTransitionType();
+        bool ITransitionStateContext.InBattleEntryTransition() => transitionMemory.InBattleEntryTransition();
+        bool IPlayerStateInfo.InBattleExitTransition() => transitionMemory.InBattleExitTransition();
         #endregion
 
         #region UtilityCombat
-        public bool IsCombatFadeComplete() => combatMemory.combatFadeComplete;
-        public bool IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
-        public bool IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
-        public bool AreCombatParticipantsValid() => combatMemory.AreCombatParticipantsValid();
-        public void ConfirmEnemiesUnderConsideration() => combatMemory.ShiftEnemiesFromConsiderationToTransition(maxEnemiesPerCombat);
-        public void SetupBattleController()
+        bool ICombatStateContext.IsCombatFadeComplete() => combatMemory.combatFadeComplete;
+        bool IPlayerStateInfo.IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
+        bool IPlayerStateInfo.IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
+        bool ICombatStateContext.AreCombatParticipantsValid() => combatMemory.AreCombatParticipantsValid();
+        void ICombatStateContext.ConfirmEnemiesUnderConsideration() => combatMemory.ShiftEnemiesFromConsiderationToTransition(maxEnemiesPerCombat);
+        void ICombatStateContext.SetupBattleController()
         {
             if (battleController == null)
             {
@@ -280,7 +279,7 @@ namespace Frankie.Core
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleCombatMessages);
         }
 
-        public bool StartBattleSequence()
+        bool ICombatStateContext.StartBattleSequence()
         {
             // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
             if (this == null || gameObject == null) { return false; }
@@ -290,7 +289,7 @@ namespace Frankie.Core
             return combatMemory.BeginFade(currentTransitionType, faderEventTriggers);
         }
 
-        public bool EndBattleSequence()
+        bool ICombatStateContext.EndBattleSequence()
         {
             // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
             if (this == null || gameObject == null) { return false; }
@@ -339,7 +338,7 @@ namespace Frankie.Core
         #endregion
 
         #region UtilityDialogue
-        public void SetupDialogueController()
+        void IDialogueStateContext.SetupDialogueController()
         {
             if (dialogueController == null)
             {
@@ -349,11 +348,11 @@ namespace Frankie.Core
             dialogueController.Setup(worldUIRoot, this, party);
         }
 
-        public bool StartDialogueSequence() => dialogueMemory.InitiateDialogue(dialogueController);
+        bool IDialogueStateContext.StartDialogueSequence() => dialogueMemory.InitiateDialogue(dialogueController);
         #endregion
 
         #region UtilityTrade
-        public bool StartTradeSequence()
+        bool ITradeStateContext.StartTradeSequence()
         {
             return tradeMemory.InitiateTrade(
                 () => Instantiate(shopSelectPrefab, worldUIRoot.gameObject.transform),
@@ -362,7 +361,7 @@ namespace Frankie.Core
         #endregion
 
         #region UtilityOption
-        public bool StartOptionSequence()
+        bool IOptionStateContext.StartOptionSequence()
         {
             return optionMemory.InitiateOptions(
                 () => Instantiate(worldOptionsPrefab, worldUIRoot.gameObject.transform), 
@@ -371,7 +370,7 @@ namespace Frankie.Core
         #endregion
 
         #region UtilityGeneral
-        public void TogglePlayerVisibility(bool? enable = null)
+        void IPlayerStateContext.TogglePlayerVisibility(bool? enable)
         {
             bool visible = enable ?? cutsceneMemory.visibleDuringCutscene;
             if (party != null) { party.TogglePartyVisible(visible); }
@@ -386,9 +385,9 @@ namespace Frankie.Core
             immunityCoroutine = null;
         }
 
-        public void QueueActionUnderConsideration() => actionMemory.QueueActionUnderConsideration();
+        void IPlayerStateContext.QueueActionUnderConsideration() => actionMemory.QueueActionUnderConsideration();
 
-        public void ClearPlayerStateMemory()
+        void IPlayerStateContext.ClearPlayerStateMemory()
         {
             battleController = null;
             dialogueController = null;

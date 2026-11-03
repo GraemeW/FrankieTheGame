@@ -72,7 +72,7 @@ namespace Frankie.Combat
 
         public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
-            battleAction?.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies);
+            if (battleAction != null) { battleAction.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies); }
         }
         #endregion
         
