@@ -7,6 +7,7 @@ using UnityEngine.Localization.Tables;
 using UnityEditor;
 #endif
 using LowDefMustard.Core;
+using LowDefMustard.Utils;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
 
@@ -16,7 +17,7 @@ namespace Frankie.Speech
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver, ILocalizable
     {
         // Tunables
-        [SerializeField] public bool skipRootNode = false;
+        [SerializeField] public bool skipRootNode = false; // Legacy (pre-graph) dialogues only - To-Be-Removed (pending)
 
      
         // Const
@@ -35,6 +36,8 @@ namespace Frankie.Speech
         // State
         [HideInInspector][SerializeField] private List<CharacterProperties> activeNPCs;
         [HideInInspector][SerializeField] private List<DialogueNode> dialogueNodes = new();
+        [HideInInspector][SerializeField] private List<DialogueConditionNode> conditionNodes = new();
+        [HideInInspector][SerializeField] private List<string> entryNodeIDs = new();
 #if UNITY_EDITOR
         private Dictionary<string, DialogueNode> nodeEditorLookup = new();
 #endif
@@ -77,7 +80,8 @@ namespace Frankie.Speech
         #region GettersSetters
         public IEnumerable<DialogueNode> GetAllNodes() => dialogueNodes;
         public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes is { Count: > 0 } ? dialogueNodes[0] : null;
-        public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode.name == nodeID);
+        public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode != null && dialogueNode.name == nodeID);
+        private DialogueConditionNode GetConditionNodeFromID(string nodeID) => conditionNodes.FirstOrDefault(conditionNode => conditionNode != null && conditionNode.name == nodeID);
         public List<CharacterProperties> GetActiveCharacters() => activeNPCs;
 
         public void OverrideSpeakerNames(string playerName)
@@ -90,6 +94,53 @@ namespace Frankie.Speech
             }
         }
         
+        #endregion
+
+        #region Traversal
+        public List<DialogueNode> ResolveEntry(IEnumerable<IPredicateEvaluator> evaluators)
+        {
+            if (entryNodeIDs.Count > 0) { return ResolveTargets(entryNodeIDs, evaluators); }
+
+            // Legacy (pre-graph) dialogues start at the root node, or at its children when the root is skipped - To-Be-Removed (pending)
+            DialogueNode rootNode = GetRootNode();
+            if (rootNode == null) { return new List<DialogueNode>(); }
+            return skipRootNode ? ResolveTargets(rootNode.GetChildren(), evaluators) : new List<DialogueNode> { rootNode };
+        }
+
+        public List<DialogueNode> ResolveChildren(DialogueNode dialogueNode, IEnumerable<IPredicateEvaluator> evaluators)
+        {
+            return dialogueNode != null ? ResolveTargets(dialogueNode.GetChildren(), evaluators) : new List<DialogueNode>();
+        }
+
+        private List<DialogueNode> ResolveTargets(IEnumerable<string> nodeIDs, IEnumerable<IPredicateEvaluator> evaluators)
+        {
+            var resolvedNodes = new List<DialogueNode>();
+            AppendResolvedTargets(nodeIDs, evaluators.ToList(), resolvedNodes, new HashSet<DialogueConditionNode>());
+            return resolvedNodes;
+        }
+
+        private void AppendResolvedTargets(IEnumerable<string> nodeIDs, List<IPredicateEvaluator> evaluators, List<DialogueNode> resolvedNodes, HashSet<DialogueConditionNode> visitedConditionNodes)
+        {
+            if (nodeIDs == null) { return; }
+            foreach (string nodeID in nodeIDs)
+            {
+                DialogueNode dialogueNode = GetNodeFromID(nodeID);
+                if (dialogueNode != null)
+                {
+                    // Per-node condition only exists on legacy (pre-graph) dialogues - To-Be-Removed (pending)
+                    if (!resolvedNodes.Contains(dialogueNode) && dialogueNode.CheckCondition(evaluators)) { resolvedNodes.Add(dialogueNode); }
+                    continue;
+                }
+
+                DialogueConditionNode conditionNode = GetConditionNodeFromID(nodeID);
+                if (conditionNode == null || !visitedConditionNodes.Add(conditionNode)) { continue; }
+                if (!conditionNode.CheckCondition(evaluators)) { continue; }
+                AppendResolvedTargets(conditionNode.GetChildren(), evaluators, resolvedNodes, visitedConditionNodes);
+            }
+        }
+        #endregion
+
+        #region Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
         public List<TableEntryReference> GetLocalizationEntries()
         {
@@ -104,6 +155,14 @@ namespace Frankie.Speech
 
 #if UNITY_EDITOR
         #region EditorMethods
+        internal void InitializeGraph(IEnumerable<DialogueNode> setDialogueNodes, IEnumerable<DialogueConditionNode> setConditionNodes, IEnumerable<string> setEntryNodeIDs)
+        {
+            dialogueNodes = new List<DialogueNode>(setDialogueNodes);
+            conditionNodes = new List<DialogueConditionNode>(setConditionNodes);
+            entryNodeIDs = new List<string>(setEntryNodeIDs);
+            OnValidate();
+        }
+
         public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
         {
             if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
@@ -276,12 +335,12 @@ namespace Frankie.Speech
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) == "") return;
             
-            foreach (DialogueNode dialogueNode in dialogueNodes)
+            foreach (ScriptableObject node in dialogueNodes.Cast<ScriptableObject>().Concat(conditionNodes))
             {
-                if (dialogueNode == null) { continue; }
-                if (AssetDatabase.GetAssetPath(dialogueNode) == "")
+                if (node == null) { continue; }
+                if (AssetDatabase.GetAssetPath(node) == "")
                 {
-                    AssetDatabase.AddObjectToAsset(dialogueNode, this);
+                    AssetDatabase.AddObjectToAsset(node, this);
                 }
             }
 #endif

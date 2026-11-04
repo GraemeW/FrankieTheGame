@@ -23,11 +23,12 @@ The game logic for Frankie is broken down into the below high-level organization
 
 ## Assemblies
 
-|      Assembly      |                            Location                            |                                                             Notes                                                             |
-|:------------------:|:--------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------:|
-|    **Frankie**     |               [Frankie.asmdef](./Frankie.asmdef)               |                                All runtime game logic under `Scripts/` (every namespace above)                                |
-| **Frankie.Editor** | [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef) | Editor-only; each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder |
-| **Frankie.Input**  |              `UnityConfigurables/InputProfiles/`               |                                    Generated `PlayerInput` wrapper + `StickToPadProcessor`                                    |
+|         Assembly         |                                        Location                                        |                                                      Notes                                                       |
+|:------------------------:|:--------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
+|       **Frankie**        |                           [Frankie.asmdef](./Frankie.asmdef)                           |                         All runtime game logic under `Scripts/` (every namespace above)                          |
+|    **Frankie.Editor**    |             [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef)             | Each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder |
+|    **Frankie.Input**     |                          `UnityConfigurables/InputProfiles/`                           |                             Generated `PlayerInput` wrapper + `StickToPadProcessor`                              |
+| **Frankie.Tests.Editor** | [Tests/Editor/Frankie.Tests.Editor.asmdef](./Tests/Editor/Frankie.Tests.Editor.asmdef) |            Edit Mode tests - `internal` members are visible via [AssemblyInfo.cs](./AssemblyInfo.cs)             |
 
 ## Standalone Packages
 
@@ -58,3 +59,21 @@ Internal (`com.lowdefmustard.*`) dependencies between the packages above:
 - **`zones`** — depends on `utils`, `localization`
 
 All packages are currently at version `0.1.0`. See `Packages/com.lowdefmustard.<name>/README.md` for each package's full contents, assembly structure, and design notes.
+
+## Tests
+
+Tests use Unity's built-in Test Framework (NUnit), run manually through the Test Runner. Game-logic coverage is currently sparse (just starting, majority test coverage to-date lives in LowDefMustard packages).  Thus:  only the areas below are tested (everything else so-far untested rather than deliberately excluded).
+
+### Coverage at a glance
+
+| Category          | Types | Tested | Notes                                                                                                         |
+|-------------------|:-----:|:------:|---------------------------------------------------------------------------------------------------------------|
+| Speech traversal  | 3     |   2    | `DialogueController` (entry events, random pick, choosing) needs Play Mode and isn't covered yet              |
+
+### Detail by type
+
+| Type                    | Tested  | Test file(s)                                                                 | Notes                                                  |
+|-------------------------|---------|------------------------------------------------------------------------------|--------------------------------------------------------|
+| `Dialogue`              | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs) | Editor authoring methods / localization not yet tested |
+| `DialogueConditionNode` | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs) |                                                        |
+| `DialogueController`    | No      | -                                                                            | Not yet tested, Play Mode candidate                    |

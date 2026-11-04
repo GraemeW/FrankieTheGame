@@ -42,6 +42,7 @@ namespace Frankie.Speech.Editor
         {
             var dialogue = EditorUtility.EntityIdToObject(instanceID) as Dialogue;
             if (dialogue == null) return false;
+            if (!AssetDatabase.GetAssetPath(dialogue).EndsWith(".asset")) { return false; } // Graph-imported dialogues open in Graph Toolkit
 
             if (dialogue is ILocalizable localizable)
             {

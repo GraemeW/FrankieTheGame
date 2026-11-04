@@ -111,15 +111,13 @@ namespace Frankie.Speech
         public string GetCurrentSpeakerName() => currentNode != null ? currentNode.GetSpeakerName() : "";
         public string GetText() => currentNode != null ? currentNode.GetText() : "";
 
-        public IEnumerable<DialogueNode> GetChoices()
-        {
-            return FilterOnCondition(currentNode.GetChildren()).Select(childID => currentDialogue.GetNodeFromID(childID));
-        }
+        public IEnumerable<DialogueNode> GetChoices() => GetNextNodes();
 
         public bool IsChoosing()
         {
             if (currentDialogue == null) { return false; }
-            return (GetChoiceCount() > 1 && GetNextSpeakerType() == SpeakerType.PlayerSpeaker);
+            List<DialogueNode> nextNodes = GetNextNodes();
+            return nextNodes.Count > 1 && nextNodes[0].GetSpeakerType() == SpeakerType.PlayerSpeaker;
         }
         #endregion
 
@@ -163,12 +161,10 @@ namespace Frankie.Speech
 
             SetupDialogueTriggers();
 
-            currentNode = currentDialogue.GetRootNode();
-            if (currentNode == null) { EndConversation(); }
+            List<DialogueNode> entryNodes = currentDialogue.ResolveEntry(GetEvaluators());
+            if (entryNodes.Count == 0) { EndConversation(); return; }
             
-            // Call without announcing, dialogue not (officially) existing
-            // Note:  No triggers on root node entry, but on dialogue entry
-            if (currentDialogue.skipRootNode) { Next(); }
+            SetCurrentNode(entryNodes[UnityEngine.Random.Range(0, entryNodes.Count)]);
 
             Instantiate(dialogueBoxPrefab, worldUIRoot.transform);
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueInitiated, null);
@@ -302,17 +298,15 @@ namespace Frankie.Speech
 
         #region PrivateMethods
         private string GetPlayerName() => party.GetPartyLeaderName();
-        private SpeakerType GetNextSpeakerType() => currentDialogue.GetNodeFromID(currentNode.GetChildren()[0]).GetSpeakerType();
-        private int GetChoiceCount() => FilterOnCondition(currentNode.GetChildren()).Count();
-        private bool HasNext() => currentDialogue != null && FilterOnCondition(currentNode.GetChildren()).Any();
+        private List<DialogueNode> GetNextNodes() => currentDialogue != null ? currentDialogue.ResolveChildren(currentNode, GetEvaluators()) : new List<DialogueNode>();
+        private bool HasNext() => GetNextNodes().Count > 0;
         
         private void Next()
         {
-            if (!HasNext()) { return; }
+            List<DialogueNode> nextNodes = GetNextNodes();
+            if (nextNodes.Count == 0) { return; }
             
-            List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
-            int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
-            SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
+            SetCurrentNode(nextNodes[UnityEngine.Random.Range(0, nextNodes.Count)]);
         }
 
         private void SetHighlightedNodeToDefault(ControllerInputType controllerInputType)
@@ -360,20 +354,6 @@ namespace Frankie.Speech
             
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode); }
             triggerUIUpdates?.Invoke();
-        }
-
-        private IEnumerable<string> FilterOnCondition(List<string> dialogueNodeIDs)
-        {
-            foreach (string dialogueNodeID in dialogueNodeIDs)
-            {
-                DialogueNode dialogueNode = currentDialogue.GetNodeFromID(dialogueNodeID);
-                if (dialogueNode == null) { continue; }
-                
-                if (dialogueNode.CheckCondition(GetEvaluators()))
-                {
-                    yield return dialogueNodeID;
-                }
-            }
         }
 
         private IEnumerable<IPredicateEvaluator> GetEvaluators()

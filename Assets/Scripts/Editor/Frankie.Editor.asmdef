@@ -20,7 +20,8 @@
     "LowDefMustard.Zones",
     "LowDefMustard.Zones.Editor",
     "Unity.InputSystem",
-    "Unity.Localization"
+    "Unity.Localization",
+    "Unity.Localization.Editor"
   ],
   "includePlatforms": [
     "Editor"

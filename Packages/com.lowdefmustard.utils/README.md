@@ -77,6 +77,7 @@ Reusable UI Toolkit building blocks for custom editor windows (node/graph canvas
   - Add `StandardBrownTheme.darkClass` to a section (e.g. a side panel) for a darker variant ~ shared element classes (`canvasClass`, `panelClass`, `panelHeaderClass`, `groupHeaderClass`, `dimClass`) cover common window parts
   - Windows reference the stylesheet through a serialized `StyleSheet` field set as their script's default reference (Inspector → script → Default References)
     - use `GetDefaultReference(window, fieldName)` to read it back for windows serialized in the editor layout before the reference existed
+  - Palette is also exposed as `Color`s (`accent`, `darkAccent`, `text`, ...) for code that can't read USS variables
 - **`StandardBackgroundLayer`** — `VisualElement` that renders an infinite dot or line grid background (`StandardBackgroundType`)
 - **`StandardCanvasPanManipulator`** — Left/middle mouse-drag panning for a canvas element
 - **`StandardCanvasZoomManipulator`** — Scroll-wheel zoom (clamped 0.25×–2×) that zooms toward the cursor

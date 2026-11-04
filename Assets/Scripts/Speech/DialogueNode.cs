@@ -88,10 +88,10 @@ namespace Frankie.Speech
         }
         #endregion
 
-        #region Checks
+        #region PredicateEvaluation
         public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
         {
-            return condition.Check(evaluators);
+            return condition == null || condition.Check(evaluators);
         }
         #endregion
 
@@ -208,6 +208,9 @@ namespace Frankie.Speech
             children.Add(childID2);
             if (recordUndoHistory) { EditorUtility.SetDirty(this); }
         }
+
+        // Legacy per-node condition (tests only; graph dialogues use condition nodes) - To-Be-Removed (pending)
+        internal void SetCondition(Condition setCondition) => condition = setCondition;
 
         public void SetDraggingRect(Rect setDraggingRect)
         {
