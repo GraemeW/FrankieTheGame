@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 064ed095b1daf4db1978d952034cb1aa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - themeStyleSheet: {fileID: 7433441132597879392, guid: 33dd9bec761f34768b06aa3e8fc6f10c, type: 3}
+  - graphStyleSheet: {fileID: 7433441132597879392, guid: 4205836e7c0ff479281ebcdeba62e311, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

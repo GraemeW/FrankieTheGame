@@ -5,6 +5,7 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Frankie",
+        "Frankie.Editor",
         "LowDefMustard.Core",
         "LowDefMustard.Utils",
         "LowDefMustard.Utils.Tests"

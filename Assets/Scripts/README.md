@@ -23,12 +23,12 @@ The game logic for Frankie is broken down into the below high-level organization
 
 ## Assemblies
 
-|         Assembly         |                                        Location                                        |                                                      Notes                                                       |
-|:------------------------:|:--------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
-|       **Frankie**        |                           [Frankie.asmdef](./Frankie.asmdef)                           |                         All runtime game logic under `Scripts/` (every namespace above)                          |
-|    **Frankie.Editor**    |             [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef)             | Each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder |
-|    **Frankie.Input**     |                          `UnityConfigurables/InputProfiles/`                           |                             Generated `PlayerInput` wrapper + `StickToPadProcessor`                              |
-| **Frankie.Tests.Editor** | [Tests/Editor/Frankie.Tests.Editor.asmdef](./Tests/Editor/Frankie.Tests.Editor.asmdef) |            Edit Mode tests - `internal` members are visible via [AssemblyInfo.cs](./AssemblyInfo.cs)             |
+|         Assembly         |                                        Location                                        |                                                                     Notes                                                                      |
+|:------------------------:|:--------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------:|
+|       **Frankie**        |                           [Frankie.asmdef](./Frankie.asmdef)                           |                                        All runtime game logic under `Scripts/` (every namespace above)                                         |
+|    **Frankie.Editor**    |             [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef)             |                Each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder                |
+|    **Frankie.Input**     |                          `UnityConfigurables/InputProfiles/`                           |                                            Generated `PlayerInput` wrapper + `StickToPadProcessor`                                             |
+| **Frankie.Tests.Editor** | [Tests/Editor/Frankie.Tests.Editor.asmdef](./Tests/Editor/Frankie.Tests.Editor.asmdef) | Edit Mode tests - `internal` members are visible via [AssemblyInfo.cs](./AssemblyInfo.cs) + [Editor/AssemblyInfo.cs](./Editor/AssemblyInfo.cs) |
 
 ## Standalone Packages
 
@@ -69,6 +69,7 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 | Category          | Types | Tested | Notes                                                                                                         |
 |-------------------|:-----:|:------:|---------------------------------------------------------------------------------------------------------------|
 | Speech traversal  | 3     |   2    | `DialogueController` (entry events, random pick, choosing) needs Play Mode and isn't covered yet              |
+| Speech graph skin | 1     |   1†   | Guards `DialogueGraph.uss` against Graph Toolkit renaming the internal parts it styles                        |
 
 ### Detail by type
 
@@ -77,3 +78,6 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 | `Dialogue`              | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs) | Editor authoring methods / localization not yet tested |
 | `DialogueConditionNode` | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs) |                                                        |
 | `DialogueController`    | No      | -                                                                            | Not yet tested, Play Mode candidate                    |
+| `DialogueGraph.uss`     | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs) | See below†                                             |
+
+`DialogueGraphSkinTests` opens a dialogue graph window from a scratch asset to check that every class, element name and type that the stylesheet selects still exists, and that they're not coloured in the default "Unity Gray". It doesn't cover hover or selection states, or a surface drifting to a different/new colour. Header-strip sizing isn't checked due to unreliability in test.
