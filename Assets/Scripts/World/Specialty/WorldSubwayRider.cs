@@ -56,7 +56,7 @@ namespace Frankie.World
         #endregion
 
         #region InterfaceMethods
-        public string GetMessage() => localizedRideMessage.GetSafeLocalizedString();
+        public string GetMessage(PlayerStateMachine playerStateMachine) => localizedRideMessage.GetSafeLocalizedString();
         public List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine)
         {
             var rideOptions = new List<ChoiceActionPair>();

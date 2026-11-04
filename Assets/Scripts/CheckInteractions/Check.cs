@@ -6,7 +6,6 @@ using LowDefMustard.Utils;
 using LowDefMustard.Control;
 using LowDefMustard.Localization;
 using Frankie.Core;
-using Frankie.Stats;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Control
@@ -71,7 +70,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateMachine.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName, GetCheckObjectName()));
+                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName, GetCheckObjectName(transform)));
                 
                 if (checkAtStartOfInteraction) { checkInteraction?.Invoke(playerStateMachine); }
                 else { playerStateMachine.SetPostDialogueCallbackActions(checkInteraction); }
@@ -99,15 +98,9 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateMachine.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
                 
-                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName, GetCheckObjectName()), interactActions);
+                playerStateMachine.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName, GetCheckObjectName(transform)), interactActions);
             }
             return true;
-        }
-
-        private string GetCheckObjectName()
-        {
-            if (transform.parent == null) { return TryGetComponent(out BaseStats baseStats) ? CharacterProperties.GetCharacterDisplayName(baseStats) : name; }
-            return transform.parent.TryGetComponent(out BaseStats parentBaseStats) ? CharacterProperties.GetCharacterDisplayName(parentBaseStats) : transform.parent.name;
         }
         #endregion
     }
