@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "Frankie",
         "LowDefMustard.Core",
-        "LowDefMustard.Utils"
+        "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Tests"
     ],
     "includePlatforms": [
         "Editor"
