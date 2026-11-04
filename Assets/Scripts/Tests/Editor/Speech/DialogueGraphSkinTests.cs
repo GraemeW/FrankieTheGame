@@ -112,38 +112,21 @@ namespace Frankie.Tests.Editor
         private static void BuildFixtureGraph()
         {
             var graph = GraphDatabase.CreateGraph<DialogueGraph>(_graphPath);
-            var entry = new EntryGraphNode();
-            var ai = new SpeechGraphNode();
-            var player = new SpeechGraphNode();
-            var narrator = new SpeechGraphNode();
-            var condition = new ConditionGraphNode();
-            graph.AddNode(entry);
-            graph.AddNode(ai);
-            graph.AddNode(player);
-            graph.AddNode(narrator);
-            graph.AddNode(condition);
+            EntryGraphNode entry = graph.AddEntry();
+            SpeechGraphNode ai = graph.AddLine("Line one\nLine two", SpeakerType.AISpeaker, "AI");
+            SpeechGraphNode player = graph.AddLine("Reply", SpeakerType.PlayerSpeaker, "Player");
+            SpeechGraphNode narrator = graph.AddLine("Narration", SpeakerType.NarratorDirection);
+            ConditionGraphNode condition = graph.AddCondition(new Condition.PredicateWrapper(null), new Condition.PredicateWrapper(null, true));
             ai.Position = new Vector2(250, 0);
             condition.Position = new Vector2(600, -200);
             player.Position = new Vector2(1000, -200);
             narrator.Position = new Vector2(1000, 200);
 
-            SetSpeech(ai, SpeakerType.AISpeaker, "AI", "Line one\nLine two");
-            SetSpeech(player, SpeakerType.PlayerSpeaker, "Player", "Reply");
-            SetSpeech(narrator, SpeakerType.NarratorDirection, "", "Narration");
-            condition.AddPredicates(new[] { new Condition.PredicateWrapper(null), new Condition.PredicateWrapper(null, true) });
-
-            graph.Connect(entry.GetOutputPortByName(EntryGraphNode.outPort), ai.GetInputPortByName(SpeechGraphNode.inPort));
-            graph.Connect(ai.GetOutputPortByName(SpeechGraphNode.outPort), condition.GetInputPortByName(ConditionGraphNode.inPort));
-            graph.Connect(condition.GetOutputPortByName(ConditionGraphNode.outPort), player.GetInputPortByName(SpeechGraphNode.inPort));
-            graph.Connect(ai.GetOutputPortByName(SpeechGraphNode.outPort), narrator.GetInputPortByName(SpeechGraphNode.inPort));
+            graph.Connect(entry, ai);
+            graph.Connect(ai, condition);
+            graph.Connect(condition, player);
+            graph.Connect(ai, narrator);
             GraphDatabase.SaveGraph(graph);
-        }
-
-        private static void SetSpeech(SpeechGraphNode node, SpeakerType speakerType, string speakerName, string text)
-        {
-            node.GetNodeOptionByName(SpeechGraphNode.speakerTypeOption).TrySetValue(speakerType);
-            node.GetNodeOptionByName(SpeechGraphNode.speakerNameOption).TrySetValue(speakerName);
-            node.GetNodeOptionByName(SpeechGraphNode.textOption).TrySetValue(text);
         }
 
         private static EditorWindow FindFixtureWindow()

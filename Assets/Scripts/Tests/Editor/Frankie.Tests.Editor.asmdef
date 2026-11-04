@@ -8,7 +8,8 @@
         "Frankie.Editor",
         "LowDefMustard.Core",
         "LowDefMustard.Utils",
-        "LowDefMustard.Utils.Tests"
+        "LowDefMustard.Utils.Tests",
+        "Unity.Localization"
     ],
     "includePlatforms": [
         "Editor"

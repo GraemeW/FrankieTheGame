@@ -3,6 +3,7 @@ using NUnit.Framework;
 using LowDefMustard.Utils;
 using LowDefMustard.Utils.Tests;
 using static LowDefMustard.Utils.Tests.ConditionBuilder;
+using static LowDefMustard.Utils.Tests.EvaluatorBuilder;
 using Frankie.Speech;
 
 namespace Frankie.Tests.Editor
@@ -26,7 +27,7 @@ namespace Frankie.Tests.Editor
         {
             passing = objects.Create<TestPredicate>("Passing");
             failing = objects.Create<TestPredicate>("Failing");
-            evaluators = new List<IPredicateEvaluator> { new PerPredicateEvaluator(new Dictionary<Predicate, bool?> { { passing, true }, { failing, false } }) };
+            evaluators = Evaluators((passing, true), (failing, false));
         }
 
         [TearDown]

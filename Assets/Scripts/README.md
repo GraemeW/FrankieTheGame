@@ -70,14 +70,16 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 |-------------------|:-----:|:------:|---------------------------------------------------------------------------------------------------------------|
 | Speech traversal  | 3     |   2    | `DialogueController` (entry events, random pick, choosing) needs Play Mode and isn't covered yet              |
 | Speech graph skin | 1     |   1†   | Guards `DialogueGraph.uss` against Graph Toolkit renaming the internal parts it styles                        |
+| Speech importer   | 1     |   1    | `.dialoguegraph` → `Dialogue`: sub-assets, entry, wire order, conditions, keys, fileID stability on reimport  |
 
 ### Detail by type
 
-| Type                    | Tested  | Test file(s)                                                                 | Notes                                                  |
-|-------------------------|---------|------------------------------------------------------------------------------|--------------------------------------------------------|
-| `Dialogue`              | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs) | Editor authoring methods / localization not yet tested |
-| `DialogueConditionNode` | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs) |                                                        |
-| `DialogueController`    | No      | -                                                                            | Not yet tested, Play Mode candidate                    |
-| `DialogueGraph.uss`     | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs) | See below†                                             |
+| Type                    | Tested  | Test file(s)                                                                         | Notes                                                  |
+|-------------------------|---------|--------------------------------------------------------------------------------------|--------------------------------------------------------|
+| `Dialogue`              | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)         | Editor authoring methods / localization not yet tested |
+| `DialogueConditionNode` | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)         |                                                        |
+| `DialogueController`    | No      | -                                                                                    | Not yet tested, Play Mode candidate                    |
+| `DialogueGraph.uss`     | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)         | See below†                                             |
+| `DialogueGraphImporter` | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs) | Character option skipped (needs an asset)              |
 
 `DialogueGraphSkinTests` opens a dialogue graph window from a scratch asset to check that every class, element name and type that the stylesheet selects still exists, and that they're not coloured in the default "Unity Gray". It doesn't cover hover or selection states, or a surface drifting to a different/new colour. Header-strip sizing isn't checked due to unreliability in test.

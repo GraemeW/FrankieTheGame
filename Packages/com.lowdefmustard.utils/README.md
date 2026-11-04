@@ -110,13 +110,14 @@ An `EditorWindow` that batch-generates `AnimationClip` assets from a folder of s
 
 Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), run manually through the Test Runner.
 
-| Assembly                             | Root Namespace                       | Platform                     |
-|--------------------------------------|--------------------------------------|------------------------------|
-| `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                       |
+| Assembly                             | Root Namespace                       | Platform                |
+|--------------------------------------|--------------------------------------|-------------------------|
+| `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                  |
 | `LowDefMustard.Utils.Tests.PlayMode` | `LowDefMustard.Utils.Tests.PlayMode` | Unrestricted (PlayMode) |
 
 Shared test doubles (`TestPredicate`, `FixedResultEvaluator`, `PerPredicateEvaluator`) live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMustard.Utils.Tests`).
-Shared test builders (`ConditionBuilder`, `TestObjectTracker`) live in `Tests/Runtime/TestBuilders/` (same namespace).
+Shared test builders (`ConditionBuilder`, `EvaluatorBuilder`, `TestObjectTracker`) live in `Tests/Runtime/TestBuilders/` (same namespace).
+Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`).
 
 ### Coverage at a glance
 

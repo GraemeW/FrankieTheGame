@@ -120,6 +120,19 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
         }
         
+        internal void InitializeFromGraph(string setDialogueName, SpeakerType setSpeakerType, CharacterProperties setCharacterProperties, int setNodeDepth, int setNodeBreadth, LocalizedString setLocalizedSpeakerName, LocalizedString setLocalizedText, IEnumerable<string> setChildren)
+        {
+            // Importer only: fills a fresh node with no undo / table writes
+            dialogueName = setDialogueName;
+            speakerType = setSpeakerType;
+            characterProperties = setCharacterProperties;
+            nodeDepth = setNodeDepth;
+            nodeBreadth = setNodeBreadth;
+            localizedSpeakerName = setLocalizedSpeakerName;
+            localizedText = setLocalizedText;
+            children = new List<string>(setChildren);
+        }
+        
         public void SetDialogueName(string setDialogueName, bool tryRename = true)
         {
             Undo.RecordObject(this, "Update Dialogue Name");
