@@ -189,6 +189,7 @@ namespace LowDefMustard.UIBox
         
         private void HandleInputWrapper(ControllerInputType controllerInputType)
         {
+            if (this == null) { return; } // Stale delegate on a destroyed box
             if (!gameObject.activeInHierarchy) { return; } // A box can be registered for global input while inactive (pre-Awake) -> ignore input until it's shown
             HandleGlobalInput(controllerInputType);
         }

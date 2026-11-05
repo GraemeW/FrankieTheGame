@@ -122,7 +122,7 @@ namespace LowDefMustard.Control
         private void HandleInputReceiverAdded(IInputReceiver inputReceiver, Action disableCallbacks)
         {
             if (!inputReceiver.TrySetController(this)) { return; }
-            SubscribeToGlobalInput(true, inputReceiver);
+            if (inputReceiver.gameObject.activeInHierarchy) { SubscribeToGlobalInput(true, inputReceiver); } // Inactive receivers subscribe on ClientEnable
             inputReceiver.SubscribeToReceiverUpdates(true, OnReceiverModified);
             
             if (TryGetLastActiveInputReceiver(out ActiveInputReceiver lastActiveInputReceiver))
