@@ -154,7 +154,7 @@ namespace Frankie.Speech.UI
 
         private void AddChoice(DialogueNode choiceNode)
         {
-            ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceNode.GetText(), () => Choose(choiceNode.name));
+            ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceNode.GetText(), () => Choose(choiceNode.GetNodeID()));
             choiceEntries[choiceNode] = choiceEntry;
             QueueChoiceForPrinting(choiceEntry);
         }

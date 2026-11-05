@@ -10,6 +10,8 @@ using LowDefMustard.Utils.Tests;
 using static LowDefMustard.Utils.Tests.EvaluatorBuilder;
 using Frankie.Speech;
 using Frankie.Speech.Editor;
+using Frankie.Stats;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Tests.Editor
 {
@@ -18,15 +20,15 @@ namespace Frankie.Tests.Editor
         // Covers DialogueGraphImporter w/ temp .dialoguegraph files
         //  - Runtime shape: main Dialogue, speech + condition sub-assets keyed by node ID, entry targets, wire order, keys
         //  - Reference stability: sub-asset fileIDs across reimport and graph edits
-        // Not covered: Character option (needs a CharacterProperties asset), localization table contents (importer never writes them)
+        // Not covered: localization table contents (importer never writes them)
 
         // Const Tunables
         private const string _folder = "Assets/_TEMP_DialogueGraphImporterTests_SafeToDelete";
-        private const string _graphName = "ImporterFixture";
-        private const string _graphPath = _folder + "/" + _graphName + "." + DialogueGraph.assetExtension;
         private const string _predicatePath = _folder + "/Gate.asset";
 
         // State
+        private string graphName; // Deliberately state / not const:  reusing one path warns while the previous test's graph is still loaded
+        private string graphPath; // ^- same
         private DialogueGraph graph;
         private EntryGraphNode entry;
         private TestPredicate predicate;
@@ -40,7 +42,9 @@ namespace Frankie.Tests.Editor
             predicate = ScriptableObject.CreateInstance<TestPredicate>();
             AssetDatabase.CreateAsset(predicate, _predicatePath);
 
-            graph = GraphDatabase.CreateGraph<DialogueGraph>(_graphPath);
+            graphName = TestContext.CurrentContext.Test.Name;
+            graphPath = $"{_folder}/{graphName}.{DialogueGraph.assetExtension}";
+            graph = GraphDatabase.CreateGraph<DialogueGraph>(graphPath);
             entry = graph.AddEntry();
         }
 
@@ -56,7 +60,27 @@ namespace Frankie.Tests.Editor
         #endregion
 
         #region PrivateHelpers
-        private static IEnumerable<T> GetSubAssets<T>() where T : Object => AssetDatabase.LoadAllAssetsAtPath(_graphPath).OfType<T>();
+        private static string GetIdentity(Object asset) => asset switch
+        {
+            DialogueNode dialogueNode => dialogueNode.GetNodeID(),
+            DialogueConditionNode conditionNode => conditionNode.GetNodeID(),
+            _ => asset.name
+        };
+
+        private IEnumerable<T> GetSubAssets<T>() where T : Object => AssetDatabase.LoadAllAssetsAtPath(graphPath).OfType<T>();
+
+        private static CharacterProperties FindLocalizedCharacter(out string englishName)
+        {
+            englishName = "";
+            foreach (string guid in AssetDatabase.FindAssets($"t:{nameof(CharacterProperties)}"))
+            {
+                var character = AssetDatabase.LoadAssetAtPath<CharacterProperties>(AssetDatabase.GUIDToAssetPath(guid));
+                if (character == null) { continue; }
+                englishName = LocalizationTool.GetEnglishEntry(LocalizationTableType.Core, character.GetLocalizationEntries()[0]);
+                if (!string.IsNullOrWhiteSpace(englishName) && englishName != character.name) { return character; }
+            }
+            return null;
+        }
         #endregion
         
         #region Tests
@@ -71,9 +95,9 @@ namespace Frankie.Tests.Editor
             Dialogue dialogue = graph.SaveAndImport();
 
             Assert.IsNotNull(dialogue, "Main object isn't a Dialogue");
-            Assert.AreEqual(_graphName, dialogue.name);
-            CollectionAssert.AreEquivalent(new[] { line.ID.ToString() }, GetSubAssets<DialogueNode>().Select(node => node.name));
-            CollectionAssert.AreEquivalent(new[] { gate.ID.ToString() }, GetSubAssets<DialogueConditionNode>().Select(node => node.name));
+            Assert.AreEqual(graphName, dialogue.name);
+            CollectionAssert.AreEquivalent(new[] { line.ID.ToString() }, GetSubAssets<DialogueNode>().Select(node => node.GetNodeID()));
+            CollectionAssert.AreEquivalent(new[] { gate.ID.ToString() }, GetSubAssets<DialogueConditionNode>().Select(node => node.GetNodeID()));
             Assert.IsEmpty(GetSubAssets<ScriptableObject>().Where(subAsset => subAsset is not (Dialogue or DialogueNode or DialogueConditionNode)), "Unexpected sub-assets");
         }
 
@@ -87,7 +111,7 @@ namespace Frankie.Tests.Editor
 
             Dialogue dialogue = graph.SaveAndImport();
 
-            CollectionAssert.AreEqual(new[] { second.ID.ToString(), first.ID.ToString() }, dialogue.ResolveEntry(Evaluators((predicate, true))).Select(node => node.name));
+            CollectionAssert.AreEqual(new[] { second.ID.ToString(), first.ID.ToString() }, dialogue.ResolveEntry(Evaluators((predicate, true))).Select(node => node.GetNodeID()));
         }
 
         [Test]
@@ -121,7 +145,7 @@ namespace Frankie.Tests.Editor
             Dialogue dialogue = graph.SaveAndImport();
             DialogueNode importedParent = dialogue.GetNodeFromID(parent.ID.ToString());
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(importedParent, Evaluators((predicate, true))), gated.ID.ToString());
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(importedParent, Evaluators((predicate, true))), gated.ID.ToString());
             Assert.IsEmpty(dialogue.ResolveChildren(importedParent, Evaluators((predicate, false))));
         }
 
@@ -140,8 +164,46 @@ namespace Frankie.Tests.Editor
 
             Assert.AreEqual(SpeakerType.PlayerSpeaker, importedLine.GetSpeakerType());
             Assert.AreEqual((2, 1), (importedLine.GetNodeDepth(), importedLine.GetNodeBreadth()));
-            CollectionAssert.AreEqual(new[] { $"{_graphName}.2.1.Speaker", $"{_graphName}.2.1.Text" }, importedLine.GetLocalizationEntries().Select(entryReference => entryReference.Key));
+            CollectionAssert.AreEqual(new[] { $"{graphName}.2.1.Speaker", $"{graphName}.2.1.Text" }, importedLine.GetLocalizationEntries().Select(entryReference => entryReference.Key));
             Assert.IsTrue(importedUnplaced.GetLocalizationEntries().All(entryReference => string.IsNullOrEmpty(entryReference.Key)), "A line without a depth/breadth shouldn't get a key");
+        }
+
+        [Test]
+        public void Import_SubAssetNames_AreReadableLabels()
+        {
+            SpeechGraphNode line = graph.AddLine("Hello there\nfriend", SpeakerType.AISpeaker, "Bob");
+            SpeechGraphNode longLine = graph.AddLine(new string('x', 200), SpeakerType.AISpeaker, "Bob");
+            SpeechGraphNode playerLine = graph.AddLine("Hi");
+            playerLine.GetNodeOptionByName(SpeechGraphNode.speakerTypeOption).TrySetValue(SpeakerType.PlayerSpeaker);
+            ConditionGraphNode gate = graph.AddCondition(new Condition.PredicateWrapper(predicate, true));
+            line.Place(0, 1);
+            graph.Connect(entry, line);
+            graph.Connect(line, gate);
+            graph.Connect(gate, playerLine);
+            graph.Connect(line, longLine);
+
+            Dialogue dialogue = graph.SaveAndImport();
+            string longLabel = dialogue.GetNodeFromID(longLine.ID.ToString()).name;
+
+            Assert.AreEqual("0.1 Bob: Hello there friend", dialogue.GetNodeFromID(line.ID.ToString()).name);
+            Assert.AreEqual("-.- Player: Hi", dialogue.GetNodeFromID(playerLine.ID.ToString()).name);
+            Assert.LessOrEqual(longLabel.Length, 48, "Long text is clipped");
+            StringAssert.EndsWith("\u2026", longLabel);
+            Assert.AreEqual($"Condition - {gate.ID}", GetSubAssets<DialogueConditionNode>().Single().name);
+        }
+
+        [Test]
+        public void Import_CharacterLineWithoutSpeaker_IsLabelledWithEnglishName()
+        {
+            CharacterProperties character = FindLocalizedCharacter(out string englishName);
+            if (character == null) { Assert.Ignore("No CharacterProperties asset with an English display name in the project"); }
+            SpeechGraphNode line = graph.AddLine("Hello");
+            line.GetNodeOptionByName(SpeechGraphNode.characterOption).TrySetValue(character);
+            graph.Connect(entry, line);
+
+            Dialogue dialogue = graph.SaveAndImport();
+
+            Assert.AreEqual($"-.- {englishName}: Hello", dialogue.GetNodeFromID(line.ID.ToString()).name);
         }
 
         [Test]
@@ -154,16 +216,16 @@ namespace Frankie.Tests.Editor
             graph.Connect(kept, gate);
             graph.Connect(gate, removed);
             graph.SaveAndImport();
-            Dictionary<string, long> before = AssetTestUtility.GetSubAssetFileIDs(_graphPath);
+            Dictionary<string, long> before = AssetTestUtility.GetSubAssetFileIDs(graphPath, GetIdentity);
 
             graph.RemoveNode(removed);
             SpeechGraphNode added = graph.AddLine("Added");
             graph.Connect(gate, added);
             graph.SaveAndImport();
-            AssetDatabase.ImportAsset(_graphPath, ImportAssetOptions.ForceUpdate);
-            Dictionary<string, long> after = AssetTestUtility.GetSubAssetFileIDs(_graphPath);
+            AssetDatabase.ImportAsset(graphPath, ImportAssetOptions.ForceUpdate);
+            Dictionary<string, long> after = AssetTestUtility.GetSubAssetFileIDs(graphPath, GetIdentity);
 
-            foreach (string nodeID in new[] { _graphName, kept.ID.ToString(), gate.ID.ToString() })
+            foreach (string nodeID in new[] { graphName, kept.ID.ToString(), gate.ID.ToString() })
             {
                 Assert.AreEqual(before[nodeID], after[nodeID], $"fileID changed for '{nodeID}'");
             }

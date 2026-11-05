@@ -84,16 +84,43 @@
     flex-direction: row;
     align-items: center;
     height: 26px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
-.dialogue-graph .ge-node__title {
+/* Title fills the header, text centred; depth.breadth subtitle overlaid at the left
+ *  - Graph Toolkit shrinks the title by the hover buttons' width with an inline width (title width - 20px): it must not be text-sized, or hover leaves "..."
+ *  - Three classes to beat Graph Toolkit's own `.ge-editable-title-part__label-container .ge-node__title { flex-grow: 0 }` */
+.dialogue-graph .ge-editable-title-part__label-container .ge-node__title {
     color: var(--theme-canvas);
     -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dialogue-graph .ge-node-title-part__subtitle {
     color: var(--theme-canvas);
     font-size: 10px;
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    -unity-text-align: middle-left;
+}
+
+/* Collapse chevron stays overlaid in every state (on hover Graph Toolkit makes it take row space, which squeezes the title to "...") */
+.dialogue-graph .ge-node-title-part .ge-node-title-part__button-container {
+    position: absolute;
+    right: 4px;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    margin-top: 0;
+    align-self: auto;
+    align-items: center;
 }
 
 .dialogue-graph .ge-node__icon {

@@ -8,7 +8,7 @@ namespace Frankie.Speech
     {
         // Tunables
         [SerializeField] private DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
-        [SerializeField] private DialogueNode triggerNode;
+        [SerializeField][DialogueNodePicker] private DialogueNode triggerNode;
         [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] private DialogueTriggeredEvent dialogueTriggeredEvent;
 
         // State

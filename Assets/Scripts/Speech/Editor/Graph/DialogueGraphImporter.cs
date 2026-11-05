@@ -3,14 +3,18 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using UnityEditor;
 using UnityEditor.AssetImporters;
 using Unity.GraphToolkit.Editor;
+using Unity.Scripting.LifecycleManagement;
+using Frankie.Stats;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Speech.Editor
 {
-    [ScriptedImporter(1, DialogueGraph.assetExtension)]
-    internal sealed class DialogueGraphImporter : ScriptedImporter
+    [ScriptedImporter(3, DialogueGraph.assetExtension)]
+    internal sealed partial class DialogueGraphImporter : ScriptedImporter
     {
         // Emits the runtime Dialogue (main object) + one sub-asset per speech / condition node
         //  - sub-asset identifier = Graph Toolkit node ID -> fileIDs (e.g. DialogueTrigger.triggerNode) survive edits + reimports
@@ -21,8 +25,20 @@ namespace Frankie.Speech.Editor
         // Const Tunables
         private const string _dialogueIdentifier = "Dialogue";
 
+        // State
+        [AutoStaticsCleanup] public static bool isImporting; // Graph hooks skip the importer's own graph instance
+
         #region UnityMethods
         public override void OnImportAsset(AssetImportContext context)
+        {
+            isImporting = true;
+            try { Import(context); }
+            finally { isImporting = false; }
+        }
+        #endregion
+
+        #region Import
+        private static void Import(AssetImportContext context)
         {
             var graph = GraphDatabase.LoadGraphForImporter<DialogueGraph>(context.assetPath);
             if (graph == null)
@@ -39,7 +55,7 @@ namespace Frankie.Speech.Editor
                 switch (node)
                 {
                     case SpeechGraphNode speechNode:
-                        dialogueNodes.Add(BuildDialogueNode(speechNode, dialogueName));
+                        dialogueNodes.Add(BuildDialogueNode(context, speechNode, dialogueName));
                         break;
                     case ConditionGraphNode conditionGraphNode:
                         conditionNodes.Add(BuildConditionNode(conditionGraphNode));
@@ -52,39 +68,15 @@ namespace Frankie.Speech.Editor
             dialogue.InitializeGraph(dialogueNodes, conditionNodes, GetEntryNodeIDs(graph));
 
             context.AddObjectToAsset(_dialogueIdentifier, dialogue);
-            foreach (ScriptableObject subAsset in dialogueNodes.Cast<ScriptableObject>().Concat(conditionNodes)) { context.AddObjectToAsset(subAsset.name, subAsset); }
+            foreach (DialogueNode dialogueNode in dialogueNodes) { context.AddObjectToAsset(dialogueNode.GetNodeID(), dialogueNode); }
+            foreach (DialogueConditionNode conditionNode in conditionNodes) { context.AddObjectToAsset(conditionNode.GetNodeID(), conditionNode); }
             context.SetMainObject(dialogue);
         }
         #endregion
-
-        #region PrivateMethods
-        private static DialogueNode BuildDialogueNode(SpeechGraphNode speechNode, string dialogueName)
-        {
-            int depth = speechNode.GetDepth();
-            int breadth = speechNode.GetBreadth();
-
-            var dialogueNode = ScriptableObject.CreateInstance<DialogueNode>();
-            dialogueNode.name = GetNodeID(speechNode);
-            dialogueNode.InitializeFromGraph(dialogueName, speechNode.GetSpeakerType(), speechNode.GetCharacter(), depth, breadth,
-                MakeLocalizedString(dialogueName, depth, breadth, "Speaker"), MakeLocalizedString(dialogueName, depth, breadth, "Text"), GetTargetIDs(speechNode));
-            return dialogueNode;
-        }
-
-        private static DialogueConditionNode BuildConditionNode(ConditionGraphNode conditionGraphNode)
-        {
-            var conditionNode = ScriptableObject.CreateInstance<DialogueConditionNode>();
-            conditionNode.name = GetNodeID(conditionGraphNode);
-            conditionNode.Initialize(conditionGraphNode.BuildCondition(), GetTargetIDs(conditionGraphNode));
-            return conditionNode;
-        }
-
-        private static LocalizedString MakeLocalizedString(string dialogueName, int depth, int breadth, string field)
-        {
-            // Unassigned position (line never connected) ~ no key, the line has no table entry yet
-            if (depth == SpeechGraphNode.unassignedPosition || breadth == SpeechGraphNode.unassignedPosition) { return new LocalizedString(); }
-            return LocalizationTool.MakeLocalizedString(LocalizationTableType.Speech, $"{dialogueName}.{depth}.{breadth}.{field}");
-        }
-
+        
+        #region PrivateUtility
+        private static string GetNodeID(INode node) => ((Node)node).ID.ToString();
+        
         private static IEnumerable<string> GetEntryNodeIDs(DialogueGraph graph)
         {
             // Matches DialogueGraph's entry fix: extras are removed in favour of the first connected entry
@@ -112,7 +104,63 @@ namespace Frankie.Speech.Editor
             return targetIDs;
         }
 
-        private static string GetNodeID(INode node) => ((Node)node).ID.ToString();
+        private static DialogueNode BuildDialogueNode(AssetImportContext context, SpeechGraphNode speechNode, string dialogueName)
+        {
+            int depth = speechNode.GetDepth();
+            int breadth = speechNode.GetBreadth();
+
+            var dialogueNode = ScriptableObject.CreateInstance<DialogueNode>();
+            dialogueNode.name = DialogueNodeLabels.Line(depth, breadth, GetSpeakerLabel(context, speechNode), speechNode.GetText());
+            dialogueNode.InitializeFromGraph(GetNodeID(speechNode), dialogueName, speechNode.GetSpeakerType(), speechNode.GetCharacter(), depth, breadth,
+                MakeLocalizedString(dialogueName, depth, breadth, "Speaker"), MakeLocalizedString(dialogueName, depth, breadth, "Text"), GetTargetIDs(speechNode));
+            return dialogueNode;
+        }
+
+        private static DialogueConditionNode BuildConditionNode(ConditionGraphNode conditionGraphNode)
+        {
+            var conditionNode = ScriptableObject.CreateInstance<DialogueConditionNode>();
+            conditionNode.name = DialogueNodeLabels.Condition(GetNodeID(conditionGraphNode));
+            conditionNode.Initialize(conditionGraphNode.BuildCondition(), GetTargetIDs(conditionGraphNode), GetNodeID(conditionGraphNode));
+            return conditionNode;
+        }
+
+        private static string GetSpeakerLabel(AssetImportContext context, SpeechGraphNode speechNode)
+        {
+            if (!string.IsNullOrWhiteSpace(speechNode.GetSpeakerName())) { return speechNode.GetSpeakerName(); }
+            if (speechNode.GetCharacter() != null) { return GetCharacterLabel(context, speechNode.GetCharacter()); }
+            return speechNode.GetSpeakerType() switch
+            {
+                SpeakerType.PlayerSpeaker => "Player",
+                SpeakerType.NarratorDirection => "Narrator",
+                _ => ""
+            };
+        }
+
+        private static string GetCharacterLabel(AssetImportContext context, CharacterProperties character)
+        {
+            DependOn(context, character);
+            if (LocalizationTool.TryGetEnglishTable(LocalizationTableType.Core, out StringTable englishTable))
+            {
+                DependOn(context, englishTable);
+                DependOn(context, englishTable.SharedData);
+            }
+
+            string displayName = LocalizationTool.GetEnglishEntry(LocalizationTableType.Core, character.GetLocalizationEntries()[0]);
+            return string.IsNullOrWhiteSpace(displayName) ? character.name : displayName;
+        }
+        
+        private static LocalizedString MakeLocalizedString(string dialogueName, int depth, int breadth, string field)
+        {
+            // Unassigned position (line never connected) ~ no key, the line has no table entry yet
+            if (depth == SpeechGraphNode.unassignedPosition || breadth == SpeechGraphNode.unassignedPosition) { return new LocalizedString(); }
+            return LocalizationTool.MakeLocalizedString(LocalizationTableType.Speech, $"{dialogueName}.{depth}.{breadth}.{field}");
+        }
+        
+        private static void DependOn(AssetImportContext context, Object asset)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(asset);
+            if (!string.IsNullOrEmpty(assetPath)) { context.DependsOnSourceAsset(assetPath); }
+        }
         #endregion
     }
 }

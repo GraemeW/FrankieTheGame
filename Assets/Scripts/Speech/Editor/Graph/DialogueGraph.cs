@@ -15,6 +15,9 @@ namespace Frankie.Speech.Editor
         // Const Tunables
         public const string assetExtension = "dialoguegraph";
 
+        // State
+        [NonSerialized] private Dictionary<string, string> localizationBases; // Last-synced localized values per line field
+
         // Menu Item
         [MenuItem("Assets/Create/Dialogue/New Dialogue Graph", false, 11)]
         private static void CreateAssetFile() => GraphDatabase.PromptInProjectBrowserToCreateNewAsset<DialogueGraph>("New Dialogue");
@@ -32,11 +35,16 @@ namespace Frankie.Speech.Editor
             bool fromUndoRedo = DialogueGraphUndoTracker.ConsumeUndoRedo();
             RefreshVisuals();
             DialogueGraphValidator.Validate(this, graphLogger);
+            DialogueGraphLocalizationSync.HandleGraphChanged(this, fromUndoRedo, graphLogger);
             EditorApplication.delayCall += () => DialogueGraphWindowSkin.Apply(this);
 
             // Structural updates skipped after undo/redo ~ would otherwise clear the redo stack
             if (!fromUndoRedo) { ScheduleStructuralFixes(); }
         }
+        #endregion
+
+        #region Localization
+        internal Dictionary<string, string> GetLocalizationBases() => localizationBases ??= new Dictionary<string, string>();
         #endregion
 
         #region Visuals
@@ -93,7 +101,7 @@ namespace Frankie.Speech.Editor
         {
             List<EntryGraphNode> entryNodes = GetNodes().OfType<EntryGraphNode>().ToList();
             if (entryNodes.Count == 1) { return; }
-            RecordGraphChange("Fix Dialogue Entry", editGroup, () =>
+            RecordGraphChange("Fix Dialogue Entry", editGroup, collapse: true, () =>
             {
                 if (entryNodes.Count == 0) { AddNode(new EntryGraphNode()); return; }
                 EntryGraphNode keeper = entryNodes.FirstOrDefault(entryNode => ((INode)entryNode).IsConnected) ?? entryNodes[0];
@@ -105,22 +113,22 @@ namespace Frankie.Speech.Editor
         {
             List<INode> unsupportedNodes = GetNodes().Where(node => node is IConstantNode or IVariableNode).ToList();
             if (unsupportedNodes.Count == 0 && VariableCount == 0) { return; }
-            RecordGraphChange("Remove Unsupported Dialogue Nodes", editGroup, () =>
+            RecordGraphChange("Remove Unsupported Dialogue Nodes", editGroup, collapse: true, () =>
             {
                 foreach (INode node in unsupportedNodes) { RemoveNode(node); }
                 foreach (IVariable variable in GetVariables().ToList()) { RemoveVariable(variable, true); }
             });
         }
 
-        private void RecordGraphChange(string actionName, int editGroup, Action change)
+        internal void RecordGraphChange(string actionName, int editGroup, bool collapse, Action change)
         {
-            // Fold the fix into the edit that triggered it -> one undo reverts both
+            // Collapse folds into the edit that triggered it -> one undo reverts both
             UndoBeginRecordGraph(actionName);
             try { change(); }
             finally
             {
                 UndoEndRecordGraph();
-                Undo.CollapseUndoOperations(editGroup);
+                if (collapse) { Undo.CollapseUndoOperations(editGroup); }
             }
         }
         #endregion

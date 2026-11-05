@@ -7,9 +7,9 @@ namespace Frankie.Tests.Editor
 {
     internal static class DialogueAssert
     {
-        public static void NodeNames(IEnumerable<DialogueNode> resolved, params string[] expectedNames)
+        public static void NodeIDs(IEnumerable<DialogueNode> resolved, params string[] expectedIDs)
         {
-            CollectionAssert.AreEqual(expectedNames, resolved.Select(node => node.name).ToArray());
+            CollectionAssert.AreEqual(expectedIDs, resolved.Select(node => node.GetNodeID()).ToArray());
         }
     }
 }

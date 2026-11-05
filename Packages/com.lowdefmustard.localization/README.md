@@ -105,7 +105,11 @@ e.g.
     - Must be called before other members are used for that `TTableType`; safe to call more than once (later calls overwrite earlier entries for the same key)
     - Also registers this closed type's `Bridge` with `LocalizationToolBridgeRegistry` as a side effect
   - **Runtime-safe:** `MakeLocalizedString`
-  - **Editor-only:** create-or-fetch a `StringTableCollection` per `TTableType` value (auto-creating the asset under `Assets/Localization` on first use), add/update/remove English entries, rename/create keys, resolve a `LocalizedString`'s current key name, and safely rebind a `LocalizedString` to a new key by ID (never by name, to avoid stale-name drift)
+  - **Editor-only:** create-or-fetch a `StringTableCollection` per `TTableType` value (auto-creating the asset under `Assets/Localization` on first use), add/update/remove English entries, rename/create keys, resolve a `LocalizedString`'s current key name, and safely rebind a `LocalizedString` to a new key by ID
+    - **`TryGetEnglishTable(tableType, out table)`** — the English `StringTable` without creating anything (e.g. for importers declaring a dependency on it)
+    - **`RenameKeys(tableType, renames)`** — batch rename that's safe for swaps / chains; skips missing keys and targets taken by a key that isn't moving (warning)
+    - Logs (`Localization` category, Info): key / entry **additions**, **renames** and **removals** (simple text updates aren't logged)
+    - `RemoveEntry` records every locale's `StringTable` for undo - undoing a removal brings translations back
     - Caches table collections and the English `StringTable` per `TTableType` value to avoid repeated asset lookups
     - Static state (caches, registered mapping) is independent per closed `LocalizationToolBase<TTableType>` — no cross-contamination between different enums used in the same project
   - **`Bridge`** — Editor-only. Exposes this closed `LocalizationToolBase<T>` as a non-generic `ILocalizationToolBridge`, so editor infrastructure that can't be generic itself (`LocalizationDeletionHandler`, `SimpleLocalizedStringDrawer`) can still call into it

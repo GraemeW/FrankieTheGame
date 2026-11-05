@@ -23,7 +23,7 @@ namespace Frankie.Speech.Editor
 
         private const string _characterTooltip = "For AI SpeakerType - speaker shown is this character's display name (overrides Speaker)";
         private const string _speakerNameTooltip = "Fallback speaker name - @ SpeakerType: Player, follows party leader name; @ : AI, follows character name (if set); otherwise: this";
-        private const string _positionTooltip = "Localization key position (dialogue.depth.breadth) - assigned when the line is first connected";
+        private const string _positionTooltip = "Localization key position (dialogue.depth.breadth) - assigned once the line is reachable from Entry";
 
         #region UnityMethods
         protected override void OnDefinePorts(IPortDefinitionContext context)
@@ -50,6 +50,13 @@ namespace Frankie.Speech.Editor
         public string GetText() => this.GetOptionValue<string>(textOption) ?? "";
         public int GetDepth() => this.HasOptionsDefined(depthOption) ? this.GetOptionValue<int>(depthOption) : unassignedPosition;
         public int GetBreadth() => this.HasOptionsDefined(breadthOption) ? this.GetOptionValue<int>(breadthOption) : unassignedPosition;
+        public bool IsPlaced() => GetDepth() != unassignedPosition && GetBreadth() != unassignedPosition;
+
+        public void SetPosition(int depth, int breadth)
+        {
+            GetNodeOptionByName(depthOption).TrySetValue(depth);
+            GetNodeOptionByName(breadthOption).TrySetValue(breadth);
+        }
         #endregion
 
         #region Visuals

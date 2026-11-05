@@ -45,7 +45,7 @@ namespace Frankie.Tests.Editor
             DialogueNode second = objects.Speech("Second");
             Dialogue dialogue = objects.Graph(new[] { first, second }, new DialogueConditionNode[0], "Second", "First");
 
-            DialogueAssert.NodeNames(dialogue.ResolveEntry(evaluators), "Second", "First");
+            DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "Second", "First");
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode gate = objects.ConditionNode("Gate", When(passing), "Gated");
             Dialogue dialogue = objects.Graph(new[] { parent, gated }, new[] { gate }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Gated");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Gated");
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode gate = objects.ConditionNode("Gate", When(failing), "Gated");
             Dialogue dialogue = objects.Graph(new[] { parent, gated, open }, new[] { gate }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Open");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Open");
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode gate = objects.ConditionNode("Gate", When(failing, negate: true), "Gated");
             Dialogue dialogue = objects.Graph(new[] { parent, gated }, new[] { gate }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Gated");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Gated");
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode inner = objects.ConditionNode("Inner", When(failing), "Blocked");
             Dialogue dialogue = objects.Graph(new[] { parent, blocked, reached }, new[] { outer, inner }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Reached");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Reached");
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode otherPassGate = objects.ConditionNode("OtherPassGate", When(passing), "Target");
             Dialogue dialogue = objects.Graph(new[] { parent, target }, new[] { failGate, passGate, otherPassGate }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Target");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Target");
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode gate = objects.ConditionNode("Gate", When(passing), "C", "A");
             Dialogue dialogue = objects.Graph(new[] { parent, a, b, c }, new[] { gate }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "A", "C", "B");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "A", "C", "B");
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode gateB = objects.ConditionNode("GateB", When(passing), "GateA", "Target");
             Dialogue dialogue = objects.Graph(new[] { parent, target }, new[] { gateA, gateB }, "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Target");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Target");
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace Frankie.Tests.Editor
             DialogueNode present = objects.Speech("Present");
             Dialogue dialogue = objects.Graph(new[] { parent, present }, new DialogueConditionNode[0], "Parent");
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Present");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Present");
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace Frankie.Tests.Editor
             DialogueConditionNode repeatGate = objects.ConditionNode("RepeatGate", When(passing), "RepeatVisit");
             Dialogue dialogue = objects.Graph(new[] { first, repeat }, new[] { firstGate, repeatGate }, "FirstGate", "RepeatGate");
 
-            DialogueAssert.NodeNames(dialogue.ResolveEntry(evaluators), "RepeatVisit");
+            DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "RepeatVisit");
         }
         #endregion
 
@@ -200,7 +200,7 @@ namespace Frankie.Tests.Editor
             DialogueNode child = objects.Speech("Child");
             Dialogue dialogue = objects.Graph(new[] { root, child }, new DialogueConditionNode[0]);
 
-            DialogueAssert.NodeNames(dialogue.ResolveEntry(evaluators), "Root");
+            DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "Root");
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace Frankie.Tests.Editor
             Dialogue dialogue = objects.Graph(new[] { root, childA, childB }, new DialogueConditionNode[0]);
             dialogue.skipRootNode = true;
 
-            DialogueAssert.NodeNames(dialogue.ResolveEntry(evaluators), "ChildA", "ChildB");
+            DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "ChildA", "ChildB");
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace Frankie.Tests.Editor
             shown.SetCondition(When(passing));
             Dialogue dialogue = objects.Graph(new[] { parent, hidden, shown }, new DialogueConditionNode[0]);
 
-            DialogueAssert.NodeNames(dialogue.ResolveChildren(parent, evaluators), "Shown");
+            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Shown");
         }
 
         [Test]

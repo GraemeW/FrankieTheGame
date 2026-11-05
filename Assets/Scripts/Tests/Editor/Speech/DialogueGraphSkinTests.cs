@@ -18,11 +18,12 @@ namespace Frankie.Tests.Editor
 {
     public class DialogueGraphSkinTests
     {
-        // Guards DialogueGraph.uss against Graph Toolkit updates
-        //  - Graph Toolkit has no public styling API, skin selects its internal part names (classes, element names, types)
-        // Not covered: hover / selection states ++ parts this fixture doesn't build
-        // Not covered: header strip sizing ~ under the test runner, later fixtures' node views often miss their title + DefaultColor (check is unreliable)
-        // Not covered: surfaces that drift to another colour (e.g. a dropped interior rule) ~ only Graph Toolkit's greys are flagged
+        // Guards DialogueGraph.uss against Graph Toolkit updates [Graph Toolkit has no public styling API, so we use skin to select its internal part names (classes, element names, types)]
+        // Not covered:
+        //  - hover / selection states ++ parts this fixture doesn't build
+        //  - hovered title width (Graph Toolkit shrinks it inline by the buttons' width) ~ speech titles aren't built under the test runner (stale views)
+        //  - header strip sizing ~ under the test runner, later fixtures' node views often miss their title + DefaultColor (check is unreliable)
+        //  - surfaces that drift to another colour (e.g. a dropped interior rule) ~ only Graph Toolkit's greys are flagged
 
         // Const Tunables
         private const string _folder = "Assets/_TEMP_DialogueGraphSkinTests_SafeToDelete";
@@ -39,6 +40,7 @@ namespace Frankie.Tests.Editor
         [UnitySetUp]
         public IEnumerator SetUp()
         {
+            DialogueGraphLocalizationSync.suppressed = true; // The fixture window must not write the real Speech table
             Directory.CreateDirectory(_folder);
             BuildFixtureGraph();
             AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath(_graphPath));
@@ -68,6 +70,7 @@ namespace Frankie.Tests.Editor
                 File.Delete(_folder + ".meta");
             }
             AssetDatabase.Refresh();
+            DialogueGraphLocalizationSync.suppressed = false;
         }
         #endregion
         

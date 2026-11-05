@@ -17,6 +17,7 @@ namespace Frankie.Speech
     public class DialogueNode : ScriptableObject, IStandardGraphNode
     {
         [Header("Dialogue Properties")]
+        [SerializeField, ReadOnly] private string nodeID = "";
         [SerializeField, ReadOnly] private string dialogueName = "";
         [SerializeField] private SpeakerType speakerType = SpeakerType.AISpeaker;
         [SerializeField] private CharacterProperties characterProperties;
@@ -41,6 +42,7 @@ namespace Frankie.Speech
 #endif
         #region Getters
         public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterID()); 
+        public string GetNodeID() => string.IsNullOrEmpty(nodeID) ? name : nodeID;
         public CharacterProperties GetCharacterProperties() => characterProperties;
         public SpeakerType GetSpeakerType() => speakerType;
 
@@ -120,9 +122,10 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
         }
         
-        internal void InitializeFromGraph(string setDialogueName, SpeakerType setSpeakerType, CharacterProperties setCharacterProperties, int setNodeDepth, int setNodeBreadth, LocalizedString setLocalizedSpeakerName, LocalizedString setLocalizedText, IEnumerable<string> setChildren)
+        internal void InitializeFromGraph(string setNodeID, string setDialogueName, SpeakerType setSpeakerType, CharacterProperties setCharacterProperties, int setNodeDepth, int setNodeBreadth, LocalizedString setLocalizedSpeakerName, LocalizedString setLocalizedText, IEnumerable<string> setChildren)
         {
             // Importer only: fills a fresh node with no undo / table writes
+            nodeID = setNodeID;
             dialogueName = setDialogueName;
             speakerType = setSpeakerType;
             characterProperties = setCharacterProperties;

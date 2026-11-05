@@ -55,7 +55,6 @@ namespace LowDefMustard.Localization.Editor
             int deletionCount = 0;
             foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationToolBridge, tableType, targetObject, localizable, isSceneInstance))
             {
-                LDMLog.Info(LDMLogCategory.Localization, $"Removing localization entry '{tableEntryReference.KeyId}'.");
                 localizationToolBridge.RemoveEntry(tableType, tableEntryReference);
                 deletionCount++;
             }

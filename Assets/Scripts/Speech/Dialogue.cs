@@ -43,7 +43,7 @@ namespace Frankie.Speech
 #endif
 
         #region StaticMethods
-        public static bool IsRelated(DialogueNode parentNode, DialogueNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
+        public static bool IsRelated(DialogueNode parentNode, DialogueNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.GetNodeID());
         private static bool IsPlayerNameOverrideable(string playerName) => !string.IsNullOrWhiteSpace(playerName);
         private static bool IsSpeakerNameOverrideable(SpeakerType speakerType, DialogueNode dialogueNode) => speakerType == SpeakerType.AISpeaker && dialogueNode.HasValidCharacterProperties();
         #endregion
@@ -67,7 +67,7 @@ namespace Frankie.Speech
             if (dialogueNodes == null) { return; }
             foreach (DialogueNode dialogueNode in dialogueNodes.TakeWhile(dialogueNode => dialogueNode != null))
             {
-                nodeEditorLookup.Add(dialogueNode.name, dialogueNode);
+                nodeEditorLookup.Add(dialogueNode.GetNodeID(), dialogueNode);
                 if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {
                     activeNPCs.Add(dialogueNode.GetCharacterProperties());
@@ -80,8 +80,8 @@ namespace Frankie.Speech
         #region GettersSetters
         public IEnumerable<DialogueNode> GetAllNodes() => dialogueNodes;
         public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes is { Count: > 0 } ? dialogueNodes[0] : null;
-        public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode != null && dialogueNode.name == nodeID);
-        private DialogueConditionNode GetConditionNodeFromID(string nodeID) => conditionNodes.FirstOrDefault(conditionNode => conditionNode != null && conditionNode.name == nodeID);
+        public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode != null && dialogueNode.GetNodeID() == nodeID);
+        private DialogueConditionNode GetConditionNodeFromID(string nodeID) => conditionNodes.FirstOrDefault(conditionNode => conditionNode != null && conditionNode.GetNodeID() == nodeID);
         public List<CharacterProperties> GetActiveCharacters() => activeNPCs;
 
         public void OverrideSpeakerNames(string playerName)
