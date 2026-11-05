@@ -30,7 +30,7 @@ namespace Frankie.Speech.Editor
         private static void RenameKeys(string oldName, string newName)
         {
             if (!LocalizationTool.GetOrMakeTableCollection(LocalizationTableType.Speech, out StringTableCollection collection)) { return; }
-            List<(string oldKey, string newKey)> renames = collection.SharedData.Entries.Where(entry => entry.Key.StartsWith(oldName + ".")).Select(entry => (entry.Key, newName + entry.Key[oldName.Length..])).ToList();
+            List<(string oldKey, string newKey)> renames = collection.SharedData.Entries.Where(entry => entry.Key.StartsWith(DialogueLineKeys.GetPrefix(oldName))).Select(entry => (entry.Key, newName + entry.Key[oldName.Length..])).ToList();
             LocalizationTool.RenameKeys(LocalizationTableType.Speech, renames);
         }
     }

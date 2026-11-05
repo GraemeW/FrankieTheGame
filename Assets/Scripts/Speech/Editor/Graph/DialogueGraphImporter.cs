@@ -112,7 +112,7 @@ namespace Frankie.Speech.Editor
             var dialogueNode = ScriptableObject.CreateInstance<DialogueNode>();
             dialogueNode.name = DialogueNodeLabels.Line(depth, breadth, GetSpeakerLabel(context, speechNode), speechNode.GetText());
             dialogueNode.InitializeFromGraph(GetNodeID(speechNode), dialogueName, speechNode.GetSpeakerType(), speechNode.GetCharacter(), depth, breadth,
-                MakeLocalizedString(dialogueName, depth, breadth, "Speaker"), MakeLocalizedString(dialogueName, depth, breadth, "Text"), GetTargetIDs(speechNode));
+                MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.speakerField), MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.textField), GetTargetIDs(speechNode));
             return dialogueNode;
         }
 
@@ -153,7 +153,7 @@ namespace Frankie.Speech.Editor
         {
             // Unassigned position (line never connected) ~ no key, the line has no table entry yet
             if (depth == SpeechGraphNode.unassignedPosition || breadth == SpeechGraphNode.unassignedPosition) { return new LocalizedString(); }
-            return LocalizationTool.MakeLocalizedString(LocalizationTableType.Speech, $"{dialogueName}.{depth}.{breadth}.{field}");
+            return LocalizationTool.MakeLocalizedString(LocalizationTableType.Speech, DialogueLineKeys.Get(dialogueName, depth, breadth, field));
         }
         
         private static void DependOn(AssetImportContext context, Object asset)

@@ -20,8 +20,6 @@ namespace Frankie.Speech.Editor
 
         // Const Tunables
         private const string _defaultLocale = "en";
-        private const string _speakerField = "Speaker";
-        private const string _textField = "Text";
         private const string _rekeyTitle = "Re-key Dialogue Lines";
 
         // State
@@ -71,7 +69,6 @@ namespace Frankie.Speech.Editor
         }
 
         private static string GetDialogueName(string graphPath) => Path.GetFileNameWithoutExtension(graphPath);
-        private static string GetKey(string dialogueName, int depth, int breadth, string field) => $"{dialogueName}.{depth}.{breadth}.{field}";
         private static string GetBaseID(string lineID, string field) => $"{lineID}.{field}";
 
         private static (string lineID, string field) SplitBaseID(string baseID)
@@ -82,7 +79,7 @@ namespace Frankie.Speech.Editor
 
         private static HashSet<string> GetSyncedLineIDs(DialogueGraph graph, Dictionary<string, string> bases)
         {
-            return new HashSet<string>(GetLines(graph).Select(DialogueLinePositionPlanner.GetID).Where(lineID => bases.ContainsKey(GetBaseID(lineID, _textField))));
+            return new HashSet<string>(GetLines(graph).Select(DialogueLinePositionPlanner.GetID).Where(lineID => bases.ContainsKey(GetBaseID(lineID, DialogueLineKeys.textField))));
         }
 
         private static IEnumerable<SpeechGraphNode> GetLines(DialogueGraph graph) => graph.GetNodes().OfType<SpeechGraphNode>();
@@ -92,9 +89,9 @@ namespace Frankie.Speech.Editor
             var renames = new List<(string oldKey, string newKey)>();
             foreach (DialogueLinePosition position in positions.Where(position => position.line.IsPlaced())) // Note:  Unplaced lines have no entries yet so nothing to rename
             {
-                foreach (string field in new[] { _speakerField, _textField })
+                foreach (string field in new[] { DialogueLineKeys.speakerField, DialogueLineKeys.textField })
                 {
-                    renames.Add((GetKey(dialogueName, position.line.GetDepth(), position.line.GetBreadth(), field), GetKey(dialogueName, position.depth, position.breadth, field)));
+                    renames.Add((DialogueLineKeys.Get(dialogueName, position.line.GetDepth(), position.line.GetBreadth(), field), DialogueLineKeys.Get(dialogueName, position.depth, position.breadth, field)));
                 }
             }
             return renames;
@@ -109,7 +106,7 @@ namespace Frankie.Speech.Editor
         private static Dictionary<string, string> GetTableEntries(StringTableCollection collection, string dialogueName)
         {
             var defaultTable = (StringTable)collection.GetTable(_defaultLocale);
-            string keyPrefix = dialogueName + ".";
+            string keyPrefix = DialogueLineKeys.GetPrefix(dialogueName);
             return collection.SharedData.Entries.Where(entry => entry.Key.StartsWith(keyPrefix)).ToDictionary(entry => entry.Key, entry => defaultTable.GetEntry(entry.Id)?.Value);
         }
         
@@ -120,8 +117,8 @@ namespace Frankie.Speech.Editor
             foreach (SpeechGraphNode line in GetLines(graph).Where(line => line.IsPlaced() && !moving.Contains(line))) // Only placed lines have keys && lines about to move sit out until they have their own key
             {
                 string lineID = DialogueLinePositionPlanner.GetID(line);
-                fields.Add(new DialogueLocalizationField(GetBaseID(lineID, _speakerField), GetKey(dialogueName, line.GetDepth(), line.GetBreadth(), _speakerField), line.GetSpeakerName()));
-                fields.Add(new DialogueLocalizationField(GetBaseID(lineID, _textField), GetKey(dialogueName, line.GetDepth(), line.GetBreadth(), _textField), line.GetText()));
+                fields.Add(new DialogueLocalizationField(GetBaseID(lineID, DialogueLineKeys.speakerField), DialogueLineKeys.Get(dialogueName, line.GetDepth(), line.GetBreadth(), DialogueLineKeys.speakerField), line.GetSpeakerName()));
+                fields.Add(new DialogueLocalizationField(GetBaseID(lineID, DialogueLineKeys.textField), DialogueLineKeys.Get(dialogueName, line.GetDepth(), line.GetBreadth(), DialogueLineKeys.textField), line.GetText()));
             }
             return fields;
         }
@@ -171,7 +168,7 @@ namespace Frankie.Speech.Editor
                 {
                     (string lineID, string field) = SplitBaseID(baseID);
                     if (!linesByID.TryGetValue(lineID, out SpeechGraphNode line)) { continue; }
-                    line.GetNodeOptionByName(field == _speakerField ? SpeechGraphNode.speakerNameOption : SpeechGraphNode.textOption).TrySetValue(value);
+                    line.GetNodeOptionByName(field == DialogueLineKeys.speakerField ? SpeechGraphNode.speakerNameOption : SpeechGraphNode.textOption).TrySetValue(value);
                     bases[baseID] = value;
                 }
             });
