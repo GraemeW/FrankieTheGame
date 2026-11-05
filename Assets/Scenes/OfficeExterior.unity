@@ -810,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 66662401865bfb74d8282c92e1527a62, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 66662401865bfb74d8282c92e1527a62, type: 3}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
       value: 76670915-8f71-4efb-b89b-e4c2f7c686ae
@@ -4380,7 +4380,7 @@ PrefabInstance:
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 551d41ab92b6c1742b40b933f436200a, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 551d41ab92b6c1742b40b933f436200a, type: 3}
     - target: {fileID: 5507729041372677064, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_Name
       value: HipsterOfficeWorker (1)
@@ -6536,7 +6536,7 @@ PrefabInstance:
     - target: {fileID: 2707347081267262573, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 452e4fedd6192a942b9c93aa59da45dc, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 452e4fedd6192a942b9c93aa59da45dc, type: 3}
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
       value: a879aa96-6518-4c0c-a6b3-3c68ab82b9cd
@@ -11297,7 +11297,7 @@ PrefabInstance:
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: f5f71b48a83842744994de13c313ec9a, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: f5f71b48a83842744994de13c313ec9a, type: 3}
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: a7f31d5a-7d65-4351-b2aa-9aa006123a57
@@ -16789,7 +16789,7 @@ PrefabInstance:
     - target: {fileID: 6041501695508025457, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: a22d279fc1954fd4baaba89f647a32f1, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: a22d279fc1954fd4baaba89f647a32f1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16821,7 +16821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 1
-  triggerNode: {fileID: 6076726984073774512, guid: a22d279fc1954fd4baaba89f647a32f1, type: 2}
+  triggerNode: {fileID: 2146810496653795672, guid: a22d279fc1954fd4baaba89f647a32f1, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -18201,7 +18201,7 @@ PrefabInstance:
     - target: {fileID: 5932785474169007135, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 1cd8974312f4a9d4bb52f099dab881bb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 1cd8974312f4a9d4bb52f099dab881bb, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18233,7 +18233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: -8877599338786768631, guid: 1cd8974312f4a9d4bb52f099dab881bb, type: 2}
+  triggerNode: {fileID: -1662380363317118294, guid: 1cd8974312f4a9d4bb52f099dab881bb, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -19413,7 +19413,7 @@ PrefabInstance:
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 32df1577f82cf4f4ea21f2a8032d10a8, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 32df1577f82cf4f4ea21f2a8032d10a8, type: 3}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
       value: 91b0d60c-a3ee-4abd-9e75-584743fba236
@@ -66040,7 +66040,7 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 3}
     - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: uniqueIdentifier
       value: a75ef5a4-5056-4d27-b614-49aeaba473e7

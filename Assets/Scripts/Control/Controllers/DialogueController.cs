@@ -270,7 +270,7 @@ namespace Frankie.Speech
                 case ControllerInputType.Execute:
                 {
                     TriggerDialogueInput(controllerInputType);
-                    NextWithID(highlightedNode.name);
+                    NextWithID(highlightedNode.GetNodeID());
                     highlightedNode = null;
                     return true;
                 }

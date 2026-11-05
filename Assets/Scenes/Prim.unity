@@ -8213,7 +8213,7 @@ PrefabInstance:
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 66662401865bfb74d8282c92e1527a62, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 66662401865bfb74d8282c92e1527a62, type: 3}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
       value: 76670915-8f71-4efb-b89b-e4c2f7c686ae
@@ -16094,7 +16094,7 @@ PrefabInstance:
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 551d41ab92b6c1742b40b933f436200a, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 551d41ab92b6c1742b40b933f436200a, type: 3}
     - target: {fileID: 5507729041372677064, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_Name
       value: HipsterOfficeWorker (1)
@@ -18945,7 +18945,7 @@ PrefabInstance:
     - target: {fileID: 2707347081267262573, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 452e4fedd6192a942b9c93aa59da45dc, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 452e4fedd6192a942b9c93aa59da45dc, type: 3}
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
       value: a879aa96-6518-4c0c-a6b3-3c68ab82b9cd
@@ -34684,7 +34684,7 @@ PrefabInstance:
     - target: {fileID: 5330553027643560712, guid: 724e2fa3227edbc48b36707b69e416c6, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 3458f5ba9397e42378bd5198f2a6b12d, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 3458f5ba9397e42378bd5198f2a6b12d, type: 3}
     - target: {fileID: 5425677080541811277, guid: 724e2fa3227edbc48b36707b69e416c6, type: 3}
       propertyPath: uniqueIdentifier
       value: d5505ea0-395b-487f-bbbf-dcc80ae4e0fd
@@ -36088,7 +36088,7 @@ PrefabInstance:
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: f5f71b48a83842744994de13c313ec9a, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: f5f71b48a83842744994de13c313ec9a, type: 3}
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: a7f31d5a-7d65-4351-b2aa-9aa006123a57
@@ -41204,7 +41204,7 @@ PrefabInstance:
     - target: {fileID: 6041501695508025457, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: a22d279fc1954fd4baaba89f647a32f1, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: a22d279fc1954fd4baaba89f647a32f1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41236,7 +41236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 1
-  triggerNode: {fileID: 6076726984073774512, guid: a22d279fc1954fd4baaba89f647a32f1, type: 2}
+  triggerNode: {fileID: 2146810496653795672, guid: a22d279fc1954fd4baaba89f647a32f1, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -52168,7 +52168,7 @@ PrefabInstance:
     - target: {fileID: 7005185240716262040, guid: b40c8a2d41c557a49a83d28cd7fce1d1, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 8fee5dd34bf3f4a67a6225c231c5bb42, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 8fee5dd34bf3f4a67a6225c231c5bb42, type: 3}
     - target: {fileID: 7171252254027824093, guid: b40c8a2d41c557a49a83d28cd7fce1d1, type: 3}
       propertyPath: uniqueIdentifier
       value: 14c9a81c-080c-4023-b3ad-3697b966b9d9
@@ -56097,7 +56097,7 @@ PrefabInstance:
     - target: {fileID: 2139626279643708082, guid: 7acdda3804013364ca749486116b3e18, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 3}
     - target: {fileID: 2139626279643708082, guid: 7acdda3804013364ca749486116b3e18, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -287586,7 +287586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: -2531251401273844353, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 2}
+  triggerNode: {fileID: -5809346171368356307, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -287617,7 +287617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: -5890488024941065373, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 2}
+  triggerNode: {fileID: -7398546681244997859, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:

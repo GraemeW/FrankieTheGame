@@ -394,7 +394,7 @@ PrefabInstance:
     - target: {fileID: 361446726576636589, guid: 4d87ee9942258394096a0e9a40993801, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 50fcee1924ef44888830d3155380e3fa, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 50fcee1924ef44888830d3155380e3fa, type: 3}
     - target: {fileID: 555650104068637672, guid: 4d87ee9942258394096a0e9a40993801, type: 3}
       propertyPath: uniqueIdentifier
       value: e6b739f9-d36d-4a4a-9924-78f99d1df236
@@ -11704,7 +11704,7 @@ PrefabInstance:
     - target: {fileID: 4590206079254210171, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 487be0659bd7544538fdebe784f7fc25, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 487be0659bd7544538fdebe784f7fc25, type: 3}
     - target: {fileID: 6801303911162038568, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: uniqueIdentifier
       value: f2e80620-79c9-4456-989f-046eab02ebec
@@ -30671,7 +30671,7 @@ PrefabInstance:
     - target: {fileID: 1853097853933569969, guid: 6355dd8a17e27464598b4200738afc8c, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 9ddcd75d735ff486a9e0317ba8250d36, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 9ddcd75d735ff486a9e0317ba8250d36, type: 3}
     - target: {fileID: 1947115918370817780, guid: 6355dd8a17e27464598b4200738afc8c, type: 3}
       propertyPath: uniqueIdentifier
       value: 371d54f7-430a-4272-9218-9b802e00224d
@@ -40605,7 +40605,7 @@ PrefabInstance:
     - target: {fileID: 3429280736951894212, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 3b30ce2e0dcca4b8ba4018ed51351e58, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 3b30ce2e0dcca4b8ba4018ed51351e58, type: 3}
     - target: {fileID: 5640729318857076631, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: uniqueIdentifier
       value: ec297c98-b063-4d13-891f-8d9e4e064cb9

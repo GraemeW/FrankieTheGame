@@ -19112,7 +19112,7 @@ PrefabInstance:
     - target: {fileID: 7899058243809660546, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: b4f47a0cc1e327744b0e20a5bbd6f500, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: b4f47a0cc1e327744b0e20a5bbd6f500, type: 3}
     - target: {fileID: 7899058243809660546, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -19161,7 +19161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 1
-  triggerNode: {fileID: 4295763153329640279, guid: b4f47a0cc1e327744b0e20a5bbd6f500, type: 2}
+  triggerNode: {fileID: 7399346629852883269, guid: b4f47a0cc1e327744b0e20a5bbd6f500, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 1
     onTriggerEvent:
@@ -19235,7 +19235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 3
-  triggerNode: {fileID: 5718083781929566518, guid: b4f47a0cc1e327744b0e20a5bbd6f500, type: 2}
+  triggerNode: {fileID: -2716900711484140064, guid: b4f47a0cc1e327744b0e20a5bbd6f500, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -19503,7 +19503,7 @@ PrefabInstance:
     - target: {fileID: 6041501695508025457, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: d040360a0f2793848a61bae051db42c7, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: d040360a0f2793848a61bae051db42c7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41421,7 +41421,7 @@ PrefabInstance:
     - target: {fileID: 7899058243809660546, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: b8caf238a72726444a10e9d878dbe436, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: b8caf238a72726444a10e9d878dbe436, type: 3}
     - target: {fileID: 7899058243809660546, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -58305,7 +58305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: -5964346729691210588, guid: 925a4cef8f651a44eb8ffdf6a2ef0355, type: 2}
+  triggerNode: {fileID: -7215104671927768819, guid: 925a4cef8f651a44eb8ffdf6a2ef0355, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -58679,7 +58679,7 @@ PrefabInstance:
     - target: {fileID: 1379600467463353751, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 60642ebe74cc9a5419a5ec3216dec590, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 60642ebe74cc9a5419a5ec3216dec590, type: 3}
     - target: {fileID: 3799384875062050814, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: willShout
       value: 0
@@ -58857,7 +58857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 0
-  triggerNode: {fileID: -5540922432727401533, guid: 835575f5b6412d94d84a8584a5db1294, type: 2}
+  triggerNode: {fileID: -2732234804502058154, guid: 835575f5b6412d94d84a8584a5db1294, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 1
     onTriggerEvent:
@@ -58888,7 +58888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: 1332858682320986061, guid: 835575f5b6412d94d84a8584a5db1294, type: 2}
+  triggerNode: {fileID: 6074733307001188543, guid: 835575f5b6412d94d84a8584a5db1294, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -58919,7 +58919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 3
-  triggerNode: {fileID: 6848739147856412120, guid: 835575f5b6412d94d84a8584a5db1294, type: 2}
+  triggerNode: {fileID: 0}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -58948,7 +58948,7 @@ PrefabInstance:
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 33ebbedf7320af04b8016a54d21bb073, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 33ebbedf7320af04b8016a54d21bb073, type: 3}
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: e0fbd353-2c7a-414c-9652-60f9c6a09768
@@ -59258,7 +59258,7 @@ PrefabInstance:
     - target: {fileID: 2707347081267262573, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 7d45d7835aa42234b99b1e26d0e876ac, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 7d45d7835aa42234b99b1e26d0e876ac, type: 3}
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
       value: dd9378f4-2bb0-45fe-90f7-bf8ee614c686
@@ -59449,7 +59449,7 @@ PrefabInstance:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: ead7e23d4b25bba4c97e2b2fb613d033, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: ead7e23d4b25bba4c97e2b2fb613d033, type: 3}
     - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Name
       value: ConversantComponent
@@ -67162,7 +67162,7 @@ PrefabInstance:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 3b069a72b89705b4888ea975ece931fc, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 3b069a72b89705b4888ea975ece931fc, type: 3}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.y
       value: 0.5022385
@@ -67258,7 +67258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: 9112552313027358863, guid: 3b069a72b89705b4888ea975ece931fc, type: 2}
+  triggerNode: {fileID: 7158706507986346637, guid: 3b069a72b89705b4888ea975ece931fc, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -68608,7 +68608,7 @@ PrefabInstance:
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 835575f5b6412d94d84a8584a5db1294, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 835575f5b6412d94d84a8584a5db1294, type: 3}
     - target: {fileID: 2923259249658794627, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: willChasePlayer
       value: 1
@@ -68870,7 +68870,7 @@ PrefabInstance:
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: c1c8126eefc85c849a4fc65aa2bdc180, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: c1c8126eefc85c849a4fc65aa2bdc180, type: 3}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
       value: 2f61fd49-5363-4b1b-bd76-f9b119e4f995
@@ -87455,7 +87455,7 @@ PrefabInstance:
     - target: {fileID: 4442521249717468270, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 3}
     - target: {fileID: 4545553385901210923, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: uniqueIdentifier
       value: 795992c5-921e-4e83-b95e-103f5ab3c604
@@ -87793,7 +87793,7 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 4fc9c2cb1cbf0ae419935bd0f91f81b2, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 4fc9c2cb1cbf0ae419935bd0f91f81b2, type: 3}
     - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: uniqueIdentifier
       value: 4621c135-67f7-4492-93de-06f1f3aa41d0
@@ -87891,7 +87891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 1
-  triggerNode: {fileID: 8174753224018235221, guid: 4fc9c2cb1cbf0ae419935bd0f91f81b2, type: 2}
+  triggerNode: {fileID: 1487424073086308240, guid: 4fc9c2cb1cbf0ae419935bd0f91f81b2, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 1
     onTriggerEvent:
@@ -88637,7 +88637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 0
-  triggerNode: {fileID: -4485444007891899020, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 2}
+  triggerNode: {fileID: 5817928181721692176, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -88668,7 +88668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 1
-  triggerNode: {fileID: 4323177324635370075, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 2}
+  triggerNode: {fileID: 1318159895333565473, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 1
     onTriggerEvent:
@@ -88711,7 +88711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: -7184361825477917868, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 2}
+  triggerNode: {fileID: 2943785808799383884, guid: fa21c3eb4dc96694dbd7719ef64b296a, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -88822,7 +88822,7 @@ PrefabInstance:
     - target: {fileID: 1379600467463353751, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: fad2bf7aa6d0e9f469850aa5e5c45258, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: fad2bf7aa6d0e9f469850aa5e5c45258, type: 3}
     - target: {fileID: 3799384875062050814, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: willShout
       value: 0
@@ -130778,7 +130778,7 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: f0bc019e72b5e8145a2949e6c12be816, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: f0bc019e72b5e8145a2949e6c12be816, type: 3}
     - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: uniqueIdentifier
       value: f1687c03-1d2e-46c2-bf72-812ff4399dfd
@@ -130921,7 +130921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 3
-  triggerNode: {fileID: 726267591185488573, guid: f0bc019e72b5e8145a2949e6c12be816, type: 2}
+  triggerNode: {fileID: -369045034979807617, guid: f0bc019e72b5e8145a2949e6c12be816, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -131275,7 +131275,7 @@ PrefabInstance:
     - target: {fileID: 2707347081267262573, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 925a4cef8f651a44eb8ffdf6a2ef0355, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 925a4cef8f651a44eb8ffdf6a2ef0355, type: 3}
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
       value: 212b55d8-264e-433f-ad91-b5a7e74907b2

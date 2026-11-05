@@ -27607,7 +27607,7 @@ PrefabInstance:
     - target: {fileID: 8941027531778530901, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 9ad258ced7536e746b65820391f131ae, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 9ad258ced7536e746b65820391f131ae, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28649,7 +28649,7 @@ PrefabInstance:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: ee03fb3e5bbb2b24d8072c46c71be528, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: ee03fb3e5bbb2b24d8072c46c71be528, type: 3}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.x
       value: 0.78712845
@@ -28749,7 +28749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: -3950251971245825109, guid: ee03fb3e5bbb2b24d8072c46c71be528, type: 2}
+  triggerNode: {fileID: 5006153008668927407, guid: ee03fb3e5bbb2b24d8072c46c71be528, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -29040,7 +29040,7 @@ PrefabInstance:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: c53e171b91ed12b45914c900a5596450, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: c53e171b91ed12b45914c900a5596450, type: 3}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.x
       value: 0.78712845
@@ -29140,7 +29140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 2
-  triggerNode: {fileID: 6439983533870944445, guid: c53e171b91ed12b45914c900a5596450, type: 2}
+  triggerNode: {fileID: 451029614930249142, guid: c53e171b91ed12b45914c900a5596450, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
