@@ -8,9 +8,7 @@ namespace Frankie.Speech
     [Serializable]
     public sealed class DialogueConditionNode : ScriptableObject
     {
-        // Note:
-        //  - Traversal passes through to its children only while its condition holds
-        //  - Never becomes the current node, so it raises no node entry/exit events
+        // Note: Never becomes the current node (no node entry/exit events)
         
         // Tunables
         [SerializeField] private string nodeID = "";
@@ -18,12 +16,12 @@ namespace Frankie.Speech
         [SerializeField] private List<string> children = new();
 
         // Public Methods
-        public string GetNodeID() => string.IsNullOrEmpty(nodeID) ? name : nodeID;
+        public string GetNodeID() => nodeID;
         public List<string> GetChildren() => children;
         public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators) => condition == null || condition.Check(evaluators);
 
 #if UNITY_EDITOR
-        internal void Initialize(Condition setCondition, IEnumerable<string> setChildren, string setNodeID = "")
+        internal void Initialize(string setNodeID, Condition setCondition, IEnumerable<string> setChildren)
         {
             nodeID = setNodeID;
             condition = setCondition;

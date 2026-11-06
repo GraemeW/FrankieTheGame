@@ -15,8 +15,9 @@ namespace Frankie.Speech.Editor
     {
         // Behavioural Notes:
         //  - see DialogueLocalizationPlan for reconciliation logic
-        //  - tables are written immediately inside the edit's undo group
-        //  - graph writes are deferred (since Graph Toolkit locks the graph during OnGraphChanged)
+        //  - all localization table writes are deferred out of OnGraphChanged, re-planned when they run, and folded into the edit's undo group:
+        //    - graph writes:  req'd since Graph Toolkit locks the graph during OnGraphChanged
+        //    - table writes:  req'd since saving a table asset re-enters Graph Toolkit's asset watcher mid-update
 
         // Const Tunables
         private const string _defaultLocale = "en";
@@ -32,16 +33,12 @@ namespace Frankie.Speech.Editor
             Dictionary<string, string> bases = graph.GetLocalizationBases();
 
             List<DialogueLinePosition> positions = PlanPositions(graph, bases);
-            DialogueLocalizationPlan plan = BuildPlan(graph, graphPath, collection, bases, positions, out Dictionary<string, string> baseIDsByKey);
+            DialogueLocalizationPlan plan = BuildPlan(graph, graphPath, collection, bases, positions, out _);
             SettleBases(plan, bases);
             if (fromUndoRedo) { return; } // Undo / redo already restored both sides: only the bases need re-learning
 
-            if (plan.hasTableWrites)
-            {
-                if (HasNameClash(graphPath)) { WarnNameClash(graph, graphPath, graphLogger); return; }
-                ApplyTableWrites(plan, bases, baseIDsByKey);
-            }
-            ScheduleGraphWrites(graph, plan, hasPositions: positions.Count > 0);
+            if (plan.hasTableWrites && HasNameClash(graphPath)) { WarnNameClash(graph, graphPath, graphLogger); return; }
+            ScheduleWrites(graph, plan, hasPositions: positions.Count > 0);
         }
 
         public static void RekeyLines(DialogueGraph graph)
@@ -139,6 +136,32 @@ namespace Frankie.Speech.Editor
         {
             foreach ((string baseID, string value) in plan.settledBases) { bases[baseID] = value; }
         }
+        
+        private static void ScheduleWrites(DialogueGraph graph, DialogueLocalizationPlan plan, bool hasPositions)
+        {
+            // Order:  table writes for lines already placed, then pulls, then new positions (+ their entries)
+            int editGroup = Undo.GetCurrentGroup();
+            if (plan.hasTableWrites) { EditorApplication.delayCall += () => WriteTables(graph, editGroup); }
+            if (plan.hasGraphWrites) { EditorApplication.delayCall += () => ApplyPulls(graph, plan.pulls); }
+            if (hasPositions) { EditorApplication.delayCall += () => ApplyPositions(graph, editGroup); }
+        }
+        
+        private static void WriteTables(DialogueGraph graph, int editGroup)
+        {
+            // Re-planned here because the graph may have changed since scheduled (lines about to move still sit out)
+            if (!TryGetContext(graph, out string graphPath, out StringTableCollection collection)) { return; }
+            Dictionary<string, string> bases = graph.GetLocalizationBases();
+            WriteTables(graph, graphPath, collection, bases, PlanPositions(graph, bases), editGroup);
+        }
+        
+        private static void WriteTables(DialogueGraph graph, string graphPath, StringTableCollection collection, Dictionary<string, string> bases, List<DialogueLinePosition> positions, int editGroup)
+        {
+            // Joins the same undo step as the edit that caused it
+            DialogueLocalizationPlan plan = BuildPlan(graph, graphPath, collection, bases, positions, out Dictionary<string, string> baseIDsByKey);
+            if (!plan.hasTableWrites || HasNameClash(graphPath)) { return; }
+            ApplyTableWrites(plan, bases, baseIDsByKey);
+            Undo.CollapseUndoOperations(editGroup);
+        }
 
         private static void ApplyTableWrites(DialogueLocalizationPlan plan, Dictionary<string, string> bases, Dictionary<string, string> baseIDsByKey)
         {
@@ -149,13 +172,6 @@ namespace Frankie.Speech.Editor
             }
             foreach (string key in plan.removals) { LocalizationTool.RemoveEntry(LocalizationTableType.Speech, key); }
             foreach (string key in plan.conflicts) { LDMLog.Warning(LDMLogCategory.Speech, $"'{key}' was edited in both the dialogue graph and the Speech table: kept the graph's text"); }
-        }
-
-        private static void ScheduleGraphWrites(DialogueGraph graph, DialogueLocalizationPlan plan, bool hasPositions)
-        {
-            int editGroup = Undo.GetCurrentGroup();
-            if (plan.hasGraphWrites) { EditorApplication.delayCall += () => ApplyPulls(graph, plan.pulls); }
-            if (hasPositions) { EditorApplication.delayCall += () => ApplyPositions(graph, editGroup); }
         }
 
         private static void ApplyPulls(DialogueGraph graph, Dictionary<string, string> pulls)
@@ -176,14 +192,14 @@ namespace Frankie.Speech.Editor
 
         private static void ApplyPositions(DialogueGraph graph, int editGroup)
         {
-            // Re-planned here: the graph may have changed since it was scheduled
+            // Re-planned here because the graph may have changed since scheduled
             if (!TryGetContext(graph, out string graphPath, out StringTableCollection collection)) { return; }
             Dictionary<string, string> bases = graph.GetLocalizationBases();
             List<DialogueLinePosition> positions = PlanPositions(graph, bases);
             if (positions.Count == 0) { return; }
 
             SetPositions(graph, "Assign Dialogue Line Positions", editGroup, positions);
-            PushNewlyPlacedLines(graph, graphPath, collection, bases, editGroup);
+            WriteTables(graph, graphPath, collection, bases, new List<DialogueLinePosition>(), editGroup); // Entries for the newly placed lines
         }
 
         private static void SetPositions(DialogueGraph graph, string actionName, int editGroup, List<DialogueLinePosition> positions)
@@ -192,15 +208,6 @@ namespace Frankie.Speech.Editor
             {
                 foreach (DialogueLinePosition position in positions) { position.line.SetPosition(position.depth, position.breadth); }
             });
-        }
-
-        private static void PushNewlyPlacedLines(DialogueGraph graph, string graphPath, StringTableCollection collection, Dictionary<string, string> bases, int editGroup)
-        {
-            // Entries for the newly placed lines join the same undo step as the edit that placed them
-            DialogueLocalizationPlan plan = BuildPlan(graph, graphPath, collection, bases, new List<DialogueLinePosition>(), out Dictionary<string, string> baseIDsByKey);
-            if (!plan.hasTableWrites || HasNameClash(graphPath)) { return; }
-            ApplyTableWrites(plan, bases, baseIDsByKey);
-            Undo.CollapseUndoOperations(editGroup);
         }
         
         private static void WarnNameClash(DialogueGraph graph, string graphPath, GraphLogger graphLogger)

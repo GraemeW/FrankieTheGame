@@ -30,6 +30,7 @@ namespace Frankie.Speech
         private string simpleMessage = "";
         private List<ChoiceActionPair> simpleChoices = new();
         private InteractionEvent onDestroyCallbackActions;
+        private bool earlyExit = false;
         private bool dialogueComplete = false;
 
         // Cached References
@@ -97,6 +98,7 @@ namespace Frankie.Speech
 
         protected override void LateUpdate()
         {
+            if (earlyExit) { earlyExit = false; EndConversation(); }
             if (destroyQueued && !dialogueComplete) { playerStateMachine.EnterWorld(); }
             base.LateUpdate();
         }
@@ -162,7 +164,7 @@ namespace Frankie.Speech
             SetupDialogueTriggers();
 
             List<DialogueNode> entryNodes = currentDialogue.ResolveEntry(GetEvaluators());
-            if (entryNodes.Count == 0) { EndConversation(); return; }
+            if (entryNodes.Count == 0) { earlyExit = true; return; } // Defer EndConversation a frame to allow dialogue to open -> close
             
             SetCurrentNode(entryNodes[UnityEngine.Random.Range(0, entryNodes.Count)]);
 
@@ -202,7 +204,7 @@ namespace Frankie.Speech
         public void NextWithID(string nodeID)
         {
             if (!HasNext()) { return; }
-            SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
+            SetCurrentNode(currentDialogue.GetDialogueNodeFromID(nodeID));
         }
         #endregion
         

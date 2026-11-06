@@ -7,7 +7,6 @@ using Object = UnityEngine.Object;
 using LowDefMustard.Zones;
 using LowDefMustard.Localization;
 using Frankie.Stats;
-using Frankie.Speech;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Quests;
@@ -110,7 +109,7 @@ namespace Frankie.Utils.Localization
         {
             switch (targetObject)
             {
-                case CharacterProperties or Zone or Dialogue or Skill or InventoryItem or Quest:
+                case CharacterProperties or Zone or Skill or InventoryItem or Quest:
                     string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
                     return ILocalizableCore.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
                 default:

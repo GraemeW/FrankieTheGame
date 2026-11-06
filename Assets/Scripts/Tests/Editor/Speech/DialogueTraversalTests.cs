@@ -12,7 +12,6 @@ namespace Frankie.Tests.Editor
     {
         // Covers Dialogue.ResolveEntry / ResolveChildren over in-memory dialogues (no assets)
         //  - Graph dialogues: entry children + condition nodes (AND chained, OR parallel)
-        //  - Legacy (pre-graph) dialogues: root / skip-root entry and per-node conditions, until migration retires them - To-Be-Removed (pending)
         // Not covered here: DialogueController (entry events, random pick, choosing) - req's Play Mode
 
         // State
@@ -181,7 +180,7 @@ namespace Frankie.Tests.Editor
         [Test]
         public void ResolveEntry_GatedEntryChildren_Filtered()
         {
-            // Replaces the legacy skipped dummy root: entry fans out through conditions directly
+            // e.g. first-visit vs. repeat-visit openers: entry fans out through conditions directly
             DialogueNode first = objects.Speech("FirstVisit");
             DialogueNode repeat = objects.Speech("RepeatVisit");
             DialogueConditionNode firstGate = objects.ConditionNode("FirstGate", When(failing), "FirstVisit");
@@ -189,43 +188,6 @@ namespace Frankie.Tests.Editor
             Dialogue dialogue = objects.Graph(new[] { first, repeat }, new[] { firstGate, repeatGate }, "FirstGate", "RepeatGate");
 
             DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "RepeatVisit");
-        }
-        #endregion
-
-        #region LegacyDialogues
-        [Test]
-        public void ResolveEntry_LegacyWithoutEntryChildren_StartsAtRoot()
-        {
-            DialogueNode root = objects.Speech("Root", "Child");
-            DialogueNode child = objects.Speech("Child");
-            Dialogue dialogue = objects.Graph(new[] { root, child }, new DialogueConditionNode[0]);
-
-            DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "Root");
-        }
-
-        [Test]
-        public void ResolveEntry_LegacySkipRoot_StartsAtRootChildren()
-        {
-            DialogueNode root = objects.Speech("Root", "ChildA", "ChildB");
-            DialogueNode childA = objects.Speech("ChildA");
-            DialogueNode childB = objects.Speech("ChildB");
-            Dialogue dialogue = objects.Graph(new[] { root, childA, childB }, new DialogueConditionNode[0]);
-            dialogue.skipRootNode = true;
-
-            DialogueAssert.NodeIDs(dialogue.ResolveEntry(evaluators), "ChildA", "ChildB");
-        }
-
-        [Test]
-        public void ResolveChildren_LegacyPerNodeCondition_StillFilters()
-        {
-            DialogueNode parent = objects.Speech("Parent", "Hidden", "Shown");
-            DialogueNode hidden = objects.Speech("Hidden");
-            DialogueNode shown = objects.Speech("Shown");
-            hidden.SetCondition(When(failing));
-            shown.SetCondition(When(passing));
-            Dialogue dialogue = objects.Graph(new[] { parent, hidden, shown }, new DialogueConditionNode[0]);
-
-            DialogueAssert.NodeIDs(dialogue.ResolveChildren(parent, evaluators), "Shown");
         }
 
         [Test]

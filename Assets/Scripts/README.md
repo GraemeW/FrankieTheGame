@@ -75,15 +75,15 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 
 ### Detail by type
 
-| Type                            | Tested  | Test file(s)                                                                                     | Notes                                                  |
-|---------------------------------|---------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| `Dialogue`                      | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     | Editor authoring methods / localization not yet tested |
-| `DialogueConditionNode`         | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     |                                                        |
-| `DialogueController`            | No      | -                                                                                                | Not yet tested, Play Mode candidate                    |
-| `DialogueGraph.uss`             | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)                     | See below†                                             |
-| `DialogueGraphImporter`         | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs)             | Character option skipped (needs an asset)              |
+| Type                            | Tested  | Test file(s)                                                                                     | Notes                                              |
+|---------------------------------|---------|--------------------------------------------------------------------------------------------------|----------------------------------------------------|
+| `Dialogue`                      | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     | Localization entries not yet tested                |
+| `DialogueConditionNode`         | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     |                                                    |
+| `DialogueController`            | No      | -                                                                                                | Not yet tested, Play Mode candidate                |
+| `DialogueGraph.uss`             | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)                     | See below†                                         |
+| `DialogueGraphImporter`         | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs)             | Character labels use an existing project character |
 | `DialogueLocalizationPlan`      | Yes     | [DialogueLocalizationPlanTests.cs](./Tests/Editor/Speech/DialogueLocalizationPlanTests.cs)       | 
-| `DialogueLinePositionPlanner`   | Yes     | [DialogueLinePositionPlannerTests.cs](./Tests/Editor/Speech/DialogueLinePositionPlannerTests.cs) |                                                        |
-| `DialogueGraphLocalizationSync` | No      | -                                                                                                | Tests that open graph windows set `suppressed`         |
+| `DialogueLinePositionPlanner`   | Yes     | [DialogueLinePositionPlannerTests.cs](./Tests/Editor/Speech/DialogueLinePositionPlannerTests.cs) |                                                    |
+| `DialogueGraphLocalizationSync` | No      | -                                                                                                | Tests that open graph windows set `suppressed`     |
 
 `DialogueGraphSkinTests` opens a dialogue graph window from a scratch asset to check that every class, element name and type that the stylesheet selects still exists, and that they're not coloured in the default "Unity Gray". It doesn't cover hover or selection states, or a surface drifting to a different/new colour. Header-strip sizing isn't checked due to unreliability in test.

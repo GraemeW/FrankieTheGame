@@ -25,6 +25,10 @@ namespace Frankie.Speech.Editor
         private const string _speakerNameTooltip = "Fallback speaker name - @ SpeakerType: Player, follows party leader name; @ : AI, follows character name (if set); otherwise: this";
         private const string _positionTooltip = "Localization key position (dialogue.depth.breadth) - assigned once the line is reachable from Entry";
 
+        // State
+        [NonSerialized] private bool hasAppliedColour; // Unset after a domain reload / window open ~ colour then applies directly
+        [NonSerialized] private Color appliedColour;
+
         #region UnityMethods
         protected override void OnDefinePorts(IPortDefinitionContext context)
         {
@@ -60,11 +64,20 @@ namespace Frankie.Speech.Editor
         #endregion
 
         #region Visuals
-        public void RefreshVisuals(Color speakerColour)
+        public bool IsRecolour(Color speakerColour) => hasAppliedColour && appliedColour != speakerColour;
+
+        public void ApplyColour(Color speakerColour)
+        {
+            DefaultColor = speakerColour;
+            appliedColour = speakerColour;
+            hasAppliedColour = true;
+        }
+
+        public void RefreshVisuals(Color speakerColour, bool applyColour)
         {
             if (!this.HasOptionsDefined(speakerNameOption)) { return; }
             string speakerName = GetSpeakerName();
-            DefaultColor = speakerColour;
+            if (applyColour) { ApplyColour(speakerColour); }
             Title = string.IsNullOrWhiteSpace(speakerName) ? "Line" : speakerName;
             Subtitle = GetDepth() == unassignedPosition ? "" : $"{GetDepth()}.{GetBreadth()}";
             Tooltip = $"ID {ID}\nKey {Graph?.Name}.{GetDepth()}.{GetBreadth()}";

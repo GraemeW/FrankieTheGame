@@ -3,9 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
-using Frankie.Utils.Localization;
 
 namespace Frankie.Speech.Editor
 {
@@ -62,7 +60,7 @@ namespace Frankie.Speech.Editor
             if (current != null && AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GetAssetPath(current)) is Dialogue owningDialogue) { contextDialogue = owningDialogue; }
             else if (target is Component component)
             {
-                AIConversant conversant = component.GetComponentInParent<AIConversant>(true);
+                AIConversant conversant = component.GetComponent<AIConversant>(); // Triggers live with their conversant
                 if (conversant != null) { contextDialogue = new SerializedObject(conversant).FindProperty(_conversantDialogueProperty)?.objectReferenceValue as Dialogue; }
             }
             return contextDialogue != null;
@@ -79,21 +77,12 @@ namespace Frankie.Speech.Editor
             if (dialogue == null) { return; }
             
             var usedLabels = new HashSet<string>();
-            foreach (DialogueNode node in dialogue.GetAllNodes().Where(node => node != null).OrderBy(node => node.GetNodeDepth()).ThenBy(node => node.GetNodeBreadth()))
+            foreach (DialogueNode node in dialogue.GetAllDialogueNodes().Where(node => node != null).OrderBy(node => node.GetNodeDepth()).ThenBy(node => node.GetNodeBreadth()))
             {
-                string label = GetLabel(node);
-                for (int copy = 2; !usedLabels.Add(label); copy++) { label = $"{GetLabel(node)} ({copy})"; } // GenericMenu merges identical paths
+                string label = node.name; // Imported nodes are named by their label (DialogueNodeLabels)
+                for (int copy = 2; !usedLabels.Add(label); copy++) { label = $"{node.name} ({copy})"; } // GenericMenu merges identical paths
                 menu.AddItem(new GUIContent(menuPrefix + label), node == current, () => Assign(targets, propertyPath, node));
             }
-        }
-
-        private static string GetLabel(DialogueNode node)
-        {
-            // Graph-imported nodes are already named by their label; legacy nodes are named by their GUID, so build it from the tables
-            //  - Legacy (pre-graph) nodes only: the table lookup below - To-Be-Removed (pending) ~ then this is just node.name
-            if (node.GetNodeID() != node.name) { return node.name; }
-            List<TableEntryReference> entries = node.GetLocalizationEntries();
-            return DialogueNodeLabels.Line(node.GetNodeDepth(), node.GetNodeBreadth(), LocalizationTool.GetEnglishEntry(LocalizationTableType.Speech, entries[0]), LocalizationTool.GetEnglishEntry(LocalizationTableType.Speech, entries[1]));
         }
 
         private static void Assign(Object[] targets, string propertyPath, DialogueNode node)

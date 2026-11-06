@@ -128,7 +128,7 @@ namespace Frankie.Tests.Editor
 
             Dialogue dialogue = graph.SaveAndImport();
 
-            DialogueNode imported = dialogue.GetNodeFromID(parent.ID.ToString());
+            DialogueNode imported = dialogue.GetDialogueNodeFromID(parent.ID.ToString());
             CollectionAssert.AreEqual(new[] { c, a, b }.Select(node => node.ID.ToString()), imported.GetChildren());
         }
 
@@ -143,7 +143,7 @@ namespace Frankie.Tests.Editor
             graph.Connect(gate, gated);
 
             Dialogue dialogue = graph.SaveAndImport();
-            DialogueNode importedParent = dialogue.GetNodeFromID(parent.ID.ToString());
+            DialogueNode importedParent = dialogue.GetDialogueNodeFromID(parent.ID.ToString());
 
             DialogueAssert.NodeIDs(dialogue.ResolveChildren(importedParent, Evaluators((predicate, true))), gated.ID.ToString());
             Assert.IsEmpty(dialogue.ResolveChildren(importedParent, Evaluators((predicate, false))));
@@ -159,8 +159,8 @@ namespace Frankie.Tests.Editor
             graph.Connect(line, unplaced);
 
             Dialogue dialogue = graph.SaveAndImport();
-            DialogueNode importedLine = dialogue.GetNodeFromID(line.ID.ToString());
-            DialogueNode importedUnplaced = dialogue.GetNodeFromID(unplaced.ID.ToString());
+            DialogueNode importedLine = dialogue.GetDialogueNodeFromID(line.ID.ToString());
+            DialogueNode importedUnplaced = dialogue.GetDialogueNodeFromID(unplaced.ID.ToString());
 
             Assert.AreEqual(SpeakerType.PlayerSpeaker, importedLine.GetSpeakerType());
             Assert.AreEqual((2, 1), (importedLine.GetNodeDepth(), importedLine.GetNodeBreadth()));
@@ -183,10 +183,10 @@ namespace Frankie.Tests.Editor
             graph.Connect(line, longLine);
 
             Dialogue dialogue = graph.SaveAndImport();
-            string longLabel = dialogue.GetNodeFromID(longLine.ID.ToString()).name;
+            string longLabel = dialogue.GetDialogueNodeFromID(longLine.ID.ToString()).name;
 
-            Assert.AreEqual("0.1 Bob: Hello there friend", dialogue.GetNodeFromID(line.ID.ToString()).name);
-            Assert.AreEqual("-.- Player: Hi", dialogue.GetNodeFromID(playerLine.ID.ToString()).name);
+            Assert.AreEqual("0.1 Bob: Hello there friend", dialogue.GetDialogueNodeFromID(line.ID.ToString()).name);
+            Assert.AreEqual("-.- Player: Hi", dialogue.GetDialogueNodeFromID(playerLine.ID.ToString()).name);
             Assert.LessOrEqual(longLabel.Length, 48, "Long text is clipped");
             StringAssert.EndsWith("\u2026", longLabel);
             Assert.AreEqual($"Condition - {gate.ID}", GetSubAssets<DialogueConditionNode>().Single().name);
@@ -203,7 +203,7 @@ namespace Frankie.Tests.Editor
 
             Dialogue dialogue = graph.SaveAndImport();
 
-            Assert.AreEqual($"-.- {englishName}: Hello", dialogue.GetNodeFromID(line.ID.ToString()).name);
+            Assert.AreEqual($"-.- {englishName}: Hello", dialogue.GetDialogueNodeFromID(line.ID.ToString()).name);
         }
 
         [Test]

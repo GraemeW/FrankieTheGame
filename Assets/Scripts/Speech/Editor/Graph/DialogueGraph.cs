@@ -33,7 +33,7 @@ namespace Frankie.Speech.Editor
             // Note:  Graph Toolkit locks the graph during this call (structural updates thus scheduled til next frame)
             
             bool fromUndoRedo = DialogueGraphUndoTracker.ConsumeUndoRedo();
-            RefreshVisuals();
+            RefreshVisuals(fromUndoRedo);
             DialogueGraphValidator.Validate(this, graphLogger);
             DialogueGraphLocalizationSync.HandleGraphChanged(this, fromUndoRedo, graphLogger);
             EditorApplication.delayCall += () => DialogueGraphWindowSkin.Apply(this);
@@ -48,9 +48,11 @@ namespace Frankie.Speech.Editor
         #endregion
 
         #region Visuals
-        private void RefreshVisuals()
+        private void RefreshVisuals(bool fromUndoRedo)
         {
+            // Speaker colour changes are deferred:  a DefaultColor set inside OnGraphChanged updates the model but not the node's view
             var aiCharacters = new List<CharacterProperties>();
+            var recolours = new List<(SpeechGraphNode line, Color colour)>();
             foreach (INode node in GetNodes())
             {
                 switch (node)
@@ -62,10 +64,21 @@ namespace Frankie.Speech.Editor
                         conditionNode.RefreshVisuals();
                         break;
                     case SpeechGraphNode speechNode:
-                        speechNode.RefreshVisuals(ResolveSpeakerColour(speechNode, aiCharacters));
+                        Color colour = ResolveSpeakerColour(speechNode, aiCharacters);
+                        bool shouldRecolour = !fromUndoRedo && speechNode.IsRecolour(colour);
+                        if (shouldRecolour) { recolours.Add((speechNode, colour)); }
+                        speechNode.RefreshVisuals(colour, applyColour: !shouldRecolour);
                         break;
                 }
             }
+
+            // Set up deferred recolours
+            if (recolours.Count == 0) { return; }
+            int editGroup = Undo.GetCurrentGroup();
+            EditorApplication.delayCall += () => RecordGraphChange("Recolour Dialogue Lines", editGroup, collapse: true, () =>
+            {
+                foreach ((SpeechGraphNode line, Color colour) in recolours) { line.ApplyColour(colour); }
+            });
         }
 
         private static Color ResolveSpeakerColour(SpeechGraphNode speechNode, List<CharacterProperties> aiCharacters)

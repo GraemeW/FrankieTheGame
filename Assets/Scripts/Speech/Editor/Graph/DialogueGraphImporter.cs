@@ -13,7 +13,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Speech.Editor
 {
-    [ScriptedImporter(3, DialogueGraph.assetExtension)]
+    [ScriptedImporter(4, DialogueGraph.assetExtension)]
     internal sealed partial class DialogueGraphImporter : ScriptedImporter
     {
         // Emits the runtime Dialogue (main object) + one sub-asset per speech / condition node
@@ -65,7 +65,7 @@ namespace Frankie.Speech.Editor
 
             var dialogue = ScriptableObject.CreateInstance<Dialogue>();
             dialogue.name = dialogueName;
-            dialogue.InitializeGraph(dialogueNodes, conditionNodes, GetEntryNodeIDs(graph));
+            dialogue.Initialize(dialogueNodes, conditionNodes, GetEntryNodeIDs(graph));
 
             context.AddObjectToAsset(_dialogueIdentifier, dialogue);
             foreach (DialogueNode dialogueNode in dialogueNodes) { context.AddObjectToAsset(dialogueNode.GetNodeID(), dialogueNode); }
@@ -111,7 +111,7 @@ namespace Frankie.Speech.Editor
 
             var dialogueNode = ScriptableObject.CreateInstance<DialogueNode>();
             dialogueNode.name = DialogueNodeLabels.Line(depth, breadth, GetSpeakerLabel(context, speechNode), speechNode.GetText());
-            dialogueNode.InitializeFromGraph(GetNodeID(speechNode), dialogueName, speechNode.GetSpeakerType(), speechNode.GetCharacter(), depth, breadth,
+            dialogueNode.Initialize(GetNodeID(speechNode), speechNode.GetSpeakerType(), speechNode.GetCharacter(), depth, breadth,
                 MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.speakerField), MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.textField), GetTargetIDs(speechNode));
             return dialogueNode;
         }
@@ -120,7 +120,7 @@ namespace Frankie.Speech.Editor
         {
             var conditionNode = ScriptableObject.CreateInstance<DialogueConditionNode>();
             conditionNode.name = DialogueNodeLabels.Condition(GetNodeID(conditionGraphNode));
-            conditionNode.Initialize(conditionGraphNode.BuildCondition(), GetTargetIDs(conditionGraphNode), GetNodeID(conditionGraphNode));
+            conditionNode.Initialize(GetNodeID(conditionGraphNode), conditionGraphNode.BuildCondition(), GetTargetIDs(conditionGraphNode));
             return conditionNode;
         }
 

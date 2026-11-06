@@ -15,6 +15,11 @@ namespace Frankie.Speech.Editor
             if (entryNodes.Count > 1) { graphLogger.LogWarning($"A dialogue has one Entry node: removing {entryNodes.Count - 1} extra", graph); }
 
             HashSet<INode> reachableNodes = GetReachableNodes(entryNodes);
+            if (entryNodes.Count > 0 && !reachableNodes.Any(node => node is SpeechGraphNode))
+            {
+                graphLogger.LogWarning("Entry doesn't lead to any line, so dialogue exits immediately", entryNodes[0]);
+            }
+
             foreach (INode node in graph.GetNodes())
             {
                 if (node is (SpeechGraphNode or ConditionGraphNode) && entryNodes.Count > 0 && !reachableNodes.Contains(node))

@@ -4,6 +4,7 @@ using Frankie.Core;
 
 namespace Frankie.Speech
 {
+    [RequireComponent(typeof(AIConversant))] // N.B. DialogueController only sets up the triggers on the conversant's own GameObject
     public class DialogueTrigger : MonoBehaviour
     {
         // Tunables
