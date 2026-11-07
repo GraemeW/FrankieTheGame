@@ -5,6 +5,7 @@ namespace Frankie.Core
         void SetPlayerState(IPlayerState playerState);
         void TogglePlayerVisibility(bool? enable = null);
         void QueueActionUnderConsideration();
+        void RequestQueuePop();
         void ClearPlayerStateMemory();
     }
 
@@ -27,7 +28,7 @@ namespace Frankie.Core
 
     public interface IDialogueStateContext
     {
-        void SetupDialogueController();
+        bool SetupDialogueController();
         bool StartDialogueSequence();
     }
 

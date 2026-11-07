@@ -6,14 +6,16 @@ namespace Frankie.Core.PlayerStates
         
         public override void EnterCombat(IPlayerStateContext playerStateContext)
         {
+            if (!playerStateContext.InBattleEntryTransition()) { return; } // Battle entry only -- e.g. a zone transition must not be pulled into combat by stale combat memory
+
             if (playerStateContext.IsCombatFadeComplete())
             {
                 playerStateContext.SetPlayerState(PlayerStateMachine.combatState);
             }
-            else
+            else if (playerStateContext.AreCombatParticipantsValid())
             {
                 // Swarm mechanic
-                if (playerStateContext.InBattleEntryTransition() && playerStateContext.AreCombatParticipantsValid()) { playerStateContext.ConfirmEnemiesUnderConsideration(); }
+                playerStateContext.ConfirmEnemiesUnderConsideration();
             }
         }
 

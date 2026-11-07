@@ -306,6 +306,7 @@ namespace Frankie.Combat
                 case BattleFadePhase.ExitComplete:
                 {
                     BattleEventBus<BattleStagingEvent>.Raise(new BattleStagingEvent(BattleStagingType.BattleTornDown));
+                    gameObject.SetActive(false); // Deactivate first:  tag lookup + VerifyUnique skip inactive objects -> ensures a combat started this frame gets a fresh controller
                     Destroy(gameObject);
                     break;
                 }

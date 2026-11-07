@@ -9,21 +9,13 @@ namespace Frankie.Core.PlayerStateMemory
         public bool InitiateDialogue(DialogueController dialogueController)
         {
             if (dialogueController == null || dialogueData == null) { return false; }
-            switch (dialogueData.dialogueDataType)
+            return dialogueData.dialogueDataType switch
             {
-                case DialogueDataType.StandardDialogue:
-                    dialogueController.InitiateConversation(dialogueData.aiConversant, dialogueData.dialogue);
-                    break;
-                case DialogueDataType.SimpleText:
-                    dialogueController.InitiateSimpleMessage(dialogueData.message);
-                    break;
-                case DialogueDataType.SimpleChoice:
-                    dialogueController.InitiateSimpleOption(dialogueData.message, dialogueData.choiceActionPairs);
-                    break;
-                default:
-                    return false;
-            }
-            return true;
+                DialogueDataType.StandardDialogue => dialogueController.InitiateConversation(dialogueData.aiConversant, dialogueData.dialogue),
+                DialogueDataType.SimpleText => dialogueController.InitiateSimpleMessage(dialogueData.message),
+                DialogueDataType.SimpleChoice => dialogueController.InitiateSimpleOption(dialogueData.message, dialogueData.choiceActionPairs),
+                _ => false
+            };
         }
     }
 }

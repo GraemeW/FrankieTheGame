@@ -13,6 +13,8 @@ namespace Frankie.Inventory
     [ExecuteInEditMode]
     public class Shop : MonoBehaviour, IGameStateModifierHandler, ILocalizable
     {
+        // Note:  Internal methods/properties are for test visibility
+        
         // Interface Properties
         [SerializeField] private string backingHandlerGUID;
         public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
@@ -43,7 +45,6 @@ namespace Frankie.Inventory
         [SerializeField] private UnityEvent transactionCompleted;
 
         // State
-        private PlayerStateMachine playerStateMachine;
         private Shopper shopper;
 
         #region PublicGetters
@@ -57,11 +58,14 @@ namespace Frankie.Inventory
         public IList<InventoryItem> GetShopStock() => stock;
         public ShopType GetShopType() => shopType;
         public float GetSaleDiscount() => saleDiscount;
+        
+        internal UnityEvent GetTransactionCompleted() => transactionCompleted ??= new UnityEvent();
         #endregion
         
         #region UnityMethods
         private void OnDestroy()
         {
+            if (shopper != null) { shopper.transactionCompleted -= HandleTransaction; }
             ILocalizable.TriggerOnDestroy(this);
             IGameStateModifierHandler.TriggerOnDestroy(this);
         }
@@ -75,15 +79,17 @@ namespace Frankie.Inventory
         #region PublicUtility
         public void InitiateBargain(PlayerStateMachine setPlayerStateMachine) // Called via Unity events
         {
+            // Note:  Stays subscribed until destroyed, and relays only while this is the shopper's current shop
+            // A state-based unsubscribe would drop the relay for shops opened from a dialogue choice
+            if (setPlayerStateMachine.TryGetComponent(out Shopper setShopper))
+            {
+                if (shopper != null && shopper != setShopper) { shopper.transactionCompleted -= HandleTransaction; }
+                
+                shopper = setShopper;
+                shopper.transactionCompleted -= HandleTransaction;
+                shopper.transactionCompleted += HandleTransaction;
+            }
             setPlayerStateMachine.EnterShop(this);
-
-            // Stash for listening to events
-            playerStateMachine = setPlayerStateMachine;
-            shopper = setPlayerStateMachine.GetComponent<Shopper>();
-
-            // Set up events
-            playerStateMachine.playerStateChanged += HandlePlayerState; // Exists to unsubscribe shopper
-            shopper.transactionCompleted += HandleTransaction;
         }
         #endregion
         
@@ -116,18 +122,9 @@ namespace Frankie.Inventory
         #endregion
         
         #region PrivateMethods
-        private void HandlePlayerState(PlayerStateType playerState, IPlayerStateInfo playerStateInfo)
-        {
-            // Any state change implies exit shop, unsubscribe
-            playerStateMachine.playerStateChanged -= HandlePlayerState;
-            shopper.transactionCompleted -= HandleTransaction;
-
-            playerStateMachine = null;
-            shopper = null;
-        }
-
         private void HandleTransaction()
         {
+            if (shopper == null || shopper.GetCurrentShop() != this) { return; }
             transactionCompleted.Invoke();
         }
         #endregion

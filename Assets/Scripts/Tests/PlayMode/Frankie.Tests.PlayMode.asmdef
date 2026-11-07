@@ -1,0 +1,28 @@
+{
+    "name": "Frankie.Tests.PlayMode",
+    "rootNamespace": "Frankie.Tests.PlayMode",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Frankie",
+        "LowDefMustard.Core",
+        "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Tests",
+        "LowDefMustard.Control",
+        "LowDefMustard.Zones",
+        "LowDefMustard.UIBox",
+        "LowDefMustard.GameStateModifiers",
+        "Unity.Localization"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

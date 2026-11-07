@@ -32,6 +32,14 @@ namespace Frankie.Speech
         {
         }
 
+        // Internal for test visibility
+        internal void ConfigureTrigger(DialogueUpdateType setDialogueUpdateType, UnityAction<PlayerStateMachine> action)
+        {
+            dialogueUpdateType = setDialogueUpdateType;
+            dialogueTriggeredEvent.onTriggerEvent ??= new UnityEventWithCallingController();
+            dialogueTriggeredEvent.onTriggerEvent.AddListener(action);
+        }
+
         public void Setup(DialogueController setDialogueController, PlayerStateMachine setPlayerStateMachine)
         {
             playerStateMachine = setPlayerStateMachine;
