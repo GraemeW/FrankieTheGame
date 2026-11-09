@@ -61,7 +61,7 @@ MonoBehaviour:
   - category: 32768
     enabled: 1
     color: {r: 1, g: 0.55, b: 0.71875, a: 1}
-  logStackTrace: 0
+  logStackTrace: 1
   warningStackTrace: 1
   errorStackTrace: 1
   exceptionStackTrace: 1
