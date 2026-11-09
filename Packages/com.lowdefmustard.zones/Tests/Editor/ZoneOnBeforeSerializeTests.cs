@@ -3,32 +3,33 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneOnBeforeSerializeTests
     {
-        // Const Tunables
-        private const string _scratchAssetPath = "Assets/ScratchTest_ZoneOnBeforeSerialize_SafeToDelete.asset";
-        
         // State
+        private TempAssetFolder tempFolder;
+        private string scratchAssetPath;
         private Zone zone;
 
         #region Setup
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            tempFolder = new TempAssetFolder(nameof(ZoneOnBeforeSerializeTests));
+            scratchAssetPath = tempFolder.Path("ScratchTest_ZoneOnBeforeSerialize.asset");
             zone = ScriptableObject.CreateInstance<Zone>();
             zone.preventLocalizationForTests = true;
-            AssetDatabase.CreateAsset(zone, _scratchAssetPath);
+            AssetDatabase.CreateAsset(zone, scratchAssetPath);
             AssetDatabase.SaveAssets();
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            AssetDatabase.DeleteAsset(_scratchAssetPath);
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
         #endregion
 
@@ -62,7 +63,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             EditorUtility.SetDirty(zone);
             AssetDatabase.SaveAssets();
 
-            Assert.AreEqual(_scratchAssetPath, AssetDatabase.GetAssetPath(rootNode));
+            Assert.AreEqual(scratchAssetPath, AssetDatabase.GetAssetPath(rootNode));
         }
         #endregion
     }

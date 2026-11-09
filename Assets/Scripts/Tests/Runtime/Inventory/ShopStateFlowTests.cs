@@ -101,7 +101,7 @@ namespace Frankie.Tests
 
             yield return PlayerStateRig.Settle();
             Object.Destroy(Object.FindAnyObjectByType<DialogueBox>().gameObject);
-            yield return PlayerStateRig.WaitUntil(() => rig.GetState() == PlayerStateType.InMenus);
+            yield return TestWait.Until(() => rig.GetState() == PlayerStateType.InMenus, PlayerStateRig.waitTimeoutSeconds);
             Assert.AreEqual(PlayerStateType.InMenus, rig.GetState(), "Queued shop never opened");
 
             CompleteBuy(item);

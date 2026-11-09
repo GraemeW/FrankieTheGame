@@ -92,7 +92,7 @@ namespace Frankie.Tests
             Assert.IsNull(DialogueController.FindDialogueController());
 
             rig.playerStateMachine.EnterWorld();
-            yield return PlayerStateRig.WaitUntil(() => rig.GetState() == PlayerStateType.InDialogue);
+            yield return TestWait.Until(() => rig.GetState() == PlayerStateType.InDialogue, PlayerStateRig.waitTimeoutSeconds);
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState(), "Queued dialogue lost");
         }
         #endregion

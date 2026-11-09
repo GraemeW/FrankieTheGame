@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using Unity.GraphToolkit.Editor;
 using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Utils;
+using LowDefMustard.Utils.Tests;
 using Frankie.Speech;
 using Frankie.Speech.Editor;
 
@@ -26,14 +27,14 @@ namespace Frankie.Tests.Editor
         //  - surfaces that drift to another colour (e.g. a dropped interior rule) ~ only Graph Toolkit's greys are flagged
 
         // Const Tunables
-        private const string _folder = "Assets/_TEMP_DialogueGraphSkinTests_SafeToDelete";
-        private const string _graphPath = _folder + "/SkinFixture.dialoguegraph";
-        private const double _timeoutSeconds = 10;
+        private const float _timeoutSeconds = 10f;
 
         // Graph Toolkit's own surface colours (RGB), as seen in an unskinned window
         [NoAutoStaticsCleanup] private static readonly HashSet<string> _graphToolkitGreys = new() { "383838", "303030", "2A2A2A", "5F5F5F", "272727", "515151", "282828", "373737", "3F3F3F", "191919" };
 
         // State
+        private TempAssetFolder tempFolder;
+        private string graphPath;
         private EditorWindow window;
 
         #region Setup
@@ -41,17 +42,18 @@ namespace Frankie.Tests.Editor
         public IEnumerator SetUp()
         {
             DialogueGraphLocalizationSync.suppressed = true; // The fixture window must not write the real Speech table
-            Directory.CreateDirectory(_folder);
+            tempFolder = new TempAssetFolder(nameof(DialogueGraphSkinTests));
+            graphPath = tempFolder.Path($"SkinFixture.{DialogueGraph.assetExtension}");
             BuildFixtureGraph();
-            AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath(_graphPath));
+            AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath(graphPath));
 
-            yield return WaitUntil(() => FindFixtureWindow() != null);
+            yield return TestWait.Until(() => FindFixtureWindow() != null, _timeoutSeconds);
             window = FindFixtureWindow();
             Assert.IsNotNull(window, "Dialogue graph window didn't open");
             
             // Production applies the skin from a delayCall, which doesn't run reliably while Unity is unfocused
             DialogueGraphWindowSkin.Apply(((IGraphWindow)window).Graph);
-            yield return WaitUntil(() => window.rootVisualElement.Query(className: "ge-block-node").ToList().Count == 2 && window.rootVisualElement.Query(className: "ge-node").ToList().All(HasLayout));
+            yield return TestWait.Until(() => window.rootVisualElement.Query(className: "ge-block-node").ToList().Count == 2 && window.rootVisualElement.Query(className: "ge-node").ToList().All(HasLayout), _timeoutSeconds);
             for (int i = 0; i < 5; i++) { yield return null; }
         }
 
@@ -61,15 +63,7 @@ namespace Frankie.Tests.Editor
             if (window != null) { window.Close(); }
             window = null;
 
-            // Deliberately using file operations (i.e. avoiding AssetDatabase.DeleteAsset): imported dialogues otherwise remove their localization entries on delete
-            File.Delete(_graphPath);
-            File.Delete(_graphPath + ".meta");
-            if (Directory.Exists(_folder) && !Directory.EnumerateFileSystemEntries(_folder).Any())
-            {
-                Directory.Delete(_folder);
-                File.Delete(_folder + ".meta");
-            }
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
             DialogueGraphLocalizationSync.suppressed = false;
         }
         #endregion
@@ -112,9 +106,9 @@ namespace Frankie.Tests.Editor
         #endregion
         
         #region Helpers
-        private static void BuildFixtureGraph()
+        private void BuildFixtureGraph()
         {
-            var graph = GraphDatabase.CreateGraph<DialogueGraph>(_graphPath);
+            var graph = GraphDatabase.CreateGraph<DialogueGraph>(graphPath);
             EntryGraphNode entry = graph.AddEntry();
             SpeechGraphNode ai = graph.AddLine("Line one\nLine two", SpeakerType.AISpeaker, "AI");
             SpeechGraphNode player = graph.AddLine("Reply", SpeakerType.PlayerSpeaker, "Player");
@@ -132,9 +126,9 @@ namespace Frankie.Tests.Editor
             GraphDatabase.SaveGraph(graph);
         }
 
-        private static EditorWindow FindFixtureWindow()
+        private EditorWindow FindFixtureWindow()
         {
-            return Resources.FindObjectsOfTypeAll<EditorWindow>().FirstOrDefault(candidate => candidate is IGraphWindow { Graph: not null } graphWindow && GraphDatabase.GetGraphAssetPath(graphWindow.Graph) == _graphPath);
+            return Resources.FindObjectsOfTypeAll<EditorWindow>().FirstOrDefault(candidate => candidate is IGraphWindow { Graph: not null } graphWindow && GraphDatabase.GetGraphAssetPath(graphWindow.Graph) == graphPath);
         }
 
         private static IEnumerable<string> GetStylesheetSelectors()
@@ -147,12 +141,6 @@ namespace Frankie.Tests.Editor
         private static bool HasLayout(VisualElement element) => !float.IsNaN(element.layout.height) && element.layout.height > 0f;
 
         private static string Describe(VisualElement element) => element.GetType().Name + (string.IsNullOrEmpty(element.name) ? "" : "#" + element.name) + string.Concat(element.GetClasses().Take(2).Select(className => "." + className));
-
-        private static IEnumerator WaitUntil(System.Func<bool> condition)
-        {
-            double deadline = EditorApplication.timeSinceStartup + _timeoutSeconds;
-            while (!condition() && EditorApplication.timeSinceStartup < deadline) { yield return null; }
-        }
         #endregion
     }
 }

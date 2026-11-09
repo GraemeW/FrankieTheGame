@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -6,7 +7,9 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using UnityEngine.TestTools;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Tests;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Localization.Tests.Editor
@@ -19,14 +22,14 @@ namespace LowDefMustard.Localization.Tests.Editor
         // Const Tunables
         private const string _scratchTableName = "ScratchTest_Drawer_SafeToDelete";
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
-        private const string _prefabFolder = "Assets/_TEMP_LocalizationDrawerPrefabTests_SafeToDelete";
 
         // State
         private HeadlessEditorWindowTestHelper window;
         private TestDrawerTarget target;
         private SerializedObject serializedObject;
+        private DrawerElements builtElements;
         private readonly List<Object> createdPrefabObjects = new();
-        private readonly List<string> createdAssetPaths = new();
+        private TempAssetFolder prefabFolder;
 
         #region DataStructures
         private class TestDrawerTarget : ScriptableObject
@@ -89,25 +92,19 @@ namespace LowDefMustard.Localization.Tests.Editor
         public void TearDown()
         {
             window?.Close();
+            builtElements = default;
             if (target != null) { Object.DestroyImmediate(target); }
             
             foreach (Object createdObject in createdPrefabObjects.Where(createdObject => createdObject != null)) { Object.DestroyImmediate(createdObject); }
             createdPrefabObjects.Clear();
             
-            foreach (var assetPath in createdAssetPaths.Where(assetPath => AssetDatabase.LoadAssetAtPath<Object>(assetPath) != null)) { AssetDatabase.DeleteAsset(assetPath); }
-            if (AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.DeleteAsset(_prefabFolder); }
-            createdAssetPaths.Clear();
+            prefabFolder?.Dispose();
+            prefabFolder = null;
         }
         #endregion
 
         #region PrivateMethods
-        private DrawerElements BuildDrawerUI()
-        {
-            serializedObject = new SerializedObject(target);
-            var inspectorElement = new InspectorElement(serializedObject);
-            window.root.Add(inspectorElement);
-            return new DrawerElements(window.root);
-        }
+        private IEnumerator BuildDrawerUI() => BuildDrawerUIFor(target);
 
         private static void Click(Button button)
         {
@@ -131,9 +128,8 @@ namespace LowDefMustard.Localization.Tests.Editor
             TestLocalizationTool.SafelyUpdateReference(TestTableType.ScratchAssetDrawer, localizedString, key);
             sourceComponent.localizedField = localizedString;
 
-            if (!AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.CreateFolder("Assets", "_TEMP_LocalizationDrawerPrefabTests_SafeToDelete"); }
-            string prefabPath = $"{_prefabFolder}/TestDrawerPrefab_{System.Guid.NewGuid():N}.prefab";
-            createdAssetPaths.Add(prefabPath);
+            prefabFolder ??= new TempAssetFolder("LocalizationDrawerPrefabTests");
+            string prefabPath = prefabFolder.Path($"TestDrawerPrefab_{System.Guid.NewGuid():N}.prefab");
             GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(sourceGameObject, prefabPath);
             Object.DestroyImmediate(sourceGameObject);
             Assert.IsNotNull(prefabAsset, "Failed to save the test prefab asset");
@@ -144,20 +140,25 @@ namespace LowDefMustard.Localization.Tests.Editor
             return (instance, instanceComponent);
         }
 
-        private DrawerElements BuildDrawerUIFor(Object componentOrScriptableObject)
+        private IEnumerator BuildDrawerUIFor(Object componentOrScriptableObject)
         {
+            // PropertyField builds the drawer on bind, which can land a few updates later
             serializedObject = new SerializedObject(componentOrScriptableObject);
             var inspectorElement = new InspectorElement(serializedObject);
             window.root.Add(inspectorElement);
-            return new DrawerElements(window.root);
+            yield return TestWait.Until(() => new DrawerElements(window.root).lockToggle != null);
+            for (int i = 0; i < 2; i++) { yield return null; }
+
+            builtElements = new DrawerElements(window.root);
+            Assert.IsNotNull(builtElements.lockToggle, "Drawer UI was never built");
         }
         #endregion
 
         #region Tests
-        [Test]
-        public void CreatePropertyGUI_AttributedField_BuildsRealDrawerUIRatherThanDefaultField()
+        [UnityTest]
+        public IEnumerator CreatePropertyGUI_AttributedField_BuildsRealDrawerUIRatherThanDefaultField()
         {
-            BuildDrawerUI();
+            yield return BuildDrawerUI();
 
             Assert.IsEmpty(window.root.Query<HelpBox>().ToList(), "Drawer rendered an error box instead of its normal UI");
             Assert.AreEqual(2, window.root.Query<TextField>().ToList().Count, "Expected exactly the key and contents text fields");
@@ -165,10 +166,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.AreEqual(1, window.root.Query<Toggle>().ToList().Count, "Expected exactly the lock toggle");
         }
 
-        [Test]
-        public void LockToggle_InitialState_KeyManagementButtonsDisabled()
+        [UnityTest]
+        public IEnumerator LockToggle_InitialState_KeyManagementButtonsDisabled()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
 
             Assert.IsFalse(elements.lockToggle.value);
             Assert.IsFalse(elements.newKeyButton.enabledInHierarchy);
@@ -176,10 +178,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsFalse(elements.deleteKeyButton.enabledInHierarchy);
         }
 
-        [Test]
-        public void LockToggle_Unlocked_EnablesNewKeyButtonButNotRenameOrDeleteWhileKeyIsEmpty()
+        [UnityTest]
+        public IEnumerator LockToggle_Unlocked_EnablesNewKeyButtonButNotRenameOrDeleteWhileKeyIsEmpty()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
 
             Unlock(elements);
 
@@ -188,10 +191,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsFalse(elements.deleteKeyButton.enabledInHierarchy, "Delete should stay disabled until a key exists");
         }
 
-        [Test]
-        public void NewKeyButton_Click_CreatesEntryAndEnablesRenameAndDelete()
+        [UnityTest]
+        public IEnumerator NewKeyButton_Click_CreatesEntryAndEnablesRenameAndDelete()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
             Unlock(elements);
 
             Click(elements.newKeyButton);
@@ -203,10 +207,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsTrue(elements.deleteKeyButton.enabledInHierarchy);
         }
 
-        [Test]
-        public void ContentsField_ValueChanged_UpdatesEnglishEntryForCurrentKey()
+        [UnityTest]
+        public IEnumerator ContentsField_ValueChanged_UpdatesEnglishEntryForCurrentKey()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
             Unlock(elements);
             Click(elements.newKeyButton);
             string key = elements.keyField.value;
@@ -216,10 +221,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.AreEqual("New Contents", TestLocalizationTool.GetEnglishEntry(TestTableType.ScratchAssetDrawer, key));
         }
 
-        [Test]
-        public void KeyField_ValueChangedToNewName_RenamesEntryAndUpdatesReference()
+        [UnityTest]
+        public IEnumerator KeyField_ValueChangedToNewName_RenamesEntryAndUpdatesReference()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
             Unlock(elements);
             Click(elements.newKeyButton);
             string oldKey = elements.keyField.value;
@@ -235,10 +241,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.AreEqual(TableEntryReference.Type.Id, localizedString?.TableEntryReference.ReferenceType);
         }
 
-        [Test]
-        public void RenameKeyButton_Click_PopulatesKeyFieldWithANewGeneratedName()
+        [UnityTest]
+        public IEnumerator RenameKeyButton_Click_PopulatesKeyFieldWithANewGeneratedName()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
             Unlock(elements);
             Click(elements.newKeyButton);
             string oldKey = elements.keyField.value;
@@ -249,10 +256,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsFalse(string.IsNullOrWhiteSpace(elements.keyField.value));
         }
 
-        [Test]
-        public void DeleteKeyButton_Click_RemovesEntryAndClearsFields()
+        [UnityTest]
+        public IEnumerator DeleteKeyButton_Click_RemovesEntryAndClearsFields()
         {
-            DrawerElements elements = BuildDrawerUI();
+            yield return BuildDrawerUI();
+            DrawerElements elements = builtElements;
             Unlock(elements);
             Click(elements.newKeyButton);
             string key = elements.keyField.value;
@@ -265,8 +273,8 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsFalse(elements.lockToggle.value, "Delete should re-lock the key fields");
         }
 
-        [Test]
-        public void CreatePropertyGUI_PrefabInstanceWithEmptyOverride_AutoResetsToPrefabValue()
+        [UnityTest]
+        public IEnumerator CreatePropertyGUI_PrefabInstanceWithEmptyOverride_AutoResetsToPrefabValue()
         {
             (GameObject _, TestDrawerPrefabTarget instanceComponent) = CreatePrefabInstanceWithKey("Drawer.Prefab.AutoReset", "Prefab Value");
 
@@ -276,18 +284,20 @@ namespace LowDefMustard.Localization.Tests.Editor
             overrideProperty.boxedValue = new LocalizedString();
             overrideSetup.ApplyModifiedProperties();
 
-            DrawerElements elements = BuildDrawerUIFor(instanceComponent);
+            yield return BuildDrawerUIFor(instanceComponent);
+            DrawerElements elements = builtElements;
 
             Assert.AreEqual("Drawer.Prefab.AutoReset", elements.keyField.value, "Expected the empty override to auto-reset back to the prefab's key on open");
             Assert.AreEqual("Prefab Value", elements.contentsField.value);
         }
 
-        [Test]
-        public void DeleteButtonState_SharedKeyWithPrefab_DisabledUntilKeyBecomesUnique()
+        [UnityTest]
+        public IEnumerator DeleteButtonState_SharedKeyWithPrefab_DisabledUntilKeyBecomesUnique()
         {
             (GameObject _, TestDrawerPrefabTarget instanceComponent) = CreatePrefabInstanceWithKey("Drawer.Prefab.Shared", "Shared Value");
 
-            DrawerElements elements = BuildDrawerUIFor(instanceComponent);
+            yield return BuildDrawerUIFor(instanceComponent);
+            DrawerElements elements = builtElements;
             Unlock(elements);
 
             // Instance still points at the prefab source - shared, so delete stays disabled

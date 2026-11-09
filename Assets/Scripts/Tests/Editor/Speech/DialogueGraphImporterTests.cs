@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
@@ -22,11 +21,8 @@ namespace Frankie.Tests.Editor
         //  - Reference stability: sub-asset fileIDs across reimport and graph edits
         // Not covered: localization table contents (importer never writes them)
 
-        // Const Tunables
-        private const string _folder = "Assets/_TEMP_DialogueGraphImporterTests_SafeToDelete";
-        private const string _predicatePath = _folder + "/Gate.asset";
-
         // State
+        private TempAssetFolder tempFolder;
         private string graphName; // Deliberately state / not const:  reusing one path warns while the previous test's graph is still loaded
         private string graphPath; // ^- same
         private DialogueGraph graph;
@@ -37,13 +33,12 @@ namespace Frankie.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            Directory.CreateDirectory(_folder);
-            AssetDatabase.Refresh();
+            tempFolder = new TempAssetFolder(nameof(DialogueGraphImporterTests));
             predicate = ScriptableObject.CreateInstance<TestPredicate>();
-            AssetDatabase.CreateAsset(predicate, _predicatePath);
+            AssetDatabase.CreateAsset(predicate, tempFolder.Path("Gate.asset"));
 
             graphName = TestContext.CurrentContext.Test.Name;
-            graphPath = $"{_folder}/{graphName}.{DialogueGraph.assetExtension}";
+            graphPath = tempFolder.Path($"{graphName}.{DialogueGraph.assetExtension}");
             graph = GraphDatabase.CreateGraph<DialogueGraph>(graphPath);
             entry = graph.AddEntry();
         }
@@ -51,11 +46,8 @@ namespace Frankie.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            // Deliberately using file operations (i.e. avoiding AssetDatabase.DeleteAsset): imported dialogues otherwise remove their localization entries on delete
             graph = null;
-            if (Directory.Exists(_folder)) { Directory.Delete(_folder, true); }
-            File.Delete(_folder + ".meta");
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
         #endregion
 

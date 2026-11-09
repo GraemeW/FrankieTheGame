@@ -5,27 +5,27 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class SceneReferenceTests
     {
         // Const Tunables
-        private static readonly Regex _noPathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
-        private const string _scratchScenePath = "Assets/ScratchTest_SceneReferenceGetScenePath_SafeToDelete.unity";
+        [NoAutoStaticsCleanup] private static readonly Regex _noPathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
 
         // State
-        private bool createdScratchSceneAsset;
+        private TempAssetFolder tempFolder;
 
         #region Setup
         [TearDown]
         public void TearDown()
         {
-            if (!createdScratchSceneAsset) { return; }
+            if (tempFolder == null) { return; }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
-            AssetDatabase.DeleteAsset(_scratchScenePath);
-            AssetDatabase.Refresh();
-            createdScratchSceneAsset = false;
+            tempFolder.Dispose();
+            tempFolder = null;
         }
         #endregion
 
@@ -106,15 +106,16 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void GetScenePath_WithRealSceneAssetAndNoCachedPath_ReturnsAssetPath()
         {
+            tempFolder = new TempAssetFolder(nameof(SceneReferenceTests));
+            string scratchScenePath = tempFolder.Path("ScratchTest_SceneReferenceGetScenePath.unity");
             Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, _scratchScenePath);
+            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
             EditorSceneManager.CloseScene(scratchScene, true);
-            createdScratchSceneAsset = true;
 
-            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(_scratchScenePath);
+            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scratchScenePath);
             var reference = new SceneReference("MyScene") { sceneAsset = sceneAsset };
 
-            Assert.AreEqual(_scratchScenePath, reference.GetScenePath());
+            Assert.AreEqual(scratchScenePath, reference.GetScenePath());
         }
         #endregion
     }

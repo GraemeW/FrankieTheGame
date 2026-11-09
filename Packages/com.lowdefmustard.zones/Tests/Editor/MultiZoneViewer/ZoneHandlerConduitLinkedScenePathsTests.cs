@@ -8,6 +8,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -15,13 +17,12 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class ZoneHandlerConduitLinkedScenePathsTests
     {
         // Const Tunables
-        private const string _scratchFolderName = "ScratchTest_ConduitLinkFollowing_SafeToDelete";
-        private const string _scratchFolder = "Assets/" + _scratchFolderName;
-        private const string _scratchScenePath = "Assets/ScratchTest_OpenLinkedScenePaths_SafeToDelete.unity";
         private const string _scratchSceneName = "ScratchTest_OpenLinkedScenePaths_SafeToDelete";
-        private static readonly Regex _noScenePathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
+        [NoAutoStaticsCleanup] private static readonly Regex _noScenePathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
 
         // State
+        private TempAssetFolder tempFolder;
+        private string scratchScenePath;
         private Zone rootZone;
         private readonly List<Zone> createdZones = new();
         private Dictionary<string, Zone> originalZoneLookupCache;
@@ -34,17 +35,16 @@ namespace LowDefMustard.Zones.Tests.Editor
             originalZoneLookupCache = Zone.zoneLookupCache;
             originalSceneReferenceCache = Zone.sceneReferenceCache;
             
+            tempFolder = new TempAssetFolder(nameof(ZoneHandlerConduitLinkedScenePathsTests));
+            scratchScenePath = tempFolder.Path($"{_scratchSceneName}.unity");
             Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, _scratchScenePath);
+            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
 
             rootZone = ScriptableObject.CreateInstance<Zone>();
             rootZone.preventLocalizationForTests = true;
             rootZone.hideFlags = HideFlags.HideAndDontSave;
             rootZone.sceneReference = _scratchSceneName;
-            rootZone.sceneReference.scenePath = _scratchScenePath;
-            
-            if (AssetDatabase.IsValidFolder(_scratchFolder)) { AssetDatabase.DeleteAsset(_scratchFolder); }
-            AssetDatabase.CreateFolder("Assets", _scratchFolderName);
+            rootZone.sceneReference.scenePath = scratchScenePath;
         }
 
         [TearDown]
@@ -58,16 +58,14 @@ namespace LowDefMustard.Zones.Tests.Editor
             createdZones.Clear();
             
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
-            AssetDatabase.DeleteAsset(_scratchScenePath);
-            AssetDatabase.DeleteAsset(_scratchFolder);
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
         #endregion
 
         #region PrivateMethods
-        private static string ScenePath(string sceneSuffix) => $"{_scratchFolder}/Scene{sceneSuffix}.unity";
+        private string ScenePath(string sceneSuffix) => tempFolder.Path($"Scene{sceneSuffix}.unity");
 
-        private static ZoneNode CreateNodeAsset(string zoneName, string nodeID)
+        private ZoneNode CreateNodeAsset(string zoneName, string nodeID)
         {
             var node = ScriptableObject.CreateInstance<ZoneNode>();
             node.preventLocalizationForTests = true;
@@ -77,7 +75,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             node.SetNodeID(nodeID);
             LogAssert.ignoreFailingMessages = false;
 
-            string path = $"{_scratchFolder}/{nodeID}.asset";
+            string path = tempFolder.Path($"{nodeID}.asset");
             AssetDatabase.CreateAsset(node, path);
             AssetDatabase.SaveAssets();
             AssetDatabase.ImportAsset(path); // Save/import (step 1 for persistence across scene loads)
@@ -142,17 +140,17 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             List<string> result = ZoneHandlerConduit.OpenLinkedScenePaths(rootZone, maxZoneCount: 1, existingViewScenePaths: new HashSet<string>(), showProgressBar: false).ToList();
 
-            CollectionAssert.AreEqual(new[] { _scratchScenePath }, result);
+            CollectionAssert.AreEqual(new[] { scratchScenePath }, result);
         }
 
         [Test]
         public void OpenLinkedScenePaths_RootAlreadyInExistingViews_StillYieldsItExactlyOnce()
         {
-            var existingViewScenePaths = new HashSet<string> { _scratchScenePath };
+            var existingViewScenePaths = new HashSet<string> { scratchScenePath };
 
             List<string> result = ZoneHandlerConduit.OpenLinkedScenePaths(rootZone, maxZoneCount: 1, existingViewScenePaths, showProgressBar: false).ToList();
 
-            CollectionAssert.AreEqual(new[] { _scratchScenePath }, result);
+            CollectionAssert.AreEqual(new[] { scratchScenePath }, result);
         }
 
         [Test]
@@ -191,7 +189,7 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             List<string> result = ZoneHandlerConduit.OpenLinkedScenePaths(rootZone, maxZoneCount: 1, existingViewScenePaths, showProgressBar: false).ToList();
 
-            CollectionAssert.AreEqual(new[] { _scratchScenePath }, result);
+            CollectionAssert.AreEqual(new[] { scratchScenePath }, result);
         }
         #endregion
         

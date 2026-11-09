@@ -52,7 +52,7 @@ namespace Frankie.Tests
             Assert.IsNotNull(dialogueBox, "No dialogue box spawned");
 
             Object.Destroy(dialogueBox.gameObject);
-            yield return PlayerStateRig.WaitUntil(() => DialogueController.FindDialogueController() == null);
+            yield return TestWait.Until(() => DialogueController.FindDialogueController() == null, PlayerStateRig.waitTimeoutSeconds);
             Assert.IsNull(DialogueController.FindDialogueController());
         }
         #endregion
@@ -79,7 +79,7 @@ namespace Frankie.Tests
 
             Assert.AreEqual(PlayerStateType.InWorld, rig.GetState());
             CollectionAssert.IsEmpty(rig.observedStates);
-            yield return PlayerStateRig.WaitUntil(() => DialogueController.FindDialogueController() == null);
+            yield return TestWait.Until(() => DialogueController.FindDialogueController() == null, PlayerStateRig.waitTimeoutSeconds);
             yield return PlayerStateRig.Settle();
 
             Assert.IsNull(DialogueController.FindDialogueController());
@@ -98,7 +98,7 @@ namespace Frankie.Tests
             rig.playerStateMachine.EnterDialogue(conversant, dialogue);
 
             Assert.AreEqual(PlayerStateType.InWorld, rig.GetState());
-            yield return PlayerStateRig.WaitUntil(() => DialogueController.FindDialogueController() == null);
+            yield return TestWait.Until(() => DialogueController.FindDialogueController() == null, PlayerStateRig.waitTimeoutSeconds);
             yield return PlayerStateRig.Settle();
 
             Assert.IsNull(DialogueController.FindDialogueController());
@@ -128,7 +128,7 @@ namespace Frankie.Tests
             Assert.AreEqual(PlayerStateType.InCutScene, rig.GetState());
 
             rig.playerStateMachine.EnterWorld();
-            yield return PlayerStateRig.WaitUntil(() => rig.GetState() == PlayerStateType.InDialogue);
+            yield return TestWait.Until(() => rig.GetState() == PlayerStateType.InDialogue, PlayerStateRig.waitTimeoutSeconds);
 
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState(), "Queued dialogue did not play after the cutscene");
             Assert.AreEqual(0, exitCount, "onExitDialogue fired on the post-cutscene World, before the dialogue ran");
@@ -149,7 +149,7 @@ namespace Frankie.Tests
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState(), "Queued cutscene popped while the dialogue was still open");
 
             yield return CloseDialogueBox();
-            yield return PlayerStateRig.WaitUntil(() => rig.GetState() == PlayerStateType.InCutScene);
+            yield return TestWait.Until(() => rig.GetState() == PlayerStateType.InCutScene, PlayerStateRig.waitTimeoutSeconds);
 
             Assert.AreEqual(PlayerStateType.InCutScene, rig.GetState(), "Queued cutscene did not play after the dialogue");
             Assert.AreEqual(1, exitCount);
@@ -191,7 +191,7 @@ namespace Frankie.Tests
             yield return null;
             Assert.AreEqual(PlayerStateType.InWorld, rig.GetState(), "Follow-up reused the closing controller");
 
-            yield return PlayerStateRig.WaitUntil(() => rig.GetState() == PlayerStateType.InDialogue);
+            yield return TestWait.Until(() => rig.GetState() == PlayerStateType.InDialogue, PlayerStateRig.waitTimeoutSeconds);
 
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState(), "Follow-up message was never retried");
             Assert.IsTrue(firstController == null, "First controller should be destroyed");
@@ -210,7 +210,7 @@ namespace Frankie.Tests
 
             LogAssert.Expect(LogType.Warning, new Regex(@"has no active input receivers\. Queuing it for destroy\.$"));
             Object.FindAnyObjectByType<DialogueBox>().gameObject.SetActive(false);
-            yield return PlayerStateRig.WaitUntil(() => DialogueController.FindDialogueController() == null);
+            yield return TestWait.Until(() => DialogueController.FindDialogueController() == null, PlayerStateRig.waitTimeoutSeconds);
             yield return PlayerStateRig.Settle();
 
             Assert.AreEqual(PlayerStateType.InWorld, rig.GetState());

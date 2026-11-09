@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using LowDefMustard.Rendering.Editor;
 using static LowDefMustard.Rendering.Tests.Editor.BattleEffectTestData;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -55,7 +56,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             exporter = new BattleEffectFrameExporter(renderSettings, new BattleEffectRetroToggles(), new BattleEffectExportRequest(size ?? new Vector2Int(_size, _size), 10f, frameCount, _folder, isTransparent));
             exporter.finished += () => isFinished = true;
             exporter.Start();
-            yield return HeadlessEditorWindow.WaitUntil(() => isFinished, 20f);
+            yield return TestWait.Until(() => isFinished, 20f);
             Assert.IsTrue(isFinished, "export finished");
             exporter = null;
         }

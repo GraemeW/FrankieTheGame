@@ -1,11 +1,11 @@
 using System.Collections;
 using System.IO;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEngine.UIElements;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
@@ -13,12 +13,11 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class MultiZoneViewerSnapshotTests
     {
         // Const Tunables
-        private const string _scratchFolderName = "ScratchTest_ConduitLinkFollowing_SafeToDelete";
-        private const string _scratchFolder = "Assets/" + _scratchFolderName;
         private const string _scratchMultiZoneViewName = "ScratchTest_MultiZoneViewerSnapshotTests_SafeToDelete";
         private const float _tolerance = 0.01f;
 
         // State
+        private TempAssetFolder tempFolder;
         private MultiZoneViewer viewer;
         private MultiZoneView multiZoneView;
         private string validSnapshotPath;
@@ -28,13 +27,12 @@ namespace LowDefMustard.Zones.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            if (AssetDatabase.IsValidFolder(_scratchFolder)) { AssetDatabase.DeleteAsset(_scratchFolder); }
-            AssetDatabase.CreateFolder("Assets", _scratchFolderName);
+            tempFolder = new TempAssetFolder(nameof(MultiZoneViewerSnapshotTests));
             
             viewer = ScriptableObject.CreateInstance<MultiZoneViewer>();
             
             var multiZoneViewInstance = ScriptableObject.CreateInstance<MultiZoneView>();
-            string path = $"{_scratchFolder}/{_scratchMultiZoneViewName}.asset";
+            string path = tempFolder.Path($"{_scratchMultiZoneViewName}.asset");
             AssetDatabase.CreateAsset(multiZoneViewInstance, path);
             AssetDatabase.SaveAssets();
             AssetDatabase.ImportAsset(path);
@@ -58,8 +56,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             Object.DestroyImmediate(multiZoneView, true);
             if (validSnapshotPath != null && File.Exists(validSnapshotPath)) { File.Delete(validSnapshotPath); }
             
-            AssetDatabase.DeleteAsset(_scratchFolder);
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
         #endregion
 

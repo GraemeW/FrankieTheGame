@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "com.lowdefmustard.core": "0.1.0",
+    "com.lowdefmustard.utils": "0.1.0",
     "com.unity.cinemachine": "6.6.0",
     "com.unity.render-pipelines.universal": "17.6.0",
     "com.unity.modules.uielements": "1.0.0"

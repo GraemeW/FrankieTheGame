@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Localization.Tests.Editor
@@ -19,10 +20,9 @@ namespace LowDefMustard.Localization.Tests.Editor
         // Const Tunables
         private const string _scratchTableName = "ScratchTest_Deletion_SafeToDelete";
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
-        private const string _prefabFolder = "Assets/_TEMP_LocalizationDeletionPrefabTests_SafeToDelete";
 
         private readonly List<Object> createdObjects = new();
-        private readonly List<string> createdAssetPaths = new();
+        private TempAssetFolder prefabFolder;
 
         #region DataStructures
         private sealed class TestDeletionLocalizableTarget : ScriptableObject, ILocalizableCore
@@ -75,12 +75,8 @@ namespace LowDefMustard.Localization.Tests.Editor
             }
             createdObjects.Clear();
 
-            foreach (var assetPath in createdAssetPaths.Where(assetPath => AssetDatabase.LoadAssetAtPath<Object>(assetPath) != null))
-            {
-                AssetDatabase.DeleteAsset(assetPath);
-            }
-            if (AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.DeleteAsset(_prefabFolder); }
-            createdAssetPaths.Clear();
+            prefabFolder?.Dispose();
+            prefabFolder = null;
         }
         #endregion
 
@@ -158,9 +154,8 @@ namespace LowDefMustard.Localization.Tests.Editor
             // Build the prefab source (baseline: only the always-present "Shared" entry)
             var sourceGameObject = new GameObject("PrefabDeletionSource");
             sourceGameObject.AddComponent<TestDeletionPrefabLocalizable>();
-            if (!AssetDatabase.IsValidFolder(_prefabFolder)) { AssetDatabase.CreateFolder("Assets", "_TEMP_LocalizationDeletionPrefabTests_SafeToDelete"); }
-            string prefabPath = $"{_prefabFolder}/TestDeletionPrefab.prefab";
-            createdAssetPaths.Add(prefabPath);
+            prefabFolder ??= new TempAssetFolder("LocalizationDeletionPrefabTests", deleteViaAssetDatabase: true);
+            string prefabPath = prefabFolder.Path("TestDeletionPrefab.prefab");
             GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(sourceGameObject, prefabPath);
             Object.DestroyImmediate(sourceGameObject);
             Assert.IsNotNull(prefabAsset, "Failed to save the test prefab asset");

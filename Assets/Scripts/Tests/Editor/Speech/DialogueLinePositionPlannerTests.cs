@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using Unity.GraphToolkit.Editor;
+using LowDefMustard.Utils.Tests;
 using Frankie.Speech.Editor;
 
 namespace Frankie.Tests.Editor
@@ -14,10 +14,8 @@ namespace Frankie.Tests.Editor
         //  - new lines: placed once reachable from Entry; depth via the shallowest parent, condition nodes don't count; next free breadth
         //  - placed lines never move except off a shared (e.g. pasted) position
 
-        // Const Tunables
-        private const string _folder = "Assets/_TEMP_DialogueLinePositionPlannerTests_SafeToDelete";
-
         // State
+        private TempAssetFolder tempFolder;
         private DialogueGraph graph; // Deliberately state / not const:  reusing one path warns while the previous test's graph is still loaded
         private EntryGraphNode entry; // ^- same
 
@@ -25,20 +23,16 @@ namespace Frankie.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            Directory.CreateDirectory(_folder);
-            AssetDatabase.Refresh();
-            graph = GraphDatabase.CreateGraph<DialogueGraph>($"{_folder}/{TestContext.CurrentContext.Test.Name}.{DialogueGraph.assetExtension}");
+            tempFolder = new TempAssetFolder(nameof(DialogueLinePositionPlannerTests));
+            graph = GraphDatabase.CreateGraph<DialogueGraph>(tempFolder.Path($"{TestContext.CurrentContext.Test.Name}.{DialogueGraph.assetExtension}"));
             entry = graph.AddEntry();
         }
 
         [TearDown]
         public void TearDown()
         {
-            // Deliberately using file operations (i.e. avoiding AssetDatabase.DeleteAsset): imported dialogues otherwise remove their localization entries on delete
             graph = null;
-            if (Directory.Exists(_folder)) { Directory.Delete(_folder, true); }
-            File.Delete(_folder + ".meta");
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
         #endregion
 

@@ -117,9 +117,23 @@ Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), ru
 | `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                  |
 | `LowDefMustard.Utils.Tests`          | `LowDefMustard.Utils.Tests`          | Unrestricted (PlayMode) |
 
-Shared test doubles (`TestPredicate`, `FixedResultEvaluator`, `FixedResultEvaluatorBehaviour`, `PerPredicateEvaluator`) live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMustard.Utils.Tests`).
-Shared test builders (`ConditionBuilder`, `EvaluatorBuilder`, `TestObjectTracker`) live in `Tests/Runtime/TestBuilders/` (same namespace).
-Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`).
+Shared Test Doubles - live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMustard.Utils.Tests`):
+*  `TestPredicate`
+* `FixedResultEvaluator`
+* `FixedResultEvaluatorBehaviour`
+* `PerPredicateEvaluator`
+
+Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
+* `ConditionBuilder`
+* `EvaluatorBuilder`
+* `TestObjectTracker`
+
+Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`):
+* `TempAssetFolder`: creates a disposable `Assets/_TEMP_<Name>_SafeToDelete` folder for edit mode tests
+  * deletes with file operations + `AssetDatabase.Refresh` by default ~ so e.g. `ILocalizable` assets don't trigger `LocalizationDeletionHandler` and wipe real localization entries
+  * pass `deleteViaAssetDatabase: true` only when a test means to exercise deletion handlers
+* `TestWait.Until(condition, timeoutSeconds)`: yields updates until a condition holds or the timeout passes
+  * it only times out ~ must be followed with the appropriate test assertion
 
 ### Coverage at a glance
 

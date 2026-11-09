@@ -22,8 +22,9 @@ namespace Frankie.Tests
         private const string _playerPrefabPath = "Assets/Game/Core/Player.prefab";
         private const string _worldUIRootPrefabPath = "Assets/Game/UI/Utilities/WorldUIRoot.prefab";
         private const string _faderPrefabPath = "Assets/Game/Core/CoreDep/Fader/Fader.prefab";
-        private const float _defaultTimeoutSeconds = 5f;
+        
         private const int _settleFrames = 2;
+        public const float waitTimeoutSeconds = 5f; // Play mode flows (dialogue, menus) take longer than TestWait's editor default
 
         // State
         private readonly List<GameObject> spawnedObjects = new();
@@ -65,13 +66,6 @@ namespace Frankie.Tests
         public static IEnumerator Settle(int frames = _settleFrames)
         {
             for (int i = 0; i < frames; i++) { yield return null; }
-        }
-
-        // Only times out:  follow with the real assertion
-        public static IEnumerator WaitUntil(Func<bool> condition, float timeout = _defaultTimeoutSeconds)
-        {
-            float startTime = Time.realtimeSinceStartup;
-            while (!condition() && Time.realtimeSinceStartup - startTime < timeout) { yield return null; }
         }
 
         private GameObject Spawn(string prefabPath)
