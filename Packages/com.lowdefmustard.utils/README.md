@@ -43,6 +43,8 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 - **`[ReadOnly]`** — Marks an inspector field as visible but non-editable
 - **`[RestrictedEnum(params int[] hiddenValues)]`** — Hides specific enum values from the inspector popup for a field, without removing them from the underlying enum
+  - Honours a `PropertyField`'s label override, and lines up with the inspector's other fields
+  - Attribute arguments must be constants:  to hide a list built at runtime, subclass it (e.g. Frankie's `SkillStatAttribute` / `ModifiableStatAttribute`)
 - **`[EnumKeyedCollection]`** — Applied to a field typed as an `EnumKeyedCollection<TEnum, TData>` (via `IEnumKeyedCollection`)
   - Before rendering, the drawer calls `SyncEntriesToEnum()` on the boxed value to reconcile the backing list against the enum's current members (adding missing keys, dropping orphaned keys, sorting), and writes that back into the `SerializedProperty`
   - this process ensures no enum value can be left silently unset

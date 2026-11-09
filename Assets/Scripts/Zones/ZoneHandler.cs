@@ -66,6 +66,24 @@ namespace Frankie.Zones
             if (!passPlayerStateMachine.TryGetComponent(out PlayerController passPlayerController)) { return; }
             AttemptToWarpPlayer(passPlayerStateMachine, passPlayerController);
         }
+
+        public static ZoneHandler FindZoneHandler(string zoneNodeID)
+        {
+            if (string.IsNullOrEmpty(zoneNodeID)) { return null; }
+            foreach (ZoneHandler zoneHandler in FindObjectsByType<ZoneHandler>(FindObjectsInactive.Include))
+            {
+                ZoneNode candidateZoneNode = zoneHandler.GetZoneNode();
+                if (candidateZoneNode != null && candidateZoneNode.GetNodeID() == zoneNodeID) { return zoneHandler; }
+            }
+            return null;
+        }
+
+        public void ReceiveExternallyWarpedPlayer(PlayerController playerController)
+        {
+            if (playerController == null) { return; }
+            PlacePlayer(playerController);
+            ToggleRoomParent(true);
+        }
         #endregion
 
         #region WarpMethods
@@ -155,31 +173,32 @@ namespace Frankie.Zones
             if (cachedPlayerController == null) { SetupPlayerReferences(); }
             if (cachedPlayerController == null) { return; }
             
-            foreach (ZoneHandler zoneHandler in FindObjectsByType<ZoneHandler>(FindObjectsInactive.Include))
+            ZoneHandler nextZoneHandler = FindZoneHandler(nextNodeID);
+            if (nextZoneHandler != null)
             {
-                ZoneNode zoneNode = zoneHandler.GetZoneNode();
-                if (zoneNode == null || nextNodeID != zoneNode.GetNodeID()) { continue; }
-                
-                Vector3 warpPosition = zoneHandler.GetWarpPosition();
-                cachedPlayerController.gameObject.transform.position = warpPosition;
-                
-                if (zoneHandler.HasWarpPosition())
-                {
-                    Vector2 lookDirection = warpPosition - zoneHandler.transform.position;
-                    lookDirection.Normalize();
-                    cachedPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
-                }
-                cachedPlayerController.GetPlayerMover().ResetHistory(warpPosition);
-
-                SwapActiveRoomParents(zoneHandler);
+                nextZoneHandler.PlacePlayer(cachedPlayerController);
+                SwapActiveRoomParents(nextZoneHandler);
                 zoneInteraction?.Invoke();
                 queuedZoneNodeID = null;
-
-                break; // Node transport complete, no need to complete loop
             }
 
             // Failsafe -- no movement
             ExitMove();
+        }
+
+        private void PlacePlayer(PlayerController playerController)
+        {
+            if (playerController == null) { return; }
+            
+            Vector3 warpPosition = GetWarpPosition();
+            playerController.gameObject.transform.position = warpPosition;
+            if (HasWarpPosition())
+            {
+                Vector2 lookDirection = warpPosition - transform.position;
+                lookDirection.Normalize();
+                playerController.GetPlayerMover().SetLookDirection(lookDirection);
+            }
+            playerController.GetPlayerMover().ResetHistory(warpPosition);
         }
 
         private void ExitMove()

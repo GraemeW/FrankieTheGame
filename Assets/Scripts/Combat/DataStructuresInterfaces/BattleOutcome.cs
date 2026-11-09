@@ -5,6 +5,7 @@ namespace Frankie.Combat
         Undetermined,
         Won,
         Lost,
-        Ran
+        Ran,
+        Aborted // Battle cut short without an outro ~ complete gets raised directly
     }
 }

@@ -341,6 +341,26 @@ namespace Frankie.Core
             return combatMemory.ConcludeFade(TransitionType.BattleComplete, faderEventTriggers);
         }
 
+        void ICombatStateContext.AbortBattle()
+        {
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleCombatMessages); // else the abort's Complete (outcome Aborted) reads as a true battle exit
+            if (battleController == null) { battleController = BattleController.FindBattleController(); }
+            if (battleController != null) { battleController.AbortBattle(); }
+
+            // Hold battle UI on screen until e.g. zone fade covers it
+            BattleController abortedBattleController = battleController;
+            GameObject abortedBattleUI = combatMemory.battleUIInstance;
+            battleController = null;
+            combatMemory = new CombatMemory();
+            if (!Fader.TryQueueAtFadePeak(() => RetireAbortedBattle(abortedBattleController, abortedBattleUI))) { RetireAbortedBattle(abortedBattleController, abortedBattleUI); }
+        }
+
+        private static void RetireAbortedBattle(BattleController abortedBattleController, GameObject abortedBattleUI)
+        {
+            if (abortedBattleController != null) { abortedBattleController.Retire(); }
+            if (abortedBattleUI != null) { Destroy(abortedBattleUI); }
+        }
+
         private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)
         {
             BattleState battleState = battleStateChangedEvent.battleState;

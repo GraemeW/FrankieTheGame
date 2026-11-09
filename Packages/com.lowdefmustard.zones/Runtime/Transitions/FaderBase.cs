@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using LowDefMustard.Core;
@@ -29,6 +30,8 @@ namespace LowDefMustard.Zones
         // State
         protected bool fading;
         private Coroutine activeFade;
+        private bool fadePeakPending;
+        private readonly List<Action> fadePeakActions = new();
         
         // Cached References
         private ReInitLazyValue<SceneLoaderBase> activeSceneLoader;
@@ -79,6 +82,16 @@ namespace LowDefMustard.Zones
             return true;
         }
 
+        public static bool TryQueueAtFadePeak(Action action)
+        {
+            // Note: One-shot; queued actions get triggered/cleared on peak *or* on fader disable/destruction
+            if (action == null) { return false; }
+            if (activeFader == null || !activeFader.fadePeakPending) { return false; }
+
+            activeFader.fadePeakActions.Add(action);
+            return true;
+        }
+
         private static FaderBase<TTransitionType> TryFindFader()
         {
             var faderGameObject = GameObject.FindGameObjectWithTag(_faderTag);
@@ -111,6 +124,7 @@ namespace LowDefMustard.Zones
         protected virtual void OnDisable()
         {
             StopActiveFade();
+            RunFadePeakActions(); // queued action must still run if its fade never peaks
             TrySubscribeToSceneLoader(false);
         }
 
@@ -216,6 +230,7 @@ namespace LowDefMustard.Zones
         {
             fading = true;
             SetOverlayAlpha(GetSceneLoadTransitionType(), 1f);
+            RunFadePeakActions();
             yield return QueueFadeExit(GetSceneLoadTransitionType(), null, null);
         }
 
@@ -230,13 +245,25 @@ namespace LowDefMustard.Zones
         
         private IEnumerator QueueFadeEntry(TTransitionType transitionType, Action<TTransitionType> onFadeIn, Action onFadePeak)
         {
-            if (!PreFadeSetup(transitionType)) { yield break; }
+            if (!PreFadeSetup(transitionType)) { RunFadePeakActions(); yield break; }
 
+            fadePeakPending = true;
             if (UsesStandaloneFade(transitionType)) { TriggerStandaloneFadeIn(transitionType); }
             fadingIn?.Invoke(transitionType);
             onFadeIn?.Invoke(transitionType);
             yield return FadeOverlay(transitionType, 0f, 1f, GetFadeTime(true, transitionType));
+            RunFadePeakActions();
             onFadePeak?.Invoke();
+        }
+
+        private void RunFadePeakActions()
+        {
+            fadePeakPending = false;
+            if (fadePeakActions.Count == 0) { return; }
+
+            var actions = new List<Action>(fadePeakActions);
+            fadePeakActions.Clear();
+            foreach (Action action in actions) { action?.Invoke(); }
         }
         
         private IEnumerator QueueFadeExit(TTransitionType transitionType, Action onFadeOut, Action onFadeComplete)

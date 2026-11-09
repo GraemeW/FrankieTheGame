@@ -24,6 +24,7 @@ namespace Frankie.Core
         bool StartBattleSequence();
         bool IsCombatFadeComplete();
         bool EndBattleSequence();
+        void AbortBattle();
     }
 
     public interface IDialogueStateContext

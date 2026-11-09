@@ -14,6 +14,11 @@ namespace Frankie.Tests.Editor
         public bool inBattleEntryTransition = false;
         public bool combatFadeComplete = false;
         public bool combatParticipantsValid = false;
+        public bool startBattleResult = true;
+        public bool endBattleResult = true;
+        public bool inZoneTransition = false;
+        public bool zoneTransitionComplete = true;
+        public bool inBattleExitTransition = false;
 
         // State
         public readonly List<string> calls = new();
@@ -28,23 +33,24 @@ namespace Frankie.Tests.Editor
 
         // IPlayerStateInfo
         public bool CanMoveInCutscene() => false;
-        public bool InZoneTransition() => false;
-        public bool InBattleExitTransition() => false;
+        public bool InZoneTransition() => inZoneTransition;
+        public bool InBattleExitTransition() => inBattleExitTransition;
         public bool IsAnyPartyMemberAlive() => true;
         public bool IsPlayerFearsome(CombatParticipant combatParticipant) => false;
 
         // ITransitionStateContext
         public void ConfirmTransitionType() => calls.Add(nameof(ConfirmTransitionType));
-        public bool IsZoneTransitionComplete() => true;
+        public bool IsZoneTransitionComplete() => zoneTransitionComplete;
         public bool InBattleEntryTransition() => inBattleEntryTransition;
 
         // ICombatStateContext
         public bool AreCombatParticipantsValid() => combatParticipantsValid;
         public void ConfirmEnemiesUnderConsideration() => calls.Add(nameof(ConfirmEnemiesUnderConsideration));
         public void SetupBattleController() => calls.Add(nameof(SetupBattleController));
-        public bool StartBattleSequence() => false;
+        public bool StartBattleSequence() { calls.Add(nameof(StartBattleSequence)); return startBattleResult; }
         public bool IsCombatFadeComplete() => combatFadeComplete;
-        public bool EndBattleSequence() => false;
+        public void AbortBattle() => calls.Add(nameof(AbortBattle));
+        public bool EndBattleSequence() { calls.Add(nameof(EndBattleSequence)); return endBattleResult; }
 
         // IDialogueStateContext
         public bool SetupDialogueController() { calls.Add(nameof(SetupDialogueController)); return setupDialogueResult; }

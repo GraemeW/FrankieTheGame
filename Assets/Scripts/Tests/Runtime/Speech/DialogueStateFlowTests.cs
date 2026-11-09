@@ -15,7 +15,7 @@ namespace Frankie.Tests
     public class DialogueStateFlowTests
     {
         // Covers dialogue entry / exit through the PlayerStateMachine + DialogueController (PlayerStateRig)
-        //  - Option 4 (empty / gated start), onExitDialogue timing, nested requests from dialogue triggers, closing-controller retry
+        //  - Option 4 (empty / gated start), onExitDialogue timing, dialogue <-> cutscene queueing, nested requests from dialogue triggers, closing-controller retry
         // Dialogues end by destroying the box (the box's DestroyTriggered -> EndConversation)
 
         // State
@@ -136,6 +136,24 @@ namespace Frankie.Tests
             yield return CloseDialogueBox();
 
             Assert.AreEqual(1, exitCount);
+        }
+
+        [UnityTest]
+        public IEnumerator CutsceneRequestedDuringDialogue_PlaysOnlyAfterTheDialogueEnds()
+        {
+            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterCutscene();
+            Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState());
+
+            yield return PlayerStateRig.Settle();
+            Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState(), "Queued cutscene popped while the dialogue was still open");
+
+            yield return CloseDialogueBox();
+            yield return PlayerStateRig.WaitUntil(() => rig.GetState() == PlayerStateType.InCutScene);
+
+            Assert.AreEqual(PlayerStateType.InCutScene, rig.GetState(), "Queued cutscene did not play after the dialogue");
+            Assert.AreEqual(1, exitCount);
+            CollectionAssert.AreEqual(new[] { PlayerStateType.InDialogue, PlayerStateType.InWorld, PlayerStateType.InCutScene }, rig.observedStates);
         }
 
         [UnityTest]

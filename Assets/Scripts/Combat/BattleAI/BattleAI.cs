@@ -91,6 +91,7 @@ namespace Frankie.Combat
                     inActiveCombat = true;
                     break;
                 case BattleState.Outro:
+                case BattleState.Complete when battleStateChangedEvent.battleOutcome == BattleOutcome.Aborted: // No outro on an aborted battle
                     SubscribeToBattle(false);
                     break;
             }

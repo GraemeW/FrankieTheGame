@@ -425,12 +425,18 @@ namespace Frankie.Combat
             // Note:  Order of operations matters here since SetCombatActive also modifies isHealthRollActive
             SetCombatActive(battleStateChangedEvent.battleState == BattleState.Combat);
             
-            if (battleStateChangedEvent.battleState is BattleState.Outro or BattleState.Rewards)
+            bool battleAborted = battleStateChangedEvent.battleOutcome == BattleOutcome.Aborted;
+            if (battleStateChangedEvent.battleState is BattleState.Outro or BattleState.Rewards || battleAborted)
             {
                 SubscribeToBattleStateChanges(false);
                 // Lock health if it's going down, but allow healing (e.g. level-up health bumps)
                 if (targetHP < currentHP.value) { targetHP = currentHP.value; }
                 isHealthRollActive = true;
+            }
+            if (battleAborted && battleActionCoroutine != null)
+            {
+                StopCoroutine(battleActionCoroutine);
+                battleActionCoroutine = null;
             }
         }
         

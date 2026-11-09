@@ -69,9 +69,9 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 
 | Category                 | Types | Tested | Notes                                                                                                                       |
 |--------------------------|:-----:|:------:|-----------------------------------------------------------------------------------------------------------------------------|
-| Speech traversal         |   3   |   2    | `DialogueController` entry / exit is covered by the state flow tests below; random pick + choosing still untested          |
-| Speech state flow        |   3   |   3    | Play Mode: empty / gated start, `onExitDialogue` timing, trigger re-entrancy, closing-controller retry                     |
-| Player state machine     |   5   |   5    | Request dispatcher, `WorldState` start failures, `TransitionState` combat entry, listener ordering (Play Mode)              |
+| Speech traversal         |   3   |   2    | `DialogueController` entry / exit is covered by the state flow tests below; random pick + choosing still untested           |
+| Speech state flow        |   3   |   3    | Play Mode: empty / gated start, `onExitDialogue` timing, dialogue <-> cutscene queueing, trigger re-entrancy, closing retry |
+| Player state machine     |   8   |   8    | Request dispatcher, `ActionMemory` queue, each state's request handling + fail-safes, listener ordering (Play Mode)         |
 | Inventory trade          |   2   |   2    | `TradeMemory` shop checks; `Shop` entry + `transactionCompleted` relay (Play Mode)                                          |
 | Combat controller retire |   1   |   1    | `BattleController` ExitComplete retire only (bus-driven); battle flow + swarm chain untested                                |
 | Speech graph skin        |   1   |   1†   | Guards `DialogueGraph.uss` against Graph Toolkit renaming the internal parts it styles                                      |
@@ -88,8 +88,12 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 | `AIConversant`                  | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | `onExitDialogue` timing only                                |
 | `DialogueTrigger`               | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Node triggers untested                                      |
 | `PlayerStateRequestDispatcher`  | Yes     | [PlayerStateRequestDispatcherTests.cs](./Tests/Editor/Core/PlayerStateRequestDispatcherTests.cs) |                                                             |
-| `WorldState`                    | Partial | [WorldStateTests.cs](./Tests/Editor/Core/WorldStateTests.cs)                                     | Dialogue / trade / option entry; combat + cutscene untested |
-| `TransitionState`               | Partial | [TransitionStateTests.cs](./Tests/Editor/Core/TransitionStateTests.cs)                           | Combat entry only; dialogue / cutscene / world untested     |
+| `ActionMemory`                  | Yes     | [ActionMemoryTests.cs](./Tests/Editor/Core/ActionMemoryTests.cs)                                 |                                                             |
+| `WorldState`                    | Yes     | [WorldStateTests.cs](./Tests/Editor/Core/WorldStateTests.cs)                                     |                                                             |
+| `TransitionState`               | Yes     | [TransitionStateTests.cs](./Tests/Editor/Core/TransitionStateTests.cs)                           |                                                             |
+| `CombatState`                   | Yes     | [CombatStateTests.cs](./Tests/Editor/Core/CombatStateTests.cs)                                   |                                                             |
+| `CutSceneState`                 | Yes     | [CutSceneStateTests.cs](./Tests/Editor/Core/CutSceneStateTests.cs)                               |                                                             |
+| `DialogueState`                 | Yes     | [DialogueStateTests.cs](./Tests/Editor/Core/DialogueStateTests.cs)                               |                                                             |
 | `PlayerStateMachine`            | Partial | [PlayerStateOrderingTests.cs](./Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Zone / combat transitions untested                          |
 | `TradeMemory`                   | Yes     | [TradeMemoryTests.cs](./Tests/Editor/Core/TradeMemoryTests.cs)                                   |                                                             |
 | `Shop`                          | Partial | [ShopStateFlowTests.cs](./Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Game state modifiers untested                               |

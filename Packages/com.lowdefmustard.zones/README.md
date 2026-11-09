@@ -42,6 +42,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
   - View-agnostic: the base steps a fade alpha over the fade time and hands it to the subclass via the abstract `SetOverlayAlpha(transitionType, alpha)` (with `ResetOverlays` to hide everything)
     - Notably, this means the overlay can be any UI implementation
     - `IsSkipFade`/`TransitionUsesStandaloneFadeControl` + `TriggerStandaloneFadeIn`/`Out`/`Cleanup` let a subclass substitute a fully custom visual for specific transition types 
+  - `TryQueueAtFadePeak(action)` queues a one-shot action for the fade in progress's next peak (screen covered) ~ run just before that fade's `onFadePeak`
+    - Returns false (not queued) when no fade is heading to a peak (none running, or already past its peak)
+    - Fader OnDisable/destruction (i.e. during fade-in) will also trigger/clear the queued peak actions
   - Holds its scene-loader reference as the non-generic `SceneLoaderBase` (i.e. instead of the typed `SceneLoaderBase<TSceneType>`) since `FaderBase` has no reason to know a project's scene-queue enum
 - **`FaderEventTriggers<T>`** — Struct of optional callbacks (`onFadeIn`, `onFadePeak`, `onFadeOut`, `onFadeComplete`) a caller can supply to hook specific moments of a fade
 - **`SceneLoaderBase`** (non-generic, abstract) — Base layer holding everything that doesn't depend on a project's scene-queue enum
@@ -128,11 +131,11 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | `Zone.OnBeforeSerialize`                                                                                            |       2/2        |                                                                                  |
 | `Zone` Addressables cache (`GetFromName`/`GetFromSceneReference`/`BuildCacheIfEmpty`/`AddZoneToCache`)              |       4/4        |                                                                                  |
 | `ZoneNode`                                                                                                          |      10/12       | `CheckCondition` delegation and `GetDisplayName`'s localized value tests skipped |
-| `ZoneNodeGroup`                                                                                                     |       5/6        | Real `Zone.GetFromName` lookup branch skipped (`cachedZone` always pre-seeded)   |
+| `ZoneNodeGroup`                                                                                                     |       5/6        | `Zone.GetFromName` lookup branch skipped (`cachedZone` always pre-seeded)        |
 | `ZoneHandlerBase`                                                                                                   |       3/3        |                                                                                  |
 | `SceneLoaderBase` (zone-tracking, `QueueDelayedDestroy`, `LoadNewSceneAsync`)                                       |       5/6        | Non-fader scene-load coroutine branch skipped                                    |
 | `SceneLoaderBase<TSceneType>.QueueScene` (incl. new-game/demo-override)                                             |       7/7        |                                                                                  |
-| `FaderBase<T>`                                                                                                      |       3/5        | `StartSceneLoadFade`/`StartQuickSceneLoadFade`skipped (drive a real scene load)  |
+| `FaderBase<T>`                                                                                                      |       4/6        | `StartSceneLoadFade`/`StartQuickSceneLoadFade`skipped (drive a scene load)       |
 | `ZoneHandlerConduit` (relative-position math, node grouping, scene traversal, cross-zone link-following)            |       9/9        |                                                                                  |
 | `ZoneTools`                                                                                                         |       4/4        |                                                                                  |
 | `MultiZoneView` / `ZoneViewData` CRUD                                                                               |      11/11       |                                                                                  |

@@ -50,15 +50,15 @@ Solid arrows are requests, and dotted arrows are the return to World (`EnterWorl
 * "Queue" means the request goes to [ActionMemory](#actionmemory--the-policy-queue) and replays after the next return to World
 * "Ignore" means the request is dropped.
 
-| Current state ↓ / Request → | **World**                                  | **Transition**                                            | **Combat**                                                               | **Dialogue**                           | **Trade**     | **Options**     | **Cutscene**                           |
-|-----------------------------|--------------------------------------------|-----------------------------------------------------------|--------------------------------------------------------------------------|----------------------------------------|---------------|-----------------|----------------------------------------|
-| **Base default**            | Clear memory → World                       | → Transition if zone, else ignore                         | Queue                                                                    | Queue                                  | Ignore        | Ignore          | Queue                                  |
-| **World**                   | *(default)*                                | → Transition                                              | Validate → set up battle → Transition → start fade                       | Set up controller → start → Dialogue   | Start → Menus | Start → Menus   | Hide party if needed → Cutscene        |
-| **Transition**              | Hold if zone move incomplete, else default | *(default)*                                               | Battle entry (else ignore): fade done → Combat, else add enemies (swarm) | Queue during battle entry, else ignore | *(default)*   | *(default)*     | Queue during battle entry, else ignore |
-| **Combat**                  | *(default)*                                | Battle exit: → Transition + exit fade. Zone: → Transition | Ignore                                                                   | *(default)*                            | *(default)*   | *(default)*     | *(default)*                            |
-| **Dialogue**                | *(default)*                                | *(default)*                                               | *(default)*                                                              | *(default)*                            | Queue         | *(default)*     | *(default)*                            |
-| **Trade / Options**         | *(default)*                                | *(default)*                                               | *(default)*                                                              | *(default)*                            | *(default)*   | *(default)*     | *(default)*                            |
-| **Cutscene**                | Show party → clear → World                 | Zone only: show party → Transition                        | *(default)*                                                              | *(default)*                            | *(default)*   | *(default)*     | Queue new one → World (plays next)     |
+| Current state ↓ / Request → | **World**                                  | **Transition**                                                         | **Combat**                                                               | **Dialogue**                           | **Trade**     | **Options**     | **Cutscene**                           |
+|-----------------------------|--------------------------------------------|------------------------------------------------------------------------|--------------------------------------------------------------------------|----------------------------------------|---------------|-----------------|----------------------------------------|
+| **Base default**            | Clear memory → World                       | → Transition if zone, else ignore                                      | Queue                                                                    | Queue                                  | Ignore        | Ignore          | Queue                                  |
+| **World**                   | *(default)*                                | → Transition                                                           | Validate → set up battle → Transition → start fade                       | Set up controller → start → Dialogue   | Start → Menus | Start → Menus   | Hide party if needed → Cutscene        |
+| **Transition**              | Hold if zone move incomplete, else default | *(default)*                                                            | Battle entry (else ignore): fade done → Combat, else add enemies (swarm) | Queue during battle entry, else ignore | *(default)*   | *(default)*     | Queue during battle entry, else ignore |
+| **Combat**                  | *(default)*                                | Battle exit: → Transition + exit fade. Zone: abort battle → Transition | Ignore                                                                   | *(default)*                            | *(default)*   | *(default)*     | *(default)*                            |
+| **Dialogue**                | *(default)*                                | *(default)*                                                            | *(default)*                                                              | *(default)*                            | Queue         | *(default)*     | *(default)*                            |
+| **Trade / Options**         | *(default)*                                | *(default)*                                                            | *(default)*                                                              | *(default)*                            | *(default)*   | *(default)*     | *(default)*                            |
+| **Cutscene**                | Show party → clear → World                 | Zone only: show party → Transition                                     | *(default)*                                                              | *(default)*                            | *(default)*   | *(default)*     | Queue new one → World (plays next)     |
 
 Things worth knowing from the table:
 * **Options and Trade are never queued** 
@@ -243,6 +243,18 @@ The chain in step 3 runs inline rather than deferred because a synchronous fader
 2. `TransitionState.EnterWorld` is held off until the move completes
 3. `ZoneHandler` → `SetZoneTransitionStatus(true)` + `EnterWorld` → World
 
+#### Special Handling:  Transition From Combat
+
+`CombatState` first calls `AbortBattle`:
+* Unsubscribes `HandleCombatMessages` (else the abort's Complete reads as a proper battle exit)
+* `BattleController.AbortBattle`: set to `Complete` w/ outcome `Aborted` + `BattleTornDown`, then goes inert (input off, battle sequence stopped)
+  * `CombatParticipant` / `BattleAI` both key on the `Aborted` outcome: unsubscribe, lock HP, stop any in-flight battle action
+  * Party, `PersistentStatus`, `BackgroundMusic` and `BattleEventBus` flags all outlive the battle scene, so we need the corresponding events from AbortBattle to trigger in order to reset
+* Resets combat memory, then holds the (inert) controller + BattleUI on screen until the zone fade covers them
+  * `Fader.TryQueueAtFadePeak` → `BattleController.Retire` + destroy the BattleUI at the peak (before the zone's save)
+  * The UI parts hold the controller directly, so the two retire together ~ an early controller destroy would leave the UI calling a destroyed object
+  * No fade heading to a peak (e.g. a scripted transition without one) → retired immediately
+
 ## Extending
 
 When adding a request or state:
@@ -264,22 +276,27 @@ When adding a request or state:
 
 ## Tests
 
-| Test file                                                                                         | Mode  | Covers                                                                                            |
-|---------------------------------------------------------------------------------------------------|-------|---------------------------------------------------------------------------------------------------|
-| [PlayerStateRequestDispatcherTests](../../Tests/Editor/Core/PlayerStateRequestDispatcherTests.cs) | Edit  | Immediate vs deferred, FIFO drain, one-level inline, exception isolation, drain cap               |
-| [WorldStateTests](../../Tests/Editor/Core/WorldStateTests.cs)                                     | Edit  | Dialogue / trade / option start failures, closing-controller retry (via `FakePlayerStateContext`) |
-| [TransitionStateTests](../../Tests/Editor/Core/TransitionStateTests.cs)                           | Edit  | Combat requests: commit on fade done, swarm during fade, dropped outside a battle entry           |
-| [TradeMemoryTests](../../Tests/Editor/Core/TradeMemoryTests.cs)                                   | Edit  | Shop start checks (missing / empty shop)                                                          |
-| [PlayerStateOrderingTests](../../Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Play  | Listener ordering when a listener requests a new state, stale ready-to-pop flag                   |
-| [DialogueStateFlowTests](../../Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Play  | Empty / gated start, `onExitDialogue` timing, trigger re-entrancy, closing-controller retry       |
-| [ShopStateFlowTests](../../Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Play  | Empty shop, `transactionCompleted` relay incl. a shop opened from dialogue                        |
-| [BattleControllerRetireTests](../../Tests/Runtime/Combat/BattleControllerRetireTests.cs)          | Play  | `ExitComplete` retire vs. a controller requested the same frame                                   |
+| Test file                                                                                         | Mode  | Covers                                                                                              |
+|---------------------------------------------------------------------------------------------------|-------|-----------------------------------------------------------------------------------------------------|
+| [PlayerStateRequestDispatcherTests](../../Tests/Editor/Core/PlayerStateRequestDispatcherTests.cs) | Edit  | Immediate vs deferred, FIFO drain, one-level inline, exception isolation, drain cap                 |
+| [ActionMemoryTests](../../Tests/Editor/Core/ActionMemoryTests.cs)                                 | Edit  | LIFO pop, null / unset guards, ready-to-pop gating, combat chaining, clear                          |
+| [WorldStateTests](../../Tests/Editor/Core/WorldStateTests.cs)                                     | Edit  | Start failures, closing-controller retry, combat setup order + fail-safe, cutscene entry            |
+| [TransitionStateTests](../../Tests/Editor/Core/TransitionStateTests.cs)                           | Edit  | Combat only on battle entry (commit / swarm), dialogue + cutscene queue vs drop, zone hold          |
+| [CombatStateTests](../../Tests/Editor/Core/CombatStateTests.cs)                                   | Edit  | Combat ignored, battle exit + end-battle fail-safe, zone transition aborts the battle, else ignored |
+| [CutSceneStateTests](../../Tests/Editor/Core/CutSceneStateTests.cs)                               | Edit  | Cutscene chaining (queue + World), visibility restore, zone-only transition                         |
+| [DialogueStateTests](../../Tests/Editor/Core/DialogueStateTests.cs)                               | Edit  | Trade / cutscene / combat queue behind dialogue, options ignored, exit to World                     |
+| [TradeMemoryTests](../../Tests/Editor/Core/TradeMemoryTests.cs)                                   | Edit  | Shop start checks (missing / empty shop)                                                            |
+| [PlayerStateOrderingTests](../../Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Play  | Listener ordering when a listener requests a new state, stale ready-to-pop flag                     |
+| [DialogueStateFlowTests](../../Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Play  | Empty / gated start, `onExitDialogue` timing, dialogue <-> cutscene queueing, trigger re-entrancy   |
+| [ShopStateFlowTests](../../Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Play  | Empty shop, `transactionCompleted` relay incl. a shop opened from dialogue                          |
+| [BattleControllerRetireTests](../../Tests/Runtime/Combat/BattleControllerRetireTests.cs)          | Play  | `ExitComplete` retire vs. a controller requested the same frame, `AbortBattle` teardown + `Retire`  |
 
-Not yet covered: zone transitions, the full combat flow (fades), and swarm chain.
+Not yet covered end-to-end (Play Mode): zone transitions (scene load), full combat flow (fades), and enter combat swarm chain.
 
 ### Additional Test Notes
 
 * `PlayerStateRig` spawns the  Player, WorldUIRoot and Fader prefabs
   * Play Mode tests are coupled to those prefabs' contents (e.g. a living party, a party knapsack)
 * Ordering tests use a stand-in listener rather than a real party death (that would queue the GameOver scene)
-* `DialogueTrigger`, `AIConversant` and `Shop` expose small `internal` hooks for the tests.
+* State-level tests run against `FakePlayerStateContext` (Edit Mode)
+  * `OptionState` / `TradeState` are bare `PlayerStateBase` and covered through the other states' inherited defaults
