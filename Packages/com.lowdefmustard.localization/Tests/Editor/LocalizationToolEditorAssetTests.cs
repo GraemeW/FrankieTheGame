@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 
@@ -126,6 +129,35 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsTrue(renamed);
             Assert.IsFalse(TestLocalizationTool.HasTableEntry(TestTableType.ScratchAssetEditor, "MakeOrRename.OldName"));
             Assert.IsTrue(TestLocalizationTool.HasTableEntry(TestTableType.ScratchAssetEditor, "MakeOrRename.NewName"));
+        }
+        #endregion
+
+        #region RenameKeys
+        [Test]
+        public void RenameKeys_Swap_ExchangesValues()
+        {
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Swap.A", "Value A");
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Swap.B", "Value B");
+
+            int renamed = TestLocalizationTool.RenameKeys(TestTableType.ScratchAssetEditor, new[] { ("RenameKeys.Swap.A", "RenameKeys.Swap.B"), ("RenameKeys.Swap.B", "RenameKeys.Swap.A") });
+
+            Assert.AreEqual(2, renamed);
+            Assert.AreEqual("Value B", TestLocalizationTool.GetEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Swap.A"));
+            Assert.AreEqual("Value A", TestLocalizationTool.GetEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Swap.B"));
+        }
+
+        [Test]
+        public void RenameKeys_TargetTakenByStayingKey_SkipsThatRename()
+        {
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Taken.Mover", "Mover");
+            TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Taken.Stayer", "Stayer");
+            LogAssert.Expect(LogType.Warning, new Regex("RenameKeys.Taken.Mover"));
+
+            int renamed = TestLocalizationTool.RenameKeys(TestTableType.ScratchAssetEditor, new[] { ("RenameKeys.Taken.Mover", "RenameKeys.Taken.Stayer"), ("RenameKeys.Missing", "RenameKeys.Anywhere") });
+
+            Assert.AreEqual(0, renamed);
+            Assert.AreEqual("Mover", TestLocalizationTool.GetEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Taken.Mover"));
+            Assert.AreEqual("Stayer", TestLocalizationTool.GetEnglishEntry(TestTableType.ScratchAssetEditor, "RenameKeys.Taken.Stayer"));
         }
         #endregion
 

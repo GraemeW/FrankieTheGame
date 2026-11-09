@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -15,23 +16,20 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class SceneReferencePropertyDrawerTests
     {
         // Const Tunables
-        private const string _rootFolderName = "ScratchTest_SceneReferenceDrawer_SafeToDelete";
         private const string _zonesLogPrefix = @"\[Zones\]\S* ";
-        private const string _rootFolder = "Assets/" + _rootFolderName;
         private const string _alphaName = "ScratchDrawer_Alpha";
         private const string _alphaExtendedName = "ScratchDrawer_AlphaExtended";
         private const string _betaName = "ScratchDrawer_Beta";
         private const string _dupName = "ScratchDrawer_Dup";
-        private const string _alphaPath = _rootFolder + "/" + _alphaName + ".unity";
-        private const string _alphaExtendedPath = _rootFolder + "/" + _alphaExtendedName + ".unity";
-        private const string _betaPath = _rootFolder + "/" + _betaName + ".unity";
-        private const string _dupPathOne = _rootFolder + "/Dup1/" + _dupName + ".unity";
-        private const string _dupPathTwo = _rootFolder + "/Dup2/" + _dupName + ".unity";
-        private const string _prefabPath = _rootFolder + "/ScratchDrawerHost.prefab";
         private const string _missingPath = "Assets/ScratchDrawer_DoesNotExist/Nope.unity";
-        private const double _trackingTimeoutSeconds = 3d;
+        private const float _trackingTimeoutSeconds = 3f;
 
         // State
+        private TempAssetFolder tempFolder;
+        private string alphaPath;
+        private string alphaExtendedPath;
+        private string betaPath;
+        private string prefabPath;
         private SceneAsset alphaScene;
         private SceneAsset alphaExtendedScene;
         private SceneAsset betaScene;
@@ -43,16 +41,17 @@ namespace LowDefMustard.Zones.Tests.Editor
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            if (AssetDatabase.IsValidFolder(_rootFolder)) { AssetDatabase.DeleteAsset(_rootFolder); }
-            AssetDatabase.CreateFolder("Assets", _rootFolderName);
-            AssetDatabase.CreateFolder(_rootFolder, "Dup1");
-            AssetDatabase.CreateFolder(_rootFolder, "Dup2");
+            tempFolder = new TempAssetFolder(nameof(SceneReferencePropertyDrawerTests));
+            alphaPath = tempFolder.Path($"{_alphaName}.unity");
+            alphaExtendedPath = tempFolder.Path($"{_alphaExtendedName}.unity");
+            betaPath = tempFolder.Path($"{_betaName}.unity");
+            prefabPath = tempFolder.Path("ScratchDrawerHost.prefab");
 
-            alphaScene = CreateSceneAsset(_alphaPath);
-            alphaExtendedScene = CreateSceneAsset(_alphaExtendedPath);
-            betaScene = CreateSceneAsset(_betaPath);
-            CreateSceneAsset(_dupPathOne);
-            CreateSceneAsset(_dupPathTwo);
+            alphaScene = CreateSceneAsset(alphaPath);
+            alphaExtendedScene = CreateSceneAsset(alphaExtendedPath);
+            betaScene = CreateSceneAsset(betaPath);
+            CreateSceneAsset($"{tempFolder.CreateSubfolder("Dup1")}/{_dupName}.unity");
+            CreateSceneAsset($"{tempFolder.CreateSubfolder("Dup2")}/{_dupName}.unity");
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open
             AssetDatabase.Refresh();
         }
@@ -61,8 +60,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void OneTimeTearDown()
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            AssetDatabase.DeleteAsset(_rootFolder);
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
 
         [TearDown]
@@ -76,7 +74,7 @@ namespace LowDefMustard.Zones.Tests.Editor
                 if (spawnedObject != null) { Object.DestroyImmediate(spawnedObject); }
             }
             spawnedObjects.Clear();
-            AssetDatabase.DeleteAsset(_prefabPath);
+            AssetDatabase.DeleteAsset(prefabPath);
         }
         #endregion
 
@@ -129,7 +127,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_BuildsRowWithDrawerFields()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             SerializedProperty property = GetSceneReferenceProperty(host);
 
             VisualElement root = BuildDrawerUI(property);
@@ -151,7 +149,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_SceneAssetFieldIsDeliberatelyUnbound()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
 
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
 
@@ -161,7 +159,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_DoesNotExposeSceneNameOrPathForEditing()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
 
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
 
@@ -171,19 +169,19 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_ExistingSceneAsset_ShowsItInFieldAndLeavesReferenceUntouched()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
 
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
 
             Assert.AreEqual(alphaScene, root.Q<ObjectField>().value);
-            AssertReference(host, alphaScene, _alphaName, _alphaPath);
+            AssertReference(host, alphaScene, _alphaName, alphaPath);
         }
 
         [Test]
         public void CreatePropertyGUI_MultipleObjectsWithDifferentScenes_ShowsMixedValue()
         {
-            SceneReferenceHost hostA = CreateHost(alphaScene, _alphaName, _alphaPath);
-            SceneReferenceHost hostB = CreateHost(betaScene, _betaName, _betaPath);
+            SceneReferenceHost hostA = CreateHost(alphaScene, _alphaName, alphaPath);
+            SceneReferenceHost hostB = CreateHost(betaScene, _betaName, betaPath);
 
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(hostA, hostB));
 
@@ -193,8 +191,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_MultipleObjectsWithSameScene_DoesNotShowMixedValue()
         {
-            SceneReferenceHost hostA = CreateHost(alphaScene, _alphaName, _alphaPath);
-            SceneReferenceHost hostB = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost hostA = CreateHost(alphaScene, _alphaName, alphaPath);
+            SceneReferenceHost hostB = CreateHost(alphaScene, _alphaName, alphaPath);
 
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(hostA, hostB));
 
@@ -206,13 +204,13 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_NullAssetWithValidPath_ReLinksAssetAndResyncsNameAndPath()
         {
-            SceneReferenceHost host = CreateHost(null, "StaleName", _alphaPath);
+            SceneReferenceHost host = CreateHost(null, "StaleName", alphaPath);
             SerializedProperty property = GetSceneReferenceProperty(host);
 
-            LogAssert.Expect(LogType.Log, RepairedLog(_alphaPath));
+            LogAssert.Expect(LogType.Log, RepairedLog(alphaPath));
             VisualElement root = BuildDrawerUI(property);
 
-            AssertReference(host, alphaScene, _alphaName, _alphaPath);
+            AssertReference(host, alphaScene, _alphaName, alphaPath);
             Assert.AreEqual(alphaScene, root.Q<ObjectField>().value);
         }
 
@@ -222,10 +220,10 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(null, _betaName, _missingPath);
             SerializedProperty property = GetSceneReferenceProperty(host);
 
-            LogAssert.Expect(LogType.Log, RepairedLog(_betaPath));
+            LogAssert.Expect(LogType.Log, RepairedLog(betaPath));
             VisualElement root = BuildDrawerUI(property);
 
-            AssertReference(host, betaScene, _betaName, _betaPath);
+            AssertReference(host, betaScene, _betaName, betaPath);
             Assert.AreEqual(betaScene, root.Q<ObjectField>().value);
         }
 
@@ -236,10 +234,10 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(null, _alphaName, string.Empty);
             SerializedProperty property = GetSceneReferenceProperty(host);
 
-            LogAssert.Expect(LogType.Log, RepairedLog(_alphaPath));
+            LogAssert.Expect(LogType.Log, RepairedLog(alphaPath));
             BuildDrawerUI(property);
 
-            AssertReference(host, alphaScene, _alphaName, _alphaPath);
+            AssertReference(host, alphaScene, _alphaName, alphaPath);
             Assert.AreNotEqual(alphaExtendedScene, host.sceneReference.sceneAsset);
         }
 
@@ -288,8 +286,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_MultipleObjectsSelected_DoesNotRelinkEither()
         {
-            SceneReferenceHost hostA = CreateHost(null, _alphaName, _alphaPath);
-            SceneReferenceHost hostB = CreateHost(null, _alphaName, _alphaPath);
+            SceneReferenceHost hostA = CreateHost(null, _alphaName, alphaPath);
+            SceneReferenceHost hostB = CreateHost(null, _alphaName, alphaPath);
 
             BuildDrawerUI(GetSceneReferenceProperty(hostA, hostB));
 
@@ -301,8 +299,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_PrefabInstance_DoesNotRelinkOrAddOverride()
         {
-            SceneReferenceHost prefabSource = CreateHost(null, _alphaName, _alphaPath);
-            GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(prefabSource.gameObject, _prefabPath);
+            SceneReferenceHost prefabSource = CreateHost(null, _alphaName, alphaPath);
+            GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(prefabSource.gameObject, prefabPath);
             var instanceObject = (GameObject)PrefabUtility.InstantiatePrefab(prefabAsset);
             spawnedObjects.Add(instanceObject);
             var instanceHost = instanceObject.GetComponent<SceneReferenceHost>();
@@ -317,11 +315,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CreatePropertyGUI_PrefabAsset_HealsTheAssetReference()
         {
-            SceneReferenceHost prefabSource = CreateHost(null, _alphaName, _alphaPath);
-            GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(prefabSource.gameObject, _prefabPath);
+            SceneReferenceHost prefabSource = CreateHost(null, _alphaName, alphaPath);
+            GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(prefabSource.gameObject, prefabPath);
             var prefabHost = prefabAsset.GetComponent<SceneReferenceHost>();
 
-            LogAssert.Expect(LogType.Log, RepairedLog(_alphaPath));
+            LogAssert.Expect(LogType.Log, RepairedLog(alphaPath));
             BuildDrawerUI(GetSceneReferenceProperty(prefabHost));
 
             Assert.AreEqual(alphaScene, prefabHost.sceneReference.sceneAsset);
@@ -332,7 +330,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [UnityTest]
         public IEnumerator AssetFieldChanged_ToScene_WritesAssetNameAndPath()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
             yield return null;
@@ -340,13 +338,13 @@ namespace LowDefMustard.Zones.Tests.Editor
             root.Q<ObjectField>().value = betaScene;
             yield return null;
 
-            AssertReference(host, betaScene, _betaName, _betaPath);
+            AssertReference(host, betaScene, _betaName, betaPath);
         }
 
         [UnityTest]
         public IEnumerator AssetFieldChanged_ToNull_ClearsAssetNameAndPath()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
             yield return null;
@@ -360,8 +358,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         [UnityTest]
         public IEnumerator AssetFieldChanged_MultipleDifferentValues_AppliesToEveryTarget()
         {
-            SceneReferenceHost hostA = CreateHost(alphaScene, _alphaName, _alphaPath);
-            SceneReferenceHost hostB = CreateHost(betaScene, _betaName, _betaPath);
+            SceneReferenceHost hostA = CreateHost(alphaScene, _alphaName, alphaPath);
+            SceneReferenceHost hostB = CreateHost(betaScene, _betaName, betaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(hostA, hostB));
             Attach(root);
             yield return null;
@@ -369,14 +367,14 @@ namespace LowDefMustard.Zones.Tests.Editor
             root.Q<ObjectField>().value = alphaExtendedScene;
             yield return null;
 
-            AssertReference(hostA, alphaExtendedScene, _alphaExtendedName, _alphaExtendedPath);
-            AssertReference(hostB, alphaExtendedScene, _alphaExtendedName, _alphaExtendedPath);
+            AssertReference(hostA, alphaExtendedScene, _alphaExtendedName, alphaExtendedPath);
+            AssertReference(hostB, alphaExtendedScene, _alphaExtendedName, alphaExtendedPath);
         }
 
         [UnityTest]
         public IEnumerator ClearButtonClick_ClearsReferenceAndField()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
             yield return null;
@@ -407,7 +405,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [UnityTest]
         public IEnumerator ExternalChangeToSceneAsset_RefreshesFieldViaPropertyTracking()
         {
-            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, _alphaPath);
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             SerializedProperty property = GetSceneReferenceProperty(host);
             VisualElement root = BuildDrawerUI(property);
             Attach(root);
@@ -421,12 +419,11 @@ namespace LowDefMustard.Zones.Tests.Editor
             otherSerializedObject.ApplyModifiedPropertiesWithoutUndo();
 
             // Property tracking polls on the editor's schedule, so wait (bounded) rather than assuming a frame count
-            double deadline = EditorApplication.timeSinceStartup + _trackingTimeoutSeconds;
-            while (field.value != betaScene && EditorApplication.timeSinceStartup < deadline)
+            yield return TestWait.Until(() =>
             {
                 property.serializedObject.Update();
-                yield return null;
-            }
+                return field.value == betaScene;
+            }, _trackingTimeoutSeconds);
 
             Assert.AreEqual(betaScene, field.value);
         }

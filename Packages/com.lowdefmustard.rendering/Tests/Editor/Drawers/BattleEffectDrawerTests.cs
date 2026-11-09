@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using LowDefMustard.Rendering.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -66,7 +67,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             window.root.Clear();
             window.root.Add(new InspectorElement(serializedObject));
-            yield return HeadlessEditorWindow.WaitUntil(() => window.root.Query<PropertyField>().First() != null);
+            yield return TestWait.Until(() => window.root.Query<PropertyField>().First() != null);
             yield return null;
             yield return null;
         }
@@ -96,7 +97,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             if (parentName == nameof(DrawerTarget.altColours)) { serializedObject.FindProperty($"{parentName}.{BattleEffectAltColours.countField}").intValue = 2; }
             else { serializedObject.FindProperty($"{parentName}.{BattleEffectFloatRange.endField}").floatValue = 7f; }
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => isFired);
+            yield return TestWait.Until(() => isFired);
 
             Assert.IsTrue(isFired);
         }
@@ -112,7 +113,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 2;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => isFired, 0.5f);
+            yield return TestWait.Until(() => isFired, 0.5f);
 
             Assert.IsFalse(isFired);
         }
@@ -128,7 +129,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsNotNull(endField, "end field sits inside the start field");
             Assert.IsNotNull(startField.Query<Label>().Where(label => label.text == "→").First());
 
-            yield return HeadlessEditorWindow.WaitUntil(() => Mathf.Approximately(endField.value, 2f));
+            yield return TestWait.Until(() => Mathf.Approximately(endField.value, 2f));
             Assert.AreEqual(1f, startField.value);
             Assert.AreEqual(2f, endField.value);
         }
@@ -138,10 +139,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             FloatField startField = window.root.Query<FloatField>().Where(field => field.label == "Float Range").First();
             FloatField endField = startField.Query<FloatField>().Where(field => field != startField).First();
-            yield return HeadlessEditorWindow.WaitUntil(() => Mathf.Approximately(endField.value, 2f));
+            yield return TestWait.Until(() => Mathf.Approximately(endField.value, 2f));
 
             endField.value = 5f;
-            yield return HeadlessEditorWindow.WaitUntil(() => Mathf.Approximately(target.floatRange.GetEnd(), 5f));
+            yield return TestWait.Until(() => Mathf.Approximately(target.floatRange.GetEnd(), 5f));
 
             Assert.AreEqual(5f, target.floatRange.GetEnd());
             Assert.AreEqual(1f, target.floatRange.GetStart());
@@ -155,7 +156,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Vector2Field endField = startField.Query<Vector2Field>().Where(field => field != startField).First();
             Assert.IsNotNull(endField);
 
-            yield return HeadlessEditorWindow.WaitUntil(() => endField.value == Vector2.one);
+            yield return TestWait.Until(() => endField.value == Vector2.one);
             Assert.AreEqual(Vector2.zero, startField.value);
             Assert.AreEqual(Vector2.one, endField.value);
         }
@@ -184,7 +185,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             narrow.root.Add(new InspectorElement(serializedObject));
             PropertyField range = null;
             List<VisualElement> inputs = null;
-            yield return HeadlessEditorWindow.WaitUntil(() =>
+            yield return TestWait.Until(() =>
             {
                 range = narrow.root.Query<PropertyField>().Where(field => field.bindingPath == rangeName).First();
                 inputs = range?.Query(className: TextInputBaseField<float>.inputUssClassName).ToList();
@@ -209,7 +210,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
             string path = $"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}";
             List<FloatField> axes = null;
-            yield return HeadlessEditorWindow.WaitUntil(() =>
+            yield return TestWait.Until(() =>
             {
                 PropertyField field = window.root.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First();
                 axes = field?.Query<FloatField>().ToList();
@@ -231,7 +232,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             SerializedProperty shape = serializedObject.FindProperty($"{nameof(DrawerTarget.clip)}.{BattleEffectClip.shapeField}");
             string path = $"{nameof(DrawerTarget.clip)}.{BattleEffectClip.halfSizeSUField}";
             FloatField axis = null;
-            yield return HeadlessEditorWindow.WaitUntil(() =>
+            yield return TestWait.Until(() =>
             {
                 axis = window.root.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First()?.Q<FloatField>();
                 return axis != null;
@@ -240,11 +241,11 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             shape.intValue = (int)BattleEffectClipShape.Ring;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => axis.label == "OR");
+            yield return TestWait.Until(() => axis.label == "OR");
 
             shape.intValue = (int)BattleEffectClipShape.Box;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => axis.label == "X");
+            yield return TestWait.Until(() => axis.label == "X");
         }
 
         [UnityTest]
@@ -254,7 +255,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.constantRange)}.{BattleEffectFloatRange.endField}").floatValue = 4f;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => GetInputColour(constant, 0).keyword != StyleKeyword.Null);
+            yield return TestWait.Until(() => GetInputColour(constant, 0).keyword != StyleKeyword.Null);
 
             Assert.AreEqual((StyleColor)BattleEffectInspectorColours.changingInput, GetInputColour(constant, 0));
         }
@@ -293,7 +294,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.tint)}.{BattleEffectTint.modeField}").intValue = (int)BattleEffectTintMode.Wave;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(speedField));
+            yield return TestWait.Until(() => IsShown(speedField));
 
             Assert.IsTrue(IsShown(speedField));
         }
@@ -330,7 +331,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.altColours)}.{BattleEffectAltColours.countField}").intValue = 1;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(colourBField));
+            yield return TestWait.Until(() => IsShown(colourBField));
 
             Assert.IsTrue(IsShown(colourBField));
         }
@@ -351,7 +352,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.colourCycle)}.{BattleEffectColourCycle.sourceField}").enumValueIndex = (int)BattleEffectColourSource.Copy;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(rateField));
+            yield return TestWait.Until(() => !IsShown(rateField));
 
             Assert.IsFalse(IsShown(rateField));
         }
@@ -364,7 +365,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.colourCycle)}.{BattleEffectColourCycle.sourceField}").enumValueIndex = (int)BattleEffectColourSource.Pattern;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(patternField));
+            yield return TestWait.Until(() => IsShown(patternField));
 
             Assert.IsTrue(IsShown(patternField));
             Assert.IsTrue(IsShown(FindColourCycleField(BattleEffectColourCycle.rateField)), "its steps per second");
@@ -381,7 +382,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 2;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(beatAField));
+            yield return TestWait.Until(() => IsShown(beatAField));
 
             Assert.IsTrue(IsShown(FindBeatsField(BattleEffectBeats.beatBField)), "beat B");
             Assert.IsFalse(IsShown(beatCField), "beat C");
@@ -395,7 +396,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 1;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(patternField));
+            yield return TestWait.Until(() => IsShown(patternField));
 
             Assert.IsTrue(IsShown(patternField));
             Assert.IsTrue(IsShown(FindBeatsField(BattleEffectBeats.patternRateField)), "its steps per second");
@@ -415,7 +416,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.patternRateField}").floatValue = 20f;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => !IsShown(startField));
+            yield return TestWait.Until(() => !IsShown(startField));
 
             Assert.IsFalse(IsShown(startField));
         }
@@ -442,7 +443,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.stripes)}.{BattleEffectStripes.stripesPerEUField}").floatValue = 8f;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(dutyField));
+            yield return TestWait.Until(() => IsShown(dutyField));
 
             Assert.IsTrue(IsShown(dutyField));
             Assert.IsTrue(FindSection("Stripes").IsEnabled());
@@ -479,7 +480,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             DropdownField typeField = window.root.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             typeField.value = "Diamond";
-            yield return HeadlessEditorWindow.WaitUntil(() => FindPropertyField("shape.aspectRatio") != null);
+            yield return TestWait.Until(() => FindPropertyField("shape.aspectRatio") != null);
 
             Assert.IsInstanceOf<BattleEffectDiamond>(target.shape);
             Assert.IsNotNull(FindPropertyField("shape.aspectRatio"), "diamond settings shown");
@@ -493,7 +494,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             serializedObject.FindProperty(nameof(DrawerTarget.shape)).managedReferenceValue = new BattleEffectSquiggle();
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => typeField.value == "Squiggle");
+            yield return TestWait.Until(() => typeField.value == "Squiggle");
 
             Assert.AreEqual("Squiggle", typeField.value);
             Assert.IsNotNull(FindPropertyField("shape.wavelengthSU"), "squiggle settings shown");
@@ -504,20 +505,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             serializedObject.FindProperty(nameof(DrawerTarget.shape)).managedReferenceValue = new BattleEffectSquiggle();
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => FindPropertyField("shape.plateauFraction") != null);
+            yield return TestWait.Until(() => FindPropertyField("shape.plateauFraction") != null);
             PropertyField plateauField = FindPropertyField("shape.plateauFraction");
             Assert.IsFalse(IsShown(plateauField), "sine");
 
             serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Trapezoid;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(plateauField));
+            yield return TestWait.Until(() => IsShown(plateauField));
 
             Assert.IsTrue(IsShown(plateauField), "trapezoid");
             Assert.IsFalse(IsShown(FindPropertyField("shape.dutyFraction")), "duty:  pulse only");
 
             serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Pulse;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return HeadlessEditorWindow.WaitUntil(() => IsShown(FindPropertyField("shape.dutyFraction")));
+            yield return TestWait.Until(() => IsShown(FindPropertyField("shape.dutyFraction")));
 
             Assert.IsTrue(IsShown(plateauField), "pulse plateau");
             Assert.IsTrue(IsShown(FindPropertyField("shape.dutyFraction")), "pulse duty");

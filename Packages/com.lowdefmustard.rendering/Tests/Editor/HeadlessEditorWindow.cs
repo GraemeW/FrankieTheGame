@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -29,13 +27,6 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void Close()
         {
             if (window != null) { window.Close(); }
-        }
-
-        // Yields editor updates until the condition holds (bindings + TrackPropertyValue are polled, not immediate)
-        public static IEnumerator WaitUntil(Func<bool> condition, float timeoutSeconds = 2f)
-        {
-            double timeout = EditorApplication.timeSinceStartup + timeoutSeconds;
-            while (!condition() && EditorApplication.timeSinceStartup < timeout) { yield return null; }
         }
     }
 }

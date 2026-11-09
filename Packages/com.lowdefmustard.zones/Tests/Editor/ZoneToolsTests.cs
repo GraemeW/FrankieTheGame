@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -12,11 +13,11 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class ZoneToolsTests
     {
         // Const Tunables
-        private const string _scratchScenePath = "Assets/ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete.unity";
+        private const string _scratchSceneName = "ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete";
 
         // State
         private Zone zone;
-        private bool createdScratchSceneAsset;
+        private TempAssetFolder tempFolder;
         private Dictionary<string, Zone> originalZoneLookupCache;
         private Dictionary<string, Zone> originalSceneReferenceCache;
 
@@ -41,11 +42,22 @@ namespace LowDefMustard.Zones.Tests.Editor
             Zone.sceneReferenceCache = originalSceneReferenceCache;
             Object.DestroyImmediate(zone);
 
-            if (!createdScratchSceneAsset) { return; }
+            if (tempFolder == null) { return; }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
-            AssetDatabase.DeleteAsset(_scratchScenePath);
-            AssetDatabase.Refresh();
-            createdScratchSceneAsset = false;
+            tempFolder.Dispose();
+            tempFolder = null;
+        }
+        #endregion
+
+        #region PrivateMethods
+        private SceneAsset CreateScratchSceneAsset()
+        {
+            tempFolder = new TempAssetFolder(nameof(ZoneToolsTests));
+            string scratchScenePath = tempFolder.Path($"{_scratchSceneName}.unity");
+            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            EditorSceneManager.CloseScene(scratchScene, true);
+            return AssetDatabase.LoadAssetAtPath<SceneAsset>(scratchScenePath);
         }
         #endregion
 
@@ -75,34 +87,24 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void OpenSceneAndAct_ValidZone_SuppressedDialogs_OpensSceneAndInvokesCallback()
         {
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, _scratchScenePath);
-            EditorSceneManager.CloseScene(scratchScene, true);
-            createdScratchSceneAsset = true;
-
-            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(_scratchScenePath);
-            zone.sceneReference = new SceneReference("ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete") { sceneAsset = sceneAsset };
+            SceneAsset sceneAsset = CreateScratchSceneAsset();
+            zone.sceneReference = new SceneReference(_scratchSceneName) { sceneAsset = sceneAsset };
 
             bool invoked = false;
             ZoneTools.OpenSceneAndAct(zone, () => invoked = true, suppressDialogs: true);
 
             Assert.IsTrue(invoked);
-            Assert.AreEqual("ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete", SceneManager.GetActiveScene().name);
+            Assert.AreEqual(_scratchSceneName, SceneManager.GetActiveScene().name);
         }
 
         [Test]
         public void OpenSceneAndAct_ByName_ResolvesZoneViaCache()
         {
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, _scratchScenePath);
-            EditorSceneManager.CloseScene(scratchScene, true);
-            createdScratchSceneAsset = true;
-
-            var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(_scratchScenePath);
+            SceneAsset sceneAsset = CreateScratchSceneAsset();
             zone.name = "ZoneA";
-            zone.sceneReference = new SceneReference("ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete") { sceneAsset = sceneAsset };
+            zone.sceneReference = new SceneReference(_scratchSceneName) { sceneAsset = sceneAsset };
             Zone.zoneLookupCache = new Dictionary<string, Zone> { { "ZoneA", zone } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>() { { "ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete", zone } };
+            Zone.sceneReferenceCache = new Dictionary<string, Zone>() { { _scratchSceneName, zone } };
 
             bool invoked = false;
             ZoneTools.OpenSceneAndAct("ZoneA", () => invoked = true, suppressDialogs: true);
@@ -110,7 +112,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             // Only reachable if Zone.GetFromName("ZoneA") actually resolved to our seeded zone
             //  - a null lookup result would have returned before ever opening a scene or invoking the callback
             Assert.IsTrue(invoked);
-            Assert.AreEqual("ScratchTest_ZoneToolsOpenSceneAndAct_SafeToDelete", SceneManager.GetActiveScene().name);
+            Assert.AreEqual(_scratchSceneName, SceneManager.GetActiveScene().name);
         }
         #endregion
     }

@@ -5,31 +5,35 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using LowDefMustard.RuleTiles.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.RuleTiles.Tests.Editor
 {
-    // Tested:
-    //  - Validate - Plain RuleTile selected, RuleTileSibling selected, mixed selection, empty selection
-    //  - ConvertOne - New sibling asset created alongside source with default
-    // ConvertOneInPlace - GUID/asset path preserved across the swap, reloading the same path now yields a RuleTileSibling with the same parameters
-    //  - Sprite/collider type and tiling rules transplanted, source left untouched, unique path generated on a name collision
-    //  Not Tested:
-    //  - Convert/ConvertInPlace ( MenuItem entry point) - not directly tested, thin wrapper looping
-    //  - Selection.objects into ConvertOne, already covered by Validate + ConvertOne
-    // Note:  this uses real assets under a disposable temp folder - deleted in TearDown
     public class RuleTileToSiblingConverterTests
     {
-        // Static/Const Tunables
-        private const string _tempFolderName = "_TEMP_RuleTileToSiblingConverterTests_SafeToDelete";
-        private const string _tempFolder = "Assets/" + _tempFolderName;
-
+        // Tested:
+        //  - Validate - Plain RuleTile selected, RuleTileSibling selected, mixed selection, empty selection
+        //  - ConvertOne - New sibling asset created alongside source with default
+        // ConvertOneInPlace - GUID/asset path preserved across the swap, reloading the same path now yields a RuleTileSibling with the same parameters
+        //  - Sprite/collider type and tiling rules transplanted, source left untouched, unique path generated on a name collision
+        //  Not Tested:
+        //  - Convert/ConvertInPlace ( MenuItem entry point) - not directly tested, thin wrapper looping
+        //  - Selection.objects into ConvertOne, already covered by Validate + ConvertOne
+        
         // State
+        private TempAssetFolder tempFolder;
         private readonly List<Object> createdObjects = new();
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            tempFolder = new TempAssetFolder(nameof(RuleTileToSiblingConverterTests));
+        }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            if (AssetDatabase.IsValidFolder(_tempFolder)) { AssetDatabase.DeleteAsset(_tempFolder); }
+            tempFolder.Dispose();
         }
 
         [TearDown]
@@ -44,11 +48,9 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
 
         private RuleTile CreateSourceRuleTile(string assetName)
         {
-            if (!AssetDatabase.IsValidFolder(_tempFolder)) { AssetDatabase.CreateFolder("Assets", _tempFolderName); }
-
             var texture = new Texture2D(1, 1);
             var sprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.zero);
-            AssetDatabase.CreateAsset(sprite, $"{_tempFolder}/{assetName}Sprite.asset");
+            AssetDatabase.CreateAsset(sprite, tempFolder.Path($"{assetName}Sprite.asset"));
 
             var tile = ScriptableObject.CreateInstance<RuleTile>();
             tile.m_DefaultSprite = sprite;
@@ -64,7 +66,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
                 },
             };
 
-            AssetDatabase.CreateAsset(tile, $"{_tempFolder}/{assetName}.asset");
+            AssetDatabase.CreateAsset(tile, tempFolder.Path($"{assetName}.asset"));
             return tile;
         }
 
@@ -115,7 +117,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
             RuleTileToSiblingConverter.ConvertOne(source);
 
             // The in-memory `source` reference would be stale after reimport - important to reload directly here
-            var clone = AssetDatabase.LoadAssetAtPath<RuleTileSibling>($"{_tempFolder}/{assetName}Sibling.asset");
+            var clone = AssetDatabase.LoadAssetAtPath<RuleTileSibling>(tempFolder.Path($"{assetName}Sibling.asset"));
 
             Assert.IsNotNull(clone, "expected a sibling asset to be created alongside the source");
             Assert.AreEqual(source.m_DefaultSprite, clone.m_DefaultSprite);
@@ -144,7 +146,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         {
             const string assetName = nameof(ConvertOne_NameCollision_GeneratesUniquePath);
             RuleTile source = CreateSourceRuleTile(assetName);
-            string collidingPath = $"{_tempFolder}/{assetName}Sibling.asset";
+            string collidingPath = tempFolder.Path($"{assetName}Sibling.asset");
             var placeholder = ScriptableObject.CreateInstance<RuleTileSibling>();
             AssetDatabase.CreateAsset(placeholder, collidingPath);
 

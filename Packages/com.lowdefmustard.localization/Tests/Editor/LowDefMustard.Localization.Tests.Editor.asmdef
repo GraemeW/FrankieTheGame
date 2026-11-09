@@ -7,6 +7,7 @@
     "LowDefMustard.Localization",
     "LowDefMustard.Localization.Tests",
     "LowDefMustard.Utils",
+    "LowDefMustard.Utils.Tests",
     "Unity.ResourceManager",
     "Unity.Localization",
     "Unity.Localization.Editor"

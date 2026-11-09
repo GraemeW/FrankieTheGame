@@ -27,6 +27,7 @@ namespace LowDefMustard.Control.Tests.Editor
             public BaseController controllerPassedToTrySetController;
             public readonly List<bool> setActiveInputCalls = new();
             public int getInputHandlerCallCount;
+            public int handledInputCount;
             public Action<ReceiverModifiedType, ReceiverModifiedData> receiverModifiedCallback;
 
             public FakeInputReceiver(GameObject go) { gameObject = go; }
@@ -34,8 +35,10 @@ namespace LowDefMustard.Control.Tests.Editor
             public Action<ControllerInputType> GetInputHandler()
             {
                 getInputHandlerCallCount++;
-                return _ => { };
+                return HandleInput;
             }
+
+            private void HandleInput(ControllerInputType _) => handledInputCount++;
 
             public void SubscribeToReceiverUpdates(bool enable, Action<ReceiverModifiedType, ReceiverModifiedData> action) => receiverModifiedCallback = enable ? action : null;
 
@@ -56,6 +59,7 @@ namespace LowDefMustard.Control.Tests.Editor
 
             // Widen access protected -> public in subclass
             public bool destroyQueuedValue => destroyQueued;
+            public void PublicTriggerGlobalInput(ControllerInputType controllerInputType) => TriggerGlobalInput(controllerInputType);
 
             protected override void OnNoReceiversIdentified() => onNoReceiversIdentifiedCalled = true;
             protected override bool HasAlternateReceiversActive() => hasAlternateReceiversActiveValue;
@@ -143,6 +147,58 @@ namespace LowDefMustard.Control.Tests.Editor
 
             Assert.That(fake1.setActiveInputCalls, Is.EqualTo(new[] { true, false }));
             Assert.That(fake2.setActiveInputCalls, Is.EqualTo(new[] { true }));
+        }
+
+        [Test]
+        public void AddInputReceiver_ActiveReceiver_ReceivesGlobalInput()
+        {
+            TestController controller = CreateController();
+            var fake = new FakeInputReceiver(CreateGameObject());
+
+            controller.AddInputReceiver(fake, null);
+            controller.PublicTriggerGlobalInput(ControllerInputType.Execute);
+
+            Assert.That(fake.handledInputCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void AddInputReceiver_InactiveReceiver_DoesNotReceiveGlobalInput()
+        {
+            TestController controller = CreateController();
+            var fake = new FakeInputReceiver(CreateGameObject(false));
+
+            controller.AddInputReceiver(fake, null);
+            controller.PublicTriggerGlobalInput(ControllerInputType.Escape);
+
+            Assert.That(fake.handledInputCount, Is.Zero);
+        }
+
+        [Test]
+        public void AddInputReceiver_InactiveReceiver_ReceivesGlobalInputAfterClientEnable()
+        {
+            TestController controller = CreateController();
+            var fake = new FakeInputReceiver(CreateGameObject(false));
+
+            controller.AddInputReceiver(fake, null);
+            fake.gameObject.SetActive(true);
+            fake.receiverModifiedCallback(ReceiverModifiedType.ClientEnable, new ReceiverModifiedData(fake));
+            controller.PublicTriggerGlobalInput(ControllerInputType.Execute);
+
+            Assert.That(fake.handledInputCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void AddInputReceiver_InactiveReceiverDestroyedBeforeShown_LeavesNoStaleGlobalInput()
+        {
+            // Mirrors CombatOptions in an auto-win battle: registered while inactive, destroyed without ever being shown -> no ClientDisable/ClientExit ever fires
+            TestController controller = CreateController();
+            var fake = new FakeInputReceiver(CreateGameObject(false));
+
+            controller.AddInputReceiver(fake, null);
+            Object.DestroyImmediate(fake.gameObject);
+            controller.PublicTriggerGlobalInput(ControllerInputType.Escape);
+
+            Assert.That(fake.handledInputCount, Is.Zero);
         }
         #endregion
 

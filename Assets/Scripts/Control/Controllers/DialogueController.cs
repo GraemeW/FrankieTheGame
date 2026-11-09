@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Core;
 using LowDefMustard.Control;
 using LowDefMustard.Utils;
 using Frankie.Control;
@@ -30,7 +31,7 @@ namespace Frankie.Speech
         private string simpleMessage = "";
         private List<ChoiceActionPair> simpleChoices = new();
         private InteractionEvent onDestroyCallbackActions;
-        private bool dialogueComplete = false;
+        private bool conversationEnded = false;
 
         // Cached References
         private PlayerInput playerInput;
@@ -92,12 +93,22 @@ namespace Frankie.Speech
 
         private void OnDestroy()
         {
+            ReleaseConversant();
             onDestroyCallbackActions?.Invoke(playerStateMachine);
         }
 
         protected override void LateUpdate()
         {
-            if (destroyQueued && !dialogueComplete) { playerStateMachine.EnterWorld(); }
+            if (destroyQueued)
+            {
+                // Routine closes go through EndConversation (or start no dialogue) ~ this only catches a close that skipped it
+                if (playerStateMachine != null && playerStateMachine.GetPlayerStateType() == PlayerStateType.InDialogue)
+                {
+                    LDMLog.Warning(LDMLogCategory.Speech, "Dialogue controller is closing while the player is still in dialogue. Returning the player to the world.", this);
+                    playerStateMachine.EnterWorld();
+                }
+                ReleaseConversant();
+            }
             base.LateUpdate();
         }
         #endregion
@@ -107,19 +118,18 @@ namespace Frankie.Speech
         public string GetSimpleMessage() => simpleMessage;
         public List<ChoiceActionPair> GetSimpleChoices() => simpleChoices;
         public bool IsActive() => (currentDialogue != null && currentNode != null);
+        public bool IsClosing() => destroyQueued;
         public SpeakerType GetCurrentSpeakerType() => currentNode != null ? currentNode.GetSpeakerType() : SpeakerType.NarratorDirection;
         public string GetCurrentSpeakerName() => currentNode != null ? currentNode.GetSpeakerName() : "";
         public string GetText() => currentNode != null ? currentNode.GetText() : "";
 
-        public IEnumerable<DialogueNode> GetChoices()
-        {
-            return FilterOnCondition(currentNode.GetChildren()).Select(childID => currentDialogue.GetNodeFromID(childID));
-        }
+        public IEnumerable<DialogueNode> GetChoices() => GetNextNodes();
 
         public bool IsChoosing()
         {
             if (currentDialogue == null) { return false; }
-            return (GetChoiceCount() > 1 && GetNextSpeakerType() == SpeakerType.PlayerSpeaker);
+            List<DialogueNode> nextNodes = GetNextNodes();
+            return nextNodes.Count > 1 && nextNodes[0].GetSpeakerType() == SpeakerType.PlayerSpeaker;
         }
         #endregion
 
@@ -135,7 +145,6 @@ namespace Frankie.Speech
 
         public void Setup(WorldUIRoot setupWorldUIRoot, PlayerStateMachine setupPlayerStateMachine, Party setupParty)
         {
-            dialogueComplete = false;
             worldUIRoot = setupWorldUIRoot;
             playerStateMachine = setupPlayerStateMachine;
             party = setupParty;
@@ -154,59 +163,70 @@ namespace Frankie.Speech
         #endregion
 
         #region PublicUtility
-        public void InitiateConversation(AIConversant newConversant, Dialogue newDialogue)
+        public bool InitiateConversation(AIConversant newConversant, Dialogue newDialogue)
         {
             isSimpleMessage = false;
             currentConversant = newConversant;
             currentDialogue = newDialogue;
             currentDialogue.OverrideSpeakerNames(GetPlayerName());
 
-            SetupDialogueTriggers();
+            // Note:  Entry resolves before trigger setup -> an empty or fully gated dialogue fires no events
+            List<DialogueNode> entryNodes = currentDialogue.ResolveEntry(GetEvaluators());
+            if (entryNodes.Count == 0)
+            {
+                currentConversant = null;
+                currentDialogue = null;
+                destroyQueued = true;
+                return false;
+            }
 
-            currentNode = currentDialogue.GetRootNode();
-            if (currentNode == null) { EndConversation(); }
-            
-            // Call without announcing, dialogue not (officially) existing
-            // Note:  No triggers on root node entry, but on dialogue entry
-            if (currentDialogue.skipRootNode) { Next(); }
+            SetupDialogueTriggers();
+            SetCurrentNode(entryNodes[UnityEngine.Random.Range(0, entryNodes.Count)]);
 
             Instantiate(dialogueBoxPrefab, worldUIRoot.transform);
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueInitiated, null);
             triggerUIUpdates?.Invoke();
+            return true;
         }
 
-        public void InitiateSimpleMessage(string message)
+        public bool InitiateSimpleMessage(string message)
         {
             isSimpleMessage = true;
             Instantiate(dialogueBoxPrefab, worldUIRoot.transform);
             simpleMessage = message;
+            return true;
         }
 
-        public void InitiateSimpleOption(string message, List<ChoiceActionPair> choiceActionPairs)
+        public bool InitiateSimpleOption(string message, List<ChoiceActionPair> choiceActionPairs)
         {
             isSimpleMessage = true;
             Instantiate(dialogueOptionBox, worldUIRoot.transform);
             simpleMessage = message;
             simpleChoices = choiceActionPairs;
+            return true;
         }
         
         public void EndConversation()
         {
+            // Note:  Guarded by its own conversationEnded flag, not destroyQueued
+            // The last box's ClientExit queues destroy (BaseController.OnNoActiveReceivers) right before its DestroyTriggered calls here
+            if (conversationEnded) { return; }
+            conversationEnded = true;
+            destroyQueued = true;
+
             currentDialogue = null;
             SetCurrentNode(null);
             triggerUIUpdates?.Invoke();
-            playerStateMachine.EnterWorld();
-            currentConversant = null;
-            dialogueComplete = true;
+            if (playerStateMachine != null) { playerStateMachine.EnterWorld(); }
+            ReleaseConversant(); // Before DialogueComplete -> onExitDialogue will fire first
 
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueComplete, null);
-            destroyQueued = true;
         }
 
         public void NextWithID(string nodeID)
         {
             if (!HasNext()) { return; }
-            SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
+            SetCurrentNode(currentDialogue.GetDialogueNodeFromID(nodeID));
         }
         #endregion
         
@@ -274,7 +294,7 @@ namespace Frankie.Speech
                 case ControllerInputType.Execute:
                 {
                     TriggerDialogueInput(controllerInputType);
-                    NextWithID(highlightedNode.name);
+                    NextWithID(highlightedNode.GetNodeID());
                     highlightedNode = null;
                     return true;
                 }
@@ -302,17 +322,24 @@ namespace Frankie.Speech
 
         #region PrivateMethods
         private string GetPlayerName() => party.GetPartyLeaderName();
-        private SpeakerType GetNextSpeakerType() => currentDialogue.GetNodeFromID(currentNode.GetChildren()[0]).GetSpeakerType();
-        private int GetChoiceCount() => FilterOnCondition(currentNode.GetChildren()).Count();
-        private bool HasNext() => currentDialogue != null && FilterOnCondition(currentNode.GetChildren()).Any();
+
+        private void ReleaseConversant()
+        {
+            if (currentConversant == null) { return; }
+            
+            AIConversant releasedConversant = currentConversant;
+            currentConversant = null;
+            releasedConversant.NotifyDialogueExited();
+        }
+        private List<DialogueNode> GetNextNodes() => currentDialogue != null ? currentDialogue.ResolveChildren(currentNode, GetEvaluators()) : new List<DialogueNode>();
+        private bool HasNext() => GetNextNodes().Count > 0;
         
         private void Next()
         {
-            if (!HasNext()) { return; }
+            List<DialogueNode> nextNodes = GetNextNodes();
+            if (nextNodes.Count == 0) { return; }
             
-            List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
-            int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
-            SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
+            SetCurrentNode(nextNodes[UnityEngine.Random.Range(0, nextNodes.Count)]);
         }
 
         private void SetHighlightedNodeToDefault(ControllerInputType controllerInputType)
@@ -360,20 +387,6 @@ namespace Frankie.Speech
             
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode); }
             triggerUIUpdates?.Invoke();
-        }
-
-        private IEnumerable<string> FilterOnCondition(List<string> dialogueNodeIDs)
-        {
-            foreach (string dialogueNodeID in dialogueNodeIDs)
-            {
-                DialogueNode dialogueNode = currentDialogue.GetNodeFromID(dialogueNodeID);
-                if (dialogueNode == null) { continue; }
-                
-                if (dialogueNode.CheckCondition(GetEvaluators()))
-                {
-                    yield return dialogueNodeID;
-                }
-            }
         }
 
         private IEnumerable<IPredicateEvaluator> GetEvaluators()

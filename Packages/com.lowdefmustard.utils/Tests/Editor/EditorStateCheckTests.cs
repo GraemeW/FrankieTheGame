@@ -24,8 +24,8 @@ namespace LowDefMustard.Utils.Tests.Editor
     
     public class EditorStateCheckTests
     {
-        // Obviously disposable - safe to delete this folder if it's ever found lingering in the project (e.g. after a crashed test run)
-        private const string _tempFolder = "Assets/_TEMP_EditorStateCheckTests_SafeToDelete";
+        // State
+        private TempAssetFolder tempFolder;
 
         [TearDown]
         public void TearDown()
@@ -41,10 +41,8 @@ namespace LowDefMustard.Utils.Tests.Editor
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            if (AssetDatabase.IsValidFolder(_tempFolder))
-            {
-                AssetDatabase.DeleteAsset(_tempFolder);
-            }
+            tempFolder?.Dispose();
+            tempFolder = null;
         }
 
         [Test]
@@ -100,7 +98,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void IsStandardEditorState_PersistentPrefabAsset_ReturnsFalse()
         {
             EnsureTempFolderExists();
-            var path = $"{_tempFolder}/EditorStateCheckTestPrefab.prefab";
+            var path = tempFolder.Path("EditorStateCheckTestPrefab.prefab");
             var sceneInstance = new GameObject("TempPrefabSource");
 
             try
@@ -120,7 +118,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void IsStandardEditorState_InsidePrefabStage_ReturnsFalse()
         {
             EnsureTempFolderExists();
-            var path = $"{_tempFolder}/EditorStateCheckTestPrefabStage.prefab";
+            var path = tempFolder.Path("EditorStateCheckTestPrefabStage.prefab");
             var sceneInstance = new GameObject("TempPrefabStageSource");
 
             try
@@ -138,12 +136,9 @@ namespace LowDefMustard.Utils.Tests.Editor
             }
         }
 
-        private static void EnsureTempFolderExists()
+        private void EnsureTempFolderExists()
         {
-            if (!AssetDatabase.IsValidFolder(_tempFolder))
-            {
-                AssetDatabase.CreateFolder("Assets", "_TEMP_EditorStateCheckTests_SafeToDelete");
-            }
+            tempFolder ??= new TempAssetFolder(nameof(EditorStateCheckTests));
         }
     }
 }

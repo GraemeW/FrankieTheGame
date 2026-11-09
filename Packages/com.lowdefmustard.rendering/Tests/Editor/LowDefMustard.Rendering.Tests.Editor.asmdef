@@ -5,7 +5,8 @@
     "UnityEditor.TestRunner",
     "UnityEngine.TestRunner",
     "LowDefMustard.Rendering",
-    "LowDefMustard.Rendering.Editor"
+    "LowDefMustard.Rendering.Editor",
+    "LowDefMustard.Utils.Tests"
   ],
   "includePlatforms": [
     "Editor"

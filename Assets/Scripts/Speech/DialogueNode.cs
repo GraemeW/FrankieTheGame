@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Stats;
@@ -14,10 +11,12 @@ using Frankie.Utils.Localization;
 namespace Frankie.Speech
 {
     [Serializable]
-    public class DialogueNode : ScriptableObject, IStandardGraphNode
+    public class DialogueNode : ScriptableObject
     {
+        // Note:  Imported from a .dialoguegraph speech node (DialogueGraphImporter) ~ author in the graph
+
         [Header("Dialogue Properties")]
-        [SerializeField, ReadOnly] private string dialogueName = "";
+        [SerializeField, ReadOnly] private string nodeID = "";
         [SerializeField] private SpeakerType speakerType = SpeakerType.AISpeaker;
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Speech, false)] private LocalizedString localizedSpeakerName;
@@ -25,25 +24,20 @@ namespace Frankie.Speech
         [SerializeField, ReadOnly] private int nodeDepth = 0;
         [SerializeField, ReadOnly] private int nodeBreadth = 0;
         [SerializeField] private List<string> children = new();
-        [SerializeField] private Rect rect = new(30, 30, 400, 200);
-        [HideInInspector][SerializeField] private Rect draggingRect = new(0, 0, 400, 45);
-        [Header("Additional Properties")]
-        [SerializeField] private Condition condition;
-        
+
         // State
         private bool isSpeakerOverridden = false;
         private string overriddenSpeakerName = "";
-        
-#if UNITY_EDITOR
-        // Edit State
-        [HideInInspector][SerializeField] private string cachedSpeakerName = "";
-        [HideInInspector][SerializeField] private string cachedText = "";
-#endif
-        #region Getters
-        public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterID()); 
-        public CharacterProperties GetCharacterProperties() => characterProperties;
-        public SpeakerType GetSpeakerType() => speakerType;
 
+        #region Getters
+        public string GetNodeID() => nodeID;
+        public List<string> GetChildren() => children;
+        public int GetNodeDepth() => nodeDepth;
+        public int GetNodeBreadth() => nodeBreadth;
+        
+        public SpeakerType GetSpeakerType() => speakerType;
+        public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterID());
+        public CharacterProperties GetCharacterProperties() => characterProperties;
         public string GetSpeakerName(bool useOverriden = true)
         {
             if (useOverriden && isSpeakerOverridden) { return overriddenSpeakerName; }
@@ -56,12 +50,9 @@ namespace Frankie.Speech
             string text = localizedText.GetSafeLocalizedString();
             return !string.IsNullOrWhiteSpace(text) ? text : "Text";
         }
-        public int GetNodeDepth() => nodeDepth;
-        public int GetNodeBreadth() => nodeBreadth;
-        public List<string> GetChildren() => children;
-        public int GetChildrenCount() => children?.Count ?? 0;
-        private string GetSpeakerNameLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Speaker";
-        private string GetTextLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Text";
+        #endregion
+        
+        #region Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
         public List<TableEntryReference> GetLocalizationEntries()
         {
@@ -72,7 +63,7 @@ namespace Frankie.Speech
             };
         }
         #endregion
-        
+
         #region Setters
         public void OverrideSpeakerName(string speakerNameOverride)
         {
@@ -88,164 +79,18 @@ namespace Frankie.Speech
         }
         #endregion
 
-        #region Checks
-        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
-        {
-            return condition.Check(evaluators);
-        }
-        #endregion
-
-        #region NodeInterface
-        // Note:  Must be outside pragma for compilation
-        public ScriptableObject scriptableObject => this;
-        public Vector2 GetPosition() => rect.position; 
-        public void SetPosition(Vector2 position)
-        {
-#if UNITY_EDITOR
-            Undo.RecordObject(this, "Move Dialogue Node");
-            rect.position = position;
-            EditorUtility.SetDirty(this);
-#endif
-        }
-        #endregion
-        
 #if UNITY_EDITOR
         #region EditorMethods
-        public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
-        public void Initialize(int width, int height)
+        internal void Initialize(string setNodeID, SpeakerType setSpeakerType, CharacterProperties setCharacterProperties, int setNodeDepth, int setNodeBreadth, LocalizedString setLocalizedSpeakerName, LocalizedString setLocalizedText, IEnumerable<string> setChildren)
         {
-            rect.width = width;
-            rect.height = height;
-            EditorUtility.SetDirty(this);
-        }
-        
-        public void SetDialogueName(string setDialogueName, bool tryRename = true)
-        {
-            Undo.RecordObject(this, "Update Dialogue Name");
-            MakeOrRenameExistingKeys(UpdateDialogueName, tryRename);
-            EditorUtility.SetDirty(this);
-            return;
-            
-            // Local Functions
-            void UpdateDialogueName() => dialogueName = setDialogueName;
-        }
-
-        public void SetSpeakerType(SpeakerType setSpeakerType)
-        {
-            if (setSpeakerType == speakerType) { return; }
-            Undo.RecordObject(this, "Update Dialogue Speaker");
+            nodeID = setNodeID;
             speakerType = setSpeakerType;
-            EditorUtility.SetDirty(this);
-        }
-
-        public bool SetSpeakerName(string setSpeakerName)
-        {
-            if (setSpeakerName == cachedSpeakerName) { return false; }
-            
-            Undo.RecordObject(this, "Update Dialogue Speaker Name");
-            string key = GetSpeakerNameLocalizationKey();
-            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedSpeakerName, key, setSpeakerName);
-            if (CharacterProperties.GetCharacterPropertiesFromName(setSpeakerName) != null) { characterProperties = CharacterProperties.GetCharacterPropertiesFromName(setSpeakerName); }
-            cachedSpeakerName = setSpeakerName;
-            EditorUtility.SetDirty(this);
-            
-            return true;
-        }
-        
-        public void SetText(string setText)
-        {
-            if (setText == cachedText) { return; }
-            
-            Undo.RecordObject(this, "Update Dialogue");
-            string key = GetTextLocalizationKey();
-            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedText, key, setText);
-            cachedText = setText;
-            EditorUtility.SetDirty(this);
-        }
-        
-        public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth, bool forceRenameNode)
-        {
-            Undo.RecordObject(this, "Update Dialogue Node Depth/Breadth");
-            if (forceRenameNode)
-            {
-                MakeOrRenameExistingKeys(UpdateNodeDepthBreadth, tryRename: true);
-            }
-            else
-            {
-                UpdateNodeDepthBreadth();
-            }
-            EditorUtility.SetDirty(this);
-            return;
-
-            
-            // Local Functions
-            void UpdateNodeDepthBreadth()
-            {
-                nodeDepth = setNodeDepth;
-                nodeBreadth = setNodeBreadth;
-            }
-        }
-
-        public void AddChild(string childID)
-        {
-            Undo.RecordObject(this, "Add Node Relation");
-            children.Add(childID);
-            EditorUtility.SetDirty(this);
-        }
-
-        public void RemoveChild(string childID)
-        {
-            Undo.RecordObject(this, "Remove Node Relation");
-            children.Remove(childID);
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SwapChild(string childID1, string childID2, bool recordUndoHistory = true)
-        {
-            if (recordUndoHistory) { Undo.RecordObject(this, "Swap Node Relation"); }
-            children.Remove(childID1);
-            children.Add(childID2);
-            if (recordUndoHistory) { EditorUtility.SetDirty(this); }
-        }
-
-        public void SetDraggingRect(Rect setDraggingRect)
-        {
-            if (setDraggingRect == draggingRect) return;
-            draggingRect = setDraggingRect;
-            EditorUtility.SetDirty(this);
-        }
-        
-        public void DeleteLocalizationEntries()
-        {
-            Undo.RecordObject(this, "Delete Localization Entries");
-            TryDeleteLocalization();
-            EditorUtility.SetDirty(this);
-        }
-        #endregion
-        
-        #region LocalizationUtility
-        private void MakeOrRenameExistingKeys(Action updateAction, bool tryRename)
-        {
-            if (updateAction == null) { return; }
-            
-            TableEntryReference oldSpeakerKey = tryRename ? GetSpeakerNameLocalizationKey() : new TableEntryReference();
-            TableEntryReference oldTextKey = tryRename ? GetTextLocalizationKey() :  new TableEntryReference();
-            
-            updateAction.Invoke();
-            
-            string newSpeakerKey = GetSpeakerNameLocalizationKey();
-            string newTextKey = GetTextLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldSpeakerKey, newSpeakerKey);
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldTextKey, newTextKey);
-        }
-
-        private void TryDeleteLocalization()
-        {
-            LocalizationTool.RemoveEntry(localizationTableType, GetSpeakerNameLocalizationKey());
-            LocalizationTool.RemoveEntry(localizationTableType, GetTextLocalizationKey());
-            localizedSpeakerName.SetReference("", "");
-            localizedText.SetReference("", "");
+            characterProperties = setCharacterProperties;
+            nodeDepth = setNodeDepth;
+            nodeBreadth = setNodeBreadth;
+            localizedSpeakerName = setLocalizedSpeakerName;
+            localizedText = setLocalizedText;
+            children = new List<string>(setChildren);
         }
         #endregion
 #endif

@@ -43,6 +43,8 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 - **`[ReadOnly]`** — Marks an inspector field as visible but non-editable
 - **`[RestrictedEnum(params int[] hiddenValues)]`** — Hides specific enum values from the inspector popup for a field, without removing them from the underlying enum
+  - Honours a `PropertyField`'s label override, and lines up with the inspector's other fields
+  - Attribute arguments must be constants:  to hide a list built at runtime, subclass it (e.g. Frankie's `SkillStatAttribute` / `ModifiableStatAttribute`)
 - **`[EnumKeyedCollection]`** — Applied to a field typed as an `EnumKeyedCollection<TEnum, TData>` (via `IEnumKeyedCollection`)
   - Before rendering, the drawer calls `SyncEntriesToEnum()` on the boxed value to reconcile the backing list against the enum's current members (adding missing keys, dropping orphaned keys, sorting), and writes that back into the `SerializedProperty`
   - this process ensures no enum value can be left silently unset
@@ -77,6 +79,7 @@ Reusable UI Toolkit building blocks for custom editor windows (node/graph canvas
   - Add `StandardBrownTheme.darkClass` to a section (e.g. a side panel) for a darker variant ~ shared element classes (`canvasClass`, `panelClass`, `panelHeaderClass`, `groupHeaderClass`, `dimClass`) cover common window parts
   - Windows reference the stylesheet through a serialized `StyleSheet` field set as their script's default reference (Inspector → script → Default References)
     - use `GetDefaultReference(window, fieldName)` to read it back for windows serialized in the editor layout before the reference existed
+  - Palette is also exposed as `Color`s (`accent`, `darkAccent`, `text`, ...) for code that can't read USS variables
 - **`StandardBackgroundLayer`** — `VisualElement` that renders an infinite dot or line grid background (`StandardBackgroundType`)
 - **`StandardCanvasPanManipulator`** — Left/middle mouse-drag panning for a canvas element
 - **`StandardCanvasZoomManipulator`** — Scroll-wheel zoom (clamped 0.25×–2×) that zooms toward the cursor
@@ -109,10 +112,28 @@ An `EditorWindow` that batch-generates `AnimationClip` assets from a folder of s
 
 Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), run manually through the Test Runner.
 
-| Assembly                             | Root Namespace                       | Platform                     |
-|--------------------------------------|--------------------------------------|------------------------------|
-| `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                       |
-| `LowDefMustard.Utils.Tests.PlayMode` | `LowDefMustard.Utils.Tests.PlayMode` | Unrestricted (PlayMode) |
+| Assembly                             | Root Namespace                       | Platform                |
+|--------------------------------------|--------------------------------------|-------------------------|
+| `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                  |
+| `LowDefMustard.Utils.Tests`          | `LowDefMustard.Utils.Tests`          | Unrestricted (PlayMode) |
+
+Shared Test Doubles - live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMustard.Utils.Tests`):
+*  `TestPredicate`
+* `FixedResultEvaluator`
+* `FixedResultEvaluatorBehaviour`
+* `PerPredicateEvaluator`
+
+Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
+* `ConditionBuilder`
+* `EvaluatorBuilder`
+* `TestObjectTracker`
+
+Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`):
+* `TempAssetFolder`: creates a disposable `Assets/_TEMP_<Name>_SafeToDelete` folder for edit mode tests
+  * deletes with file operations + `AssetDatabase.Refresh` by default ~ so e.g. `ILocalizable` assets don't trigger `LocalizationDeletionHandler` and wipe real localization entries
+  * pass `deleteViaAssetDatabase: true` only when a test means to exercise deletion handlers
+* `TestWait.Until(condition, timeoutSeconds)`: yields updates until a condition holds or the timeout passes
+  * it only times out ~ must be followed with the appropriate test assertion
 
 ### Coverage at a glance
 

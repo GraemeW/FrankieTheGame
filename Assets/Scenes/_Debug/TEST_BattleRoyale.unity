@@ -39152,7 +39152,7 @@ PrefabInstance:
     - target: {fileID: 2139626279643708082, guid: 7acdda3804013364ca749486116b3e18, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 40251be01b2924d569124d202f679f64, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 40251be01b2924d569124d202f679f64, type: 3}
     - target: {fileID: 2234761718167206903, guid: 7acdda3804013364ca749486116b3e18, type: 3}
       propertyPath: uniqueIdentifier
       value: a9539f58-07f9-4593-80f2-4aa291d3682b

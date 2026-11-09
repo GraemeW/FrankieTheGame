@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
-using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Core;
@@ -201,16 +200,25 @@ namespace LowDefMustard.Localization
             switch (tableEntryReference.ReferenceType)
             {
                 case TableEntryReference.Type.Id:
+                {
+                    string oldKey = englishStringTable.SharedData.GetKey(tableEntryReference.KeyId);
                     englishStringTable.SharedData.RenameKey(tableEntryReference.KeyId, newKey);
+                    LDMLog.Info(LDMLogCategory.Localization, $"Renamed localization key '{oldKey}' to '{newKey}'.");
                     break;
+                }
                 case TableEntryReference.Type.Name:
-                    englishStringTable.SharedData.RenameKey(tableEntryReference.Key, newKey);
+                {
+                    string oldKey = tableEntryReference.Key;
+                    englishStringTable.SharedData.RenameKey(oldKey, newKey);
+                    LDMLog.Info(LDMLogCategory.Localization, $"Renamed localization key '{oldKey}' to '{newKey}'.");
                     break;
+                }
                 case TableEntryReference.Type.Empty:
                 {
                     if (!englishStringTable.SharedData.Contains(newKey))
                     {
                         englishStringTable.SharedData.AddKey(newKey);
+                        LDMLog.Info(LDMLogCategory.Localization, $"Added localization key '{newKey}'.");
                         break;
                     }
                     LDMLog.Warning(LDMLogCategory.Localization, $"Key '{newKey}' already exists in the string table collection. Skipping the add.");
@@ -231,6 +239,9 @@ namespace LowDefMustard.Localization
             StringTableEntry stringTableEntry = englishStringTable.GetEntry(tableEntryReference.KeyId);
             return stringTableEntry?.Value ?? "";
         }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static bool TryGetEnglishTable(TTableType tableType, out StringTable englishStringTable) => GetCachedEnglishTable(tableType, out englishStringTable); // Never creates the table
 
         // ReSharper disable once MemberCanBePrivate.Global
         public static bool HasEnglishEntry(TTableType tableType, TableEntryReference tableEntryReference) => !string.IsNullOrWhiteSpace(GetEnglishEntry(tableType, tableEntryReference));
@@ -260,6 +271,7 @@ namespace LowDefMustard.Localization
                     {
                         // KeyID doesn't exist, so make the entry via Key
                         englishStringTable.AddEntry(tableEntryReference.Key, replacementText);
+                        LDMLog.Info(LDMLogCategory.Localization, $"Added localization entry '{tableEntryReference.Key}'.");
                         break;
                     }
                     if (keyID == SharedTableData.EmptyId) { return false; }
@@ -287,8 +299,9 @@ namespace LowDefMustard.Localization
         {
             if (!GetCachedTableCollection(tableType, out StringTableCollection stringTableCollection)) { return false; }
 
-            Undo.RecordObject(stringTableCollection, "Remove Localization Entry");
-            Undo.RecordObject(stringTableCollection.SharedData, "Remove Localization Entry");
+            // Every locale table is recorded -> undoing the removal brings its translations back too
+            RecordForUndo(stringTableCollection, "Remove Localization Entry", includeCollection: true);
+            string removedKey = tableEntryReference.ResolveKeyName(stringTableCollection.SharedData);
             long keyID;
             switch (tableEntryReference.ReferenceType)
             {
@@ -315,7 +328,42 @@ namespace LowDefMustard.Localization
             }
 
             DirtyStringTableCollection(stringTableCollection);
+            LDMLog.Info(LDMLogCategory.Localization, $"Removed localization entry '{removedKey ?? tableEntryReference.ToString()}' (all locales).");
             return true;
+        }
+        
+        public static int RenameKeys(TTableType tableType, IReadOnlyCollection<(string oldKey, string newKey)> renames)
+        {
+            // Batch rename (e.g. re-numbering): safe for swaps / chains, as every key moves through a temporary name first
+            if (renames == null || renames.Count == 0 || !GetCachedTableCollection(tableType, out StringTableCollection stringTableCollection)) { return 0; }
+            SharedTableData sharedData = stringTableCollection.SharedData;
+
+            var movingKeys = new HashSet<string>();
+            foreach ((string oldKey, string _) in renames) { movingKeys.Add(oldKey); }
+            
+            var pending = new List<(long keyID, string oldKey, string newKey)>();
+            foreach ((string oldKey, string newKey) in renames)
+            {
+                if (oldKey == newKey) { continue; }
+                SharedTableData.SharedTableEntry entry = sharedData.GetEntry(oldKey);
+                if (entry == null) { continue; }
+                
+                if (sharedData.Contains(newKey) && !movingKeys.Contains(newKey))
+                {
+                    LDMLog.Warning(LDMLogCategory.Localization, $"Can't rename localization key '{oldKey}' to '{newKey}': that key already exists. Left as is.");
+                    continue;
+                }
+                pending.Add((entry.Id, oldKey, newKey));
+            }
+            if (pending.Count == 0) { return 0; }
+
+            RecordForUndo(stringTableCollection, "Rename Localization Keys", includeCollection: false);
+            foreach ((long keyID, string _, string _) in pending) { sharedData.RenameKey(keyID, $"__rename__{keyID}"); }
+            foreach ((long keyID, string _, string newKey) in pending) { sharedData.RenameKey(keyID, newKey); }
+
+            DirtyStringTableCollection(stringTableCollection);
+            LDMLog.Info(LDMLogCategory.Localization, $"Renamed {pending.Count} localization key(s): {string.Join(", ", pending.ConvertAll(rename => $"'{rename.oldKey}' -> '{rename.newKey}'"))}.");
+            return pending.Count;
         }
         #endregion
 
@@ -406,6 +454,14 @@ namespace LowDefMustard.Localization
         #endregion
 
         #region PrivateUtility
+        private static void RecordForUndo(StringTableCollection stringTableCollection, string actionName, bool includeCollection)
+        {
+            var recordedObjects = new List<UnityEngine.Object> { stringTableCollection.SharedData };
+            if (includeCollection) { recordedObjects.Add(stringTableCollection); }
+            foreach (StringTable stringTable in stringTableCollection.StringTables) { recordedObjects.Add(stringTable); }
+            Undo.RecordObjects(recordedObjects.ToArray(), actionName);
+        }
+
         private static void DirtyStringTable(StringTable stringTable)
         {
             EditorUtility.SetDirty(stringTable);

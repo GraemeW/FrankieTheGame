@@ -2,31 +2,32 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using LowDefMustard.Zones.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class MultiZoneViewCreateNewEntryTests
     {
-        // Const Tunables
-        private const string _scratchAssetPath = "Assets/ScratchTest_MultiZoneViewCreateNew_SafeToDelete.asset";
-        
         // State
+        private TempAssetFolder tempFolder;
+        private string scratchAssetPath;
         private MultiZoneView multiZoneView;
 
         #region Setup
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            tempFolder = new TempAssetFolder(nameof(MultiZoneViewCreateNewEntryTests));
+            scratchAssetPath = tempFolder.Path("ScratchTest_MultiZoneViewCreateNew.asset");
             multiZoneView = ScriptableObject.CreateInstance<MultiZoneView>();
-            AssetDatabase.CreateAsset(multiZoneView, _scratchAssetPath);
+            AssetDatabase.CreateAsset(multiZoneView, scratchAssetPath);
             AssetDatabase.SaveAssets();
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            AssetDatabase.DeleteAsset(_scratchAssetPath);
-            AssetDatabase.Refresh();
+            tempFolder.Dispose();
         }
         #endregion
 
@@ -39,7 +40,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             Assert.IsNotNull(result);
             Assert.AreEqual("ZoneNew", result.zoneName);
             Assert.Contains(result, multiZoneView.zoneViewDataSet);
-            Assert.AreEqual(_scratchAssetPath, AssetDatabase.GetAssetPath(result));
+            Assert.AreEqual(scratchAssetPath, AssetDatabase.GetAssetPath(result));
         }
         #endregion
     }

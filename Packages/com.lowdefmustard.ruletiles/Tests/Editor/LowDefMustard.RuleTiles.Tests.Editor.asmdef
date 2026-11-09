@@ -6,6 +6,7 @@
         "UnityEditor.TestRunner",
         "LowDefMustard.RuleTiles",
         "LowDefMustard.RuleTiles.Editor",
+        "LowDefMustard.Utils.Tests",
         "Unity.2D.Tilemap",
         "Unity.2D.Tilemap.Extras"
     ],

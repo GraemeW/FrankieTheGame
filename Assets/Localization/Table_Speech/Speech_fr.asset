@@ -42,14 +42,6 @@ MonoBehaviour:
     m_Localized: Non, merci.
     m_Metadata:
       m_Items: []
-  - m_Id: 2889048950562816
-    m_Localized: "D\xE9faut"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889049051226112
-    m_Localized: "N\u0153ud racine ignor\xE9"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889049147695104
     m_Localized: Maya
     m_Metadata:
@@ -80,14 +72,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889049835560960
     m_Localized: "Bonjour Tilly, belle coiffure, je veux dire, belle tenue, je veux dire . . . bref, tu veux tra\xEEner ce week-end ?"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889049936224256
-    m_Localized: Steve5000
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889050032693248
-    m_Localized: "N\u0153ud racine ignor\xE9"
     m_Metadata:
       m_Items: []
   - m_Id: 2889050129162240
@@ -138,14 +122,6 @@ MonoBehaviour:
     m_Localized: "Je vois pas de quoi tu parles, mon pote ! Pourquoi tu rentres pas l\xE0-dedans et tu leur montres qui c'est le patron ?"
     m_Metadata:
       m_Items: []
-  - m_Id: 2889051316150272
-    m_Localized: Hipster
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889051412619264
-    m_Localized: Ignorer
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889051513282560
     m_Localized: Hipster
     m_Metadata:
@@ -176,14 +152,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889052205342720
     m_Localized: "Tu pourrais peut-\xEAtre aller v\xE9rifier \xE7a ?"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889052306006016
-    m_Localized: Maya
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889052419252224
-    m_Localized: Racine
     m_Metadata:
       m_Items: []
   - m_Id: 2889052524109824
@@ -224,14 +192,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889053438468096
     m_Localized: "Je suis tellement a\xE9rodynamique !"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889053539131392
-    m_Localized: P'tit Cogneur
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889053652377600
-    m_Localized: Racine
     m_Metadata:
       m_Items: []
   - m_Id: 2889053761429504
@@ -338,14 +298,6 @@ MonoBehaviour:
     m_Localized: Couic.
     m_Metadata:
       m_Items: []
-  - m_Id: 2889056684859392
-    m_Localized: Maya
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889056798105600
-    m_Localized: Racine
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889056911351808
     m_Localized: Maya
     m_Metadata:
@@ -402,14 +354,6 @@ MonoBehaviour:
     m_Localized: "*pbbbt* Peut-\xEAtre que le chili d'hier soir \xE9tait une mauvaise id\xE9e. *poot*"
     m_Metadata:
       m_Items: []
-  - m_Id: 2889058391941120
-    m_Localized: Maya
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889058496798720
-    m_Localized: Racine
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889058597462016
     m_Localized: Maya
     m_Metadata:
@@ -456,14 +400,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889059717341184
     m_Localized: "Un \xE9cureuil m'a regard\xE9e bizarrement. Maintenant j'ai trop peur m\xEAme de mettre les pieds l\xE0-dedans."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889059818004480
-    m_Localized: Phil Ramen
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889059918667776
-    m_Localized: "n\u0153ud racine"
     m_Metadata:
       m_Items: []
   - m_Id: 2889060019331072
@@ -610,14 +546,6 @@ MonoBehaviour:
     m_Localized: "Je suis content de t'avoir rencontr\xE9. *squish* *slurp* *au revoir*"
     m_Metadata:
       m_Items: []
-  - m_Id: 2889063655792640
-    m_Localized: "D\xE9faut"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889063760650240
-    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889063865507840
     m_Localized: "Dame Distingu\xE9e"
     m_Metadata:
@@ -640,14 +568,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889064398184448
     m_Localized: Quelle plaie
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889064503042048
-    m_Localized: Un Type
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889064612093952
-    m_Localized: "N\u0153ud Racine"
     m_Metadata:
       m_Items: []
   - m_Id: 2889064712757248
@@ -714,14 +634,6 @@ MonoBehaviour:
     m_Localized: Embrasser la calvitie, c'est embrasser le vrai minimalisme.
     m_Metadata:
       m_Items: []
-  - m_Id: 2889066403061760
-    m_Localized: "D\xE9faut"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889066503725056
-    m_Localized: "N\u0153ud racine ignor\xE9"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889066600194048
     m_Localized: "Employ\xE9 de Bureau Hipster"
     m_Metadata:
@@ -784,14 +696,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889068097560576
     m_Localized: "Voil\xE0 l'attitude !"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889068198223872
-    m_Localized: Maya
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889068294692864
-    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
     m_Metadata:
       m_Items: []
   - m_Id: 2889068395356160
@@ -1010,14 +914,6 @@ MonoBehaviour:
     m_Localized: Chauve c'est beau. Chauve c'est beau.
     m_Metadata:
       m_Items: []
-  - m_Id: 2889073806008320
-    m_Localized: Phil Too
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889073902477312
-    m_Localized: "N\u0153ud racine ignor\xE9"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889074003140608
     m_Localized: Phil Too
     m_Metadata:
@@ -1056,14 +952,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889074909110272
     m_Localized: Alright, on y va.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889075005579264
-    m_Localized: Cheval
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889075110436864
-    m_Localized: "Ignorer le n\u0153ud racine"
     m_Metadata:
       m_Items: []
   - m_Id: 2889075206905856
@@ -1112,14 +1000,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889076310007808
     m_Localized: "Ce couloir est un super endroit pour faire du cardio. Je me fais vraiment creuser un app\xE9tit."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889076410671104
-    m_Localized: "D\xE9faut"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889076511334400
-    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
     m_Metadata:
       m_Items: []
   - m_Id: 2889076611997696
@@ -1194,14 +1074,6 @@ MonoBehaviour:
     m_Localized: Non.
     m_Metadata:
       m_Items: []
-  - m_Id: 2889078453297152
-    m_Localized: "Employ\xE9 de Bureau Bro"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889078553960448
-    m_Localized: "N\u0153ud Racine"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889078667206656
     m_Localized: "Employ\xE9 de Bureau Bro"
     m_Metadata:
@@ -1274,14 +1146,6 @@ MonoBehaviour:
     m_Localized: '*sluurrrp* *miam* *pouf*'
     m_Metadata:
       m_Items: []
-  - m_Id: 2889080487534592
-    m_Localized: "Pr\xE9pos\xE9 Porta"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889080592392192
-    m_Localized: Ignorer la racine
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889080693055488
     m_Localized: "Pr\xE9pos\xE9 Porta"
     m_Metadata:
@@ -1344,14 +1208,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889082207199232
     m_Localized: ALORS POURQUOI ES-TU ICI ?!
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889082312056832
-    m_Localized: Lucy
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889082412720128
-    m_Localized: "N\u0153ud racine \xE0 ignorer"
     m_Metadata:
       m_Items: []
   - m_Id: 2889082513383424
@@ -1440,14 +1296,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889084719587328
     m_Localized: "En quoi \xE7a te regarde de toute fa\xE7on ?"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889084837027840
-    m_Localized: Le Compteur
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889084967051264
-    m_Localized: "N\u0153ud Racine"
     m_Metadata:
       m_Items: []
   - m_Id: 2889085084491776
@@ -1594,14 +1442,6 @@ MonoBehaviour:
     m_Localized: "D\xE9sol\xE9, c'est pas le moment d'expliquer. Vite !"
     m_Metadata:
       m_Items: []
-  - m_Id: 2889089152966656
-    m_Localized: Phil Ramen
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889089257824256
-    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889089362681856
     m_Localized: Phil Ramen
     m_Metadata:
@@ -1690,14 +1530,6 @@ MonoBehaviour:
     m_Localized: "Bref, on s'en va d'ici Frankie, on a du travail \xE0 faire avec Maya en haut."
     m_Metadata:
       m_Items: []
-  - m_Id: 2889091644383232
-    m_Localized: "Travailleur Qualifi\xE9"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889091749240832
-    m_Localized: Racine
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889091849904128
     m_Localized: "Travailleur Qualifi\xE9"
     m_Metadata:
@@ -1736,14 +1568,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889092781039616
     m_Localized: "Ah, mon dos ! T'as compl\xE8tement f***\xE9 mon dos !"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889092881702912
-    m_Localized: Campagnol Serviable
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889092986560512
-    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
     m_Metadata:
       m_Items: []
   - m_Id: 2889093091418112
@@ -1864,14 +1688,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889096115511296
     m_Localized: '*couic effrayant*'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889096220368896
-    m_Localized: Ron
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889096329420800
-    m_Localized: Racine
     m_Metadata:
       m_Items: []
   - m_Id: 2889096463638528
@@ -2394,14 +2210,6 @@ MonoBehaviour:
     m_Localized: "Oui s'il te pla\xEEt"
     m_Metadata:
       m_Items: []
-  - m_Id: 2889110409699328
-    m_Localized: "Employ\xE9 de Bureau Fut\xE9"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889110518751232
-    m_Localized: "N\u0153ud racine ignor\xE9"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889110627803136
     m_Localized: "Employ\xE9 de Bureau Fut\xE9"
     m_Metadata:
@@ -2570,14 +2378,6 @@ MonoBehaviour:
     m_Localized: Couic !
     m_Metadata:
       m_Items: []
-  - m_Id: 2889115224760320
-    m_Localized: "D\xE9faut"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889115338006528
-    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889115451252736
     m_Localized: Cheval
     m_Metadata:
@@ -2672,14 +2472,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889117980418048
     m_Localized: Suis-je toi ? Es-tu moi ?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889118089469952
-    m_Localized: "Employ\xE9 de Bureau Bro"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889118198521856
-    m_Localized: Ignorer la racine
     m_Metadata:
       m_Items: []
   - m_Id: 2889118307573760

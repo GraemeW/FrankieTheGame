@@ -1,0 +1,204 @@
+/* Dialogue graph window skin, layered over StandardBrownTheme.uss
+ *  - Stable tier: Graph Toolkit's --graph-color-* variables + the grid's custom properties
+ *  - Part tier: rules on Graph Toolkit's internal part names (no public styling API) ~ DialogueGraphSkinTests flags any part that disappears
+ *  - Kept although the check can't see them: hover rules, and block-title ellipsis (long predicate names only)
+ */
+
+/* ===== Stable tier ===== */
+
+/* Graph Toolkit reads its colours from --graph-color-* variables, re-declared on the graph view element
+ *  (.ge-graph-view): remap them there, so every part that uses them (block etch, context body, ports, wires) follows */
+.dialogue-graph .ge-graph-view {
+    --graph-color-canvas-background: #221C17;
+    --graph-color-canvas-grid: rgba(201, 164, 122, 0.06);
+    --graph-color-canvas-grid-base: rgba(201, 164, 122, 0.14);
+    --graph-color-node-background: #352C24;
+    --graph-color-node-output-background: #46341F;
+    --graph-color-node-border: #5E4B39;
+    --graph-color-node-hover-highlight: #8B6E4E;
+    --graph-color-node-icon-button-hover-background: #5C4735;
+    --graph-color-dividers: #1C1712;
+    --graph-color-block-background: #46341F;
+    --graph-color-block-option-background: #352C24;
+    --graph-color-block-border: #5E4B39;
+    --graph-color-block-header-tint: rgba(201, 164, 122, 0.06);
+    --graph-color-block-body-cache: #46341F;
+    --graph-color-empty-block-background: #2D2620;
+    --graph-color-context-header-background: #352C24;
+    --graph-color-context-addblock-text: #E2D6C6;
+    --graph-color-port-background: #46341F;
+    --graph-color-vertical-node-port-background: #46341F;
+    --graph-color-port-text: #E2D6C6;
+    --graph-color-port-default: #C9A47A;
+    --graph-color-wire: #C9A47A;
+    --graph-color-wire-selected: #D2A33A;
+    --graph-color-wire-ghost: rgba(201, 164, 122, 0.4);
+    --graph-color-wire-bubble-background: #352C24;
+    --graph-color-wire-bubble-border: #5E4B39;
+    --graph-color-wire-bubble-text: #E2D6C6;
+    --graph-color-selection: #D2A33A;
+    --graph-color-selection-fill: rgba(210, 163, 58, 0.15);
+    --graph-color-selection-counterpart: #C9A47A;
+}
+
+/* Canvas grid */
+.dialogue-graph GridBackground {
+    --grid-background-color: #221C17;
+    --line-color: rgba(201, 164, 122, 0.06);
+    --thick-line-color: rgba(201, 164, 122, 0.14);
+}
+
+/* Dropdowns (enum fields keep the editor's #515151 otherwise) */
+.dialogue-graph .unity-enum-field__input {
+    background-color: var(--theme-button-background);
+    border-color: var(--theme-button-border);
+}
+
+.dialogue-graph .unity-enum-field:hover > .unity-enum-field__input {
+    background-color: var(--theme-button-background-hover);
+}
+
+/* ===== Part tier ===== */
+
+/* Node body + tinted header
+ *  - Node's DefaultColor strip (#top-color-line-container) is stretched behind the header ~ per-speaker colour reads as a tinted header (vs. 5px line) */
+.dialogue-graph .ge-node {
+    background-color: var(--theme-card-background);
+    border-color: var(--theme-card-border);
+}
+
+.dialogue-graph .ge-node > #top-color-line-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 26px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.dialogue-graph .ge-node > #title-icon-container {
+    background-color: transparent;
+}
+
+.dialogue-graph .ge-editable-title-part__label-container {
+    flex-direction: row;
+    align-items: center;
+    height: 26px;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+/* Title fills the header, text centred; depth.breadth subtitle overlaid at the left
+ *  - Graph Toolkit shrinks the title by the hover buttons' width with an inline width (title width - 20px): it must not be text-sized, or hover leaves "..."
+ *  - Three classes to beat Graph Toolkit's own `.ge-editable-title-part__label-container .ge-node__title { flex-grow: 0 }` */
+.dialogue-graph .ge-editable-title-part__label-container .ge-node__title {
+    color: var(--theme-canvas);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dialogue-graph .ge-node-title-part__subtitle {
+    color: var(--theme-canvas);
+    font-size: 10px;
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    -unity-text-align: middle-left;
+}
+
+/* Collapse chevron stays overlaid in every state (on hover Graph Toolkit makes it take row space, which squeezes the title to "...") */
+.dialogue-graph .ge-node-title-part .ge-node-title-part__button-container {
+    position: absolute;
+    right: 4px;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    margin-top: 0;
+    align-self: auto;
+    align-items: center;
+}
+
+.dialogue-graph .ge-node__icon {
+    display: none;
+}
+
+.dialogue-graph .ge-port__constant-editor {
+    display: none;
+}
+
+/* Node interiors (Graph Toolkit paints these #383838 / #303030) */
+.dialogue-graph .ge-node__cache,
+.dialogue-graph .ge-vertical-port-container-part {
+    background-color: var(--theme-card-background);
+}
+
+.dialogue-graph .ge-node__port-container {
+    background-color: var(--theme-section-background);
+}
+
+/* Port columns: Graph Toolkit's port-container sheets sit on the parts themselves, so they win equal-specificity ties
+ *  - The context-node outputs rule matches Graph Toolkit's own selector plus the window class */
+.dialogue-graph .ge-node .ge-node__inputs .ge-port-hierarchy-container__container,
+.dialogue-graph .ge-node .ge-node__port-container .ge-node__inputs,
+.dialogue-graph .ge-context-node.ge-node .ge-in-out-port-container-part.ge-node__port-container .ge-node__outputs {
+    background-color: var(--theme-section-background);
+}
+
+/* Condition (context) node: compact header + card backing behind the blocks */
+.dialogue-graph .ge-context-node {
+    min-width: 280px;
+}
+
+.dialogue-graph .ge-context-node > #top-color-line-container,
+.dialogue-graph .ge-context-node > #title-icon-container,
+.dialogue-graph .ge-context-node .ge-editable-title-part__label-container {
+    height: 24px;
+}
+
+.dialogue-graph .ge-context-node > .ge-graph-element__content-container,
+.dialogue-graph .ge-context-node__blocks-container,
+.dialogue-graph .ge-context-node__blocks-container-part {
+    background-color: var(--theme-card-background);
+}
+
+.dialogue-graph .ge-context-node__blocks-container-part {
+    padding: 2px 4px 4px 4px;
+    margin: 0;
+}
+
+/* Predicate (block) nodes: compact rows, titles right-aligned clear of the "key" etch
+ *  - The etch is drawn from --block--background-color, so it can differ from the row; set at graph-view depth to beat Graph Toolkit's block sheet */
+.dialogue-graph .ge-block-node {
+    background-color: var(--theme-section-background);
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.dialogue-graph .ge-graph-view .ge-block-node {
+    --block--background-color: #2D2620;
+}
+
+.dialogue-graph .ge-block-node > #title-icon-container,
+.dialogue-graph .ge-block-node .ge-editable-title-part__label-container {
+    height: 18px;
+}
+
+.dialogue-graph .ge-block-node .ge-editable-title-part__label-container {
+    padding-left: 52px;
+    padding-right: 4px;
+    justify-content: flex-end;
+}
+
+.dialogue-graph .ge-block-node .ge-node__title {
+    color: var(--theme-text);
+    -unity-font-style: normal;
+    -unity-text-align: middle-right;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -196,7 +196,7 @@ PrefabInstance:
     - target: {fileID: 1709702800276346221, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 93b16ebe23aa14cb2b16fad07c28dea0, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 93b16ebe23aa14cb2b16fad07c28dea0, type: 3}
     - target: {fileID: 3469291900945260292, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: willShout
       value: 1
@@ -1740,7 +1740,7 @@ PrefabInstance:
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -2313,7 +2313,7 @@ PrefabInstance:
     - target: {fileID: 4590206079254210171, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 3}
     - target: {fileID: 6801303911162038568, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: uniqueIdentifier
       value: d9a857b2-a9b4-4510-b195-f76ec7474610
@@ -2402,7 +2402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: 8851451501027697024, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 2}
+  triggerNode: {fileID: -4125743819718728507, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -2433,7 +2433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: -1233712256656292020, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 2}
+  triggerNode: {fileID: -4075138883257535067, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -2462,7 +2462,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -2712,7 +2712,7 @@ PrefabInstance:
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 248c3f79500c14411a4f54dffc71837d, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 248c3f79500c14411a4f54dffc71837d, type: 3}
     - target: {fileID: 2079977557064137520, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: patrolPath
       value: 
@@ -3622,7 +3622,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 28d1f77810c6546af9f33c8b31cf0965, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 28d1f77810c6546af9f33c8b31cf0965, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -4973,7 +4973,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 28d1f77810c6546af9f33c8b31cf0965, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 28d1f77810c6546af9f33c8b31cf0965, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -6577,7 +6577,7 @@ PrefabInstance:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: e850271986e8b411d9127bc197f05fa6, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: e850271986e8b411d9127bc197f05fa6, type: 3}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.x
       value: 1.0157089
@@ -6673,7 +6673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: 437086603874811995, guid: e850271986e8b411d9127bc197f05fa6, type: 2}
+  triggerNode: {fileID: 8349228599320210584, guid: e850271986e8b411d9127bc197f05fa6, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -23045,7 +23045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: 8181338245101249011, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 2}
+  triggerNode: {fileID: 1965766769294480929, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -23076,7 +23076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: -9139682436039839047, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 2}
+  triggerNode: {fileID: 4637893046123778648, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -32280,7 +32280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 3
-  triggerNode: {fileID: 800297151029261723, guid: 93b16ebe23aa14cb2b16fad07c28dea0, type: 2}
+  triggerNode: {fileID: -1691949853370159248, guid: 93b16ebe23aa14cb2b16fad07c28dea0, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -101684,7 +101684,7 @@ PrefabInstance:
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 4ca15d7d2c2ee447c9096b094ed74822, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 4ca15d7d2c2ee447c9096b094ed74822, type: 3}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -102936,7 +102936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: -2885419293552728019, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 2}
+  triggerNode: {fileID: -4162697524518332582, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -114295,7 +114295,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -114503,7 +114503,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -125551,7 +125551,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: d1ddd469f0cd640329ac1c859e8bc975, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: d1ddd469f0cd640329ac1c859e8bc975, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -125826,7 +125826,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 329ffb1c3c54c464db0287778df50bdb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 329ffb1c3c54c464db0287778df50bdb, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -126142,7 +126142,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -126404,7 +126404,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -140840,7 +140840,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 4ca15d7d2c2ee447c9096b094ed74822, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 4ca15d7d2c2ee447c9096b094ed74822, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -141006,7 +141006,7 @@ PrefabInstance:
     - target: {fileID: 7005185240716262040, guid: b40c8a2d41c557a49a83d28cd7fce1d1, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 3}
     - target: {fileID: 7171252254027824093, guid: b40c8a2d41c557a49a83d28cd7fce1d1, type: 3}
       propertyPath: uniqueIdentifier
       value: bf3d4225-2c68-406e-bd46-41b9912e44dd
@@ -168723,7 +168723,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -169044,7 +169044,7 @@ PrefabInstance:
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -191680,7 +191680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: -830439454295646491, guid: c0de41afa682a4d88902fb9aea3f1f3f, type: 2}
+  triggerNode: {fileID: 6623111581853337359, guid: c0de41afa682a4d88902fb9aea3f1f3f, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -191709,7 +191709,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -192803,7 +192803,7 @@ PrefabInstance:
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 7c8c4bf072d914522982f15f23d5a5b4, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 7c8c4bf072d914522982f15f23d5a5b4, type: 3}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -193293,7 +193293,7 @@ PrefabInstance:
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 7c8c4bf072d914522982f15f23d5a5b4, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 7c8c4bf072d914522982f15f23d5a5b4, type: 3}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -193699,7 +193699,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: d1ddd469f0cd640329ac1c859e8bc975, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: d1ddd469f0cd640329ac1c859e8bc975, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -206584,7 +206584,7 @@ PrefabInstance:
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: c0de41afa682a4d88902fb9aea3f1f3f, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: c0de41afa682a4d88902fb9aea3f1f3f, type: 3}
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: 0235f51f-180b-4d02-ac55-3aef4b84a93f
@@ -217866,7 +217866,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 329ffb1c3c54c464db0287778df50bdb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 329ffb1c3c54c464db0287778df50bdb, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -218567,7 +218567,7 @@ PrefabInstance:
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -218763,7 +218763,7 @@ PrefabInstance:
     - target: {fileID: 3162598065540693421, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 3}
     - target: {fileID: 5346735842002146046, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: uniqueIdentifier
       value: ce20d7d9-b647-4b45-adea-362b33c2bdc1
@@ -233008,7 +233008,7 @@ PrefabInstance:
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 6f22cecc569f04ed582172bc8f02d4eb, type: 3}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetLookDirectionUp
@@ -244725,7 +244725,7 @@ PrefabInstance:
     - target: {fileID: 3429280736951894212, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 92460ba292c8b423cad161735d477972, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 92460ba292c8b423cad161735d477972, type: 3}
     - target: {fileID: 5640729318857076631, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: uniqueIdentifier
       value: 70fc6a5a-61a1-430c-8859-d16c4c9385f5
@@ -244816,7 +244816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: 6002176925204551956, guid: 92460ba292c8b423cad161735d477972, type: 2}
+  triggerNode: {fileID: 2958163231532941232, guid: 92460ba292c8b423cad161735d477972, type: 3}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:

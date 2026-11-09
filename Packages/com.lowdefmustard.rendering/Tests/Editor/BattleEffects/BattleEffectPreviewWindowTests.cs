@@ -8,6 +8,7 @@ using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using LowDefMustard.Rendering.Editor;
 using static LowDefMustard.Rendering.Tests.Editor.BattleEffectTestData;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -39,7 +40,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             window = ScriptableObject.CreateInstance<BattleEffectPreviewWindow>();
             host = new HeadlessEditorWindow(window);
-            yield return HeadlessEditorWindow.WaitUntil(() => window.rootVisualElement.Q<ObjectField>() != null);
+            yield return TestWait.Until(() => window.rootVisualElement.Q<ObjectField>() != null);
             if (window.IsPlaying()) { window.TogglePlaying(); }
         }
 
@@ -311,7 +312,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             window.StartExport();
             Assert.IsTrue(window.IsExporting());
-            yield return HeadlessEditorWindow.WaitUntil(() => !window.IsExporting(), 20f);
+            yield return TestWait.Until(() => !window.IsExporting(), 20f);
 
             Assert.IsFalse(window.IsExporting(), "export finished");
             string folder = Path.Combine("Temp/BattleEffectPreview", _recipeName);

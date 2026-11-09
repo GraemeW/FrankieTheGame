@@ -193,6 +193,21 @@ namespace Frankie.Combat
             BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()));
         }
         
+        public void AbortBattle()
+        {
+            playerInput.Menu.Disable();
+            if (battleSequenceCoroutine != null) { StopCoroutine(battleSequenceCoroutine); }
+            battleSequenceCoroutine = null;
+            SetBattleState(BattleState.Complete, BattleOutcome.Aborted);
+            BattleEventBus<BattleStagingEvent>.Raise(new BattleStagingEvent(BattleStagingType.BattleTornDown));
+        }
+
+        public void Retire()
+        {
+            gameObject.SetActive(false); // Deactivate first:  tag lookup + VerifyUnique skip inactive objects -> ensures a combat started this frame gets a fresh controller
+            Destroy(gameObject);
+        }
+
         public bool SetSelectedCharacter(CombatParticipant character)
         {
             if (character == null) { ClearSelectedCharacter(); return true; }
@@ -306,7 +321,7 @@ namespace Frankie.Combat
                 case BattleFadePhase.ExitComplete:
                 {
                     BattleEventBus<BattleStagingEvent>.Raise(new BattleStagingEvent(BattleStagingType.BattleTornDown));
-                    Destroy(gameObject);
+                    Retire();
                     break;
                 }
                 case BattleFadePhase.ExitPeak:

@@ -7,13 +7,13 @@ namespace Frankie.Core.PlayerStateMemory
     {
         public TradeData tradeData;
 
-        public bool InitiateTrade(Action instantiateShop, Action instantiateBank)
+        public bool InitiateTrade(Shop shop, Action instantiateShop, Action instantiateBank)
         {
             if (tradeData == null) { return false; }
             switch (tradeData.tradeDataType)
             {
                 case TradeDataType.Shop:
-                    if (instantiateShop == null) { return false; }
+                    if (shop == null || !shop.HasInventory() || instantiateShop == null) { return false; }
                     instantiateShop.Invoke();
                     break;
                 case TradeDataType.Bank:

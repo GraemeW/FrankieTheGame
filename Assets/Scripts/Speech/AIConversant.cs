@@ -10,6 +10,8 @@ namespace Frankie.Speech
 {
     public class AIConversant : CheckBase, IPredicateEvaluator, ISaveable<int>
     {
+        // Note:  Internal methods/properties are for test visibility
+        
         // Tunables
         [SerializeField] private Dialogue dialogue;
         [SerializeField] protected InteractionEvent checkInteraction;
@@ -18,9 +20,6 @@ namespace Frankie.Speech
 
         // State
         private int dialogueCount = 0;
-        
-        // Cached References
-        private PlayerStateMachine playerStateMachine;
 
         #region UnityMethods
         private void Start()
@@ -33,24 +32,17 @@ namespace Frankie.Speech
         public int GetDialogueCount() => dialogueCount;
         public void ResetDialogueCount() => dialogueCount = 0;
 
-        public void ForceInteractionEvent(PlayerStateMachine setPlayerStateMachine) // Called via Unity Events
+        public void ForceInteractionEvent(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
-            playerStateMachine = setPlayerStateMachine;
-            
-            checkInteraction?.Invoke(setPlayerStateMachine);
+            checkInteraction?.Invoke(playerStateMachine);
             dialogueCount++;
             playerStateMachine.EnterDialogue(this, dialogue);
-            
-            playerStateMachine.playerStateChanged += HandlePlayerExitDialogue;
         }
 
-        private void HandlePlayerExitDialogue(PlayerStateType playerStateType, IPlayerStateInfo playerStateInfo)
-        {
-            if (playerStateType != PlayerStateType.InWorld || playerStateMachine == null) { return; }
-            
-            playerStateMachine.playerStateChanged -= HandlePlayerExitDialogue;
-            onExitDialogue?.Invoke();
-        }
+        // Raised by the DialogueController that ran this conversant's dialogue, once that dialogue ends
+        internal void NotifyDialogueExited() => onExitDialogue?.Invoke();
+        
+        internal UnityEvent GetOnExitDialogue() => onExitDialogue ??= new UnityEvent();
         #endregion
 
         #region Interfaces

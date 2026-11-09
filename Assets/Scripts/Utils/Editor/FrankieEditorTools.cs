@@ -9,9 +9,6 @@ using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using LowDefMustard.Core;
 using LowDefMustard.Control;
-using Frankie.Combat;
-using Frankie.Core;
-using Frankie.Stats;
 
 namespace Frankie.Utils.Editor
 {
@@ -44,8 +41,18 @@ namespace Frankie.Utils.Editor
             EditorSceneManager.OpenScene(_startSceneRef);
         }
         
-        [MenuItem("Tools/Select/Debugger Prefab", false, 1)]
-        private static void SelectDebugger() => SelectAsset(_debugPrefabRef);
+        [MenuItem("Tools/Select/Debugger", false, 1)]
+        private static void SelectDebugger()
+        {
+            FrankieDebugger liveDebugger = Application.isPlaying ? Object.FindAnyObjectByType<FrankieDebugger>() : null;
+            if (liveDebugger == null)
+            {
+                SelectAsset(_debugPrefabRef);
+                return;
+            }
+            EditorGUIUtility.PingObject(liveDebugger);
+            Selection.activeObject = liveDebugger.gameObject;
+        }
 
         [MenuItem("Tools/Select/Scenes", false, 2)]
         private static void SelectScenesFolder() => OpenFolder(_scenesFolderRef);
@@ -144,40 +151,6 @@ namespace Frankie.Utils.Editor
         }
         #endregion
 
-        #region GameDevTools
-        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyBrawnEffect", false, 11)]
-        private static void ApplyBrawnEffect() => ApplyStatusEffect(Stat.Brawn);
-        
-        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyBeautyEffect", false, 11)]
-        private static void ApplyBeautyEffect() => ApplyStatusEffect(Stat.Beauty);
-        
-        [MenuItem("Tools/GameDevTools/StatusEffect/ApplySmartsEffect", false, 11)]
-        private static void ApplySmartsEffect() => ApplyStatusEffect(Stat.Smarts);
-        
-        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyNimbleEffect", false, 11)]
-        private static void ApplyNimbleEffect() => ApplyStatusEffect(Stat.Nimble);
-        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyLuckEffect", false, 11)]
-        
-        private static void ApplyLuckEffect() => ApplyStatusEffect(Stat.Luck);
-        [MenuItem("Tools/GameDevTools/StatusEffect/ApplyPluckEffect", false, 11)]
-        private static void ApplyPluckEffect() => ApplyStatusEffect(Stat.Pluck);
-        
-        [MenuItem("Tools/GameDevTools/KnockOutParty", false, 12)]
-        private static void KnockOutParty()
-        {
-            if (!Application.isPlaying) { return; }
-            
-            Player player = Player.FindPlayer();
-            if (player == null || !player.TryGetComponent(out Party party)) { return; }
-
-            foreach (BaseStats member in party.GetMembers())
-            {
-                if (member == null || !member.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
-                combatParticipant.SelfImplode(true);
-            }
-        }
-        #endregion
-        
         #region PrivateUtilityMethods
         private static void SelectAsset(string path)
         {
@@ -250,28 +223,6 @@ namespace Frankie.Utils.Editor
                 paths[i] = AssetDatabase.GUIDToAssetPath(guids[i]);
             }
             return paths;
-        }
-        #endregion
-        
-        #region PrivateGameDebugMethods
-        private static void ApplyStatusEffect(Stat stat, float amount = 1f, float duration = 100f, string guid = null)
-        {
-            if (!Application.isPlaying) { return; }
-            
-            Player player = Player.FindPlayer();
-            if (player == null || !player.TryGetComponent(out Party party)) { return; }
-            
-            foreach (BaseStats member in party.GetMembers())
-            {
-                if (member == null || !member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
-                
-                var activeStatusEffect = combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
-                if (activeStatusEffect == null) { continue; }
-
-                guid ??= GUID.Generate().ToString();
-                activeStatusEffect.Setup(guid, duration, stat, amount, true);
-                combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
-            }
         }
         #endregion
     }

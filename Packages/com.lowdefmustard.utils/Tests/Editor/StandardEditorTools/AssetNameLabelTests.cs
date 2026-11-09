@@ -11,10 +11,10 @@ namespace LowDefMustard.Utils.Tests.Editor
     public class AssetNameLabelTests
     {
         // Const Tunables
-        private const string _tempFolder = "Assets/_TEMP_AssetNameLabelTests_SafeToDelete";
         private const string _assetName = "TestClip";
 
         // State
+        private TempAssetFolder tempFolder;
         private EditorWindow window;
 
         #region Setup
@@ -22,16 +22,17 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void TearDown()
         {
             if (window != null) { window.Close(); }
-            if (AssetDatabase.IsValidFolder(_tempFolder)) { AssetDatabase.DeleteAsset(_tempFolder); }
+            tempFolder?.Dispose();
+            tempFolder = null;
         }
         #endregion
 
         #region PrivateMethods
-        private static AnimationClip CreateTempAsset(string assetName = _assetName)
+        private AnimationClip CreateTempAsset(string assetName = _assetName)
         {
-            if (!AssetDatabase.IsValidFolder(_tempFolder)) { AssetDatabase.CreateFolder("Assets", "_TEMP_AssetNameLabelTests_SafeToDelete"); }
+            tempFolder ??= new TempAssetFolder(nameof(AssetNameLabelTests));
             var clip = new AnimationClip();
-            AssetDatabase.CreateAsset(clip, $"{_tempFolder}/{assetName}.anim");
+            AssetDatabase.CreateAsset(clip, tempFolder.Path($"{assetName}.anim"));
             return clip;
         }
 
@@ -91,7 +92,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             nameLabel.SetAsset(clip);
 
             Assert.AreEqual(_assetName, GetLabel(nameLabel).text);
-            StringAssert.Contains($"{_tempFolder}/{_assetName}.anim", GetLabel(nameLabel).tooltip);
+            StringAssert.Contains(tempFolder.Path($"{_assetName}.anim"), GetLabel(nameLabel).tooltip);
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             var nameLabel = new AssetNameLabel(false);
             nameLabel.SetAsset(clip);
 
-            AssetDatabase.RenameAsset($"{_tempFolder}/{_assetName}.anim", "Renamed");
+            AssetDatabase.RenameAsset(tempFolder.Path($"{_assetName}.anim"), "Renamed");
             nameLabel.RefreshName();
 
             Assert.AreEqual("Renamed", GetLabel(nameLabel).text);
@@ -159,7 +160,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             yield return null;
 
             Assert.AreEqual("NewName", clip.name, "Should trim + rename");
-            Assert.AreEqual($"{_tempFolder}/NewName.anim", AssetDatabase.GetAssetPath(clip));
+            Assert.AreEqual(tempFolder.Path("NewName.anim"), AssetDatabase.GetAssetPath(clip));
             Assert.AreEqual("NewName", GetLabel(nameLabel).text);
             Assert.IsFalse(IsEditing(nameLabel));
         }

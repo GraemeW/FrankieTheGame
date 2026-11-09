@@ -19,6 +19,7 @@ namespace Frankie.Core.PlayerStates
             }
             else if (playerStateContext.InZoneTransition())
             {
+                playerStateContext.AbortBattle(); // Ensure listeners outside the battle scene (e.g. via BattleBus) still see it end
                 playerStateContext.SetPlayerState(PlayerStateMachine.transitionState); // Force state to transition, going to get pulled to a new scene
             }
         }

@@ -67,14 +67,6 @@ MonoBehaviour:
     m_Key: Demo-Forest_Theo.1.1.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889048950562816
-    m_Key: OldOfficeDemo-MayaDialogue.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889049051226112
-    m_Key: OldOfficeDemo-MayaDialogue.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889049147695104
     m_Key: OldOfficeDemo-MayaDialogue.1.0.Speaker
     m_Metadata:
@@ -105,14 +97,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889049835560960
     m_Key: OldOfficeDemo-MayaDialogue.1.3.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889049936224256
-    m_Key: OfficeExterior-Steve5000.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889050032693248
-    m_Key: OfficeExterior-Steve5000.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889050129162240
@@ -163,14 +147,6 @@ MonoBehaviour:
     m_Key: OfficeExterior-Steve5000.2.1.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889051316150272
-    m_Key: Demo-Forest_Hipster.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889051412619264
-    m_Key: Demo-Forest_Hipster.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889051513282560
     m_Key: Demo-Forest_Hipster.1.0.Speaker
     m_Metadata:
@@ -201,14 +177,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889052205342720
     m_Key: Demo-Forest_Hipster.3.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889052306006016
-    m_Key: Demo-Forest_PortaMaya-North.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889052419252224
-    m_Key: Demo-Forest_PortaMaya-North.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889052524109824
@@ -249,14 +217,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889053438468096
     m_Key: Demo-Monk_Beguiled.0.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889053539131392
-    m_Key: Demo-Forest_LilSlugger.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889053652377600
-    m_Key: Demo-Forest_LilSlugger.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889053761429504
@@ -363,14 +323,6 @@ MonoBehaviour:
     m_Key: OfficeExterior-HelpfulVole.7.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889056684859392
-    m_Key: Demo-Forest_PortaMaya-East.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889056798105600
-    m_Key: Demo-Forest_PortaMaya-East.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889056911351808
     m_Key: Demo-Forest_PortaMaya-East.1.0.Speaker
     m_Metadata:
@@ -427,14 +379,6 @@ MonoBehaviour:
     m_Key: OfficeInterior-SkilledWorker.2.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889058391941120
-    m_Key: Demo-Forest_PortaMaya-South.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889058496798720
-    m_Key: Demo-Forest_PortaMaya-South.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889058597462016
     m_Key: Demo-Forest_PortaMaya-South.1.0.Speaker
     m_Metadata:
@@ -481,14 +425,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889059717341184
     m_Key: Prim-PrettyGirl.1.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889059818004480
-    m_Key: OfficeInterior-PhilRamenC.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889059918667776
-    m_Key: OfficeInterior-PhilRamenC.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889060019331072
@@ -635,14 +571,6 @@ MonoBehaviour:
     m_Key: OfficeInterior-PhilRamenC.14.1.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889063655792640
-    m_Key: PrimSouth-RedHouse-Mom.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889063760650240
-    m_Key: PrimSouth-RedHouse-Mom.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889063865507840
     m_Key: PrimSouth-RedHouse-Mom.1.0.Speaker
     m_Metadata:
@@ -665,14 +593,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889064398184448
     m_Key: PrimSouth-RedHouse-Mom.1.2.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889064503042048
-    m_Key: PrimSouth-SomeGuy.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889064612093952
-    m_Key: PrimSouth-SomeGuy.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889064712757248
@@ -739,14 +659,6 @@ MonoBehaviour:
     m_Key: Demo-Monk_Minimalist.0.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889066403061760
-    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889066503725056
-    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889066600194048
     m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.1.0.Speaker
     m_Metadata:
@@ -809,14 +721,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889068097560576
     m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.3.1.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889068198223872
-    m_Key: OfficeInterior-Maya.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889068294692864
-    m_Key: OfficeInterior-Maya.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889068395356160
@@ -1035,14 +939,6 @@ MonoBehaviour:
     m_Key: Demo-Monk_Entranced.0.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889073806008320
-    m_Key: OldOfficeDemo-PhilTooJoinParty.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889073902477312
-    m_Key: OldOfficeDemo-PhilTooJoinParty.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889074003140608
     m_Key: OldOfficeDemo-PhilTooJoinParty.1.0.Speaker
     m_Metadata:
@@ -1081,14 +977,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889074909110272
     m_Key: OldOfficeDemo-PhilTooJoinParty.4.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889075005579264
-    m_Key: OldOfficeDemo-HorseDialogue.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889075110436864
-    m_Key: OldOfficeDemo-HorseDialogue.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889075206905856
@@ -1137,14 +1025,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889076310007808
     m_Key: OfficeInterior-BroWorkerA.0.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889076410671104
-    m_Key: OfficeInterior-HipsterWorker.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889076511334400
-    m_Key: OfficeInterior-HipsterWorker.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889076611997696
@@ -1219,14 +1099,6 @@ MonoBehaviour:
     m_Key: Demo-Forest_Charlie.1.1.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889078453297152
-    m_Key: OfficeInterior-BroWorkerB.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889078553960448
-    m_Key: OfficeInterior-BroWorkerB.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889078667206656
     m_Key: OfficeInterior-BroWorkerB.1.0.Speaker
     m_Metadata:
@@ -1299,14 +1171,6 @@ MonoBehaviour:
     m_Key: OfficeInterior-BroWorkerB.8.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889080487534592
-    m_Key: PortaBank-WelcomeToPortaBank.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889080592392192
-    m_Key: PortaBank-WelcomeToPortaBank.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889080693055488
     m_Key: PortaBank-WelcomeToPortaBank.1.0.Speaker
     m_Metadata:
@@ -1369,14 +1233,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889082207199232
     m_Key: Demo-Monk_Leader.2.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889082312056832
-    m_Key: ApartmentInterior-LucyFirstWelcomeHome.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889082412720128
-    m_Key: ApartmentInterior-LucyFirstWelcomeHome.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889082513383424
@@ -1465,14 +1321,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889084719587328
     m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.3.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889084837027840
-    m_Key: PrimSouth-Counter.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889084967051264
-    m_Key: PrimSouth-Counter.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889085084491776
@@ -1619,14 +1467,6 @@ MonoBehaviour:
     m_Key: OfficeInterior-PhilRamenA.7.1.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889089152966656
-    m_Key: OfficeInterior-PhilRamenB.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889089257824256
-    m_Key: OfficeInterior-PhilRamenB.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889089362681856
     m_Key: OfficeInterior-PhilRamenB.1.0.Speaker
     m_Metadata:
@@ -1715,14 +1555,6 @@ MonoBehaviour:
     m_Key: OldOfficeDemo-TillyJoinParty.2.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889091644383232
-    m_Key: Demo-Forest_SkilledOfficeWorker.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889091749240832
-    m_Key: Demo-Forest_SkilledOfficeWorker.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889091849904128
     m_Key: Demo-Forest_SkilledOfficeWorker.1.0.Speaker
     m_Metadata:
@@ -1761,14 +1593,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889092781039616
     m_Key: Demo-Forest_SkilledOfficeWorker.1.1.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889092881702912
-    m_Key: OfficeInterior-VoleWorker.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889092986560512
-    m_Key: OfficeInterior-VoleWorker.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889093091418112
@@ -1889,14 +1713,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889096115511296
     m_Key: OfficeInterior-VoleWorker.3.2.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889096220368896
-    m_Key: Demo-Forest_Ron.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889096329420800
-    m_Key: Demo-Forest_Ron.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889096463638528
@@ -2419,14 +2235,6 @@ MonoBehaviour:
     m_Key: ApartmentInterior-ComfyBedUntilTomorrow.3.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889110409699328
-    m_Key: OldOfficeDemo-CleverOfficeWorker.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889110518751232
-    m_Key: OldOfficeDemo-CleverOfficeWorker.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889110627803136
     m_Key: OldOfficeDemo-CleverOfficeWorker.1.0.Speaker
     m_Metadata:
@@ -2595,14 +2403,6 @@ MonoBehaviour:
     m_Key: OldOfficeDemo-HelpfulVoleInOffice.4.0.Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2889115224760320
-    m_Key: OfficeInterior-HorseWorker.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889115338006528
-    m_Key: OfficeInterior-HorseWorker.0.0.Text
-    m_Metadata:
-      m_Items: []
   - m_Id: 2889115451252736
     m_Key: OfficeInterior-HorseWorker.1.0.Speaker
     m_Metadata:
@@ -2697,14 +2497,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2889117980418048
     m_Key: OfficeInterior-GenericOfficeWorkerFran.3.0.Text
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889118089469952
-    m_Key: OldOfficeDemo-BroOfficeWorker.0.0.Speaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2889118198521856
-    m_Key: OldOfficeDemo-BroOfficeWorker.0.0.Text
     m_Metadata:
       m_Items: []
   - m_Id: 2889118307573760

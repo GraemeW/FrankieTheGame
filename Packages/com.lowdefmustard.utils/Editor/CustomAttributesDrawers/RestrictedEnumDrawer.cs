@@ -30,7 +30,9 @@ namespace LowDefMustard.Utils.Editor
 
             int popupIndex = ResolvePopupIndex(property, allowedValues);
 
-            var dropdown = new DropdownField(property.displayName, allowedNames, popupIndex);
+            string label = string.IsNullOrEmpty(preferredLabel) ? property.displayName : preferredLabel; // note: preferredLabel -> PropertyField's label override
+            var dropdown = new DropdownField(label, allowedNames, popupIndex);
+            dropdown.AddToClassList(BaseField<string>.alignedFieldUssClassName);
             dropdown.RegisterValueChangedCallback(evt => OnDropdownValueChanged(evt, property, allowedNames, allowedValues));
 
             // Keep the dropdown in sync with external changes (undo/redo, multi-editing, other inspectors)

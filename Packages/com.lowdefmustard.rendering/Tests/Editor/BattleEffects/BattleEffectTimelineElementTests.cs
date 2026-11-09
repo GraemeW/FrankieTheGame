@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using LowDefMustard.Rendering.Editor;
 using static LowDefMustard.Rendering.Tests.Editor.BattleEffectTestData;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -384,7 +385,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
                 bool isScrubEnded = false;
                 timeline.scrubbed += scrubTime => scrubbedTime = scrubTime;
                 timeline.scrubEnded += () => isScrubEnded = true;
-                yield return HeadlessEditorWindow.WaitUntil(() => timeline.contentRect.width > BattleEffectTimelineElement.labelWidth);
+                yield return TestWait.Until(() => timeline.contentRect.width > BattleEffectTimelineElement.labelWidth);
 
                 Vector2 pressPosition = timeline.LocalToWorld(new Vector2(BattleEffectTimelineElement.labelWidth + 100f, 4f));
                 using (PointerDownEvent pointerDownEvent = PointerDownEvent.GetPooled(new Event { type = EventType.MouseDown, mousePosition = pressPosition, button = 0 }))
@@ -397,7 +398,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
                     pointerUpEvent.target = timeline;
                     timeline.SendEvent(pointerUpEvent);
                 }
-                yield return HeadlessEditorWindow.WaitUntil(() => scrubbedTime.HasValue);
+                yield return TestWait.Until(() => scrubbedTime.HasValue);
 
                 Assert.IsTrue(scrubbedTime.HasValue, "scrubbed was raised");
                 Assert.AreEqual(1f, scrubbedTime.Value, 0.05f, "half way along the track");

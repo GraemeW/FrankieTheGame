@@ -36,7 +36,7 @@ Material:
     m_Floats:
     - _FadeOutTime: 0.75
     - _FadeTime: 3.5
-    - _Phase: 2.6953604
+    - _Phase: 124.95507
     - _Strength: 30
     m_Colors:
     - _Tint: {r: 0.5764706, g: 0.4392157, b: 0.85882354, a: 1}

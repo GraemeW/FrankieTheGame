@@ -26,27 +26,29 @@ namespace Frankie.Core.PlayerStates
 
         public override void EnterDialogue(IPlayerStateContext playerStateContext)
         {
-            playerStateContext.SetupDialogueController();
-            if (playerStateContext.StartDialogueSequence())
+            if (!playerStateContext.SetupDialogueController()) // i.e. current controller is closing
             {
-                playerStateContext.SetPlayerState(PlayerStateMachine.dialogueState);
+                playerStateContext.QueueActionUnderConsideration(); // No World transition follows, so ask for the pop directly (runs once the old controller is gone)
+                playerStateContext.RequestQueuePop();
+                return;
             }
+            if (!playerStateContext.StartDialogueSequence()) { playerStateContext.ClearPlayerStateMemory(); return; }
+            
+            playerStateContext.SetPlayerState(PlayerStateMachine.dialogueState);
         }
 
         public override void EnterOptions(IPlayerStateContext playerStateContext)
         {
-            if (playerStateContext.StartOptionSequence())
-            {
-                playerStateContext.SetPlayerState(PlayerStateMachine.optionState);
-            }
+            if (!playerStateContext.StartOptionSequence()) { playerStateContext.ClearPlayerStateMemory(); return; }
+            
+            playerStateContext.SetPlayerState(PlayerStateMachine.optionState);
         }
 
         public override void EnterTrade(IPlayerStateContext playerStateContext)
         {
-            if (playerStateContext.StartTradeSequence())
-            {
-                playerStateContext.SetPlayerState(PlayerStateMachine.tradeState);
-            }
+            if (!playerStateContext.StartTradeSequence()) { playerStateContext.ClearPlayerStateMemory(); return; }
+            
+            playerStateContext.SetPlayerState(PlayerStateMachine.tradeState);
         }
 
         public override void EnterTransition(IPlayerStateContext playerStateContext)

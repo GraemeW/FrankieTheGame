@@ -69024,7 +69024,7 @@ PrefabInstance:
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: d6d246b277f5146d2b2645a44e3d4de6, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: d6d246b277f5146d2b2645a44e3d4de6, type: 3}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
       value: 28af2f03-aab4-4b37-8123-7ee61deb15bc
@@ -229000,7 +229000,7 @@ PrefabInstance:
     - target: {fileID: 1853097853933569969, guid: 6355dd8a17e27464598b4200738afc8c, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: ed380599497e1466a8c4e57e1cd836e7, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: ed380599497e1466a8c4e57e1cd836e7, type: 3}
     - target: {fileID: 1853097853933569969, guid: 6355dd8a17e27464598b4200738afc8c, type: 3}
       propertyPath: saveDialogueCount
       value: 0

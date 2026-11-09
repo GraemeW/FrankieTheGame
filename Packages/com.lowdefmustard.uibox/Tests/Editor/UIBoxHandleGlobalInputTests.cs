@@ -73,6 +73,17 @@ namespace LowDefMustard.UIBox.Tests.Editor
         }
 
         [Test]
+        public void HandleGlobalInput_DestroyedBox_DoesNotThrow()
+        {
+            TestUIBox testUIBox = CreateTestUIBox();
+            testUIBox.publicHandleGlobalInput = true;
+            System.Action<ControllerInputType> staleInputHandler = testUIBox.GetInputHandler();
+            Object.DestroyImmediate(testUIBox.gameObject);
+
+            Assert.DoesNotThrow(() => staleInputHandler.Invoke(ControllerInputType.Cancel));
+        }
+
+        [Test]
         public void HandleGlobalInput_NonExitInputWithNoChoicesAvailable_ReturnsFalse()
         {
             TestUIBox testUIBox = CreateTestUIBox();

@@ -4,11 +4,12 @@ using Frankie.Core;
 
 namespace Frankie.Speech
 {
+    [RequireComponent(typeof(AIConversant))] // N.B. DialogueController only sets up the triggers on the conversant's own GameObject
     public class DialogueTrigger : MonoBehaviour
     {
         // Tunables
         [SerializeField] private DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
-        [SerializeField] private DialogueNode triggerNode;
+        [SerializeField][DialogueNodePicker] private DialogueNode triggerNode;
         [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] private DialogueTriggeredEvent dialogueTriggeredEvent;
 
         // State
@@ -29,6 +30,14 @@ namespace Frankie.Speech
         [System.Serializable]
         public class UnityEventWithCallingController : UnityEvent<PlayerStateMachine>
         {
+        }
+
+        // Internal for test visibility
+        internal void ConfigureTrigger(DialogueUpdateType setDialogueUpdateType, UnityAction<PlayerStateMachine> action)
+        {
+            dialogueUpdateType = setDialogueUpdateType;
+            dialogueTriggeredEvent.onTriggerEvent ??= new UnityEventWithCallingController();
+            dialogueTriggeredEvent.onTriggerEvent.AddListener(action);
         }
 
         public void Setup(DialogueController setDialogueController, PlayerStateMachine setPlayerStateMachine)

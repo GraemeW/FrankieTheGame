@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: 939befa2a1194eb44a264561e6d8d19b, type: 2}
+      objectReference: {fileID: 702844159769304480, guid: 939befa2a1194eb44a264561e6d8d19b, type: 3}
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: interactionDistance
       value: 0.7

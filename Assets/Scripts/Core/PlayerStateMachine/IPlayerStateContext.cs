@@ -5,6 +5,7 @@ namespace Frankie.Core
         void SetPlayerState(IPlayerState playerState);
         void TogglePlayerVisibility(bool? enable = null);
         void QueueActionUnderConsideration();
+        void RequestQueuePop();
         void ClearPlayerStateMemory();
     }
 
@@ -23,11 +24,12 @@ namespace Frankie.Core
         bool StartBattleSequence();
         bool IsCombatFadeComplete();
         bool EndBattleSequence();
+        void AbortBattle();
     }
 
     public interface IDialogueStateContext
     {
-        void SetupDialogueController();
+        bool SetupDialogueController();
         bool StartDialogueSequence();
     }
 

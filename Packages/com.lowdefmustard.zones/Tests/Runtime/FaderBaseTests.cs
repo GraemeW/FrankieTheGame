@@ -147,6 +147,64 @@ namespace LowDefMustard.Zones.Tests
             CollectionAssert.AreEqual(new[] { "fadeIn", "fadePeak", "fadeOut", "fadeComplete" }, callOrder);
             Assert.IsFalse(fader.IsFadingForTest());
         }
+
+        [UnityTest]
+        public IEnumerator TryQueueAtFadePeak_NoFade_ReturnsFalseAndDoesNotRun()
+        {
+            var runCount = 0;
+
+            Assert.IsFalse(FaderBase<TestTransitionType>.TryQueueAtFadePeak(() => runCount++));
+            yield return null;
+
+            Assert.AreEqual(0, runCount);
+        }
+
+        [UnityTest]
+        public IEnumerator TryQueueAtFadePeak_DuringFadeIn_RunsOnceAtPeakBeforeOnFadePeak()
+        {
+            var callOrder = new List<string>();
+            var triggers = new FaderEventTriggers<TestTransitionType>(null, () => callOrder.Add("fadePeak"), () => callOrder.Add("fadeOut"), null);
+            Assert.IsTrue(FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers));
+
+            Assert.IsTrue(FaderBase<TestTransitionType>.TryQueueAtFadePeak(() => callOrder.Add("queued")));
+            CollectionAssert.IsEmpty(callOrder, "Queued action ran before the peak");
+            yield return new WaitForSeconds(0.3f);
+
+            CollectionAssert.AreEqual(new[] { "queued", "fadePeak", "fadeOut" }, callOrder);
+
+            Assert.IsTrue(FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers));
+            yield return new WaitForSeconds(0.3f);
+            Assert.AreEqual(1, callOrder.FindAll(call => call == "queued").Count, "Queued action is one-shot");
+        }
+
+        [UnityTest]
+        public IEnumerator TryQueueAtFadePeak_AfterPeak_ReturnsFalse()
+        {
+            var peaked = false;
+            var triggers = new FaderEventTriggers<TestTransitionType>(null, () => peaked = true, null, null);
+            Assert.IsTrue(FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers));
+            while (!peaked) { yield return null; }
+
+            Assert.IsTrue(fader.IsFadingForTest(), "Fade should still be on its way out");
+            Assert.IsFalse(FaderBase<TestTransitionType>.TryQueueAtFadePeak(() => { }));
+
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        [UnityTest]
+        public IEnumerator Disable_MidFadeIn_StillRunsQueuedAction()
+        {
+            var runCount = 0;
+            var triggers = new FaderEventTriggers<TestTransitionType>(null, null, null, null);
+            Assert.IsTrue(FaderBase<TestTransitionType>.StartStandardFade(TestTransitionType.Fade, triggers));
+            Assert.IsTrue(FaderBase<TestTransitionType>.TryQueueAtFadePeak(() => runCount++));
+            yield return null;
+
+            fader.enabled = false;
+
+            Assert.AreEqual(1, runCount);
+            Assert.IsFalse(FaderBase<TestTransitionType>.TryQueueAtFadePeak(() => runCount++));
+        }
         #endregion
     }
 }

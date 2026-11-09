@@ -1,0 +1,30 @@
+{
+    "name": "Frankie.Tests.Editor",
+    "rootNamespace": "Frankie.Tests.Editor",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Frankie",
+        "Frankie.Editor",
+        "Frankie.Tests",
+        "LowDefMustard.Core",
+        "LowDefMustard.GameStateModifiers",
+        "LowDefMustard.Localization",
+        "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Tests",
+        "Unity.Localization"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

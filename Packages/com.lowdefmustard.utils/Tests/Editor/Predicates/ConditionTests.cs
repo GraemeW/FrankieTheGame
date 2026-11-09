@@ -6,27 +6,6 @@ namespace LowDefMustard.Utils.Tests.Editor
 {
     public class ConditionTests
     {
-        // Concrete stand-in - Predicate itself is abstract with no members to implement
-        private class TestPredicate : Predicate
-        {
-        }
-
-        // Always returns a fixed result regardless of which predicate is asked about
-        private class FixedResultEvaluator : IPredicateEvaluator
-        {
-            private readonly bool? result;
-            public FixedResultEvaluator(bool? result) => this.result = result;
-            public bool? Evaluate(Predicate predicate) => result;
-        }
-
-        // Answers differently depending on which predicate it's asked about - needed anywhere a test wants two wrappers to get different outcomes
-        private class PerPredicateEvaluator : IPredicateEvaluator
-        {
-            private readonly Dictionary<Predicate, bool?> results;
-            public PerPredicateEvaluator(Dictionary<Predicate, bool?> results) => this.results = results;
-            public bool? Evaluate(Predicate predicate) => results.GetValueOrDefault(predicate);
-        }
-
         private TestPredicate predicateA;
         private TestPredicate predicateB;
 
