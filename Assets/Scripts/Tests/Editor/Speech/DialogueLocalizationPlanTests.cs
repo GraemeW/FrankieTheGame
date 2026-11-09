@@ -86,7 +86,7 @@ namespace Frankie.Tests.Editor
         }
         #endregion
 
-        #region PrivateHelpers
+        #region Helpers
         private static DialogueLocalizationPlan MakePlan(string graph, string table, string lastSynced)
         {
             var tableEntries = new Dictionary<string, string>();

@@ -6,6 +6,7 @@
         "UnityEditor.TestRunner",
         "Frankie",
         "Frankie.Editor",
+        "Frankie.Tests",
         "LowDefMustard.Core",
         "LowDefMustard.GameStateModifiers",
         "LowDefMustard.Localization",

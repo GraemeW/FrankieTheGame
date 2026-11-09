@@ -113,9 +113,9 @@ Tests use Unity's built-in Test Framework (Edit Mode + Play Mode, via NUnit), ru
 | Assembly                             | Root Namespace                       | Platform                |
 |--------------------------------------|--------------------------------------|-------------------------|
 | `LowDefMustard.Utils.Tests.Editor`   | `LowDefMustard.Utils.Tests.Editor`   | Editor                  |
-| `LowDefMustard.Utils.Tests.PlayMode` | `LowDefMustard.Utils.Tests.PlayMode` | Unrestricted (PlayMode) |
+| `LowDefMustard.Utils.Tests`          | `LowDefMustard.Utils.Tests`          | Unrestricted (PlayMode) |
 
-Shared test doubles (`TestPredicate`, `FixedResultEvaluator`, `PerPredicateEvaluator`) live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMustard.Utils.Tests`).
+Shared test doubles (`TestPredicate`, `FixedResultEvaluator`, `FixedResultEvaluatorBehaviour`, `PerPredicateEvaluator`) live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMustard.Utils.Tests`).
 Shared test builders (`ConditionBuilder`, `EvaluatorBuilder`, `TestObjectTracker`) live in `Tests/Runtime/TestBuilders/` (same namespace).
 Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`).
 

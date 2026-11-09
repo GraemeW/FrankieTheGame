@@ -3,11 +3,12 @@ using System.Linq;
 
 namespace LowDefMustard.Utils.Tests
 {
-    // Shorthand test convenience condition builder functions
-    //  - When / WhenAll: AND of single-predicate disjunctions
-    //  - WhenAny: one disjunction (OR) of predicates
     public static class ConditionBuilder
     {
+        // Shorthand test convenience condition builder functions
+        //  - When / WhenAll: AND of single-predicate disjunctions
+        //  - WhenAny: one disjunction (OR) of predicates
+        
         public static Condition When(Predicate predicate, bool negate = false) => WhenAll(new[] { (predicate, negate) });
         public static Condition WhenAll(params Predicate[] predicates) => WhenAll(predicates.Select(predicate => (predicate, false)));
 

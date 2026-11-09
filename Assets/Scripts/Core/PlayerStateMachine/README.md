@@ -270,10 +270,10 @@ When adding a request or state:
 | [WorldStateTests](../../Tests/Editor/Core/WorldStateTests.cs)                                     | Edit  | Dialogue / trade / option start failures, closing-controller retry (via `FakePlayerStateContext`) |
 | [TransitionStateTests](../../Tests/Editor/Core/TransitionStateTests.cs)                           | Edit  | Combat requests: commit on fade done, swarm during fade, dropped outside a battle entry           |
 | [TradeMemoryTests](../../Tests/Editor/Core/TradeMemoryTests.cs)                                   | Edit  | Shop start checks (missing / empty shop)                                                          |
-| [PlayerStateOrderingTests](../../Tests/PlayMode/Core/PlayerStateOrderingTests.cs)                 | Play  | Listener ordering when a listener requests a new state, stale ready-to-pop flag                   |
-| [DialogueStateFlowTests](../../Tests/PlayMode/Speech/DialogueStateFlowTests.cs)                   | Play  | Empty / gated start, `onExitDialogue` timing, trigger re-entrancy, closing-controller retry       |
-| [ShopStateFlowTests](../../Tests/PlayMode/Inventory/ShopStateFlowTests.cs)                        | Play  | Empty shop, `transactionCompleted` relay incl. a shop opened from dialogue                        |
-| [BattleControllerRetireTests](../../Tests/PlayMode/Combat/BattleControllerRetireTests.cs)         | Play  | `ExitComplete` retire vs. a controller requested the same frame                                   |
+| [PlayerStateOrderingTests](../../Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Play  | Listener ordering when a listener requests a new state, stale ready-to-pop flag                   |
+| [DialogueStateFlowTests](../../Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Play  | Empty / gated start, `onExitDialogue` timing, trigger re-entrancy, closing-controller retry       |
+| [ShopStateFlowTests](../../Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Play  | Empty shop, `transactionCompleted` relay incl. a shop opened from dialogue                        |
+| [BattleControllerRetireTests](../../Tests/Runtime/Combat/BattleControllerRetireTests.cs)          | Play  | `ExitComplete` retire vs. a controller requested the same frame                                   |
 
 Not yet covered: zone transitions, the full combat flow (fades), and swarm chain.
 

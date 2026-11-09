@@ -23,13 +23,13 @@ The game logic for Frankie is broken down into the below high-level organization
 
 ## Assemblies
 
-|          Assembly          |                                            Location                                            |                                                                     Notes                                                                      |
-|:--------------------------:|:----------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------:|
-|        **Frankie**         |                               [Frankie.asmdef](./Frankie.asmdef)                               |                                        All runtime game logic under `Scripts/` (every namespace above)                                         |
-|     **Frankie.Editor**     |                 [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef)                 |                Each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder                |
-|     **Frankie.Input**      |                              `UnityConfigurables/InputProfiles/`                               |                                            Generated `PlayerInput` wrapper + `StickToPadProcessor`                                             |
-|  **Frankie.Tests.Editor**  |     [Tests/Editor/Frankie.Tests.Editor.asmdef](./Tests/Editor/Frankie.Tests.Editor.asmdef)     | Edit Mode tests - `internal` members are visible via [AssemblyInfo.cs](./AssemblyInfo.cs) + [Editor/AssemblyInfo.cs](./Editor/AssemblyInfo.cs) |
-| **Frankie.Tests.PlayMode** | [Tests/PlayMode/Frankie.Tests.PlayMode.asmdef](./Tests/PlayMode/Frankie.Tests.PlayMode.asmdef) |                                         Play Mode tests over the Player / WorldUIRoot / Fader prefabs                                          |
+|         Assembly         |                                        Location                                        |                                                                     Notes                                                                      |
+|:------------------------:|:--------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------:|
+|       **Frankie**        |                           [Frankie.asmdef](./Frankie.asmdef)                           |                                        All runtime game logic under `Scripts/` (every namespace above)                                         |
+|    **Frankie.Editor**    |             [Editor/Frankie.Editor.asmdef](./Editor/Frankie.Editor.asmdef)             |                Each feature-local `Editor/` folder joins it via a `Frankie.Editor.asmref` - add one to any new `Editor/` folder                |
+|    **Frankie.Input**     |                          `UnityConfigurables/InputProfiles/`                           |                                            Generated `PlayerInput` wrapper + `StickToPadProcessor`                                             |
+| **Frankie.Tests.Editor** | [Tests/Editor/Frankie.Tests.Editor.asmdef](./Tests/Editor/Frankie.Tests.Editor.asmdef) | Edit Mode tests - `internal` members are visible via [AssemblyInfo.cs](./AssemblyInfo.cs) + [Editor/AssemblyInfo.cs](./Editor/AssemblyInfo.cs) |
+|    **Frankie.Tests**     |       [Tests/Runtime/Frankie.Tests.asmdef](./Tests/Runtime/Frankie.Tests.asmdef)       |                           Play Mode tests over the Player / WorldUIRoot / Fader prefabs (incl. shared test builders)                           |
 
 ## Standalone Packages
 
@@ -84,16 +84,16 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 |---------------------------------|---------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
 | `Dialogue`                      | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     | Localization entries not yet tested                         |
 | `DialogueConditionNode`         | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     |                                                             |
-| `DialogueController`            | Partial | [DialogueStateFlowTests.cs](./Tests/PlayMode/Speech/DialogueStateFlowTests.cs)                   | Random pick + choosing untested                             |
-| `AIConversant`                  | Partial | [DialogueStateFlowTests.cs](./Tests/PlayMode/Speech/DialogueStateFlowTests.cs)                   | `onExitDialogue` timing only                                |
-| `DialogueTrigger`               | Partial | [DialogueStateFlowTests.cs](./Tests/PlayMode/Speech/DialogueStateFlowTests.cs)                   | Node triggers untested                                      |
+| `DialogueController`            | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Random pick + choosing untested                             |
+| `AIConversant`                  | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | `onExitDialogue` timing only                                |
+| `DialogueTrigger`               | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Node triggers untested                                      |
 | `PlayerStateRequestDispatcher`  | Yes     | [PlayerStateRequestDispatcherTests.cs](./Tests/Editor/Core/PlayerStateRequestDispatcherTests.cs) |                                                             |
 | `WorldState`                    | Partial | [WorldStateTests.cs](./Tests/Editor/Core/WorldStateTests.cs)                                     | Dialogue / trade / option entry; combat + cutscene untested |
 | `TransitionState`               | Partial | [TransitionStateTests.cs](./Tests/Editor/Core/TransitionStateTests.cs)                           | Combat entry only; dialogue / cutscene / world untested     |
-| `PlayerStateMachine`            | Partial | [PlayerStateOrderingTests.cs](./Tests/PlayMode/Core/PlayerStateOrderingTests.cs)                 | Zone / combat transitions untested                          |
+| `PlayerStateMachine`            | Partial | [PlayerStateOrderingTests.cs](./Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Zone / combat transitions untested                          |
 | `TradeMemory`                   | Yes     | [TradeMemoryTests.cs](./Tests/Editor/Core/TradeMemoryTests.cs)                                   |                                                             |
-| `Shop`                          | Partial | [ShopStateFlowTests.cs](./Tests/PlayMode/Inventory/ShopStateFlowTests.cs)                        | Game state modifiers untested                               |
-| `BattleController`              | Partial | [BattleControllerRetireTests.cs](./Tests/PlayMode/Combat/BattleControllerRetireTests.cs)         | ExitComplete retire only                                    |
+| `Shop`                          | Partial | [ShopStateFlowTests.cs](./Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Game state modifiers untested                               |
+| `BattleController`              | Partial | [BattleControllerRetireTests.cs](./Tests/Runtime/Combat/BattleControllerRetireTests.cs)          | ExitComplete retire only                                    |
 | `DialogueGraph.uss`             | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)                     | See below†                                                  |
 | `DialogueGraphImporter`         | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs)             | Character labels use an existing project character          |
 | `DialogueLocalizationPlan`      | Yes     | [DialogueLocalizationPlanTests.cs](./Tests/Editor/Speech/DialogueLocalizationPlanTests.cs)       | 

@@ -111,7 +111,7 @@ namespace Frankie.Tests.Editor
         }
         #endregion
         
-        #region PrivateHelpers
+        #region Helpers
         private static void BuildFixtureGraph()
         {
             var graph = GraphDatabase.CreateGraph<DialogueGraph>(_graphPath);

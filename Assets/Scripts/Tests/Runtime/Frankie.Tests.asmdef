@@ -1,6 +1,6 @@
 {
-    "name": "Frankie.Tests.PlayMode",
-    "rootNamespace": "Frankie.Tests.PlayMode",
+    "name": "Frankie.Tests",
+    "rootNamespace": "Frankie.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",

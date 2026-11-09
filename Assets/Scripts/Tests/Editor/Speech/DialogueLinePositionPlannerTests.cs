@@ -182,7 +182,7 @@ namespace Frankie.Tests.Editor
         }
         #endregion
 
-        #region PrivateHelpers
+        #region Helpers
         private Dictionary<SpeechGraphNode, (int, int)> Plan(params SpeechGraphNode[] syncedLines)
         {
             var syncedLineIDs = new HashSet<string>(syncedLines.Select(DialogueLinePositionPlanner.GetID));

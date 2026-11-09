@@ -76,10 +76,10 @@ Runtime navmesh generation for 2D scenes, driven entirely by existing colliders 
 
 ## Tests
 
-| Assembly                               | Root Namespace                         | Platform                | References              |
-|----------------------------------------|----------------------------------------|-------------------------|--------------------------|
-| `LowDefMustard.Control.Tests.Editor`   | `LowDefMustard.Control.Tests.Editor`   | Editor only             | `LowDefMustard.Control` |
-| `LowDefMustard.Control.Tests.PlayMode` | `LowDefMustard.Control.Tests.PlayMode` | Unrestricted (PlayMode) | `LowDefMustard.Control` |
+| Assembly                             | Root Namespace                       | Platform                | References              |
+|--------------------------------------|--------------------------------------|-------------------------|-------------------------|
+| `LowDefMustard.Control.Tests.Editor` | `LowDefMustard.Control.Tests.Editor` | Editor only             | `LowDefMustard.Control` |
+| `LowDefMustard.Control.Tests`        | `LowDefMustard.Control.Tests`        | Unrestricted (PlayMode) | `LowDefMustard.Control` |
 
 ### Coverage at a glance
 

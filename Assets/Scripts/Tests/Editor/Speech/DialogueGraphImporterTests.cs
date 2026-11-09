@@ -59,7 +59,7 @@ namespace Frankie.Tests.Editor
         }
         #endregion
 
-        #region PrivateHelpers
+        #region Helpers
         private static string GetIdentity(Object asset) => asset switch
         {
             DialogueNode dialogueNode => dialogueNode.GetNodeID(),

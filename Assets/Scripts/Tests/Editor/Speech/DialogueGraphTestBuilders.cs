@@ -52,7 +52,7 @@ namespace Frankie.Tests.Editor
             return AssetDatabase.LoadMainAssetAtPath(graphPath) as Dialogue;
         }
 
-        #region PrivateMethods
+        #region Helpers
         private static IPort GetOutPort(INode node)
         {
             return node switch
