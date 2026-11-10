@@ -50,3 +50,10 @@ MonoBehaviour:
   shouldEnableAllRooms: 1
   isDemo: 1
   demoZoneOverride: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  debugEnemies: []
+  debugCombatTransitionType: 4
+  debugZone: {fileID: 0}
+  debugZoneNodeID: 
+  debugStatusEffectStat: 4
+  debugStatusEffectAmount: 1
+  debugStatusEffectDuration: 100
