@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -18,9 +18,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             material = RenderingTestMaterials.CreatePropertiesMaterial();
             controlObject = new GameObject("_TEMP_BattleEntryShaderControlTests");
             battleEntryShaderControl = controlObject.AddComponent<BattleEntryShaderControl>();
-            var serializedControl = new SerializedObject(battleEntryShaderControl);
-            serializedControl.FindProperty("battleEntryMaterial").objectReferenceValue = material;
-            serializedControl.ApplyModifiedPropertiesWithoutUndo();
+            SerializedFieldInjector.Set(battleEntryShaderControl, BattleEntryShaderControl.battleEntryMaterialField, material);
         }
 
         [TearDown]
@@ -46,9 +44,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void SetBattleEntryParameters_NoMaterial_DoesNothing()
         {
-            var serializedControl = new SerializedObject(battleEntryShaderControl);
-            serializedControl.FindProperty("battleEntryMaterial").objectReferenceValue = null;
-            serializedControl.ApplyModifiedPropertiesWithoutUndo();
+            SerializedFieldInjector.Set(battleEntryShaderControl, BattleEntryShaderControl.battleEntryMaterialField, null);
 
             Assert.DoesNotThrow(() => battleEntryShaderControl.SetBattleEntryParameters(Color.magenta, 2f, 0.5f));
         }

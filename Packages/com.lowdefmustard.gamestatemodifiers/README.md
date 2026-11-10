@@ -34,9 +34,16 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
       - Requires explicit serialized backing fields for `handlerGUID` / `modifierListHashCheck` / `hasGameStateModifiers` / `gameStateModifierGUIDs` (default interface properties can't themselves carry `[SerializeField]` state)
       - `gameObject` is declared on the interface but deliberately left unimplemented — it is satisfied implicitly by `MonoBehaviour.gameObject`, which is why this interface can only be implemented by a `MonoBehaviour`-derived class, never a plain C# class
       - The one method an implementer must actually supply is `GetGameStateModifiers()` (which asset(s) this handler references); everything else is default-implemented
-      - `OnBeforeSerialize()` (editor-only): builds a `ZoneToGameObjectLinkData` for the handler's current scene/name/parent, hashes it together with its linked `GameStateModifier` GUIDs (`GetModifierListHashCheck`) to skip redundant work when nothing's changed, then reconciles — updates/adds this handler's entry on every currently-linked `GameStateModifier`, and cleans its entry off any `GameStateModifier` it *used* to reference but no longer does
+      - `OnBeforeSerialize()` (editor-only): builds a `ZoneToGameObjectLinkData` for the handler's current scene/name/parent, hashes it together with its linked `GameStateModifier` GUIDs (`GetModifierListHashCheck` ~ skip redundant work if nothing changed), and finally reconciles
+        - reconciliation involves updating/adding this handler's entry on every currently-linked `GameStateModifier` ++ cleaning its entry off any `GameStateModifier` that it *used* to reference (//no longer does)
+        - note that the hash is persisted, so we use a deterministic FNV-1a over the raw characters (`LowDefMustard.Utils.StableHash`) 
+      - `RecordHandlerModifications(handler)` — marks the handler dirty and, on a prefab instance, records its backing fields as prefab overrides
+        - prefab override explicitly required, otherwise prefab instance are silently dropped on scene save
+        - `OnBeforeSerialize()` defers this method call via `EditorApplication.delayCall` as it isn't safe to call from inside the serialization callback
+        - likewise, batch tools that save the scene immediately (e.g. `ForceSerializeAllHandlers`) must call it directly after `OnBeforeSerialize()`
       - `TriggerOnGizmos(this)` — optional scene-view gizmo (a star-in-circle, at the handler's `SpriteRenderer` bounds center if present) drawn when `hasGameStateModifiers` is true, for spotting linked objects visually while scene-editing
       - All reconciliation is guarded by `EditorStateCheck.IsStandardEditorState` (`com.lowdefmustard.utils`), so it doesn't fire during play mode, domain reload, prefab isolation, or on non-scene assets
+- **`IGameStateModifierPredicate`** (interface) — Implemented by a `Predicate` (`com.lowdefmustard.utils`) whose evaluation depends on one or more `GameStateModifier`s ~ exposing them via `GetGameStateModifiers()`
 - **`ZoneToGameObjectLinkData`** — Serializable struct (`zoneName`, `gameObjectName`, `parentObjectName`, `guid`); equality is defined purely on `guid`. One entry per handler, stored in the owning `GameStateModifier.gameStateModifierHandlerData` list
 
 ### Editor Tooling (`Editor/GameStateModifierEditor.cs`)
@@ -44,9 +51,9 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 - **`GameStateModifierEditor`** (`[CustomEditor(typeof(GameStateModifier), true)]`) — UI Toolkit custom inspector replacing the default list rendering of `gameStateModifierHandlerData`
   - includes a foldout of styled entry cards comprising: 
     - zone/object/GUID fields
-    - an "Open & Select" button (opens the entry's scene and selects the linked GameObject, falling back to a name search with a warning if the GUID can't be resolved)
-    - a per-entry delete button
-    - a "Remove Invalid Entries" button wired to `CleanDanglingModifierHandlerData`
+    - "Open & Select" button
+    - per-entry delete button
+    - "Remove Invalid Entries" button
   - Manual field editing is locked behind an explicit 🔓/🔒 toggle, with a standing warning that hand-edits here don't propagate back to the actual scene object — they're a local override, not a re-link
 - **`OpenSceneAndActProvider`** — optional static hook (`Action<string, Action>`) letting a consuming project substitute its own scene-opening flow (e.g. `com.lowdefmustard.zones`'s `ZoneTools.OpenSceneAndAct`) for the built-in `DefaultOpenSceneAndAct`
 
@@ -72,21 +79,21 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ### Coverage at a glance
 
-| Category                     | Tested / Total   | Notes                                                                                                                |
-|------------------------------|------------------|----------------------------------------------------------------------------------------------------------------------|
-| `ZoneToGameObjectLinkData`   | 6 / 6            | Constructor, `UpdateRecord`, `GetParentLabelStem`, `Equals`/`GetHashCode`, `Get*Ref()` helpers                       |
-| `GameStateModifier`          | 6 / 7            | Guid generation, add/update/remove handler, dedup, partial clean-dangling, partial scene-path lookup                 |
-| `IGameStateModifierHandler`  | 8 / 9            | `MakeZoneToGameObjectLinkData`, hash-check, add/remove-stale reconciliation, `OnBeforeSerialize`, `TriggerOnDestroy` |
-| `GameStateModifierEditor`    | 5 / 7            | Inspector structure, edit-lock toggle, add/remove/delete buttons, entry display logic                                |
+| Category                     | Tested / Total   | Notes                                                                                                                                              |
+|------------------------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ZoneToGameObjectLinkData`   | 6 / 6            | Constructor, `UpdateRecord`, `GetParentLabelStem`, `Equals`/`GetHashCode`, `Get*Ref()` helpers                                                     |
+| `GameStateModifier`          | 6 / 7            | Guid generation, add/update/remove handler, dedup, partial clean-dangling, partial scene-path lookup                                               |
+| `IGameStateModifierHandler`  | 8 / 10           | `MakeZoneToGameObjectLinkData`, hash-check, add/remove-stale reconciliation, `OnBeforeSerialize`, `TriggerOnDestroy`, `RecordHandlerModifications` |
+| `GameStateModifierEditor`    | 6 / 8            | Inspector structure, edit-lock toggle, add/remove/delete buttons, entry display logic, select name-match filter                                    |
 
 ### Detail by type
 
-| Type                         | Status  | Test file(s)                       | Notes                                                                   |
-|------------------------------|---------|------------------------------------|-------------------------------------------------------------------------|
-| `ZoneToGameObjectLinkData`   | Yes     | `ZoneToGameObjectLinkDataTests.cs` |                                                                         |
-| `GameStateModifier`          | Partial | `GameStateModifierTests.cs`        | `GetGameStateModifier`/`BuildCache` skipped — needs real project assets |
-| `IGameStateModifierHandler`  | Partial | `GameStateModifierHandlerTests.cs` | `TriggerOnGizmos` skipped - needs a live GUI/SceneView context          |
-| `GameStateModifierEditor`    | Partial | `GameStateModifierEditorTests.cs`  | Click paths with destructive scene open / blocking dialogue skipped     |
+| Type                         | Status  | Test file(s)                       | Notes                                                                                                                                                                 |
+|------------------------------|---------|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ZoneToGameObjectLinkData`   | Yes     | `ZoneToGameObjectLinkDataTests.cs` |                                                                                                                                                                       |
+| `GameStateModifier`          | Partial | `GameStateModifierTests.cs`        | `GetGameStateModifier`/`BuildCache` skipped - needs real project assets                                                                                               |
+| `IGameStateModifierHandler`  | Partial | `GameStateModifierHandlerTests.cs` | `TriggerOnGizmos` skipped - needs a live GUI/SceneView context; `RecordHandlerModifications` prefab-override path skipped - test double cannot live on a saved prefab |
+| `GameStateModifierEditor`    | Partial | `GameStateModifierEditorTests.cs`  | Click paths with destructive scene open / blocking dialogue skipped                                                                                                   |
 
 ## License
 

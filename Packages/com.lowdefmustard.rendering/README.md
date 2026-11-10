@@ -152,12 +152,10 @@ A `BattleEffectDataLayout` const (in its section's group) + its write in `Battle
 
 ## Tests
 
-| Assembly                               | Root Namespace                         | Platform       | References                                                                                |
-|----------------------------------------|----------------------------------------|----------------|-------------------------------------------------------------------------------------------|
-| `LowDefMustard.Rendering.Tests.Editor` | `LowDefMustard.Rendering.Tests.Editor` | Editor only    | `LowDefMustard.Rendering`, `LowDefMustard.Rendering.Editor`                               |
-| `LowDefMustard.Rendering.Tests`        | `LowDefMustard.Rendering.Tests`        | Any (PlayMode) | `LowDefMustard.Rendering`, `Unity.Cinemachine`, `Unity.RenderPipelines.Universal.Runtime` |
-
-`Tests/Runtime` holds the PlayMode tests (matching the other packages). They set private serialized hookups through `SerializedObject`, so the test files are editor-only (`#if UNITY_EDITOR`).
+| Assembly                               | Root Namespace                         | Platform       | References                                                                                                             |
+|----------------------------------------|----------------------------------------|----------------|------------------------------------------------------------------------------------------------------------------------|
+| `LowDefMustard.Rendering.Tests.Editor` | `LowDefMustard.Rendering.Tests.Editor` | Editor only    | `LowDefMustard.Rendering`, `LowDefMustard.Rendering.Editor`, `LowDefMustard.Utils.Tests`                               |
+| `LowDefMustard.Rendering.Tests`        | `LowDefMustard.Rendering.Tests`        | Any (PlayMode) | `LowDefMustard.Rendering`, `Unity.Cinemachine`, `Unity.RenderPipelines.Universal.Runtime`, `LowDefMustard.Utils.Tests` |
 
 `Tests/Editor/Shaders/RenderingTestProperties.shader` is a test-only shader declaring every property the package sets, so material + `MaterialDefinition` writes can be read back. Rendering tests (the frame exporter + the window's export) instead need a battle effect material and are ignored when the project has none; importing the Battle Effect sample provides one.
 

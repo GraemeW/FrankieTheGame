@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using LowDefMustard.Control;
+using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using Frankie.Core;
@@ -8,7 +11,8 @@ using Frankie.Control;
 
 namespace Frankie.Speech
 {
-    public class AIConversant : CheckBase, IPredicateEvaluator, ISaveable<int>
+    [ExecuteInEditMode]
+    public class AIConversant : CheckBase, IPredicateEvaluator, ISaveable<int>, IGameStateModifierHandler
     {
         // Note:  Internal methods/properties are for test visibility
         
@@ -18,13 +22,38 @@ namespace Frankie.Speech
         [SerializeField] private UnityEvent onExitDialogue;
         [SerializeField] private bool saveDialogueCount = false;
 
+        // Editor Field References
+        internal const string dialogueField = nameof(dialogue);
+
+        // GameState Modifier Properties
+        [SerializeField][HideInInspector] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
+        
         // State
         private int dialogueCount = 0;
 
         #region UnityMethods
         private void Start()
         {
+            if (!Application.isPlaying) { return; } // [ExecuteInEditMode] -> don't leave runtime speaker overrides on the shared dialogue asset
             if (dialogue != null) { dialogue.OverrideSpeakerNames(null); }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            IGameStateModifierHandler.TriggerOnDestroy(this);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            IGameStateModifierHandler.TriggerOnGizmos(this);
         }
         #endregion
 
@@ -69,6 +98,18 @@ namespace Frankie.Speech
         {
             var predicateAIConversant = predicate as PredicateAIConversant;
             return predicateAIConversant != null ? predicateAIConversant.Evaluate(this) : null;
+        }
+        
+        // GameStateModifierHandler Interface
+        public IList<GameStateModifier> GetGameStateModifiers()
+        {
+            if (dialogue == null) { return new List<GameStateModifier>(); }
+            return dialogue.GetAllPredicates()
+                .OfType<IGameStateModifierPredicate>()
+                .SelectMany(predicate => predicate.GetGameStateModifiers())
+                .Where(gameStateModifier => gameStateModifier != null)
+                .Distinct()
+                .ToList();
         }
         
         // Save Interface (overrides CheckBase)

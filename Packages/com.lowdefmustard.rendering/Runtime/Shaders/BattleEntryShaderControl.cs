@@ -9,6 +9,9 @@ namespace LowDefMustard.Rendering
         // Tunables
         [SerializeField] private Material battleEntryMaterial;
 
+        // Editor Field References
+        internal const string battleEntryMaterialField = nameof(battleEntryMaterial);
+
         public void SetBattleEntryParameters(Color tint, float fadeTime, float fadeOutTime)
         {
             ShaderPropertyRefs.SetTint(battleEntryMaterial, tint);

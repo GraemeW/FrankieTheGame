@@ -131,23 +131,28 @@ namespace LowDefMustard.GameStateModifiers.Editor
         #endregion
         
         #region CoreFunctionality
-        private static void SelectGameObject(string handlerGUID, string handlerGameObjectName)
+        private static void SelectGameObject(string handlerGUID, string handlerGameObjectName, string handlerParentObjectName)
         {
-            GameObject foundGameObject = (
-                from handler in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>()
-                where handler.handlerGUID == handlerGUID
-                select handler.gameObject
-            ).FirstOrDefault();
+            List<IGameStateModifierHandler> handlers = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>().ToList();
+            GameObject foundGameObject = handlers.Where(handler => handler.handlerGUID == handlerGUID).Select(handler => handler.gameObject).FirstOrDefault();
 
             if (foundGameObject == null)
             {
-                LDMLog.Warning(LDMLogCategory.World, $"No handler found with GUID '{handlerGUID}'. Falling back to a name search for '{handlerGameObjectName}'; check the GUID hook-up.");
-                foundGameObject = FindObjectsByType<GameObject>(FindObjectsInactive.Include).FirstOrDefault(go => go.name == handlerGameObjectName);
+                string parentStem = !string.IsNullOrEmpty(handlerParentObjectName) ? $"{handlerParentObjectName}/" : "";
+                LDMLog.Warning(LDMLogCategory.World, $"No handler found with GUID '{handlerGUID}'. Falling back to a name search for '{parentStem}{handlerGameObjectName}'; check the GUID hook-up.");
+                
+                List<GameObject> nameMatches = handlers.Select(handler => handler.gameObject).Where(handlerObject => IsNameMatch(handlerObject, handlerGameObjectName, handlerParentObjectName)).Distinct().ToList();
+                if (nameMatches.Count > 1)
+                {
+                    LDMLog.Warning(LDMLogCategory.World, $"{nameMatches.Count} handlers named '{parentStem}{handlerGameObjectName}' found in the open scene; skipping selection (cannot guess).");
+                    return;
+                }
+                foundGameObject = nameMatches.FirstOrDefault();
             }
 
             if (foundGameObject == null)
             {
-                LDMLog.Warning(LDMLogCategory.World, $"No GameObject named '{handlerGameObjectName}' found in the open scene.");
+                LDMLog.Warning(LDMLogCategory.World, $"No handler named '{handlerGameObjectName}' found in the open scene.");
                 return;
             }
 
@@ -155,6 +160,13 @@ namespace LowDefMustard.GameStateModifiers.Editor
             var sceneView = SceneView.lastActiveSceneView;
             if (sceneView != null) { sceneView.FrameSelected(); }
             LDMLog.Info(LDMLogCategory.World, $"Selected '{handlerGameObjectName}'.", foundGameObject);
+        }
+        
+        internal static bool IsNameMatch(GameObject handlerObject, string handlerGameObjectName, string handlerParentObjectName)
+        {
+            if (handlerObject == null || handlerObject.name != handlerGameObjectName) { return false; }
+            string parentName = handlerObject.transform.parent != null ? handlerObject.transform.parent.name : "";
+            return parentName == (handlerParentObjectName ?? "");
         }
         
         private void RemoveInvalidEntries(ClickEvent clickEvent)
@@ -290,7 +302,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
             entryHeaderRow.Add(displayNameLabel);
             
             // Buttons
-            Button openButton = MakeOpenSceneButton(zoneName, handlerGUID, handlerGameObjectName);
+            Button openButton = MakeOpenSceneButton(zoneName, handlerGUID, handlerGameObjectName, handlerParentObjectName);
             entryHeaderRow.Add(openButton);
             Button deleteButton = MakeDeleteButton(itemIndex);
             entryHeaderRow.Add(deleteButton);
@@ -311,14 +323,14 @@ namespace LowDefMustard.GameStateModifiers.Editor
             return entryBox;
         }
 
-        private static Button MakeOpenSceneButton(string zoneName, string handlerGUID, string handlerGameObjectName)
+        private static Button MakeOpenSceneButton(string zoneName, string handlerGUID, string handlerGameObjectName, string handlerParentObjectName)
         {
             bool viableSceneLoad = !string.IsNullOrWhiteSpace(zoneName) && !string.IsNullOrWhiteSpace(handlerGameObjectName);
             Button openButton = MakeStandardButton(_buttonOpenSceneText);
             openButton.RegisterCallback<ClickEvent>(_ =>
             {
-                if (openSceneAndActProvider != null) { EditorApplication.delayCall += () => openSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
-                else { DefaultOpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
+                if (openSceneAndActProvider != null) { EditorApplication.delayCall += () => openSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName, handlerParentObjectName)); }
+                else { DefaultOpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName, handlerParentObjectName)); }
             });
             openButton.SetEnabled(viableSceneLoad);
             return openButton;

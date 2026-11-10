@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,12 +8,13 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 {
     // Covered:
     //  - MakeZoneToGameObjectLinkData 
-    //  - GetModifierListHashCheck (only relative comparisons asserted - System.HashCode output not stable across runs)
+    //  - GetModifierListHashCheck (deterministic via StableHash -> exact values asserted)
     //  - AddUpdateGameStateModifiers, RemoveStaleGameStateModifiers, RemoveSelfFromGameStateModifiers
     //      -  RemoveStale: only list-bookkeeping logic, missing GUID branch not viable w/ fake GUIDs
-    //  - ForceSerializeGameObject, OnBeforeSerialize (ISerializationCallbackReceiver, full reconciliation) + TriggerOnDestroy
+    //  - RecordHandlerModifications (non-prefab dirtying), OnBeforeSerialize (ISerializationCallbackReceiver, full reconciliation) + TriggerOnDestroy
     // Not Covered:
     //  - TriggerOnGizmos
+    //  - RecordHandlerModifications on a prefab instance (test double can't live on a saved prefab) - verified via ForceSerializeAllHandlers + scene YAML
 
     public class GameStateModifierHandlerTests
     {
@@ -127,40 +129,69 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         #endregion
 
         #region GetModifierListHashCheck
+        // Exact values computed independently ~ StableHash itself is covered in LowDefMustard.Utils
         [Test]
-        public void GetModifierListHashCheck_SameInputs_ProduceSameHash_WithinSameRun()
+        public void GetModifierListHashCheck_KnownInputs_ProduceFixedValue_AcrossRuns()
         {
             handler.handlerGUID = "guid-1";
 
-            int first = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object");
-            int second = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object");
-
-            Assert.AreEqual(first, second); // System.HashCode salts per process run, so only relative comparisons are valid
+            Assert.AreEqual(-618369279, ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object", ""));
         }
 
         [Test]
-        public void GetModifierListHashCheck_DifferentZoneName_ProducesDifferentHash_WithinSameRun()
+        public void GetModifierListHashCheck_NullModifierInList_HashedDistinctly()
+        {
+            handler.handlerGUID = "guid-1";
+            handler.modifiersToReturn.Add(null);
+
+            Assert.AreEqual(1371972781, ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object", ""));
+        }
+
+        [Test]
+        public void GetModifierListHashCheck_ShiftedFieldBoundary_ProducesDifferentHash()
         {
             handler.handlerGUID = "guid-1";
 
-            int first = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("ZoneA", "Object");
-            int second = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("ZoneB", "Object");
+            int first = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("ab", "c", "");
+            int second = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("a", "bc", "");
 
             Assert.AreNotEqual(first, second);
         }
 
         [Test]
-        public void GetModifierListHashCheck_DifferentModifierList_ProducesDifferentHash_WithinSameRun()
+        public void GetModifierListHashCheck_DifferentZoneName_ProducesDifferentHash()
         {
             handler.handlerGUID = "guid-1";
-            int emptyListHash = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object");
+
+            int first = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("ZoneA", "Object", "");
+            int second = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("ZoneB", "Object", "");
+
+            Assert.AreNotEqual(first, second);
+        }
+
+        [Test]
+        public void GetModifierListHashCheck_DifferentParentName_ProducesDifferentHash()
+        {
+            handler.handlerGUID = "guid-1";
+
+            int first = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object", "ParentA");
+            int second = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object", "ParentB");
+
+            Assert.AreNotEqual(first, second);
+        }
+
+        [Test]
+        public void GetModifierListHashCheck_DifferentModifierList_ProducesDifferentHash()
+        {
+            handler.handlerGUID = "guid-1";
+            int emptyListHash = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object", "");
 
             TestGameStateModifier modifier = CreateModifier();
             try
             {
-                modifier.OnBeforeSerialize(); // force-generate modifier guid - otherwise guid stays null and the hash-comparer's GetHashCode NREs
+                modifier.OnBeforeSerialize(); // force-generate modifier guid
                 handler.modifiersToReturn.Add(modifier);
-                int withModifierHash = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object");
+                int withModifierHash = ((IGameStateModifierHandler)handler).GetModifierListHashCheck("Zone", "Object", "");
 
                 Assert.AreNotEqual(emptyListHash, withModifierHash);
             }
@@ -267,11 +298,21 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         }
         #endregion
 
-        #region ForceSerializeGameObject
+        #region RecordHandlerModifications
         [Test]
-        public void ForceSerializeGameObject_DoesNotThrow()
+        public void RecordHandlerModifications_NullHandler_DoesNotThrow()
         {
-            Assert.DoesNotThrow(() => ((IGameStateModifierHandler)handler).ForceSerializeGameObject());
+            Assert.DoesNotThrow(() => IGameStateModifierHandler.RecordHandlerModifications(null));
+        }
+
+        [Test]
+        public void RecordHandlerModifications_SceneHandler_MarksComponentDirty()
+        {
+            EditorUtility.ClearDirty(handler);
+
+            IGameStateModifierHandler.RecordHandlerModifications(handler);
+
+            Assert.IsTrue(EditorUtility.IsDirty(handler));
         }
         #endregion
 

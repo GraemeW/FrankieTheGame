@@ -98,6 +98,14 @@ MonoBehaviour:
     gameObjectName: QuestReceivedDocuments
     parentObjectName: Horse (1)
     guid: c2a3aed0-a937-43f5-b032-5871ed446b2a
+  - zoneName: OfficeInterior
+    gameObjectName: ConversantComponent
+    parentObjectName: Maya (1)
+    guid: 3f7945d3-a40a-4ff4-a84d-064133fe9d40
+  - zoneName: OfficeInterior
+    gameObjectName: ConversantComponent
+    parentObjectName: Horse (1)
+    guid: 7734c67b-5541-4a85-87c0-c2b35ffa8a16
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

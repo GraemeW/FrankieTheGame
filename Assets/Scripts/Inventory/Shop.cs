@@ -15,19 +15,6 @@ namespace Frankie.Inventory
     {
         // Note:  Internal methods/properties are for test visibility
         
-        // Interface Properties
-        [SerializeField] private string backingHandlerGUID;
-        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
-        
-        [SerializeField][HideInInspector] private int backingListHashCheck;
-        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
-        
-        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
-        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
-        
-        [SerializeField] [HideInInspector] private List<string> backingGameStateModifierGUIDs;
-        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
-        
         // Tunables
         [Header("Base Attributes")]
         [SerializeField] private List<InventoryItem> stock = new();
@@ -44,6 +31,19 @@ namespace Frankie.Inventory
         [Header("Transaction Events")]
         [SerializeField] private UnityEvent transactionCompleted;
 
+        // Editor Field References
+        internal const string stockField = nameof(stock);
+
+        // GameState Modifier Properties
+        [SerializeField][HideInInspector] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        [SerializeField] [HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
+        
         // State
         private Shopper shopper;
 

@@ -14,7 +14,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
     // Not Covered:
     //  - RemoveInvalidEntries's click handler: calls EditorUtility.DisplayDialog
     //      - hangs test runner
-    //  - MakeOpenSceneButton's click handler / SelectGameObject / DefaultOpenSceneAndAct:
+    //  - MakeOpenSceneButton's click handler / SelectGameObject / DefaultOpenSceneAndAct (IsNameMatch fallback filter is covered):
     //      - calls  EditorSceneManager.OpenScene, pops blocking dialogue, unsafe to test in test runner
 
     public class GameStateModifierEditorTests
@@ -321,6 +321,42 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 
             Assert.AreEqual(1, asset.gameStateModifierHandlerData.Count);
             Assert.AreEqual("ZoneB", asset.gameStateModifierHandlerData[0].zoneName); // surviving entry
+        }
+        #endregion
+
+        #region IsNameMatch
+        [Test]
+        public void IsNameMatch_SameNameDifferentParent_ReturnsFalse()
+        {
+            var parent = new GameObject("ParentA");
+            var child = new GameObject("Handler");
+            try
+            {
+                child.transform.SetParent(parent.transform);
+                Assert.IsTrue(GameStateModifierEditor.IsNameMatch(child, "Handler", "ParentA"));
+                Assert.IsFalse(GameStateModifierEditor.IsNameMatch(child, "Handler", "ParentB"));
+            }
+            finally
+            {
+                Object.DestroyImmediate(parent);
+            }
+        }
+
+        [Test]
+        public void IsNameMatch_NoParent_MatchesEmptyOrNullParentName()
+        {
+            var handlerObject = new GameObject("Handler");
+            try
+            {
+                Assert.IsTrue(GameStateModifierEditor.IsNameMatch(handlerObject, "Handler", ""));
+                Assert.IsTrue(GameStateModifierEditor.IsNameMatch(handlerObject, "Handler", null));
+                Assert.IsFalse(GameStateModifierEditor.IsNameMatch(handlerObject, "Other", ""));
+                Assert.IsFalse(GameStateModifierEditor.IsNameMatch(null, "Handler", ""));
+            }
+            finally
+            {
+                Object.DestroyImmediate(handlerObject);
+            }
         }
         #endregion
     }

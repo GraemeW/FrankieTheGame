@@ -63,6 +63,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
                         string gameStateModifierHandlerName = gameStateModifierHandler.gameObject.transform.parent != null ? $"{gameStateModifierHandler.gameObject.transform.parent.name}/{gameStateModifierHandler.gameObject.name}" : $"{gameStateModifierHandler.gameObject.name}";
                         LDMLog.Info(LDMLogCategory.World, $"Force-serializing handler '{gameStateModifierHandlerName}'.");
                         gameStateModifierHandler.OnBeforeSerialize();
+                        IGameStateModifierHandler.RecordHandlerModifications(gameStateModifierHandler); // OnBeforeSerialize's own deferred record would land after the scene is closed
                     }
 
                     EditorSceneManager.MarkSceneDirty(scene);

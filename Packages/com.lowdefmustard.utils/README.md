@@ -33,6 +33,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 - **`EnumExtensions.NextClamped<T>()`** — Returns the next value in an enum's declaration order, clamped to the last value (no wraparound)
 - **`ListExtensions.Shuffle<T>()`** — In-place Fisher–Yates shuffle for any `IList<T>`
 - **`ApproximateFloatComparer`** — `IEqualityComparer<float>` that treats floats as equal within a configurable tolerance (default `0.005`); handles `NaN`/`±Infinity`
+- **`StableHash`** — Deterministic FNV-1a string hash (`GetOffsetBasis()` seed, chained `Add(hash, value)`), identical across sessions, platforms and runtimes; use it for any persisted hash, since `System.HashCode` is seeded per domain and `string.GetHashCode` is randomized on CoreCLR
 - **`SmartVector2.CheckDistance(...)`** — Squared-distance threshold check between two `Vector2`s (avoids a `sqrt`), with an overload that also returns the squared delta
 - **`SerializableVector2` / `SerializableVector3`** — Plain serializable float-based mirrors of Unity's vector types, for contexts where you need `[Serializable]` fields without the `Vector2`/`Vector3` overhead
 - **`SerializablePolygon`** — Serializable list of `Vector2` points
@@ -128,18 +129,19 @@ Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
 * `EvaluatorBuilder`
 * `TestObjectTracker`
 
-Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`):
+Editor-only test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`):
 * `TempAssetFolder`: creates a disposable `Assets/_TEMP_<Name>_SafeToDelete` folder for edit mode tests
   * deletes with file operations + `AssetDatabase.Refresh` by default ~ so e.g. `ILocalizable` assets don't trigger `LocalizationDeletionHandler` and wipe real localization entries
   * pass `deleteViaAssetDatabase: true` only when a test means to exercise deletion handlers
 * `TestWait.Until(condition, timeoutSeconds)`: yields updates until a condition holds or the timeout passes
   * it only times out ~ must be followed with the appropriate test assertion
+* `SerializedFieldInjector.Set(target, fieldName, value)` / `SetArray(target, fieldName, values...)`: sets a private `[SerializeField]` object reference (or reference array/list) as the inspector would
 
 ### Coverage at a glance
 
 | Category                       | Types | Tested | Notes                                                                                                      |
 |--------------------------------|:-----:|:------:|------------------------------------------------------------------------------------------------------------|
-| Data Structures & Extensions   | 16    |   15   | `IStandardGraphNode` has no concrete implementation in this package to test against                        |
+| Data Structures & Extensions   | 17    |   16   | `IStandardGraphNode` has no concrete implementation in this package to test against                        |
 | Custom Attribute Drawers       | 3     |   3†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered                      |
 | Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                                                |
 | Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                                      |
@@ -164,6 +166,7 @@ Editor-only test utilities (`AssetTestUtility`) live in `Tests/Runtime/TestUtili
 | `EnumExtensions.NextClamped<T>()`                      | Yes      | `EnumExtensionsTests.cs`                                       |                                                                                                                                                      |
 | `ListExtensions.Shuffle<T>()`                          | Yes      | `ListExtensionsTests.cs`                                       |                                                                                                                                                      |
 | `ApproximateFloatComparer`                             | Yes      | `ApproximateFloatComparerTests.cs`                             |                                                                                                                                                      |
+| `StableHash`                                           | Yes      | `StableHashTests.cs`                                           |                                                                                                                                                      |
 | `SmartVector2.CheckDistance(...)`                      | Yes      | `SmartVector2Tests.cs`                                         |                                                                                                                                                      |
 | `SerializableVector2` / `SerializableVector3`          | Yes      | `SerializableDataTests.cs`                                     |                                                                                                                                                      |
 | `SerializablePolygon`                                  | Yes      | `SerializableDataTests.cs`                                     |                                                                                                                                                      |

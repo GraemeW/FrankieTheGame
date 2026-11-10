@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 using LowDefMustard.Utils.Tests;
@@ -49,11 +48,7 @@ namespace Frankie.Tests
         private InventoryItem Stock()
         {
             var item = objects.Create<KeyItem>("ShopStateFlowTests_Item");
-            var serializedShop = new SerializedObject(shop);
-            SerializedProperty stock = serializedShop.FindProperty("stock");
-            stock.arraySize = 1;
-            stock.GetArrayElementAtIndex(0).objectReferenceValue = item;
-            serializedShop.ApplyModifiedPropertiesWithoutUndo();
+            SerializedFieldInjector.SetArray(shop, Shop.stockField, item);
             return item;
         }
 

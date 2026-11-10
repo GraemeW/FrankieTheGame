@@ -54,6 +54,10 @@ MonoBehaviour:
     gameObjectName: ElectricalBreaker
     parentObjectName: LackLustreVideo_B4
     guid: c0e04e1f-9605-470d-929f-3d44288d4306
+  - zoneName: Demo_Forest1to20-Interior
+    gameObjectName: ConversantComponent
+    parentObjectName: HipsterOfficeWorker
+    guid: 805cc03e-d196-40bc-9977-a8b637dab63c
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

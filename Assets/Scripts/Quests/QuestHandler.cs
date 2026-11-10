@@ -9,22 +9,19 @@ namespace Frankie.Quests
     [ExecuteInEditMode] 
     public class QuestHandler : MonoBehaviour, IGameStateModifierHandler
     {
-        // Interface Properties
-        [SerializeField] private string backingHandlerGUID;
-        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
-        
-        [SerializeField][HideInInspector] private int backingListHashCheck;
-        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
-        
-        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
-        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
-
-        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
-        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
-
         // Tunables
         [SerializeField][Tooltip("Configure for Give Quest")] private Quest quest;
         [SerializeField][Tooltip("Configure for Complete Objective")] protected QuestObjective questObjective;
+        
+        // GameState Modifier Properties
+        [SerializeField][HideInInspector] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
         
         // Cached References
         private ReInitLazyValue<QuestList> questList;

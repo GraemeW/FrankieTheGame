@@ -25,6 +25,7 @@ namespace Frankie.Speech
 
         #region GettersSetters
         public IEnumerable<DialogueNode> GetAllDialogueNodes() => dialogueNodes;
+        public IEnumerable<Predicate> GetAllPredicates() => conditionNodes.Where(conditionNode => conditionNode != null).SelectMany(conditionNode => conditionNode.GetPredicates()).Distinct();
         public DialogueNode GetDialogueNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode != null && dialogueNode.GetNodeID() == nodeID);
         private DialogueConditionNode GetConditionNodeFromID(string nodeID) => conditionNodes.FirstOrDefault(conditionNode => conditionNode != null && conditionNode.GetNodeID() == nodeID);
 

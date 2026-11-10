@@ -17,19 +17,6 @@ namespace Frankie.World
     [ExecuteInEditMode]
     public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable<int>, ILocalizable
     {
-        // GameState Modifier Properties
-        [SerializeField] private string backingHandlerGUID;
-        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
-        
-        [SerializeField][HideInInspector] private int backingListHashCheck;
-        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
-        
-        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
-        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
-        
-        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
-        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
-        
         // Tunables
         [SerializeField] private InventoryItem inventoryItem;
         [SerializeField] private int itemQuantity = 1;
@@ -40,6 +27,16 @@ namespace Frankie.World
         [Header("Other Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageInventoryFull;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageNothing;
+        
+        // GameState Modifier Properties
+        [SerializeField][HideInInspector] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
         
         // Localization Properties
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;

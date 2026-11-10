@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using LowDefMustard.Utils;
 
@@ -19,6 +20,14 @@ namespace Frankie.Speech
         public string GetNodeID() => nodeID;
         public List<string> GetChildren() => children;
         public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators) => condition == null || condition.Check(evaluators);
+        public IEnumerable<Predicate> GetPredicates()
+        {
+            if (condition == null) { return Enumerable.Empty<Predicate>(); }
+            return condition.GetDisjunctions()
+                .SelectMany(disjunction => disjunction.GetPredicateWrappers())
+                .Select(predicateWrapper => predicateWrapper.GetPredicate())
+                .Where(predicate => predicate != null);
+        }
 
 #if UNITY_EDITOR
         internal void Initialize(string setNodeID, Condition setCondition, IEnumerable<string> setChildren)

@@ -18,6 +18,10 @@ MonoBehaviour:
     gameObjectName: Bed
     parentObjectName: Flavour
     guid: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
+  - zoneName: ApartmentInterior
+    gameObjectName: ConversantComponent
+    parentObjectName: LucyNPC (1)
+    guid: 81b0967a-294a-4569-a008-327e4ce3a26b
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

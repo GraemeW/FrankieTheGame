@@ -18,6 +18,10 @@ MonoBehaviour:
     gameObjectName: SkilledOfficeWorker
     parentObjectName: LackLustreVideo_B3-SideRoom
     guid: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
+  - zoneName: Demo_Forest1to20-Interior
+    gameObjectName: ConversantComponent
+    parentObjectName: SkilledOfficeWorker
+    guid: da9c8dc4-5fd8-4dd6-9ebd-4b3350b55a77
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,14 +48,7 @@ namespace Frankie.Tests.Editor
         #region Helpers
         private bool InitiateTrade(Shop tradeShop) => tradeMemory.InitiateTrade(tradeShop, () => shopInstantiations++, () => bankInstantiations++);
 
-        private void SetStock(InventoryItem item)
-        {
-            var serializedShop = new SerializedObject(shop);
-            SerializedProperty stock = serializedShop.FindProperty("stock");
-            stock.arraySize = 1;
-            stock.GetArrayElementAtIndex(0).objectReferenceValue = item;
-            serializedShop.ApplyModifiedPropertiesWithoutUndo();
-        }
+        private void SetStock(InventoryItem item) => SerializedFieldInjector.SetArray(shop, Shop.stockField, item);
         #endregion
 
         #region Tests
