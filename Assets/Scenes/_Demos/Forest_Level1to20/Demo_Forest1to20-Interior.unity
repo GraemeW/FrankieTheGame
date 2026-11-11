@@ -203,7 +203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1709702800276346221, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: backingListHashCheck
-      value: 1763275095
+      value: 1309282640
       objectReference: {fileID: 0}
     - target: {fileID: 3469291900945260292, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: willShout
@@ -311,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6966841689018701608, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: backingListHashCheck
-      value: 445603992
+      value: -1083620868
       objectReference: {fileID: 0}
     - target: {fileID: 8532826403865279038, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: uniqueIdentifier
@@ -1755,7 +1755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: -34858236
+      value: -57039501
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1791,7 +1791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: -1392285355
+      value: -1214529783
       objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
@@ -2336,7 +2336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4590206079254210171, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: backingListHashCheck
-      value: 1720943436
+      value: -855686389
       objectReference: {fileID: 0}
     - target: {fileID: 6801303911162038568, guid: b58385ad4bc92c945972c4f80f2be1b3, type: 3}
       propertyPath: uniqueIdentifier
@@ -2493,7 +2493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -1865905289
+      value: -1628694304
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -2589,7 +2589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 1650419213
+      value: 315380657
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2751,7 +2751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingListHashCheck
-      value: 508793694
+      value: -417558695
       objectReference: {fileID: 0}
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingHasGameStateModifiers
@@ -2827,7 +2827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingListHashCheck
-      value: 1504230958
+      value: 1593819674
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3397,7 +3397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: backingListHashCheck
-      value: -1883854785
+      value: -1948312315
       objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: inventoryItem
@@ -3681,7 +3681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 59874639
+      value: 1929030776
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -3777,7 +3777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 1770253750
+      value: -2054345486
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5040,7 +5040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 892640882
+      value: -214079323
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -5056,7 +5056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: -2115655973
+      value: 1576422975
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -5655,7 +5655,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ffede2cb998d0458f847bfa0d449e576, type: 2}
     - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: backingListHashCheck
-      value: -1748111757
+      value: -1967773133
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6652,7 +6652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: backingListHashCheck
-      value: -442759243
+      value: 585654674
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.x
@@ -6914,7 +6914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: backingListHashCheck
-      value: 1756871246
+      value: 1061192572
       objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: inventoryItem
@@ -32262,7 +32262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: backingListHashCheck
-      value: -1512869940
+      value: -1440940130
       objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: inventoryItem
@@ -83194,7 +83194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8447054725683902847, guid: 72b4a6338d8ae2d41a8815e347250db9, type: 3}
       propertyPath: backingListHashCheck
-      value: 1997741386
+      value: 1941033965
       objectReference: {fileID: 0}
     - target: {fileID: 8614254373412010042, guid: 72b4a6338d8ae2d41a8815e347250db9, type: 3}
       propertyPath: uniqueIdentifier
@@ -83454,7 +83454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
       propertyPath: backingListHashCheck
-      value: 1645672820
+      value: 293827982
       objectReference: {fileID: 0}
     - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
       propertyPath: backingHasGameStateModifiers
@@ -101783,7 +101783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: -1666081338
+      value: -1119304703
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -101819,7 +101819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: 238946913
+      value: -1656867851
       objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
@@ -102119,7 +102119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: backingListHashCheck
-      value: 1005077104
+      value: 46571082
       objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: inventoryItem
@@ -102602,7 +102602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9142352135543410953, guid: 14abf3e64853a47e18069c9bdd176613, type: 3}
       propertyPath: backingListHashCheck
-      value: -1894558887
+      value: 1138028947
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -114402,7 +114402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 1739162205
+      value: 1262008282
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -114418,7 +114418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 1710158184
+      value: 214034364
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -114618,7 +114618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 888589386
+      value: 31201069
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -114634,7 +114634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 2142289620
+      value: -1006317208
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -125674,7 +125674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -1999349399
+      value: 1095751582
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -125770,7 +125770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -1854938328
+      value: -751911636
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -125957,7 +125957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -917048358
+      value: 1596600349
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -126053,7 +126053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -1021141379
+      value: 1055727113
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -126281,7 +126281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -1430277205
+      value: -917604068
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -126377,7 +126377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 485422154
+      value: -1607324906
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -126551,7 +126551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: -1386332015
+      value: -1222463802
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -126567,7 +126567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 946299690
+      value: -2067894514
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -140995,7 +140995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 1603574332
+      value: 1229015147
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -141091,7 +141091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -1386486938
+      value: 1620727706
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -141169,7 +141169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7005185240716262040, guid: b40c8a2d41c557a49a83d28cd7fce1d1, type: 3}
       propertyPath: backingListHashCheck
-      value: 156144244
+      value: -838395549
       objectReference: {fileID: 0}
     - target: {fileID: 7171252254027824093, guid: b40c8a2d41c557a49a83d28cd7fce1d1, type: 3}
       propertyPath: uniqueIdentifier
@@ -168894,7 +168894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 1370175761
+      value: -1800658922
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -168990,7 +168990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -102788175
+      value: -1743007523
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -169223,7 +169223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: -2122445344
+      value: -669054809
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -169259,7 +169259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: 257644286
+      value: 388047634
       objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
@@ -169513,7 +169513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: 1534102129
+      value: -264445885
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHasGameStateModifiers
@@ -191904,7 +191904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 1357903150
+      value: 282057049
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -192000,7 +192000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 998994928
+      value: -1597180452
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -193006,7 +193006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: -748780944
+      value: -2003183609
       objectReference: {fileID: 0}
     - target: {fileID: 331873663179974896, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -193102,7 +193102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
       propertyPath: backingListHashCheck
-      value: 1956632190
+      value: -1269626382
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -193504,7 +193504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: 312850224
+      value: 21326327
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -193540,7 +193540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: -1930287269
+      value: 806660159
       objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
@@ -193918,7 +193918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: -1297540618
+      value: 1660797313
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -193934,7 +193934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 1546125976
+      value: 235985052
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -204991,7 +204991,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: fd7b37394ba0e437e939b19f04c0d120, type: 2}
     - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: backingListHashCheck
-      value: 125017273
+      value: -1132864071
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -206811,7 +206811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: backingListHashCheck
-      value: -1999133830
+      value: -963926627
       objectReference: {fileID: 0}
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: backingHasGameStateModifiers
@@ -206847,7 +206847,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: backingListHashCheck
-      value: 332477009
+      value: -631383987
       objectReference: {fileID: 0}
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: lootEntries.Array.size
@@ -207009,13 +207009,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  quest: {fileID: 0}
+  questObjective: {fileID: 1537804001862270314, guid: 41890afaa7b8640f4b8eefb18aead81a, type: 2}
   backingHandlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
-  backingListHashCheck: 775453517
+  backingListHashCheck: -1982234817
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - 5e78e614-19df-4719-8a5e-bc16139e86ee
-  quest: {fileID: 0}
-  questObjective: {fileID: 1537804001862270314, guid: 41890afaa7b8640f4b8eefb18aead81a, type: 2}
 --- !u!1001 &1704093607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218121,7 +218121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 1469469980
+      value: 582547739
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -218137,7 +218137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 1896251793
+      value: -623746747
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -218830,7 +218830,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 660358593
+      value: 521927990
       objectReference: {fileID: 0}
     - target: {fileID: 3586884346191625739, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -218846,7 +218846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: backingListHashCheck
-      value: 1002704956
+      value: 1851937888
       objectReference: {fileID: 0}
     - target: {fileID: 5771232680623067480, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
@@ -219034,7 +219034,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3162598065540693421, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: backingListHashCheck
-      value: -1630060426
+      value: -973151151
       objectReference: {fileID: 0}
     - target: {fileID: 5346735842002146046, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: uniqueIdentifier
@@ -233115,6 +233115,14 @@ PrefabInstance:
       value: c76e0b31-f5c2-438f-bd67-18e48c6a1209
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingHandlerGUID
+      value: b5566500-9db9-4f68-8ba5-2b728a80588a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingListHashCheck
+      value: 2041586843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: toggleToConditionMet
       value: 0
       objectReference: {fileID: 0}
@@ -233287,7 +233295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: 57881987
+      value: 70802484
       objectReference: {fileID: 0}
     - target: {fileID: 2709195860349675664, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -233315,7 +233323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: backingListHashCheck
-      value: -2073764639
+      value: -1525449115
       objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
@@ -245012,7 +245020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3429280736951894212, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: backingListHashCheck
-      value: -223321292
+      value: -1175521773
       objectReference: {fileID: 0}
     - target: {fileID: 5640729318857076631, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: uniqueIdentifier
@@ -245215,7 +245223,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
     - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
       propertyPath: backingListHashCheck
-      value: 475542286
+      value: -1338673906
       objectReference: {fileID: 0}
     - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
       propertyPath: localizedMessageIntro.m_TableEntryReference.m_KeyId
@@ -259612,8 +259620,28 @@ PrefabInstance:
       value: Ah!  The step we have fits perfectly!
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 22597822-065c-4cba-8576-09d900b6f940
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingListHashCheck
+      value: -67890534
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: messageOnConditionNotMet
       value: There's a step missing in this staircase!  It would be dangerous to go down!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingHasGameStateModifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingGameStateModifierGUIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
+      value: 4b5e0149-6399-45f9-81cc-1e36fdf1366c
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size

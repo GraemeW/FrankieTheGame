@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RoughHay
   m_EditorClassIdentifier: 
   guid: 09c14207-b932-45d7-a461-02734a56a96b
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

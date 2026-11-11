@@ -183,6 +183,13 @@ namespace Frankie.Quests
         {
             if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
+
+        public static void ResetCache()
+        {
+            ReleaseCache();
+            _addressablesLoadHandle = default;
+            _questLookupCache = null;
+        }
         #endregion
     }
 }

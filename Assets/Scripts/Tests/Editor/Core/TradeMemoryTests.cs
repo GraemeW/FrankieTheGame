@@ -14,7 +14,7 @@ namespace Frankie.Tests.Editor
         // Note:  The Shop lives in a preview scene, so its editor-only OnDestroy hooks (localization, game state modifiers) skip it
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private Scene previewScene;
         private GameObject shopObject;
         private Shop shop;
@@ -41,7 +41,7 @@ namespace Frankie.Tests.Editor
         {
             if (shopObject != null) { Object.DestroyImmediate(shopObject); }
             EditorSceneManager.ClosePreviewScene(previewScene);
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
         
@@ -69,7 +69,7 @@ namespace Frankie.Tests.Editor
         [Test]
         public void InitiateTrade_StockedShop_ReturnsTrueAndInstantiatesShop()
         {
-            SetStock(objects.Create<KeyItem>("TradeMemoryTests_Item"));
+            SetStock(tracker.Create<KeyItem>("TradeMemoryTests_Item"));
 
             Assert.IsTrue(InitiateTrade(shop));
             Assert.AreEqual(1, shopInstantiations);

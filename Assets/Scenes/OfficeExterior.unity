@@ -817,7 +817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: backingListHashCheck
-      value: -929319853
+      value: 591088836
       objectReference: {fileID: 0}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
@@ -4395,7 +4395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1085072796155156714, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingListHashCheck
-      value: -1204555888
+      value: -352104361
       objectReference: {fileID: 0}
     - target: {fileID: 5507729041372677064, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_Name
@@ -4459,7 +4459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: backingListHashCheck
-      value: 639817815
+      value: -967863645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6559,7 +6559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2707347081267262573, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: backingListHashCheck
-      value: -1557414990
+      value: 2049843349
       objectReference: {fileID: 0}
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
@@ -6575,7 +6575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: backingListHashCheck
-      value: -470652521
+      value: -1392162733
       objectReference: {fileID: 0}
     - target: {fileID: 7418550396487708492, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: m_RootOrder
@@ -11328,7 +11328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: backingListHashCheck
-      value: -616038459
+      value: -1232549726
       objectReference: {fileID: 0}
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
@@ -11340,7 +11340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: backingListHashCheck
-      value: -980747792
+      value: 162168012
       objectReference: {fileID: 0}
     - target: {fileID: 6135419693849823282, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
@@ -16804,7 +16804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: backingListHashCheck
-      value: 1909575837
+      value: -1053787055
       objectReference: {fileID: 0}
     - target: {fileID: 3604880868275781410, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: uniqueIdentifier
@@ -16828,7 +16828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6041501695508025457, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: backingListHashCheck
-      value: 746632471
+      value: 1718887008
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18212,7 +18212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: backingListHashCheck
-      value: 1633264745
+      value: -1753907443
       objectReference: {fileID: 0}
     - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: lootEntries.Array.size
@@ -18256,7 +18256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5932785474169007135, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: backingListHashCheck
-      value: -388998391
+      value: 969979422
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19476,7 +19476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7898245231477030190, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: backingListHashCheck
-      value: 2089398855
+      value: 1846418304
       objectReference: {fileID: 0}
     - target: {fileID: 8011403469596654699, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
       propertyPath: uniqueIdentifier
@@ -66111,7 +66111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingListHashCheck
-      value: 1832125453
+      value: 2127145754
       objectReference: {fileID: 0}
     - target: {fileID: 5634723788117127374, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: uniqueIdentifier
@@ -66123,7 +66123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: backingListHashCheck
-      value: -28395649
+      value: 1036804107
       objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
@@ -85022,8 +85022,28 @@ PrefabInstance:
       value: ' {0} used the key card.  The door unlocked.'
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 6151b61b-9545-41da-890e-d23fd49f7c3f
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1238649349
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: messageOnConditionNotMet
       value: Crud, {0} forgot his key card at home.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingHasGameStateModifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: backingGameStateModifierGUIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
+      value: 9d635e5c-212b-4f95-9c86-76458b9a363f
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size

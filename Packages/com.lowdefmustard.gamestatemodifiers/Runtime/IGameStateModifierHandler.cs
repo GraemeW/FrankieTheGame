@@ -89,16 +89,7 @@ namespace LowDefMustard.GameStateModifiers
             var component = this as Component;
             if (component == null) { return;} // Avoid gameObject null reference for OnBeforeSerialize() in isolation mode
             if (!EditorStateCheck.IsStandardEditorState(gameObject)) { return; }
-            
-            ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
-            
-            int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
-            if (modifierListHashCheck == newModifierListHashCheck) { return; }
-            modifierListHashCheck = newModifierListHashCheck;
-            
-            // Skip auto-remove on scene failed to be found (serialization quirks)
-            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData, false);
-            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs, false);
+            if (!ReconcileGameStateModifiers()) { return; }
             
             EditorApplication.delayCall += () => RecordHandlerModifications(this); // Must delay call, NOT SAFE to call within OnBeforeSerialize()
 #endif
@@ -116,7 +107,21 @@ namespace LowDefMustard.GameStateModifiers
         
         public IList<GameStateModifier> GetGameStateModifiers();
 
-        internal ZoneToGameObjectLinkData MakeZoneToGameObjectLinkData()
+        public bool ReconcileGameStateModifiers(bool cleanDanglingModifierData = true)
+        {
+            LinkedHandlerRecord linkedHandlerRecord = MakeLinkedHandlerRecord();
+            
+            int newModifierListHashCheck = GetModifierListHashCheck(linkedHandlerRecord.zoneName, linkedHandlerRecord.gameObjectName, linkedHandlerRecord.parentObjectName, linkedHandlerRecord.handlerTypeName);
+            if (modifierListHashCheck == newModifierListHashCheck) { return false; }
+            modifierListHashCheck = newModifierListHashCheck;
+            
+            // Skip auto-remove on scene failed to be found (serialization quirks)
+            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(linkedHandlerRecord, false, cleanDanglingModifierData);
+            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs, false, cleanDanglingModifierData);
+            return true;
+        }
+
+        internal LinkedHandlerRecord MakeLinkedHandlerRecord()
         {
             // Note: Must ensure zoneName == sceneName
             string zoneName = SceneManager.GetActiveScene().name;
@@ -124,18 +129,18 @@ namespace LowDefMustard.GameStateModifiers
             string parentObjectName = gameObject.transform.parent != null ? gameObject.transform.parent.name : "";
             if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
             
-            return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
+            return new LinkedHandlerRecord(zoneName, gameObjectName, parentObjectName, handlerGUID, GetType().Name);
         }
         
-        internal List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData, bool removeOnSceneCheck = true)
+        internal List<string> AddUpdateGameStateModifiers(LinkedHandlerRecord linkedHandlerRecord, bool removeOnSceneCheck = true, bool cleanDanglingModifierData = true)
         {
             hasGameStateModifiers = false;
             var newGameStateModifierGUIDs = new List<string>();
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {
                 if (gameStateModifier == null) { continue; }
-                gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
-                gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck);
+                gameStateModifier.AddOrUpdateGameStateModifierHandler(linkedHandlerRecord);
+                if (cleanDanglingModifierData) { gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck); }
                 newGameStateModifierGUIDs.Add(gameStateModifier.GetGUID());
                 hasGameStateModifiers = true;
             }
@@ -143,7 +148,7 @@ namespace LowDefMustard.GameStateModifiers
             return newGameStateModifierGUIDs;
         }
         
-        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs, bool removeOnSceneCheck = true)
+        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs, bool removeOnSceneCheck = true, bool cleanDanglingModifierData = true)
         {
             if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
             else
@@ -151,6 +156,7 @@ namespace LowDefMustard.GameStateModifiers
                 List<string> missingGUIDs = gameStateModifierGUIDs.Except(newGameStateModifierGUIDs).ToList();
                 gameStateModifierGUIDs.Clear();
                 gameStateModifierGUIDs.AddRange(newGameStateModifierGUIDs);
+                if (!cleanDanglingModifierData) { return; }
 
                 foreach (GameStateModifier gameStateModifier in missingGUIDs.Select(GameStateModifier.GetGameStateModifier).Where(gameStateModifier => gameStateModifier != null))
                 {
@@ -159,12 +165,13 @@ namespace LowDefMustard.GameStateModifiers
             }
         }
         
-        internal int GetModifierListHashCheck(string zoneName, string gameObjectName, string parentObjectName)
+        internal int GetModifierListHashCheck(string zoneName, string gameObjectName, string parentObjectName, string handlerTypeName)
         {
             uint hash = StableHash.GetOffsetBasis();
             hash = StableHash.Add(hash, zoneName);
             hash = StableHash.Add(hash, gameObjectName);
             hash = StableHash.Add(hash, parentObjectName);
+            hash = StableHash.Add(hash, handlerTypeName);
             hash = StableHash.Add(hash, handlerGUID);
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {

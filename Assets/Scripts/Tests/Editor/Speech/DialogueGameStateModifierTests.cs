@@ -20,7 +20,7 @@ namespace Frankie.Tests.Editor
         // Not covered here:  QuestObjectiveCompletedPredicate (Quest.GetFromID resolves via the Addressables quest cache)
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private Scene previewScene;
         private GameObject conversantObject;
         private AIConversant conversant;
@@ -40,14 +40,14 @@ namespace Frankie.Tests.Editor
         {
             if (conversantObject != null) { Object.DestroyImmediate(conversantObject); }
             EditorSceneManager.ClosePreviewScene(previewScene);
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region Helpers
         private HasQuestPredicate CreateHasQuestPredicate(Quest quest)
         {
-            var predicate = objects.Create<HasQuestPredicate>("HasQuest");
+            var predicate = tracker.Create<HasQuestPredicate>("HasQuest");
             SerializedFieldInjector.Set(predicate, HasQuestPredicate.questField, quest);
             return predicate;
         }
@@ -57,16 +57,16 @@ namespace Frankie.Tests.Editor
         [Test]
         public void GetAllPredicates_NoConditionNodes_ReturnsEmpty()
         {
-            Assert.IsEmpty(objects.CreateSingleLineDialogue().GetAllPredicates());
+            Assert.IsEmpty(tracker.CreateSingleLineDialogue().GetAllPredicates());
         }
 
         [Test]
         public void GetAllPredicates_AcrossConditionNodes_ReturnsEachPredicateOnce()
         {
-            var first = objects.Create<TestPredicate>("First");
-            var second = objects.Create<TestPredicate>("Second");
-            var third = objects.Create<TestPredicate>("Third");
-            Dialogue dialogue = objects.CreateGatedDialogue(WhenAny(first, second), When(second, negate: true), WhenAll(third), null);
+            var first = tracker.Create<TestPredicate>("First");
+            var second = tracker.Create<TestPredicate>("Second");
+            var third = tracker.Create<TestPredicate>("Third");
+            Dialogue dialogue = tracker.CreateGatedDialogue(WhenAny(first, second), When(second, negate: true), WhenAll(third), null);
 
             CollectionAssert.AreEquivalent(new Predicate[] { first, second, third }, dialogue.GetAllPredicates().ToList());
         }
@@ -82,7 +82,7 @@ namespace Frankie.Tests.Editor
         [Test]
         public void GetGameStateModifiers_NonModifierPredicates_ReturnsEmpty()
         {
-            SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, objects.CreateGatedDialogue(When(objects.Create<TestPredicate>("Plain"))));
+            SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, tracker.CreateGatedDialogue(When(tracker.Create<TestPredicate>("Plain"))));
 
             Assert.IsEmpty(conversant.GetGameStateModifiers());
         }
@@ -90,11 +90,11 @@ namespace Frankie.Tests.Editor
         [Test]
         public void GetGameStateModifiers_QuestPredicates_ReturnsEachQuestOnce()
         {
-            var quest = objects.Create<Quest>("Quest");
-            var otherQuest = objects.Create<Quest>("OtherQuest");
-            var completedPredicate = objects.Create<QuestCompletedPredicate>("QuestCompleted");
+            var quest = tracker.Create<Quest>("Quest");
+            var otherQuest = tracker.Create<Quest>("OtherQuest");
+            var completedPredicate = tracker.Create<QuestCompletedPredicate>("QuestCompleted");
             SerializedFieldInjector.Set(completedPredicate, QuestCompletedPredicate.questField, quest);
-            Dialogue dialogue = objects.CreateGatedDialogue(When(CreateHasQuestPredicate(quest), negate: true), WhenAny(completedPredicate, CreateHasQuestPredicate(otherQuest)));
+            Dialogue dialogue = tracker.CreateGatedDialogue(When(CreateHasQuestPredicate(quest), negate: true), WhenAny(completedPredicate, CreateHasQuestPredicate(otherQuest)));
             SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, dialogue);
 
             CollectionAssert.AreEquivalent(new GameStateModifier[] { quest, otherQuest }, conversant.GetGameStateModifiers().ToList());
@@ -103,11 +103,11 @@ namespace Frankie.Tests.Editor
         [Test]
         public void GetGameStateModifiers_HasItemPredicate_ReturnsOnlyKeyItems()
         {
-            var keyItem = objects.Create<KeyItem>("KeyItem");
-            var actionItem = objects.Create<ActionItem>("ActionItem");
-            var hasItemPredicate = objects.Create<HasItemPredicate>("HasItem");
+            var keyItem = tracker.Create<KeyItem>("KeyItem");
+            var actionItem = tracker.Create<ActionItem>("ActionItem");
+            var hasItemPredicate = tracker.Create<HasItemPredicate>("HasItem");
             SerializedFieldInjector.SetArray(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, actionItem, null);
-            SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, objects.CreateGatedDialogue(When(hasItemPredicate)));
+            SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, tracker.CreateGatedDialogue(When(hasItemPredicate)));
 
             CollectionAssert.AreEqual(new GameStateModifier[] { keyItem }, conversant.GetGameStateModifiers().ToList());
         }
@@ -115,7 +115,7 @@ namespace Frankie.Tests.Editor
         [Test]
         public void GetGameStateModifiers_UnsetPredicateReferences_ReturnsEmpty()
         {
-            SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, objects.CreateGatedDialogue(When(CreateHasQuestPredicate(null)), When(objects.Create<HasItemPredicate>("EmptyHasItem"))));
+            SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, tracker.CreateGatedDialogue(When(CreateHasQuestPredicate(null)), When(tracker.Create<HasItemPredicate>("EmptyHasItem"))));
 
             Assert.IsEmpty(conversant.GetGameStateModifiers());
         }

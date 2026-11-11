@@ -16,7 +16,7 @@ namespace Frankie.Tests
         // Stand-in listener enters a cutscene from inside the InWorld event, rather than killing the party (that queues the GameOver scene)
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private PlayerStateRig rig;
         private readonly List<PlayerStateType> lateListenerStates = new();
         private Action<PlayerStateType, IPlayerStateInfo> cutsceneOnWorld;
@@ -40,7 +40,7 @@ namespace Frankie.Tests
                 rig.playerStateMachine.playerStateChanged -= lateListener;
             }
             yield return rig.TearDown();
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
         
@@ -82,7 +82,7 @@ namespace Frankie.Tests
         {
             AIConversant conversant = rig.SpawnConversant("TestNPC");
             rig.playerStateMachine.EnterCutscene();
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue()); // Queued behind the cutscene
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue()); // Queued behind the cutscene
             SubscribeCutsceneOnFirstWorld();
 
             rig.playerStateMachine.EnterWorld();

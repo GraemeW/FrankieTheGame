@@ -3,7 +3,9 @@
   "rootNamespace": "LowDefMustard.GameStateModifiers.Editor",
   "references": [
     "LowDefMustard.Core",
-    "LowDefMustard.GameStateModifiers"
+    "LowDefMustard.GameStateModifiers",
+    "LowDefMustard.Utils",
+    "LowDefMustard.Utils.Editor"
   ],
   "includePlatforms": [
     "Editor"

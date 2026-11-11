@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using LowDefMustard.Control;
@@ -103,13 +102,7 @@ namespace Frankie.Speech
         // GameStateModifierHandler Interface
         public IList<GameStateModifier> GetGameStateModifiers()
         {
-            if (dialogue == null) { return new List<GameStateModifier>(); }
-            return dialogue.GetAllPredicates()
-                .OfType<IGameStateModifierPredicate>()
-                .SelectMany(predicate => predicate.GetGameStateModifiers())
-                .Where(gameStateModifier => gameStateModifier != null)
-                .Distinct()
-                .ToList();
+            return IGameStateModifierPredicate.CollectGameStateModifiers(dialogue != null ? dialogue.GetAllPredicates() : null);
         }
         
         // Save Interface (overrides CheckBase)

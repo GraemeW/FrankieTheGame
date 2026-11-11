@@ -161,6 +161,29 @@ namespace LowDefMustard.Utils.Tests.Editor
             Assert.IsTrue(wrapper.GetNegate());
         }
 
+        [Test]
+        public void GetPredicates_AcrossDisjunctions_ReturnsEachNonNullPredicate()
+        {
+            var first = new Condition.Disjunction();
+            first.AddPredicateWrapper(new Condition.PredicateWrapper(predicateA));
+            first.AddPredicateWrapper(new Condition.PredicateWrapper(null));
+            var second = new Condition.Disjunction();
+            second.AddPredicateWrapper(new Condition.PredicateWrapper(predicateB, negate: true));
+            second.AddPredicateWrapper(null);
+            var condition = new Condition();
+            condition.AddDisjunction(first);
+            condition.AddDisjunction(null);
+            condition.AddDisjunction(second);
+
+            CollectionAssert.AreEqual(new Predicate[] { predicateA, predicateB }, condition.GetPredicates());
+        }
+
+        [Test]
+        public void GetPredicates_NoDisjunctions_ReturnsEmpty()
+        {
+            CollectionAssert.IsEmpty(new Condition().GetPredicates());
+        }
+
         private static Condition BuildSingleWrapperCondition(Predicate predicate, bool negate)
         {
             var disjunction = new Condition.Disjunction();

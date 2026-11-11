@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: XTremeBurnHotSauce
   m_EditorClassIdentifier: 
   guid: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
-  gameStateModifierHandlerData:
+  linkedHandlers:
   - zoneName: OfficeInterior
     gameObjectName: SIGT-RemoveHotSauce
     parentObjectName: BroOfficeWorker (1)
-    guid: b4b9e1ad-30db-4cda-b7f8-3299eb812275
+    handlerGUID: b4b9e1ad-30db-4cda-b7f8-3299eb812275
+    handlerTypeName: WorldItemGiverTaker
   - zoneName: OfficeInterior
     gameObjectName: _StandardShop
     parentObjectName: VendingMachineWithPredicate-L
-    guid: 82192dc9-0715-46f6-a8a0-47bee0c71a8b
+    handlerGUID: 82192dc9-0715-46f6-a8a0-47bee0c71a8b
+    handlerTypeName: Shop
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

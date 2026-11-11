@@ -7,11 +7,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 {
     public class GameStateModifierTests
     {
-        private class TestGameStateModifier : GameStateModifier { }
-
+        // State
         private TestGameStateModifier modifier;
         private GameStateModifier.HasScenePathDelegate originalScenePathProvider;
 
+        #region Setup
         [SetUp]
         public void SetUp()
         {
@@ -25,7 +25,17 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             GameStateModifier.scenePathProvider = originalScenePathProvider;
             Object.DestroyImmediate(modifier);
         }
+        #endregion
 
+        #region Helpers
+        private static GameStateModifierHandlerLookup MakeLookupLinking(string handlerGUID, params string[] modifierGUIDs)
+        {
+            var lookup = new GameStateModifierHandlerLookup();
+            lookup.AddHandler("Zone", handlerGUID, modifierGUIDs);
+            return lookup;
+        }
+        #endregion
+        
         #region GuidGeneration
         [Test]
         public void OnBeforeSerialize_NoExistingGuid_GeneratesValidGuid()
@@ -56,30 +66,85 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         }
         #endregion
 
+        #region CleanDanglingWithIndex
+        [Test]
+        public void CleanDanglingModifierHandlerData_IndexedZone_LinkedHandler_KeptWithoutSceneLookup()
+        {
+            modifier.OnBeforeSerialize(); // force-generate modifier guid
+            bool scenePathRequested = false;
+            GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePathRequested = true; scenePath = ""; return false; };
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "Object", "", "handler-1"));
+
+            int removedCount = modifier.CleanDanglingModifierHandlerData(true, MakeLookupLinking("handler-1", modifier.GetGUID()));
+
+            Assert.AreEqual(0, removedCount);
+            Assert.IsFalse(scenePathRequested);
+        }
+
+        [Test]
+        public void CleanDanglingModifierHandlerData_IndexedZone_HandlerNoLongerLinked_Removed()
+        {
+            modifier.OnBeforeSerialize();
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "Object", "", "handler-1"));
+
+            LogAssert.Expect(LogType.Log, new Regex("Removing handler entry 'Zone/Object'.*not linked"));
+            int removedCount = modifier.CleanDanglingModifierHandlerData(false, MakeLookupLinking("handler-1", "other-modifier"));
+
+            Assert.AreEqual(1, removedCount);
+        }
+
+        [Test]
+        public void CleanDanglingModifierHandlerData_IndexedZone_HandlerMissing_Removed()
+        {
+            modifier.OnBeforeSerialize();
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "Object", "", "handler-gone"));
+
+            LogAssert.Expect(LogType.Log, new Regex("Removing handler entry 'Zone/Object'.*object 'Object' not found"));
+            int removedCount = modifier.CleanDanglingModifierHandlerData(false, MakeLookupLinking("handler-1", modifier.GetGUID()));
+
+            Assert.AreEqual(1, removedCount);
+        }
+
+        [Test]
+        public void CleanDanglingModifierHandlerData_UnindexedZone_FallsBackToSceneCheck()
+        {
+            modifier.OnBeforeSerialize();
+            bool scenePathRequested = false;
+            GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePathRequested = true; scenePath = ""; return false; };
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("OtherZone", "Object", "", "handler-1"));
+
+            int removedCount = modifier.CleanDanglingModifierHandlerData(false, MakeLookupLinking("handler-1", modifier.GetGUID()));
+
+            Assert.IsTrue(scenePathRequested);
+            Assert.AreEqual(0, removedCount); // scene not found + removeOnSceneCheck false -> kept, as without an index
+        }
+        #endregion
+
         #region AddOrUpdateGameStateModifierHandler
         [Test]
         public void AddOrUpdateGameStateModifierHandler_NewGuid_AppendsEntry()
         {
-            var linkData = new ZoneToGameObjectLinkData("Zone", "Object", "Parent", "guid-1");
+            var linkData = new LinkedHandlerRecord("Zone", "Object", "Parent", "guid-1");
 
             modifier.AddOrUpdateGameStateModifierHandler(linkData);
 
-            Assert.AreEqual(1, modifier.gameStateModifierHandlerData.Count);
-            Assert.AreEqual("guid-1", modifier.gameStateModifierHandlerData[0].guid);
+            Assert.AreEqual(1, modifier.linkedHandlers.Count);
+            Assert.AreEqual("guid-1", modifier.linkedHandlers[0].handlerGUID);
         }
 
         [Test]
         public void AddOrUpdateGameStateModifierHandler_ExistingGuid_UpdatesInPlace_NoDuplicate()
         {
-            modifier.AddOrUpdateGameStateModifierHandler(new ZoneToGameObjectLinkData("OldZone", "OldObject", "OldParent", "guid-1"));
+            modifier.AddOrUpdateGameStateModifierHandler(new LinkedHandlerRecord("OldZone", "OldObject", "OldParent", "guid-1"));
             
-            modifier.AddOrUpdateGameStateModifierHandler(new ZoneToGameObjectLinkData("NewZone", "NewObject", "NewParent", "guid-1"));
+            modifier.AddOrUpdateGameStateModifierHandler(new LinkedHandlerRecord("NewZone", "NewObject", "NewParent", "guid-1", "NewType"));
 
-            Assert.AreEqual(1, modifier.gameStateModifierHandlerData.Count); // update, not append
-            ZoneToGameObjectLinkData entry = modifier.gameStateModifierHandlerData[0];
+            Assert.AreEqual(1, modifier.linkedHandlers.Count); // update, not append
+            LinkedHandlerRecord entry = modifier.linkedHandlers[0];
             Assert.AreEqual("NewZone", entry.zoneName);
             Assert.AreEqual("NewObject", entry.gameObjectName);
             Assert.AreEqual("NewParent", entry.parentObjectName);
+            Assert.AreEqual("NewType", entry.handlerTypeName);
         }
         #endregion
 
@@ -87,21 +152,21 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void RemoveGameStateModifierHandler_MatchingGuid_RemovesEntry()
         {
-            modifier.AddOrUpdateGameStateModifierHandler(new ZoneToGameObjectLinkData("Zone", "Object", "Parent", "guid-1"));
+            modifier.AddOrUpdateGameStateModifierHandler(new LinkedHandlerRecord("Zone", "Object", "Parent", "guid-1"));
 
             modifier.RemoveGameStateModifierHandler("guid-1");
 
-            Assert.AreEqual(0, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, modifier.linkedHandlers.Count);
         }
 
         [Test]
         public void RemoveGameStateModifierHandler_NoMatch_LeavesListUnchanged()
         {
-            modifier.AddOrUpdateGameStateModifierHandler(new ZoneToGameObjectLinkData("Zone", "Object", "Parent", "guid-1"));
+            modifier.AddOrUpdateGameStateModifierHandler(new LinkedHandlerRecord("Zone", "Object", "Parent", "guid-1"));
 
             modifier.RemoveGameStateModifierHandler("guid-does-not-exist");
 
-            Assert.AreEqual(1, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(1, modifier.linkedHandlers.Count);
         }
         #endregion
 
@@ -109,25 +174,25 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void CleanDanglingModifierHandlerData_EmptyGuidEntry_IsRemoved()
         {
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("Zone", "Object", "Parent", ""));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "Object", "Parent", ""));
 
             int removedCount = modifier.CleanDanglingModifierHandlerData();
 
             Assert.AreEqual(1, removedCount);
-            Assert.AreEqual(0, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, modifier.linkedHandlers.Count);
         }
 
         [Test]
         public void CleanDanglingModifierHandlerData_ScenePathProviderReturnsFalse_EntryRemoved()
         {
             GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("MissingZone", "Object", "Parent", "guid-1"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("MissingZone", "Object", "Parent", "guid-1"));
 
             LogAssert.Expect(LogType.Log, new Regex("Removing handler entry 'MissingZone/.*not found")); // loose match, only pins the branch that fired
             int removedCount = modifier.CleanDanglingModifierHandlerData();
 
             Assert.AreEqual(1, removedCount);
-            Assert.AreEqual(0, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, modifier.linkedHandlers.Count);
         }
 
         [Test]
@@ -135,26 +200,26 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         {
             // sceneFound=true short-circuits straight to "object not found" without ever calling DoesGameStateModifierHandlerExist
             GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = "Assets/Fake.unity"; return true; };
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("Zone", "", "Parent", "guid-1"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "", "Parent", "guid-1"));
 
             int removedCount = modifier.CleanDanglingModifierHandlerData();
 
             Assert.AreEqual(1, removedCount);
-            Assert.AreEqual(0, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, modifier.linkedHandlers.Count);
         }
 
         [Test]
         public void CleanDanglingModifierHandlerData_ReturnsCombinedRemovedCount()
         {
             GameStateModifier.scenePathProvider = (string _, out string scenePath) => { scenePath = ""; return false; };
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "Object", "Parent", "guid-1"));
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "Object", "Parent", "guid-2"));
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneC", "Object", "Parent", "")); // empty-guid branch too
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneA", "Object", "Parent", "guid-1"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneB", "Object", "Parent", "guid-2"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneC", "Object", "Parent", "")); // empty-guid branch too
 
             int removedCount = modifier.CleanDanglingModifierHandlerData();
 
             Assert.AreEqual(3, removedCount);
-            Assert.AreEqual(0, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, modifier.linkedHandlers.Count);
         }
         #endregion
 
@@ -162,26 +227,26 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void RemoveDuplicateEntries_DuplicateGuids_KeepsFirstOccurrence_RemovesRest()
         {
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "ObjectA", "Parent", "guid-1"));
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "ObjectB", "Parent", "guid-1")); // same guid, later entry
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneA", "ObjectA", "Parent", "guid-1"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneB", "ObjectB", "Parent", "guid-1")); // same guid, later entry
 
             int removedCount = modifier.RemoveDuplicateEntries();
 
             Assert.AreEqual(1, removedCount);
-            Assert.AreEqual(1, modifier.gameStateModifierHandlerData.Count);
-            Assert.AreEqual("ZoneA", modifier.gameStateModifierHandlerData[0].zoneName); // Distinct() keeps the first occurrence
+            Assert.AreEqual(1, modifier.linkedHandlers.Count);
+            Assert.AreEqual("ZoneA", modifier.linkedHandlers[0].zoneName); // Distinct() keeps the first occurrence
         }
 
         [Test]
         public void RemoveDuplicateEntries_NoDuplicates_RemovesNothing()
         {
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "Object", "Parent", "guid-1"));
-            modifier.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "Object", "Parent", "guid-2"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneA", "Object", "Parent", "guid-1"));
+            modifier.linkedHandlers.Add(new LinkedHandlerRecord("ZoneB", "Object", "Parent", "guid-2"));
 
             int removedCount = modifier.RemoveDuplicateEntries();
 
             Assert.AreEqual(0, removedCount);
-            Assert.AreEqual(2, modifier.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(2, modifier.linkedHandlers.Count);
         }
         #endregion
         
@@ -189,7 +254,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void GetGameStateModifierHandlerDataRef_MatchesActualFieldName()
         {
-            Assert.AreEqual("gameStateModifierHandlerData", GameStateModifier.GetGameStateModifierHandlerDataRef());
+            Assert.AreEqual("linkedHandlers", GameStateModifier.GetLinkedHandlersRef());
         }
 
         [Test]

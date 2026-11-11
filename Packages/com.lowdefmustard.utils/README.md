@@ -63,9 +63,18 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
 - **`IObjectProbabilityPair<T>`** — Interface for an object + integer-weight pair
 - **`ProbabilityPairOperation<T>.GetRandomObject(...)`** — Weighted-random selection over a collection of `IObjectProbabilityPair<T>`
 
-### Addressables (`Runtime/Addressables`)
+### Addressables (`Runtime/Addressables` + `Editor/Addressables`)
 
 - **`IAddressablesCache`** — Convention interface for Addressables-backed caches
+  - implementers supply static `BuildCacheIfEmpty()`, `ReleaseCache()` and `ResetCache()` (the latter releasing + dropping the lookup so the next lookup rebuilds) 
+  - effectively placeholders until static abstracts are available (Unity7 / CoreCLR)
+- **`AddressablesCacheInvalidator`** (editor, `AssetPostprocessor`) — Keeps caches current in edit mode ~ they'd otherwise only rebuild on a domain reload
+  - an imported, moved or deleted asset resets the cache owned by its type (specifically, the type that introduces `IAddressablesCache`, e.g. `InventoryItem` for a `KeyItem`)
+  - skipped in Play mode ~ `[AutoStaticsCleanup]` already resets the caches on entry
+- **`DeletedAssetTypes`** (editor, `Editor/AssetDeletion`) — implements `AssetModificationProcessor` to record the main asset types of assets deleted inside the editor just before deletion 
+  - `GetTypes(deletedPaths, out hasUnrecordedAssetDeletion)` lets postprocessors react to deletions by type
+  - records only live until the next editor update ~ the deletion's postprocessors run synchronously within the delete
+- **`AddressablesCacheLog`** — Shared build/duplicate cache log messages
 
 ### Editor State Check (`Runtime/EditorStateCheck.cs`)
 
@@ -127,15 +136,20 @@ Shared Test Doubles - live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMus
 Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
 * `ConditionBuilder`
 * `EvaluatorBuilder`
-* `TestObjectTracker`
+* `TestObjectTracker`:
+  * `Create<T>(name)` makes a tracked ScriptableObject
+  * `Track(obj)` adopts any other `UnityEngine.Object` (e.g. a `new GameObject(...)`)
+  * `DestroyAll()` in TearDown cleans them up (skipping any already destroyed)
 
-Editor-only test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live in `Tests/Runtime/TestUtilities/` (`#if UNITY_EDITOR`):
+Test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live in `Tests/Runtime/TestUtilities/` (note: many pragma'd w/ `#if UNITY_EDITOR`):
 * `TempAssetFolder`: creates a disposable `Assets/_TEMP_<Name>_SafeToDelete` folder for edit mode tests
   * deletes with file operations + `AssetDatabase.Refresh` by default ~ so e.g. `ILocalizable` assets don't trigger `LocalizationDeletionHandler` and wipe real localization entries
   * pass `deleteViaAssetDatabase: true` only when a test means to exercise deletion handlers
 * `TestWait.Until(condition, timeoutSeconds)`: yields updates until a condition holds or the timeout passes
   * it only times out ~ must be followed with the appropriate test assertion
 * `SerializedFieldInjector.Set(target, fieldName, value)` / `SetArray(target, fieldName, values...)`: sets a private `[SerializeField]` object reference (or reference array/list) as the inspector would
+  * `SetValue(target, fieldName, value)`: sets a whole `[Serializable]` plain-class/struct field via `boxedValue`
+* `TestAssemblyCheck.IsTestAssemblyType(type)`: true for types in a test assembly (`.Tests` / `.Tests.Editor` naming, or an NUnit reference)
 
 ### Coverage at a glance
 
@@ -145,7 +159,7 @@ Editor-only test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live 
 | Custom Attribute Drawers       | 3     |   3†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered                      |
 | Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                                                |
 | Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                                      |
-| Addressables                   | 1     |   0    | `IAddressablesCache` has no concrete implementation in this package to test against                        |
+| Addressables                   | 2     |   1    | `AddressablesCacheInvalidator` covered (mapping, reset lookup, every real owner resettable)                |
 | Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                                      |
 | Standard Editor Tools          | 7     |   7†   | `StandardBackgroundLayer`'s pixel rendering + `StandardBrownTheme.uss`'s resolved colours aren't reachable |
 | Sprite Animation Generator     | 8     |   6    | `OverrideDirectionLookup` and the full `Generate()` pipeline aren't covered                                |
@@ -181,6 +195,7 @@ Editor-only test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live 
 | `IObjectProbabilityPair<T>`                            | Indirect | `ProbabilityPairOperationTests.cs` (via a test double)         | No concrete implementation                                                                                                                           |
 | `ProbabilityPairOperation<T>.GetRandomObject(...)`     | Yes      | `ProbabilityPairOperationTests.cs`                             |                                                                                                                                                      |
 | `IAddressablesCache`                                   | No       | —                                                              | No concrete implementation                                                                                                                           |
+| `AddressablesCacheInvalidator`                         | Partial  | `AddressablesCacheInvalidatorTests.cs`                         | `OnPostprocessAllAssets` needs real imports ~ verified live (quest / key item reimports reset only their own cache)                                  |
 | `EditorStateCheck.IsStandardEditorState(...)`          | Partial  | `EditorStateCheckTests.cs`, `EditorStateCheckPlayModeTests.cs` | 6 of 8 internal guards covered; `isCompiling`/`isUpdating` and the play-mode transition window aren't reliably testable                              |
 | `StandardBackgroundLayer`                              | Partial  | `StandardBackgroundLayerTests.cs`                              | The `Painter2D` drawing isn't testable — `MeshGenerationContext` has no public constructor                                                           |
 | `StandardCanvasPanManipulator`                         | Yes      | `StandardCanvasPanManipulatorTests.cs`                         |                                                                                                                                                      |

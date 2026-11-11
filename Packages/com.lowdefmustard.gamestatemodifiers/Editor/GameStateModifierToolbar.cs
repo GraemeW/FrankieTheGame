@@ -6,79 +6,154 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using LowDefMustard.Core;
+using LowDefMustard.Utils;
 
 namespace LowDefMustard.GameStateModifiers.Editor
 {
     public static class GameStateModifierToolbar
     {
+        // Methodology:
+        //  - Bulk passes visit each scene once && build a look-up as they go
+        //  - Modifiers are then cleaned once each against that look-up (i.e. rather than re-opening a scene per entry per handler, which was really slow/painful)
+
         // Const Tunables
         private const string _assetsFolderRef = "Assets";
+        private const string _cleanTitle = "GameStateModifiers:  Cleaning Dangling Modifiers";
+        private const string _serializeTitle = "GameStateModifiers:  Serialize All Handlers";
         
         #region PublicMethods
         [MenuItem("Tools/GameStateModifiers/CleanAllDanglingModifiers", false, 25)]
         public static void CleanAllDanglingModifiers()
         {
-            List<GameStateModifier> gameStateModifiers = FindAllGameStateModifiers(_assetsFolderRef);
-            int gameStateModifierCount = gameStateModifiers.Count;
-            int removedHandlerCount = 0;
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
+            int removedHandlerCount = 0;
+            bool isCancelled = false;
             try
             {
-                for (int i = 0; i < gameStateModifierCount; i++)
+                List<string> scenePaths = FindAllScenePaths(_assetsFolderRef);
+                var handlerLookup = new GameStateModifierHandlerLookup();
+                for (int i = 0; i < scenePaths.Count && !isCancelled; i++)
                 {
-                    GameStateModifier gameStateModifier = gameStateModifiers[i];
-                    if (gameStateModifier == null) { continue; }
-                    
-                    EditorUtility.DisplayProgressBar("GameStateModifiers:  Cleaning Dangling Modifiers", $"Progress: {i}/{gameStateModifierCount}", i / (float)gameStateModifierCount);
-                    removedHandlerCount += gameStateModifier.CleanDanglingModifierHandlerData();
+                    string sceneName = Path.GetFileNameWithoutExtension(scenePaths[i]);
+                    isCancelled = EditorUtility.DisplayCancelableProgressBar(_cleanTitle, $"Indexing scene {i + 1}/{scenePaths.Count}:  {sceneName}", i / (float)scenePaths.Count * 0.5f);
+                    if (!isCancelled) { IndexSceneAdditively(scenePaths[i], handlerLookup); }
                 }
+
+                if (!isCancelled) { removedHandlerCount = CleanAllModifiers(handlerLookup, true, _cleanTitle, 0.5f, out isCancelled); }
             }
             finally
             {
                 EditorUtility.ClearProgressBar();
-                EditorUtility.DisplayDialog("GameStateModifiers:  Cleaning Dangling Modifiers", $"Total Removed Handlers: {removedHandlerCount}", "OK");
             }
+            EditorUtility.DisplayDialog(_cleanTitle, isCancelled ? $"Cancelled.  Removed Handlers before cancelling: {removedHandlerCount}" : $"Total Removed Handlers: {removedHandlerCount}", "OK");
         }
 
         [MenuItem("Tools/GameStateModifiers/ForceSerializeAllHandlers", false, 26)]
         public static void SerializeAllHandlersAcrossAllScenes()
         {
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
             List<string> scenePaths = FindAllScenePaths(_assetsFolderRef);
             int scenePathsCount = scenePaths.Count;
-
+            int reconciledHandlerCount = 0;
+            int removedHandlerCount = 0;
+            bool isCancelled = false;
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
-                for (int i = 0; i < scenePathsCount; i++)
+                var handlerLookup = new GameStateModifierHandlerLookup();
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse ~ belt + suspenders (anyway)
+                for (int i = 0; i < scenePathsCount && !isCancelled; i++)
                 {
                     string scenePath = scenePaths[i];
                     if (string.IsNullOrEmpty(scenePath)) { continue; }
 
-                    Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
-                    EditorUtility.DisplayProgressBar("GameStateModifiers:  Serialize All Handlers", $"Progress: {i}/{scenePathsCount}", i / (float)scenePathsCount);
+                    string sceneName = Path.GetFileNameWithoutExtension(scenePath);
+                    isCancelled = EditorUtility.DisplayCancelableProgressBar(_serializeTitle, $"Scene {i + 1}/{scenePathsCount}:  opening {sceneName}", GetSceneProgress(i, 0, 1, scenePathsCount));
+                    if (isCancelled) { break; }
                     
-                    foreach (IGameStateModifierHandler gameStateModifierHandler in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>())
+                    Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+                    handlerLookup.AddZone(scene.name);
+                    List<IGameStateModifierHandler> handlers = FindHandlersInScene(scene);
+                    int sceneReconciledCount = 0;
+                    for (int j = 0; j < handlers.Count; j++)
                     {
-                        string gameStateModifierHandlerName = gameStateModifierHandler.gameObject.transform.parent != null ? $"{gameStateModifierHandler.gameObject.transform.parent.name}/{gameStateModifierHandler.gameObject.name}" : $"{gameStateModifierHandler.gameObject.name}";
-                        LDMLog.Info(LDMLogCategory.World, $"Force-serializing handler '{gameStateModifierHandlerName}'.");
-                        gameStateModifierHandler.OnBeforeSerialize();
-                        IGameStateModifierHandler.RecordHandlerModifications(gameStateModifierHandler); // OnBeforeSerialize's own deferred record would land after the scene is closed
+                        IGameStateModifierHandler handler = handlers[j];
+                        if (j % 10 == 0) { EditorUtility.DisplayProgressBar(_serializeTitle, $"Scene {i + 1}/{scenePathsCount}:  {sceneName} ~ handler {j + 1}/{handlers.Count} ({handler.GetType().Name})", GetSceneProgress(i, j, handlers.Count, scenePathsCount)); }
+                        if (!EditorStateCheck.IsStandardEditorState(handler.gameObject)) { continue; }
+
+                        if (handler.ReconcileGameStateModifiers(false))
+                        {
+                            IGameStateModifierHandler.RecordHandlerModifications(handler); // OnBeforeSerialize's own deferred record would land after the scene is closed
+                            sceneReconciledCount++;
+                        }
+                        handlerLookup.AddHandler(scene.name, handler.handlerGUID, handler.GetGameStateModifiers().Where(modifier => modifier != null).Select(modifier => modifier.GetGUID()));
                     }
+                    reconciledHandlerCount += sceneReconciledCount;
+                    LDMLog.Info(LDMLogCategory.World, $"Force-serialized scene '{sceneName}':  {sceneReconciledCount}/{handlers.Count} handlers re-linked.");
 
                     EditorSceneManager.MarkSceneDirty(scene);
                     EditorSceneManager.SaveScene(scene);
                 }
+
+                // Cleanup deferred to here (once per modifier, against the full lookup) -> skipped on cancel, since a partial lookup would fall back to slow per-entry checks
+                if (!isCancelled) { removedHandlerCount = CleanAllModifiers(handlerLookup, false, _serializeTitle, 0.9f, out isCancelled); }
             }
             finally
             {
                 EditorUtility.ClearProgressBar();
             }
 
+            string summary = $"{reconciledHandlerCount} handlers re-linked, {removedHandlerCount} dangling entries removed ({stopwatch.Elapsed.TotalSeconds:F1} s).";
+            LDMLog.Info(LDMLogCategory.World, isCancelled ? $"Force-serialize cancelled:  {summary}" : $"Force-serialize complete:  {summary}");
         }
         #endregion
         
         #region HelperMethods
+        private static float GetSceneProgress(int sceneIndex, int handlerIndex, int handlerCount, int sceneCount)
+        {
+            // Scenes span the first 90%, modifier cleanup the rest
+            float sceneFraction = handlerCount > 0 ? handlerIndex / (float)handlerCount : 0f;
+            return (sceneIndex + sceneFraction) / Mathf.Max(1, sceneCount) * 0.9f;
+        }
+        
+        private static void IndexSceneAdditively(string scenePath, GameStateModifierHandlerLookup handlerLookup)
+        {
+            Scene scene = SceneManager.GetSceneByPath(scenePath);
+            bool isSceneAlreadyLoaded = scene.isLoaded;
+            if (!isSceneAlreadyLoaded) { scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive); }
+            try
+            {
+                handlerLookup.AddZone(scene.name);
+                foreach (IGameStateModifierHandler handler in FindHandlersInScene(scene))
+                {
+                    handlerLookup.AddHandler(scene.name, handler.handlerGUID, handler.GetGameStateModifiers().Where(modifier => modifier != null).Select(modifier => modifier.GetGUID()));
+                }
+            }
+            finally
+            {
+                if (!isSceneAlreadyLoaded) { EditorSceneManager.CloseScene(scene, true); }
+            }
+        }
+
+        private static int CleanAllModifiers(GameStateModifierHandlerLookup handlerLookup, bool removeOnSceneCheck, string title, float progressStart, out bool isCancelled)
+        {
+            isCancelled = false;
+            List<GameStateModifier> gameStateModifiers = FindAllGameStateModifiers(_assetsFolderRef);
+            int removedHandlerCount = 0;
+            for (int i = 0; i < gameStateModifiers.Count; i++)
+            {
+                GameStateModifier gameStateModifier = gameStateModifiers[i];
+                if (gameStateModifier == null) { continue; }
+
+                float progress = progressStart + (1f - progressStart) * i / Mathf.Max(1, gameStateModifiers.Count);
+                isCancelled = EditorUtility.DisplayCancelableProgressBar(title, $"Cleaning modifier {i + 1}/{gameStateModifiers.Count}:  {gameStateModifier.name} ({gameStateModifier.linkedHandlers.Count} entries)", progress);
+                if (isCancelled) { break; }
+                removedHandlerCount += gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck, handlerLookup);
+            }
+            return removedHandlerCount;
+        }
 
         private static List<string> FindAllScenePaths(string rootFolder)
         {
@@ -97,6 +172,14 @@ namespace LowDefMustard.GameStateModifiers.Editor
             }
 
             return scenePaths;
+        }
+        
+        private static List<IGameStateModifierHandler> FindHandlersInScene(Scene scene)
+        {
+            return Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include)
+                .Where(monoBehaviour => monoBehaviour.gameObject.scene == scene)
+                .OfType<IGameStateModifierHandler>()
+                .ToList();
         }
         
         private static List<GameStateModifier> FindAllGameStateModifiers(string rootFolder)

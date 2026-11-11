@@ -26,6 +26,14 @@ namespace LowDefMustard.Utils.Tests
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
+        public static void SetValue(Object target, string fieldName, object value)
+        {
+            // For [Serializable] plain-class/struct fields ~ copied in whole via boxedValue
+            using var serializedObject = new SerializedObject(target);
+            GetProperty(serializedObject, target, fieldName).boxedValue = value;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+        }
+
         private static SerializedProperty GetProperty(SerializedObject serializedObject, Object target, string fieldName)
         {
             SerializedProperty property = serializedObject.FindProperty(fieldName);

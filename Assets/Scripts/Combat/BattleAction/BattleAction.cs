@@ -62,6 +62,13 @@ namespace Frankie.Combat
         {
             if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
+
+        public static void ResetCache()
+        {
+            ReleaseCache();
+            _addressablesLoadHandle = default;
+            _battleActionLookupCache = null;
+        }
         #endregion
 
         #region PublicMethods

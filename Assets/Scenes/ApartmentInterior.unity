@@ -8365,12 +8365,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 4f5b3db9-3d9b-40df-9a34-36a1a718408f
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1004930633
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingHasGameStateModifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingGameStateModifierGUIDs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
+      value: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.data[0].negate
@@ -27614,7 +27634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8941027531778530901, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
       propertyPath: backingListHashCheck
-      value: -820541336
+      value: 396382719
       objectReference: {fileID: 0}
     - target: {fileID: 8941027531778530901, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
       propertyPath: backingHasGameStateModifiers
@@ -28194,12 +28214,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 23ffa0cb-ca6a-4cb1-af4b-d69d52e6a210
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingListHashCheck
+      value: 373657027
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingHasGameStateModifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingGameStateModifierGUIDs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
+      value: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.data[0].predicate
@@ -28418,13 +28458,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
+  questObjective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
   backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  backingListHashCheck: -1648343388
+  backingListHashCheck: -1247320586
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - b3f7fb4a-3295-4b70-95ac-59a716a281b2
-  quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
-  questObjective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
 --- !u!114 &1532315463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28560,12 +28600,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 78a6d777-437a-41b2-8a60-dfe89bb30381
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingListHashCheck
+      value: -185617178
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingHasGameStateModifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: backingGameStateModifierGUIDs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
+      value: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.data[0].negate
@@ -28676,7 +28736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: backingListHashCheck
-      value: -437586062
+      value: 1954372725
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.x
@@ -29075,7 +29135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: backingListHashCheck
-      value: 934373011
+      value: 2055109412
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.x

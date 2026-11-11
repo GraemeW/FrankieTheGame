@@ -17,7 +17,7 @@ namespace Frankie.Tests
         // The dialogue-choice case calls Shop.InitiateBargain while in dialogue, as a choice action does
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private PlayerStateRig rig;
         private Shop shop;
         private Shopper shopper;
@@ -40,14 +40,14 @@ namespace Frankie.Tests
         public IEnumerator TearDown()
         {
             yield return rig.TearDown();
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region Helpers
         private InventoryItem Stock()
         {
-            var item = objects.Create<KeyItem>("ShopStateFlowTests_Item");
+            var item = tracker.Create<KeyItem>("ShopStateFlowTests_Item");
             SerializedFieldInjector.SetArray(shop, Shop.stockField, item);
             return item;
         }

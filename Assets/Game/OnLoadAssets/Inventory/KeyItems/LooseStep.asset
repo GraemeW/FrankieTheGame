@@ -13,15 +13,22 @@ MonoBehaviour:
   m_Name: LooseStep
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.KeyItem
   guid: 4b5e0149-6399-45f9-81cc-1e36fdf1366c
-  gameStateModifierHandlerData:
+  linkedHandlers:
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: SkilledOfficeWorker
     parentObjectName: LackLustreVideo_B3-SideRoom
-    guid: 4109c743-aaf4-4f42-a384-153a7e1e2833
+    handlerGUID: 4109c743-aaf4-4f42-a384-153a7e1e2833
+    handlerTypeName: LootDispenser
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: _StandardItemGiverTaker
     parentObjectName: LockedStairs-CheckWithItemToUnlock
-    guid: ea43393b-cf63-4555-9133-e3bc35cd6510
+    handlerGUID: ea43393b-cf63-4555-9133-e3bc35cd6510
+    handlerTypeName: WorldItemGiverTaker
+  - zoneName: Demo_Forest1to20-Interior
+    gameObjectName: LockedStairs-CheckWithItemToUnlock
+    parentObjectName: LackLustreVideo_B3-SideRoom
+    handlerGUID: 22597822-065c-4cba-8576-09d900b6f940
+    handlerTypeName: CheckWithToggleChildren
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

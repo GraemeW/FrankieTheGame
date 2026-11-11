@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: Chopsticks
   m_EditorClassIdentifier: 
   guid: ce52abf0-68ce-4d57-9be8-589004547c0e
-  gameStateModifierHandlerData:
+  linkedHandlers:
   - zoneName: OfficeInterior
     gameObjectName: SIGT-RemoveChopsticks
     parentObjectName: BroOfficeWorker (1)
-    guid: 751442d0-ee69-4f1e-9362-9a83d6fbb7a3
+    handlerGUID: 751442d0-ee69-4f1e-9362-9a83d6fbb7a3
+    handlerTypeName: WorldItemGiverTaker
   - zoneName: OfficeInterior
     gameObjectName: _StandardItemGiverTaker
     parentObjectName: Microwave (1)
-    guid: 990762b9-0a2c-44d5-bcda-d2547edd383e
+    handlerGUID: 990762b9-0a2c-44d5-bcda-d2547edd383e
+    handlerTypeName: WorldItemGiverTaker
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

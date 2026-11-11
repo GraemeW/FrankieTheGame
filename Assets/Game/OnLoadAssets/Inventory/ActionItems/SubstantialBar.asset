@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SubstantialBar
   m_EditorClassIdentifier: 
   guid: ecb33b9b-c1c1-4c5e-bccf-03eb6bc9560f
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

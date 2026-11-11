@@ -15,6 +15,12 @@ namespace LowDefMustard.Utils.Tests
             return createdObject;
         }
 
+        public T Track<T>(T trackedObject) where T : Object
+        {
+            trackedObjects.Add(trackedObject);
+            return trackedObject;
+        }
+
         public void DestroyAll()
         {
             foreach (Object trackedObject in trackedObjects) { if (trackedObject != null) { Object.DestroyImmediate(trackedObject); } }

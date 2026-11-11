@@ -9,5 +9,6 @@ namespace LowDefMustard.Utils
 
         static void BuildCacheIfEmpty() => throw new NotImplementedException();
         static void ReleaseCache() => throw new NotImplementedException();
+        static void ResetCache() => throw new NotImplementedException();
     }
 }
