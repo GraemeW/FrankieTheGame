@@ -6,6 +6,7 @@ using Frankie.Core;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     public class CheckWithConfiguration : CheckBase
     {
         [SerializeField] private CheckConfiguration checkConfiguration;
