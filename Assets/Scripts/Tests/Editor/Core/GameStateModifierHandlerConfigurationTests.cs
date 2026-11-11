@@ -5,6 +5,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using LowDefMustard.GameStateModifiers;
+using LowDefMustard.Utils.Tests;
 
 namespace Frankie.Tests.Editor
 {
@@ -15,9 +16,8 @@ namespace Frankie.Tests.Editor
         
         // Private Methods
         private static IEnumerable<Type> GetConcreteHandlerTypes() => TypeCache.GetTypesDerivedFrom<IGameStateModifierHandler>()
-            .Where(type => typeof(MonoBehaviour).IsAssignableFrom(type) && !type.IsAbstract && !IsTestAssemblyType(type))
+            .Where(type => typeof(MonoBehaviour).IsAssignableFrom(type) && !type.IsAbstract && !TestAssemblyCheck.IsTestAssemblyType(type))
             .OrderBy(type => type.FullName);
-        private static bool IsTestAssemblyType(Type type) => type.Assembly.GetReferencedAssemblies().Any(assemblyName => assemblyName.Name == "nunit.framework");
 
         // Tests
         [Test]
