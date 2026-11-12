@@ -11,6 +11,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7943a0dbe5c50144af1043fdf583048, type: 3}
   m_Name: HasItemLooseStep
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.HasItemPredicate
+  m_EditorClassIdentifier: Frankie::Frankie.Inventory.HasItemPredicate
   inventoryItems:
   - {fileID: 11400000, guid: acec52c8feb0f43c2bc042fd53e19922, type: 2}

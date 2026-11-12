@@ -18504,7 +18504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPartyInterface, Assembly-CSharp
+      value: Frankie.World.WorldPartyInterface, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -19208,7 +19208,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2103520686}
-          m_TargetAssemblyTypeName: Frankie.Core.FlickerOverlay, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.FlickerOverlay, Frankie
           m_MethodName: FlickerToEnable
           m_Mode: 1
           m_Arguments:
@@ -19220,7 +19220,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 234786129}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestGiver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: GiveConfiguredQuest
           m_Mode: 1
           m_Arguments:
@@ -19232,7 +19232,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1325692656}
-          m_TargetAssemblyTypeName: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Sound.BackgroundMusicOverride, Frankie
           m_MethodName: TriggerOverride
           m_Mode: 6
           m_Arguments:
@@ -19282,7 +19282,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1150158451}
-          m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Frankie
           m_MethodName: PlayClipAfterDestroy
           m_Mode: 1
           m_Arguments:
@@ -19294,7 +19294,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 234786138}
-          m_TargetAssemblyTypeName: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Stats.CharacterNPCSwapper, Frankie
           m_MethodName: JoinPartyAssist
           m_Mode: 0
           m_Arguments:
@@ -19711,7 +19711,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
 --- !u!1001 &267140901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41101,7 +41101,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.QuestHandler
   quest: {fileID: 0}
   questObjective: {fileID: 3354754754222314555, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
   backingHandlerGUID: c90051c8-6375-4741-a956-7d60c667db5d
@@ -57559,11 +57559,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Quests.QuestHandler, Assembly-CSharp
+      value: Frankie.Quests.QuestHandler, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPartyInterface, Assembly-CSharp
+      value: Frankie.World.WorldPartyInterface, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
@@ -58160,7 +58160,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.QuestHandler
   quest: {fileID: 0}
   questObjective: {fileID: 5710568290941307482, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
   backingHandlerGUID: 2eaac1ac-4ad8-4a08-b529-89406a48f682
@@ -58516,7 +58516,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1977396937}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: CompleteConfiguredObjective
           m_Mode: 1
           m_Arguments:
@@ -58528,7 +58528,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: Frankie.Control.Mover, Assembly-CSharp
+          m_TargetAssemblyTypeName: LowDefMustard.Control.Mover, LowDefMustard.Control
           m_MethodName: SetMoveTarget
           m_Mode: 2
           m_Arguments:
@@ -58540,7 +58540,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1977396924}
-          m_TargetAssemblyTypeName: Frankie.Control.Mover, Assembly-CSharp
+          m_TargetAssemblyTypeName: LowDefMustard.Control.Mover, LowDefMustard.Control
           m_MethodName: SetMoveTarget
           m_Mode: 2
           m_Arguments:
@@ -58552,7 +58552,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 266793974}
-          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Frankie
           m_MethodName: TakeAllItems
           m_Mode: 0
           m_Arguments:
@@ -58564,7 +58564,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1947512209}
-          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Frankie
           m_MethodName: TakeAllItems
           m_Mode: 0
           m_Arguments:
@@ -58576,7 +58576,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 45452663}
-          m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Frankie
           m_MethodName: PlayClip
           m_Mode: 1
           m_Arguments:
@@ -58588,7 +58588,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 2103520686}
-          m_TargetAssemblyTypeName: Frankie.Core.FlickerOverlay, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.FlickerOverlay, Frankie
           m_MethodName: FlickerToDisable
           m_Mode: 1
           m_Arguments:
@@ -58600,7 +58600,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1325692656}
-          m_TargetAssemblyTypeName: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Sound.BackgroundMusicOverride, Frankie
           m_MethodName: TriggerOverride
           m_Mode: 6
           m_Arguments:
@@ -58645,7 +58645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2200964405734235867, guid: dd426cc5ef58ddf43898bf5237052e02, type: 3}
       propertyPath: triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Speech.AIConversant, Assembly-CSharp
+      value: Frankie.Speech.AIConversant, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2200964405734235867, guid: dd426cc5ef58ddf43898bf5237052e02, type: 3}
       propertyPath: triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -59076,7 +59076,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1208165446}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestGiver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: GiveConfiguredQuest
           m_Mode: 1
           m_Arguments:
@@ -59107,7 +59107,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1208165446}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: CompleteConfiguredObjective
           m_Mode: 1
           m_Arguments:
@@ -59138,7 +59138,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1208165441}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCChaser, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.NPCChaser, Frankie
           m_MethodName: SetChaseDisposition
           m_Mode: 6
           m_Arguments:
@@ -59668,7 +59668,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
 --- !u!4 &900474852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6748012768298087332, guid: c8d0c072544278b4dacf77f7ad7751ee, type: 3}
@@ -67549,7 +67549,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 996446696}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: CompleteConfiguredObjective
           m_Mode: 1
           m_Arguments:
@@ -67561,7 +67561,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 996446696}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestGiver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: GiveConfiguredQuest
           m_Mode: 1
           m_Arguments:
@@ -67573,7 +67573,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1243730330}
-          m_TargetAssemblyTypeName: Frankie.Core.PredicateChildToggler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Core.PredicateChildToggler, Frankie
           m_MethodName: ToggleChildrenOnCondition
           m_Mode: 1
           m_Arguments:
@@ -67681,7 +67681,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1074589547}
-          m_TargetAssemblyTypeName: Frankie.Core.FlickerOverlay, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.FlickerOverlay, Frankie
           m_MethodName: FlickerToDeletion
           m_Mode: 1
           m_Arguments:
@@ -67882,7 +67882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteractionOnConditionNotMet.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -67898,7 +67898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteractionOnConditionNotMet.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -68684,7 +68684,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
 --- !u!1001 &1059657839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68987,7 +68987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5320051837857104033, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.NPCStateHandler, Assembly-CSharp
+      value: Frankie.Control.NPCStateHandler, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 5320051837857104033, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -87796,7 +87796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.ZoneManagement.ZoneHandler, Assembly-CSharp
+      value: Frankie.Zones.ZoneHandler, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -88374,7 +88374,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1837411581}
-          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Frankie
           m_MethodName: GiveItem
           m_Mode: 0
           m_Arguments:
@@ -89120,7 +89120,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1549095898}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestGiver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: GiveConfiguredQuest
           m_Mode: 1
           m_Arguments:
@@ -89151,7 +89151,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 999330286}
-          m_TargetAssemblyTypeName: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.CheckWithToggleChildren, Frankie
           m_MethodName: BypassCheckCondition
           m_Mode: 0
           m_Arguments:
@@ -89163,7 +89163,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 507015783}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: CompleteConfiguredObjective
           m_Mode: 1
           m_Arguments:
@@ -89194,7 +89194,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2068730014}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: CompleteConfiguredObjective
           m_Mode: 1
           m_Arguments:
@@ -89206,7 +89206,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 891073680}
-          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldItemGiverTaker, Frankie
           m_MethodName: TakeItem
           m_Mode: 0
           m_Arguments:
@@ -131010,7 +131010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3362076118326461309, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: uniqueIdentifier
@@ -131162,7 +131162,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
 --- !u!1001 &1847131912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131361,7 +131361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.NPCStateHandler, Assembly-CSharp
+      value: Frankie.Control.NPCStateHandler, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -131468,7 +131468,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1871869880}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Frankie
           m_MethodName: InitiateCombat
           m_Mode: 0
           m_Arguments:
@@ -131811,7 +131811,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
 --- !u!1001 &1977396906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131963,7 +131963,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.QuestHandler
   quest: {fileID: 0}
   questObjective: {fileID: -8702312306769958760, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
   backingHandlerGUID: b12df4e9-c53d-47d3-9dfb-ddd969459176
@@ -134832,7 +134832,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 91963598}
   cellSize: 0.05
@@ -143702,7 +143702,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.QuestHandler
   quest: {fileID: 0}
   questObjective: {fileID: -3951261914489077840, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
   backingHandlerGUID: c2a3aed0-a937-43f5-b032-5871ed446b2a
@@ -144229,11 +144229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldItemGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldItemGiverTaker, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionFailed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldItemGiverTaker, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

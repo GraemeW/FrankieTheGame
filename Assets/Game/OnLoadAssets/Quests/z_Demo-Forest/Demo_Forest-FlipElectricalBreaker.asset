@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
   m_Name: Flip the electrical breaker
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestObjective
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.QuestObjective
   objectiveID: 1fb7ae48-3703-4ced-ac11-e02a942dfe34
   localizedDisplayName:
     m_TableReference:
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
   m_Name: Demo_Forest-FlipElectricalBreaker
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.Quest
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.Quest
   guid: abdd068f-73ad-4dd6-8f79-01482c553468
   linkedHandlers:
   - zoneName: Demo_Forest1to20-Interior

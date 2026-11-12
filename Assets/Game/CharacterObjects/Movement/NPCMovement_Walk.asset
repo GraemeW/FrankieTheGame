@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b68806b4bdb9421f942e485fa829a097, type: 3}
   m_Name: NPCMovement_Walk
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.MovementConfiguration
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MovementConfiguration
   <movementStyle>k__BackingField: 0
   <usingPathFinding>k__BackingField: 0
   <baseMovementSpeed>k__BackingField: 1

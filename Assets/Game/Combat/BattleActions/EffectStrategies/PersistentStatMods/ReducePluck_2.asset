@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReducePluck_2
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.ApplyPersistentStatEffect
   effectGUID: aa3fea4a-3462-4e74-b475-7290e2944185
   fractionProbabilityToApply: 1
   useStatContestProbabilityToApply: 0

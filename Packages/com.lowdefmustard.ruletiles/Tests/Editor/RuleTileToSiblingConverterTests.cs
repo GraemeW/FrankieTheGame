@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -12,18 +11,17 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
     public class RuleTileToSiblingConverterTests
     {
         // Tested:
-        //  - Validate - Plain RuleTile selected, RuleTileSibling selected, mixed selection, empty selection
-        //  - ConvertOne - New sibling asset created alongside source with default
-        // ConvertOneInPlace - GUID/asset path preserved across the swap, reloading the same path now yields a RuleTileSibling with the same parameters
-        //  - Sprite/collider type and tiling rules transplanted, source left untouched, unique path generated on a name collision
-        //  Not Tested:
-        //  - Convert/ConvertInPlace ( MenuItem entry point) - not directly tested, thin wrapper looping
-        //  - Selection.objects into ConvertOne, already covered by Validate + ConvertOne
-        
+        //  - Validate - plain RuleTile selected, RuleTileSibling selected, mixed selection, empty selection
+        //  - ConvertOne - sibling asset created alongside the source w/ sprite / collider type / tiling rules transplanted, source left untouched, unique path on a name collision
+        //  - ConvertOneInPlace - GUID / asset path preserved, same path reloads as RuleTileSibling w/ the same fields
+        // Not Tested:
+        //  - Convert / ConvertInPlace (MenuItem entry points) - thin dialogue + loop over ConvertOne / ConvertOneInPlace (not worth it)
+
         // State
         private TempAssetFolder tempFolder;
-        private readonly List<Object> createdObjects = new();
+        private readonly TestObjectTracker tracker = new();
 
+        #region Setup
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -37,20 +35,13 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         }
 
         [TearDown]
-        public void TearDown()
-        {
-            foreach (Object tempObject in createdObjects.Where(obj => obj != null && string.IsNullOrEmpty(AssetDatabase.GetAssetPath(obj))))
-            {
-                Object.DestroyImmediate(tempObject);
-            }
-            createdObjects.Clear();
-        }
+        public void TearDown() => tracker.DestroyAll();
+        #endregion
 
+        #region Helpers
         private RuleTile CreateSourceRuleTile(string assetName)
         {
-            var texture = new Texture2D(1, 1);
-            var sprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.zero);
-            AssetDatabase.CreateAsset(sprite, tempFolder.Path($"{assetName}Sprite.asset"));
+            Sprite sprite = TilemapTestBuilder.CreateSpriteAsset(tempFolder, assetName);
 
             var tile = ScriptableObject.CreateInstance<RuleTile>();
             tile.m_DefaultSprite = sprite;
@@ -69,7 +60,9 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
             AssetDatabase.CreateAsset(tile, tempFolder.Path($"{assetName}.asset"));
             return tile;
         }
+        #endregion
 
+        #region Tests
         [Test]
         public void Validate_PlainRuleTileSelected_ReturnsTrue()
         {
@@ -90,8 +83,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         [Test]
         public void Validate_RuleTileSiblingSelected_ReturnsFalse()
         {
-            var siblingTile = ScriptableObject.CreateInstance<RuleTileSibling>();
-            createdObjects.Add(siblingTile);
+            var siblingTile = tracker.Create<RuleTileSibling>(nameof(RuleTileSibling));
             Selection.objects = new Object[] { siblingTile };
 
             Assert.IsFalse(RuleTileToSiblingConverter.Validate());
@@ -101,8 +93,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         public void Validate_MixedSelection_ReturnsFalse()
         {
             var source = CreateSourceRuleTile(nameof(Validate_MixedSelection_ReturnsFalse));
-            var siblingTile = ScriptableObject.CreateInstance<RuleTileSibling>();
-            createdObjects.Add(siblingTile);
+            var siblingTile = tracker.Create<RuleTileSibling>(nameof(RuleTileSibling));
             Selection.objects = new Object[] { source, siblingTile };
 
             Assert.IsFalse(RuleTileToSiblingConverter.Validate());
@@ -195,5 +186,6 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
             Assert.AreEqual(ruleSprite, reloaded.m_TilingRules[0].m_Sprites[0]);
             Assert.IsTrue(reloaded.siblings == null || reloaded.siblings.Count == 0);
         }
+        #endregion
     }
 }

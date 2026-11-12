@@ -28,7 +28,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
     - `GameStateModifierEditor` renders this with its own custom UI in place of Unity's default list drawer
   - Editor-only static guid→asset cache (`GetGameStateModifier(guid)`), built lazily via `AssetDatabase.FindAssets`
     - misses return null without rebuilding
-    - the cache is reset (`ResetCache()`) when:
+    - the cache is reset (`ResetGameStateModifierCache()`) when:
       - A. modifier assets are imported, moved or deleted (`GameStateModifierCacheInvalidator`, editor; deleted types via `DeletedAssetTypes` in `com.lowdefmustard.utils`, and an `.asset` deleted from outside the editor still resets)
       - B. when `OnBeforeSerialize` generates a new GUID
     - a hit on a destroyed entry rebuilds once

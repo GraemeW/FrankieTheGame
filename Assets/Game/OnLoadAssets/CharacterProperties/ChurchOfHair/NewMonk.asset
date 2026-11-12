@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: NewMonk
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Stats.CharacterProperties
+  m_EditorClassIdentifier: Frankie::Frankie.Stats.CharacterProperties
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:bb484015a3d7647bfba6919a6815d5b0

@@ -252,7 +252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3057035205605020312, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+      value: Frankie.World.WorldSaver, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3057035205605020312, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
 --- !u!4 &5477047861353512558 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 961329347880770511, guid: 7bb23ca0ce55142f7a57c32c4bdb87bb, type: 3}

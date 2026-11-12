@@ -6,6 +6,7 @@ Custom rule tiles extending Unity's 2D Tilemap Extras: sibling-tile recognition 
 - **Version:** 0.1.0
 - **Unity:** 6000.5+
 - **Dependencies:** 
+  - `com.lowdefmustard.utils` 0.1.0
   - `com.unity.2d.tilemap` 1.0.0
   - `com.unity.2d.tilemap.extras` 8.0.3
 
@@ -18,8 +19,26 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | Assembly                         | Root Namespace                   | Platform    | References                                                               |
 |----------------------------------|----------------------------------|-------------|--------------------------------------------------------------------------|
 | `LowDefMustard.RuleTiles`        | `LowDefMustard.RuleTiles`        | Runtime     | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`                            |
-| `LowDefMustard.RuleTiles.Editor` | `LowDefMustard.RuleTiles.Editor` | Editor only | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`, `LowDefMustard.RuleTiles` |
+| `LowDefMustard.RuleTiles.Editor` | `LowDefMustard.RuleTiles.Editor` | Editor only | `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`, `Unity.2D.Tilemap.Extras.Editor`, `LowDefMustard.Utils.Editor`, `LowDefMustard.RuleTiles` |
 | `LowDefMustard.RuleTiles.Tests.Editor` | `LowDefMustard.RuleTiles.Tests.Editor` | Editor only, test-only | `UnityEngine.TestRunner`, `UnityEditor.TestRunner`, `Unity.2D.Tilemap`, `Unity.2D.Tilemap.Extras`, `LowDefMustard.RuleTiles`, `LowDefMustard.RuleTiles.Editor` |
+
+## Caution: Never Paint With Plain Animated Tiles / Animated RuleTiles
+
+Unity's built-in animated tiles re-roll `Random.Range(min, max)` for their animation speed on every tile refresh (even when animation rate is fixed / min == max). Speeds like 1.5 or 0.75 then drift (`1.5` -> `1.50000012`), which results in any scene painted with them showing `m_AnimationSpeed` noise and polluting literally every GIT commit.
+
+Two kinds of Unity tiles can do this:
+- **Plain `AnimatedTile`** assets
+- **Plain `RuleTile`** assets with any tiling rule's output set to `Animation`
+
+Use the below equivalents in lieu:
+
+| Instead of                            | Use                                                   | To Convert Existing Assets                        |
+|---------------------------------------|-------------------------------------------------------|---------------------------------------------------|
+| `AnimatedTile`                        | `AnimatedTileFixedSpeed`                              | `Convert to Fixed Speed Animated Tile (In-Place)` |
+| `RuleTile` w/ `Animation` rule output | `RuleTileSibling` (or `RuleTileRandomFromSiblings`)   | `Convert to Sibling Rule Tile (In-Place)`         |
+
+- The in-place converters keep each asset's GUID, so already-painted `Tilemap`s pick up the fix without repainting
+- A speed *range* (min != max) still randomizes by design ~ only fixed speeds are made exact
 
 ## Contents
 
@@ -39,19 +58,38 @@ Unity's built-in smart tiles support random tiles *or* animated tiles, but not b
   - **`Editor/RuleTileRandomFromSiblingsEditor`** — Custom inspector labeling the tile as "Random Tile from Siblings" and surfacing `m_DefaultSprite` (palette-only, unused when painting), `m_PerlinScale`, and `siblings` with explanatory tooltips.
 - **`RuleTileRandomAnimation`** — **Deprecated**, kept for reference/back-compat only (no `CreateAssetMenu`, so it can no longer be created fresh from the asset menu). Instead of using sibling tiles, it force-overrides every tiling rule's output to `Animation` and picks a rule at random (same Perlin-hash approach) to source the tile/animation data.
 
-### Rule Tile → Sibling Rule Tile Converter (`Editor/RuleTileToSiblingConverter.cs`)
+### Fixed Speed Animation (`Runtime/TileAnimationSpeed.cs`, `Runtime/AnimatedTileFixedSpeed.cs`, `Editor/AnimatedTileFixedSpeedEditor.cs`)
 
-- **`RuleTileToSiblingConverter`** 
+Unity's `RuleTile` and `AnimatedTile` roll `Random.Range(min, max)` for animation speed even when min == max, which drifts for speeds like 1.5 (`1.5` -> `1.50000012` ~8% of the time). Each tile refresh re-rolls it, so painted scenes constantly churn on save.
+
+- **`TileAnimationSpeed.Resolve(min, max)`** — Shared helper: returns `min` exactly when min is approximately equal to max, otherwise `Random.Range(min, max)`
+  - used by `RuleTileSibling` (and so `RuleTileRandomFromSiblings`), `RuleTileRandomAnimation` and `AnimatedTileFixedSpeed`
+- **`AnimatedTileFixedSpeed`** (`CustomRuleTiles/New Fixed Speed Animated Tile`) — Drop-in `AnimatedTile` subclass using `Resolve`
+  - **`Editor/AnimatedTileFixedSpeedEditor`** — Re-registers Unity's `AnimatedTileEditor` for the subclass (it isn't registered for child classes)
+
+### Tile Converters
+
+Both in-place converters described below use **`AssetScriptSwapper`** from `com.lowdefmustard.utils` (`SwapScriptInPlace<TTarget>` + `ConfirmInPlace`).  Note that, after in-place conversion, already-loaded assets in the open editor can keep stale references to the pre-swap objects until reloaded.  It's highly recommended to do an Editor restart after running any of these.
+
+#### Rule Tile → Sibling Rule Tile Converter (`Editor/RuleTileToSiblingConverter.cs`)
+
+- **`RuleTileToSiblingConverter`**
   - — Editor utility under `Assets > LowDefMustard > RuleTiles > Convert to Sibling Rule Tile` (+ in the right-click context menu)
     - Select one or more plain `RuleTile` assets to create `RuleTileSibling` copy alongside each one (`<Name>Sibling.asset`)
       - Carries over the default sprite/gameObject/collider type and the full tiling-rule list, with an empty `siblings` list
     - Uses `JsonUtility.ToJson`/`FromJsonOverwrite` to transplant fields (future-proofs if `RuleTile` gains new serialized fields later)
     - Only handles the base `RuleTile` type — extend the type check if a project-specific `RuleTile<T>` subtype needs the same treatment
   - — Editor utility under `Assets > LowDefMustard > RuleTiles > Convert to Sibling Rule Tile (In-Place)` (+ in the right-click context menu)
-    - Second, more dangerous option on the same selection 
+    - Second, more dangerous option on the same selection
     - Swaps the *existing* asset's own `m_Script` reference from `RuleTile` to `RuleTileSibling` via `SerializedObject`
-      - so the asset keeps its GUID/fileID and any `Tilemap` already painted with it picks up the change immediately 
+      - so the asset keeps its GUID/fileID and any `Tilemap` already painted with it picks up the change immediately
     - Gated behind an `EditorUtility.DisplayDialog` confirmation recommending a commit/stash first
+
+#### Animated Tile → Fixed Speed Animated Tile Converter (`Editor/AnimatedTileToFixedSpeedConverter.cs`)
+
+- **`AnimatedTileToFixedSpeedConverter`** — Editor utility under `Assets > LowDefMustard > RuleTiles > Convert to Fixed Speed Animated Tile (In-Place)` (+ in the right-click context menu)
+  - Select one or more plain `AnimatedTile` assets to swap each asset's own `m_Script` to `AnimatedTileFixedSpeed` (same GUID/fileID) ~ painted `Tilemap`s and sibling lists pick it up without repainting
+  - Gated behind the same commit/stash confirmation as the sibling in-place converter
 
 ## Design Notes
 
@@ -64,6 +102,12 @@ Unity's built-in smart tiles support random tiles *or* animated tiles, but not b
 
 Edit Mode tests only — every tested member here is a plain `ScriptableObject` or custom-editor method
 
+Shared tilemap test utilities lives in `Tests/Editor/TestUtilities/TilemapTestBuilder` (pairs with Utils' `TestObjectTracker` / `TempAssetFolder` for cleanup):
+* `CreateSprite(tracker)`: tracked in-memory texture + sprite
+* `CreateSpriteAsset(tempFolder, name)`: persisted texture w/ the sprite as a sub-asset, for tests that save tiles referencing it
+* `CreateTilemap(tracker)`: tracked `Grid` root w/ a child `Tilemap`
+* `TryGetAnimationData(tile, tilemap, out data)`: paints the tile at the origin and queries `GetTileAnimationData` through an `ITilemap`
+
 `RuleTileRandomFromSiblings.GetTileData`/`GetTileAnimationData` tests compute their expected sibling index in the test, using the same public `RuleTile.GetPerlinValue(position, scale, offset)` call from the tile itself.
 
 **Behavioural Note:** 
@@ -72,23 +116,30 @@ Both `RuleTileSibling.RuleMatch` and `RuleTileRandomFromSiblings.RuleMatch` only
 
 ### Coverage at a glance
 
-| Category                                   | Tested  | Total |
-|--------------------------------------------|---------|-------|
-| `RuleTileSibling` members                  | 1/1     | 1     |
-| `RuleTileRandomFromSiblings` members       | 3/3     | 3     |
-| `RuleTileRandomFromSiblingsEditor` members | 1/1     | 1     |
-| `RuleTileRandomAnimation` members          | 0/2     | 2     |
-| `RuleTileToSiblingConverter` members       | 4/4     | 4     |
+| Category                                    | Tested | Total |
+|---------------------------------------------|--------|-------|
+| `RuleTileSibling` members                   | 1/1    | 1     |
+| `RuleTileRandomFromSiblings` members        | 3/3    | 3     |
+| `RuleTileRandomFromSiblingsEditor` members  | 1/1    | 1     |
+| `RuleTileRandomAnimation` members           | 0/2    | 2     |
+| `RuleTileToSiblingConverter` members        | 4/4    | 4     |
+| `TileAnimationSpeed` members                | 1/1    | 1     |
+| `AnimatedTileFixedSpeed` members            | 1/1    | 1     |
+| `AnimatedTileFixedSpeedEditor`              | 1/1    | 1     |
+| `AnimatedTileToFixedSpeedConverter` members | 2/2    | 2     |
 
 ### Detail by type
 
-| Type                               | Status | Test file(s)                               | Notes                                      |
-|------------------------------------|--------|--------------------------------------------|--------------------------------------------|
-| `RuleTileSibling`                  | Yes    | `RuleTileSiblingTests.cs`                  |                                            |
-| `RuleTileRandomFromSiblings`       | Yes    | `RuleTileRandomFromSiblingsTests.cs`       |                                            |
-| `RuleTileRandomFromSiblingsEditor` | Yes    | `RuleTileRandomFromSiblingsEditorTests.cs` |                                            |
-| `RuleTileToSiblingConverter`       | Yes    | `RuleTileToSiblingConverter.cs`            | `Convert`/`ConvertInPlace` menu entry points not tested directly — thin wrappers already covered by the above   | 
-| `RuleTileRandomAnimation`          | No     | —                                          | Deprecated, kept for back-compat reference |
+| Type                                | Status | Test file(s)                                | Notes                                                                                   |
+|-------------------------------------|--------|---------------------------------------------|-----------------------------------------------------------------------------------------|
+| `RuleTileSibling`                   | Yes    | `RuleTileSiblingTests.cs`                   |                                                                                         |
+| `RuleTileRandomFromSiblings`        | Yes    | `RuleTileRandomFromSiblingsTests.cs`        |                                                                                         |
+| `RuleTileRandomFromSiblingsEditor`  | Yes    | `RuleTileRandomFromSiblingsEditorTests.cs`  |                                                                                         |
+| `RuleTileToSiblingConverter`        | Yes    | `RuleTileToSiblingConverter.cs`             | `Convert`/`ConvertInPlace` menu entry points not tested directly — thin dialogue + loop | 
+| `TileAnimationSpeed`                | Yes    | `TileAnimationSpeedTests.cs`                |                                                                                         |
+| `AnimatedTileFixedSpeed` (+ editor) | Yes    | `AnimatedTileFixedSpeedTests.cs`            |                                                                                         |
+| `AnimatedTileToFixedSpeedConverter` | Yes    | `AnimatedTileToFixedSpeedConverterTests.cs` | `ConvertInPlace` menu entry point not tested directly — thin dialogue + loop            |
+| `RuleTileRandomAnimation`           | No     | —                                           | Deprecated, kept for back-compat reference                                              |
 
 ## License
 

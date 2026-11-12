@@ -2,71 +2,62 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.RuleTiles.Tests.Editor
 {
     public class RuleTileRandomFromSiblingsTests
     {
+        // Tested:
+        //  - RuleMatch - sibling rule tile matches, plain Tile in siblings doesn't (sibling-specific cases live in RuleTileSiblingTests)
+        //  - GetTileData - null / empty / null-entry siblings leave default data, selects the sibling sprite at the Perlin index
+        //  - GetTileAnimationData - null / empty / non-animated siblings return false, animated sibling populates data
+        // Not Tested:
+        //  - Neighbour matching through a painted Tilemap - RuleMatch is exercised directly instead
+
+        // State
+        private readonly TestObjectTracker tracker = new();
+        
         // ReSharper disable once InconsistentNaming - match internal unity fields
         private RuleTileRandomFromSiblings m_Tile;
-        // ReSharper disable once InconsistentNaming - match internal unity fields
-        private readonly List<Object> m_CreatedObjects = new();
 
+        #region Setup
         [SetUp]
-        public void SetUp()
-        {
-            m_Tile = ScriptableObject.CreateInstance<RuleTileRandomFromSiblings>();
-            m_CreatedObjects.Add(m_Tile);
-        }
+        public void SetUp() => m_Tile = tracker.Create<RuleTileRandomFromSiblings>(nameof(m_Tile));
 
         [TearDown]
-        public void TearDown()
-        {
-            foreach (Object obj in m_CreatedObjects)
-            {
-                Object.DestroyImmediate(obj);
-            }
-            m_CreatedObjects.Clear();
-        }
-
+        public void TearDown() => tracker.DestroyAll();
+        #endregion
+        
+        #region Helpers
         private Tile CreateTileWithSprite()
         {
-            var texture = new Texture2D(1, 1);
-            var sprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.zero);
-            var tile = ScriptableObject.CreateInstance<Tile>();
-            tile.sprite = sprite;
-            m_CreatedObjects.Add(tile);
-            m_CreatedObjects.Add(sprite);
-            m_CreatedObjects.Add(texture);
+            var tile = tracker.Create<Tile>(nameof(Tile));
+            tile.sprite = TilemapTestBuilder.CreateSprite(tracker);
             return tile;
         }
 
         private AnimatedTile CreateAnimatedTile(float minSpeed, float maxSpeed)
         {
-            var texture = new Texture2D(1, 1);
-            var sprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.zero);
-            var animatedTile = ScriptableObject.CreateInstance<AnimatedTile>();
-            animatedTile.m_AnimatedSprites = new[] { sprite };
+            var animatedTile = tracker.Create<AnimatedTile>(nameof(AnimatedTile));
+            animatedTile.m_AnimatedSprites = new[] { TilemapTestBuilder.CreateSprite(tracker) };
             animatedTile.m_MinSpeed = minSpeed;
             animatedTile.m_MaxSpeed = maxSpeed;
-            m_CreatedObjects.Add(animatedTile);
-            m_CreatedObjects.Add(sprite);
-            m_CreatedObjects.Add(texture);
             return animatedTile;
         }
-
-        // Parallel computation of the production formula using the same public GetPerlinValue call
+        
         private static int ExpectedSiblingIndex(Vector3Int position, float perlinScale, int siblingCount)
         {
-            var perlin = RuleTile.GetPerlinValue(position, perlinScale, 100000f);
+            var perlin = RuleTile.GetPerlinValue(position, perlinScale, 100000f); // Parallel computation of the production formula using the same public GetPerlinValue call
             return Mathf.Clamp(Mathf.FloorToInt(perlin * siblingCount), 0, siblingCount - 1);
         }
+        #endregion
 
+        #region Tests
         [Test]
         public void RuleMatch_This_SiblingRuleTile_ReturnsTrue()
         {
-            var siblingTile = ScriptableObject.CreateInstance<RuleTileSibling>();
-            m_CreatedObjects.Add(siblingTile);
+            var siblingTile = tracker.Create<RuleTileSibling>(nameof(RuleTileSibling));
             m_Tile.siblings = new List<TileBase> { siblingTile };
 
             Assert.IsTrue(m_Tile.RuleMatch((int)RuleTile.TilingRuleOutput.Neighbor.This, siblingTile));
@@ -187,5 +178,6 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
             Assert.AreEqual(animatedSibling.m_AnimatedSprites, animationData.animatedSprites);
             Assert.AreEqual(2f, animationData.animationSpeed);
         }
+        #endregion
     }
 }

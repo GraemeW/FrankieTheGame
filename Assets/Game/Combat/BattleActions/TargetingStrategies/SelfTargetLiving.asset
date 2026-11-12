@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c11f6abafa0f462a942be8f1413aa8e1, type: 3}
   m_Name: SelfTargetLiving
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SelfTargeting
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SelfTargeting
   combatParticipantType: 0
   filterStrategies:
   - {fileID: 11400000, guid: 1b8192b451a33f749a96b736829b4347, type: 2}

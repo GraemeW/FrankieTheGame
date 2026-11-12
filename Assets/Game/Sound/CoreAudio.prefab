@@ -43,7 +43,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63447a990b8400ca3038cc0902c4190, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.CoreAudio
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.CoreAudio
   defaultMasterVolume: 0.5
   defaultBackgroundMusicVolume: 0.5
   defaultSoundEffectsVolume: 0.5

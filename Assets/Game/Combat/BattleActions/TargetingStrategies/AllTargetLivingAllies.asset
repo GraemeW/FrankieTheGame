@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 439f19f4b19c49049a3fa37222aed5ad, type: 3}
   m_Name: AllTargetLivingAllies
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.TargetAll
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.TargetAll
   combatParticipantType: 1
   filterStrategies:
   - {fileID: 11400000, guid: 1b8192b451a33f749a96b736829b4347, type: 2}

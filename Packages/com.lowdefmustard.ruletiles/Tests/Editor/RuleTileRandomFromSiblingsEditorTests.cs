@@ -8,11 +8,18 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
 {
     public class RuleTileRandomFromSiblingsEditorTests
     {
+        // Tested:
+        //  - CreateInspectorGUI - builds the label + default sprite / perlin scale / siblings field tree
+        // Not Tested:
+        //  - Label text + tooltip content - copy only, nothing behavioural
+
+        // State
         // ReSharper disable once InconsistentNaming - match internal unity fields
         private RuleTileRandomFromSiblings m_Tile;
         // ReSharper disable once InconsistentNaming - match internal unity fields
         private UnityEditor.Editor m_Editor;
 
+        #region Setup
         [SetUp]
         public void SetUp()
         {
@@ -26,7 +33,9 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
             Object.DestroyImmediate(m_Editor);
             Object.DestroyImmediate(m_Tile);
         }
+        #endregion
 
+        #region Tests
         [Test]
         public void CreateInspectorGUI_BuildsExpectedFieldTree()
         {
@@ -47,5 +56,6 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
             var siblingsField = children[3] as PropertyField;
             Assert.IsNotNull(siblingsField);
         }
+        #endregion
     }
 }

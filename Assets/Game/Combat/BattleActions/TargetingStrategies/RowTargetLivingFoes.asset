@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d50e357c106d4305880471780a88c7ac, type: 3}
   m_Name: RowTargetLivingFoes
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.RowTargeting
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.RowTargeting
   combatParticipantType: 2
   filterStrategies:
   - {fileID: 11400000, guid: 1b8192b451a33f749a96b736829b4347, type: 2}

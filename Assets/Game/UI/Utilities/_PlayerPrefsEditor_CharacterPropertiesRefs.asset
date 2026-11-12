@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14436739d2a246de85a0e04f08ff06bf, type: 3}
   m_Name: _PlayerPrefsEditor_CharacterPropertiesRefs
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.CharacterPropertiesRegistry
+  m_EditorClassIdentifier: Frankie::Frankie.Saving.CharacterPropertiesRegistry
   characterProperties:
   - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: ColdMonkBrew
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.Skill
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9

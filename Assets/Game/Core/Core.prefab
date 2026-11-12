@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb9068f92d66f4dfba3576a4530b0d3d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Settings.DisplaySettingInitializer
+  m_EditorClassIdentifier: Frankie::Frankie.Rendering.DisplaySettingMonitor
 --- !u!114 &-8467520772737948294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cc5e606a9574c45bc4794dd31de69c5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.LocalizationMonitor
+  m_EditorClassIdentifier: Frankie::Frankie.Utils.Localization.LocalizationMonitor
 --- !u!1001 &683631211555299684
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -107,7 +107,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             Vector2 sourceCentre = GetDotCenter("ZoneA", nodeA.GetNodeID());
             Vector2 targetCentre = GetDotCenter("ZoneB", nodeB.GetNodeID());
-            Assert.GreaterOrEqual(Vector2.Distance(sourceCentre, targetCentre), MultiZoneViewer._uiNodeDotMinLinkDragDistance);
+            Assert.GreaterOrEqual(Vector2.Distance(sourceCentre, targetCentre), MultiZoneViewer.uiNodeDotMinLinkDragDistance);
 
             viewer.OnNodeDotDragStarted("ZoneA", nodeA.GetNodeID());
             viewer.OnNodeDotDragUpdated(targetCentre);

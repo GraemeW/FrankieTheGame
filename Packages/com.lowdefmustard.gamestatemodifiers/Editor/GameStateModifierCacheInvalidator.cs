@@ -13,7 +13,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
         {
             IEnumerable<Type> changedAssetTypes = importedAssets.Concat(movedAssets).Select(AssetDatabase.GetMainAssetTypeAtPath);
             List<Type> deletedAssetTypes = DeletedAssetTypes.GetTypes(deletedAssets, out bool hasUnrecordedAssetDeletion);
-            if (ShouldResetCache(changedAssetTypes.Concat(deletedAssetTypes), hasUnrecordedAssetDeletion)) { GameStateModifier.ResetCache(); }
+            if (ShouldResetCache(changedAssetTypes.Concat(deletedAssetTypes), hasUnrecordedAssetDeletion)) { GameStateModifier.ResetGameStateModifierCache(); }
         }
 
         // Note:  Internal for test visibility

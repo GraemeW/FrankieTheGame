@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a3b158e93ca4684a2eabb47f371579b, type: 3}
   m_Name: HasAllies
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ParticipantCountBattleAIPredicate
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.ParticipantCountBattleAIPredicate
   countLocalAllies: 1
   countLocalFoes: 0
   countThreshold: 2

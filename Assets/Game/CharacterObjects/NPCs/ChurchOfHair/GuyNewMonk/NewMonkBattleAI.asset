@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb5146a14932da3498c866bea642bb8a, type: 3}
   m_Name: NewMonkBattleAI
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleAIPriority
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.BattleAIPriority
   skills:
   - {fileID: 11400000, guid: 931d24ea4d1e6488aaf28821bf821ed2, type: 2}
   skillCondition:

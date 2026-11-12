@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e458d417c064451ca59ea379ce3efd58, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.NameScreenOrchestrator
+  m_EditorClassIdentifier: Frankie::Frankie.Menu.UI.NameScreenOrchestrator
   mainMenuController: {fileID: 2095366728}
   startingMessage:
     m_TableReference:

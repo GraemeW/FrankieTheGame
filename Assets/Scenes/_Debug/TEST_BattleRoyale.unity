@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
   priority: 2
 --- !u!1001 &26638102
@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.Spawner.EnemySpawner, Assembly-CSharp
+      value: Frankie.Combat.Spawner.EnemySpawner, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -26776,34 +26776,6 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 4d4e115c-4834-4c4c-8883-4fc16c5456fa
       objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ConductTransaction
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldCashGiverTaker, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: transactionCash
       value: 500
@@ -27082,7 +27054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -27165,7 +27137,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
   priority: 9
 --- !u!1001 &310047734
@@ -27187,34 +27159,6 @@ PrefabInstance:
     - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: uniqueIdentifier
       value: e41020e2-3587-4128-84d0-42be1c7e03e3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ConductTransaction
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldCashGiverTaker, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: transactionCash
@@ -27406,7 +27350,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -27489,7 +27433,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: 5f5f2bd17ac13e04c8d5da1b8b92ab19, type: 3}
   priority: 12
 --- !u!1 &400526011
@@ -37678,7 +37622,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &623371989
@@ -38483,7 +38427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -38566,7 +38510,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: aacc40c19a73d174baf7f1f4b432fdf9, type: 3}
   priority: 6
 --- !u!1001 &745985010
@@ -39342,7 +39286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.Spawner.EnemySpawner, Assembly-CSharp
+      value: Frankie.Combat.Spawner.EnemySpawner, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -39833,7 +39777,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &977524402
@@ -40241,7 +40185,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &1017131833
@@ -40457,7 +40401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -40540,7 +40484,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: 160c3bae65edac34886e05ee6ee70ca6, type: 3}
   priority: 4
 --- !u!1001 &1059383746
@@ -41332,7 +41276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.Spawner.EnemySpawner, Assembly-CSharp
+      value: Frankie.Combat.Spawner.EnemySpawner, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -41482,15 +41426,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
+      value: Frankie.Stats.CharacterNPCSwapper, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -42341,7 +42285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -42424,7 +42368,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: d4e4bde858823b94c9912bb9d8201687, type: 3}
   priority: 5
 --- !u!1 &1296138769
@@ -42773,34 +42717,6 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 992ad4da-d7db-4981-8024-f6915271661a
       objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ConductTransaction
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldCashGiverTaker, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: transactionCash
       value: 500
@@ -43026,7 +42942,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &1404481098
@@ -43071,7 +42987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.Spawner.EnemySpawner, Assembly-CSharp
+      value: Frankie.Combat.Spawner.EnemySpawner, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -43289,7 +43205,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &1414891255
@@ -43488,7 +43404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
+      value: Frankie.Stats.CharacterNPCSwapper, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -75972,7 +75888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -76055,7 +75971,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: 11384817f7314df46b0a2628844ada59, type: 3}
   priority: 11
 --- !u!1001 &1499569626
@@ -76100,7 +76016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -76183,7 +76099,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
   priority: 7
 --- !u!1 &1510938666 stripped
@@ -76213,7 +76129,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &1573324219
@@ -76446,7 +76362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -76529,7 +76445,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
   priority: 1
 --- !u!1001 &1610807695
@@ -76842,7 +76758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -76925,7 +76841,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: c797fa32c25f2a745a9645e37347fe95, type: 3}
   priority: 10
 --- !u!1001 &1659071564
@@ -77205,15 +77121,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -77619,7 +77535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -77702,7 +77618,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
   priority: 3
 --- !u!1001 &1833604245
@@ -77848,7 +77764,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &1882212797
@@ -77893,7 +77809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      value: Frankie.Sound.BackgroundMusicOverride, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingHandlerGUID
@@ -77976,7 +77892,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   priority: 8
 --- !u!1001 &1896104852
@@ -78199,15 +78115,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
+      value: Frankie.Stats.CharacterNPCSwapper, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -78427,15 +78343,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
+      value: Frankie.Stats.CharacterNPCSwapper, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -78755,15 +78671,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -100293,15 +100209,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -100493,7 +100409,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!1001 &2126143474

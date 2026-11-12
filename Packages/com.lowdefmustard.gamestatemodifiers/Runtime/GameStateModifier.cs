@@ -35,7 +35,7 @@ namespace LowDefMustard.GameStateModifiers
             if (string.IsNullOrWhiteSpace(guid))
             {
                 guid = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-                ResetCache(); // in-memory GUID change ~ no asset import fires until the asset is saved
+                ResetGameStateModifierCache(); // in-memory GUID change ~ no asset import fires until the asset is saved
             }
 #endif
         }
@@ -50,7 +50,7 @@ namespace LowDefMustard.GameStateModifiers
 #if UNITY_EDITOR
         #region EditorStaticMethods
         public static string GetLinkedHandlersRef() => nameof(linkedHandlers);
-        public static void ResetCache() => _gameStateModifierCache = null;
+        public static void ResetGameStateModifierCache() => _gameStateModifierCache = null;
         public static GameStateModifier GetGameStateModifier(string guid)
         {
             // Misses are genuine -> asset changes reset the cache instead (GameStateModifierCacheInvalidator, plus new GUIDs in OnBeforeSerialize)

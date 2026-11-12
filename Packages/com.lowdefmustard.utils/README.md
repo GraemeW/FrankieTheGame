@@ -71,10 +71,17 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
 - **`AddressablesCacheInvalidator`** (editor, `AssetPostprocessor`) — Keeps caches current in edit mode ~ they'd otherwise only rebuild on a domain reload
   - an imported, moved or deleted asset resets the cache owned by its type (specifically, the type that introduces `IAddressablesCache`, e.g. `InventoryItem` for a `KeyItem`)
   - skipped in Play mode ~ `[AutoStaticsCleanup]` already resets the caches on entry
-- **`DeletedAssetTypes`** (editor, `Editor/AssetDeletion`) — implements `AssetModificationProcessor` to record the main asset types of assets deleted inside the editor just before deletion 
+- **`DeletedAssetTypes`** (editor, `Editor/AssetManagement`) — implements `AssetModificationProcessor` to record the main asset types of assets deleted inside the editor just before deletion 
   - `GetTypes(deletedPaths, out hasUnrecordedAssetDeletion)` lets postprocessors react to deletions by type
   - records only live until the next editor update ~ the deletion's postprocessors run synchronously within the delete
 - **`AddressablesCacheLog`** — Shared build/duplicate cache log messages
+
+### Asset Script Swap (`Editor/AssetManagement`)
+
+- **`AssetScriptSwapper.SwapScriptInPlace<TTarget>(source)`** — Rewrites a persistent object's own `m_Script` to `TTarget`'s script (same file, same GUID/fileID), then force-reimports it
+  - Works on `ScriptableObject` assets and `MonoBehaviour`s on prefab assets && throws for scene/non-persistent objects or a `ScriptableObject` <-> `MonoBehaviour` swap
+  - Fields carry over by name ~ unmatched fields take their defaults and leftover YAML is dropped on the next save, so it's safest when `TTarget` derives from the source type
+  - The in-memory `source` / other already-loaded objects can hold stale references until reloaded (must reload from the path)
 
 ### Editor State Check (`Runtime/EditorStateCheck.cs`)
 
@@ -132,6 +139,9 @@ Shared Test Doubles - live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMus
 * `FixedResultEvaluator`
 * `FixedResultEvaluatorBehaviour`
 * `PerPredicateEvaluator`
+* `SwapSourceAsset` / `SwapTargetAsset`, `SwapSourceBehaviour` / `SwapTargetBehaviour`: base/derived pairs for `AssetScriptSwapper`
+
+_Note that MonoBehaviour/ScriptableObject test doubles must live in their standalone as-named script (Unity only creates a usable script asset when class name matches file name)._
 
 Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
 * `ConditionBuilder`
@@ -166,6 +176,7 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                                                |
 | Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                                      |
 | Addressables                   | 2     |   1    | `AddressablesCacheInvalidator` covered (mapping, reset lookup, every real owner resettable)                |
+| Asset Script Swap              | 1     |   1    | `ConfirmInPlace` is a modal dialogue only                                                                  |
 | Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                                      |
 | Standard Editor Tools          | 7     |   7†   | `StandardBackgroundLayer`'s pixel rendering + `StandardBrownTheme.uss`'s resolved colours aren't reachable |
 | Sprite Animation Generator     | 8     |   6    | `OverrideDirectionLookup` and the full `Generate()` pipeline aren't covered                                |
@@ -202,6 +213,7 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | `ProbabilityPairOperation<T>.GetRandomObject(...)`     | Yes      | `ProbabilityPairOperationTests.cs`                             |                                                                                                                                                      |
 | `IAddressablesCache`                                   | No       | —                                                              | No concrete implementation                                                                                                                           |
 | `AddressablesCacheInvalidator`                         | Partial  | `AddressablesCacheInvalidatorTests.cs`                         | `OnPostprocessAllAssets` needs real imports ~ verified live (quest / key item reimports reset only their own cache)                                  |
+| `AssetScriptSwapper`                                   | Yes      | `AssetScriptSwapperTests.cs`                                   | `ConfirmInPlace` (modal dialogue) skipped (not interesting)                                                                                          |
 | `EditorStateCheck.IsStandardEditorState(...)`          | Partial  | `EditorStateCheckTests.cs`, `EditorStateCheckPlayModeTests.cs` | 6 of 8 internal guards covered; `isCompiling`/`isUpdating` and the play-mode transition window aren't reliably testable                              |
 | `StandardBackgroundLayer`                              | Partial  | `StandardBackgroundLayerTests.cs`                              | The `Painter2D` drawing isn't testable — `MeshGenerationContext` has no public constructor                                                           |
 | `StandardCanvasPanManipulator`                         | Yes      | `StandardCanvasPanManipulatorTests.cs`                         |                                                                                                                                                      |
