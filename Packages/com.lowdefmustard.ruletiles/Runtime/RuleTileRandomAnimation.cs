@@ -33,10 +33,7 @@ namespace LowDefMustard.RuleTiles
             tileData.transform = iden;
 
             // Instead of iterating over rules and selecting on rule:  override to random tile from tiling rule set
-            if (m_TilingRules == null || m_TilingRules.Count == 0)
-            {
-                return;
-            }
+            if (m_TilingRules == null || m_TilingRules.Count == 0) { return; }
 
             int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, m_PerlinScale, 100000f) * m_TilingRules.Count), 0, m_TilingRules.Count - 1);
             TilingRule overrideRule = m_TilingRules[index];
@@ -51,22 +48,16 @@ namespace LowDefMustard.RuleTiles
 
         public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
         {
-            if (m_TilingRules == null || m_TilingRules.Count == 0)
-            {
-                return false;
-            }
+            if (m_TilingRules == null || m_TilingRules.Count == 0) { return false; }
 
             // Instead of iterating over rules and selecting on rule:  override to random tile from tiling rule set
             int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, m_PerlinScale, 100000f) * m_TilingRules.Count), 0, m_TilingRules.Count - 1);
             TilingRule overrideRule = m_TilingRules[index];
-            if (overrideRule.m_Output != OutputSprite.Animation)
-            {
-                return false;
-            }
+            if (overrideRule.m_Output != OutputSprite.Animation) { return false; }
 
             // Populate with override tile
             tileAnimationData.animatedSprites = overrideRule.m_Sprites;
-            tileAnimationData.animationSpeed = Random.Range(overrideRule.m_MinAnimationSpeed, overrideRule.m_MaxAnimationSpeed);
+            tileAnimationData.animationSpeed = TileAnimationSpeed.Resolve(overrideRule.m_MinAnimationSpeed, overrideRule.m_MaxAnimationSpeed);
             return true;
         }
     }

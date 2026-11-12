@@ -26,5 +26,18 @@ namespace LowDefMustard.RuleTiles
                 _ => base.RuleMatch(neighbor, tile)
             };
         }
+
+        public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData) // i.e. if any TilingRule outputs are set to Animation
+        {
+            if (!base.GetTileAnimationData(position, tilemap, ref tileAnimationData)) { return false; }
+
+            foreach (TilingRule tilingRule in m_TilingRules)
+            {
+                if (tilingRule.m_Sprites != tileAnimationData.animatedSprites) { continue; }
+                tileAnimationData.animationSpeed = TileAnimationSpeed.Resolve(tilingRule.m_MinAnimationSpeed, tilingRule.m_MaxAnimationSpeed);
+                break;
+            }
+            return true;
+        }
     }
 }
