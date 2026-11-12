@@ -49,11 +49,17 @@ MonoBehaviour:
   m_Name: Demo_Forest-FlipElectricalBreaker
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.Quest
   guid: abdd068f-73ad-4dd6-8f79-01482c553468
-  gameStateModifierHandlerData:
+  linkedHandlers:
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: ElectricalBreaker
     parentObjectName: LackLustreVideo_B4
-    guid: c0e04e1f-9605-470d-929f-3d44288d4306
+    handlerGUID: c0e04e1f-9605-470d-929f-3d44288d4306
+    handlerTypeName: QuestHandler
+  - zoneName: Demo_Forest1to20-Interior
+    gameObjectName: ConversantComponent
+    parentObjectName: HipsterOfficeWorker
+    handlerGUID: 805cc03e-d196-40bc-9977-a8b637dab63c
+    handlerTypeName: AIConversant
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

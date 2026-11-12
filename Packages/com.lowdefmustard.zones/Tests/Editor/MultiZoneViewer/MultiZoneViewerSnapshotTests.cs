@@ -50,7 +50,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             }
             if (viewer != null)
             {
-                if (attached) { viewer.Close(); }
+                if (attached) { HeadlessEditorWindow.Close(viewer); }
                 else { Object.DestroyImmediate(viewer); }
             }
             Object.DestroyImmediate(multiZoneView, true);
@@ -177,7 +177,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.activeMultiZoneView = multiZoneView;
             viewer.CreateGUI();
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(viewer);
             Assert.AreEqual(1, viewer.zoneViews.Count);
             
             HeadlessEditorWindow.SendClick(viewer.clearButton);

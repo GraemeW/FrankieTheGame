@@ -9,6 +9,9 @@ namespace LowDefMustard.Rendering
         [SerializeField] private CameraControllerBase cameraController;
         [Header("Parameters")]
         [SerializeField][Range(1f, 2f)] private float orthoSpawnViewMultiplier = 1.25f;
+
+        // Editor Field References
+        internal const string cameraControllerField = nameof(cameraController);
         
         // Cached References
         private Camera spawnAssistCamera;

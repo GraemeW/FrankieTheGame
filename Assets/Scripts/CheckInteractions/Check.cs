@@ -10,6 +10,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(Collider2D))]
     public class Check : CheckBase
     {

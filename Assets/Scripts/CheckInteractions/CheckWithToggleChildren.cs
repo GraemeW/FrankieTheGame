@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
+using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
@@ -13,7 +14,7 @@ using Frankie.Utils.Localization;
 namespace Frankie.Control
 {
     [ExecuteInEditMode]
-    public class CheckWithToggleChildren : CheckBase
+    public class CheckWithToggleChildren : CheckBase, IGameStateModifierHandler
     {
         // Tunables
         [Header("Hookups")]
@@ -29,12 +30,28 @@ namespace Frankie.Control
         [SerializeField] protected InteractionEvent checkInteraction;
         [SerializeField] protected InteractionEvent checkInteractionOnConditionNotMet;
 
+        // Editor Field References
+        internal const string parentTransformForTogglingField = nameof(parentTransformForToggling);
+        internal const string toggleToConditionMetField = nameof(toggleToConditionMet);
+        internal const string conditionField = nameof(condition);
+
+        // GameState Modifier Properties
+        [SerializeField][HideInInspector] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); }
+
         // State
         private bool childrenStateSetBySave = false;
 
         #region UnityMethods
         private void Start()
         {
+            if (!Application.isPlaying) { return; } // [ExecuteInEditMode] -> never toggle the scene's children in the editor
             if (childrenStateSetBySave) { return; }
             // Ensure correct order of operations (insurance:  nominally save happens before since existing at end of Awake)
 
@@ -43,6 +60,17 @@ namespace Frankie.Control
             {
                 child.gameObject.SetActive(!toggleToConditionMet);
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            IGameStateModifierHandler.TriggerOnDestroy(this);
+        }
+
+        private void OnDrawGizmos()
+        {
+            IGameStateModifierHandler.TriggerOnGizmos(this);
         }
         #endregion
 
@@ -66,6 +94,8 @@ namespace Frankie.Control
                 localizedMessageOnConditionNotMet.TableEntryReference
             };
         }
+        
+        public IList<GameStateModifier> GetGameStateModifiers() => IGameStateModifierPredicate.CollectGameStateModifiers(condition?.GetPredicates());
         #endregion
         
         #region PublicMethods

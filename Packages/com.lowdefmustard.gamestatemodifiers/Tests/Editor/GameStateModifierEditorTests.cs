@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
@@ -5,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LowDefMustard.GameStateModifiers.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.GameStateModifiers.Tests.Editor
 {
@@ -14,7 +16,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
     // Not Covered:
     //  - RemoveInvalidEntries's click handler: calls EditorUtility.DisplayDialog
     //      - hangs test runner
-    //  - MakeOpenSceneButton's click handler / SelectGameObject / DefaultOpenSceneAndAct:
+    //  - MakeOpenSceneButton's click handler / SelectGameObject / DefaultOpenSceneAndAct (IsNameMatch fallback filter is covered):
     //      - calls  EditorSceneManager.OpenScene, pops blocking dialogue, unsafe to test in test runner
 
     public class GameStateModifierEditorTests
@@ -23,13 +25,15 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         private TestGameStateModifier asset;
         private UnityEditor.Editor editorInstance;
         private GameStateModifierEditor gameStateModifierEditor;
-        private TestHostWindow hostWindow;
+        private EditorWindow window;
         private VisualElement root;
+        private readonly TestObjectTracker tracker = new();
 
-        // Data Structures
-        private class TestGameStateModifier : GameStateModifier { }
-        private class TestHostWindow : EditorWindow { }
-        
+        // Const
+        private const string _handlerTypeA = "TestHandlerTypeA";
+        private const string _handlerTypeB = "TestHandlerTypeB";
+        private static readonly string[] _testHandlerTypeLabels = { _handlerTypeA, _handlerTypeB };
+
         #region Setup
         [SetUp]
         public void SetUp()
@@ -40,20 +44,19 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             Assert.IsNotNull(gameStateModifierEditor); // sanity check the [CustomEditor] resolved as expected
 
             root = gameStateModifierEditor.CreateInspectorGUI();
-
-            // Briefly shows a small utility window during the test run - same
-            //   established pattern as SaveEditor's PoC, closed in TearDown
-            hostWindow = ScriptableObject.CreateInstance<TestHostWindow>();
-            hostWindow.rootVisualElement.Add(root);
-            hostWindow.ShowUtility(); // attaches the tree to a real panel so ClickEvent dispatch actually fires
+            
+            window = HeadlessEditorWindow.CreateOffscreenWindow(400f, 600f); // attach to off-screen panel to ensure ClickEvent dispatch fires
+            window.rootVisualElement.Add(root);
         }
 
         [TearDown]
         public void TearDown()
         {
-            hostWindow.Close();
+            foreach (string handlerTypeLabel in _testHandlerTypeLabels) { SessionState.EraseBool(GameStateModifierEditor.groupFoldoutStateKeyStem + handlerTypeLabel); }
+            HeadlessEditorWindow.Close(window);
             Object.DestroyImmediate(editorInstance);
             Object.DestroyImmediate(asset);
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -68,11 +71,21 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         private static VisualElement GetHeaderSection(VisualElement root) => root.Children().First(c => c.Q<HelpBox>() != null);
         private static VisualElement GetModifierHandlerListSection(VisualElement root) => root.Children().First(c => c.Q<Foldout>() != null);
 
+        private static List<VisualElement> GetEntryBoxes(VisualElement listSection) => listSection.Query<VisualElement>(className: GameStateModifierEditor.entryBoxClass).ToList();
+        private static List<Foldout> GetGroupFoldouts(VisualElement listSection) => listSection.Query<Foldout>(className: GameStateModifierEditor.groupFoldoutClass).ToList();
+
+        private VisualElement RebuildWithEntries(params LinkedHandlerRecord[] entries)
+        {
+            asset.linkedHandlers.AddRange(entries);
+            editorInstance.serializedObject.Update();
+            return RebuildAndReattach();
+        }
+
         private VisualElement RebuildAndReattach()
         {
             VisualElement freshRoot = gameStateModifierEditor.CreateInspectorGUI();
-            hostWindow.rootVisualElement.Clear();
-            hostWindow.rootVisualElement.Add(freshRoot);
+            window.rootVisualElement.Clear();
+            window.rootVisualElement.Add(freshRoot);
             return freshRoot;
         }
         #endregion
@@ -81,7 +94,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void CreateInspectorGUI_ExcludesScriptAndHandlerDataDefaultPropertyFields()
         {
-            string handlerDataRef = GameStateModifier.GetGameStateModifierHandlerDataRef();
+            string handlerDataRef = GameStateModifier.GetLinkedHandlersRef();
 
             bool anyExcluded = root.Children().OfType<PropertyField>().Any(field => field.bindingPath == "m_Script" || field.bindingPath == handlerDataRef);
 
@@ -170,7 +183,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 
             SimulateClick(addButton);
 
-            Assert.AreEqual(0, asset.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, asset.linkedHandlers.Count);
         }
 
         [Test]
@@ -183,14 +196,14 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 
             SimulateClick(addButton);
 
-            Assert.AreEqual(1, asset.gameStateModifierHandlerData.Count);
-            Assert.AreEqual("", asset.gameStateModifierHandlerData[0].zoneName);
+            Assert.AreEqual(1, asset.linkedHandlers.Count);
+            Assert.AreEqual("", asset.linkedHandlers[0].zoneName);
         }
 
         [Test]
         public void RemoveEntryButton_WhenEditingDisabled_Click_DoesNothing()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("Zone", "Object", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "Object", "", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
@@ -198,13 +211,13 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 
             SimulateClick(removeButton);
 
-            Assert.AreEqual(1, asset.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(1, asset.linkedHandlers.Count);
         }
 
         [Test]
         public void RemoveEntryButton_WhenEditingEnabled_WithEntries_Click_RemovesLastEntry()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("Zone", "Object", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("Zone", "Object", "", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement headerSection = GetHeaderSection(freshRoot);
@@ -214,7 +227,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 
             SimulateClick(removeButton);
 
-            Assert.AreEqual(0, asset.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, asset.linkedHandlers.Count);
         }
 
         [Test]
@@ -226,7 +239,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             (_, Button removeButton) = GetAddRemoveButtons(listSection);
 
             Assert.DoesNotThrow(() => SimulateClick(removeButton));
-            Assert.AreEqual(0, asset.gameStateModifierHandlerData.Count);
+            Assert.AreEqual(0, asset.linkedHandlers.Count);
         }
         #endregion
 
@@ -234,12 +247,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void MakeEntry_BlankZoneOrObjectName_ShowsGenericEntryIndexLabel()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("", "", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("", "", "", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
-            Foldout foldout = listSection.Q<Foldout>();
-            VisualElement entryBox = foldout[0][0]; // listItemsContainer's first child is the one entry's box
+            VisualElement entryBox = GetEntryBoxes(listSection)[0];
 
             VisualElement entryHeaderRow = entryBox[0]; // entryBox[1] is fieldsContainer - scope queries to entryHeaderRow to avoid picking up lazily built internal Labels/Buttons 
             Label displayNameLabel = entryHeaderRow.Query<Label>().Build().ToList()[1]; // [0] is the "[0]" index label, [1] is the display name
@@ -249,11 +261,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void MakeEntry_ZoneAndObjectNamePresent_NoParent_ShowsComposedDisplayName()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("MyZone", "MyObject", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("MyZone", "MyObject", "", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
-            VisualElement entryBox = listSection.Q<Foldout>()[0][0];
+            VisualElement entryBox = GetEntryBoxes(listSection)[0];
 
             VisualElement entryHeaderRow = entryBox[0]; // scoped to avoid PropertyField-internal buttons, see above
             Label displayNameLabel = entryHeaderRow.Query<Label>().Build().ToList()[1];
@@ -263,11 +275,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void MakeEntry_ZoneAndObjectNamePresent_WithParent_ShowsComposedDisplayNameWithParentStem()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("MyZone", "MyObject", "MyParent", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("MyZone", "MyObject", "MyParent", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
-            VisualElement entryBox = listSection.Q<Foldout>()[0][0];
+            VisualElement entryBox = GetEntryBoxes(listSection)[0];
 
             VisualElement entryHeaderRow = entryBox[0]; // scoped to avoid PropertyField-internal buttons, see above
             Label displayNameLabel = entryHeaderRow.Query<Label>().Build().ToList()[1];
@@ -277,11 +289,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void MakeEntry_OpenSceneButton_DisabledWhenZoneNameBlank()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("", "MyObject", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("", "MyObject", "", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
-            VisualElement entryBox = listSection.Q<Foldout>()[0][0];
+            VisualElement entryBox = GetEntryBoxes(listSection)[0];
             VisualElement entryHeaderRow = entryBox[0]; // scoped to avoid PropertyField-internal buttons, see above
             Button openButton = entryHeaderRow.Query<Button>().Build().ToList()[0]; // "Open & Select"
 
@@ -291,11 +303,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void MakeEntry_OpenSceneButton_EnabledWhenZoneAndObjectNamePresent()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("MyZone", "MyObject", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("MyZone", "MyObject", "", "guid-1"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
-            VisualElement entryBox = listSection.Q<Foldout>()[0][0];
+            VisualElement entryBox = GetEntryBoxes(listSection)[0];
             VisualElement entryHeaderRow = entryBox[0];
             Button openButton = entryHeaderRow.Query<Button>().Build().ToList()[0];
 
@@ -307,20 +319,93 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void DeleteButton_Click_RemovesThatEntry()
         {
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneA", "ObjectA", "", "guid-1"));
-            asset.gameStateModifierHandlerData.Add(new ZoneToGameObjectLinkData("ZoneB", "ObjectB", "", "guid-2"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("ZoneA", "ObjectA", "", "guid-1"));
+            asset.linkedHandlers.Add(new LinkedHandlerRecord("ZoneB", "ObjectB", "", "guid-2"));
             editorInstance.serializedObject.Update();
             VisualElement freshRoot = RebuildAndReattach();
             VisualElement listSection = GetModifierHandlerListSection(freshRoot);
-            VisualElement firstEntryBox = listSection.Q<Foldout>()[0][0];
+            VisualElement firstEntryBox = GetEntryBoxes(listSection)[0];
             VisualElement entryHeaderRow = firstEntryBox[0]; // scoped to avoid PropertyField-internal buttons, see above
             Button deleteButton = entryHeaderRow.Query<Button>().Build().ToList()[1]; // delete
             deleteButton.SetEnabled(true); // MakeDeleteButton constructs as disabled by default
 
             SimulateClick(deleteButton);
 
-            Assert.AreEqual(1, asset.gameStateModifierHandlerData.Count);
-            Assert.AreEqual("ZoneB", asset.gameStateModifierHandlerData[0].zoneName); // surviving entry
+            Assert.AreEqual(1, asset.linkedHandlers.Count);
+            Assert.AreEqual("ZoneB", asset.linkedHandlers[0].zoneName); // surviving entry
+        }
+        #endregion
+
+        #region HandlerGroups
+        [Test]
+        public void HandlerGroups_MixedTypes_OneFoldoutPerType_OrderedByName_UntypedLast()
+        {
+            VisualElement freshRoot = RebuildWithEntries(
+                new LinkedHandlerRecord("Zone", "Untyped", "", "guid-1"),
+                new LinkedHandlerRecord("Zone", "B1", "", "guid-2", _handlerTypeB),
+                new LinkedHandlerRecord("Zone", "A1", "", "guid-3", _handlerTypeA),
+                new LinkedHandlerRecord("Zone", "B2", "", "guid-4", _handlerTypeB));
+
+            List<Foldout> groupFoldouts = GetGroupFoldouts(GetModifierHandlerListSection(freshRoot));
+
+            CollectionAssert.AreEqual(new[] { $"{_handlerTypeA} (1)", $"{_handlerTypeB} (2)", "Unknown Handler Type (1)" }, groupFoldouts.Select(foldout => foldout.text).ToList());
+        }
+
+        [Test]
+        public void HandlerGroups_EntriesKeepTheirListIndex()
+        {
+            VisualElement freshRoot = RebuildWithEntries(
+                new LinkedHandlerRecord("Zone", "B1", "", "guid-1", _handlerTypeB),
+                new LinkedHandlerRecord("Zone", "A1", "", "guid-2", _handlerTypeA));
+
+            Foldout firstGroup = GetGroupFoldouts(GetModifierHandlerListSection(freshRoot))[0];
+            VisualElement entryHeaderRow = GetEntryBoxes(firstGroup)[0][0];
+
+            Assert.AreEqual("[1]", entryHeaderRow.Query<Label>().Build().ToList()[0].text); // A1 sorts first but is still entry [1] -> implies that delete targets the right element
+        }
+
+        [Test]
+        public void HandlerGroups_SingleGroup_ExpandedByDefault()
+        {
+            VisualElement freshRoot = RebuildWithEntries(new LinkedHandlerRecord("Zone", "A1", "", "guid-1", _handlerTypeA));
+
+            Assert.IsTrue(GetGroupFoldouts(GetModifierHandlerListSection(freshRoot)).Single().value);
+        }
+
+        [Test]
+        public void HandlerGroups_MultipleGroups_CollapsedByDefault_ThenRememberToggledState()
+        {
+            LinkedHandlerRecord[] entries = { new("Zone", "A1", "", "guid-1", _handlerTypeA), new("Zone", "B1", "", "guid-2", _handlerTypeB) };
+            List<Foldout> groupFoldouts = GetGroupFoldouts(GetModifierHandlerListSection(RebuildWithEntries(entries)));
+            Assert.IsTrue(groupFoldouts.All(foldout => !foldout.value));
+
+            groupFoldouts[0].value = true;
+            List<Foldout> rebuiltFoldouts = GetGroupFoldouts(GetModifierHandlerListSection(RebuildAndReattach()));
+
+            Assert.IsTrue(rebuiltFoldouts[0].value);
+            Assert.IsFalse(rebuiltFoldouts[1].value);
+        }
+        #endregion
+
+        #region IsNameMatch
+        [Test]
+        public void IsNameMatch_SameNameDifferentParent_ReturnsFalse()
+        {
+            var parent = tracker.Track(new GameObject("ParentA"));
+            var child = tracker.Track(new GameObject("Handler"));
+            child.transform.SetParent(parent.transform);
+            Assert.IsTrue(GameStateModifierEditor.IsNameMatch(child, "Handler", "ParentA"));
+            Assert.IsFalse(GameStateModifierEditor.IsNameMatch(child, "Handler", "ParentB"));
+        }
+
+        [Test]
+        public void IsNameMatch_NoParent_MatchesEmptyOrNullParentName()
+        {
+            var handlerObject = tracker.Track(new GameObject("Handler"));
+            Assert.IsTrue(GameStateModifierEditor.IsNameMatch(handlerObject, "Handler", ""));
+            Assert.IsTrue(GameStateModifierEditor.IsNameMatch(handlerObject, "Handler", null));
+            Assert.IsFalse(GameStateModifierEditor.IsNameMatch(handlerObject, "Other", ""));
+            Assert.IsFalse(GameStateModifierEditor.IsNameMatch(null, "Handler", ""));
         }
         #endregion
     }

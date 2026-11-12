@@ -138,6 +138,10 @@ MonoBehaviour:
   checkInteractionConditionFailed:
     m_PersistentCalls:
       m_Calls: []
+  backingHandlerGUID: 
+  backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
   references:
     version: 2
     RefIds: []

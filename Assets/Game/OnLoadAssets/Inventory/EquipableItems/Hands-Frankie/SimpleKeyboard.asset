@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SimpleKeyboard
   m_EditorClassIdentifier: 
   guid: 688bb913-f371-4834-add4-1468c4e2e466
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

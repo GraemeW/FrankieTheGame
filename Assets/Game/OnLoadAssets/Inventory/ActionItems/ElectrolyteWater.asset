@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ElectrolyteWater
   m_EditorClassIdentifier: 
   guid: 1505af13-4f5e-46f3-b6fa-e23b91428cd9
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

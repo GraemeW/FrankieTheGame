@@ -49,11 +49,17 @@ MonoBehaviour:
   m_Name: Demo_Office-InteriorHipster
   m_EditorClassIdentifier: 
   guid: a5a603ce-7ce9-41e5-982f-f3a64f2594e7
-  gameStateModifierHandlerData:
+  linkedHandlers:
   - zoneName: OfficeInterior
     gameObjectName: HipsterOfficeWorker (1)
     parentObjectName: PredicateToggle_RamenQuestExclusion
-    guid: 151435e9-c7b7-478f-a9cf-7aaad03e4487
+    handlerGUID: 151435e9-c7b7-478f-a9cf-7aaad03e4487
+    handlerTypeName: QuestHandler
+  - zoneName: OfficeInterior
+    gameObjectName: ConversantComponent
+    parentObjectName: HipsterOfficeWorker (1)
+    handlerGUID: 1c00a101-ff9a-4de1-bc2e-b3cef200b75d
+    handlerTypeName: AIConversant
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: KeyToBallPitRoom
   m_EditorClassIdentifier: 
   guid: 129d479f-80bd-40a9-9dc4-74fc3238f074
-  gameStateModifierHandlerData: []
+  linkedHandlers:
+  - zoneName: OfficeInterior
+    gameObjectName: FirePole-UnlockWithKey
+    parentObjectName: NonStandardZoneNodes
+    handlerGUID: 875b6887-560f-44ec-842e-25c78cae715b
+    handlerTypeName: CheckWithToggleChildren
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

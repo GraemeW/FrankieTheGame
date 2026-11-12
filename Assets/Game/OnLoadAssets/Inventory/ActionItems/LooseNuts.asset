@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LooseNuts
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   guid: 5848902d-0f1c-4222-8abf-7d527c89461e
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

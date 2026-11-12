@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CasioWatch
   m_EditorClassIdentifier: 
   guid: bb6684e6-d732-4641-a275-3c94e9c6c66c
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

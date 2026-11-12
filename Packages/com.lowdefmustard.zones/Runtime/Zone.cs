@@ -98,7 +98,15 @@ namespace LowDefMustard.Zones
 
         public static void ReleaseCache()
         {
-            Addressables.Release(_addressablesLoadHandle);
+            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
+        }
+
+        public static void ResetCache()
+        {
+            ReleaseCache();
+            _addressablesLoadHandle = default;
+            zoneLookupCache = null;
+            sceneReferenceCache = null;
         }
         #endregion
 

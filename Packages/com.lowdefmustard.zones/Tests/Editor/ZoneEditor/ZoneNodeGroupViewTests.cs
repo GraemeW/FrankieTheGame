@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -26,7 +27,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
         }
         #endregion
 
@@ -86,7 +87,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator DeleteButtonClick_CallsRequestDeleteGroup()
         {
             ZoneNodeGroupView view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var deleteButton = view.Q<Button>();
             HeadlessEditorWindow.SendClick(deleteButton);
@@ -99,7 +100,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator DoubleClickHeader_EnablesNameFieldEditing()
         {
             ZoneNodeGroupView view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var header = view.Q<VisualElement>(name: "zone-group-header");
             HeadlessEditorWindow.SendMouseDown(header, header.worldBound.center, clickCount: 2);
@@ -113,7 +114,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator SingleClickHeader_DoesNotEnableNameFieldEditing()
         {
             ZoneNodeGroupView view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var header = view.Q<VisualElement>(name: "zone-group-header");
             HeadlessEditorWindow.SendMouseDown(header, header.worldBound.center, clickCount: 1);
@@ -127,7 +128,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator NameFieldFocusOut_DisablesNameFieldEditing()
         {
             ZoneNodeGroupView view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
             var header = view.Q<VisualElement>(name: "zone-group-header");
             HeadlessEditorWindow.SendMouseDown(header, header.worldBound.center, clickCount: 2);
             yield return null;
@@ -146,7 +147,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator NameFieldChanged_CallsSetZoneNodeGroupName()
         {
             ZoneNodeGroupView view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var nameField = view.Q<TextField>();
             nameField.value = "New Group Name";
@@ -160,13 +161,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             group.SetRect(new Rect(0f, 0f, 250f, 100f));
             var view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var header = view.Q<VisualElement>(name: "zone-group-header");
             HeadlessEditorWindow.SendMouseDown(header, header.worldBound.center);
-            yield return null;
             HeadlessEditorWindow.SendMouseDrag(header, header.worldBound.center + new Vector2(20, 10), delta: new Vector2(20, 10));
-            yield return null;
 
             Assert.AreSame(group, graphView.setGroupRectGroupArg);
             Assert.AreEqual(new Vector2(20, 10), graphView.setGroupRectRectArg.position);
@@ -189,13 +188,11 @@ namespace LowDefMustard.Zones.Tests.Editor
             graphView.nodeViewsByID[nestedNode.GetNodeID()] = nestedNodeView;
 
             ZoneNodeGroupView view = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var header = view.Q<VisualElement>(name: "zone-group-header");
             HeadlessEditorWindow.SendMouseDown(header, header.worldBound.center);
-            yield return null;
             HeadlessEditorWindow.SendMouseDrag(header, header.worldBound.center + new Vector2(5, 7), delta: new Vector2(5, 7));
-            yield return null;
 
             Assert.AreEqual(new Vector2(105f, 107f), nestedNode.GetPosition());
 

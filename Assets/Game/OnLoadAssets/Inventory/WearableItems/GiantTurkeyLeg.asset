@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GiantTurkeyLeg
   m_EditorClassIdentifier: 
   guid: 5cd80040-f5c7-48d3-9796-557cabe3ad90
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

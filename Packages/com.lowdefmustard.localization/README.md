@@ -220,9 +220,9 @@ Since each closed `LocalizationToolBase<TTableType>`/`ILocalizableBase<TTableTyp
 
 ### Assemblies
 
-| Assembly                                  | Root Namespace                            | Platform    | References                                                                                                                      |
-|-------------------------------------------|-------------------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `LowDefMustard.Localization.Tests.Editor` | `LowDefMustard.Localization.Tests.Editor` | Editor only | `LowDefMustard.Localization`, `LowDefMustard.Utils`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor` |
+| Assembly                                  | Root Namespace                            | Platform    | References                                                                                                                                                   |
+|-------------------------------------------|-------------------------------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `LowDefMustard.Localization.Tests.Editor` | `LowDefMustard.Localization.Tests.Editor` | Editor only | `LowDefMustard.Localization`, `LowDefMustard.Utils`, `LowDefMustard.Utils.Tests`, `Unity.ResourceManager`, `Unity.Localization`, `Unity.Localization.Editor` |
 
 ### Coverage at a glance
 

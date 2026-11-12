@@ -6,7 +6,8 @@
     "UnityEditor.TestRunner",
     "LowDefMustard.Rendering",
     "Unity.Cinemachine",
-    "Unity.RenderPipelines.Universal.Runtime"
+    "Unity.RenderPipelines.Universal.Runtime",
+    "LowDefMustard.Utils.Tests"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

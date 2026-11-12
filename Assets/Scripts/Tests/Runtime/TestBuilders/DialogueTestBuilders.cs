@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using LowDefMustard.Utils;
@@ -36,10 +37,17 @@ namespace Frankie.Tests
 
         public static Dialogue CreateSingleLineDialogue(this TestObjectTracker tracker) => tracker.CreateDialogue(new[] { tracker.CreateDialogueNode("Line") }, new DialogueConditionNode[0], "Line");
         public static Dialogue CreateEmptyDialogue(this TestObjectTracker tracker) => tracker.CreateDialogue(new DialogueNode[0], new DialogueConditionNode[0]);
-
-        // Conversant on a child, as in game (DialogueController reads evaluators from the conversant's parent)
+        
+        public static Dialogue CreateGatedDialogue(this TestObjectTracker tracker, params Condition[] conditions)
+        {
+            // One unlinked condition node per condition (named Gate0, Gate1, ...) ~ for predicate collection, not traversal
+            DialogueConditionNode[] conditionNodes = conditions.Select((condition, index) => tracker.CreateDialogueConditionNode($"Gate{index}", condition)).ToArray();
+            return tracker.CreateDialogue(new DialogueNode[0], conditionNodes);
+        }
+        
         public static AIConversant SpawnConversant(this PlayerStateRig rig, string conversantName)
         {
+            // Conversant on a child, as in game (DialogueController reads evaluators from the conversant's parent)
             GameObject npc = rig.Track(new GameObject(conversantName));
             var conversantObject = new GameObject($"{conversantName}_Conversant");
             conversantObject.transform.SetParent(npc.transform);

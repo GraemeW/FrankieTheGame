@@ -22,6 +22,13 @@ namespace LowDefMustard.Rendering
         [SerializeField] private float defaultActiveOrthoSize = 3.6f;
         [SerializeField] private float defaultIdleOrthoSize = 1.8f;
 
+        // Editor Field References
+        internal const string mainCameraField = nameof(mainCamera);
+        internal const string spawnAssistCameraField = nameof(spawnAssistCamera);
+        internal const string stateCameraField = nameof(stateCamera);
+        internal const string activeCameraField = nameof(activeCamera);
+        internal const string idleCameraField = nameof(idleCamera);
+
         // Cached References
         private GameObject defaultFollowTarget;
         private Animator defaultFollowTargetAnimator;

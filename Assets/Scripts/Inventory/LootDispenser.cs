@@ -9,19 +9,6 @@ namespace Frankie.Inventory
     [ExecuteInEditMode]
     public class LootDispenser : MonoBehaviour, IGameStateModifierHandler
     {
-        // Interface Properties
-        [SerializeField] private string backingHandlerGUID;
-        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
-        
-        [SerializeField][HideInInspector] private int backingListHashCheck;
-        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
-        
-        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
-        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
-        
-        [SerializeField] [HideInInspector] private List<string> backingGameStateModifierGUIDs;
-        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
-        
         // Tunables
         [Header("Item Loot")]
         [SerializeField][Range(0, 10)] private int minItems = 0;
@@ -31,6 +18,16 @@ namespace Frankie.Inventory
         [SerializeField][Min(0)] private int minCash = 0;
         [SerializeField][Min(0)] private int maxCash = 10;
 
+        // GameState Modifier Properties
+        [SerializeField][HideInInspector] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        [SerializeField] [HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
+        
         // Static
         private const int _absoluteMaxLoot = 10;
 

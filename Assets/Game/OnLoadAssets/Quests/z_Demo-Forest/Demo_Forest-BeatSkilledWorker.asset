@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: Demo_Forest-BeatSkilledWorker
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.Quest
   guid: 5e78e614-19df-4719-8a5e-bc16139e86ee
-  gameStateModifierHandlerData:
+  linkedHandlers:
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: SkilledOfficeWorker
     parentObjectName: LackLustreVideo_B3-SideRoom
-    guid: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
+    handlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
+    handlerTypeName: QuestHandler
+  - zoneName: Demo_Forest1to20-Interior
+    gameObjectName: ConversantComponent
+    parentObjectName: SkilledOfficeWorker
+    handlerGUID: da9c8dc4-5fd8-4dd6-9ebd-4b3350b55a77
+    handlerTypeName: AIConversant
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003

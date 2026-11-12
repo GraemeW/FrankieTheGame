@@ -6,7 +6,9 @@
         "UnityEditor.TestRunner",
         "LowDefMustard.GameStateModifiers",
         "LowDefMustard.GameStateModifiers.Editor",
-        "LowDefMustard.Utils"
+        "LowDefMustard.GameStateModifiers.Tests",
+        "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Tests"
     ],
     "includePlatforms": [
         "Editor"

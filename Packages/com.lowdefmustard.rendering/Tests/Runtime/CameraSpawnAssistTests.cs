@@ -2,6 +2,7 @@
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests
 {
@@ -20,7 +21,7 @@ namespace LowDefMustard.Rendering.Tests
         {
             rig = new CameraRig();
             spawnAssist = rig.spawnAssistCamera.gameObject.AddComponent<CameraSpawnAssist>();
-            SerializedFieldInjector.Set(spawnAssist, "cameraController", rig.controller);
+            SerializedFieldInjector.Set(spawnAssist, CameraSpawnAssist.cameraControllerField, rig.controller);
         }
 
         [UnityTearDown]
@@ -69,7 +70,7 @@ namespace LowDefMustard.Rendering.Tests
         [UnityTest]
         public IEnumerator NoController_DoesNothing()
         {
-            SerializedFieldInjector.Set(spawnAssist, "cameraController", null);
+            SerializedFieldInjector.Set(spawnAssist, CameraSpawnAssist.cameraControllerField, null);
             rig.spawnAssistCamera.orthographicSize = 99f;
 
             rig.Activate();

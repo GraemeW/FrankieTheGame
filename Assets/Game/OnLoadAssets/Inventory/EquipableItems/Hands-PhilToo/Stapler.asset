@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stapler
   m_EditorClassIdentifier: 
   guid: d873894d-f7f9-4da8-bd25-011879603a4e
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

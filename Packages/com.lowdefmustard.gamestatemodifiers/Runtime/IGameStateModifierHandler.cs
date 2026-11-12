@@ -67,6 +67,19 @@ namespace LowDefMustard.GameStateModifiers
             DrawGizmoStar(position, gameObject.transform.forward);
 #endif
         }
+        
+        public static void RecordHandlerModifications(IGameStateModifierHandler gameStateModifierHandler)
+        {
+#if UNITY_EDITOR
+            // Note:  Direct field writes on a prefab instance are dropped on scene save unless recorded as overrides
+            //  - this is NOT safe to call from within OnBeforeSerialize -> so only use this method when deferring / calling after
+            if (gameStateModifierHandler is not Component component || component == null) { return; }
+            if (!EditorStateCheck.IsStandardEditorState(component.gameObject)) { return; }
+            
+            EditorUtility.SetDirty(component);
+            if (PrefabUtility.IsPartOfPrefabInstance(component)) { PrefabUtility.RecordPrefabInstancePropertyModifications(component); }
+#endif
+        }
         #endregion
 
         #region InterfaceMethods
@@ -76,18 +89,9 @@ namespace LowDefMustard.GameStateModifiers
             var component = this as Component;
             if (component == null) { return;} // Avoid gameObject null reference for OnBeforeSerialize() in isolation mode
             if (!EditorStateCheck.IsStandardEditorState(gameObject)) { return; }
+            if (!ReconcileGameStateModifiers()) { return; }
             
-            ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
-            
-            int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
-            if (modifierListHashCheck == newModifierListHashCheck) { return; }
-            modifierListHashCheck = newModifierListHashCheck;
-            
-            // Skip auto-remove on scene failed to be found (serialization quirks)
-            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData, false);
-            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs, false);
-            
-            ForceSerializeGameObject();
+            EditorApplication.delayCall += () => RecordHandlerModifications(this); // Must delay call, NOT SAFE to call within OnBeforeSerialize()
 #endif
         }
 
@@ -98,33 +102,26 @@ namespace LowDefMustard.GameStateModifiers
         #endregion
         
 #if UNITY_EDITOR
-        #region CustomComparer
-        private static readonly IEqualityComparer<GameStateModifier> _gameStateModifierComparer = new GameStateModifierComparer();
-        class GameStateModifierComparer : IEqualityComparer<GameStateModifier>
-        {
-            public bool Equals(GameStateModifier x, GameStateModifier y)
-            {
-                if (x == null && y == null) { return true; }
-                if (x == null || y == null) { return false; }
-                return x.GetGUID() == y.GetGUID();
-            }
-            public int GetHashCode(GameStateModifier obj) => obj == null ? 0 : obj.GetGUID() == null ? 0 : obj.GetGUID().GetHashCode();
-        }
-        #endregion
-        
         #region EditorMethods
         // Note:  Internal methods below for test visibility
         
         public IList<GameStateModifier> GetGameStateModifiers();
 
-        internal void ForceSerializeGameObject()
+        public bool ReconcileGameStateModifiers(bool cleanDanglingModifierData = true)
         {
-            if (gameObject == null) { return; }
-            using var serializedObject = new SerializedObject(gameObject);
-            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            LinkedHandlerRecord linkedHandlerRecord = MakeLinkedHandlerRecord();
+            
+            int newModifierListHashCheck = GetModifierListHashCheck(linkedHandlerRecord.zoneName, linkedHandlerRecord.gameObjectName, linkedHandlerRecord.parentObjectName, linkedHandlerRecord.handlerTypeName);
+            if (modifierListHashCheck == newModifierListHashCheck) { return false; }
+            modifierListHashCheck = newModifierListHashCheck;
+            
+            // Skip auto-remove on scene failed to be found (serialization quirks)
+            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(linkedHandlerRecord, false, cleanDanglingModifierData);
+            RemoveStaleGameStateModifiers(newGameStateModifierGUIDs, false, cleanDanglingModifierData);
+            return true;
         }
-        
-        internal ZoneToGameObjectLinkData MakeZoneToGameObjectLinkData()
+
+        internal LinkedHandlerRecord MakeLinkedHandlerRecord()
         {
             // Note: Must ensure zoneName == sceneName
             string zoneName = SceneManager.GetActiveScene().name;
@@ -132,18 +129,18 @@ namespace LowDefMustard.GameStateModifiers
             string parentObjectName = gameObject.transform.parent != null ? gameObject.transform.parent.name : "";
             if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
             
-            return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
+            return new LinkedHandlerRecord(zoneName, gameObjectName, parentObjectName, handlerGUID, GetType().Name);
         }
         
-        internal List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData, bool removeOnSceneCheck = true)
+        internal List<string> AddUpdateGameStateModifiers(LinkedHandlerRecord linkedHandlerRecord, bool removeOnSceneCheck = true, bool cleanDanglingModifierData = true)
         {
             hasGameStateModifiers = false;
             var newGameStateModifierGUIDs = new List<string>();
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {
                 if (gameStateModifier == null) { continue; }
-                gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
-                gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck);
+                gameStateModifier.AddOrUpdateGameStateModifierHandler(linkedHandlerRecord);
+                if (cleanDanglingModifierData) { gameStateModifier.CleanDanglingModifierHandlerData(removeOnSceneCheck); }
                 newGameStateModifierGUIDs.Add(gameStateModifier.GetGUID());
                 hasGameStateModifiers = true;
             }
@@ -151,7 +148,7 @@ namespace LowDefMustard.GameStateModifiers
             return newGameStateModifierGUIDs;
         }
         
-        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs, bool removeOnSceneCheck = true)
+        internal void RemoveStaleGameStateModifiers(List<string> newGameStateModifierGUIDs, bool removeOnSceneCheck = true, bool cleanDanglingModifierData = true)
         {
             if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
             else
@@ -159,6 +156,7 @@ namespace LowDefMustard.GameStateModifiers
                 List<string> missingGUIDs = gameStateModifierGUIDs.Except(newGameStateModifierGUIDs).ToList();
                 gameStateModifierGUIDs.Clear();
                 gameStateModifierGUIDs.AddRange(newGameStateModifierGUIDs);
+                if (!cleanDanglingModifierData) { return; }
 
                 foreach (GameStateModifier gameStateModifier in missingGUIDs.Select(GameStateModifier.GetGameStateModifier).Where(gameStateModifier => gameStateModifier != null))
                 {
@@ -167,17 +165,19 @@ namespace LowDefMustard.GameStateModifiers
             }
         }
         
-        internal int GetModifierListHashCheck(string zoneName, string gameObjectName)
+        internal int GetModifierListHashCheck(string zoneName, string gameObjectName, string parentObjectName, string handlerTypeName)
         {
-            var hash = new HashCode();
-            hash.Add(zoneName);
-            hash.Add(gameObjectName);
-            hash.Add(handlerGUID);
+            uint hash = StableHash.GetOffsetBasis();
+            hash = StableHash.Add(hash, zoneName);
+            hash = StableHash.Add(hash, gameObjectName);
+            hash = StableHash.Add(hash, parentObjectName);
+            hash = StableHash.Add(hash, handlerTypeName);
+            hash = StableHash.Add(hash, handlerGUID);
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {
-                hash.Add(gameStateModifier, _gameStateModifierComparer);
+                hash = StableHash.Add(hash, gameStateModifier != null ? gameStateModifier.GetGUID() : null);
             }
-            return hash.ToHashCode();
+            return unchecked((int)hash);
         }
         
         internal void RemoveSelfFromGameStateModifiers()

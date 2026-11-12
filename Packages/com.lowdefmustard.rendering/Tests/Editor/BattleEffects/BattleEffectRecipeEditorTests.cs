@@ -26,14 +26,14 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //  - Timeline order:  Short, Long, Child instance, Late
 
         // State
-        private HeadlessEditorWindow window;
+        private EditorWindow window;
         private BattleEffectRecipe recipe;
         private BattleEffectRecipe child;
         private BattleEffectRecipeEditor editor;
 
         #region Setup
-        [SetUp]
-        public void SetUp()
+        [UnitySetUp]
+        public IEnumerator SetUp()
         {
             child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
             child.name = "Child";
@@ -47,17 +47,18 @@ namespace LowDefMustard.Rendering.Tests.Editor
             });
             recipe.SetInstances(new[] { new BattleEffectInstance(child, 0.5f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
 
-            window = new HeadlessEditorWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow(600f, 800f);
             editor = (BattleEffectRecipeEditor)UnityEditor.Editor.CreateEditor(recipe);
             VisualElement inspector = editor.CreateInspectorGUI();
-            window.root.Add(inspector);
+            window.rootVisualElement.Add(inspector);
             inspector.Bind(editor.serializedObject);
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
         }
 
         [TearDown]
         public void TearDown()
         {
-            window.Close();
+            HeadlessEditorWindow.Close(window);
             BattleEffectPreviewVisibility.ShowAll(recipe);
             Undo.ClearUndo(recipe);
             Object.DestroyImmediate(editor);
@@ -68,15 +69,21 @@ namespace LowDefMustard.Rendering.Tests.Editor
         #endregion
 
         #region PrivateMethods
-        private BattleEffectItemElement[] GetItemElements() => window.root.Query<BattleEffectItemElement>().ToList().ToArray();
-        private PropertyField FindItemField(int itemIndex, string fieldPath) => window.root.Query<PropertyField>().Where(field => field.bindingPath == $"{BattleEffectRecipe.itemsField}.Array.data[{itemIndex}].{fieldPath}").First();
-        private BattleEffectSection FindSection(string title) => window.root.Query<BattleEffectSection>().Where(section => section.text == title).First();
+        private BattleEffectItemElement[] GetItemElements() => window.rootVisualElement.Query<BattleEffectItemElement>().ToList().ToArray();
+        private PropertyField FindItemField(int itemIndex, string fieldPath) => window.rootVisualElement.Query<PropertyField>().Where(field => field.bindingPath == $"{BattleEffectRecipe.itemsField}.Array.data[{itemIndex}].{fieldPath}").First();
+        private BattleEffectSection FindSection(string title) => window.rootVisualElement.Query<BattleEffectSection>().Where(section => section.text == title).First();
         private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
         private static string StylePath(string fieldName) => $"{BattleEffectItem.styleField}.{fieldName}";
         private static string RepetitionPath(string fieldName) => $"{BattleEffectItem.repetitionField}.{fieldName}";
         private static string ShadePath(string fieldName) => $"{BattleEffectItem.shadeField}.{fieldName}";
         private static string TilingPath(string fieldName) => $"{BattleEffectItem.tilingField}.{fieldName}";
-        private IEnumerator WaitForItemField(int itemIndex, string fieldPath) => TestWait.Until(() => FindItemField(itemIndex, fieldPath) != null); // Group sections build as their drawers bind
+        private IEnumerator WaitForItemField(int itemIndex, string fieldPath)
+        {
+            // Group sections build as their drawers bind -> settle after ~ ensures visibility + trackers have landed
+            yield return TestWait.Until(() => FindItemField(itemIndex, fieldPath) != null);
+            Assert.IsNotNull(FindItemField(itemIndex, fieldPath), $"item {itemIndex}:  {fieldPath} never built");
+            yield return HeadlessEditorWindow.Settle();
+        }
 
         private static void UndoStep(string expectedName)
         {
@@ -102,7 +109,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ListSelection_SetsTheSelection_IncludingInstances()
         {
-            window.root.Q<ListView>().SetSelection(new[] { 0, 2, 3 });
+            window.rootVisualElement.Q<ListView>().SetSelection(new[] { 0, 2, 3 });
 
             CollectionAssert.AreEqual(new[] { Item(0), Item(2), Instance(0) }, BattleEffectRecipeSelection.Get(recipe), "Short, Child + Late");
         }
@@ -114,7 +121,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(BattleEffectEntryColours.GetRowColour(false, false, false), FindRow(0).GetColour(), "item:  blue");
             Assert.AreEqual(BattleEffectEntryColours.GetRowColour(true, false, false), FindRow(2).GetColour(), "instance:  purple");
 
-            window.root.Q<ListView>().SetSelection(new[] { 0, 2 });
+            window.rootVisualElement.Q<ListView>().SetSelection(new[] { 0, 2 });
 
             Assert.AreEqual(BattleEffectEntryColours.GetRowColour(false, true, false), FindRow(0).GetColour(), "selected item");
             Assert.AreEqual(BattleEffectEntryColours.GetRowColour(true, true, false), FindRow(2).GetColour(), "selected instance");
@@ -122,7 +129,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield break;
             
             // Local Function
-            BattleEffectEntryRow FindRow(int rowIndex) => window.root.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
+            BattleEffectEntryRow FindRow(int rowIndex) => window.rootVisualElement.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
         }
 
         [UnityTest]
@@ -146,7 +153,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             
             // Local Functions
-            BattleEffectEntryRow FindRow(int rowIndex) => window.root.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
+            BattleEffectEntryRow FindRow(int rowIndex) => window.rootVisualElement.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
             
             void ClickVisibility(BattleEffectEntryRow row)
             {
@@ -505,10 +512,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             CollectionAssert.AreEqual(new[] { Item(1), Instance(0), Item(0) }, editor.GetShownEntries(), "Long (0s), Child (0.5s), Late (1s)");
             CollectionAssert.AreEqual(new[] { 1, 0 }, GetItemElements().Select(element => element.GetItemIndex()));
-            BattleEffectInstanceElement instanceElement = window.root.Q<BattleEffectInstanceElement>();
+            BattleEffectInstanceElement instanceElement = window.rootVisualElement.Q<BattleEffectInstanceElement>();
             Assert.AreEqual(0, instanceElement.GetInstanceIndex());
             StringAssert.StartsWith("Instance:  Child", instanceElement.text);
-            Assert.IsNotNull(window.root.Query<PropertyField>().Where(field => field.bindingPath == $"{BattleEffectRecipe.instancesField}.Array.data[0].{BattleEffectInstance.startOffsetSecondsField}").First(), "instance settings");
+            Assert.IsNotNull(window.rootVisualElement.Query<PropertyField>().Where(field => field.bindingPath == $"{BattleEffectRecipe.instancesField}.Array.data[0].{BattleEffectInstance.startOffsetSecondsField}").First(), "instance settings");
         }
 
         [UnityTest]
@@ -517,6 +524,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(0) });
             BattleEffectItemElement element = GetItemElements()[0];
             StringAssert.StartsWith("Late  ~  Circle", element.text);
+            yield return HeadlessEditorWindow.Settle();
 
             ItemProperty(0, BattleEffectItem.labelField).stringValue = "Later";
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -564,6 +572,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             PropertyField outlineColour = null;
             yield return TestWait.Until(() => (outlineColour = FindItemField(2, StylePath(BattleEffectStyle.outlineColourField))) != null && IsShown(outlineColour));
             Assert.IsFalse(IsShown(FindItemField(2, StylePath(BattleEffectStyle.outlinePaletteStepField))), "off:  no step");
+            yield return HeadlessEditorWindow.Settle();
 
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[2].{StylePath(BattleEffectStyle.isOutlineFromPaletteField)}").boolValue = true;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -599,6 +608,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsFalse(IsShown(outlineFill), "outline:  no fill step");
             Assert.IsTrue(IsShown(outlineStroke), "outline:  stroke step");
             Assert.IsFalse(IsShown(fillAndOutlineStroke), "fill and outline w/ its outline colour:  no stroke step");
+            yield return HeadlessEditorWindow.Settle();
 
             ItemProperty(2, StylePath(BattleEffectStyle.isOutlineFromPaletteField)).boolValue = true;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -613,6 +623,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(0) });
             PropertyField thickness = null;
             yield return TestWait.Until(() => (thickness = FindItemField(0, StylePath(BattleEffectStyle.outlineThicknessEUField))) != null && !IsShown(thickness));
+            yield return HeadlessEditorWindow.Settle();
 
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[0].{StylePath(BattleEffectStyle.modeField)}").intValue = (int)BattleEffectStyleMode.Outline;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -637,14 +648,16 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.IsTrue(FindSection("Timing").value, "core sections open");
         }
 
-        [TestCase(BattleEffectEasing.Linear, false)]
-        [TestCase(BattleEffectEasing.EaseIn, false)]
-        [TestCase(BattleEffectEasing.Approach, true)]
-        public void Timing_ShowsApproachRatioForApproachOnly(BattleEffectEasing easing, bool isRatioShown)
+        [UnityTest]
+        [TestCase(BattleEffectEasing.Linear, false, ExpectedResult = null)]
+        [TestCase(BattleEffectEasing.EaseIn, false, ExpectedResult = null)]
+        [TestCase(BattleEffectEasing.Approach, true, ExpectedResult = null)]
+        public IEnumerator Timing_ShowsApproachRatioForApproachOnly(BattleEffectEasing easing, bool isRatioShown)
         {
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{BattleEffectItem.easingField}").intValue = (int)easing;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
+            yield return WaitForItemField(1, BattleEffectItem.approachRatioField);
 
             Assert.AreEqual(isRatioShown, IsShown(FindItemField(1, BattleEffectItem.approachRatioField)));
         }
@@ -777,6 +790,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             BattleEffectRecipeSelection.Set(recipe, new[] { Item(1) });
             yield return TestWait.Until(() => FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".x"))?.Q<IntegerField>() != null);
             PropertyField countField = FindItemField(1, RepetitionPath(BattleEffectRepetition.countField + ".x"));
+            yield return HeadlessEditorWindow.Settle();
 
             editor.serializedObject.FindProperty($"{BattleEffectRecipe.itemsField}.Array.data[1].{RepetitionPath(BattleEffectRepetition.modeField)}").intValue = (int)BattleEffectRepetitionMode.Grid;
             editor.serializedObject.ApplyModifiedPropertiesWithoutUndo();

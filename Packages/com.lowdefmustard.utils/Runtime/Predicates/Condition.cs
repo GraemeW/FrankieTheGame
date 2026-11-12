@@ -17,6 +17,13 @@ namespace LowDefMustard.Utils
         public void AddDisjunction(Disjunction disjunction) => and.Add(disjunction);
         public IReadOnlyList<Disjunction> GetDisjunctions() => and;
 
+        public IEnumerable<Predicate> GetPredicates() => and
+            .Where(disjunction => disjunction != null)
+            .SelectMany(disjunction => disjunction.GetPredicateWrappers())
+            .Where(predicateWrapper => predicateWrapper != null)
+            .Select(predicateWrapper => predicateWrapper.GetPredicate())
+            .Where(predicate => predicate != null);
+
         [System.Serializable]
         public class Disjunction
         {

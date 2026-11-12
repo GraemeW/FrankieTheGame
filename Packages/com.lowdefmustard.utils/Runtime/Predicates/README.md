@@ -13,6 +13,7 @@ Data-driven boolean conditions for gating gameplay logic (dialogue options, ques
   Returns `true`, `false`, or `null`. **`null` means "I don't know how to evaluate this predicate,"** not "false." An evaluator implementation typically checks whether the given `Predicate` is a type it understands and returns `null` for anything else, so several small, focused evaluators can be combined into one list and each only "opts in" on the predicate types it recognizes.
 
 - **`Condition` / `Disjunction` / `PredicateWrapper`** - the structure that combines predicates into a single boolean expression.
+  - `Condition.GetPredicates()` flattens to every non-null `Predicate` ~ to find what a condition depends on without evaluating it
 
 ## Conjunctive normal form (CNF)
 

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 namespace LowDefMustard.Saving.Tests.Editor
 {
     // Note: Tests that only read back constructed state build the Box directly with no panel
-    // Note: Tests that need a RegisterValueChangedCallback to fire attach the Box to a HeadlessEditorWindowTestHelper
+    // Note: Tests that need a RegisterValueChangedCallback to fire attach the Box to a HeadlessEditorWindow
     //  - unattached BaseField<T>.value assignment sets the value but does not dispatch the ChangeEvent (callback silently fails to fires without a real panel)
     // Note:  Registry tests register against RegistryOnlyProbe and unregister in [TearDown] via UnregisterSubCard<T>/UnregisterSubCardPriority
     //  - ensures the static sub-card factory registry is clean once this finishes

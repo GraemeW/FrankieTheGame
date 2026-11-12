@@ -6,6 +6,7 @@ using Frankie.Core;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     public class CheckWithDynamicOptions : CheckBase
     {
         [SerializeField][Tooltip("Must implement ICheckDynamic")] private GameObject dynamicCheckObject;

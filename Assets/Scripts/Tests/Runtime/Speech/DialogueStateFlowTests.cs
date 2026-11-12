@@ -19,7 +19,7 @@ namespace Frankie.Tests
         // Dialogues end by destroying the box (the box's DestroyTriggered -> EndConversation)
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private PlayerStateRig rig;
         private AIConversant conversant;
         private int exitCount;
@@ -40,7 +40,7 @@ namespace Frankie.Tests
         public IEnumerator TearDown()
         {
             yield return rig.TearDown();
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace Frankie.Tests
         [UnityTest]
         public IEnumerator EmptyDialogue_StaysInWorldWithNoControllerOrExitEvents()
         {
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateEmptyDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateEmptyDialogue());
 
             Assert.AreEqual(PlayerStateType.InWorld, rig.GetState());
             CollectionAssert.IsEmpty(rig.observedStates);
@@ -91,9 +91,9 @@ namespace Frankie.Tests
         [UnityTest]
         public IEnumerator FullyGatedDialogue_StaysInWorldWithNoControllerOrExitEvents()
         {
-            var gatePredicate = objects.Create<TestPredicate>("Gate");
+            var gatePredicate = tracker.Create<TestPredicate>("Gate");
             conversant.transform.parent.gameObject.AddComponent<FixedResultEvaluatorBehaviour>().result = false;
-            Dialogue dialogue = objects.CreateDialogue(new[] { objects.CreateDialogueNode("Gated") }, new[] { objects.CreateDialogueConditionNode("Gate", When(gatePredicate), "Gated") }, "Gate");
+            Dialogue dialogue = tracker.CreateDialogue(new[] { tracker.CreateDialogueNode("Gated") }, new[] { tracker.CreateDialogueConditionNode("Gate", When(gatePredicate), "Gated") }, "Gate");
 
             rig.playerStateMachine.EnterDialogue(conversant, dialogue);
 
@@ -109,7 +109,7 @@ namespace Frankie.Tests
         [UnityTest]
         public IEnumerator StandardDialogue_Ending_FiresExitExactlyOnce()
         {
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState());
             Assert.AreEqual(0, exitCount);
 
@@ -124,7 +124,7 @@ namespace Frankie.Tests
         public IEnumerator DialogueRequestedDuringCutscene_PlaysAfterItAndExitsOnlyAfterItsOwnEnd()
         {
             rig.playerStateMachine.EnterCutscene();
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
             Assert.AreEqual(PlayerStateType.InCutScene, rig.GetState());
 
             rig.playerStateMachine.EnterWorld();
@@ -141,7 +141,7 @@ namespace Frankie.Tests
         [UnityTest]
         public IEnumerator CutsceneRequestedDuringDialogue_PlaysOnlyAfterTheDialogueEnds()
         {
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
             rig.playerStateMachine.EnterCutscene();
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState());
 
@@ -166,7 +166,7 @@ namespace Frankie.Tests
                 playerStateMachine.EnterCutscene();
             });
 
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
 
             Assert.AreEqual(1, cutsceneRequests);
             Assert.AreEqual(PlayerStateType.InDialogue, rig.GetState());
@@ -182,7 +182,7 @@ namespace Frankie.Tests
         {
             conversant.gameObject.AddComponent<DialogueTrigger>().ConfigureTrigger(DialogueUpdateType.DialogueComplete, playerStateMachine => playerStateMachine.EnterDialogue("Follow-up message"));
 
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
             DialogueController firstController = DialogueController.FindDialogueController();
             Assert.IsNotNull(firstController);
 
@@ -205,7 +205,7 @@ namespace Frankie.Tests
         public IEnumerator DialogueBoxLostMidDialogue_ReturnsToWorldAndFiresExitOnce()
         {
             // The controller loses its only receiver without EndConversation -> BaseController's poll recovers (its own Warning)
-            rig.playerStateMachine.EnterDialogue(conversant, objects.CreateSingleLineDialogue());
+            rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
             yield return PlayerStateRig.Settle();
 
             LogAssert.Expect(LogType.Warning, new Regex(@"has no active input receivers\. Queuing it for destroy\.$"));

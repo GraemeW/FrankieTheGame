@@ -134,12 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  quest: {fileID: 0}
+  questObjective: {fileID: 0}
   backingHandlerGUID: 
   backingListHashCheck: 0
   backingHasGameStateModifiers: 0
   backingGameStateModifierGUIDs: []
-  quest: {fileID: 0}
-  questObjective: {fileID: 0}
 --- !u!1001 &1127771178729956631
 PrefabInstance:
   m_ObjectHideFlags: 0

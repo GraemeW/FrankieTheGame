@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -17,7 +18,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
         }
         #endregion
 
@@ -28,27 +29,6 @@ namespace LowDefMustard.Zones.Tests.Editor
             var manipulator = new ZoneNodeGroupDragManipulator(shiftPosition, zoomProvider ?? (() => 1f));
             window.rootVisualElement.AddManipulator(manipulator);
             return manipulator;
-        }
-
-        private static void SendMouseDown(VisualElement target, Vector2 position, int button = 0)
-        {
-            using MouseDownEvent evt = MouseDownEvent.GetPooled(new Event { type = EventType.MouseDown, mousePosition = position, button = button });
-            evt.target = target;
-            target.SendEvent(evt);
-        }
-
-        private static void SendMouseDrag(VisualElement target, Vector2 position, Vector2 delta, int button = 0)
-        {
-            using MouseMoveEvent evt = MouseMoveEvent.GetPooled(new Event { type = EventType.MouseDrag, mousePosition = position, delta = delta, button = button });
-            evt.target = target;
-            target.SendEvent(evt);
-        }
-
-        private static void SendMouseUp(VisualElement target, Vector2 position, int button = 0)
-        {
-            using MouseUpEvent evt = MouseUpEvent.GetPooled(new Event { type = EventType.MouseUp, mousePosition = position, button = button });
-            evt.target = target;
-            target.SendEvent(evt);
         }
         #endregion
 
@@ -68,10 +48,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseDown_StartsDragAndCapturesMouse()
         {
             SetUpAttachedManipulator(_ => { });
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
 
             Assert.IsTrue(window.rootVisualElement.HasMouseCapture());
         }
@@ -80,10 +59,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseDown_UnregisteredButton_DoesNotStartDrag()
         {
             SetUpAttachedManipulator(_ => { });
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 1);
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 1);
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }
@@ -93,12 +71,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             Vector2? receivedDelta = null;
             SetUpAttachedManipulator(delta => receivedDelta = delta, zoomProvider: () => 2f);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
-            SendMouseDrag(window.rootVisualElement, new Vector2(70, 60), delta: new Vector2(20, 10));
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
+            HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(70, 60), delta: new Vector2(20, 10));
 
             Assert.AreEqual(new Vector2(10, 5), receivedDelta);
         }
@@ -108,10 +84,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             bool invoked = false;
             SetUpAttachedManipulator(_ => invoked = true);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDrag(window.rootVisualElement, new Vector2(999, 999), delta: new Vector2(1, 1));
-            yield return null;
+            HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(999, 999), delta: new Vector2(1, 1));
 
             Assert.IsFalse(invoked);
         }
@@ -121,12 +96,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             Vector2? receivedDelta = null;
             SetUpAttachedManipulator(delta => receivedDelta = delta, zoomProvider: () => 0f);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
-            SendMouseDrag(window.rootVisualElement, new Vector2(51, 50), delta: new Vector2(1, 0));
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
+            HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(51, 50), delta: new Vector2(1, 0));
 
             // zoom clamped to 0.01f minimum, so a delta of 1 becomes 1/0.01 = 100
             receivedDelta ??= Vector2.zero;
@@ -137,12 +110,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseUp_ReleasesMouseCapture()
         {
             SetUpAttachedManipulator(_ => { });
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
-            SendMouseUp(window.rootVisualElement, new Vector2(60, 60));
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
+            HeadlessEditorWindow.SendMouseUp(window.rootVisualElement, new Vector2(60, 60));
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }

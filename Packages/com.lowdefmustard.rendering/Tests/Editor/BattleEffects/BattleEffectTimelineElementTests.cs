@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
@@ -375,11 +376,11 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator PointerDownThenUp_InAShownWindow_RaisesScrubbedThenScrubEnded()
         {
-            var window = new HeadlessEditorWindow(width: BattleEffectTimelineElement.labelWidth + 200f);
+            EditorWindow window = HeadlessEditorWindow.CreateOffscreenWindow(BattleEffectTimelineElement.labelWidth + 200f, 800f);
             try
             {
                 timeline.style.width = BattleEffectTimelineElement.labelWidth + 200f;
-                window.root.Add(timeline);
+                window.rootVisualElement.Add(timeline);
                 timeline.Refresh(recipe, 0f, 2f);
                 float? scrubbedTime = null;
                 bool isScrubEnded = false;
@@ -404,7 +405,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
                 Assert.AreEqual(1f, scrubbedTime.Value, 0.05f, "half way along the track");
                 Assert.IsTrue(isScrubEnded, "the release raises scrubEnded");
             }
-            finally { window.Close(); }
+            finally { HeadlessEditorWindow.Close(window); }
         }
         #endregion
     }

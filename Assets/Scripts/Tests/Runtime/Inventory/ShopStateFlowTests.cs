@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 using LowDefMustard.Utils.Tests;
@@ -18,7 +17,7 @@ namespace Frankie.Tests
         // The dialogue-choice case calls Shop.InitiateBargain while in dialogue, as a choice action does
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private PlayerStateRig rig;
         private Shop shop;
         private Shopper shopper;
@@ -41,19 +40,15 @@ namespace Frankie.Tests
         public IEnumerator TearDown()
         {
             yield return rig.TearDown();
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region Helpers
         private InventoryItem Stock()
         {
-            var item = objects.Create<KeyItem>("ShopStateFlowTests_Item");
-            var serializedShop = new SerializedObject(shop);
-            SerializedProperty stock = serializedShop.FindProperty("stock");
-            stock.arraySize = 1;
-            stock.GetArrayElementAtIndex(0).objectReferenceValue = item;
-            serializedShop.ApplyModifiedPropertiesWithoutUndo();
+            var item = tracker.Create<KeyItem>("ShopStateFlowTests_Item");
+            SerializedFieldInjector.SetArray(shop, Shop.stockField, item);
             return item;
         }
 

@@ -17,7 +17,7 @@ namespace LowDefMustard.GameStateModifiers
         // Standard Properties
         [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid = string.Empty;
         public string GetGUID() => guid;
-        public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
+        public List<LinkedHandlerRecord> linkedHandlers = new(); // Custom view in GameStateModifierEditor
         
         // Handles
         public delegate bool HasScenePathDelegate(string input, out string scenePath);
@@ -35,6 +35,7 @@ namespace LowDefMustard.GameStateModifiers
             if (string.IsNullOrWhiteSpace(guid))
             {
                 guid = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+                ResetCache(); // in-memory GUID change ~ no asset import fires until the asset is saved
             }
 #endif
         }
@@ -48,21 +49,20 @@ namespace LowDefMustard.GameStateModifiers
         
 #if UNITY_EDITOR
         #region EditorStaticMethods
+        public static string GetLinkedHandlersRef() => nameof(linkedHandlers);
+        public static void ResetCache() => _gameStateModifierCache = null;
         public static GameStateModifier GetGameStateModifier(string guid)
         {
-            bool wasCacheBuiltThisRequest = false;
-            if (_gameStateModifierCache == null)
-            {
-                wasCacheBuiltThisRequest = true;
-                _gameStateModifierCache = BuildCache();
-            }
+            // Misses are genuine -> asset changes reset the cache instead (GameStateModifierCacheInvalidator, plus new GUIDs in OnBeforeSerialize)
+            if (string.IsNullOrWhiteSpace(guid)) { return null; }
+            _gameStateModifierCache ??= BuildCache();
             
-            if (_gameStateModifierCache.TryGetValue(guid, out GameStateModifier gameStateModifier)) { return gameStateModifier; }
-            if (wasCacheBuiltThisRequest) { return null;}
+            if (!_gameStateModifierCache.TryGetValue(guid, out GameStateModifier gameStateModifier)) { return null; }
+            if (gameStateModifier != null) { return gameStateModifier; }
             
-            // Cache may be stale, so re-build
-            BuildCache();
-            return _gameStateModifierCache.TryGetValue(guid, out gameStateModifier) ? gameStateModifier : null;
+            // Cached entry destroyed in memory (e.g. asset unloaded) -> rebuild once
+            _gameStateModifierCache = BuildCache();
+            return _gameStateModifierCache.GetValueOrDefault(guid);
         }
         
         private static Dictionary<string, GameStateModifier> BuildCache()
@@ -86,8 +86,6 @@ namespace LowDefMustard.GameStateModifiers
             }
             return newGameStateModifierCache;
         }
-        
-        public static string GetGameStateModifierHandlerDataRef() => nameof(gameStateModifierHandlerData);
         
         private static bool DoesGameStateModifierHandlerExist(string scenePath, string handlerGUID, out IGameStateModifierHandler gameStateModifierHandler)
         {
@@ -114,36 +112,37 @@ namespace LowDefMustard.GameStateModifiers
         #endregion
         
         #region EditorPublicMethods
-        public void AddOrUpdateGameStateModifierHandler(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
+        public void AddOrUpdateGameStateModifierHandler(LinkedHandlerRecord linkedHandlerRecord)
         {
-            for (int i = 0; i < gameStateModifierHandlerData.Count; i++)
+            for (int i = 0; i < linkedHandlers.Count; i++)
             {
-                if (!gameStateModifierHandlerData[i].Equals(zoneToGameObjectLinkData)) { continue; }
+                if (!linkedHandlers[i].Equals(linkedHandlerRecord)) { continue; }
 
-                ZoneToGameObjectLinkData existingLinkData = gameStateModifierHandlerData[i];
-                existingLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
-                gameStateModifierHandlerData[i] = existingLinkData; // struct copy, write back explicitly
+                LinkedHandlerRecord existingRecord = linkedHandlers[i];
+                existingRecord.UpdateRecord(linkedHandlerRecord.zoneName, linkedHandlerRecord.gameObjectName, linkedHandlerRecord.parentObjectName, linkedHandlerRecord.handlerTypeName);
+                linkedHandlers[i] = existingRecord; // struct copy, write back explicitly
                 EditorUtility.SetDirty(this);
                 return;
             }
 
-            string parentStem = zoneToGameObjectLinkData.GetParentLabelStem();
-            LDMLog.Info(LDMLogCategory.World, $"Adding handler '{zoneToGameObjectLinkData.zoneName ?? ""}/{parentStem}{zoneToGameObjectLinkData.gameObjectName ?? ""}' to game state modifier '{name}'.", this);
-            gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
+            string parentStem = linkedHandlerRecord.GetParentLabelStem();
+            LDMLog.Info(LDMLogCategory.World, $"Adding handler '{linkedHandlerRecord.zoneName ?? ""}/{parentStem}{linkedHandlerRecord.gameObjectName ?? ""}' to game state modifier '{name}'.", this);
+            linkedHandlers.Add(linkedHandlerRecord);
             EditorUtility.SetDirty(this);
         }
 
         public void RemoveGameStateModifierHandler(string handlerGUID)
         {
             LDMLog.Info(LDMLogCategory.World, $"Removing handler '{handlerGUID}' from game state modifier '{name}' (its GameObject was deleted).", this);
-            gameStateModifierHandlerData.RemoveAll(match => match.guid == handlerGUID);
+            linkedHandlers.RemoveAll(match => match.handlerGUID == handlerGUID);
             EditorUtility.SetDirty(this);
         }
 
-        public int CleanDanglingModifierHandlerData(bool removeOnSceneCheck = true)
+        public int CleanDanglingModifierHandlerData(bool removeOnSceneCheck = true, GameStateModifierHandlerLookup handlerLookup = null)
         {
+            // handlerLookup:  optional snapshot from a bulk pass ~ entries in its zones are checked against it instead of opening their scene
             int removedCount = 0;
-            removedCount += RemoveNonExistentEntries(removeOnSceneCheck);
+            removedCount += RemoveNonExistentEntries(removeOnSceneCheck, handlerLookup);
             removedCount += RemoveDuplicateEntries();
             EditorUtility.SetDirty(this);
             return removedCount;
@@ -151,42 +150,34 @@ namespace LowDefMustard.GameStateModifiers
         #endregion
 
         #region EditorPrivateMethods
-        private int RemoveNonExistentEntries(bool removeOnSceneCheck = true)
+        private int RemoveNonExistentEntries(bool removeOnSceneCheck, GameStateModifierHandlerLookup handlerLookup)
         {
             int removedCount = 0;
-            for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
+            for (int i = linkedHandlers.Count - 1; i >= 0; i--)
             {
-                ZoneToGameObjectLinkData handlerLinkData = gameStateModifierHandlerData[i];
-                string zoneName = handlerLinkData.zoneName;
-                string parentStem = handlerLinkData.GetParentLabelStem();
-                string handlerName = handlerLinkData.gameObjectName;
-                string handlerGUID = handlerLinkData.guid;
+                LinkedHandlerRecord linkedHandler = linkedHandlers[i];
+                HandlerEntryStatus entryStatus = GetEntryStatus(linkedHandler, handlerLookup);
+                if (!ShouldRemoveEntry(entryStatus, removeOnSceneCheck)) { continue; }
 
-                if (string.IsNullOrEmpty(handlerGUID))
-                {
-                    LDMLog.Info(LDMLogCategory.World, $"Removing handler entry '{zoneName ?? ""}/{parentStem}{handlerName ?? ""}' from game state modifier '{name}' (empty GUID).", this);
-                }
-                else
-                {
-                    bool sceneFound = scenePathProvider != null ? scenePathProvider.Invoke(zoneName, out string scenePath) : DefaultGetScenePath(zoneName, out scenePath);
-                    IGameStateModifierHandler gameStateModifierHandler = null;
-                    bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID, out gameStateModifierHandler);
-                    bool isModifierLinked = objectFound && gameStateModifierHandler != null && gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier.guid == guid);
-
-                    // Found -- Skip Removal
-                    if (isModifierLinked) { continue; }
-                    if (!sceneFound && !removeOnSceneCheck) { continue; }
-                    
-                    string reason = !sceneFound ? $"zone '{zoneName ?? ""}' not found" : !objectFound ? $"object '{parentStem}{handlerName ?? ""}' not found" : $"not linked to handler '{parentStem}{handlerName}'";
-                    LDMLog.Info(LDMLogCategory.World, $"Removing handler entry '{zoneName ?? ""}/{parentStem}{handlerName ?? ""}' from game state modifier '{name}' ({reason}).", this);
-                }
-
-                gameStateModifierHandlerData.RemoveAt(i);
-
+                LogEntryRemoval(linkedHandler, entryStatus);
+                linkedHandlers.RemoveAt(i);
                 removedCount++;
             }
             return removedCount;
         }
+        
+        // Note:  Internal for test visibility
+        internal int RemoveDuplicateEntries()
+        {
+            int initialCount = linkedHandlers.Count;
+            linkedHandlers = linkedHandlers.Distinct().ToList();
+            int removedCount = initialCount - linkedHandlers.Count;
+            
+            if (removedCount > 0) { LDMLog.Warning(LDMLogCategory.World, $"Removed {removedCount} duplicate handler entries from game state modifier '{name}'.", this); }
+            return removedCount;
+        }
+        
+        private static bool TryGetScenePath(string zoneName, out string scenePath) => scenePathProvider != null ? scenePathProvider.Invoke(zoneName, out scenePath) : DefaultGetScenePath(zoneName, out scenePath);
 
         public static bool DefaultGetScenePath(string zoneName, out string scenePath)
         {
@@ -198,16 +189,54 @@ namespace LowDefMustard.GameStateModifiers
             scenePath = AssetDatabase.GUIDToAssetPath(guids[0]);
             return !string.IsNullOrWhiteSpace(scenePath);
         }
-        
-        // Note:  Internal for test visibility
-        internal int RemoveDuplicateEntries()
+
+        private HandlerEntryStatus GetEntryStatus(LinkedHandlerRecord linkedHandler, GameStateModifierHandlerLookup handlerLookup)
         {
-            int initialCount = gameStateModifierHandlerData.Count;
-            gameStateModifierHandlerData = gameStateModifierHandlerData.Distinct().ToList();
-            int removedCount = initialCount - gameStateModifierHandlerData.Count;
+            if (string.IsNullOrEmpty(linkedHandler.handlerGUID)) { return HandlerEntryStatus.EmptyGUID; }
             
-            if (removedCount > 0) { LDMLog.Warning(LDMLogCategory.World, $"Removed {removedCount} duplicate handler entries from game state modifier '{name}'.", this); }
-            return removedCount;
+            // Lookup only trusted for the zones it indexed -> anything else checked against its scene
+            bool isZoneIndexed = handlerLookup != null && handlerLookup.HasZone(linkedHandler.zoneName);
+            return isZoneIndexed ? GetEntryStatusFromLookup(linkedHandler, handlerLookup) : GetEntryStatusFromScene(linkedHandler);
+        }
+
+        private HandlerEntryStatus GetEntryStatusFromLookup(LinkedHandlerRecord linkedHandler, GameStateModifierHandlerLookup handlerLookup)
+        {
+            if (string.IsNullOrWhiteSpace(linkedHandler.gameObjectName) || !handlerLookup.HasHandler(linkedHandler.zoneName, linkedHandler.handlerGUID)) { return HandlerEntryStatus.ObjectNotFound; }
+            return handlerLookup.IsLinked(linkedHandler.zoneName, linkedHandler.handlerGUID, guid) ? HandlerEntryStatus.Linked : HandlerEntryStatus.NotLinked;
+        }
+
+        private HandlerEntryStatus GetEntryStatusFromScene(LinkedHandlerRecord linkedHandler)
+        {
+            if (!TryGetScenePath(linkedHandler.zoneName, out string scenePath)) { return HandlerEntryStatus.ZoneNotFound; }
+            if (string.IsNullOrWhiteSpace(linkedHandler.gameObjectName)) { return HandlerEntryStatus.ObjectNotFound; }
+            if (!DoesGameStateModifierHandlerExist(scenePath, linkedHandler.handlerGUID, out IGameStateModifierHandler gameStateModifierHandler) || gameStateModifierHandler == null) { return HandlerEntryStatus.ObjectNotFound; }
+
+            bool isLinked = gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier != null && checkModifier.guid == guid);
+            return isLinked ? HandlerEntryStatus.Linked : HandlerEntryStatus.NotLinked;
+        }
+
+        private static bool ShouldRemoveEntry(HandlerEntryStatus entryStatus, bool removeOnSceneCheck)
+        {
+            return entryStatus switch
+            {
+                HandlerEntryStatus.Linked => false,
+                HandlerEntryStatus.ZoneNotFound => removeOnSceneCheck, // scene lookups can fail transiently (serialization quirks) -> optionally kept
+                _ => true
+            };
+        }
+
+        private void LogEntryRemoval(LinkedHandlerRecord linkedHandler, HandlerEntryStatus entryStatus)
+        {
+            string zoneName = linkedHandler.zoneName ?? "";
+            string handlerLabel = $"{linkedHandler.GetParentLabelStem()}{linkedHandler.gameObjectName ?? ""}";
+            string reason = entryStatus switch
+            {
+                HandlerEntryStatus.EmptyGUID => "empty GUID",
+                HandlerEntryStatus.ZoneNotFound => $"zone '{zoneName}' not found",
+                HandlerEntryStatus.ObjectNotFound => $"object '{handlerLabel}' not found",
+                _ => $"not linked to handler '{handlerLabel}'"
+            };
+            LDMLog.Info(LDMLogCategory.World, $"Removing handler entry '{zoneName}/{handlerLabel}' from game state modifier '{name}' ({reason}).", this);
         }
         #endregion
 #endif

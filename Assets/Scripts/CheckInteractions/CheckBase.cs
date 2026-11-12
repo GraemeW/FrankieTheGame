@@ -34,7 +34,7 @@ namespace Frankie.Control
         }
 
 
-        protected void OnDestroy()
+        protected virtual void OnDestroy()
         {
             ILocalizable.TriggerOnDestroy(this);
         }

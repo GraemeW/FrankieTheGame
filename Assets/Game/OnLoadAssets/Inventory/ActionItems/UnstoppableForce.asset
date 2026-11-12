@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UnstoppableForce
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   guid: de6b51b1-993e-4816-b20d-4465a0317c29
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

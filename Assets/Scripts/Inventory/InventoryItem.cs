@@ -91,6 +91,13 @@ namespace Frankie.Inventory
         {
             if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
         }
+
+        public static void ResetCache()
+        {
+            ReleaseCache();
+            _addressablesLoadHandle = default;
+            _itemLookupCache = null;
+        }
         #endregion
     }
 }

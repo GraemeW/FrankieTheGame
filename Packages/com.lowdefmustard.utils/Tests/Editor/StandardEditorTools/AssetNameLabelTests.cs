@@ -21,7 +21,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
             tempFolder?.Dispose();
             tempFolder = null;
         }
@@ -38,7 +38,7 @@ namespace LowDefMustard.Utils.Tests.Editor
 
         private AssetNameLabel SetUpAttached(Object asset)
         {
-            window = HeadlessEditorWindowTestHelper.CreateOffscreenWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
             var nameLabel = new AssetNameLabel(false);
             nameLabel.SetAsset(asset);
             window.rootVisualElement.Add(nameLabel);
@@ -48,13 +48,6 @@ namespace LowDefMustard.Utils.Tests.Editor
         private static Label GetLabel(AssetNameLabel nameLabel) => nameLabel.Q<Label>();
         private static TextField GetField(AssetNameLabel nameLabel) => nameLabel.Q<TextField>();
         private static bool IsEditing(AssetNameLabel nameLabel) => GetField(nameLabel).style.display.value == DisplayStyle.Flex;
-
-        private static void SendClick(VisualElement target, int clickCount)
-        {
-            using ClickEvent clickEvent = ClickEvent.GetPooled(new Event { type = EventType.MouseDown, button = 0, clickCount = clickCount });
-            clickEvent.target = target;
-            target.SendEvent(clickEvent);
-        }
 
         private static void PressKey(VisualElement target, KeyCode keyCode)
         {
@@ -112,9 +105,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator DoubleClick_PersistentAsset_SwapsToField()
         {
             AssetNameLabel nameLabel = SetUpAttached(CreateTempAsset());
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendClick(GetLabel(nameLabel), 2);
+            HeadlessEditorWindow.SendClick(GetLabel(nameLabel), 2);
             yield return null;
 
             Assert.IsTrue(IsEditing(nameLabel));
@@ -125,9 +118,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator SingleClick_DoesNotEdit()
         {
             AssetNameLabel nameLabel = SetUpAttached(CreateTempAsset());
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendClick(GetLabel(nameLabel), 1);
+            HeadlessEditorWindow.SendClick(GetLabel(nameLabel), 1);
             yield return null;
 
             Assert.IsFalse(IsEditing(nameLabel));
@@ -138,9 +131,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             var inMemory = new AnimationClip { name = "InMemory" };
             AssetNameLabel nameLabel = SetUpAttached(inMemory);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendClick(GetLabel(nameLabel), 2);
+            HeadlessEditorWindow.SendClick(GetLabel(nameLabel), 2);
             yield return null;
 
             Assert.IsFalse(IsEditing(nameLabel));
@@ -152,9 +145,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             AnimationClip clip = CreateTempAsset();
             AssetNameLabel nameLabel = SetUpAttached(clip);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendClick(GetLabel(nameLabel), 2);
+            HeadlessEditorWindow.SendClick(GetLabel(nameLabel), 2);
             GetField(nameLabel).SetValueWithoutNotify("  NewName  ");
             SendFocusOut(GetField(nameLabel));
             yield return null;
@@ -170,9 +163,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             AnimationClip clip = CreateTempAsset();
             AssetNameLabel nameLabel = SetUpAttached(clip);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendClick(GetLabel(nameLabel), 2);
+            HeadlessEditorWindow.SendClick(GetLabel(nameLabel), 2);
             GetField(nameLabel).SetValueWithoutNotify("NewName");
             PressKey(GetField(nameLabel), KeyCode.Escape);
             SendFocusOut(GetField(nameLabel));
@@ -188,10 +181,10 @@ namespace LowDefMustard.Utils.Tests.Editor
             AnimationClip clip = CreateTempAsset();
             CreateTempAsset("Taken");
             AssetNameLabel nameLabel = SetUpAttached(clip);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex($"Could not rename asset '{_assetName}' to 'Taken'"));
-            SendClick(GetLabel(nameLabel), 2);
+            HeadlessEditorWindow.SendClick(GetLabel(nameLabel), 2);
             GetField(nameLabel).SetValueWithoutNotify("Taken");
             SendFocusOut(GetField(nameLabel));
             yield return null;

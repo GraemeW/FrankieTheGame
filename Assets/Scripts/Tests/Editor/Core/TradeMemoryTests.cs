@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +14,7 @@ namespace Frankie.Tests.Editor
         // Note:  The Shop lives in a preview scene, so its editor-only OnDestroy hooks (localization, game state modifiers) skip it
 
         // State
-        private readonly TestObjectTracker objects = new();
+        private readonly TestObjectTracker tracker = new();
         private Scene previewScene;
         private GameObject shopObject;
         private Shop shop;
@@ -42,21 +41,14 @@ namespace Frankie.Tests.Editor
         {
             if (shopObject != null) { Object.DestroyImmediate(shopObject); }
             EditorSceneManager.ClosePreviewScene(previewScene);
-            objects.DestroyAll();
+            tracker.DestroyAll();
         }
         #endregion
         
         #region Helpers
         private bool InitiateTrade(Shop tradeShop) => tradeMemory.InitiateTrade(tradeShop, () => shopInstantiations++, () => bankInstantiations++);
 
-        private void SetStock(InventoryItem item)
-        {
-            var serializedShop = new SerializedObject(shop);
-            SerializedProperty stock = serializedShop.FindProperty("stock");
-            stock.arraySize = 1;
-            stock.GetArrayElementAtIndex(0).objectReferenceValue = item;
-            serializedShop.ApplyModifiedPropertiesWithoutUndo();
-        }
+        private void SetStock(InventoryItem item) => SerializedFieldInjector.SetArray(shop, Shop.stockField, item);
         #endregion
 
         #region Tests
@@ -77,7 +69,7 @@ namespace Frankie.Tests.Editor
         [Test]
         public void InitiateTrade_StockedShop_ReturnsTrueAndInstantiatesShop()
         {
-            SetStock(objects.Create<KeyItem>("TradeMemoryTests_Item"));
+            SetStock(tracker.Create<KeyItem>("TradeMemoryTests_Item"));
 
             Assert.IsTrue(InitiateTrade(shop));
             Assert.AreEqual(1, shopInstantiations);

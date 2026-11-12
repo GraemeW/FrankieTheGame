@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -33,7 +34,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             if (zoneViewData != null) { Object.DestroyImmediate(zoneViewData); }
             if (viewer != null)
             {
-                if (attached) { viewer.Close(); }
+                if (attached) { HeadlessEditorWindow.Close(viewer); }
                 else { Object.DestroyImmediate(viewer); }
             }
         }
@@ -143,7 +144,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             viewer.CreateGUI();
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(viewer);
 
             zone = ScriptableObject.CreateInstance<Zone>();
             zone.preventLocalizationForTests = true;

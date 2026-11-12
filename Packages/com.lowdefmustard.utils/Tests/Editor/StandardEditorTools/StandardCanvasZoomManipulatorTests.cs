@@ -15,7 +15,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace LowDefMustard.Utils.Tests.Editor
 
         private (StandardCanvasZoomManipulator manipulator, VisualElement zoomTarget) SetUpAttachedManipulator()
         {
-            window = HeadlessEditorWindowTestHelper.CreateOffscreenWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
             var zoomTarget = new VisualElement();
             window.rootVisualElement.Add(zoomTarget);
             var manipulator = new StandardCanvasZoomManipulator(zoomTarget);
@@ -61,7 +61,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator OnWheel_ScrollingUp_IncreasesZoomFactorAndFiresEvent()
         {
             var (manipulator, _) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             float? receivedZoom = null;
             manipulator.zoomChanged += zoom => receivedZoom = zoom;
@@ -77,7 +77,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator OnWheel_ScrollingDown_DecreasesZoomFactor()
         {
             var (manipulator, _) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             SendWheel(window.rootVisualElement, deltaY: 1);
             yield return null;
@@ -89,7 +89,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator OnWheel_RepeatedScrollingUp_ClampsAtMaxZoom()
         {
             var (manipulator, _) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             // Enough notches to comfortably exceed the 2x max if unclamped
             for (int i = 0; i < 50; i++)
@@ -105,7 +105,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator OnWheel_RepeatedScrollingDown_ClampsAtMinZoom()
         {
             var (manipulator, _) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             for (int i = 0; i < 50; i++)
             {
@@ -122,7 +122,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             // Exercises the Mathf.Approximately early-return
             // Once clamped, a further nudge in the same direction should be a no-op, not a redundant event
             var (manipulator, _) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             for (int i = 0; i < 50; i++)
             {

@@ -102,6 +102,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   saveDialogueCount: 0
+  backingHandlerGUID: 
+  backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
 --- !u!114 &7371511343337835833
 MonoBehaviour:
   m_ObjectHideFlags: 0

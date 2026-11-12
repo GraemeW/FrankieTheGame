@@ -21,6 +21,8 @@ namespace LowDefMustard.GameStateModifiers.Editor
         private const string _zoneFieldLabel = "Zone Name";
         private const string _objectFieldLabel = "Object Name";
         private const string _guidFieldLabel = "GUID";
+        private const string _handlerTypeFieldLabel = "Handler Type";
+        private const string _unknownHandlerTypeLabel = "Unknown Handler Type";
         private const string _editUnlockedLabel = "🔓 Editing";
         private const string _editLockedLabel = "🔒 Locked";
         private const string _editUnlockedHelpBox = "Manual editing enabled.  Warning:  Does NOT update assets in scene, edit at your discretion.";
@@ -31,6 +33,11 @@ namespace LowDefMustard.GameStateModifiers.Editor
         private const string _buttonCleanEntriesText = "Remove Invalid Entries";
         #endregion
         
+        // UI Class Names + State Keys (for test visibility)
+        internal const string entryBoxClass = "gsm-handler-entry";
+        internal const string groupFoldoutClass = "gsm-handler-group";
+        internal const string groupFoldoutStateKeyStem = "LowDefMustard.GameStateModifiers.HandlerGroupFoldout.";
+
         #region Style Constants
         private static readonly StyleColor _editingActiveColour = new(new Color(1f, 0.55f, 0.1f));
         private static readonly StyleColor _editingInactiveColour = new(new Color(0.5f, 0.9f, 0.5f));
@@ -78,7 +85,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
         protected virtual void OnEnable()
         {
             selectedGameStateModifier = target as GameStateModifier;
-            gameStateModifierHandlerDataProperty = serializedObject.FindProperty(GameStateModifier.GetGameStateModifierHandlerDataRef());
+            gameStateModifierHandlerDataProperty = serializedObject.FindProperty(GameStateModifier.GetLinkedHandlersRef());
         }
 
         public override VisualElement CreateInspectorGUI()
@@ -113,7 +120,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
         private static void RemoveExcludedFields(VisualElement root)
         {
             // Exclude default rendering of GameStateModifierHandlerData, so we can render our own way below
-            string handlerDataRef = GameStateModifier.GetGameStateModifierHandlerDataRef();
+            string handlerDataRef = GameStateModifier.GetLinkedHandlersRef();
             
             List<VisualElement> elementsToRemove = new();
             foreach (VisualElement child in root.Children())
@@ -131,23 +138,28 @@ namespace LowDefMustard.GameStateModifiers.Editor
         #endregion
         
         #region CoreFunctionality
-        private static void SelectGameObject(string handlerGUID, string handlerGameObjectName)
+        private static void SelectGameObject(string handlerGUID, string handlerGameObjectName, string handlerParentObjectName)
         {
-            GameObject foundGameObject = (
-                from handler in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>()
-                where handler.handlerGUID == handlerGUID
-                select handler.gameObject
-            ).FirstOrDefault();
+            List<IGameStateModifierHandler> handlers = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>().ToList();
+            GameObject foundGameObject = handlers.Where(handler => handler.handlerGUID == handlerGUID).Select(handler => handler.gameObject).FirstOrDefault();
 
             if (foundGameObject == null)
             {
-                LDMLog.Warning(LDMLogCategory.World, $"No handler found with GUID '{handlerGUID}'. Falling back to a name search for '{handlerGameObjectName}'; check the GUID hook-up.");
-                foundGameObject = FindObjectsByType<GameObject>(FindObjectsInactive.Include).FirstOrDefault(go => go.name == handlerGameObjectName);
+                string parentStem = !string.IsNullOrEmpty(handlerParentObjectName) ? $"{handlerParentObjectName}/" : "";
+                LDMLog.Warning(LDMLogCategory.World, $"No handler found with GUID '{handlerGUID}'. Falling back to a name search for '{parentStem}{handlerGameObjectName}'; check the GUID hook-up.");
+                
+                List<GameObject> nameMatches = handlers.Select(handler => handler.gameObject).Where(handlerObject => IsNameMatch(handlerObject, handlerGameObjectName, handlerParentObjectName)).Distinct().ToList();
+                if (nameMatches.Count > 1)
+                {
+                    LDMLog.Warning(LDMLogCategory.World, $"{nameMatches.Count} handlers named '{parentStem}{handlerGameObjectName}' found in the open scene; skipping selection (cannot guess).");
+                    return;
+                }
+                foundGameObject = nameMatches.FirstOrDefault();
             }
 
             if (foundGameObject == null)
             {
-                LDMLog.Warning(LDMLogCategory.World, $"No GameObject named '{handlerGameObjectName}' found in the open scene.");
+                LDMLog.Warning(LDMLogCategory.World, $"No handler named '{handlerGameObjectName}' found in the open scene.");
                 return;
             }
 
@@ -155,6 +167,13 @@ namespace LowDefMustard.GameStateModifiers.Editor
             var sceneView = SceneView.lastActiveSceneView;
             if (sceneView != null) { sceneView.FrameSelected(); }
             LDMLog.Info(LDMLogCategory.World, $"Selected '{handlerGameObjectName}'.", foundGameObject);
+        }
+        
+        internal static bool IsNameMatch(GameObject handlerObject, string handlerGameObjectName, string handlerParentObjectName)
+        {
+            if (handlerObject == null || handlerObject.name != handlerGameObjectName) { return false; }
+            string parentName = handlerObject.transform.parent != null ? handlerObject.transform.parent.name : "";
+            return parentName == (handlerParentObjectName ?? "");
         }
         
         private void RemoveInvalidEntries(ClickEvent clickEvent)
@@ -200,11 +219,33 @@ namespace LowDefMustard.GameStateModifiers.Editor
                 return;
             }
 
-            for (int gameStateModifierHandlerIndex = 0; gameStateModifierHandlerIndex < gameStateModifierHandlerDataProperty.arraySize; gameStateModifierHandlerIndex++)
+            List<IGrouping<string, int>> handlerGroups = GroupEntryIndicesByHandlerType();
+            bool expandByDefault = handlerGroups.Count == 1;
+            foreach (IGrouping<string, int> handlerGroup in handlerGroups)
             {
-                listItemsContainer.Add(MakeEntry(gameStateModifierHandlerIndex));
-                listItemsContainer.Add(MakeVerticalListSpacer());
+                Foldout groupFoldout = MakeGroupFoldout(handlerGroup.Key, handlerGroup.Count(), expandByDefault);
+                foreach (int gameStateModifierHandlerIndex in handlerGroup)
+                {
+                    groupFoldout.Add(MakeEntry(gameStateModifierHandlerIndex));
+                    groupFoldout.Add(MakeVerticalListSpacer());
+                }
+                listItemsContainer.Add(groupFoldout);
             }
+        }
+
+        private List<IGrouping<string, int>> GroupEntryIndicesByHandlerType()
+        {
+            return Enumerable.Range(0, gameStateModifierHandlerDataProperty.arraySize)
+                .GroupBy(GetHandlerTypeLabel)
+                .OrderBy(handlerGroup => handlerGroup.Key == _unknownHandlerTypeLabel)
+                .ThenBy(handlerGroup => handlerGroup.Key, StringComparer.Ordinal)
+                .ToList();
+        }
+
+        private string GetHandlerTypeLabel(int itemIndex)
+        {
+            string handlerTypeName = gameStateModifierHandlerDataProperty.GetArrayElementAtIndex(itemIndex).FindPropertyRelative(LinkedHandlerRecord.GetHandlerTypeNameRef())?.stringValue;
+            return string.IsNullOrWhiteSpace(handlerTypeName) ? _unknownHandlerTypeLabel : handlerTypeName;
         }
         
         private void UpdateFoldoutCount(Foldout foldout)
@@ -267,15 +308,17 @@ namespace LowDefMustard.GameStateModifiers.Editor
             SerializedProperty currentElement = gameStateModifierHandlerDataProperty?.GetArrayElementAtIndex(itemIndex);
             if (currentElement == null) { return new VisualElement(); }
 
-            SerializedProperty zoneNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetZoneNameRef());
-            SerializedProperty handlerParentObjectNameProp = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetParentObjectNameRef());
-            SerializedProperty handlerGameObjectNameProp = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef());
-            SerializedProperty handlerGUIDProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGuidRef());
+            SerializedProperty zoneNameProperty = currentElement.FindPropertyRelative(LinkedHandlerRecord.GetZoneNameRef());
+            SerializedProperty handlerParentObjectNameProperty = currentElement.FindPropertyRelative(LinkedHandlerRecord.GetParentObjectNameRef());
+            SerializedProperty handlerGameObjectNameProperty = currentElement.FindPropertyRelative(LinkedHandlerRecord.GetGameObjectNameRef());
+            SerializedProperty handlerGUIDProperty = currentElement.FindPropertyRelative(LinkedHandlerRecord.GetHandlerGUIDRef());
+            SerializedProperty handlerTypeProperty = currentElement.FindPropertyRelative(LinkedHandlerRecord.GetHandlerTypeNameRef());
 
             VisualElement entryBox = MakeEmptyEntryBox();
+            entryBox.AddToClassList(entryBoxClass);
             string zoneName = zoneNameProperty?.stringValue ?? "";
-            string handlerParentObjectName = handlerParentObjectNameProp?.stringValue ?? "";
-            string handlerGameObjectName = handlerGameObjectNameProp?.stringValue ?? "";
+            string handlerParentObjectName = handlerParentObjectNameProperty?.stringValue ?? "";
+            string handlerGameObjectName = handlerGameObjectNameProperty?.stringValue ?? "";
             string handlerGUID = handlerGUIDProperty?.stringValue ?? "";
 
             string parentStem = !string.IsNullOrEmpty(handlerParentObjectName) ? $"{handlerParentObjectName}." : "";
@@ -290,7 +333,7 @@ namespace LowDefMustard.GameStateModifiers.Editor
             entryHeaderRow.Add(displayNameLabel);
             
             // Buttons
-            Button openButton = MakeOpenSceneButton(zoneName, handlerGUID, handlerGameObjectName);
+            Button openButton = MakeOpenSceneButton(zoneName, handlerGUID, handlerGameObjectName, handlerParentObjectName);
             entryHeaderRow.Add(openButton);
             Button deleteButton = MakeDeleteButton(itemIndex);
             entryHeaderRow.Add(deleteButton);
@@ -298,27 +341,47 @@ namespace LowDefMustard.GameStateModifiers.Editor
             // Fields
             VisualElement fieldsContainer = MakeFieldsContainer(isEditingEnabled); 
             var zoneField = new PropertyField(zoneNameProperty, _zoneFieldLabel);
-            var objField = new PropertyField(handlerGameObjectNameProp, _objectFieldLabel);
+            var objField = new PropertyField(handlerGameObjectNameProperty, _objectFieldLabel);
             var guidField = new PropertyField(handlerGUIDProperty, _guidFieldLabel);
+            var handlerTypeField = new PropertyField(handlerTypeProperty, _handlerTypeFieldLabel);
             zoneField.Bind(serializedObject);
             objField.Bind(serializedObject);
             guidField.Bind(serializedObject);
+            handlerTypeField.Bind(serializedObject);
             fieldsContainer.Add(zoneField);
             fieldsContainer.Add(objField);
             fieldsContainer.Add(guidField);
+            fieldsContainer.Add(handlerTypeField);
 
             entryBox.Add(fieldsContainer);
             return entryBox;
         }
 
-        private static Button MakeOpenSceneButton(string zoneName, string handlerGUID, string handlerGameObjectName)
+        private static Foldout MakeGroupFoldout(string handlerTypeLabel, int entryCount, bool expandByDefault)
+        {
+            string stateKey = groupFoldoutStateKeyStem + handlerTypeLabel;
+            var groupFoldout = new Foldout
+            {
+                text = $"{handlerTypeLabel} ({entryCount})",
+                value = expandByDefault || SessionState.GetBool(stateKey, false)
+            };
+            groupFoldout.AddToClassList(groupFoldoutClass);
+            groupFoldout.RegisterValueChangedCallback(changeEvent =>
+            {
+                if (changeEvent.target != groupFoldout) { return; } // Foldout change events bubble from nested toggles
+                SessionState.SetBool(stateKey, changeEvent.newValue);
+            });
+            return groupFoldout;
+        }
+
+        private static Button MakeOpenSceneButton(string zoneName, string handlerGUID, string handlerGameObjectName, string handlerParentObjectName)
         {
             bool viableSceneLoad = !string.IsNullOrWhiteSpace(zoneName) && !string.IsNullOrWhiteSpace(handlerGameObjectName);
             Button openButton = MakeStandardButton(_buttonOpenSceneText);
             openButton.RegisterCallback<ClickEvent>(_ =>
             {
-                if (openSceneAndActProvider != null) { EditorApplication.delayCall += () => openSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
-                else { DefaultOpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName)); }
+                if (openSceneAndActProvider != null) { EditorApplication.delayCall += () => openSceneAndActProvider?.Invoke(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName, handlerParentObjectName)); }
+                else { DefaultOpenSceneAndAct(zoneName, () => SelectGameObject(handlerGUID, handlerGameObjectName, handlerParentObjectName)); }
             });
             openButton.SetEnabled(viableSceneLoad);
             return openButton;
@@ -355,8 +418,8 @@ namespace LowDefMustard.GameStateModifiers.Editor
                 if (!isEditingEnabled) { return; }
                 gameStateModifierHandlerDataProperty.arraySize++;
                 SerializedProperty newElement = gameStateModifierHandlerDataProperty.GetArrayElementAtIndex(gameStateModifierHandlerDataProperty.arraySize - 1);
-                newElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetZoneNameRef()).stringValue = string.Empty;
-                newElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef()).stringValue = string.Empty;
+                newElement.FindPropertyRelative(LinkedHandlerRecord.GetZoneNameRef()).stringValue = string.Empty;
+                newElement.FindPropertyRelative(LinkedHandlerRecord.GetGameObjectNameRef()).stringValue = string.Empty;
                 serializedObject.ApplyModifiedProperties();
                 RefreshList();
             });

@@ -39,7 +39,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         }
 
         // State
-        private HeadlessEditorWindow window;
+        private EditorWindow window;
+        private EditorWindow narrow;
         private DrawerTarget target;
         private SerializedObject serializedObject;
 
@@ -47,7 +48,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnitySetUp]
         public IEnumerator SetUp()
         {
-            window = new HeadlessEditorWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow(600f, 800f);
             target = ScriptableObject.CreateInstance<DrawerTarget>();
             serializedObject = new SerializedObject(target);
             yield return RebuildInspector();
@@ -56,25 +57,27 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            window.Close();
+            HeadlessEditorWindow.Close(window);
+            HeadlessEditorWindow.Close(narrow);
             Object.DestroyImmediate(target);
             window = null;
+            narrow = null;
         }
         #endregion
 
         #region PrivateMethods
         private IEnumerator RebuildInspector()
         {
-            window.root.Clear();
-            window.root.Add(new InspectorElement(serializedObject));
-            yield return TestWait.Until(() => window.root.Query<PropertyField>().First() != null);
-            yield return null;
-            yield return null;
+            window.rootVisualElement.Clear();
+            window.rootVisualElement.Add(new InspectorElement(serializedObject));
+            yield return TestWait.Until(() => window.rootVisualElement.Query<PropertyField>().First() != null);
+            Assert.IsNotNull(window.rootVisualElement.Query<PropertyField>().First(), "Inspector never built");
+            yield return HeadlessEditorWindow.Settle();
         }
 
-        private PropertyField FindPropertyField(string propertyPath) => window.root.Query<PropertyField>().Where(field => field.bindingPath == propertyPath).First();
+        private PropertyField FindPropertyField(string propertyPath) => window.rootVisualElement.Query<PropertyField>().Where(field => field.bindingPath == propertyPath).First();
         private static bool IsShown(VisualElement element) => element.style.display != DisplayStyle.None;
-        private BattleEffectSection FindSection(string title) => window.root.Query<BattleEffectSection>().Where(section => section.text == title).First();
+        private BattleEffectSection FindSection(string title) => window.rootVisualElement.Query<BattleEffectSection>().Where(section => section.text == title).First();
         private PropertyField FindTintField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.tint)}.{fieldName}");
         private PropertyField FindColourCycleField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.colourCycle)}.{fieldName}");
         private PropertyField FindAltColoursField(string fieldName) => FindPropertyField($"{nameof(DrawerTarget.altColours)}.{fieldName}");
@@ -88,10 +91,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             bool isFired = false;
             var tracker = new VisualElement();
-            window.root.Add(tracker);
+            window.rootVisualElement.Add(tracker);
             tracker.TrackPropertyValue(serializedObject.FindProperty(parentName), _ => isFired = true);
-            yield return null;
-            yield return null;
+            yield return HeadlessEditorWindow.Settle();
             isFired = false;
 
             if (parentName == nameof(DrawerTarget.altColours)) { serializedObject.FindProperty($"{parentName}.{BattleEffectAltColours.countField}").intValue = 2; }
@@ -107,9 +109,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             bool isFired = false;
             var tracker = new VisualElement();
-            window.root.Add(tracker);
+            window.rootVisualElement.Add(tracker);
             tracker.TrackPropertyValue(serializedObject.FindProperty(nameof(DrawerTarget.altColours)), _ => isFired = true);
-            yield return null;
+            yield return HeadlessEditorWindow.Settle(); // Settle first:  an edit before the tracker's baseline would also never fire (would pass for wrong reason)
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 2;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -123,7 +125,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator RangeDrawer_FloatRange_IsOneRowBoundToStartAndEnd()
         {
-            FloatField startField = window.root.Query<FloatField>().Where(field => field.label == "Float Range").First();
+            FloatField startField = window.rootVisualElement.Query<FloatField>().Where(field => field.label == "Float Range").First();
             Assert.IsNotNull(startField, "aligned start field labelled w/ the property name");
             FloatField endField = startField.Query<FloatField>().Where(field => field != startField).First();
             Assert.IsNotNull(endField, "end field sits inside the start field");
@@ -137,7 +139,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator RangeDrawer_EditingTheEndField_WritesTheProperty()
         {
-            FloatField startField = window.root.Query<FloatField>().Where(field => field.label == "Float Range").First();
+            FloatField startField = window.rootVisualElement.Query<FloatField>().Where(field => field.label == "Float Range").First();
             FloatField endField = startField.Query<FloatField>().Where(field => field != startField).First();
             yield return TestWait.Until(() => Mathf.Approximately(endField.value, 2f));
 
@@ -151,7 +153,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator RangeDrawer_Vector2Range_IsOneRowBoundToStartAndEnd()
         {
-            Vector2Field startField = window.root.Query<Vector2Field>().Where(field => field.label == "Vector Range").First();
+            Vector2Field startField = window.rootVisualElement.Query<Vector2Field>().Where(field => field.label == "Vector Range").First();
             Assert.IsNotNull(startField);
             Vector2Field endField = startField.Query<Vector2Field>().Where(field => field != startField).First();
             Assert.IsNotNull(endField);
@@ -164,9 +166,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void RangeDrawer_TintsOnlyTheChangingInputs()
         {
-            FloatField changing = window.root.Query<FloatField>().Where(field => field.label == "Float Range").First();
-            FloatField constant = window.root.Query<FloatField>().Where(field => field.label == "Constant Range").First();
-            Vector2Field half = window.root.Query<Vector2Field>().Where(field => field.label == "Half Changing Range").First();
+            FloatField changing = window.rootVisualElement.Query<FloatField>().Where(field => field.label == "Float Range").First();
+            FloatField constant = window.rootVisualElement.Query<FloatField>().Where(field => field.label == "Constant Range").First();
+            Vector2Field half = window.rootVisualElement.Query<Vector2Field>().Where(field => field.label == "Half Changing Range").First();
             StyleColor tint = BattleEffectInspectorColours.changingInput;
 
             Assert.AreEqual(tint, GetInputColour(changing, 0), "1 -> 2:  start");
@@ -181,26 +183,26 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator RangeDrawer_NarrowWindow_KeepsEveryInputInsideTheRow([Values(nameof(DrawerTarget.floatRange), nameof(DrawerTarget.vectorRange))] string rangeName, [Values(300f, 260f)] float width)
         {
-            var narrow = new HeadlessEditorWindow(width: width);
-            narrow.root.Add(new InspectorElement(serializedObject));
+            narrow = HeadlessEditorWindow.CreateOffscreenWindow(width, 800f);
+            narrow.rootVisualElement.Add(new InspectorElement(serializedObject));
             PropertyField range = null;
             List<VisualElement> inputs = null;
             yield return TestWait.Until(() =>
             {
-                range = narrow.root.Query<PropertyField>().Where(field => field.bindingPath == rangeName).First();
+                range = narrow.rootVisualElement.Query<PropertyField>().Where(field => field.bindingPath == rangeName).First();
                 inputs = range?.Query(className: TextInputBaseField<float>.inputUssClassName).ToList();
                 return inputs is { Count: > 0 } && inputs[^1].resolvedStyle.width > 0f && !float.IsNaN(inputs[^1].resolvedStyle.width);
             });
+            Assert.IsTrue(inputs is { Count: > 0 }, "Range inputs never laid out");
 
             for (int frame = 0; frame < 20; frame++) { yield return null; } // Layout settles over a few updates
-            float rowEdge = narrow.root.worldBound.xMax;
+            float rowEdge = narrow.rootVisualElement.worldBound.xMax;
             foreach (VisualElement input in inputs)
             {
                 Assert.LessOrEqual(input.worldBound.xMax, rowEdge + 0.5f, $"{input.parent.name} past the edge");
                 if (width >= 300f) { Assert.GreaterOrEqual(input.resolvedStyle.width, 12f, "still has room for its value"); }
             }
             Assert.AreEqual(inputs[0].resolvedStyle.width, inputs[inputs.Count / 2].resolvedStyle.width, 7f, "start + end share the row (the end's margin aside)");
-            narrow.Close();
         }
 
         [UnityTest]
@@ -212,7 +214,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             List<FloatField> axes = null;
             yield return TestWait.Until(() =>
             {
-                PropertyField field = window.root.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First();
+                PropertyField field = window.rootVisualElement.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First();
                 axes = field?.Query<FloatField>().ToList();
                 if (field?.GetFirstAncestorOfType<BattleEffectSection>() is { } section) { section.value = true; }
                 return axes is { Count: 4 } && axes[0].label == "OR" && axes[0].labelElement.resolvedStyle.width > 0f;
@@ -234,7 +236,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             FloatField axis = null;
             yield return TestWait.Until(() =>
             {
-                axis = window.root.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First()?.Q<FloatField>();
+                axis = window.rootVisualElement.Query<PropertyField>().Where(candidate => candidate.bindingPath == path).First()?.Q<FloatField>();
                 return axis != null;
             });
             Assert.AreEqual("X", axis.label);
@@ -251,7 +253,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator RangeDrawer_EndEdit_RefreshesTheTint()
         {
-            FloatField constant = window.root.Query<FloatField>().Where(field => field.label == "Constant Range").First();
+            FloatField constant = window.rootVisualElement.Query<FloatField>().Where(field => field.label == "Constant Range").First();
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.constantRange)}.{BattleEffectFloatRange.endField}").floatValue = 4f;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -265,7 +267,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void TintDrawer_IsAFoldoutNamedForTheProperty()
         {
-            Assert.IsNotNull(window.root.Query<Foldout>().Where(foldout => foldout.text == "Tint").First());
+            Assert.IsNotNull(window.rootVisualElement.Query<Foldout>().Where(foldout => foldout.text == "Tint").First());
         }
 
         [UnityTest]
@@ -304,7 +306,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void AltColoursDrawer_IsAFoldoutNamedForTheProperty()
         {
-            Assert.IsNotNull(window.root.Query<Foldout>().Where(foldout => foldout.text == "Alt Colours").First());
+            Assert.IsNotNull(window.rootVisualElement.Query<Foldout>().Where(foldout => foldout.text == "Alt Colours").First());
         }
 
         [UnityTest]
@@ -341,7 +343,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ColourCycleDrawer_IsAFoldoutNamedForTheProperty()
         {
-            Assert.IsNotNull(window.root.Query<Foldout>().Where(foldout => foldout.text == "Colour Cycle").First());
+            Assert.IsNotNull(window.rootVisualElement.Query<Foldout>().Where(foldout => foldout.text == "Colour Cycle").First());
         }
 
         [UnityTest]
@@ -466,7 +468,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ShapeDrawer_ListsEveryShapeAndShowsTheCurrentOne()
         {
-            DropdownField typeField = window.root.Query<DropdownField>().Where(field => field.label == "Shape").First();
+            DropdownField typeField = window.rootVisualElement.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             Assert.IsNotNull(typeField);
             CollectionAssert.IsSubsetOf(new[] { "Chevron", "Circle", "Diamond", "Segment", "Squiggle" }, typeField.choices);
@@ -477,7 +479,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnityTest]
         public IEnumerator ShapeDrawer_PickingAType_SwapsTheShapeAndItsSettings()
         {
-            DropdownField typeField = window.root.Query<DropdownField>().Where(field => field.label == "Shape").First();
+            DropdownField typeField = window.rootVisualElement.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             typeField.value = "Diamond";
             yield return TestWait.Until(() => FindPropertyField("shape.aspectRatio") != null);
@@ -490,7 +492,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator ShapeDrawer_ShapeSwappedOutsideTheDrawer_UpdatesTheDropdown()
         {
             // e.g. undo / redo
-            DropdownField typeField = window.root.Query<DropdownField>().Where(field => field.label == "Shape").First();
+            DropdownField typeField = window.rootVisualElement.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             serializedObject.FindProperty(nameof(DrawerTarget.shape)).managedReferenceValue = new BattleEffectSquiggle();
             serializedObject.ApplyModifiedPropertiesWithoutUndo();

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChocolateCheeseCurds
   m_EditorClassIdentifier: 
   guid: b03c0139-809f-4783-8a90-8eb88631e3c4
-  gameStateModifierHandlerData: []
+  linkedHandlers: []
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1

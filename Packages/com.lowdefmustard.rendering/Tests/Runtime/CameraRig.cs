@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Unity.Cinemachine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests
 {
@@ -39,11 +40,11 @@ namespace LowDefMustard.Rendering.Tests
             target = CreateTarget("Target");
             controller.fallbackTarget = target;
 
-            SerializedFieldInjector.Set(controller, "mainCamera", mainCamera);
-            SerializedFieldInjector.Set(controller, "spawnAssistCamera", spawnAssistCamera);
-            SerializedFieldInjector.Set(controller, "stateCamera", stateCamera);
-            SerializedFieldInjector.Set(controller, "activeCamera", activeCamera);
-            SerializedFieldInjector.Set(controller, "idleCamera", idleCamera);
+            SerializedFieldInjector.Set(controller, CameraControllerBase.mainCameraField, mainCamera);
+            SerializedFieldInjector.Set(controller, CameraControllerBase.spawnAssistCameraField, spawnAssistCamera);
+            SerializedFieldInjector.Set(controller, CameraControllerBase.stateCameraField, stateCamera);
+            SerializedFieldInjector.Set(controller, CameraControllerBase.activeCameraField, activeCamera);
+            SerializedFieldInjector.Set(controller, CameraControllerBase.idleCameraField, idleCamera);
         }
 
         public void Activate() => root.SetActive(true);

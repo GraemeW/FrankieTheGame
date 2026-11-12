@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 using NUnit.Framework;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             if (viewer != null)
             {
-                if (attached) { viewer.Close(); }
+                if (attached) { HeadlessEditorWindow.Close(viewer); }
                 else { Object.DestroyImmediate(viewer); }
             }
         }
@@ -84,7 +85,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.worldToSnapshotScalingFactor = 80f;
             List<FloatField> fields = GetScalingFields();
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(viewer);
 
             fields[0].value = 120f;
             yield return null;
@@ -98,7 +99,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.snapshotToZoneViewScalingFactor = 0.15f;
             List<FloatField> fields = GetScalingFields();
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(viewer);
 
             fields[1].value = 0.3f;
             yield return null;
@@ -112,7 +113,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.additionalMaxScalingFactor = 5f;
             List<FloatField> fields = GetScalingFields();
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(viewer);
 
             fields[2].value = 8f;
             yield return null;
@@ -128,7 +129,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.additionalMaxScalingFactor = 5f;
             List<FloatField> fields = GetScalingFields();
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(viewer);
 
             fields[0].value = 999f;
             yield return null;

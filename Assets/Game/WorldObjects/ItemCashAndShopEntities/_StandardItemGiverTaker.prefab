@@ -45,10 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
-  backingHandlerGUID: 
-  backingListHashCheck: 0
-  backingHasGameStateModifiers: 0
-  backingGameStateModifierGUIDs: []
   inventoryItem: {fileID: 0}
   itemQuantity: 1
   announceNothing: 1
@@ -82,6 +78,10 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  backingHandlerGUID: 
+  backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
   references:
     version: 2
     RefIds: []
