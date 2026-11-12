@@ -22,14 +22,14 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
         }
         #endregion
 
         #region PrivateMethods
         private (AutocompleteDropdown dropdown, TextField field) SetUpAttached(IEnumerable<string> options = null)
         {
-            window = HeadlessEditorWindowTestHelper.CreateOffscreenWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
             var field = new TextField();
             var dropdown = new AutocompleteDropdown();
             window.rootVisualElement.Add(field);
@@ -80,7 +80,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Typing_MatchingText_ListsStartsWithFirst_ThenContains_IgnoringCase()
         {
             var (dropdown, field) = SetUpAttached();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "praise");
             yield return null;
@@ -93,7 +93,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Typing_DuplicateOptions_ListedOnce()
         {
             var (dropdown, field) = SetUpAttached(new[] { "Bite", "Bite", "Bitter" });
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "bit");
             yield return null;
@@ -107,7 +107,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             var options = new List<string> { "Bite" };
             var (dropdown, field) = SetUpAttached(options);
             options.Add("Bitter");
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "bit");
             yield return null;
@@ -119,7 +119,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Typing_NoMatches_StaysHidden()
         {
             var (dropdown, field) = SetUpAttached();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "zzz");
             yield return null;
@@ -131,7 +131,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Typing_ThenClearingText_Hides()
         {
             var (dropdown, field) = SetUpAttached();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "bi");
             yield return null;
@@ -145,7 +145,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Typing_ManyMatches_LimitsToMaxSuggestions()
         {
             var (dropdown, field) = SetUpAttached(Enumerable.Range(0, 25).Select(i => $"Skill{i}"));
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "skill");
             yield return null;
@@ -159,7 +159,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             var (dropdown, field) = SetUpAttached();
             string changedTo = null;
             field.RegisterValueChangedCallback(changeEvent => changedTo = changeEvent.newValue);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "praise");
             yield return null;
@@ -177,7 +177,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Enter_WithNothingHighlighted_LeavesFieldText()
         {
             var (_, field) = SetUpAttached();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "praise");
             yield return null;
@@ -191,7 +191,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator Escape_Hides()
         {
             var (dropdown, field) = SetUpAttached();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "bi");
             yield return null;
@@ -205,7 +205,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator PointerDownOnRow_ChoosesThatSuggestion()
         {
             var (dropdown, field) = SetUpAttached();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(field, "bi");
             yield return null;
@@ -228,7 +228,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             var secondField = new TextField();
             window.rootVisualElement.Add(secondField);
             dropdown.Attach(secondField, _names);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             Type(firstField, "praise");
             yield return null;

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -34,7 +35,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             Selection.activeObject = originalSelection;
-            if (editor != null) { editor.Close(); }
+            HeadlessEditorWindow.Close(editor);
             Object.DestroyImmediate(zone);
         }
         #endregion
@@ -92,7 +93,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             editor.CreateGUI();
             editor.selectedZone = zone;
             editor.RefreshFromSelection();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(editor);
 
             HeadlessEditorWindow.SendClick(editor.addGroupButton);
             yield return null;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -25,7 +26,6 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private const float _endTailSeconds = 0.25f;
 
         // State
-        private HeadlessEditorWindow host;
         private BattleEffectPreviewWindow window;
         private BattleEffectRecipe recipe;
 
@@ -39,21 +39,22 @@ namespace LowDefMustard.Rendering.Tests.Editor
             recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":1}") });
 
             window = ScriptableObject.CreateInstance<BattleEffectPreviewWindow>();
-            host = new HeadlessEditorWindow(window);
+            HeadlessEditorWindow.ShowOffscreen(window, 600f, 800f);
             yield return TestWait.Until(() => window.rootVisualElement.Q<ObjectField>() != null);
+            Assert.IsNotNull(window.rootVisualElement.Q<ObjectField>(), "Preview window GUI never built");
+            yield return HeadlessEditorWindow.Settle();
             if (window.IsPlaying()) { window.TogglePlaying(); }
         }
 
         [TearDown]
         public void TearDown()
         {
-            host.Close();
+            HeadlessEditorWindow.Close(window);
             Object.DestroyImmediate(recipe);
             foreach (string folder in new[] { _referenceFolder, Path.Combine("Temp/BattleEffectPreview", _recipeName) })
             {
                 if (Directory.Exists(folder)) { Directory.Delete(folder, true); }
             }
-            host = null;
         }
         #endregion
 

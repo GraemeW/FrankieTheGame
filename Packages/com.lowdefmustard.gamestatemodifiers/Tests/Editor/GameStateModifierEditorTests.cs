@@ -25,7 +25,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         private TestGameStateModifier asset;
         private UnityEditor.Editor editorInstance;
         private GameStateModifierEditor gameStateModifierEditor;
-        private TestHostWindow hostWindow;
+        private EditorWindow window;
         private VisualElement root;
         private readonly TestObjectTracker tracker = new();
 
@@ -44,19 +44,16 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             Assert.IsNotNull(gameStateModifierEditor); // sanity check the [CustomEditor] resolved as expected
 
             root = gameStateModifierEditor.CreateInspectorGUI();
-
-            // Briefly shows a small utility window during the test run - same
-            //   established pattern as SaveEditor's PoC, closed in TearDown
-            hostWindow = ScriptableObject.CreateInstance<TestHostWindow>();
-            hostWindow.rootVisualElement.Add(root);
-            hostWindow.ShowUtility(); // attaches the tree to a real panel so ClickEvent dispatch actually fires
+            
+            window = HeadlessEditorWindow.CreateOffscreenWindow(400f, 600f); // attach to off-screen panel to ensure ClickEvent dispatch fires
+            window.rootVisualElement.Add(root);
         }
 
         [TearDown]
         public void TearDown()
         {
             foreach (string handlerTypeLabel in _testHandlerTypeLabels) { SessionState.EraseBool(GameStateModifierEditor.groupFoldoutStateKeyStem + handlerTypeLabel); }
-            hostWindow.Close();
+            HeadlessEditorWindow.Close(window);
             Object.DestroyImmediate(editorInstance);
             Object.DestroyImmediate(asset);
             tracker.DestroyAll();
@@ -87,8 +84,8 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         private VisualElement RebuildAndReattach()
         {
             VisualElement freshRoot = gameStateModifierEditor.CreateInspectorGUI();
-            hostWindow.rootVisualElement.Clear();
-            hostWindow.rootVisualElement.Add(freshRoot);
+            window.rootVisualElement.Clear();
+            window.rootVisualElement.Add(freshRoot);
             return freshRoot;
         }
         #endregion

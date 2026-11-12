@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -31,7 +32,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
             Object.DestroyImmediate(zoneNode);
             Object.DestroyImmediate(zone);
         }
@@ -183,7 +184,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator LinkButtonClick_NotLinking_CallsBeginLinking()
         {
             (_, Button linkButton, _, _) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(linkButton);
             yield return null;
@@ -197,7 +198,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             graphView.isLinking = true;
             graphView.linkingParentNode = zoneNode;
             (_, Button linkButton, _, _) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(linkButton);
             yield return null;
@@ -215,7 +216,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             graphView.isLinking = true;
             graphView.linkingParentNode = otherNode;
             (_, Button linkButton, _, _) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(linkButton);
             yield return null;
@@ -229,7 +230,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator AddButtonClick_CallsRequestCreateChild()
         {
             (_, _, Button addButton, _) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(addButton);
             yield return null;
@@ -242,7 +243,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             graphView.isRootNodeResult = false;
             (_, _, _, Button deleteButton) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(deleteButton);
             yield return null;
@@ -254,7 +255,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator OverrideIDField_ChangedToNewValue_CallsRequestNodeIDChange()
         {
             (ZoneNodeView view, _, _, _) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var idField = view.Q<TextField>();
             idField.value = "new-id"; // TextField's own value setter dispatches a real ChangeEvent through the panel
@@ -268,7 +269,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator OverrideIDField_ChangedToSameValue_DoesNotCallRequestNodeIDChange()
         {
             (ZoneNodeView view, _, _, _) = CreateAttachedView();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             var idField = view.Q<TextField>();
             idField.value = zoneNode.GetNodeID(); // Setting to its own already-current value

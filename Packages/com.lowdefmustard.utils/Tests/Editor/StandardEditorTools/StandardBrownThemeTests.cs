@@ -16,7 +16,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
         }
 
         // Private Methods
@@ -61,7 +61,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void GetDefaultReference_WindowWithoutOne_ReturnsNull()
         {
-            window = HeadlessEditorWindowTestHelper.CreateOffscreenWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
 
             Assert.IsNull(StandardBrownTheme.GetDefaultReference(window, "styleSheet"));
         }

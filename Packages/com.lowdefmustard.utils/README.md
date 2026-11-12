@@ -141,7 +141,7 @@ Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
   * `Track(obj)` adopts any other `UnityEngine.Object` (e.g. a `new GameObject(...)`)
   * `DestroyAll()` in TearDown cleans them up (skipping any already destroyed)
 
-Test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live in `Tests/Runtime/TestUtilities/` (note: many pragma'd w/ `#if UNITY_EDITOR`):
+Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWindow`) live in `Tests/Runtime/TestUtilities/` (note: many pragma'd w/ `#if UNITY_EDITOR`):
 * `TempAssetFolder`: creates a disposable `Assets/_TEMP_<Name>_SafeToDelete` folder for edit mode tests
   * deletes with file operations + `AssetDatabase.Refresh` by default ~ so e.g. `ILocalizable` assets don't trigger `LocalizationDeletionHandler` and wipe real localization entries
   * pass `deleteViaAssetDatabase: true` only when a test means to exercise deletion handlers
@@ -149,6 +149,12 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`) live in `Tests/Ru
   * it only times out ~ must be followed with the appropriate test assertion
 * `SerializedFieldInjector.Set(target, fieldName, value)` / `SetArray(target, fieldName, values...)`: sets a private `[SerializeField]` object reference (or reference array/list) as the inspector would
   * `SetValue(target, fieldName, value)`: sets a whole `[Serializable]` plain-class/struct field via `boxedValue`
+* `HeadlessEditorWindow`: a shown, off-screen `EditorWindow` so UI Toolkit events actually dispatch
+  * `CreateOffscreenWindow()` / `ShowOffscreen(window)`: plain host window, or any `EditorWindow` subclass
+  * `WaitUntilSettled(window)`: yield it before the first event in test (waits/asserts panel resolved)
+  * `Settle()`: two ticks
+  * `Close(window)`: releases any mouse capture && closes it (use in TearDown)
+  * `SendMouseDown` / `SendMouseDrag` / `SendMouseUp` / `SendClick`: synthetic events ~ send down → drag → up gesture in one tick (i.e. since mouse capture is global editor state between ticks)
 * `TestAssemblyCheck.IsTestAssemblyType(type)`: true for types in a test assembly (`.Tests` / `.Tests.Editor` naming, or an NUnit reference)
 
 ### Coverage at a glance

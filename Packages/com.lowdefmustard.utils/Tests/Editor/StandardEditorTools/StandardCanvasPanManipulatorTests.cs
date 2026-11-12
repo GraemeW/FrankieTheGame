@@ -15,7 +15,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace LowDefMustard.Utils.Tests.Editor
 
         private (StandardCanvasPanManipulator manipulator, VisualElement panTarget) SetUpAttachedManipulator()
         {
-            window = HeadlessEditorWindowTestHelper.CreateOffscreenWindow();
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
             var panTarget = new VisualElement();
             window.rootVisualElement.Add(panTarget);
             var manipulator = new StandardCanvasPanManipulator(panTarget);
@@ -40,35 +40,13 @@ namespace LowDefMustard.Utils.Tests.Editor
             return (manipulator, panTarget);
         }
 
-        private static void SendMouseDown(VisualElement target, Vector2 position, int button)
-        {
-            using var evt = MouseDownEvent.GetPooled(new Event { type = EventType.MouseDown, mousePosition = position, button = button });
-            evt.target = target;
-            target.SendEvent(evt);
-        }
-
-        private static void SendMouseDrag(VisualElement target, Vector2 position, int button)
-        {
-            using var evt = MouseMoveEvent.GetPooled(new Event { type = EventType.MouseDrag, mousePosition = position, button = button });
-            evt.target = target;
-            target.SendEvent(evt);
-        }
-
-        private static void SendMouseUp(VisualElement target, Vector2 position, int button)
-        {
-            using var evt = MouseUpEvent.GetPooled(new Event { type = EventType.MouseUp, mousePosition = position, button = button });
-            evt.target = target;
-            target.SendEvent(evt);
-        }
-
         [UnityTest]
         public IEnumerator MouseDown_LeftButton_StartsPanAndCapturesMouse()
         {
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 0);
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 0);
 
             Assert.IsTrue(window.rootVisualElement.HasMouseCapture());
         }
@@ -77,12 +55,10 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator MouseDownThenDrag_UpdatesPanTargetOffsetByDelta()
         {
             var (_, panTarget) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 0);
-            yield return null;
-            SendMouseDrag(window.rootVisualElement, new Vector2(80, 65), button: 0);
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 0);
+            HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(80, 65), button: 0);
 
             // Started at offset (0,0) via default style, mouse moved by (30, 15)
             Assert.AreEqual(30f, panTarget.style.left.value.value, 0.5f);
@@ -93,12 +69,10 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator MouseUp_ReleasesMouseCaptureAndStopsPanning()
         {
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 0);
-            yield return null;
-            SendMouseUp(window.rootVisualElement, new Vector2(60, 60), button: 0);
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 0);
+            HeadlessEditorWindow.SendMouseUp(window.rootVisualElement, new Vector2(60, 60), button: 0);
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }
@@ -108,10 +82,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             // No active pan (isPanning is false) - a stray drag should be a no-op
             var (_, panTarget) = SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDrag(window.rootVisualElement, new Vector2(999, 999), button: 0);
-            yield return null;
+            HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(999, 999), button: 0);
 
             Assert.AreEqual(StyleKeyword.Null, panTarget.style.left.keyword);
         }
@@ -121,10 +94,9 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             // Only left(0)/middle(2) are registered activators - right (1) shouldn't engage
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
-            SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 1);
-            yield return null;
+            HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 1);
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }

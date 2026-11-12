@@ -24,7 +24,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
 
         // State
-        private HeadlessEditorWindowTestHelper window;
+        private EditorWindow window;
         private TestDrawerTarget target;
         private SerializedObject serializedObject;
         private DrawerElements builtElements;
@@ -84,14 +84,14 @@ namespace LowDefMustard.Localization.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            window = new HeadlessEditorWindowTestHelper();
+            window = HeadlessEditorWindow.CreateOffscreenWindow(400f, 400f);
             target = ScriptableObject.CreateInstance<TestDrawerTarget>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            window?.Close();
+            HeadlessEditorWindow.Close(window);
             builtElements = default;
             if (target != null) { Object.DestroyImmediate(target); }
             
@@ -145,11 +145,11 @@ namespace LowDefMustard.Localization.Tests.Editor
             // PropertyField builds the drawer on bind, which can land a few updates later
             serializedObject = new SerializedObject(componentOrScriptableObject);
             var inspectorElement = new InspectorElement(serializedObject);
-            window.root.Add(inspectorElement);
-            yield return TestWait.Until(() => new DrawerElements(window.root).lockToggle != null);
-            for (int i = 0; i < 2; i++) { yield return null; }
+            window.rootVisualElement.Add(inspectorElement);
+            yield return TestWait.Until(() => new DrawerElements(window.rootVisualElement).lockToggle != null);
+            yield return HeadlessEditorWindow.Settle();
 
-            builtElements = new DrawerElements(window.root);
+            builtElements = new DrawerElements(window.rootVisualElement);
             Assert.IsNotNull(builtElements.lockToggle, "Drawer UI was never built");
         }
         #endregion
@@ -160,10 +160,10 @@ namespace LowDefMustard.Localization.Tests.Editor
         {
             yield return BuildDrawerUI();
 
-            Assert.IsEmpty(window.root.Query<HelpBox>().ToList(), "Drawer rendered an error box instead of its normal UI");
-            Assert.AreEqual(2, window.root.Query<TextField>().ToList().Count, "Expected exactly the key and contents text fields");
-            Assert.AreEqual(3, window.root.Query<Button>().ToList().Count, "Expected exactly the new/rename/delete key buttons");
-            Assert.AreEqual(1, window.root.Query<Toggle>().ToList().Count, "Expected exactly the lock toggle");
+            Assert.IsEmpty(window.rootVisualElement.Query<HelpBox>().ToList(), "Drawer rendered an error box instead of its normal UI");
+            Assert.AreEqual(2, window.rootVisualElement.Query<TextField>().ToList().Count, "Expected exactly the key and contents text fields");
+            Assert.AreEqual(3, window.rootVisualElement.Query<Button>().ToList().Count, "Expected exactly the new/rename/delete key buttons");
+            Assert.AreEqual(1, window.rootVisualElement.Query<Toggle>().ToList().Count, "Expected exactly the lock toggle");
         }
 
         [UnityTest]

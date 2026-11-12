@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -20,7 +21,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
             if (zoneViewData != null) { Object.DestroyImmediate(zoneViewData); }
             if (texture != null) { Object.DestroyImmediate(texture); }
         }
@@ -61,10 +62,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseDown_StartsDragAndCapturesMouse()
         {
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
 
             Assert.IsTrue(window.rootVisualElement.HasMouseCapture());
         }
@@ -73,10 +73,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseDown_UnregisteredButton_DoesNotStartDrag()
         {
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), button: 1);
-            yield return null;
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }
@@ -86,10 +85,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             // Alt+left is reserved for panning by MultiZonePanManipulator
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50), altKey: true);
-            yield return null;
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }
@@ -98,12 +96,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseDownThenDrag_MovesZoneViewByDeltaDividedByZoom()
         {
             SetUpAttachedManipulator(zoomProvider: () => 2f);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
             HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(70, 60));
-            yield return null;
 
             // delta (20,10) / zoom 2 = (10,5), starting from topLeftPosition (0,0)
             Assert.AreEqual(new Vector2(10, 5), zoneView.data.topLeftPosition);
@@ -114,12 +110,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             int dragCallCount = 0;
             SetUpAttachedManipulator(onDragged: () => dragCallCount++);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
             HeadlessEditorWindow.SendMouseDrag(window.rootVisualElement, new Vector2(70, 60));
-            yield return null;
 
             Assert.AreEqual(1, dragCallCount);
         }
@@ -130,12 +124,10 @@ namespace LowDefMustard.Zones.Tests.Editor
             int clickCount = 0;
             int completeCount = 0;
             SetUpAttachedManipulator(onClicked: () => clickCount++, onDragComplete: () => completeCount++);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
             HeadlessEditorWindow.SendMouseUp(window.rootVisualElement, new Vector2(51, 50)); // 1px, below the 4px threshold
-            yield return null;
 
             Assert.AreEqual(1, clickCount);
             Assert.AreEqual(0, completeCount);
@@ -147,12 +139,10 @@ namespace LowDefMustard.Zones.Tests.Editor
             int clickCount = 0;
             int completeCount = 0;
             SetUpAttachedManipulator(onClicked: () => clickCount++, onDragComplete: () => completeCount++);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
             HeadlessEditorWindow.SendMouseUp(window.rootVisualElement, new Vector2(90, 90)); // well past the 4px threshold
-            yield return null;
 
             Assert.AreEqual(0, clickCount);
             Assert.AreEqual(1, completeCount);
@@ -162,12 +152,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         public IEnumerator MouseUp_ReleasesMouseCapture()
         {
             SetUpAttachedManipulator();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendMouseDown(window.rootVisualElement, new Vector2(50, 50));
-            yield return null;
             HeadlessEditorWindow.SendMouseUp(window.rootVisualElement, new Vector2(90, 90));
-            yield return null;
 
             Assert.IsFalse(window.rootVisualElement.HasMouseCapture());
         }

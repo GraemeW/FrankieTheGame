@@ -66,7 +66,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
             foreach (SerializedObject serializedObject in serializedObjects) { serializedObject.Dispose(); }
             serializedObjects.Clear();
             foreach (GameObject spawnedObject in spawnedObjects)
@@ -333,7 +333,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             root.Q<ObjectField>().value = betaScene;
             yield return null;
@@ -347,7 +347,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             root.Q<ObjectField>().value = null;
             yield return null;
@@ -362,7 +362,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost hostB = CreateHost(betaScene, _betaName, betaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(hostA, hostB));
             Attach(root);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             root.Q<ObjectField>().value = alphaExtendedScene;
             yield return null;
@@ -377,7 +377,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(root.Q<Button>());
             yield return null;
@@ -392,7 +392,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneReferenceHost host = CreateHost(null, null, null);
             VisualElement root = BuildDrawerUI(GetSceneReferenceProperty(host));
             Attach(root);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             HeadlessEditorWindow.SendClick(root.Q<Button>());
             yield return null;
@@ -409,7 +409,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SerializedProperty property = GetSceneReferenceProperty(host);
             VisualElement root = BuildDrawerUI(property);
             Attach(root);
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
             var field = root.Q<ObjectField>();
 
             // Changed through a second SerializedObject, like an inspector elsewhere editing the same object

@@ -103,7 +103,6 @@ Shared test doubles live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMusta
 * `TestGameStateModifier`: concrete stand-in for the abstract `GameStateModifier`
 * `TestGameStateModifierHandler`: `MonoBehaviour` handler returning `modifiersToReturn`, counting `GetGameStateModifiers` calls; deliberately no `[ExecuteInEditMode]`/`OnDestroy` hook
 * `TestModifierPredicate`: `Predicate` linking `modifiersToReturn` (or null via `returnNull`)
-* `TestHostWindow`: an `EditorWindow` hosting inspector roots on a panel (`#if UNITY_EDITOR`)
 
 ### Coverage at a glance
 

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -27,7 +28,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
             foreach (ZoneNode node in zone.GetAllNodes()) { Object.DestroyImmediate(node); }
             Object.DestroyImmediate(zone);
         }
@@ -257,7 +258,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             zone.CreateRootNodeIfMissing();
             graphView.SetZone(zone);
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
             int groupCountBefore = zone.GetAllGroups().Count();
 
             graphView.BeginPlacingGroup();
@@ -274,7 +275,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             zone.CreateRootNodeIfMissing();
             graphView.SetZone(zone);
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
             int groupCountBefore = zone.GetAllGroups().Count();
 
             HeadlessEditorWindow.SendMouseDown(graphView, new Vector2(50f, 60f));
@@ -315,7 +316,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             ZoneNode root = zone.GetRootNode();
             graphView.SetZone(zone);
             Attach();
-            yield return null;
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
 
             graphView.FocusOnNode(root);
             yield return null;
