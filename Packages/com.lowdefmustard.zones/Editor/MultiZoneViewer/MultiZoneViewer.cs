@@ -22,7 +22,8 @@ namespace LowDefMustard.Zones.Editor
         private const string _assetsFolder = "Assets";
         private const string _multiZoneViewSubFolder = "MultiZoneViewer";
         private static readonly string _multiZoneViewAssetsDirectory = Path.Combine(_assetsFolder, _multiZoneViewSubFolder);
-        private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
+        private static readonly string _projectRoot = Directory.GetCurrentDirectory();
+        private static readonly string _snapshotPNGDirectory = Path.Combine(_projectRoot, _multiZoneViewSubFolder);
         
         // UI Tunables
         private static readonly Vector2 _defaultZoneViewDimensions = new(156, 120);
@@ -39,7 +40,7 @@ namespace LowDefMustard.Zones.Editor
         private const float _zoomWheelStepFactor = 1.05f;
         
         // Node Link Tunables
-        internal const float _uiNodeDotMinLinkDragDistance = 100f;
+        internal const float uiNodeDotMinLinkDragDistance = 100f;
  
         // UI Styles
         private static readonly StyleColor _uiCanvasBackgroundColour =  new(Color.gray2 * 0.8f); 
@@ -605,7 +606,7 @@ namespace LowDefMustard.Zones.Editor
                 zoneView.data.topLeftPosition.x + zoneView.renderedImageOffset.x + zoneView.renderedImageDimensions.x * relativePosition.x,
                 zoneView.data.topLeftPosition.y + _zoneViewHeaderHeight + zoneView.renderedImageOffset.y + zoneView.renderedImageDimensions.y * relativePosition.y);
         }
-        private bool IsPastLinkDragThreshold(Vector2 canvasPosition) => Vector2.Distance(dragStartCanvasPosition, canvasPosition) >= _uiNodeDotMinLinkDragDistance;
+        private bool IsPastLinkDragThreshold(Vector2 canvasPosition) => Vector2.Distance(dragStartCanvasPosition, canvasPosition) >= uiNodeDotMinLinkDragDistance;
         
         internal void RefreshNodeDots()
         {
@@ -774,7 +775,7 @@ namespace LowDefMustard.Zones.Editor
                     LDMLog.Info(LDMLogCategory.Zones, $"Capturing zone '{zoneName}'.");
                     Texture2D texture2D = CaptureZone(zoneBounds);
                     string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
-                    File.WriteAllBytes(snapshotPNGPath, texture2D.EncodeToPNG());
+                    File.WriteAllBytes(ResolveSnapshotPath(snapshotPNGPath), texture2D.EncodeToPNG());
                     
                     zoneHandlerNodeDataSet.AddRange(ZoneHandlerConduit.BuildZoneHandlerNodeData());
                     
@@ -997,10 +998,12 @@ namespace LowDefMustard.Zones.Editor
             foreach (ZoneViewData zoneViewData in activeMultiZoneView.zoneViewDataSet)
             {
                 if (zoneViewData == null) { continue; }
-                if (string.IsNullOrEmpty(zoneViewData.snapshotPath) || !File.Exists(zoneViewData.snapshotPath)) { continue; }
+                if (string.IsNullOrEmpty(zoneViewData.snapshotPath)) { continue; }
+                string snapshotPath = ResolveSnapshotPath(zoneViewData.snapshotPath);
+                if (!File.Exists(snapshotPath)) { continue; }
                 
                 Texture2D texture2D = new Texture2D(2, 2,  TextureFormat.RGBA32, false);
-                if (!texture2D.LoadImage(File.ReadAllBytes(zoneViewData.snapshotPath)))
+                if (!texture2D.LoadImage(File.ReadAllBytes(snapshotPath)))
                 {
                     DestroyImmediate(texture2D);
                     continue;
@@ -1253,10 +1256,9 @@ namespace LowDefMustard.Zones.Editor
             return Path.GetInvalidFileNameChars().Aggregate(safeName, (current, c) => current.Replace(c, '_'));
         }
         
-        private static string GetSnapshotPathForScene(string sceneName)
-        {
-            return Path.Combine(_snapshotPNGDirectory, $"Snapshot_{sceneName}.png");
-        }
+        private static string GetSnapshotPathForScene(string sceneName) => $"{_multiZoneViewSubFolder}/Snapshot_{sceneName}.png"; // Project-relative with '/' so the serialized asset is portable across machines / OSes
+
+        private static string ResolveSnapshotPath(string snapshotPath) => Path.Combine(_projectRoot, snapshotPath);
         
         private static void EnsureAssetFolder()
         {

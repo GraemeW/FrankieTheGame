@@ -15,6 +15,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         // Const Tunables
         private const string _scratchMultiZoneViewName = "ScratchTest_MultiZoneViewerSnapshotTests_SafeToDelete";
         private const float _tolerance = 0.01f;
+        private const string _scratchSnapshotFileName = "Snapshot_ScratchTest_MultiZoneViewerSnapshotTests_SafeToDelete.png";
 
         // State
         private TempAssetFolder tempFolder;
@@ -69,6 +70,17 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             string path = Path.Combine(Application.temporaryCachePath, $"ScratchSnapshotTest_{width}x{height}.png");
             File.WriteAllBytes(path, pngBytes);
+            return path;
+        }
+
+        private string WriteProjectSnapshotPNG(string fileName)
+        {
+            string directory = Path.Combine(Directory.GetCurrentDirectory(), "MultiZoneViewer");
+            Directory.CreateDirectory(directory);
+            string sourcePath = WritePNG(8, 8);
+            string path = Path.Combine(directory, fileName);
+            File.Copy(sourcePath, path, true);
+            File.Delete(sourcePath);
             return path;
         }
 
@@ -133,6 +145,18 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             Assert.AreEqual(1, viewer.zoneViews.Count);
             Assert.AreEqual("ZoneWithSnapshot", viewer.zoneViews[0].data.zoneName);
+        }
+
+        [Test]
+        public void CreateGUI_ProjectRelativeSnapshotPath_LoadsTexture()
+        {
+            validSnapshotPath = WriteProjectSnapshotPNG(_scratchSnapshotFileName);
+            multiZoneView.CreateOrUpdateZoneViewData("ZoneA", "Assets/ZoneA.unity", $"MultiZoneViewer/{_scratchSnapshotFileName}", new Vector2(200f, 150f), Vector2.zero, false, false);
+            viewer.activeMultiZoneView = multiZoneView;
+
+            viewer.CreateGUI();
+
+            Assert.AreEqual(1, viewer.zoneViews.Count);
         }
 
         [Test]
