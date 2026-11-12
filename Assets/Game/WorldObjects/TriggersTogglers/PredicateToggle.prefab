@@ -47,6 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   condition:
     and: []
+  backingHandlerGUID: 
+  backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
 --- !u!114 &2872185051296942762
 MonoBehaviour:
   m_ObjectHideFlags: 0
