@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReduceBrawn_20_Short
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.ApplyPersistentStatEffect
   effectGUID: b78ece40-7617-4643-910c-00f53ff48f3f
   fractionProbabilityToApply: 1
   useStatContestProbabilityToApply: 0

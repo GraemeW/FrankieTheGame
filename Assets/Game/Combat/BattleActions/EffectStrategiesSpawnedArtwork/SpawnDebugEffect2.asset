@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
   m_Name: SpawnDebugEffect2
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SpawnBattleEffect
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SpawnBattleEffect
   effectGUID: 196636da-fc75-4faf-88ba-09f06b3b2bbb
   effectMaterial: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
   effectRecipe: {fileID: 11400000, guid: 042161e1cdd094927a1620de891f8190, type: 2}

@@ -27720,11 +27720,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -27904,7 +27904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -28844,7 +28844,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1532315460}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldPointAdjuster, Frankie
           m_MethodName: ReviveAndHealParty
           m_Mode: 0
           m_Arguments:
@@ -28856,7 +28856,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1532315462}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: GiveConfiguredQuest
           m_Mode: 1
           m_Arguments:
@@ -28868,7 +28868,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1532315462}
-          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestHandler, Frankie
           m_MethodName: CompleteConfiguredObjective
           m_Mode: 1
           m_Arguments:
@@ -28880,7 +28880,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1532315463}
-          m_TargetAssemblyTypeName: Frankie.World.WorldGameCompletion, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldGameCompletion, Frankie
           m_MethodName: TriggerGameWin
           m_Mode: 0
           m_Arguments:
@@ -29243,7 +29243,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1532315463}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldGameCompletion, Frankie
           m_MethodName: TriggerGameOver
           m_Mode: 0
           m_Arguments:

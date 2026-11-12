@@ -11,4 +11,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a5b00523a624ab194dd0c8ec33f1c68, type: 3}
   m_Name: IsPartyLeader
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.Predicates.IsPartyLeaderPredicate
+  m_EditorClassIdentifier: Frankie::Frankie.Stats.IsPartyLeaderPredicate

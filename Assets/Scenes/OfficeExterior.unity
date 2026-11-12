@@ -968,7 +968,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 1911795694}
   - {fileID: 1416440713}
@@ -16868,7 +16868,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 715846955}
-          m_TargetAssemblyTypeName: Frankie.Speech.AIConversant, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Speech.AIConversant, Frankie
           m_MethodName: ResetDialogueCount
           m_Mode: 1
           m_Arguments:
@@ -18296,7 +18296,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 735148679}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Frankie
           m_MethodName: InitiateCombat
           m_Mode: 0
           m_Arguments:
@@ -64306,7 +64306,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 1016152746}
   cellSize: 0.05
@@ -85079,7 +85079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

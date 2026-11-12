@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 32d6c799-07e8-4f41-9dbb-5cdee40049ab
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SkillBranch
   upSkillReference: BigSpitTake
   upBranch: 
   leftSkillReference: 
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: e79f0bb1-b9a0-47d7-bb4e-32cdba311620
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SkillBranch
   upSkillReference: AveragePraise
   upBranch: 
   leftSkillReference: 
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: e1a1e9cc-8b3e-4e34-a2cd-d0413bdefd39
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SkillBranch
   upSkillReference: 
   upBranch: 
   leftSkillReference: NerdSnipe

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b68812f1366cee840be8c2b3f64a4d46, type: 3}
   m_Name: SidewalkHalfSlantRight
-  m_EditorClassIdentifier: Assembly-CSharp::RuleTileSibling
+  m_EditorClassIdentifier: LowDefMustard.RuleTiles::LowDefMustard.RuleTiles.RuleTileSibling
   m_DefaultSprite: {fileID: -3128390846291978424, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1

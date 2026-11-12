@@ -44,12 +44,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
   onSaveEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7613682360287934532}
-        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Frankie
         m_MethodName: PlayClip
         m_Mode: 1
         m_Arguments:

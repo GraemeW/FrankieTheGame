@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98fc4b69c8c4e05b4e7bf19a3cfa6e2, type: 3}
   m_Name: TillyQuestion
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Menu.UI.NameScreenQuestion
+  m_EditorClassIdentifier: Frankie::Frankie.Menu.UI.NameScreenQuestion
   localizedQuestion:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e0491b8118bb1744b4cfc22948436ad, type: 3}
   m_Name: CliffBothEdgeAnimated
-  m_EditorClassIdentifier: Assembly-CSharp::RuleTileRandomFromSiblings
+  m_EditorClassIdentifier: LowDefMustard.RuleTiles::LowDefMustard.RuleTiles.RuleTileRandomFromSiblings
   m_DefaultSprite: {fileID: 2894224049224271171, guid: a4830863e3a724f71aa567088257520c, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1

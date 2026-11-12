@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac8509b1ed48910478e8dfa7f0f1450c, type: 3}
   m_Name: CallForHelp_Monks
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.CallForHelp
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.CallForHelp
   effectGUID: 6ab696a4-bcac-417b-9236-81cbbbf89748
   maxEnemiesAllowedToCallInCombat: 2
   spawnConfigurations:

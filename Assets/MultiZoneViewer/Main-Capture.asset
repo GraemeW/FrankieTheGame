@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: PortaBank
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: PortaBank
   <scenePath>k__BackingField: Assets/Scenes/PortaBank.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_PortaBank.png
@@ -39,7 +39,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Subway
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Subway
   <scenePath>k__BackingField: Assets/Scenes/Subway.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Subway.png
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Tunnels
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Tunnels
   <scenePath>k__BackingField: Assets/Scenes/Tunnels.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Tunnels.png
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Proper
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Proper
   <scenePath>k__BackingField: Assets/Scenes/Proper.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Proper.png
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Prim
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Prim
   <scenePath>k__BackingField: Assets/Scenes/Prim.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Prim.png
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fb1993dc64a4ad099547778d9321e5b, type: 3}
   m_Name: Main-Capture
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.MultiZoneView
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.MultiZoneView
   <zoneViewDataSet>k__BackingField:
   - {fileID: 3347040157586233625}
   - {fileID: -3212340588349623591}
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: OfficeInterior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: OfficeInterior
   <scenePath>k__BackingField: Assets/Scenes/OfficeInterior.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_OfficeInterior.png
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: ApartmentInterior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: ApartmentInterior
   <scenePath>k__BackingField: Assets/Scenes/ApartmentInterior.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_ApartmentInterior.png
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: OfficeExterior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: OfficeExterior
   <scenePath>k__BackingField: Assets/Scenes/OfficeExterior.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_OfficeExterior.png
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: PrimInterior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: PrimInterior
   <scenePath>k__BackingField: Assets/Scenes/PrimInterior.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_PrimInterior.png

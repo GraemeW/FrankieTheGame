@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
   m_Name: NamingScreen
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.Zone
+  m_EditorClassIdentifier: LowDefMustard.Zones::LowDefMustard.Zones.Zone
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: a2e12e6b-a7d5-4e7e-a41f-20b5976e093c
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  m_EditorClassIdentifier: LowDefMustard.Zones::LowDefMustard.Zones.ZoneNode
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba

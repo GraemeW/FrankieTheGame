@@ -11,5 +11,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c42d5c54bd1c431d9b79669c73aa313c, type: 3}
   m_Name: ConversantCheckEven
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.ConversantCheckOddEvenPredicate
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.ConversantCheckOddEvenPredicate
   checkCountOdd: 0

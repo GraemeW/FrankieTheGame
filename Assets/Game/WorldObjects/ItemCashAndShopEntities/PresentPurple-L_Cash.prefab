@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  m_EditorClassIdentifier: LowDefMustard.Saving::LowDefMustard.Saving.SaveableEntity
   uniqueIdentifier: 
 --- !u!114 &4239551647755043406
 MonoBehaviour:
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea28a2c6cead4a38851a752f36e0ca06, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSpriteChanger
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSpriteChanger
   alternateSprite: {fileID: 21300000, guid: bb3c5a174faf74b54be47a28ac2ff23d, type: 3}
 --- !u!1001 &1382405244291978276
 PrefabInstance:
@@ -291,11 +291,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
       propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
       propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.World.WorldSpriteChanger, Assembly-CSharp
+      value: Frankie.World.WorldSpriteChanger, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
       propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.World.WorldCashGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldCashGiverTaker
 --- !u!1001 &4831248322372988685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -388,15 +388,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.World.WorldCashGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldCashGiverTaker, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldSpriteChanger, Assembly-CSharp
+      value: Frankie.World.WorldSpriteChanger, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

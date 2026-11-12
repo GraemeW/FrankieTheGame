@@ -313,7 +313,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: -3043492308786855469, guid: 27f10adfb4f464408a46d49d36be0e42, type: 3}
   dialogueTriggeredEvent:
@@ -322,7 +322,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1255224145}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSaver, Frankie
           m_MethodName: Save
           m_Mode: 0
           m_Arguments:
@@ -1437,7 +1437,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
 --- !u!1 &1035204889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
 --- !u!1001 &1323364250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2107,7 +2107,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 0}
   priority: 0
 --- !u!114 &1327623718
@@ -2121,7 +2121,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  m_EditorClassIdentifier: LowDefMustard.Saving::LowDefMustard.Saving.SaveableEntity
   uniqueIdentifier: 280ed41e-a72d-4917-927a-1474cda9270a
 --- !u!114 &1327623719
 MonoBehaviour:
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 1958652809}
   - {fileID: 1714835239}
@@ -2389,7 +2389,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  m_EditorClassIdentifier: LowDefMustard.Saving::LowDefMustard.Saving.SaveableEntity
   uniqueIdentifier: 5404c683-6242-4d1b-8e31-117dcf5e92bb
 --- !u!114 &1435170803
 MonoBehaviour:
@@ -2402,7 +2402,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 0}
   priority: 0
 --- !u!114 &1435170804
@@ -2416,7 +2416,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 573708689}
   - {fileID: 387042333}
@@ -2760,7 +2760,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: -4543342715455472584, guid: 33e80853276814ee48ddc6d92a4df846, type: 3}
   dialogueTriggeredEvent:
@@ -2769,7 +2769,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1960630471}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSaver, Frankie
           m_MethodName: Save
           m_Mode: 0
           m_Arguments:
@@ -2846,7 +2846,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  m_EditorClassIdentifier: LowDefMustard.Saving::LowDefMustard.Saving.SaveableEntity
   uniqueIdentifier: 2ea2d88c-5abc-4cf0-86db-1614b8419473
 --- !u!114 &1584137191
 MonoBehaviour:
@@ -2859,7 +2859,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
   audioClip: {fileID: 0}
   priority: 0
 --- !u!114 &1584137192
@@ -2873,7 +2873,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 1724108760}
   - {fileID: 412203153}
@@ -3545,7 +3545,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
 --- !u!1001 &2123163929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3674,7 +3674,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: -4277856913291681575, guid: 3424b3bbb7b624afe9d843ca218c6901, type: 3}
   dialogueTriggeredEvent:
@@ -3683,7 +3683,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 984590349}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSaver, Frankie
           m_MethodName: Save
           m_Mode: 0
           m_Arguments:

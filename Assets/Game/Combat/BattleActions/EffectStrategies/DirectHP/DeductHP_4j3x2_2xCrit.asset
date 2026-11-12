@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a27ee1074fcf4ec0aaeac0c66afb2693, type: 3}
   m_Name: DeductHP_4j3x2_2xCrit
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.HealthSequenceEffect
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.HealthSequenceEffect
   effectGUID: 9c7c3698-c4c5-4a23-babd-e45557cb55bd
   healthChangeSequence:
   - -4

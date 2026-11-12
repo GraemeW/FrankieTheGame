@@ -176,7 +176,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.PathFinder
   moveMeshFinderSize: 0.1
   entitySizeForNoCollider: 0.1
   pathPollingSeconds: 0.1

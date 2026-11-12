@@ -72898,11 +72898,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

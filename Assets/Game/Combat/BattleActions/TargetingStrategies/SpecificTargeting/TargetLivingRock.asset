@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd7cd22364fc54d44b9f04d7b3164696, type: 3}
   m_Name: TargetLivingRock
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SingleTargeting
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SingleTargeting
   combatParticipantType: 2
   filterStrategies:
   - {fileID: 11400000, guid: 364610e1808154b66955c6787d91ab11, type: 2}

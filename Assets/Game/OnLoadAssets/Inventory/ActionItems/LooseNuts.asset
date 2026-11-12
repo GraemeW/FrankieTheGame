@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
   m_Name: LooseNuts
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
+  m_EditorClassIdentifier: Frankie::Frankie.Inventory.ActionItem
   guid: 5848902d-0f1c-4222-8abf-7d527c89461e
   linkedHandlers: []
   localizedDisplayName:

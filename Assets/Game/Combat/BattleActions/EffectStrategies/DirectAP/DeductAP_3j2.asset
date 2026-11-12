@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 518f18a73d22d824ea813c1a3fcc73e2, type: 3}
   m_Name: DeductAP_3j2
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.APEffect
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.APEffect
   effectGUID: 3fc7f74a-209b-4ea2-83b8-6c09db33e3b6
   apChange: -3
   jitter: 2

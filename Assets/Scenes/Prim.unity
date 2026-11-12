@@ -41291,7 +41291,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 715846955}
-          m_TargetAssemblyTypeName: Frankie.Speech.AIConversant, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Speech.AIConversant, Frankie
           m_MethodName: ResetDialogueCount
           m_Mode: 1
           m_Arguments:
@@ -53634,7 +53634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -56184,7 +56184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2139626279643708082, guid: 7acdda3804013364ca749486116b3e18, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldSunbather, Assembly-CSharp
+      value: Frankie.World.WorldSunbather, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2139626279643708082, guid: 7acdda3804013364ca749486116b3e18, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -287657,7 +287657,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1063264237}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSunbather, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSunbather, Frankie
           m_MethodName: AddTop
           m_Mode: 1
           m_Arguments:
@@ -287688,7 +287688,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1063264237}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSunbather, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSunbather, Frankie
           m_MethodName: RemoveTop
           m_Mode: 1
           m_Arguments:
@@ -374887,7 +374887,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 2049292780}
   - {fileID: 1195591653}
@@ -390244,7 +390244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

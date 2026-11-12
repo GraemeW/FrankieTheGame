@@ -43,7 +43,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec171bb412e54192a4a6ff81d76f5d87, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Zones.SceneLoader
+  m_EditorClassIdentifier: Frankie::Frankie.Zones.SceneLoader
   zoneSceneTypeLookup:
     entries:
     - key: 0

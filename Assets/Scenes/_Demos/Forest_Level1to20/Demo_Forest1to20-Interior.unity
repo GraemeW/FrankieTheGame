@@ -299,7 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6363490864049841522, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 6363490864049841522, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -2424,7 +2424,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: -4125743819718728507, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 3}
   dialogueTriggeredEvent:
@@ -2433,7 +2433,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1616798819}
-          m_TargetAssemblyTypeName: Frankie.ZoneManagement.ZoneHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Zones.ZoneHandler, Frankie
           m_MethodName: AttemptToWarpPlayer
           m_Mode: 0
           m_Arguments:
@@ -2455,7 +2455,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: -4075138883257535067, guid: c2e89af0af2c94e538b417ff4f395c9d, type: 3}
   dialogueTriggeredEvent:
@@ -2464,7 +2464,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1221076193}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSaver, Frankie
           m_MethodName: Save
           m_Mode: 0
           m_Arguments:
@@ -4658,7 +4658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Inventory.Shop, Assembly-CSharp
+      value: Frankie.Inventory.Shop, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -5140,11 +5140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6747,7 +6747,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: 8349228599320210584, guid: e850271986e8b411d9127bc197f05fa6, type: 3}
   dialogueTriggeredEvent:
@@ -6756,7 +6756,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1920257136}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldGameCompletion, Frankie
           m_MethodName: TriggerGameWin
           m_Mode: 0
           m_Arguments:
@@ -23119,7 +23119,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: 1965766769294480929, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 3}
   dialogueTriggeredEvent:
@@ -23128,7 +23128,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1184047893}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldPointAdjuster, Frankie
           m_MethodName: AdjustPartyLeaderHP
           m_Mode: 0
           m_Arguments:
@@ -23150,7 +23150,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: 4637893046123778648, guid: 31ff73256004d40a99bdfb8d4ce7d6a0, type: 3}
   dialogueTriggeredEvent:
@@ -23159,7 +23159,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1184047893}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldPointAdjuster, Frankie
           m_MethodName: AdjustPartyLeaderHP
           m_Mode: 0
           m_Arguments:
@@ -32354,7 +32354,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 3
   triggerNode: {fileID: -1691949853370159248, guid: 93b16ebe23aa14cb2b16fad07c28dea0, type: 3}
   dialogueTriggeredEvent:
@@ -32363,7 +32363,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 891717550}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Frankie
           m_MethodName: SetNPCFrenzied
           m_Mode: 1
           m_Arguments:
@@ -32375,7 +32375,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 891717550}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Frankie
           m_MethodName: InitiateCombat
           m_Mode: 0
           m_Arguments:
@@ -83492,7 +83492,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
 --- !u!1001 &648646070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101967,11 +101967,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3362076118326461309, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: uniqueIdentifier
@@ -103034,7 +103034,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: -4162697524518332582, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 3}
   dialogueTriggeredEvent:
@@ -103043,7 +103043,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1613776672}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldSaver, Frankie
           m_MethodName: Save
           m_Mode: 0
           m_Arguments:
@@ -114502,11 +114502,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -114718,11 +114718,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -126651,11 +126651,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -126864,11 +126864,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3362076118326461309, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: uniqueIdentifier
@@ -141225,7 +141225,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: -1
   apToAdjust: 0
 --- !u!1001 &1186819171
@@ -168875,7 +168875,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
 --- !u!1001 &1221184799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -191866,7 +191866,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: 6623111581853337359, guid: c0de41afa682a4d88902fb9aea3f1f3f, type: 3}
   dialogueTriggeredEvent:
@@ -191875,7 +191875,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1678955523}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Frankie
           m_MethodName: InitiateCombat
           m_Mode: 0
           m_Arguments:
@@ -193688,11 +193688,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      value: Frankie.World.WorldPointAdjuster, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 3362076118326461309, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: uniqueIdentifier
@@ -194018,11 +194018,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -194154,7 +194154,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldSaver
 --- !u!1001 &1616798817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206959,7 +206959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8863219213860214654, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Quests.QuestHandler, Assembly-CSharp
+      value: Frankie.Quests.QuestHandler, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 8863219213860214654, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -207008,7 +207008,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  m_EditorClassIdentifier: Frankie::Frankie.Quests.QuestHandler
   quest: {fileID: 0}
   questObjective: {fileID: 1537804001862270314, guid: 41890afaa7b8640f4b8eefb18aead81a, type: 2}
   backingHandlerGUID: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
@@ -218221,11 +218221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -218934,11 +218934,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.CheckWithToggleChildren, Assembly-CSharp
+      value: Frankie.Control.CheckWithToggleChildren, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 9093489845270810132, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: onDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Frankie.Control.PlayerStateMachine, Assembly-CSharp
+      value: Frankie.Core.PlayerStateMachine, Frankie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -244460,7 +244460,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edf37dda86b7daf47b05d3cb85ca622f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldGameCompletion
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldGameCompletion
 --- !u!1001 &1924345948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245110,7 +245110,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  m_EditorClassIdentifier: Frankie::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
   triggerNode: {fileID: 2958163231532941232, guid: 92460ba292c8b423cad161735d477972, type: 3}
   dialogueTriggeredEvent:
@@ -245119,7 +245119,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1999920213}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldFaderInterface, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldFaderInterface, Frankie
           m_MethodName: StartBlipFade
           m_Mode: 0
           m_Arguments:
@@ -245131,7 +245131,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1999920198}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldPointAdjuster, Frankie
           m_MethodName: ReviveAndHealParty
           m_Mode: 0
           m_Arguments:
@@ -245143,7 +245143,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1999920198}
-          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster, Assembly-CSharp
+          m_TargetAssemblyTypeName: Frankie.World.WorldPointAdjuster, Frankie
           m_MethodName: RestorePartyAP
           m_Mode: 0
           m_Arguments:
@@ -245165,7 +245165,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
 --- !u!114 &1999920213
@@ -245179,7 +245179,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08aab4e35b2e463f96bf65acd3c74208, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldFaderInterface
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldFaderInterface
   blipFadeHoldSeconds: 1
 --- !u!1001 &2006501549
 PrefabInstance:
@@ -245305,7 +245305,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfd71e6d15e959a4faaf09bc70b94f96, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.Shop
+  m_EditorClassIdentifier: Frankie::Frankie.Inventory.Shop
 --- !u!1001 &2007773776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -259693,11 +259693,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldItemGiverTaker, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfd71e6d15e959a4faaf09bc70b94f96, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.Shop
+  m_EditorClassIdentifier: Frankie::Frankie.Inventory.Shop
 --- !u!4 &3148186428915571687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
@@ -103,7 +103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Inventory.Shop, Assembly-CSharp
+      value: Frankie.Inventory.Shop, Frankie
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

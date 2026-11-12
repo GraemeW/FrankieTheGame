@@ -231886,7 +231886,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae1424dc7ece44939e5d0dcdc5b615f2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
+  m_EditorClassIdentifier: LowDefMustard.Control::LowDefMustard.Control.MoveMesh
   additionalColliderSources:
   - {fileID: 1318553720}
   - {fileID: 28141265}

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b68812f1366cee840be8c2b3f64a4d46, type: 3}
   m_Name: PathSlantRightSibling
-  m_EditorClassIdentifier: Assembly-CSharp::RuleTileSibling
+  m_EditorClassIdentifier: LowDefMustard.RuleTiles::LowDefMustard.RuleTiles.RuleTileSibling
   m_DefaultSprite: {fileID: 2311350124965158962, guid: 105c47b1f942d404db58fcd627981710, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1

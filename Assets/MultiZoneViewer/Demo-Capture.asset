@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Demo_Forest1to20-Portabank
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Demo_Forest1to20-Portabank
   <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Demo_Forest1to20-Portabank.png
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Demo_Forest1to20-Exterior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Demo_Forest1to20-Exterior
   <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Demo_Forest1to20-Exterior.png
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fb1993dc64a4ad099547778d9321e5b, type: 3}
   m_Name: Demo-Capture
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.MultiZoneView
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.MultiZoneView
   <zoneViewDataSet>k__BackingField:
   - {fileID: -2187363258472121991}
   - {fileID: -3598892460920593784}
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
   m_Name: Demo_Forest1to20-Interior
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.Editor.ZoneViewData
+  m_EditorClassIdentifier: LowDefMustard.Zones.Editor::LowDefMustard.Zones.Editor.ZoneViewData
   <zoneName>k__BackingField: Demo_Forest1to20-Interior
   <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
   <snapshotPath>k__BackingField: MultiZoneViewer/Snapshot_Demo_Forest1to20-Interior.png

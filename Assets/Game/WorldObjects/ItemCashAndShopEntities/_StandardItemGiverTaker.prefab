@@ -44,7 +44,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  m_EditorClassIdentifier: Frankie::Frankie.World.WorldItemGiverTaker
   inventoryItem: {fileID: 0}
   itemQuantity: 1
   announceNothing: 1
@@ -96,5 +96,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  m_EditorClassIdentifier: LowDefMustard.Saving::LowDefMustard.Saving.SaveableEntity
   uniqueIdentifier: 
