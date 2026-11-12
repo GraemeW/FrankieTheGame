@@ -102,6 +102,12 @@ Both in-place converters described below use **`AssetScriptSwapper`** from `com.
 
 Edit Mode tests only — every tested member here is a plain `ScriptableObject` or custom-editor method
 
+Shared tilemap test utilities lives in `Tests/Editor/TestUtilities/TilemapTestBuilder` (pairs with Utils' `TestObjectTracker` / `TempAssetFolder` for cleanup):
+* `CreateSprite(tracker)`: tracked in-memory texture + sprite
+* `CreateSpriteAsset(tempFolder, name)`: persisted texture w/ the sprite as a sub-asset, for tests that save tiles referencing it
+* `CreateTilemap(tracker)`: tracked `Grid` root w/ a child `Tilemap`
+* `TryGetAnimationData(tile, tilemap, out data)`: paints the tile at the origin and queries `GetTileAnimationData` through an `ITilemap`
+
 `RuleTileRandomFromSiblings.GetTileData`/`GetTileAnimationData` tests compute their expected sibling index in the test, using the same public `RuleTile.GetPerlinValue(position, scale, offset)` call from the tile itself.
 
 **Behavioural Note:** 
