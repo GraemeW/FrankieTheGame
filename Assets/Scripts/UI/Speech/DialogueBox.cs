@@ -136,8 +136,9 @@ namespace Frankie.Speech.UI
             int maxChoiceLength = 0;
             foreach (DialogueNode choiceNode in dialogueController.GetChoices())
             {
-                AddChoice(choiceNode);
-                maxChoiceLength = Mathf.Max(maxChoiceLength, choiceNode.GetText().Length);
+                string choiceText = dialogueController.GetText(choiceNode);
+                AddChoice(choiceNode, choiceText);
+                maxChoiceLength = Mathf.Max(maxChoiceLength, choiceText.Length);
                 choiceCount++;
             }
 
@@ -152,9 +153,9 @@ namespace Frankie.Speech.UI
             textScanView.SetChoiceLayout(isVertical ? ChoiceLayout.Vertical : ChoiceLayout.Horizontal);
         }
 
-        private void AddChoice(DialogueNode choiceNode)
+        private void AddChoice(DialogueNode choiceNode, string choiceText)
         {
-            ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceNode.GetText(), () => Choose(choiceNode.GetNodeID()));
+            ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceText, () => Choose(choiceNode.GetNodeID()));
             choiceEntries[choiceNode] = choiceEntry;
             QueueChoiceForPrinting(choiceEntry);
         }
