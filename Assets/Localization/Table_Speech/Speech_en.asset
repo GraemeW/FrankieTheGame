@@ -2571,7 +2571,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 29263053328474112
-    m_Localized: OK, thanks \n bud
+    m_Localized: OK, thanks \n bud {0}
     m_Metadata:
       m_Items: []
   - m_Id: 29263639864139776

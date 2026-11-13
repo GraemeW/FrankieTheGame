@@ -64,6 +64,7 @@ namespace Frankie.Speech.Editor
                         conditionNode.RefreshVisuals();
                         break;
                     case SpeechGraphNode speechNode:
+                        speechNode.StashVariables();
                         Color colour = ResolveSpeakerColour(speechNode, aiCharacters);
                         bool shouldRecolour = !fromUndoRedo && speechNode.IsRecolour(colour);
                         if (shouldRecolour) { recolours.Add((speechNode, colour)); }

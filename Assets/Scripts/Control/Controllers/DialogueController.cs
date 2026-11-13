@@ -121,7 +121,8 @@ namespace Frankie.Speech
         public bool IsClosing() => destroyQueued;
         public SpeakerType GetCurrentSpeakerType() => currentNode != null ? currentNode.GetSpeakerType() : SpeakerType.NarratorDirection;
         public string GetCurrentSpeakerName() => currentNode != null ? currentNode.GetSpeakerName() : "";
-        public string GetText() => currentNode != null ? currentNode.GetText() : "";
+        public string GetText() => GetText(currentNode);
+        public string GetText(DialogueNode dialogueNode) => dialogueNode != null ? dialogueNode.GetText(new DialogueVariableContext(party, currentConversant)) : "";
 
         public IEnumerable<DialogueNode> GetChoices() => GetNextNodes();
 

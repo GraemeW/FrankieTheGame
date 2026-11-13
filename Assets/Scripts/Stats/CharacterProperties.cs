@@ -9,12 +9,13 @@ using LowDefMustard.Core;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
 using Frankie.Saving;
+using Frankie.Speech;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Stats
 {
     [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character", order = 1)]
-    public partial class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable
+    public partial class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable, IDialogueVariable
     {
         // Properties
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedDisplayName;
@@ -35,6 +36,36 @@ namespace Frankie.Stats
         [AutoStaticsCleanup] private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
         [AutoStaticsCleanup] private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
+        #region StaticMethods
+        public static bool AreCharacterPropertiesMatched(CharacterProperties entryA, CharacterProperties entryB)
+        {
+            if (entryA == null || entryB == null) { return false; }
+            return entryA.GetCharacterID() == entryB.GetCharacterID();
+        }
+        
+        public static string GetCharacterDisplayName(BaseStats baseStats) => baseStats != null ? GetCharacterDisplayName(baseStats.GetCharacterProperties()) : _errName;
+
+        public static string GetCharacterDisplayName(CharacterProperties characterProperties)
+        {
+            if (characterProperties == null) { return _errName; }
+            
+            string characterID = characterProperties.GetCharacterID();
+            SyncToPersonalizedNameLookup(characterID);
+            
+            if (_personalizedNameLookup.ContainsKey(characterID) && _personalizedNameLookup[characterID] != null) { return _personalizedNameLookup[characterID]; }
+            return characterProperties.GetStandardCharacterDisplayName();
+        }
+
+        private static void SyncToPersonalizedNameLookup(string characterID)
+        {
+            if (PlayerPrefsController.wereCharacterNamesDirtied) { _personalizedNameLookup.Clear(); PlayerPrefsController.wereCharacterNamesDirtied = false; }
+            if (_personalizedNameLookup.ContainsKey(characterID)) { return; }
+            
+            if (PlayerPrefsController.CharacterNameKeyExists(characterID)) { _personalizedNameLookup[characterID] = PlayerPrefsController.GetCharacterName(characterID); }
+            else { _personalizedNameLookup[characterID] = null; }
+        }
+        #endregion
+        
         #region Getters
         public string GetCharacterID() => name;
         // Note:  Using name as ID for simplicity
@@ -45,7 +76,13 @@ namespace Frankie.Stats
         public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
         public bool HasProgressionStats() => hasProgressionStats;
         public bool ShouldIncrementsStatsOnLevelUp() => incrementsStatsOnLevelUp;
+        #endregion
         
+        #region DialogueVariable
+        public string GetDialogueVariable(DialogueVariableContext context) => GetCharacterDisplayName(this);
+        #endregion
+        
+        #region Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
         public List<TableEntryReference> GetLocalizationEntries()
         {
@@ -63,37 +100,7 @@ namespace Frankie.Stats
             };
         }
         #endregion
-        
-        #region StaticMethods
-        public static bool AreCharacterPropertiesMatched(CharacterProperties entryA, CharacterProperties entryB)
-        {
-            if (entryA == null || entryB == null) { return false; }
-            return entryA.GetCharacterID() == entryB.GetCharacterID();
-        }
 
-        public static string GetCharacterDisplayName(CharacterProperties characterProperties)
-        {
-            if (characterProperties == null) { return _errName; }
-            
-            string characterID = characterProperties.GetCharacterID();
-            SyncToPersonalizedNameLookup(characterID);
-            
-            if (_personalizedNameLookup.ContainsKey(characterID) && _personalizedNameLookup[characterID] != null) { return _personalizedNameLookup[characterID]; }
-            return characterProperties.GetStandardCharacterDisplayName();
-        }
-
-        public static string GetCharacterDisplayName(BaseStats baseStats) => baseStats != null ? GetCharacterDisplayName(baseStats.GetCharacterProperties()) : _errName;
-
-        private static void SyncToPersonalizedNameLookup(string characterID)
-        {
-            if (PlayerPrefsController.wereCharacterNamesDirtied) { _personalizedNameLookup.Clear(); PlayerPrefsController.wereCharacterNamesDirtied = false; }
-            if (_personalizedNameLookup.ContainsKey(characterID)) { return; }
-            
-            if (PlayerPrefsController.CharacterNameKeyExists(characterID)) { _personalizedNameLookup[characterID] = PlayerPrefsController.GetCharacterName(characterID); }
-            else { _personalizedNameLookup[characterID] = null; }
-        }
-        #endregion
-        
         #region AddressablesCaching
         public static CharacterProperties GetCharacterPropertiesFromName(string name)
         {

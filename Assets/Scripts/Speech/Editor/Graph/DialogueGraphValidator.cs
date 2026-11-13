@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Unity.GraphToolkit.Editor;
 
 namespace Frankie.Speech.Editor
@@ -93,6 +94,25 @@ namespace Frankie.Speech.Editor
 
             bool needsSpeaker = speechNode.GetSpeakerType() == SpeakerType.AISpeaker && speechNode.GetCharacter() == null;
             if (needsSpeaker && string.IsNullOrWhiteSpace(speechNode.GetSpeakerName())) { graphLogger.LogWarning("Line has neither a Character nor a Speaker name", speechNode); }
+            ValidateDialogueVariables(speechNode, graphLogger);
+        }
+
+        private static void ValidateDialogueVariables(SpeechGraphNode speechNode, GraphLogger graphLogger)
+        {
+            int variableCount = speechNode.GetVariableCount();
+            List<int> skippedIndices = DialogueVariableFormatter.GetPlaceholderIndices(speechNode.GetText()).Where(index => index >= variableCount).ToList();
+            if (skippedIndices.Count > 0)
+            {
+                string skipped = string.Join(", ", skippedIndices.Select(index => $"{{{index}}}"));
+                graphLogger.LogWarning($"{skipped} shows as blank: placeholders must run {{0}}, {{1}}, ... without gaps", speechNode);
+            }
+
+            for (int index = 0; index < variableCount; index++)
+            {
+                ScriptableObject variable = speechNode.GetVariable(index);
+                if (variable == null) { graphLogger.LogWarning($"{{{index}}} has no dialogue variable, so it shows as blank", speechNode); }
+                else if (variable is not IDialogueVariable) { graphLogger.LogWarning($"{{{index}}} '{variable.name}' isn't a dialogue variable, so it shows as blank", speechNode); }
+            }
         }
 
         private static void ValidateConditionNode(ConditionGraphNode conditionNode, GraphLogger graphLogger)

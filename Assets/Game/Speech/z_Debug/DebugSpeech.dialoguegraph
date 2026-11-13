@@ -353,6 +353,7 @@ MonoBehaviour:
           - __option_Depth
           - __option_Breadth
           - In
+          - Variable0
           m_ValueList:
           - rid: 1508179340161712167
           - rid: 1508179340161712168
@@ -361,6 +362,7 @@ MonoBehaviour:
           - rid: 1508179340161712171
           - rid: 1508179340161712172
           - rid: 1508179340161712173
+          - rid: 1508179519178539101
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -1234,7 +1236,8 @@ MonoBehaviour:
       data: 
     - rid: 1508179340161712166
       type: {class: SpeechGraphNode, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
-      data: 
+      data:
+        stashedVariables: []
     - rid: 1508179340161712167
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1255,7 +1258,7 @@ MonoBehaviour:
     - rid: 1508179340161712170
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: OK, thanks \n bud
+        m_Value: OK, thanks \n bud {0}
     - rid: 1508179340161712171
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1269,7 +1272,11 @@ MonoBehaviour:
       data: 
     - rid: 1508179340161712174
       type: {class: SpeechGraphNode, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
-      data: 
+      data:
+        stashedVariables:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
     - rid: 1508179340161712175
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1304,7 +1311,8 @@ MonoBehaviour:
       data: 
     - rid: 1508179340161712182
       type: {class: SpeechGraphNode, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
-      data: 
+      data:
+        stashedVariables: []
     - rid: 1508179340161712183
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1339,7 +1347,8 @@ MonoBehaviour:
       data: 
     - rid: 1508179340161712190
       type: {class: SpeechGraphNode, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
-      data: 
+      data:
+        stashedVariables: []
     - rid: 1508179340161712191
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1374,7 +1383,8 @@ MonoBehaviour:
       data: 
     - rid: 1508179340161712198
       type: {class: SpeechGraphNode, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
-      data: 
+      data:
+        stashedVariables: []
     - rid: 1508179340161712199
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1409,7 +1419,8 @@ MonoBehaviour:
       data: 
     - rid: 1508179340161712206
       type: {class: SpeechGraphNode, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
-      data: 
+      data:
+        stashedVariables: []
     - rid: 1508179340161712207
       type: {class: 'Constant`1[[Frankie.Speech.Editor.DialogueFlow, Frankie.Editor]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data: 
@@ -1698,3 +1709,7 @@ MonoBehaviour:
     - rid: 1508179340161712237
       type: {class: PredicateGraphBlock, ns: Frankie.Speech.Editor, asm: Frankie.Editor}
       data: 
+    - rid: 1508179519178539101
+      type: {class: 'Constant`1[[UnityEngine.ScriptableObject, UnityEngine.CoreModule]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
+      data:
+        m_Value: {fileID: 0}

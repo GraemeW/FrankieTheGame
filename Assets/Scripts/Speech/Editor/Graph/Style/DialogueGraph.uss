@@ -127,7 +127,8 @@
     display: none;
 }
 
-.dialogue-graph .ge-port__constant-editor {
+/* Flow ports carry no value ~ dialogue variable ports ({0}, {1}, ...) keep their object field */
+.dialogue-graph .ge-port--data-type-dialogue-flow .ge-port__constant-editor {
     display: none;
 }
 

@@ -9,11 +9,12 @@ using LowDefMustard.Core;
 using LowDefMustard.GameStateModifiers;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
+using Frankie.Speech;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory
 {
-    public abstract partial class InventoryItem : GameStateModifier, IAddressablesCache, ILocalizable
+    public abstract partial class InventoryItem : GameStateModifier, IAddressablesCache, ILocalizable, IDialogueVariable
     {
         // Config Data
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedDisplayName;
@@ -32,7 +33,13 @@ namespace Frankie.Inventory
         public string GetDetail() => localizedDetail.GetLocalizedString();
         public bool IsDroppable() => droppable;
         public int GetPrice() => price;
-
+        #endregion
+        
+        #region DialogueVariable
+        public string GetDialogueVariable(DialogueVariableContext context) => localizedDisplayName.GetSafeLocalizedString();
+        #endregion
+        
+        #region Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Inventory;
         public List<TableEntryReference> GetLocalizationEntries()
         {
@@ -52,7 +59,7 @@ namespace Frankie.Inventory
             };
         }
         #endregion
-        
+
         #region AddressablesCaching
         public static InventoryItem GetFromID(string itemID)
         {
