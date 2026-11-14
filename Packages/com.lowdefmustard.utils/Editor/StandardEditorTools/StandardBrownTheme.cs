@@ -18,6 +18,7 @@ namespace LowDefMustard.Utils.Editor
         public const string panelHeaderClass = "standard-brown-theme__panel-header";
         public const string groupHeaderClass = "standard-brown-theme__group-header";
         public const string dimClass = "standard-brown-theme__dim";
+        public const string rowClass = "standard-brown-theme__row"; // Clickable list row ~ hover highlight
 
         // Palette as colours, for code that can't read the USS variables
         //  - Note:  must manually keep aligned w/ corresponding --theme-* variables in StandardBrownTheme.uss

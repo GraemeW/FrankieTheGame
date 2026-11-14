@@ -9,7 +9,7 @@ namespace Frankie.Speech.Editor
     internal static class DialogueGraphWindowSkin
     {
         // Const Tunables
-        private const string _windowClass = "dialogue-graph";
+        internal const string windowClass = "dialogue-graph";
         private const string _blackboardOverlayID = "gtf-blackboard";
 
         public static void Apply(Graph graph)
@@ -18,11 +18,14 @@ namespace Frankie.Speech.Editor
             {
                 if (window is not IGraphWindow graphWindow || graphWindow.Graph != graph) { continue; }
                 if (window.TryGetOverlay(_blackboardOverlayID, out Overlay blackboard) && blackboard.displayed) { blackboard.displayed = false; } // Kill blackboard, no BB variables in DialogueGraph
-                if (window.rootVisualElement.ClassListContains(_windowClass)) { continue; }
+                
+                DialogueVariableFieldHook.Register(window.rootVisualElement);
+                if (!window.TryGetOverlay(DialogueVariablesOverlay.overlayID, out _)) { DialogueVariablesOverlay.AddTo(window); }
+                if (window.rootVisualElement.ClassListContains(windowClass)) { continue; }
 
                 DialogueGraphStyleSheets styleSheets = DialogueGraphStyleSheets.instance;
                 StandardBrownTheme.Apply(window.rootVisualElement, styleSheets.GetThemeStyleSheet(), styleSheets.GetGraphStyleSheet());
-                window.rootVisualElement.AddToClassList(_windowClass);
+                window.rootVisualElement.AddToClassList(windowClass);
             }
         }
     }

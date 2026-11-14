@@ -69,6 +69,7 @@ namespace Frankie.Speech.Editor
         public bool IsPlaced() => GetDepth() != unassignedPosition && GetBreadth() != unassignedPosition;
 
         public static string GetVariablePortName(int index) => $"{_variablePortPrefix}{index}";
+        public static bool IsVariablePortName(string portName) => portName != null && portName.StartsWith(_variablePortPrefix, StringComparison.Ordinal) && int.TryParse(portName.Substring(_variablePortPrefix.Length), out int index) && index >= 0;
         public int GetVariableCount() => DialogueVariableFormatter.GetContiguousCount(GetText());
         public ScriptableObject GetVariable(int index)
         {

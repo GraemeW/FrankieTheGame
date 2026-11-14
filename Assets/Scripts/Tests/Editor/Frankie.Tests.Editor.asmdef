@@ -11,6 +11,7 @@
         "LowDefMustard.GameStateModifiers",
         "LowDefMustard.Localization",
         "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Editor",
         "LowDefMustard.Utils.Tests",
         "Unity.Localization"
     ],
