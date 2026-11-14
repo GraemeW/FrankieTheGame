@@ -203,6 +203,18 @@
     -unity-text-auto-size: best-fit 24px 64px;
 }
 
+/* Multi-line rows (authored dialogue choices) opt out of fitting:  label wraps at full size */
+.choice-entry--multiline > .choice-entry__label {
+    white-space: normal;
+    -unity-text-auto-size: none;
+    -unity-text-align: middle-left; /* Button labels default to centred - only shows once lines wrap */
+}
+
+/* Stacked multi-line rows get a gap so wrapped choices read as separate entries (on the row / not the label to keep the marker centred) */
+.choice-entries--vertical > .choice-entry--multiline {
+    margin-top: 24px;
+}
+
 /* Fixed parts of a row keep their size (the label beside them is what shrinks) */
 .slider-choice__slider,
 .toggle-choice__box {

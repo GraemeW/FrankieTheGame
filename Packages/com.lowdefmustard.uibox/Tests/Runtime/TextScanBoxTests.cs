@@ -204,6 +204,23 @@ namespace LowDefMustard.UIBox.Tests
             Assert.IsTrue(choiceEntry.isRevealed);
             Assert.IsFalse(textScanBox.publicIsWriting);
         }
+
+        [UnityTest]
+        public IEnumerator QueuedChoice_OnReveal_ResolvesEscapeSequences()
+        {
+            TestTextScanBox textScanBox = CreateInactiveTextScanBox();
+            textScanBox.gameObject.SetActive(true);
+            yield return null;
+
+            ChoiceEntryHandle choiceEntry = textScanBox.PublicAddChoiceEntry("Line one\\nLine two");
+            for (int frame = 0; frame < 20 && !choiceEntry.isRevealed; frame++)
+            {
+                yield return null;
+            }
+
+            Assert.IsTrue(choiceEntry.isRevealed);
+            Assert.AreEqual("Line one\nLine two", choiceEntry.text);
+        }
         #endregion
 
         #region PageBreak

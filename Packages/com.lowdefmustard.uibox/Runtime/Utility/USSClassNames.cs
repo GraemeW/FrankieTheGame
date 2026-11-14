@@ -45,6 +45,7 @@ namespace LowDefMustard.UIBox
             public const string block = "choice-entry";
             public const string highlighted = block + "--highlighted";
             public const string hidden = block + "--hidden";
+            public const string multiline = block + "--multiline";
             public const string marker = block + "__marker";
             public const string label = block + "__label";
         }

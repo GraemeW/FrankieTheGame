@@ -44,9 +44,9 @@ namespace LowDefMustard.UIBox
             return textEntryHandle;
         }
 
-        public ChoiceEntryHandle CreateChoiceEntry(string text, Action onChoose)
+        public ChoiceEntryHandle CreateChoiceEntry(string text, Action onChoose, bool isMultiline = false)
         {
-            var choiceEntryHandle = new ChoiceEntryHandle(this, text, false, onChoose);
+            var choiceEntryHandle = new ChoiceEntryHandle(this, text, false, onChoose, isMultiline: isMultiline);
             AddEntry(choiceEntryHandle);
             return choiceEntryHandle;
         }

@@ -7,15 +7,17 @@ namespace LowDefMustard.UIBox
     {
         // State
         private readonly ChoiceEntryModel model;
+        private readonly bool isMultiline;
 
         // Constructor
-        public ChoiceEntryHandle(UIToolkitBoxView view, string text, bool isRevealed, Action onChoose, Action onHighlight = null, Type containerType = null) : base(view, onChoose, onHighlight, containerType)
+        public ChoiceEntryHandle(UIToolkitBoxView view, string text, bool isRevealed, Action onChoose, Action onHighlight = null, Type containerType = null, bool isMultiline = false) : base(view, onChoose, onHighlight, containerType)
         {
             model = new ChoiceEntryModel { text = text, isRevealed = isRevealed };
+            this.isMultiline = isMultiline;
         }
 
         // Overrides
-        protected override VisualElement CreateChoiceElement() => new ChoiceEntryElement { dataSource = model };
+        protected override VisualElement CreateChoiceElement() => new ChoiceEntryElement { dataSource = model, multiline = isMultiline };
         
         // Note:  Internal for test visibility
         internal string text => model.text;
