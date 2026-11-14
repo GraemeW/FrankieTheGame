@@ -5,7 +5,7 @@ using LowDefMustard.Utils;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Remove Status Effect", menuName = "BattleAction/Effects/Remove Status Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New Remove Status Effect", menuName = "Combat/BattleActions/Effects/Remove Status Effect", order = 16)]
     public class RemovePersistentStatusEffect : EffectStrategy
     {
         // Tunables

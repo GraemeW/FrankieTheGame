@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98fc4b69c8c4e05b4e7bf19a3cfa6e2, type: 3}
-  m_Name: FrankieQuestion
-  m_EditorClassIdentifier: Frankie::Frankie.Menu.UI.NameScreenQuestion
+  m_Name: FrameFlavourQuestion
+  m_EditorClassIdentifier: Frankie::Frankie.Core.PlayerQuestion
   localizedQuestion:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
     m_TableEntryReference:
-      m_KeyId: 39841667832864768
+      m_KeyId: 40608583732158464
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39852936195465216
+        m_KeyId: 40608584415830016
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -35,7 +35,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39852936963022848
+        m_KeyId: 40608585103695872
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39852937948684288
+        m_KeyId: 40608600823947264
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39853004327739392
+        m_KeyId: 40608601125937152
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -62,14 +62,14 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39853004646506496
+        m_KeyId: 40608601721528320
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  questionType: 0
-  optionalCharacterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  cachedName: FrankieQuestion
+  questionType: 3
+  optionalCharacterProperties: {fileID: 0}
+  cachedName: FrameFlavourQuestion
   references:
     version: 2
     RefIds: []

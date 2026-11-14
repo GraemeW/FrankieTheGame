@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Is Anyone Dead Predicate", menuName = "Predicates/CombatParticipant/Is Anyone Dead", order = 5)]
+    [CreateAssetMenu(fileName = "New Is Anyone Dead Predicate", menuName = "Predicates/CombatParticipant/Is Anyone Dead", order = 9)]
     public class IsAnyoneDeadPredicate : PredicateCombatParticipant
     {
         public override bool? Evaluate(CombatParticipant combatParticipant)

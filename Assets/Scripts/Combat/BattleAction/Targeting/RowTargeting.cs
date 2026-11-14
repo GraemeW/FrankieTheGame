@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Row Targeting", menuName = "BattleAction/Targeting/Row Target", order = 15)]
+    [CreateAssetMenu(fileName = "New Row Targeting", menuName = "Combat/BattleActions/Targeting/Row Target", order = 7)]
     public class RowTargeting : TargetingStrategy
     {
         public override void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)

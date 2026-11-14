@@ -1,6 +1,6 @@
-namespace Frankie.Menu.UI
+namespace Frankie.Core
 {
-    public enum NameScreenQuestionType
+    public enum PlayerQuestionType
     {
         CharacterName,
         FavouriteFood,

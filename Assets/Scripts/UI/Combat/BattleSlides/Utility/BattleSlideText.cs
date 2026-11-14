@@ -7,7 +7,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    [CreateAssetMenu(fileName = "BattleSlideText", menuName = "UI/Battle Slide Text", order = 41)]
+    [CreateAssetMenu(fileName = "BattleSlideText", menuName = "UI/Battle Slide Text", order = 8)]
     public sealed class BattleSlideText : ScriptableObject, ILocalizable
     {
         // Localized slide text, shared (as one asset) by everything that hosts character / enemy slides

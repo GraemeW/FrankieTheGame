@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New DoNothing Effect", menuName = "BattleAction/Effects/DoNothing Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New DoNothing Effect", menuName = "Combat/BattleActions/Effects/DoNothing Effect", order = 10)]
     public class DoNothingEffect : EffectStrategy
     {
         // Public Methods

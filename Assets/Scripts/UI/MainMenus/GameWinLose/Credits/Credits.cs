@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Menu.UI
 {
-    [CreateAssetMenu(fileName = "Credits", menuName = "UI/Credits", order = 40)]
+    [CreateAssetMenu(fileName = "Credits", menuName = "UI/Credits", order = 10)]
     public sealed class Credits : ScriptableObject
     {
         // Tunables

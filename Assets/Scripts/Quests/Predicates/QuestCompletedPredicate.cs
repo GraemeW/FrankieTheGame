@@ -4,7 +4,7 @@ using LowDefMustard.GameStateModifiers;
 
 namespace Frankie.Quests
 {
-    [CreateAssetMenu(fileName = "New Quest Completed Predicate", menuName = "Predicates/QuestList/Quest Completed", order = 5)]
+    [CreateAssetMenu(fileName = "New Quest Completed Predicate", menuName = "Predicates/QuestList/Quest Completed", order = 12)]
     public class QuestCompletedPredicate : PredicateQuestList, IGameStateModifierPredicate
     {
         [SerializeField] private Quest quest;

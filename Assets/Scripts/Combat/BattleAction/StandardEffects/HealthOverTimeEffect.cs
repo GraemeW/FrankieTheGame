@@ -5,7 +5,7 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New DoT Effect", menuName = "BattleAction/Effects/DoT Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New DoT Effect", menuName = "Combat/BattleActions/Effects/DoT Effect", order = 11)]
     public class HealthOverTimeEffect : EffectStrategy, IPersistentStatusApplier
     {
         // Tunables

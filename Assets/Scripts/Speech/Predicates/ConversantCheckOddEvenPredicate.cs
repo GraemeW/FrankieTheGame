@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Speech
 {
-    [CreateAssetMenu(fileName = "New Conversant Check Odd Even Predicate", menuName = "Predicates/AIConversant/Conversant Check Odd Even", order = 5)]
+    [CreateAssetMenu(fileName = "New Conversant Check Odd Even Predicate", menuName = "Predicates/AIConversant/Conversant Check Odd Even", order = 7)]
     public class ConversantCheckOddEvenPredicate : PredicateAIConversant
     {
         [SerializeField] protected bool checkCountOdd = true;

@@ -7,6 +7,7 @@ using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
+using Frankie.Core;
 using Frankie.Speech.UI;
 using Frankie.Utils.Localization;
 
@@ -155,7 +156,7 @@ namespace Frankie.Menu.UI
             if (enable) { nameScreenOrchestrator.stateChanged += HandleStateChange; }
         }
 
-        private void HandleStateChange(NameScreenState nameScreenState, NameScreenQuestion question)
+        private void HandleStateChange(NameScreenState nameScreenState, PlayerQuestion question)
         {
             switch (nameScreenState)
             {
@@ -174,7 +175,7 @@ namespace Frankie.Menu.UI
             }
         }
 
-        private void SetupQuestion(NameScreenQuestion question)
+        private void SetupQuestion(PlayerQuestion question)
         {
             if (question == null) { return; }
 

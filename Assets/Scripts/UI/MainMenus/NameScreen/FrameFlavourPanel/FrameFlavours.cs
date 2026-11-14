@@ -5,7 +5,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    [CreateAssetMenu(fileName = "FrameFlavours", menuName = "UI/Frame Flavours", order = 42)]
+    [CreateAssetMenu(fileName = "FrameFlavours", menuName = "UI/Frame Flavours", order = 11)]
     public sealed class FrameFlavours : ScriptableObject, ILocalizable
     {
         // Note:  Deliberately not linked to ILocalizable auto-update/teardown on rename/delete

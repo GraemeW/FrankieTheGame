@@ -11,7 +11,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Adjust Party Leader Check Configuration", menuName = "CheckConfigurations/Party/AdjustLeader", order = 5)]
+    [CreateAssetMenu(fileName = "New Adjust Party Leader Check Configuration", menuName = "CheckConfigurations/Party/AdjustLeader", order = 9)]
     public class AdjustPartyLeaderCheckConfiguration : CheckConfiguration
     {
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAdjustLeader;

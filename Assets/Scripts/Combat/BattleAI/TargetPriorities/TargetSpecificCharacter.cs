@@ -4,7 +4,7 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Specific Character Target Priority", menuName = "BattleAI/TargetPriority/SpecificCharacter", order = 15)]
+    [CreateAssetMenu(fileName = "New Specific Character Target Priority", menuName = "Combat/BattleAI/TargetPriority/SpecificCharacter", order = 7)]
     public class TargetSpecificCharacter : TargetPriority
     {
         [SerializeField] private CharacterProperties characterProperties;

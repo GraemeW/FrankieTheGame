@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Is Character Predicate", menuName = "Predicates/BaseStats/Is This Character", order = 5)]
+    [CreateAssetMenu(fileName = "New Is Character Predicate", menuName = "Predicates/BaseStats/Is This Character", order = 9)]
     public class IsCharacterPredicate : PredicateBaseStats
     {
         [SerializeField] protected CharacterProperties character;

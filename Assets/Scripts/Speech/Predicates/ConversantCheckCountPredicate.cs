@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Speech
 {
-    [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/Conversant Check Count", order = 5)]
+    [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/Conversant Check Count", order = 6)]
     public class ConversantCheckCountPredicate : PredicateAIConversant
     {
         [SerializeField] protected int checkCount = 0;

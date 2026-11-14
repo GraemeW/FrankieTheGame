@@ -10,7 +10,7 @@ using LowDefMustard.Utils;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Battle Action", menuName = "BattleAction/New Battle Action", order = 15)]
+    [CreateAssetMenu(fileName = "New Battle Action", menuName = "Combat/BattleActions/New Battle Action", order = 4)]
     public partial class BattleAction : ScriptableObject, IAddressablesCache
     {
         [Header("Scriptable Object Inputs")]

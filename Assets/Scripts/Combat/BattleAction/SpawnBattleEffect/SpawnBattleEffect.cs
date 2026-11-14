@@ -6,7 +6,7 @@ using Frankie.Combat.UI;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Spawn Battle Effect", menuName = "BattleAction/Effects/Spawn Battle Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New Spawn Battle Effect", menuName = "Combat/BattleActions/Effects/Spawn Battle Effect", order = 17)]
     public class SpawnBattleEffect : EffectStrategy
     {
         // Note:

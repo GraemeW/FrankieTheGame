@@ -14,7 +14,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character", order = 1)]
+    [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character", order = 2)]
     public partial class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable, IDialogueVariable
     {
         // Properties

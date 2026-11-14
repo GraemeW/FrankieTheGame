@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace LowDefMustard.RuleTiles
 {
-    [CreateAssetMenu(fileName = "New Sibling Rule Tile", menuName = "CustomRuleTiles/New Sibling Rule Tile", order = 25)]
+    [CreateAssetMenu(fileName = "New Sibling Rule Tile", menuName = "CustomRuleTiles/New Sibling Rule Tile", order = 11)]
     public class RuleTileSibling : RuleTile<RuleTileSibling.Neighbor> {
         public List<TileBase> siblings;
 

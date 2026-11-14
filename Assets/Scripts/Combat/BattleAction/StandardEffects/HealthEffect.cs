@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Health Effect", menuName = "BattleAction/Effects/Health Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New Health Effect", menuName = "Combat/BattleActions/Effects/Health Effect", order = 12)]
     public class HealthEffect : EffectStrategy
     {
         // Tunables

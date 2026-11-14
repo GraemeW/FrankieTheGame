@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Is Party Leader Predicate", menuName = "Predicates/BaseStats/Is Party Leader", order = 5)]
+    [CreateAssetMenu(fileName = "New Is Party Leader Predicate", menuName = "Predicates/BaseStats/Is Party Leader", order = 8)]
     public class IsPartyLeaderPredicate : PredicateBaseStats
     {
         public override bool? Evaluate(BaseStats baseStats)

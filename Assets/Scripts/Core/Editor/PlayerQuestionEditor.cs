@@ -4,17 +4,17 @@ using UnityEngine.UIElements;
 using LowDefMustard.Localization;
 using Frankie.Utils.Localization;
 
-namespace Frankie.Menu.UI.Editor
+namespace Frankie.Core.Editor
 {
-    [CustomEditor(typeof(NameScreenQuestion))]
-    public class NameScreenQuestionEditor : UnityEditor.Editor
+    [CustomEditor(typeof(PlayerQuestion))]
+    public class PlayerQuestionEditor : UnityEditor.Editor
     {
         private void OnEnable()
         {
             LocalizationLocale.TriggerLocalizationSettingsInitialization();
-            var nameScreenQuestion = (NameScreenQuestion)target;
-            if (nameScreenQuestion is not ILocalizable localizable) { return; }
-            localizable.TryLocalizeStandardEntries(nameScreenQuestion, nameScreenQuestion.GetPropertyLinkedLocalizationEntries());
+            var playerQuestion = (PlayerQuestion)target;
+            if (playerQuestion is not ILocalizable localizable) { return; }
+            localizable.TryLocalizeStandardEntries(playerQuestion, playerQuestion.GetPropertyLinkedLocalizationEntries());
         }
 
         public override VisualElement CreateInspectorGUI() 

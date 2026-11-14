@@ -17,7 +17,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Quests
 {
-    [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest", order = 10)]
+    [CreateAssetMenu(fileName = "Quest", menuName = "Essential/New Quest", order = 5)]
     public partial class Quest : GameStateModifier, IAddressablesCache, ILocalizable
     {
         // Tunables

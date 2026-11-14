@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New AP Effect", menuName = "BattleAction/Effects/AP Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New AP Effect", menuName = "Combat/BattleActions/Effects/AP Effect", order = 5)]
     public class APEffect : EffectStrategy
     {
         // Tunables

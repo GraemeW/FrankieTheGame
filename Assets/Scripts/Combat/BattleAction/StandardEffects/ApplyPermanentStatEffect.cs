@@ -6,7 +6,7 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Permanent Stat Effect", menuName = "BattleAction/Effects/Permanent Stat Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New Permanent Stat Effect", menuName = "Combat/BattleActions/Effects/Permanent Stat Effect", order = 14)]
     public class ApplyPermanentStatEffect : EffectStrategy
     {
         // Tunables

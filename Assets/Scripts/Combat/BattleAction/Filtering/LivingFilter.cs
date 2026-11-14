@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Living Filtering", menuName = "BattleAction/Filters/Living", order = 15)]
+    [CreateAssetMenu(fileName = "New Living Filtering", menuName = "Combat/BattleActions/Filters/Living", order = 8)]
     public class LivingFilter : FilterStrategy
     {
         // Tunables

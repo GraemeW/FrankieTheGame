@@ -8,7 +8,7 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Call For Help Effect", menuName = "BattleAction/Effects/Call For Help Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New Call For Help Effect", menuName = "Combat/BattleActions/Effects/Call For Help Effect", order = 7)]
     public class CallForHelp : EffectStrategy
     {
         // Tunables

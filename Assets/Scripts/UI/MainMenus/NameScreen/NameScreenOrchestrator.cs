@@ -8,6 +8,7 @@ using LowDefMustard.Control;
 using LowDefMustard.Zones;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
+using Frankie.Core;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Speech.UI;
@@ -23,7 +24,7 @@ namespace Frankie.Menu.UI
         [SerializeField] private MainMenuController mainMenuController;
         [Header("Tunables")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString startingMessage;
-        [SerializeField] private List<NameScreenQuestion> questions = new();
+        [SerializeField] private List<PlayerQuestion> questions = new();
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
         [Header("Hookups")]
@@ -37,7 +38,7 @@ namespace Frankie.Menu.UI
         private readonly List<NameScreenAnswer> answers = new();
         
         // Events
-        public event Action<NameScreenState, NameScreenQuestion> stateChanged;
+        public event Action<NameScreenState, PlayerQuestion> stateChanged;
         
         // Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
@@ -80,7 +81,7 @@ namespace Frankie.Menu.UI
         {
             if (!HasValidQuestion()) { SetState(NameScreenState.Confirm); return; } // Invalid state
             
-            NameScreenQuestion currentQuestion = questions[questionIndex];
+            PlayerQuestion currentQuestion = questions[questionIndex];
             answers.Add(new NameScreenAnswer(currentQuestion, answerText));
             
             questionIndex++;
@@ -93,18 +94,18 @@ namespace Frankie.Menu.UI
             {
                 switch (answer.question.questionType)
                 {
-                    case NameScreenQuestionType.CharacterName:
+                    case PlayerQuestionType.CharacterName:
                         CharacterProperties characterProperties = answer.question.optionalCharacterProperties;
                         if (characterProperties == null) { continue; }
                         PlayerPrefsController.SetCharacterName(characterProperties.GetCharacterID(), answer.answer);
                         break;
-                    case NameScreenQuestionType.FavouriteFood:
+                    case PlayerQuestionType.FavouriteFood:
                         PlayerPrefsController.SetFavouriteFood(answer.answer);
                         break;
-                    case NameScreenQuestionType.FavouriteThing:
+                    case PlayerQuestionType.FavouriteThing:
                         PlayerPrefsController.SetFavouriteThing(answer.answer);
                         break;
-                    case NameScreenQuestionType.FrameFlavour:
+                    case PlayerQuestionType.FrameFlavour:
                         PlayerPrefsController.SetFrameFlavourColour(answer.optionalAnswerColor);
                         break;
                     default:
@@ -131,7 +132,7 @@ namespace Frankie.Menu.UI
 
             if (setNameScreenState == NameScreenState.Intro) { SpawnIntroDialogueBox(); }
             
-            NameScreenQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
+            PlayerQuestion question = HasValidQuestion() ? questions[questionIndex] : null;
             if (setNameScreenState == NameScreenState.Naming && question == null) { SetState(NameScreenState.Confirm); return; } // Invalid state
             
             stateChanged?.Invoke(nameScreenState, question);

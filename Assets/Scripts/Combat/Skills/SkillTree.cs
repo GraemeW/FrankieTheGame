@@ -8,7 +8,7 @@ using UnityEditor;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Skill Tree", menuName = "Skills/New Skill Tree", order = 10)]
+    [CreateAssetMenu(fileName = "New Skill Tree", menuName = "Combat/Skills/New Skill Tree", order = 4)]
     public class SkillTree : ScriptableObject, ISerializationCallbackReceiver
     {
         // Tunables

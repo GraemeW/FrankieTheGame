@@ -19,7 +19,7 @@ namespace Frankie.Speech.Editor
         [NonSerialized] private Dictionary<string, string> localizationBases; // Last-synced localized values per line field
 
         // Menu Item
-        [MenuItem("Assets/Create/Dialogue/New Dialogue Graph", false, 11)]
+        [MenuItem("Assets/Create/Dialogue/New Dialogue Graph", false, 4)]
         private static void CreateAssetFile() => GraphDatabase.PromptInProjectBrowserToCreateNewAsset<DialogueGraph>("New Dialogue");
 
         #region UnityMethods

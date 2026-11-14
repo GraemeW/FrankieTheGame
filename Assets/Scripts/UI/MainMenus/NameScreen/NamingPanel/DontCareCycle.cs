@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LowDefMustard.Localization;
+using Frankie.Core;
 
 namespace Frankie.Menu.UI
 {

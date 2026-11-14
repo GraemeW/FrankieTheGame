@@ -5,7 +5,7 @@ using LowDefMustard.GameStateModifiers;
 
 namespace Frankie.Inventory
 {
-    [CreateAssetMenu(fileName = "New Has Item Predicate", menuName = "Predicates/Knapsack/Has Item", order = 5)]
+    [CreateAssetMenu(fileName = "New Has Item Predicate", menuName = "Predicates/Knapsack/Has Item", order = 9)]
     public class HasItemPredicate : PredicateKnapsack, IGameStateModifierPredicate
     {
         [SerializeField] private List<InventoryItem> inventoryItems = new();
