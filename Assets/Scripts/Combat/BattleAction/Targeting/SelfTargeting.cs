@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Self Targeting", menuName = "BattleAction/Targeting/Self Target", order = 15)]
+    [CreateAssetMenu(fileName = "New Self Targeting", menuName = "Combat/BattleActions/Targeting/Self Target", order = 8)]
     public class SelfTargeting : TargetingStrategy
     {
         public override void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)

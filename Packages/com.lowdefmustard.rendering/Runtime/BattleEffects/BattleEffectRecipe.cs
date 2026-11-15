@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace LowDefMustard.Rendering
 {
-    [CreateAssetMenu(fileName = "New Battle Effect Recipe", menuName = "BattleAction/Effects/Battle Effect Recipe", order = 16)]
+    [CreateAssetMenu(fileName = "New Battle Effect Recipe", menuName = "Combat/BattleActions/Effects/Battle Effect Recipe", order = 6)]
     public sealed class BattleEffectRecipe : ScriptableObject
     {
         // Notes:

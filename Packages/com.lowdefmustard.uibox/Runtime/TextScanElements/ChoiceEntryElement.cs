@@ -34,6 +34,12 @@ namespace LowDefMustard.UIBox
                 ChoiceRowParts.SetHighlighted(this, value);
             }
         }
+        
+        [UxmlAttribute] public bool multiline
+        {
+            get => ClassListContains(USSClassNames.ChoiceEntry.multiline);
+            set => EnableInClassList(USSClassNames.ChoiceEntry.multiline, value);
+        }
 
         [UxmlAttribute] public string labelText
         {

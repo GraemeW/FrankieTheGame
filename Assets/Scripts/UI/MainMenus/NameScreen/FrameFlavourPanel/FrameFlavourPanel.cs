@@ -4,6 +4,7 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
+using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Utils.Localization;
 
@@ -13,7 +14,7 @@ namespace Frankie.Menu.UI
     public sealed class FrameFlavourPanel : UIBox<UIBoxState>, ILocalizable
     {
         [Header("Properties")]
-        [SerializeField] private NameScreenQuestion flavourQuestion;
+        [SerializeField] private PlayerQuestion flavourQuestion;
         [SerializeField] private FrameFlavours frameFlavours;
 
         // State

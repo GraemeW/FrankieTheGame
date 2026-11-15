@@ -16,10 +16,12 @@ namespace Frankie.Tests.Editor
 {
     public class DialogueGraphImporterTests
     {
-        // Covers DialogueGraphImporter w/ temp .dialoguegraph files
-        //  - Runtime shape: main Dialogue, speech + condition sub-assets keyed by node ID, entry targets, wire order, keys
-        //  - Reference stability: sub-asset fileIDs across reimport and graph edits
-        // Not covered: localization table contents (importer never writes them)
+        // Tested:
+        //  - DialogueGraphImporter runtime shape - main Dialogue, speech + condition sub-assets keyed by node ID, entry targets, wire order, keys
+        //  - DialogueGraphImporter dialogue variables - placeholder order, gaps dropped, non-implementers -> null
+        //  - DialogueGraphImporter reference stability - sub-asset fileIDs across reimport and graph edits
+        // Not Tested:
+        //  - Localization table contents - the importer never writes them
 
         // State
         private TempAssetFolder tempFolder;
@@ -158,6 +160,22 @@ namespace Frankie.Tests.Editor
             Assert.AreEqual((2, 1), (importedLine.GetNodeDepth(), importedLine.GetNodeBreadth()));
             CollectionAssert.AreEqual(new[] { $"{graphName}.2.1.Speaker", $"{graphName}.2.1.Text" }, importedLine.GetLocalizationEntries().Select(entryReference => entryReference.Key));
             Assert.IsTrue(importedUnplaced.GetLocalizationEntries().All(entryReference => string.IsNullOrEmpty(entryReference.Key)), "A line without a depth/breadth shouldn't get a key");
+        }
+
+        [Test]
+        public void Import_SpeechNode_CarriesDialogueVariablesInPlaceholderOrder()
+        {
+            var hero = ScriptableObject.CreateInstance<TestDialogueVariable>().Configure("Hero");
+            AssetDatabase.CreateAsset(hero, tempFolder.Path("Hero.asset"));
+            SpeechGraphNode line = graph.AddLine("{0} found {1}, then {3}");
+            line.SetVariable(0, hero);
+            line.SetVariable(1, predicate);
+            graph.Connect(entry, line);
+
+            Dialogue dialogue = graph.SaveAndImport();
+            DialogueNode importedLine = dialogue.GetDialogueNodeFromID(line.ID.ToString());
+
+            CollectionAssert.AreEqual(new ScriptableObject[] { hero, null }, importedLine.GetDialogueVariables(), "Non-implementers import as null; {3} after the gap gets no slot");
         }
 
         [Test]

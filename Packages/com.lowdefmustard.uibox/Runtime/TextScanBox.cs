@@ -242,8 +242,9 @@ namespace LowDefMustard.UIBox
         #region ChoiceFunctionality
         private static IEnumerator PrintChoice(ChoiceEntryHandle choiceEntry)
         {
-            if (choiceEntry is { isAlive: true }) { choiceEntry.Reveal(); }
-            yield break;
+            if (choiceEntry is not { isAlive: true }) { yield break; }
+            choiceEntry.SetText(UnescapeText(choiceEntry.text));
+            choiceEntry.Reveal();
         }
 
         private bool ImplementPrepareChooseAction(ControllerInputType controllerInputType)

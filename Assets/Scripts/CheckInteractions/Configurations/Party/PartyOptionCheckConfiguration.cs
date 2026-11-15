@@ -9,7 +9,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Party Option Check Configuration", menuName = "CheckConfigurations/Party/PartyOptions", order = 5)]
+    [CreateAssetMenu(fileName = "New Party Option Check Configuration", menuName = "CheckConfigurations/Party/PartyOptions", order = 10)]
     public class PartyOptionCheckConfiguration : CheckConfiguration
     {
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessagePartyOptions;

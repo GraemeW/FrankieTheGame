@@ -24,6 +24,7 @@ namespace Frankie.Speech
         [SerializeField, ReadOnly] private int nodeDepth = 0;
         [SerializeField, ReadOnly] private int nodeBreadth = 0;
         [SerializeField] private List<string> children = new();
+        [SerializeField] private List<ScriptableObject> dialogueVariables = new();
 
         // State
         private bool isSpeakerOverridden = false;
@@ -45,7 +46,10 @@ namespace Frankie.Speech
             return !string.IsNullOrWhiteSpace(speakerName) ? speakerName : "Speaker";
         }
 
-        public string GetText()
+        public IReadOnlyList<ScriptableObject> GetDialogueVariables() => dialogueVariables;
+        public string GetText(DialogueVariableContext context) => DialogueVariableFormatter.Format(GetRawText(), dialogueVariables, context);
+
+        private string GetRawText() // Never public, external consumers should only ever get text with its variables & context
         {
             string text = localizedText.GetSafeLocalizedString();
             return !string.IsNullOrWhiteSpace(text) ? text : "Text";
@@ -81,7 +85,7 @@ namespace Frankie.Speech
 
 #if UNITY_EDITOR
         #region EditorMethods
-        internal void Initialize(string setNodeID, SpeakerType setSpeakerType, CharacterProperties setCharacterProperties, int setNodeDepth, int setNodeBreadth, LocalizedString setLocalizedSpeakerName, LocalizedString setLocalizedText, IEnumerable<string> setChildren)
+        internal void Initialize(string setNodeID, SpeakerType setSpeakerType, CharacterProperties setCharacterProperties, int setNodeDepth, int setNodeBreadth, LocalizedString setLocalizedSpeakerName, LocalizedString setLocalizedText, IEnumerable<string> setChildren, IEnumerable<ScriptableObject> setDialogueVariables)
         {
             nodeID = setNodeID;
             speakerType = setSpeakerType;
@@ -91,6 +95,7 @@ namespace Frankie.Speech
             localizedSpeakerName = setLocalizedSpeakerName;
             localizedText = setLocalizedText;
             children = new List<string>(setChildren);
+            dialogueVariables = setDialogueVariables != null ? new List<ScriptableObject>(setDialogueVariables) : new List<ScriptableObject>();
         }
         #endregion
 #endif

@@ -89,6 +89,10 @@
     color: var(--theme-dim-text);
 }
 
+.standard-brown-theme .standard-brown-theme__row:hover {
+    background-color: var(--theme-row-hover);
+}
+
 .standard-brown-theme .unity-toolbar {
     background-color: var(--theme-header-background);
     border-bottom-color: var(--theme-accent);

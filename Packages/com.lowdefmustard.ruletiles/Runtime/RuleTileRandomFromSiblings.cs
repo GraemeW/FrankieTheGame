@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 namespace LowDefMustard.RuleTiles
 {
-    [CreateAssetMenu(fileName = "New Random From Siblings Tile", menuName = "CustomRuleTiles/New Random From Siblings Rule Tile", order = 25)]
+    [CreateAssetMenu(fileName = "New Random From Siblings Tile", menuName = "CustomRuleTiles/New Random From Siblings Rule Tile", order = 10)]
     public class RuleTileRandomFromSiblings : RuleTileSibling
     {
         // Note:  Parent rules will be ignored, only uses sibling rules

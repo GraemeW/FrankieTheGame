@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Character Present Predicate", menuName = "BattleAI/Predicates/CharacterPresent", order = 15)]
+    [CreateAssetMenu(fileName = "New Character Present Predicate", menuName = "Combat/BattleAI/Predicates/CharacterPresent", order = 6)]
     public class CharacterPresentBattleAIPredicate : BattleAIPredicate
     {
         [SerializeField] private CharacterProperties characterProperties;

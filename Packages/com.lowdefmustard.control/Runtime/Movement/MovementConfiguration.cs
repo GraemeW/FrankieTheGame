@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LowDefMustard.Control
 {
-    [CreateAssetMenu(fileName = "New Movement Configuration", menuName = "Characters/New Movement Configuration", order = 1)]
+    [CreateAssetMenu(fileName = "New Movement Configuration", menuName = "Characters/New Movement Configuration", order = 3)]
     public class MovementConfiguration : ScriptableObject
     {
         // Tunables

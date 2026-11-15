@@ -11,7 +11,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Remove from Party Check Configuration", menuName = "CheckConfigurations/Party/RemoveFromParty", order = 5)]
+    [CreateAssetMenu(fileName = "New Remove from Party Check Configuration", menuName = "CheckConfigurations/Party/RemoveFromParty", order = 11)]
     public class RemovePartyCharacterCheckConfiguration : CheckConfiguration
     {
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageRemoveFromParty;

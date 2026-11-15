@@ -165,6 +165,30 @@ namespace LowDefMustard.UIBox.Tests
             Assert.AreEqual(1, chosenCount);
         }
 
+        [UnityTest]
+        public IEnumerator ChoiceEntry_CreatedMultiline_HasMultilineClass()
+        {
+            UIToolkitTextScanView view = CreateTextScanView();
+            view.CreateChoiceEntry("Choice", null, true);
+
+            yield return WaitForLoadedUI(view);
+
+            Assert.IsTrue(GetLoadedRoot(view).Q<ChoiceEntryElement>().ClassListContains(USSClassNames.ChoiceEntry.multiline));
+        }
+
+        [Test]
+        public void ChoiceEntryElement_Multiline_TogglesClass()
+        {
+            var element = new ChoiceEntryElement();
+            Assert.IsFalse(element.multiline);
+
+            element.multiline = true;
+            Assert.IsTrue(element.ClassListContains(USSClassNames.ChoiceEntry.multiline));
+
+            element.multiline = false;
+            Assert.IsFalse(element.ClassListContains(USSClassNames.ChoiceEntry.multiline));
+        }
+
         [Test]
         public void ChoiceEntryElement_New_IsNotFocusableAndHasMarkerThenLabel()
         {

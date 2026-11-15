@@ -10,7 +10,7 @@ using UnityEditor;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "Progression", menuName = "Stats/New Progression", order = 1)]
+    [CreateAssetMenu(fileName = "Progression", menuName = "Essential/New Progression", order = 3)]
     public class Progression : ScriptableObject
     {
         // Tunables

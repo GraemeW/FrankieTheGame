@@ -112,7 +112,7 @@ namespace Frankie.Tests.Editor
             EntryGraphNode entry = graph.AddEntry();
             SpeechGraphNode ai = graph.AddLine("Line one\nLine two", SpeakerType.AISpeaker, "AI");
             SpeechGraphNode player = graph.AddLine("Reply", SpeakerType.PlayerSpeaker, "Player");
-            SpeechGraphNode narrator = graph.AddLine("Narration", SpeakerType.NarratorDirection);
+            SpeechGraphNode narrator = graph.AddLine("Narration for {0}", SpeakerType.NarratorDirection); // {0} ~ dialogue variable port + object field
             ConditionGraphNode condition = graph.AddCondition(new Condition.PredicateWrapper(null), new Condition.PredicateWrapper(null, true));
             ai.Position = new Vector2(250, 0);
             condition.Position = new Vector2(600, -200);

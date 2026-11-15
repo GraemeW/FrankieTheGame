@@ -4,7 +4,7 @@ using Frankie.Quests;
 
 namespace Frankie.Inventory
 {
-    [CreateAssetMenu(fileName = "KeyItem", menuName = "Inventory/Key Item", order = 10)]
+    [CreateAssetMenu(fileName = "KeyItem", menuName = "Inventory/Key Item", order = 7)]
     public class KeyItem : InventoryItem
     {
         [SerializeField] private List<QuestObjective> questObjectives = new();

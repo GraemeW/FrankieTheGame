@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Cooldown Set Effect", menuName = "BattleAction/Effects/Cooldown Set Effect", order = 15)]
+    [CreateAssetMenu(fileName = "New Cooldown Set Effect", menuName = "Combat/BattleActions/Effects/Cooldown Set Effect", order = 8)]
     public class CooldownSetEffect : EffectStrategy
     {
         // Tunables

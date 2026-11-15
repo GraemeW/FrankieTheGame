@@ -5,7 +5,7 @@ using LowDefMustard.Utils;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Battle AI", menuName = "BattleAI/BattleAIPriority", order = 15)]
+    [CreateAssetMenu(fileName = "New Battle AI", menuName = "Combat/BattleAI/BattleAIPriority", order = 5)]
     public class BattleAIPriority : ScriptableObject
     {
         // Tunables

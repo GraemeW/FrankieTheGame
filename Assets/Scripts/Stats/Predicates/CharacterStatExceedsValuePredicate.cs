@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value", order = 5)]
+    [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value", order = 7)]
     public class CharacterStatExceedsValuePredicate : PredicateBaseStats
     {
         [SerializeField][Tooltip("Optional, depending on implementation")] protected Stat stat;

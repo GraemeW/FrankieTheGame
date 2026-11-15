@@ -6,6 +6,7 @@ using UnityEngine.Localization.Tables;
 using LowDefMustard.Control;
 using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
+using Frankie.Core;
 using Frankie.Speech.UI;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
@@ -86,7 +87,7 @@ namespace Frankie.Menu.UI
             if (enable) { nameScreenOrchestrator.stateChanged += HandleStateChange; }
         }
 
-        private void HandleStateChange(NameScreenState nameScreenState, NameScreenQuestion _)
+        private void HandleStateChange(NameScreenState nameScreenState, PlayerQuestion _)
         {
             if (nameScreenState != NameScreenState.Confirm) { return; }
 
@@ -131,12 +132,12 @@ namespace Frankie.Menu.UI
             {
                 switch (answer.question.questionType)
                 {
-                    case NameScreenQuestionType.CharacterName:
+                    case PlayerQuestionType.CharacterName:
                         characterCards.Add(new ConfirmCharacterCard(answer.answer, CreateCharacterSprite(answer.question.GetCharacterPrefab())));
                         break;
-                    case NameScreenQuestionType.FavouriteFood:
-                    case NameScreenQuestionType.FavouriteThing:
-                    case NameScreenQuestionType.FrameFlavour:
+                    case PlayerQuestionType.FavouriteFood:
+                    case PlayerQuestionType.FavouriteThing:
+                    case PlayerQuestionType.FrameFlavour:
                         answerCards.Add(new ConfirmAnswerCard(answer.question.localizedQuestion.GetSafeLocalizedString(), answer.answer));
                         break;
                 }

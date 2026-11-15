@@ -13,7 +13,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Speech.Editor
 {
-    [ScriptedImporter(4, DialogueGraph.assetExtension)]
+    [ScriptedImporter(5, DialogueGraph.assetExtension)]
     internal sealed partial class DialogueGraphImporter : ScriptedImporter
     {
         // Emits the runtime Dialogue (main object) + one sub-asset per speech / condition node
@@ -112,10 +112,16 @@ namespace Frankie.Speech.Editor
             var dialogueNode = ScriptableObject.CreateInstance<DialogueNode>();
             dialogueNode.name = DialogueNodeLabels.Line(depth, breadth, GetSpeakerLabel(context, speechNode), speechNode.GetText());
             dialogueNode.Initialize(GetNodeID(speechNode), speechNode.GetSpeakerType(), speechNode.GetCharacter(), depth, breadth,
-                MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.speakerField), MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.textField), GetTargetIDs(speechNode));
+                MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.speakerField), MakeLocalizedString(dialogueName, depth, breadth, DialogueLineKeys.textField), GetTargetIDs(speechNode), GetDialogueVariables(speechNode));
             return dialogueNode;
         }
 
+        private static IEnumerable<ScriptableObject> GetDialogueVariables(SpeechGraphNode speechNode)
+        {
+            // Note:  non-implementers become null (kept in place so later indices still line up) ~ the graph warns about them
+            return speechNode.GetVariables().Select(variable => variable is IDialogueVariable ? variable : null);
+        }
+        
         private static DialogueConditionNode BuildConditionNode(ConditionGraphNode conditionGraphNode)
         {
             var conditionNode = ScriptableObject.CreateInstance<DialogueConditionNode>();

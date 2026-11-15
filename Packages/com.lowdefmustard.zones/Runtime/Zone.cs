@@ -15,7 +15,7 @@ using LowDefMustard.Localization;
 
 namespace LowDefMustard.Zones
 {
-    [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
+    [CreateAssetMenu(fileName = "New Zone", menuName = "Essential/New Zone", order = 4)]
     public partial class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizableCore
     {
         // Note:  Internal fields/methods for test visibility

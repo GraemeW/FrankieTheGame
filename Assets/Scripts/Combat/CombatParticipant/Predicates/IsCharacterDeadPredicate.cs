@@ -5,7 +5,7 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Is Character Dead Predicate", menuName = "Predicates/CombatParticipant/Is Character Dead", order = 5)]
+    [CreateAssetMenu(fileName = "New Is Character Dead Predicate", menuName = "Predicates/CombatParticipant/Is Character Dead", order = 10)]
     public class IsCharacterDeadPredicate : PredicateCombatParticipant
     {
         [SerializeField] private List<CharacterProperties> characters = new();

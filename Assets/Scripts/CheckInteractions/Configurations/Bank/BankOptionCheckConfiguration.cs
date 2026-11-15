@@ -10,7 +10,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Bank Option Check Configuration", menuName = "CheckConfigurations/Bank/BankOptions", order = 5)]
+    [CreateAssetMenu(fileName = "New Bank Option Check Configuration", menuName = "CheckConfigurations/Bank/BankOptions", order = 7)]
     public class BankOptionCheckConfiguration : CheckConfiguration
     {
         // Tunables

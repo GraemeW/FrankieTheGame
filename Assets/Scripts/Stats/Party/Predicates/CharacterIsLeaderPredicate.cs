@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Character Is Leader Predicate", menuName = "Predicates/Party/Is Character Party Leader", order = 5)]
+    [CreateAssetMenu(fileName = "New Character Is Leader Predicate", menuName = "Predicates/Party/Is Character Party Leader", order = 11)]
     public class CharacterIsLeaderPredicate : PredicateParty
     {
         [SerializeField] private PartyBehaviourType partyBehaviourType = PartyBehaviourType.Party;

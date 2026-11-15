@@ -5,18 +5,20 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using LowDefMustard.Localization;
+using Frankie.Saving;
+using Frankie.Speech;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
 
-namespace Frankie.Menu.UI
+namespace Frankie.Core
 {
-    [CreateAssetMenu(fileName = "New Name Screen Question", menuName = "UI/NameScreen/New Question", order = 30)]
-    public class NameScreenQuestion : ScriptableObject, ILocalizable
+    [CreateAssetMenu(fileName = "New Player Question", menuName = "Essential/New Player Question", order = 2)]
+    public class PlayerQuestion : ScriptableObject, ILocalizable, IDialogueVariable
     {
         // Properties
         [SimpleLocalizedString(LocalizationTableType.UI, true)] public LocalizedString localizedQuestion;
         public DontCareAnswer[] localizedDontCareAnswers = new DontCareAnswer[5];
-        public NameScreenQuestionType questionType = NameScreenQuestionType.CharacterName;
+        public PlayerQuestionType questionType = PlayerQuestionType.CharacterName;
         public CharacterProperties optionalCharacterProperties;
         
         // State
@@ -24,7 +26,19 @@ namespace Frankie.Menu.UI
         public string iCachedName { get => cachedName; set => cachedName = value; }
         
         // Getters
-        public GameObject GetCharacterPrefab() => questionType == NameScreenQuestionType.CharacterName && optionalCharacterProperties != null ? optionalCharacterProperties.GetCharacterPrefab() : null;
+        public GameObject GetCharacterPrefab() => questionType == PlayerQuestionType.CharacterName && optionalCharacterProperties != null ? optionalCharacterProperties.GetCharacterPrefab() : null;
+
+        // Dialogue Variable
+        public string GetDialogueVariable(DialogueVariableContext context)
+        {
+            return questionType switch
+            {
+                PlayerQuestionType.CharacterName => optionalCharacterProperties != null ? CharacterProperties.GetCharacterDisplayName(optionalCharacterProperties) : "",
+                PlayerQuestionType.FavouriteFood => PlayerPrefsController.GetFavouriteFood(),
+                PlayerQuestionType.FavouriteThing => PlayerPrefsController.GetFavouriteThing(),
+                _ => "" // FrameFlavour is a colour ~ no text
+            };
+        }
 
         // Localization
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
@@ -50,11 +64,5 @@ namespace Frankie.Menu.UI
             }
             return propertyLinkedLocalizationEntries;
         }
-    }
-
-    [Serializable]
-    public class DontCareAnswer
-    {
-        [SimpleLocalizedString(LocalizationTableType.UI, false)] public LocalizedString entry;
     }
 }

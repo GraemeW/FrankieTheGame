@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98fc4b69c8c4e05b4e7bf19a3cfa6e2, type: 3}
-  m_Name: TillyQuestion
-  m_EditorClassIdentifier: Frankie::Frankie.Menu.UI.NameScreenQuestion
+  m_Name: PhilTooQuestion
+  m_EditorClassIdentifier: Frankie::Frankie.Core.PlayerQuestion
   localizedQuestion:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
     m_TableEntryReference:
-      m_KeyId: 39933888024272896
+      m_KeyId: 40219697189216256
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933888351428608
+        m_KeyId: 40219697919025152
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -35,7 +35,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933888926048256
+        m_KeyId: 40219698548170752
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933922795053056
+        m_KeyId: 40219917788635136
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933923084460032
+        m_KeyId: 40219918082236416
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -62,14 +62,14 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
       m_TableEntryReference:
-        m_KeyId: 39933923684245504
+        m_KeyId: 40219918673633280
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
   questionType: 0
-  optionalCharacterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  cachedName: TillyQuestion
+  optionalCharacterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
+  cachedName: PhilTooQuestion
   references:
     version: 2
     RefIds: []

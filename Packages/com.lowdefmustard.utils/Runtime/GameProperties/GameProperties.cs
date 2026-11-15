@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LowDefMustard.Utils
 {
-    [CreateAssetMenu(fileName = "New Game Properties", menuName = "GameProperties/New Game Properties", order = 1)]
+    [CreateAssetMenu(fileName = "New Game Properties", menuName = "Essential/New Game Properties", order = 1)]
     public sealed class GameProperties : ScriptableObject
     {
         // Note:  Read through the static accessors ~ they fall back to defaults when no instance is hooked up

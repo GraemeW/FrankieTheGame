@@ -14,7 +14,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill", order = 10)]
+    [CreateAssetMenu(fileName = "New Skill", menuName = "Combat/Skills/New Skill", order = 3)]
     public partial class Skill : ScriptableObject, IBattleActionSuper, IAddressablesCache, ILocalizable
     {
         // Tunables

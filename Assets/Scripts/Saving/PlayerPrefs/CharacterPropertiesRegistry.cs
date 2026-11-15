@@ -5,7 +5,7 @@ using Frankie.Stats;
 
 namespace Frankie.Saving
 {
-    [CreateAssetMenu(fileName = "CharacterPropertiesRegistry", menuName = "UI/Character Properties Registry", order = 30)]
+    [CreateAssetMenu(fileName = "CharacterPropertiesRegistry", menuName = "UI/Character Properties Registry", order = 9)]
     public class CharacterPropertiesRegistry : ScriptableObject
     {
         [SerializeField] private List<CharacterProperties> characterProperties = new();
