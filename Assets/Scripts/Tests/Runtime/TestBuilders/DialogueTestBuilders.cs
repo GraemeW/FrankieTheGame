@@ -17,7 +17,7 @@ namespace Frankie.Tests
         public static DialogueNode CreateDialogueNode(this TestObjectTracker tracker, string nodeName, params string[] children)
         {
             var dialogueNode = tracker.Create<DialogueNode>(nodeName);
-            dialogueNode.Initialize(nodeName, SpeakerType.AISpeaker, null, 0, 0, new LocalizedString(), new LocalizedString(), children);
+            dialogueNode.Initialize(nodeName, SpeakerType.AISpeaker, null, 0, 0, new LocalizedString(), new LocalizedString(), children, null);
             return dialogueNode;
         }
 

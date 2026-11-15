@@ -24,7 +24,7 @@ namespace Frankie.Speech.Editor
         private const string _rekeyTitle = "Re-key Dialogue Lines";
 
         // State
-        [AutoStaticsCleanup] public static bool suppressed; // Needed for tests (graphs opened in tests must not write the real tables)
+        [AutoStaticsCleanup] public static bool suppressed; // Needed for tests (graphs opened in tests must not write the tables)
 
         #region PublicMethods
         public static void HandleGraphChanged(DialogueGraph graph, bool fromUndoRedo, GraphLogger graphLogger)

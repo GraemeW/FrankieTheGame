@@ -77,32 +77,41 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 | Speech graph skin        |   1   |   1†   | Guards `DialogueGraph.uss` against Graph Toolkit renaming the internal parts it styles                                      |
 | Speech importer          |   1   |   1    | `.dialoguegraph` → `Dialogue`: sub-assets (readable names, node IDs), entry, wire order, conditions, keys, fileID stability |
 | Speech localization sync |   2   |   2    | Reconcile plan (graph / table / last-synced) + line positions                                                               |
+| Speech variables         |   8   |   8    | `{n}` formatter fail-safes; node ports + stash; catalog, picker, hook + overlay; implementers                               |
 
 ### Detail by type
 
-| Type                            | Tested  | Test file(s)                                                                                     | Notes                                                       |
-|---------------------------------|---------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| `Dialogue`                      | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     | Localization entries not yet tested                         |
-| `DialogueConditionNode`         | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     |                                                             |
-| `DialogueController`            | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Random pick + choosing untested                             |
-| `AIConversant`                  | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | `onExitDialogue` timing only                                |
-| `DialogueTrigger`               | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Node triggers untested                                      |
-| `PlayerStateRequestDispatcher`  | Yes     | [PlayerStateRequestDispatcherTests.cs](./Tests/Editor/Core/PlayerStateRequestDispatcherTests.cs) |                                                             |
-| `ActionMemory`                  | Yes     | [ActionMemoryTests.cs](./Tests/Editor/Core/ActionMemoryTests.cs)                                 |                                                             |
-| `WorldState`                    | Yes     | [WorldStateTests.cs](./Tests/Editor/Core/WorldStateTests.cs)                                     |                                                             |
-| `TransitionState`               | Yes     | [TransitionStateTests.cs](./Tests/Editor/Core/TransitionStateTests.cs)                           |                                                             |
-| `CombatState`                   | Yes     | [CombatStateTests.cs](./Tests/Editor/Core/CombatStateTests.cs)                                   |                                                             |
-| `CutSceneState`                 | Yes     | [CutSceneStateTests.cs](./Tests/Editor/Core/CutSceneStateTests.cs)                               |                                                             |
-| `DialogueState`                 | Yes     | [DialogueStateTests.cs](./Tests/Editor/Core/DialogueStateTests.cs)                               |                                                             |
-| `PlayerStateMachine`            | Partial | [PlayerStateOrderingTests.cs](./Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Zone / combat transitions untested                          |
-| `TradeMemory`                   | Yes     | [TradeMemoryTests.cs](./Tests/Editor/Core/TradeMemoryTests.cs)                                   |                                                             |
-| `Shop`                          | Partial | [ShopStateFlowTests.cs](./Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Game state modifiers untested                               |
-| `BattleController`              | Partial | [BattleControllerRetireTests.cs](./Tests/Runtime/Combat/BattleControllerRetireTests.cs)          | ExitComplete retire only                                    |
-| `DialogueGraph.uss`             | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)                     | See below†                                                  |
-| `DialogueGraphImporter`         | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs)             | Character labels use an existing project character          |
+| Type                            | Tested  | Test file(s)                                                                                     | Notes                                                    |
+|---------------------------------|---------|--------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| `Dialogue`                      | Partial | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     | Localization entries not yet tested                      |
+| `DialogueConditionNode`         | Yes     | [DialogueTraversalTests.cs](./Tests/Editor/Speech/DialogueTraversalTests.cs)                     |                                                          |
+| `DialogueController`            | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Random pick + choosing untested                          |
+| `AIConversant`                  | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | `onExitDialogue` timing only                             |
+| `DialogueTrigger`               | Partial | [DialogueStateFlowTests.cs](./Tests/Runtime/Speech/DialogueStateFlowTests.cs)                    | Node triggers untested                                   |
+| `PlayerStateRequestDispatcher`  | Yes     | [PlayerStateRequestDispatcherTests.cs](./Tests/Editor/Core/PlayerStateRequestDispatcherTests.cs) |                                                          |
+| `ActionMemory`                  | Yes     | [ActionMemoryTests.cs](./Tests/Editor/Core/ActionMemoryTests.cs)                                 |                                                          |
+| `WorldState`                    | Yes     | [WorldStateTests.cs](./Tests/Editor/Core/WorldStateTests.cs)                                     |                                                          |
+| `TransitionState`               | Yes     | [TransitionStateTests.cs](./Tests/Editor/Core/TransitionStateTests.cs)                           |                                                          |
+| `CombatState`                   | Yes     | [CombatStateTests.cs](./Tests/Editor/Core/CombatStateTests.cs)                                   |                                                          |
+| `CutSceneState`                 | Yes     | [CutSceneStateTests.cs](./Tests/Editor/Core/CutSceneStateTests.cs)                               |                                                          |
+| `DialogueState`                 | Yes     | [DialogueStateTests.cs](./Tests/Editor/Core/DialogueStateTests.cs)                               |                                                          |
+| `PlayerStateMachine`            | Partial | [PlayerStateOrderingTests.cs](./Tests/Runtime/Core/PlayerStateOrderingTests.cs)                  | Zone / combat transitions untested                       |
+| `TradeMemory`                   | Yes     | [TradeMemoryTests.cs](./Tests/Editor/Core/TradeMemoryTests.cs)                                   |                                                          |
+| `Shop`                          | Partial | [ShopStateFlowTests.cs](./Tests/Runtime/Inventory/ShopStateFlowTests.cs)                         | Game state modifiers untested                            |
+| `BattleController`              | Partial | [BattleControllerRetireTests.cs](./Tests/Runtime/Combat/BattleControllerRetireTests.cs)          | ExitComplete retire only                                 |
+| `DialogueGraph.uss`             | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)                     | See below†                                               |
+| `DialogueGraphImporter`         | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs)             | Character labels use an existing project character       |
 | `DialogueLocalizationPlan`      | Yes     | [DialogueLocalizationPlanTests.cs](./Tests/Editor/Speech/DialogueLocalizationPlanTests.cs)       | 
-| `DialogueLinePositionPlanner`   | Yes     | [DialogueLinePositionPlannerTests.cs](./Tests/Editor/Speech/DialogueLinePositionPlannerTests.cs) |                                                             |
-| `DialogueGraphLocalizationSync` | No      | -                                                                                                | Tests that open graph windows set `suppressed`              |
+| `DialogueLinePositionPlanner`   | Yes     | [DialogueLinePositionPlannerTests.cs](./Tests/Editor/Speech/DialogueLinePositionPlannerTests.cs) |                                                          |
+| `DialogueVariableFormatter`     | Yes     | [DialogueVariableFormatterTests.cs](./Tests/Editor/Speech/DialogueVariableFormatterTests.cs)     |                                                          |
+| `PartyMemberVariable`           | Yes     | [DialogueVariableImplementerTests.cs](./Tests/Editor/Speech/DialogueVariableImplementerTests.cs) | Party built inactive from character assets               |
+| `PlayerQuestion`                | Partial | [DialogueVariableImplementerTests.cs](./Tests/Editor/Speech/DialogueVariableImplementerTests.cs) | name screen flow untested                                |
+| `SpeechGraphNode`               | Partial | [SpeechGraphNodeVariableTests.cs](./Tests/Editor/Speech/SpeechGraphNodeVariableTests.cs)         | Undo checked manually (headless GTK undo crashes editor) |
+| `DialogueVariableCatalog`       | Yes     | [DialogueVariablePickerTests.cs](./Tests/Editor/Speech/DialogueVariablePickerTests.cs)           |                                                          |
+| `DialogueVariablePicker`        | Partial | [DialogueVariablePickerTests.cs](./Tests/Editor/Speech/DialogueVariablePickerTests.cs)           | Popup open + click picking checked manually              |
+| `DialogueVariableFieldHook`     | Partial | [DialogueVariablePickerTests.cs](./Tests/Editor/Speech/DialogueVariablePickerTests.cs)           | Click interception checked manually                      |
+| `DialogueVariablesOverlay`      | Partial | [DialogueVariablePickerTests.cs](./Tests/Editor/Speech/DialogueVariablePickerTests.cs)           | Panel rows + drag checked manually                       |
+| `DialogueGraphLocalizationSync` | No      | -                                                                                                | N/A ~ tests that open graph windows set `suppressed`     |
 
 ### Additional Test Notes
 

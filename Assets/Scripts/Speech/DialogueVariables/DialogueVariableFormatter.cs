@@ -12,7 +12,8 @@ namespace Frankie.Speech
         #region PublicMethods
         public static string Format(string text, IReadOnlyList<ScriptableObject> variables, DialogueVariableContext context)
         {
-            if (string.IsNullOrEmpty(text) || text.IndexOf('{') < 0) { return text; }
+            if (string.IsNullOrEmpty(text)) { return ""; }
+            if (text.IndexOf('{') < 0) { return text; }
             var resolvedValues = new string[variables?.Count ?? 0]; // Per-call cache ~ a repeated placeholder resolves its variable once
             return _placeholderRegex.Replace(text, match => Resolve(match, variables, context, resolvedValues));
         }

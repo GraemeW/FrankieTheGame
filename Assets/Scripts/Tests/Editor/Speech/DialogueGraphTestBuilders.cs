@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEditor;
 using Unity.GraphToolkit.Editor;
 using LowDefMustard.Utils;
@@ -34,6 +35,9 @@ namespace Frankie.Tests.Editor
             line.GetNodeOptionByName(SpeechGraphNode.breadthOption).TrySetValue(breadth);
         }
 
+        public static void SetText(this SpeechGraphNode line, string text) => line.GetNodeOptionByName(SpeechGraphNode.textOption).TrySetValue(text);
+        public static void SetVariable(this SpeechGraphNode line, int index, ScriptableObject variable) => line.GetInputPortByName(SpeechGraphNode.GetVariablePortName(index)).TrySetValue(variable);
+        
         public static ConditionGraphNode AddCondition(this DialogueGraph graph, params Condition.PredicateWrapper[] predicates)
         {
             var condition = new ConditionGraphNode();
