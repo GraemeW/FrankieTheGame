@@ -17,7 +17,7 @@ namespace Frankie.Combat.Spawner
         [SerializeField][Min(0f)][Tooltip("in seconds")] private float timeBetweenSpawns;
         [SerializeField] private float xJitterDistance = 1.0f;
         [SerializeField] private float yJitterDistance = 1.0f;
-        [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
+        [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair[] spawnConfigurations;
 
         // State
         private bool hasStarted = false;
@@ -58,8 +58,7 @@ namespace Frankie.Combat.Spawner
         {
             if (!spawnOnEnable && (timeBetweenSpawns > 0f && timeUntilNextSpawn > 0f)) { return; }
 
-            SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
-            if (spawnConfiguration == null) { return; }
+            if (!spawnConfigurations.TryGetRandom(out SpawnConfiguration spawnConfiguration)) { return; }
 
             int maxQuantity = spawnConfiguration.maxQuantity;
             EnemyConfiguration[] enemyConfigurations = spawnConfiguration.enemyConfigurations;
@@ -95,12 +94,6 @@ namespace Frankie.Combat.Spawner
         #endregion
 
         #region PrivateMethods
-        private SpawnConfiguration GetSpawnConfiguration()
-        {
-            SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
-            return spawnConfiguration;
-        }
-
         private static void PreventSpawnedEnemySave(GameObject spawnedEnemy)
         {
             if (spawnedEnemy == null) { return; }

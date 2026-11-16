@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,7 +10,7 @@ using UnityEditor;
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Skill Tree", menuName = "Combat/Skills/New Skill Tree", order = 4)]
-    public class SkillTree : ScriptableObject, ISerializationCallbackReceiver
+    public class SkillTree : SkillSet, ISerializationCallbackReceiver
     {
         // Tunables
 #if UNITY_EDITOR
@@ -23,18 +24,16 @@ namespace Frankie.Combat
         
         // State
         [HideInInspector] [SerializeField] private List<SkillBranch> skillBranches = new();
-
-        private void Awake()
-        {
-#if UNITY_EDITOR
-            // CreateRootSkillBranchIfMissing();
-            // Note:  Making in SkillTreeEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
-            // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
-#endif
-        }
+        
+        #region PublicMethods
         public IEnumerable<SkillBranch> GetAllBranches() => skillBranches;
         public SkillBranch GetRootSkillBranch() => skillBranches[0];
         public SkillBranch GetSkillBranchFromID(string branchName) => skillBranches.FirstOrDefault(skillBranch => skillBranch.name == branchName);
+
+        public override IEnumerable<IObjectProbabilityPair<Skill>> GetWeightedSkills()
+        {
+            return skillBranches.Where(skillBranch => skillBranch != null).SelectMany(skillBranch => skillBranch.GetAllSkills()).Select(skill => new SkillProbabilityPair(skill, 1));
+        }
 
         public SkillBranch GetChildSkillBranch(SkillBranch parentSkillBranch, SkillBranchMapping skillBranchMapping)
         {
@@ -42,22 +41,10 @@ namespace Frankie.Combat
             string childUniqueID = parentSkillBranch.GetBranch(skillBranchMapping);
             return string.IsNullOrWhiteSpace(childUniqueID) ? null : skillBranches.FirstOrDefault(skillBranch => skillBranch.name == childUniqueID);
         }
+        #endregion
 
-        // Dialogue editing functionality
+        #region SkillTreeEditorMethods
 #if UNITY_EDITOR
-        private SkillBranch CreateSkillBranch(SkillBranchMapping skillBranchMapping)
-        {
-            var skillBranch = CreateInstance<SkillBranch>();
-            Undo.RegisterCreatedObjectUndo(skillBranch, "Created Skill Branch Object");
-            skillBranch.Initialize(branchWidth, branchHeight, skillBranchMapping);
-            skillBranch.name = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-
-            Undo.RecordObject(this, "Add Skill Branch");
-            skillBranches.Add(skillBranch);
-
-            return skillBranch;
-        }
-
         public SkillBranch CreateChildSkillBranch(SkillBranch parentSkillBranch, SkillBranchMapping skillBranchMapping)
         {
             if (parentSkillBranch == null) { return null; }
@@ -110,6 +97,19 @@ namespace Frankie.Combat
 
             Undo.DestroyObjectImmediate(skillBranchToDelete);
         }
+        
+        private SkillBranch CreateSkillBranch(SkillBranchMapping skillBranchMapping)
+        {
+            var skillBranch = CreateInstance<SkillBranch>();
+            Undo.RegisterCreatedObjectUndo(skillBranch, "Created Skill Branch Object");
+            skillBranch.Initialize(branchWidth, branchHeight, skillBranchMapping);
+            skillBranch.name = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+
+            Undo.RecordObject(this, "Add Skill Branch");
+            skillBranches.Add(skillBranch);
+
+            return skillBranch;
+        }
 
         private void CleanDanglingChildren(SkillBranch skillBranchToDelete, SkillBranchMapping skillBranchMapping)
         {
@@ -119,6 +119,7 @@ namespace Frankie.Combat
             }
         }
 #endif
+        #endregion
 
         #region Interfaces
         void ISerializationCallbackReceiver.OnBeforeSerialize()

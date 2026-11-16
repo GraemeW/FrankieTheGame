@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -9,7 +10,7 @@ using LowDefMustard.Utils.Tests;
 namespace LowDefMustard.GameStateModifiers.Tests.Editor
 {
     // Covered:
-    //  - MakeLinkedHandlerRecord 
+    //  - MakeLinkedHandlerRecord (incl. zone from the handler's own scene when opened additively)
     //  - GetModifierListHashCheck (deterministic via StableHash -> exact values asserted)
     //  - AddUpdateGameStateModifiers, RemoveStaleGameStateModifiers, RemoveSelfFromGameStateModifiers
     //      -  RemoveStale: only list-bookkeeping logic, missing GUID branch not viable w/ fake GUIDs
@@ -20,11 +21,16 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
 
     public class GameStateModifierHandlerTests
     {
+        // Const Tunables
+        private const string _activeScratchSceneName = "ScratchTest_GameStateModifierHandler_Active_SafeToDelete";
+        private const string _handlerScratchSceneName = "ScratchTest_GameStateModifierHandler_Handler_SafeToDelete";
+
         // State
         private TestGameStateModifierHandler handler;
         private GameObject gameObject;
         private readonly TestObjectTracker tracker = new();
         private GameStateModifier.HasScenePathDelegate originalScenePathProvider;
+        private TempAssetFolder tempFolder;
 
         #region Setup
         [SetUp]
@@ -40,21 +46,56 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         public void TearDown()
         {
             GameStateModifier.scenePathProvider = originalScenePathProvider;
-            Object.DestroyImmediate(gameObject);
+            if (gameObject != null) { Object.DestroyImmediate(gameObject); }
             tracker.DestroyAll();
+
+            if (tempFolder == null) { return; }
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            tempFolder.Dispose();
+            tempFolder = null;
         }
 
         private TestGameStateModifier CreateModifier() => tracker.Create<TestGameStateModifier>("TestModifier");
+        
+        private Scene SetUpHandlerInAdditiveScene()
+        {
+            // Saved active scene + additive scene, w/ handler rebuilt in the additive one
+            //  - additive needs a saved active scene, so untitled test scene and SetUp handler are replaced
+            //  - scenes are saved before the handler moves in ~ i.e. to ensure OnBeforeSerialize never runs against them
+            
+            tempFolder = new TempAssetFolder(nameof(GameStateModifierHandlerTests));
+            Scene activeScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            EditorSceneManager.SaveScene(activeScene, tempFolder.Path($"{_activeScratchSceneName}.unity"));
+            Scene handlerScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
+            EditorSceneManager.SaveScene(handlerScene, tempFolder.Path($"{_handlerScratchSceneName}.unity"));
+            SceneManager.SetActiveScene(activeScene); // A new additive scene becomes active
+
+            gameObject = new GameObject("TestHandlerObject");
+            SceneManager.MoveGameObjectToScene(gameObject, handlerScene);
+            handler = gameObject.AddComponent<TestGameStateModifierHandler>();
+            return handlerScene;
+        }
         #endregion
 
         #region MakeLinkedHandlerRecord
         [Test]
-        public void MakeLinkedHandlerRecord_PopulatesZoneNameFromActiveScene_AndGameObjectName()
+        public void MakeLinkedHandlerRecord_PopulatesZoneNameFromOwnScene_AndGameObjectName()
         {
             LinkedHandlerRecord linkData = ((IGameStateModifierHandler)handler).MakeLinkedHandlerRecord();
 
-            Assert.AreEqual(SceneManager.GetActiveScene().name, linkData.zoneName);
+            Assert.AreEqual(gameObject.scene.name, linkData.zoneName);
             Assert.AreEqual("TestHandlerObject", linkData.gameObjectName);
+        }
+
+        [Test]
+        public void MakeLinkedHandlerRecord_HandlerInAdditiveScene_UsesItsOwnSceneNotActiveScene()
+        {
+            Scene handlerScene = SetUpHandlerInAdditiveScene();
+            Assert.AreNotEqual(handlerScene, SceneManager.GetActiveScene()); // sanity check on the setup
+
+            LinkedHandlerRecord linkData = ((IGameStateModifierHandler)handler).MakeLinkedHandlerRecord();
+
+            Assert.AreEqual(_handlerScratchSceneName, linkData.zoneName);
         }
 
         [Test]

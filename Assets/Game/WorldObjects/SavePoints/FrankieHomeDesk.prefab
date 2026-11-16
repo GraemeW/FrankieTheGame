@@ -183,10 +183,6 @@ PrefabInstance:
       value: HomePC
       objectReference: {fileID: 0}
     - target: {fileID: 749246050096737039, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.13
       objectReference: {fileID: 0}
@@ -225,10 +221,6 @@ PrefabInstance:
     - target: {fileID: 749246050096737039, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3057035205605020312, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
-      propertyPath: checkMessage
-      value: It's {0}'s desk.  Do you want to save your progress?
       objectReference: {fileID: 0}
     - target: {fileID: 3057035205605020312, guid: 98ea727f640077e4fad06e3da29306a2, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
@@ -315,10 +307,6 @@ PrefabInstance:
     - target: {fileID: 4668139346695624477, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
       propertyPath: m_Color.r
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
       propertyPath: m_LocalScale.x
@@ -466,10 +454,6 @@ PrefabInstance:
     - target: {fileID: 749246050096737038, guid: 54b5fbed8adbf124fb894f410e9624a6, type: 3}
       propertyPath: m_Name
       value: DeskLamp
-      objectReference: {fileID: 0}
-    - target: {fileID: 749246050096737039, guid: 54b5fbed8adbf124fb894f410e9624a6, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 749246050096737039, guid: 54b5fbed8adbf124fb894f410e9624a6, type: 3}
       propertyPath: m_LocalPosition.x

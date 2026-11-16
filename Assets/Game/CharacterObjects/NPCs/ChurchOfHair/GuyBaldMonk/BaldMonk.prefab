@@ -16,10 +16,6 @@ PrefabInstance:
       propertyPath: minCash
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: modifierListHashCheck
-      value: -752712735
-      objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
@@ -117,25 +113,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 4e5b9391020084563b205788eff0f60a, type: 2}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.x
-      value: 0.2597135
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.y
-      value: 0.08034462
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.000023171306
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.09606013
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

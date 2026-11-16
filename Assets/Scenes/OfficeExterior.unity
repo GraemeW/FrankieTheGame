@@ -18223,7 +18223,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
-      propertyPath: lootEntries.Array.data[0].probability
+      propertyPath: lootEntries.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}

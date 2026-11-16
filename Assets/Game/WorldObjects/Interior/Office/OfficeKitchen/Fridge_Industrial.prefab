@@ -192,10 +192,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 4484117035451051702}
     m_Modifications:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkMessage
-      value: P-to-the-I-to-the-ZZA pockets
-      objectReference: {fileID: 0}
-    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkAtStartOfInteraction
       value: 1
       objectReference: {fileID: 0}
@@ -250,10 +246,6 @@ PrefabInstance:
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.x

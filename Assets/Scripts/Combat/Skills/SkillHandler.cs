@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LowDefMustard.Utils;
 using Frankie.Stats;
 
 namespace Frankie.Combat
@@ -11,13 +12,21 @@ namespace Frankie.Combat
     public class SkillHandler : MonoBehaviour
     {
         // Tunables
-        [SerializeField] private SkillTree skillTree;
+        [SerializeField] private SkillSet skillSet;
         [SerializeField][Min(0)] private float skillTreeLevelMultiplierForStatUnlock = 10f;
 
+        // Const Tunables
+        private const int _poolSlotCount = 4;
+
         // State
+        private bool isSelectionInitialized = false;
+            // Tree
         private SkillBranch currentBranch;
         private Skill activeSkill;
         private int skillTreeLevel = 0;
+            // Pool
+        private readonly Skill[] poolSlots = new Skill[_poolSlotCount];
+        private bool isPoolRerollPending = true;
 
         // Cached References
         private CombatParticipant combatParticipant;
@@ -32,20 +41,31 @@ namespace Frankie.Combat
             combatParticipant = GetComponent<CombatParticipant>();
             baseStats = GetComponent<BaseStats>();
         }
+
+        private void OnEnable()
+        {
+            combatParticipant.enteredBattle += SubscribeToBattle;
+        }
+
+        private void OnDisable()
+        {
+            combatParticipant.enteredBattle -= SubscribeToBattle;
+            SubscribeToBattle(false);
+        }
         #endregion
 
         #region StandardMethods
-        public bool HasSkillTree() => skillTree != null;
+        public bool HasSkillSet() => skillSet != null;
         public Skill GetActiveSkill() => activeSkill;
 
-        public void GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down)
+        public void GetSkillsForCurrentSelection(out Skill up, out Skill left, out Skill right, out Skill down)
         {
-            if (currentBranch == null) { InitializeCurrentBranch(); }
+            InitializeSelectionIfNeeded();
 
-            up = FilterSkill(currentBranch.GetSkill(SkillBranchMapping.Up), SkillFilterType.All);
-            left = FilterSkill(currentBranch.GetSkill(SkillBranchMapping.Left), SkillFilterType.All);
-            right = FilterSkill(currentBranch.GetSkill(SkillBranchMapping.Right), SkillFilterType.All);
-            down = FilterSkill(currentBranch.GetSkill(SkillBranchMapping.Down), SkillFilterType.All);
+            up = FilterSkill(GetMappedSkill(SkillBranchMapping.Up), SkillFilterType.All);
+            left = FilterSkill(GetMappedSkill(SkillBranchMapping.Left), SkillFilterType.All);
+            right = FilterSkill(GetMappedSkill(SkillBranchMapping.Right), SkillFilterType.All);
+            down = FilterSkill(GetMappedSkill(SkillBranchMapping.Down), SkillFilterType.All);
         }
 
         public void SetBranchOrSkill(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)
@@ -55,25 +75,47 @@ namespace Frankie.Combat
             skillSelectionChanged?.Invoke();
         }
 
-        public bool SetBranch(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)
+        public bool TryGetRandomSkill(ICollection<Skill> skillsToExclude, bool filterByAP, out Skill skill) => TryGetRandomSkill(skillsToExclude, filterByAP, null, out skill);
+        public bool TryGetRandomSkill(ICollection<Skill> skillsToExclude, bool filterByAP, ICollection<Skill> skillsToChooseFrom, out Skill skill)
         {
-            bool isBranchSet = TrySetBranch(skillBranchMapping, skillFilterType);
+            return GetWeightedCandidates(skillsToExclude, filterByAP, skillsToChooseFrom).TryGetRandom(out skill);
+        }
+
+        public void ResetSelection()
+        {
+            InitializeSelection();
             skillSelectionChanged?.Invoke();
-            return isBranchSet;
+        }
+        #endregion
+
+        #region SelectionMethods
+        private SkillTree GetSkillTree() => skillSet as SkillTree;
+
+        private Skill GetMappedSkill(SkillBranchMapping skillBranchMapping)
+        {
+            if (!isSelectionInitialized) { return null; }
+
+            SkillTree skillTree = GetSkillTree();
+            if (skillTree != null) { return currentBranch != null ? currentBranch.GetSkill(skillBranchMapping) : null; }
+            return poolSlots[(int)skillBranchMapping];
         }
 
         private bool TrySetBranch(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)
         {
-            if (currentBranch == null) { InitializeCurrentBranch(); return true; }
+            if (!isSelectionInitialized) { InitializeSelection(); return true; }
+
+            SkillTree skillTree = GetSkillTree();
+            if (skillTree == null || currentBranch == null) { return false; }
             if (!currentBranch.HasBranch(skillBranchMapping)) { return false; }
-            
+
             // Check if available skills exist after filtering
             Skill tryActiveSkill = FilterSkill(currentBranch.GetSkill(skillBranchMapping), SkillFilterType.All);
             if (tryActiveSkill == null) { return false; }
-            
+
             // Check if meaningful to traverse branch after filtering
             activeSkill = tryActiveSkill;
             SkillBranch tryCurrentBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping));
+            if (tryCurrentBranch == null) { return false; }
             int availableSkillCount = GetAvailableSkills(tryCurrentBranch, skillFilterType, skillTreeLevel + 1).Count;
             if (availableSkillCount == 0) { return false; }
 
@@ -84,75 +126,108 @@ namespace Frankie.Combat
 
         private bool SetSkill(SkillBranchMapping skillBranchMapping)
         {
-            if (!currentBranch.HasSkill(skillBranchMapping)) { return false; }
-            
-            Skill tryActiveSkill = FilterSkill(currentBranch.GetSkill(skillBranchMapping), SkillFilterType.All);
-            if (tryActiveSkill == null){ return false; }
+            Skill tryActiveSkill = FilterSkill(GetMappedSkill(skillBranchMapping), SkillFilterType.All);
+            if (tryActiveSkill == null) { return false; }
 
-            activeSkill = tryActiveSkill; 
+            activeSkill = tryActiveSkill;
             return true;
+        }
+
+        private void InitializeSelectionIfNeeded()
+        {
+            if (!isSelectionInitialized) { InitializeSelection(); }
+        }
+        
+        private void InitializeSelection() // Note:  Silent (no change event) - also used for lazy setup from getters
+        {
+            if (skillSet == null) { return; }
+
+            // Init Skill Tree Path
+            SkillTree skillTree = GetSkillTree();
+            currentBranch = skillTree != null ? skillTree.GetRootSkillBranch() : null;
+            // Init Skill Pool Path
+            if (skillTree == null && isPoolRerollPending) { RollPoolSlots(); }
+
+            activeSkill = null;
+            skillTreeLevel = 0;
+            isSelectionInitialized = true;
+        }
+
+        private void RollPoolSlots()
+        {
+            Array.Clear(poolSlots, 0, poolSlots.Length);
+            GetWeightedCandidates(null, true, null).TryGetRandom(poolSlots.Length, out List<Skill> rolledSkills);
+            rolledSkills.CopyTo(poolSlots);
+            isPoolRerollPending = false;
+        }
+        #endregion
+
+        #region BattleEvents
+        private void SubscribeToBattle() { SubscribeToBattle(true); }
+        private void SubscribeToBattle(bool enable)
+        {
+            if (enable)
+            {
+                if (skillSet == null || GetSkillTree() != null) { return; } // Rerolls only matter for pools, trees keep a fixed selection
+                isPoolRerollPending = true;
+                BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
+                BattleEventBus<BattleQueueUpdatedEvent>.SubscribeToEvent(HandleBattleQueueUpdatedEvent);
+            }
+            else
+            {
+                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
+                BattleEventBus<BattleQueueUpdatedEvent>.UnsubscribeFromEvent(HandleBattleQueueUpdatedEvent);
+            }
+        }
+
+        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            switch (battleStateChangedEvent.battleState)
+            {
+                case BattleState.Outro:
+                case BattleState.Complete when battleStateChangedEvent.battleOutcome == BattleOutcome.Aborted: // No outro on an aborted battle
+                    SubscribeToBattle(false);
+                    break;
+            }
+        }
+
+        private void HandleBattleQueueUpdatedEvent(BattleQueueUpdatedEvent battleQueueUpdatedEvent)
+        {
+            BattleActionData battleActionData = battleQueueUpdatedEvent.battleSequence.battleActionData;
+            if (battleActionData == null || battleActionData.GetSender() != combatParticipant) { return; }
+            
+            isPoolRerollPending = true; // i.e. only picked up on the next selection reset (a simple cancel and reselect keeps the same slots ~ cannot fish)
         }
         #endregion
 
         #region UtilityMethods
-        public List<Skill> GetUnfilteredSkills() => GetUnfilteredSkills(currentBranch);
-        private List<Skill> GetUnfilteredSkills(SkillBranch skillBranch)
+        private IEnumerable<IObjectProbabilityPair<Skill>> GetWeightedCandidates(ICollection<Skill> skillsToExclude, bool filterByAP, ICollection<Skill> skillsToChooseFrom)
         {
-            if (currentBranch == null) { InitializeCurrentBranch(); }
-            return skillBranch.GetAllSkills().Where(skill => skill != null).ToList();
+            return skillSet != null ? skillSet.GetWeightedSkills(skillsToExclude, skillsToChooseFrom, filterByAP ? combatParticipant.GetAP() : null) : Enumerable.Empty<IObjectProbabilityPair<Skill>>();
         }
 
-        public List<Skill> GetAvailableSkills(SkillFilterType skillFilterType) => GetAvailableSkills(currentBranch, skillFilterType);
         private List<Skill> GetAvailableSkills(SkillBranch skillBranch, SkillFilterType skillFilterType, int filterLevel = -1)
         {
             return skillBranch.GetAllSkills().Select(skill => FilterSkill(skill, skillFilterType, filterLevel)).Where(filteredSkill => filteredSkill != null).ToList();
         }
 
-        public void GetPathSkills(SkillBranchMapping skillBranchMapping, ref List<Skill> pathSkills, SkillBranch skillBranch = null)
-        {
-            if (pathSkills == null) { return; }
-            if (!currentBranch.HasBranch(skillBranchMapping)) { return; }
-
-            if (skillBranch == null) { skillBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping)); }
-            pathSkills.AddRange(skillBranch.GetAllSkills());
-            foreach (SkillBranchMapping subBranchMapping in GetAvailableBranchMappings(skillBranch))
-            {
-                SkillBranch subBranch = skillTree.GetSkillBranchFromID(skillBranch.GetBranch(subBranchMapping));
-                pathSkills.AddRange(subBranch.GetAllSkills());
-                GetPathSkills(subBranchMapping, ref pathSkills, subBranch);
-            }
-        }
-
-        public List<SkillBranchMapping> GetAvailableBranchMappings()
-        {
-            if (currentBranch == null) { InitializeCurrentBranch(); }
-            return GetAvailableBranchMappings(currentBranch);
-        }
-
-        private List<SkillBranchMapping> GetAvailableBranchMappings(SkillBranch skillBranch)
-        {
-            var availableBranches = new List<SkillBranchMapping>();
-            if (skillBranch.HasBranch(SkillBranchMapping.Up)) { availableBranches.Add(SkillBranchMapping.Up); }
-            if (skillBranch.HasBranch(SkillBranchMapping.Left)) { availableBranches.Add(SkillBranchMapping.Left); }
-            if (skillBranch.HasBranch(SkillBranchMapping.Right)) { availableBranches.Add(SkillBranchMapping.Right); }
-            if (skillBranch.HasBranch(SkillBranchMapping.Down)) { availableBranches.Add(SkillBranchMapping.Down); }
-
-            return availableBranches;
-        }
-
         private Skill FilterSkill(Skill skill, SkillFilterType skillFilterType, int levelForEvaluation = -1)
         {
             Skill filteredSkill = null;
-            if (skillFilterType == SkillFilterType.All || skillFilterType == SkillFilterType.Trait)
+            if (skillFilterType is SkillFilterType.All or SkillFilterType.Trait)
             {
                 filteredSkill = FilterSkillByTrait(skill, levelForEvaluation);
             }
-            if (skillFilterType == SkillFilterType.All || skillFilterType == SkillFilterType.AP)
+            if (skillFilterType is SkillFilterType.All or SkillFilterType.AP)
             {
                 filteredSkill = FilterSkillByRemainingAP(filteredSkill);
             }
             return filteredSkill;
         }
+        
+        private Skill FilterSkillByRemainingAP(Skill skill) => skill != null && CanAfford(skill) ? skill : null;
+        
+        private bool CanAfford(Skill skill) => combatParticipant.GetAP() >= skill.GetAPCost();
 
         private Skill FilterSkillByTrait(Skill skill, int levelForEvaluation = -1)
         {
@@ -162,30 +237,6 @@ namespace Frankie.Combat
             Stat skillStat = skill.GetStat();
             float value = baseStats.GetStat(skillStat);
             return (value >= levelForEvaluation * skillTreeLevelMultiplierForStatUnlock) ? skill : null;
-        }
-
-        private Skill FilterSkillByRemainingAP(Skill skill)
-        {
-            if (skill == null) { return null; }
-
-            float remainingAP = combatParticipant.GetAP();
-            return remainingAP >= skill.GetAPCost() ? skill : null;
-        }
-
-        public void ResetCurrentBranch()
-        {
-            InitializeCurrentBranch();
-            skillSelectionChanged?.Invoke();
-        }
-
-        // Note:  Silent (no change event) - also used for lazy setup from getters
-        private void InitializeCurrentBranch()
-        {
-            if (skillTree == null) { return; }
-
-            currentBranch = skillTree.GetRootSkillBranch();
-            activeSkill = null;
-            skillTreeLevel = 0;
         }
         #endregion
     }

@@ -204,10 +204,6 @@ PrefabInstance:
       value: TableOutdoorShort
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: 5e34ce0546a70734daf2789d0ec72c60, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: 5e34ce0546a70734daf2789d0ec72c60, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.7599998
       objectReference: {fileID: 0}
@@ -272,10 +268,6 @@ PrefabInstance:
     - target: {fileID: 4799729874155575190, guid: 3fba4129fcae49b4d863367fa55f0595, type: 3}
       propertyPath: m_Name
       value: Antenna2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: 3fba4129fcae49b4d863367fa55f0595, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: 3fba4129fcae49b4d863367fa55f0595, type: 3}
       propertyPath: m_LocalPosition.x
@@ -344,10 +336,6 @@ PrefabInstance:
       value: LawnChair1
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: 49ef77af8b3944a47af32e0738c84979, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: 49ef77af8b3944a47af32e0738c84979, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.04
       objectReference: {fileID: 0}
@@ -414,10 +402,6 @@ PrefabInstance:
       value: Umbrella
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: 8ea9829389e473a4db25a9d64cd70f4d, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: 8ea9829389e473a4db25a9d64cd70f4d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.71
       objectReference: {fileID: 0}
@@ -482,10 +466,6 @@ PrefabInstance:
     - target: {fileID: 4799729874155575190, guid: 387b58cfc59b48845b4a812535206632, type: 3}
       propertyPath: m_Name
       value: Antenna1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: 387b58cfc59b48845b4a812535206632, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: 387b58cfc59b48845b4a812535206632, type: 3}
       propertyPath: m_LocalPosition.x
@@ -644,10 +624,6 @@ PrefabInstance:
       value: LawnChair2
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: c5a32d9a95655dc47b6b471235da59d4, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: c5a32d9a95655dc47b6b471235da59d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.41
       objectReference: {fileID: 0}
@@ -712,10 +688,6 @@ PrefabInstance:
     - target: {fileID: 4799729874155575190, guid: 3fba4129fcae49b4d863367fa55f0595, type: 3}
       propertyPath: m_Name
       value: Antenna2 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799729874155575193, guid: 3fba4129fcae49b4d863367fa55f0595, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4799729874155575193, guid: 3fba4129fcae49b4d863367fa55f0595, type: 3}
       propertyPath: m_LocalPosition.x

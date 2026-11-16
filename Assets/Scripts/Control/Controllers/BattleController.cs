@@ -241,7 +241,7 @@ namespace Frankie.Combat
             if (battleActionSuper == null)
             {
                 SetBattleActionArmed(false);
-                if (selectedCharacter != null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
+                if (selectedCharacter != null && selectedCharacter.TryGetComponent(out SkillHandler skillHandler)) { skillHandler.ResetSelection(); }
                 selectedBattleActionSuper = null;
             }
             else

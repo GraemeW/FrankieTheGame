@@ -345,10 +345,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 9140000498835536796}
     m_Modifications:
     - target: {fileID: 2703242439715805376, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703242439715805376, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -392,8 +388,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Frankie
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7185783266149805328, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

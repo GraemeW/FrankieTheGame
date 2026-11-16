@@ -9,7 +9,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 726526304575199942, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 12e0bb1042778d448af43167b6259ca8, type: 2}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
@@ -25,10 +25,6 @@ PrefabInstance:
       value: frankie
       objectReference: {fileID: 0}
     - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: characterName
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: characterProperties
       value: 
       objectReference: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
@@ -40,10 +36,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: ccaec787fc5407e419375300542dc906, type: 2}
-    - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

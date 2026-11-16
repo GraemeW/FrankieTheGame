@@ -149,10 +149,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 7704979872744781372}
     m_Modifications:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkMessage
-      value: '{0} flipped the breaker.  An electrical humming  can be heard.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
       value: 4764657192525824
       objectReference: {fileID: 0}

@@ -189,16 +189,8 @@ PrefabInstance:
       value: 9ba8556f-3f32-45f3-8220-10fd2b958756
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkMessage
-      value: Sony Trinitron.  Nice.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
       value: 5031161611935744
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757638, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: interactionDistance
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x
@@ -223,10 +215,6 @@ PrefabInstance:
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.x

@@ -197,10 +197,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
-      propertyPath: checkMessage
-      value: It's {0}'s desk.  Do you want to save your progress?
-      objectReference: {fileID: 0}
-    - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
       value: 4764664331231232
       objectReference: {fileID: 0}
@@ -235,10 +231,6 @@ PrefabInstance:
     - target: {fileID: 6564381309038757640, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Name
       value: Check
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -298,10 +290,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5122804308154058102}
     m_Modifications:
-    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.255

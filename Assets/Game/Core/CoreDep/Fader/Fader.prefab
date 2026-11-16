@@ -157,10 +157,6 @@ PrefabInstance:
       value: FaderSoundbox
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443363, guid: 46b83662054b5364495567b52dd1a337, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2366363061461443363, guid: 46b83662054b5364495567b52dd1a337, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}

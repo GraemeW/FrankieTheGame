@@ -836,7 +836,7 @@ MonoBehaviour:
       - minimum: 30
         maximum: 30
         characterProperties: {fileID: 11400000, guid: e8ff4cd776c66f64b9f1e1196ef13434, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &154474404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26903,7 +26903,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
-      propertyPath: lootEntries.Array.data[0].probability
+      propertyPath: lootEntries.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
@@ -37463,7 +37463,7 @@ MonoBehaviour:
       - minimum: 1
         maximum: 2
         characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!4 &575512101
 Transform:
   m_ObjectHideFlags: 0
@@ -40326,7 +40326,7 @@ MonoBehaviour:
       - minimum: 3
         maximum: 6
         characterProperties: {fileID: 11400000, guid: b5a9ff0e2cddb41b9b8ba2dc6d5d6c09, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1 &1040580542
 GameObject:
   m_ObjectHideFlags: 0
@@ -42436,7 +42436,7 @@ MonoBehaviour:
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 848ffc904de8f48259f1f9d33b5645ba, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &1316242314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42624,7 +42624,7 @@ MonoBehaviour:
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &1364202614
 PrefabInstance:
   m_ObjectHideFlags: 0

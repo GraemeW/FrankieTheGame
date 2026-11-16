@@ -4,18 +4,18 @@ using LowDefMustard.Utils;
 namespace Frankie.Combat.Spawner
 {
     [System.Serializable]
-    public class SpawnConfigurationProbabilityPair<T> : IObjectProbabilityPair<T> where T : SpawnConfiguration
+    public class SpawnConfigurationProbabilityPair : IObjectProbabilityPair<SpawnConfiguration>
     {
         [SerializeField] public SpawnConfiguration spawnConfiguration;
-        [SerializeField][Min(0)] public int probability;
+        [SerializeField][Min(0)] public int probabilityWeight;
 
-        public SpawnConfigurationProbabilityPair(SpawnConfiguration spawnConfiguration, int probability)
+        public SpawnConfigurationProbabilityPair(SpawnConfiguration spawnConfiguration, int probabilityWeight)
         {
             this.spawnConfiguration = spawnConfiguration;
-            this.probability = probability;
+            this.probabilityWeight = probabilityWeight;
         }
 
-        public T GetObject() => spawnConfiguration as T;
-        public int GetProbability() => probability;
+        public SpawnConfiguration value => spawnConfiguration;
+        public int weight => probabilityWeight;
     }
 }

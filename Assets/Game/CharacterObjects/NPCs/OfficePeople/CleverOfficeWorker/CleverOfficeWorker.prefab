@@ -17,10 +17,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: adbbea67dc3ea6046b2dc8109e68882d, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: battleStartCooldown
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: shouldDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
@@ -32,14 +28,6 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: bfdfdc8c78e277341b92f4c46aef0eaf, type: 3}
-    - target: {fileID: 1821436604961406953, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: collisionsOverriddenToEnterCombat
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: defaultLevel
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
@@ -68,10 +56,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: f5b03c167efecea47a9aa01da8fb8ea4, type: 2}
-    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -112,12 +96,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: canBeShoutedAt
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 5e44460ae80015f45bf6058e111d95fe, type: 2}
     - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}

@@ -19845,7 +19845,7 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-    probability: 4
+    probabilityWeight: 4
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
@@ -19855,14 +19855,14 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 1
+    probabilityWeight: 1
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations:
       - minimum: 0
         maximum: 0
         characterProperties: {fileID: 0}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &278037481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40532,38 +40532,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1615661561}
     m_Modifications:
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: shopType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: stock.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: backingHandlerGUID
-      value: e8471d12-79c2-4786-be52-08621c559633
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: 'stock.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: backingListHashCheck
-      value: -1678988838
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: backingHasGameStateModifiers
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: backingGameStateModifierGUIDs.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
-      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
-      value: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
-      objectReference: {fileID: 0}
     - target: {fileID: 1360392112599227400, guid: 884cb8750d2f7448080c42c580c21ac2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.28999996
@@ -40671,6 +40639,38 @@ PrefabInstance:
     - target: {fileID: 8166733843378261414, guid: 884cb8750d2f7448080c42c580c21ac2, type: 3}
       propertyPath: localizedMessageForConditionFailed.m_TableEntryReference.m_KeyId
       value: 7282524999901184
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: shopType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: stock.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: backingHandlerGUID
+      value: e8471d12-79c2-4786-be52-08621c559633
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1678988838
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: backingHasGameStateModifiers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: backingGameStateModifierGUIDs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775499620598343380, guid: a927f1e53d8d345158aa762f777f6d8b, type: 3}
+      propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
+      value: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58473,7 +58473,7 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-    probability: 1
+    probabilityWeight: 1
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
@@ -58483,14 +58483,14 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 4
+    probabilityWeight: 4
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations:
       - minimum: 0
         maximum: 0
         characterProperties: {fileID: 0}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1 &815105558 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8725522589070577935, guid: a87622f06df9ac54e90516e57e833835, type: 3}
@@ -58850,7 +58850,7 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
-    probability: 4
+    probabilityWeight: 4
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
@@ -58860,14 +58860,14 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 1
+    probabilityWeight: 1
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations:
       - minimum: 0
         maximum: 0
         characterProperties: {fileID: 0}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &845783269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59816,7 +59816,7 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 1
+    probabilityWeight: 1
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
@@ -59826,14 +59826,14 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-    probability: 4
+    probabilityWeight: 4
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations:
       - minimum: 0
         maximum: 0
         characterProperties: {fileID: 0}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &916137497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67122,21 +67122,21 @@ MonoBehaviour:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 2
+    probabilityWeight: 2
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
       - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-    probability: 2
+    probabilityWeight: 2
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations:
       - minimum: 0
         maximum: 0
         characterProperties: {fileID: 0}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &939545177
 PrefabInstance:
   m_ObjectHideFlags: 0

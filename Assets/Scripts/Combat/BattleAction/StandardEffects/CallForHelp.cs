@@ -13,7 +13,7 @@ namespace Frankie.Combat
     {
         // Tunables
         [SerializeField] private int maxEnemiesAllowedToCallInCombat = 3;
-        [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
+        [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair[] spawnConfigurations;
         
         // Implemented Methods
         // Note:  Much of this is derivative of EnemySpawner, just done in combat -- if no battle controller is present, this function does nothing
@@ -21,8 +21,7 @@ namespace Frankie.Combat
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             BattleController battleController = BattleController.FindBattleController();
-            SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
-            if (battleController == null || spawnConfiguration == null || !HasViableSpawnConfiguration(spawnConfiguration))
+            if (battleController == null || !spawnConfigurations.TryGetRandom(out SpawnConfiguration spawnConfiguration) || !HasViableSpawnConfiguration(spawnConfiguration))
             {
                 sender.AnnounceStateUpdate(StateAlteredType.FriendIgnored);
                 yield break;
@@ -56,7 +55,6 @@ namespace Frankie.Combat
 
         #region PrivateMethods
         private static bool HasViableSpawnConfiguration(SpawnConfiguration spawnConfiguration) => spawnConfiguration.maxQuantity != 0 && spawnConfiguration.enemyConfigurations != null;
-        private SpawnConfiguration GetSpawnConfiguration() => ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
 
         private static void DisableEnemyColliders(GameObject spawnedEnemy)
         {

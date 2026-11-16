@@ -201,10 +201,6 @@ PrefabInstance:
       value: CheckWithConfiguration
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: bba889551c5f31544b36e98e1add3969, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: bba889551c5f31544b36e98e1add3969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}

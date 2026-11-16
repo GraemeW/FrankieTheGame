@@ -60,8 +60,10 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
 
 ### Probability (`Runtime/Probability`)
 
-- **`IObjectProbabilityPair<T>`** — Interface for an object + integer-weight pair
-- **`ProbabilityPairOperation<T>.GetRandomObject(...)`** — Weighted-random selection over a collection of `IObjectProbabilityPair<T>`
+- **`IObjectProbabilityPair<out T>`** — Interface for a `value` + relative integer `weight` pair (covariant ~ a list of derived-value pairs rolls as its base type)
+- **`ProbabilityPairExtensions.TryGetRandom(...)`** — Weighted-random pick over a collection of `IObjectProbabilityPair<T>`, or several picks without repeats (`TryGetRandom(count, out results)`)
+  - entries with a null or destroyed value, or a weight at or below 0, are never picked
+  - returns `false` when nothing is usable
 
 ### Addressables (`Runtime/Addressables` + `Editor/Addressables`)
 
@@ -209,8 +211,8 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | `Predicate`                                            | Indirect | `ConditionTests.cs` (via `TestPredicate` stand-in)             | Abstract with no members of its own to test directly                                                                                                 |
 | `IPredicateEvaluator`                                  | Indirect | `ConditionTests.cs` (via test-double evaluators)               | No concrete implementation                                                                                                                           |
 | `Condition` / `Disjunction` / `PredicateWrapper`       | Yes      | `ConditionTests.cs`                                            | See `Runtime/Predicates/README.md` for the full CNF/evaluation semantics this suite covers                                                           |
-| `IObjectProbabilityPair<T>`                            | Indirect | `ProbabilityPairOperationTests.cs` (via a test double)         | No concrete implementation                                                                                                                           |
-| `ProbabilityPairOperation<T>.GetRandomObject(...)`     | Yes      | `ProbabilityPairOperationTests.cs`                             |                                                                                                                                                      |
+| `IObjectProbabilityPair<T>`                            | Indirect | `ProbabilityPairExtensionsTests.cs` (via a test double)        | No concrete implementation; covariance checked                                                                                                       |
+| `ProbabilityPairExtensions.TryGetRandom(...)`          | Yes      | `ProbabilityPairExtensionsTests.cs`                            |                                                                                                                                                      |
 | `IAddressablesCache`                                   | No       | —                                                              | No concrete implementation                                                                                                                           |
 | `AddressablesCacheInvalidator`                         | Partial  | `AddressablesCacheInvalidatorTests.cs`                         | `OnPostprocessAllAssets` needs real imports ~ verified live (quest / key item reimports reset only their own cache)                                  |
 | `AssetScriptSwapper`                                   | Yes      | `AssetScriptSwapperTests.cs`                                   | `ConfirmInPlace` (modal dialogue) skipped (not interesting)                                                                                          |
@@ -223,7 +225,7 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | `AutocompleteDropdown`                                 | Partial  | `AutocompleteDropdownTests.cs`                                 | Delayed hide on focus-out and on-screen positioning skipped                                                                                          |
 | `AssetNameLabel`                                       | Yes      | `AssetNameLabelTests.cs`                                       | Focus-out is simulated (headless windows don't hold focus)                                                                                           |
 | `SpriteAnimationGenerator` (bits below)                |          |                                                                |                                                                                                                                                      | 
-| ^-`.ClassifyAction(...)`                               | Yes      | `ClassifyActionTests.cs`                                       | 
+| ^-`.ClassifyAction(...)`                               | Yes      | `ClassifyActionTests.cs`                                       |                                                                                                                                                      |
 | ^-`.OverrideConfiguration.IsOverrideMatch(...)`        | Yes      | `OverrideConfigurationIsOverrideMatchTests.cs`                 |                                                                                                                                                      |
 | ^-`.Generate()` / `ProcessNextBuildStep()`             | No       | —                                                              | Out of scope (requires sprite asset files on disk matching the filename patterns, pumping the deferred `EditorApplication.update` build queue. etc.) |
 | ^-`AnimationBuildLog`                                  | Yes      | `AnimationBuildLogTests.cs`                                    |                                                                                                                                                      |

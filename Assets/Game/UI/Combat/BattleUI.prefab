@@ -250,17 +250,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6429177127699189047}
     m_Modifications:
-    - target: {fileID: 2022048387077909692, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
-      propertyPath: handleGlobalInput
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3961458775746888335, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_Name
       value: CombatMessages
-      objectReference: {fileID: 0}
-    - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -331,10 +323,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6429177127699189047}
     m_Modifications:
-    - target: {fileID: 2227106547557423765, guid: a0bbbc3073d415f4dad7964e7de80b0e, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2227106547557423765, guid: a0bbbc3073d415f4dad7964e7de80b0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -412,10 +400,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6429177127699189047}
     m_Modifications:
-    - target: {fileID: 2227106547557423765, guid: 5eb21f25a9894c347b9ff2b1aa158b26, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2227106547557423765, guid: 5eb21f25a9894c347b9ff2b1aa158b26, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

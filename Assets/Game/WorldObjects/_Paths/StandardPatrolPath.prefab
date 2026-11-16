@@ -67,10 +67,6 @@ PrefabInstance:
       value: Waypoint
       objectReference: {fileID: 0}
     - target: {fileID: 7130096000418674545, guid: f9851f9e9c8766240a5ed40505a248bf, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7130096000418674545, guid: f9851f9e9c8766240a5ed40505a248bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}

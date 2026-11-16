@@ -72,10 +72,6 @@ PrefabInstance:
       value: ConversantComponent
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -136,10 +132,6 @@ PrefabInstance:
     - target: {fileID: 7449252406376362644, guid: c89449279f6c118438093880f5edd229, type: 3}
       propertyPath: m_Name
       value: CharacterJoinPartySoundbox
-      objectReference: {fileID: 0}
-    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
       propertyPath: m_LocalPosition.x
@@ -218,10 +210,6 @@ PrefabInstance:
     - target: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_Layer
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -364,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionQueuePollingPeriod: 0.1
-  probabilityToTraverseSkillTree: 0.8
+  filterSkillsByAP: 0
   useRandomSelectionOnNoPriorities: 1
   battleAIPriorities: []
 --- !u!114 &5604239651851639060
