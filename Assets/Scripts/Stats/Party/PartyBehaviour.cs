@@ -19,6 +19,9 @@ namespace Frankie.Stats
         [SerializeField] protected Transform container;
         [SerializeField] protected int partyOffset = 16;
         
+        // Editor Field References
+        internal const string membersField = nameof(members);
+
         // Static
         private const int _initialOffset = 0;
         private const string _errName = "???";

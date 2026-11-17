@@ -10,6 +10,9 @@ namespace Frankie.Combat
         // Tunables
         [SerializeField] private List<SkillProbabilityPair> skillProbabilityPairs = new();
 
+        // Editor Field References
+        internal const string skillProbabilityPairsField = nameof(skillProbabilityPairs);
+
         public override IEnumerable<IObjectProbabilityPair<Skill>> GetWeightedSkills() => skillProbabilityPairs;
     }
 }

@@ -36,9 +36,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             originalSceneReferenceCache = Zone.sceneReferenceCache;
             
             tempFolder = new TempAssetFolder(nameof(ZoneHandlerConduitLinkedScenePathsTests));
-            scratchScenePath = tempFolder.Path($"{_scratchSceneName}.unity");
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            scratchScenePath = SceneTestUtility.CreateSavedScene(tempFolder, _scratchSceneName).path;
 
             rootZone = ScriptableObject.CreateInstance<Zone>();
             rootZone.preventLocalizationForTests = true;
@@ -57,7 +55,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             foreach (Zone zone in createdZones) { Object.DestroyImmediate(zone); }
             createdZones.Clear();
             
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
         }
         #endregion
@@ -93,13 +91,14 @@ namespace LowDefMustard.Zones.Tests.Editor
         // Saves a scene with one ZoneHandlerBase per node (call after the nodes' links are set and SaveAssets has run)
         private static void CreateSceneWithHandlers(string scenePath, params ZoneNode[] handlerNodes)
         {
-            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            foreach (ZoneNode node in handlerNodes)
+            SceneTestUtility.CreateSavedScene(scenePath, populate: _ =>
             {
-                var handlerObject = new GameObject($"Handler_{node.GetNodeID()}");
-                handlerObject.AddComponent<ZoneHandlerBase>().zoneNode = node;
-            }
-            EditorSceneManager.SaveScene(scene, scenePath);
+                foreach (ZoneNode node in handlerNodes)
+                {
+                    var handlerObject = new GameObject($"Handler_{node.GetNodeID()}");
+                    handlerObject.AddComponent<ZoneHandlerBase>().zoneNode = node;
+                }
+            });
         }
         
         private Zone CreateZone(string zoneName, string scenePath) // Note: scenePath null leaves the zone's SceneReference unset

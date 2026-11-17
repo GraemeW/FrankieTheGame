@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -13,22 +12,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         //  - IObjectProbabilityPair covariance - a derived-value pair list rolls as its base type
 
         #region Helpers
-        private sealed class TestPair<T> : IObjectProbabilityPair<T>
-        {
-            public TestPair(T value, int weight)
-            {
-                this.value = value;
-                this.weight = weight;
-            }
-
-            public T value { get; }
-            public int weight { get; }
-        }
-
-        private static List<IObjectProbabilityPair<string>> Pairs(params (string value, int weight)[] entries)
-        {
-            return entries.Select(entry => (IObjectProbabilityPair<string>)new TestPair<string>(entry.value, entry.weight)).ToList();
-        }
+        private static List<IObjectProbabilityPair<string>> Pairs(params (string value, int weight)[] entries) => TestProbabilityPair<string>.ListOf(entries);
         #endregion
 
         #region Tests
@@ -72,7 +56,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             var destroyed = ScriptableObject.CreateInstance<ScriptableObject>();
             var kept = ScriptableObject.CreateInstance<ScriptableObject>();
             Object.DestroyImmediate(destroyed);
-            var pairs = new List<IObjectProbabilityPair<ScriptableObject>> { new TestPair<ScriptableObject>(destroyed, 100), new TestPair<ScriptableObject>(kept, 1) };
+            var pairs = new List<IObjectProbabilityPair<ScriptableObject>> { new TestProbabilityPair<ScriptableObject>(destroyed, 100), new TestProbabilityPair<ScriptableObject>(kept, 1) };
 
             try
             {
@@ -149,7 +133,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void TryGetRandom_DerivedValuePairs_RollAsBaseType()
         {
             // Compile-time check as much as runtime ~ relies on IObjectProbabilityPair<out T>
-            var derivedPairs = new List<TestPair<string>> { new("only", 1) };
+            var derivedPairs = new List<TestProbabilityPair<string>> { new("only", 1) };
             IEnumerable<IObjectProbabilityPair<object>> basePairs = derivedPairs;
 
             Assert.IsTrue(basePairs.TryGetRandom(out object result));

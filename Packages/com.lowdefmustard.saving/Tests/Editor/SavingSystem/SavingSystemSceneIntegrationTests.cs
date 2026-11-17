@@ -22,7 +22,6 @@ namespace LowDefMustard.Saving.Tests.Editor
         // Static/Const Tunables
         private const string _tempSaveFileA = "_TEMP_SavingSystemSceneA_SafeToDelete";
         private const string _tempSaveFileB = "_TEMP_SavingSystemSceneB_SafeToDelete";
-        private const string _uniqueIdentifierRef = "uniqueIdentifier";
 
         // State
         private readonly List<GameObject> spawnedGameObjects = new();
@@ -55,7 +54,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         private static void ForceUniqueIdentifier(SaveableEntity entity, string id)
         {
             var serializedEntity = new SerializedObject(entity);
-            serializedEntity.FindProperty(_uniqueIdentifierRef).stringValue = id;
+            serializedEntity.FindProperty(SaveableEntity.uniqueIdentifierField).stringValue = id;
             serializedEntity.ApplyModifiedPropertiesWithoutUndo();
         }
         #endregion

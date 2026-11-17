@@ -1,6 +1,5 @@
 using System.Linq;
 using NUnit.Framework;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using LowDefMustard.GameStateModifiers;
@@ -28,17 +27,16 @@ namespace Frankie.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            previewScene = EditorSceneManager.NewPreviewScene();
-            togglerObject = new GameObject("PredicateChildTogglerTests_Toggler");
-            SceneManager.MoveGameObjectToScene(togglerObject, previewScene);
-            toggler = togglerObject.AddComponent<PredicateChildToggler>();
+            previewScene = SceneTestUtility.CreatePreviewScene();
+            toggler = SceneTestUtility.CreateComponentInScene<PredicateChildToggler>(previewScene, "PredicateChildTogglerTests_Toggler");
+            togglerObject = toggler.gameObject;
         }
 
         [TearDown]
         public void TearDown()
         {
             if (togglerObject != null) { Object.DestroyImmediate(togglerObject); }
-            EditorSceneManager.ClosePreviewScene(previewScene);
+            SceneTestUtility.ClosePreviewScene(previewScene);
             tracker.DestroyAll();
         }
         #endregion

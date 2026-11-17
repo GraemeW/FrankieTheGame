@@ -18,7 +18,6 @@ namespace Frankie.Tests.Editor
         //  - Personalized names (from the name screen) - read from the current save's PlayerPrefs; compared against GetCharacterDisplayName
 
         // Const Tunables
-        private const string _partyIndexField = "partyIndex";
         [NoAutoStaticsCleanup] private static readonly string[] _characterNames = { "Frankie", "Lucy", "Tilly" }; // Existing character assets ~ distinct display names
 
         // State
@@ -46,7 +45,7 @@ namespace Frankie.Tests.Editor
         private PartyMemberVariable CreatePartyMemberVariable(int partyIndex)
         {
             var variable = tracker.Create<PartyMemberVariable>($"PartyMember{partyIndex}");
-            SerializedFieldInjector.SetValue(variable, _partyIndexField, partyIndex);
+            SerializedFieldInjector.SetValue(variable, PartyMemberVariable.partyIndexField, partyIndex);
             return variable;
         }
 

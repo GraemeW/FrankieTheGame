@@ -23,7 +23,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             if (tempFolder == null) { return; }
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
             tempFolder = null;
         }
@@ -107,9 +107,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void GetScenePath_WithRealSceneAssetAndNoCachedPath_ReturnsAssetPath()
         {
             tempFolder = new TempAssetFolder(nameof(SceneReferenceTests));
-            string scratchScenePath = tempFolder.Path("ScratchTest_SceneReferenceGetScenePath.unity");
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            Scene scratchScene = SceneTestUtility.CreateSavedScene(tempFolder, "ScratchTest_SceneReferenceGetScenePath");
+            string scratchScenePath = scratchScene.path;
             EditorSceneManager.CloseScene(scratchScene, true);
 
             var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scratchScenePath);

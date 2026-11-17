@@ -21,6 +21,9 @@ namespace Frankie.Stats
         [Header("Hookups")]
         [SerializeField] private Progression progression;
 
+        // Editor Field References
+        internal const string characterPropertiesField = nameof(characterProperties);
+
         // Static/Const Parameters
         private const int _defaultLevelForNoCharacterProperties = 1;
         private static readonly Stat[] _nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };

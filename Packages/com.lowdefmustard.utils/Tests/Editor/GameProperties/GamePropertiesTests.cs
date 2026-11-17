@@ -27,7 +27,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         private static void SetArtPixelsPerUnit(GameProperties target, float artPixelsPerUnit)
         {
             var serializedObject = new SerializedObject(target);
-            serializedObject.FindProperty("artPixelsPerUnit").floatValue = artPixelsPerUnit;
+            serializedObject.FindProperty(GameProperties.artPixelsPerUnitField).floatValue = artPixelsPerUnit;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
         

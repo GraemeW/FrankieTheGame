@@ -7,6 +7,9 @@ namespace LowDefMustard.Control
         // Tunables
         [SerializeField] private WaypointType waypointType = WaypointType.Move;
 
+        // Editor Field References
+        internal const string waypointTypeField = nameof(waypointType);
+
         // Public Methods
         public WaypointType GetWaypointType() => waypointType;
     }

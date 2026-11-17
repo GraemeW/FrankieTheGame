@@ -142,6 +142,7 @@ Shared Test Doubles - live in `Tests/Runtime/TestDoubles/` (namespace `LowDefMus
 * `FixedResultEvaluatorBehaviour`
 * `PerPredicateEvaluator`
 * `SwapSourceAsset` / `SwapTargetAsset`, `SwapSourceBehaviour` / `SwapTargetBehaviour`: base/derived pairs for `AssetScriptSwapper`
+* `TestProbabilityPair<T>`: in-memory `IObjectProbabilityPair<T>` ~ `ListOf((value, weight)...)` builds a pair list
 
 _Note that MonoBehaviour/ScriptableObject test doubles must live in their standalone as-named script (Unity only creates a usable script asset when class name matches file name)._
 
@@ -157,6 +158,12 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 * `TempAssetFolder`: creates a disposable `Assets/_TEMP_<Name>_SafeToDelete` folder for edit mode tests
   * deletes with file operations + `AssetDatabase.Refresh` by default ~ so e.g. `ILocalizable` assets don't trigger `LocalizationDeletionHandler` and wipe real localization entries
   * pass `deleteViaAssetDatabase: true` only when a test means to exercise deletion handlers
+* `SceneTestUtility`: saved empty scenes for edit mode tests
+  * `CreateSavedScene(folder, sceneName, mode, populate)` (or `CreateSavedScene(scenePath, ...)`): `Single` replaces the open scenes, `Additive` needs a saved active scene first and hands the active slot back
+    * `populate` runs before the save ~ e.g. to add objects saved with the scene
+  * `ResetToEmptyScene()`: discards open scenes for a fresh empty one ~ call before disposing the folder
+  * `CreatePreviewScene()` / `ClosePreviewScene(scene)`: unsaved preview scene ~ editor-only hooks
+  * `CreateGameObjectInScene(scene, name)` / `CreateComponentInScene<T>(scene, name)`: any loaded scene ~ moves the object in before adding the component to ensure its hooks already see the target scene
 * `TestWait.Until(condition, timeoutSeconds)`: yields updates until a condition holds or the timeout passes
   * it only times out ~ must be followed with the appropriate test assertion
 * `SerializedFieldInjector.Set(target, fieldName, value)` / `SetArray(target, fieldName, values...)`: sets a private `[SerializeField]` object reference (or reference array/list) as the inspector would

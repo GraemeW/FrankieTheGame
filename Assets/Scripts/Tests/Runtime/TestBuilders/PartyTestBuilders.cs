@@ -14,10 +14,6 @@ namespace Frankie.Tests
         // Note:  Objects are owned by the tracker, so destroy via its DestroyAll in TearDown
         // Editor-only:  character assets load through AssetDatabase, serialized fields set through SerializedFieldInjector
 
-        // Const Tunables
-        private const string _partyMembersField = "members";
-        private const string _characterPropertiesField = "characterProperties";
-
         #region PublicMethods
         public static CharacterProperties LoadCharacter(string characterName)
         {
@@ -36,7 +32,7 @@ namespace Frankie.Tests
             partyObject.SetActive(false);
             var party = partyObject.AddComponent<Party>(); // Pulls in its required components (InactiveParty, PlayerMover, PlayerStateMachine)
 
-            SerializedFieldInjector.SetArray(party, _partyMembersField, memberProperties.Select(member => (Object)BuildMember(partyObject.transform, member)).ToArray());
+            SerializedFieldInjector.SetArray(party, Party.membersField, memberProperties.Select(member => (Object)BuildMember(partyObject.transform, member)).ToArray());
             return party;
         }
         #endregion
@@ -47,7 +43,7 @@ namespace Frankie.Tests
             var memberObject = new GameObject(characterProperties.name);
             memberObject.transform.SetParent(party);
             var baseStats = memberObject.AddComponent<BaseStats>();
-            SerializedFieldInjector.Set(baseStats, _characterPropertiesField, characterProperties);
+            SerializedFieldInjector.Set(baseStats, BaseStats.characterPropertiesField, characterProperties);
             return baseStats;
         }
         #endregion

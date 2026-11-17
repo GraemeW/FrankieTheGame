@@ -36,7 +36,7 @@ namespace LowDefMustard.Control.Tests.Editor
         {
             var waypoint = CreateGameObject().AddComponent<PatrolPathWaypoint>();
             var serializedWaypoint = new SerializedObject(waypoint);
-            serializedWaypoint.FindProperty("waypointType").enumValueIndex = (int)waypointType;
+            serializedWaypoint.FindProperty(PatrolPathWaypoint.waypointTypeField).enumValueIndex = (int)waypointType;
             serializedWaypoint.ApplyModifiedPropertiesWithoutUndo();
             return waypoint;
         }
@@ -48,11 +48,11 @@ namespace LowDefMustard.Control.Tests.Editor
             for (int i = 0; i < waypointCount; i++) { waypoints[i] = CreateWaypoint(); }
 
             var serializedPatrolPath = new SerializedObject(patrolPath);
-            SerializedProperty waypointsProperty = serializedPatrolPath.FindProperty("waypoints");
+            SerializedProperty waypointsProperty = serializedPatrolPath.FindProperty(PatrolPath.waypointsField);
             waypointsProperty.arraySize = waypointCount;
             for (int i = 0; i < waypointCount; i++) { waypointsProperty.GetArrayElementAtIndex(i).objectReferenceValue = waypoints[i]; }
-            serializedPatrolPath.FindProperty("looping").boolValue = looping;
-            serializedPatrolPath.FindProperty("returnToFirstWaypoint").boolValue = returnToFirstWaypoint;
+            serializedPatrolPath.FindProperty(PatrolPath.loopingField).boolValue = looping;
+            serializedPatrolPath.FindProperty(PatrolPath.returnToFirstWaypointField).boolValue = returnToFirstWaypoint;
             serializedPatrolPath.ApplyModifiedPropertiesWithoutUndo();
 
             return patrolPath;

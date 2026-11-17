@@ -80,17 +80,16 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void IsStandardEditorState_ObjectInPreviewScene_ReturnsFalse()
         {
-            Scene previewScene = EditorSceneManager.NewPreviewScene();
+            Scene previewScene = SceneTestUtility.CreatePreviewScene();
             try
             {
-                var gameObject = new GameObject("Temp");
-                SceneManager.MoveGameObjectToScene(gameObject, previewScene);
+                GameObject gameObject = SceneTestUtility.CreateGameObjectInScene(previewScene, "Temp");
 
                 Assert.IsFalse(EditorStateCheck.IsStandardEditorState(gameObject));
             }
             finally
             {
-                EditorSceneManager.ClosePreviewScene(previewScene);
+                SceneTestUtility.ClosePreviewScene(previewScene);
             }
         }
 

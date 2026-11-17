@@ -107,7 +107,7 @@ namespace LowDefMustard.Utils.Tests.Editor
 
             // Re-fetch from a fresh SerializedObject to confirm ApplyModifiedProperties actually landed // not just an in-memory boxedValue mutation
             var reread = new SerializedObject(host).FindProperty(nameof(ValidHost.values));
-            var entries = reread.FindPropertyRelative("entries");
+            var entries = reread.FindPropertyRelative(((IEnumKeyedCollection)host.values).GetListName());
             Assert.AreEqual(3, entries.arraySize);
         }
 

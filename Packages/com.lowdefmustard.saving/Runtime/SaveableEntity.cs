@@ -23,8 +23,8 @@ namespace LowDefMustard.Saving
         // State
         private bool forcePreventSave = false;
         
-        // Constants
-        private const string _uniquePropertyRef = "uniqueIdentifier";
+        // Editor Field References
+        internal const string uniqueIdentifierField = nameof(uniqueIdentifier);
         
         #region PublicPropertyMethods
         public string GetUniqueIdentifier()
@@ -120,7 +120,7 @@ namespace LowDefMustard.Saving
             if (StageUtility.GetStage(gameObject) != StageUtility.GetMainStage()) { return; }
 
             var serializedObject = new SerializedObject(this);
-            SerializedProperty property = serializedObject.FindProperty(_uniquePropertyRef);
+            SerializedProperty property = serializedObject.FindProperty(uniqueIdentifierField);
 
             if (string.IsNullOrWhiteSpace(uniqueIdentifier) || !IsUnique(property.stringValue))
             {

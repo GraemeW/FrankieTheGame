@@ -11,6 +11,9 @@ namespace LowDefMustard.Utils
         // Tunables
         [SerializeField][Tooltip("Pixels per world unit for the game's art")][Min(1f)] private float artPixelsPerUnit = _defaultArtPixelsPerUnit;
         
+        // Editor Field References
+        internal const string artPixelsPerUnitField = nameof(artPixelsPerUnit);
+
         // Const Fallbacks
         private const float _defaultArtPixelsPerUnit = 100f;
         

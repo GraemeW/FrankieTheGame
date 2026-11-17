@@ -2,7 +2,6 @@ using System.Collections;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -29,13 +28,13 @@ namespace Frankie.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            previewScene = EditorSceneManager.NewPreviewScene();
+            previewScene = SceneTestUtility.CreatePreviewScene();
         }
 
         [TearDown]
         public void TearDown()
         {
-            EditorSceneManager.ClosePreviewScene(previewScene);
+            SceneTestUtility.ClosePreviewScene(previewScene);
             if (loadedSceneObject != null) { Object.DestroyImmediate(loadedSceneObject); }
             tracker.DestroyAll();
         }
@@ -44,9 +43,7 @@ namespace Frankie.Tests.Editor
         #region Helpers
         private T AddToPreviewScene<T>() where T : Component
         {
-            var gameObject = new GameObject($"CheckGameStateModifierTests_{typeof(T).Name}");
-            SceneManager.MoveGameObjectToScene(gameObject, previewScene);
-            return gameObject.AddComponent<T>();
+            return SceneTestUtility.CreateComponentInScene<T>(previewScene, $"CheckGameStateModifierTests_{typeof(T).Name}");
         }
 
         private HasQuestPredicate CreateHasQuestPredicate(Quest quest)

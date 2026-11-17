@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests
 {
@@ -19,8 +20,7 @@ namespace LowDefMustard.Zones.Tests
         
         public void Setup()
         {
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
-            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            Scene scratchScene = SceneTestUtility.CreateSavedScene(scratchScenePath, NewSceneMode.Additive);
             EditorSceneManager.CloseScene(scratchScene, true);
             
             var scenes = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);

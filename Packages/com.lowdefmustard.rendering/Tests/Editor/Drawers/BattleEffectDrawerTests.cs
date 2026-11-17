@@ -482,10 +482,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
             DropdownField typeField = window.rootVisualElement.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             typeField.value = "Diamond";
-            yield return TestWait.Until(() => FindPropertyField("shape.aspectRatio") != null);
+            yield return TestWait.Until(() => FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectDiamond.aspectRatioField}") != null);
 
             Assert.IsInstanceOf<BattleEffectDiamond>(target.shape);
-            Assert.IsNotNull(FindPropertyField("shape.aspectRatio"), "diamond settings shown");
+            Assert.IsNotNull(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectDiamond.aspectRatioField}"), "diamond settings shown");
         }
 
         [UnityTest]
@@ -499,7 +499,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield return TestWait.Until(() => typeField.value == "Squiggle");
 
             Assert.AreEqual("Squiggle", typeField.value);
-            Assert.IsNotNull(FindPropertyField("shape.wavelengthSU"), "squiggle settings shown");
+            Assert.IsNotNull(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.wavelengthSUField}"), "squiggle settings shown");
         }
 
         [UnityTest]
@@ -507,23 +507,23 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             serializedObject.FindProperty(nameof(DrawerTarget.shape)).managedReferenceValue = new BattleEffectSquiggle();
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return TestWait.Until(() => FindPropertyField("shape.plateauFraction") != null);
-            PropertyField plateauField = FindPropertyField("shape.plateauFraction");
+            yield return TestWait.Until(() => FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.plateauFractionField}") != null);
+            PropertyField plateauField = FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.plateauFractionField}");
             Assert.IsFalse(IsShown(plateauField), "sine");
 
-            serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Trapezoid;
+            serializedObject.FindProperty($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.waveformField}").intValue = (int)BattleEffectWaveform.Trapezoid;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
             yield return TestWait.Until(() => IsShown(plateauField));
 
             Assert.IsTrue(IsShown(plateauField), "trapezoid");
-            Assert.IsFalse(IsShown(FindPropertyField("shape.dutyFraction")), "duty:  pulse only");
+            Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.dutyFractionField}")), "duty:  pulse only");
 
-            serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Pulse;
+            serializedObject.FindProperty($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.waveformField}").intValue = (int)BattleEffectWaveform.Pulse;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return TestWait.Until(() => IsShown(FindPropertyField("shape.dutyFraction")));
+            yield return TestWait.Until(() => IsShown(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.dutyFractionField}")));
 
             Assert.IsTrue(IsShown(plateauField), "pulse plateau");
-            Assert.IsTrue(IsShown(FindPropertyField("shape.dutyFraction")), "pulse duty");
+            Assert.IsTrue(IsShown(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.dutyFractionField}")), "pulse duty");
         }
         #endregion
     }

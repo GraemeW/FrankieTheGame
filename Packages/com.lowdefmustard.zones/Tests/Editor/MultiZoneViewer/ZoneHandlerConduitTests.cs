@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -26,7 +27,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             originalZoneLookupCache = Zone.zoneLookupCache;
             originalSceneReferenceCache = Zone.sceneReferenceCache;
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // New scene to avoid stray object pollution across tests
+            SceneTestUtility.ResetToEmptyScene();
         }
 
         [TearDown]

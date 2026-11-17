@@ -52,14 +52,14 @@ namespace LowDefMustard.Zones.Tests.Editor
             betaScene = CreateSceneAsset(betaPath);
             CreateSceneAsset($"{tempFolder.CreateSubfolder("Dup1")}/{_dupName}.unity");
             CreateSceneAsset($"{tempFolder.CreateSubfolder("Dup2")}/{_dupName}.unity");
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open
+            SceneTestUtility.ResetToEmptyScene();
             AssetDatabase.Refresh();
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
         }
 
@@ -81,8 +81,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         #region PrivateMethods
         private static SceneAsset CreateSceneAsset(string path)
         {
-            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scene, path);
+            SceneTestUtility.CreateSavedScene(path);
             AssetDatabase.ImportAsset(path);
             return AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
         }
@@ -415,7 +414,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             // Changed through a second SerializedObject, like an inspector elsewhere editing the same object
             var otherSerializedObject = new SerializedObject(host);
             serializedObjects.Add(otherSerializedObject);
-            otherSerializedObject.FindProperty("sceneReference.sceneAsset").objectReferenceValue = betaScene;
+            otherSerializedObject.FindProperty($"{nameof(SceneReferenceHost.sceneReference)}.{nameof(SceneReference.sceneAsset)}").objectReferenceValue = betaScene;
             otherSerializedObject.ApplyModifiedPropertiesWithoutUndo();
 
             // Property tracking polls on the editor's schedule, so wait (bounded) rather than assuming a frame count

@@ -50,7 +50,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             tracker.DestroyAll();
 
             if (tempFolder == null) { return; }
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
             tempFolder = null;
         }
@@ -64,15 +64,11 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
             //  - scenes are saved before the handler moves in ~ i.e. to ensure OnBeforeSerialize never runs against them
             
             tempFolder = new TempAssetFolder(nameof(GameStateModifierHandlerTests));
-            Scene activeScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(activeScene, tempFolder.Path($"{_activeScratchSceneName}.unity"));
-            Scene handlerScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
-            EditorSceneManager.SaveScene(handlerScene, tempFolder.Path($"{_handlerScratchSceneName}.unity"));
-            SceneManager.SetActiveScene(activeScene); // A new additive scene becomes active
+            SceneTestUtility.CreateSavedScene(tempFolder, _activeScratchSceneName);
+            Scene handlerScene = SceneTestUtility.CreateSavedScene(tempFolder, _handlerScratchSceneName, NewSceneMode.Additive);
 
-            gameObject = new GameObject("TestHandlerObject");
-            SceneManager.MoveGameObjectToScene(gameObject, handlerScene);
-            handler = gameObject.AddComponent<TestGameStateModifierHandler>();
+            handler = SceneTestUtility.CreateComponentInScene<TestGameStateModifierHandler>(handlerScene, "TestHandlerObject");
+            gameObject = handler.gameObject;
             return handlerScene;
         }
         #endregion

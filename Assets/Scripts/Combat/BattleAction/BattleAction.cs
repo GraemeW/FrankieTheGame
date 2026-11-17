@@ -24,6 +24,7 @@ namespace Frankie.Combat
         // Editor Field References
         public const string targetingStrategyField = nameof(targetingStrategy);
         public const string effectStrategiesField = nameof(effectStrategies);
+        internal const string apCostField = nameof(apCost);
 
         // State
         [AutoStaticsCleanup] private static AsyncOperationHandle<IList<BattleAction>> _addressablesLoadHandle;

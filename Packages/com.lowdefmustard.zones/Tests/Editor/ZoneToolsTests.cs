@@ -43,7 +43,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             Object.DestroyImmediate(zone);
 
             if (tempFolder == null) { return; }
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
             tempFolder = null;
         }
@@ -53,9 +53,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         private SceneAsset CreateScratchSceneAsset()
         {
             tempFolder = new TempAssetFolder(nameof(ZoneToolsTests));
-            string scratchScenePath = tempFolder.Path($"{_scratchSceneName}.unity");
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            Scene scratchScene = SceneTestUtility.CreateSavedScene(tempFolder, _scratchSceneName);
+            string scratchScenePath = scratchScene.path;
             EditorSceneManager.CloseScene(scratchScene, true);
             return AssetDatabase.LoadAssetAtPath<SceneAsset>(scratchScenePath);
         }

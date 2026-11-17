@@ -95,7 +95,7 @@ namespace LowDefMustard.Control.Tests.Editor
             var controller = go.AddComponent<TestController>();
             // Force a known polling interval rather than depending on the production default staying 0.1f
             var serializedController = new SerializedObject(controller);
-            serializedController.FindProperty("listenerPollingInterval").floatValue = 0.1f;
+            serializedController.FindProperty(BaseController.listenerPollingIntervalField).floatValue = 0.1f;
             serializedController.ApplyModifiedPropertiesWithoutUndo();
             return controller;
         }

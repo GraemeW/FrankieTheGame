@@ -10,6 +10,10 @@ namespace Frankie.Combat
         [SerializeField] private Skill skill;
         [SerializeField][Min(0)] private int probabilityWeight;
 
+        // Editor Field References
+        internal const string skillField = nameof(skill);
+        internal const string probabilityWeightField = nameof(probabilityWeight);
+
         public SkillProbabilityPair(Skill skill, int probabilityWeight)
         {
             this.skill = skill;

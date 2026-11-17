@@ -15,8 +15,12 @@ namespace Frankie.Combat
         [SerializeField] private SkillSet skillSet;
         [SerializeField][Min(0)] private float skillTreeLevelMultiplierForStatUnlock = 10f;
 
+        // Editor Field References
+        internal const string skillSetField = nameof(skillSet);
+        internal const string skillTreeLevelMultiplierForStatUnlockField = nameof(skillTreeLevelMultiplierForStatUnlock);
+
         // Const Tunables
-        private const int _poolSlotCount = 4;
+        internal const int poolSlotCount = 4; // Must match SkillBranchMapping (contiguous 0..3)
 
         // State
         private bool isSelectionInitialized = false;
@@ -25,7 +29,7 @@ namespace Frankie.Combat
         private Skill activeSkill;
         private int skillTreeLevel = 0;
             // Pool
-        private readonly Skill[] poolSlots = new Skill[_poolSlotCount];
+        private readonly Skill[] poolSlots = new Skill[poolSlotCount];
         private bool isPoolRerollPending = true;
 
         // Cached References
@@ -97,7 +101,7 @@ namespace Frankie.Combat
 
             SkillTree skillTree = GetSkillTree();
             if (skillTree != null) { return currentBranch != null ? currentBranch.GetSkill(skillBranchMapping) : null; }
-            return poolSlots[(int)skillBranchMapping];
+            return poolSlots[(int)skillBranchMapping]; // Pool-based fallback, simply maps directional enum -> pool index (non-POR path)
         }
 
         private bool TrySetBranch(SkillBranchMapping skillBranchMapping, SkillFilterType skillFilterType)

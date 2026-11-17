@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.SceneManagement;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -45,7 +46,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             // Discards the scratch scene (and anything left in it) by replacing it with a fresh one
             if (spawnedScratchScene)
             {
-                EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                SceneTestUtility.ResetToEmptyScene();
                 spawnedScratchScene = false;
             }
         }
@@ -169,7 +170,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CalculateZoneBounds_WithRenderers_EncapsulatesAllRendererBounds()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             spawnedScratchScene = true;
 
             CreateCube(Vector3.zero);
@@ -188,7 +189,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CalculateZoneBounds_WithSingleTilemap_UsesCompressedCellBoundsInWorldSpace()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             spawnedScratchScene = true;
 
             Tilemap tilemap = CreateTilemap(Vector3.zero);
@@ -211,7 +212,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CalculateZoneBounds_WithMultipleTilemaps_EncapsulatesAllTilemapBounds()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             spawnedScratchScene = true;
             spawnedTile = ScriptableObject.CreateInstance<Tile>();
 

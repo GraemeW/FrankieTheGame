@@ -11,6 +11,9 @@ namespace LowDefMustard.Control
         // Tunables
         [SerializeField] private float listenerPollingInterval = 0.1f;
         
+        // Editor Field References
+        internal const string listenerPollingIntervalField = nameof(listenerPollingInterval);
+
         // State
         protected float timeSinceLastPolled = 0f;
         protected bool destroyQueued = false;

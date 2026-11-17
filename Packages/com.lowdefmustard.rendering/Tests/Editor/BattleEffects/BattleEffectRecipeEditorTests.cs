@@ -482,7 +482,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(0.5f, pasted.GetStartOffset(), 1e-5f);
             SerializedProperty swaps = InstanceProperty(1).FindPropertyRelative(BattleEffectInstance.colourSwapsField);
             Assert.AreEqual(2, swaps.arraySize);
-            Assert.AreEqual(Color.blue, (Color)swaps.GetArrayElementAtIndex(1).FindPropertyRelative("to").colorValue);
+            Assert.AreEqual(Color.blue, (Color)swaps.GetArrayElementAtIndex(1).FindPropertyRelative(BattleEffectColourSwap.toField).colorValue);
         }
 
         [Test]
