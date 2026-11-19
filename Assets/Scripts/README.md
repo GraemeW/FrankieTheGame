@@ -75,6 +75,7 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 | Inventory trade          |   2   |   2    | `TradeMemory` shop checks; `Shop` entry + `transactionCompleted` relay (Play Mode)                                          |
 | Combat controller retire |   1   |   1    | `BattleController` ExitComplete retire only (bus-driven); battle flow + swarm chain untested                                |
 | Combat skill selection   |   4   |   3    | `SkillHandler` weighted picks, pool selection + reroll; `BattleAIPriority` untested (needs a live battle)                   |
+| Combat skill editors     |   7   |   7    | Tree slot + pool typing / drops, `SkillSet` Open button, skill-name picker + rename fix-up, new pool entries at weight 1    |
 | Speech graph skin        |   1   |   1†   | Guards `DialogueGraph.uss` against Graph Toolkit renaming the internal parts it styles                                      |
 | Speech importer          |   1   |   1    | `.dialoguegraph` → `Dialogue`: sub-assets (readable names, node IDs), entry, wire order, conditions, keys, fileID stability |
 | Speech localization sync |   2   |   2    | Reconcile plan (graph / table / last-synced) + line positions                                                               |
@@ -103,6 +104,13 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
 | `SkillHandler`                  | Partial | [SkillHandlerTests.cs](./Tests/Runtime/Combat/SkillHandlerTests.cs), [SkillHandlerTreeSelectionTests.cs](./Tests/Runtime/Combat/SkillHandlerTreeSelectionTests.cs) | Outro unsubscribe untested                               |
 | `SkillPool`                     | Yes     | [SkillHandlerTests.cs](./Tests/Runtime/Combat/SkillHandlerTests.cs)                                                                                                | via `SkillHandler`                                       |
 | `SkillTree`                     | Partial | [SkillTreeWeightedSkillsTests.cs](./Tests/Editor/Combat/SkillTreeWeightedSkillsTests.cs)                                                                           | Uses two in-project skills                               |
+| `SkillBranchView`               | Partial | [SkillBranchViewTests.cs](./Tests/Editor/Combat/SkillBranchViewTests.cs)                                                                                           | Dragging from the panel checked manually                 |
+| `SkillPoolView`                 | Partial | [SkillPoolViewTests.cs](./Tests/Editor/Combat/SkillPoolViewTests.cs)                                                                                               |                                                          |
+| `SkillNodeStyle` skill fields   | Yes     | [SkillNodeFieldLayoutTests.cs](./Tests/Editor/Combat/SkillNodeFieldLayoutTests.cs)                                                                                 |                                                          |
+| `SkillSetDrawer`                | Partial | [SkillSetDrawerTests.cs](./Tests/Editor/Combat/SkillSetDrawerTests.cs)                                                                                             | Clicking Open checked manually (opens the window)        |
+| `SkillReferenceDrawer`          | Yes     | [SkillReferenceDrawerTests.cs](./Tests/Editor/Combat/SkillReferenceDrawerTests.cs)                                                                                 |                                                          |
+| `SkillReferenceRenameProcessor` | Yes     | [SkillReferenceRenameProcessorTests.cs](./Tests/Editor/Combat/SkillReferenceRenameProcessorTests.cs)                                                               |                                                          |
+| `SkillPool` entry defaults      | Yes     | [SkillPoolEntryDefaultsTests.cs](./Tests/Editor/Combat/SkillPoolEntryDefaultsTests.cs)                                                                             | Through the inspector's add button                       |
 | `BattleAIPriority`              | No      | -                                                                                                                                                                  | Needs a live battle (targets, predicates)                |
 | `DialogueGraph.uss`             | Partial | [DialogueGraphSkinTests.cs](./Tests/Editor/Speech/DialogueGraphSkinTests.cs)                                                                                       | See below†                                               |
 | `DialogueGraphImporter`         | Yes     | [DialogueGraphImporterTests.cs](./Tests/Editor/Speech/DialogueGraphImporterTests.cs)                                                                               | Character labels use an existing project character       |
@@ -124,4 +132,3 @@ Tests use Unity's built-in Test Framework (NUnit), run manually through the Test
   * It doesn't cover hover or selection states, or a surface drifting to a different/new colour
   * Header-strip sizing isn't checked due to unreliability in test
 * See the [PlayerStateMachine README](./Core/PlayerStateMachine/README.md#tests) for what the player state tests assert and how the Play Mode rig is set up
-

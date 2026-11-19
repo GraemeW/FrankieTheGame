@@ -7,8 +7,8 @@ namespace LowDefMustard.Utils.Tests.Editor
     public class ProbabilityPairExtensionsTests
     {
         // Tested:
-        //  - TryGetRandom (single) - one candidate, zero / negative weights, null values, destroyed Unity objects, empty + null input, weighting
-        //  - TryGetRandom (count) - no repeats, repeated entries collapse, fewer candidates than asked, count of 0
+        //  - TryGetRandom (single) - one candidate, zero / negative weights, empty values (null / destroyed Unity object) keep their weight + pick nothing, empty + null input, weighting
+        //  - TryGetRandom (count) - no repeats, repeated entries collapse, fewer candidates than asked, empty values never fill a pick, count of 0
         //  - IObjectProbabilityPair covariance - a derived-value pair list rolls as its base type
 
         #region Helpers
@@ -38,19 +38,30 @@ namespace LowDefMustard.Utils.Tests.Editor
         }
 
         [Test]
-        public void TryGetRandom_NullValue_NeverSelected()
+        public void TryGetRandom_NullValue_KeepsItsWeightAndPicksNothing()
         {
-            List<IObjectProbabilityPair<string>> pairs = Pairs((null, 100), ("kept", 1));
+            // e.g. a loot table's "no loot this time" entry ~ statistical, seeded, generous tolerance
+            Random.InitState(12345);
+            List<IObjectProbabilityPair<string>> pairs = Pairs((null, 50), ("kept", 50));
 
-            for (int i = 0; i < 50; i++)
+            int nothingCount = 0;
+            const int trials = 2000;
+            for (int i = 0; i < trials; i++)
             {
-                Assert.IsTrue(pairs.TryGetRandom(out string result));
+                if (!pairs.TryGetRandom(out string result))
+                {
+                    Assert.IsNull(result);
+                    nothingCount++;
+                    continue;
+                }
                 Assert.AreEqual("kept", result);
             }
+
+            Assert.That((float)nothingCount / trials, Is.InRange(0.4f, 0.6f));
         }
 
         [Test]
-        public void TryGetRandom_DestroyedUnityObject_NeverSelected()
+        public void TryGetRandom_DestroyedUnityObject_PicksNothingInstead()
         {
             // Generic != null misses Unity's destroyed-object check, this guards the Equals(null) path
             var destroyed = ScriptableObject.CreateInstance<ScriptableObject>();
@@ -60,11 +71,18 @@ namespace LowDefMustard.Utils.Tests.Editor
 
             try
             {
+                bool wasNothingPicked = false;
                 for (int i = 0; i < 50; i++)
                 {
-                    Assert.IsTrue(pairs.TryGetRandom(out ScriptableObject result));
-                    Assert.AreSame(kept, result);
+                    if (!pairs.TryGetRandom(out ScriptableObject result))
+                    {
+                        Assert.IsNull(result);
+                        wasNothingPicked = true;
+                        continue;
+                    }
+                    Assert.AreSame(kept, result, "never the destroyed object");
                 }
+                Assert.IsTrue(wasNothingPicked, "the destroyed entry keeps its weight (100 vs 1)");
             }
             finally { Object.DestroyImmediate(kept); }
         }
@@ -116,6 +134,16 @@ namespace LowDefMustard.Utils.Tests.Editor
             List<IObjectProbabilityPair<string>> pairs = Pairs(("a", 1), ("a", 1), ("b", 1));
 
             Assert.IsTrue(pairs.TryGetRandom(4, out List<string> results));
+
+            CollectionAssert.AreEquivalent(new[] { "a", "b" }, results);
+        }
+
+        [Test]
+        public void TryGetRandomCount_EmptyValues_NeverFillAPick()
+        {
+            List<IObjectProbabilityPair<string>> pairs = Pairs((null, 100), ("a", 1), ("b", 1));
+
+            Assert.IsTrue(pairs.TryGetRandom(2, out List<string> results));
 
             CollectionAssert.AreEquivalent(new[] { "a", "b" }, results);
         }

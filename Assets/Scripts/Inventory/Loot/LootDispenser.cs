@@ -11,8 +11,8 @@ namespace Frankie.Inventory
     {
         // Tunables
         [Header("Item Loot")]
-        [SerializeField][Range(0, 10)] private int minItems = 0;
-        [SerializeField][Range(0, 10)] private int maxItems = 1;
+        [SerializeField][Range(0, 10)][Tooltip("Loot table rolls ~ roll landing on empty drops nothing")] private int minLootRolls = 0;
+        [SerializeField][Range(0, 10)][Tooltip("Loot table rolls ~ roll landing on empty drops nothing")] private int maxLootRolls = 1;
         [SerializeField] private List<LootEntry> lootEntries = new();
         [Header("Cash Loot")]
         [SerializeField][Min(0)] private int minCash = 0;
@@ -52,8 +52,8 @@ namespace Frankie.Inventory
             if (lootEntries.Count == 0) { yield break; }
 
             // Edge case protection
-            int minimum = Mathf.Max(0, minItems);
-            int maximum = Mathf.Max(minimum, maxItems);
+            int minimum = Mathf.Max(0, minLootRolls);
+            int maximum = Mathf.Max(minimum, maxLootRolls);
             maximum = Mathf.Min(maximum, _absoluteMaxLoot); // Things get really tedious if we go too high
 
             int numberOfItems = Random.Range(minimum, maximum + 1); // +1 offset since random exclusive w/ ints

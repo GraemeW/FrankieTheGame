@@ -59,6 +59,12 @@ namespace LowDefMustard.Zones.Tests.Editor
         }
 
         [Test]
+        public void GetRootNode_NoNodes_Null()
+        {
+            Assert.IsNull(zone.GetRootNode());
+        }
+
+        [Test]
         public void CreateRootNodeIfMissing_CreatesSingleNode()
         {
             zone.CreateRootNodeIfMissing();

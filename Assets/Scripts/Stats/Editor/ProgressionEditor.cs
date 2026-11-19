@@ -5,25 +5,29 @@ using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LowDefMustard.Core;
+using LowDefMustard.Utils.Editor;
 using Object = UnityEngine.Object;
 
 namespace Frankie.Stats.Editor
 {
     public class ProgressionEditor : EditorWindow
     {
+        // Note:  Internal fields/methods for test visibility
+
         // Tunables
         private const int _panelSize = 360;
 
         // Data State
-        private Progression progression;
+        internal Progression progression;
+        private readonly UndoChangeSnapshot undoSnapshot = new();
         
         // UI State
-        private readonly List<Progression.ProgressionCharacter> selectedCharacters = new();
+        internal readonly List<Progression.ProgressionCharacter> selectedCharacters = new();
         
         // UI Cached References
         private ObjectField progressionInput;
-        private ListView progressionEntries;
-        private ScrollView characterStatPane;
+        internal ListView progressionEntries;
+        internal ScrollView characterStatPane;
 
         #region UnityMethods
         [MenuItem("Tools/Progression Editor", false, 205)]
@@ -36,24 +40,17 @@ namespace Frankie.Stats.Editor
         private void OnEnable()
         {
             if (progressionEntries != null)  { progressionEntries.selectionChanged += OnCharacterSelectionChanged; }
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+            Undo.undoRedoPerformed += OnUndoRedoPerformed;
         }
 
         private void OnDisable()
         {
             if (progressionEntries != null)  { progressionEntries.selectionChanged -= OnCharacterSelectionChanged; }
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
         }
 
-        private void OnFocus()
-        {
-            Undo.undoRedoPerformed += ReloadProgression;
-        }
-
-        private void OnLostFocus()
-        {
-            Undo.undoRedoPerformed -= ReloadProgression;
-        }
-
-        private void CreateGUI()
+        internal void CreateGUI()
         {
             var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
             rootVisualElement.Add(splitView);
@@ -142,7 +139,8 @@ namespace Frankie.Stats.Editor
                 var statEntry = new FloatField
                 {
                     label = progressionStat.stat.ToString(), // Enum ToString does not require CultureInvariant
-                    value = progressionStat.value
+                    value = progressionStat.value,
+                    isDelayed = true
                 };
                 statEntry.RegisterValueChangedCallback(x => UpdateStat(character.characterProperties, progressionStat.stat, x.newValue));
                 
@@ -197,7 +195,8 @@ namespace Frankie.Stats.Editor
                 var initialLevel = new IntegerField
                 {
                     label = "Initial Level",
-                    value = Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, character.characterProperties))
+                    value = Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, character.characterProperties)),
+                    isDelayed = true
                 };
                 initialLevel.RegisterValueChangedCallback(x => UpdateStat(character.characterProperties, Stat.InitialLevel, x.newValue));
                 headerSplit.Add(initialLevel);
@@ -219,12 +218,12 @@ namespace Frankie.Stats.Editor
         
         private void DrawCharacterNavigationPane()
         {
-            Progression.ProgressionCharacter[] characters = progression.GetCharacters();
+            List<Progression.ProgressionCharacter> characters = progression.GetCharacters().ToList(); // ListView needs a writable IList ~ copy/rebuilt each redraw
             
             progressionEntries.makeItem = () => new Label();
             progressionEntries.bindItem = (item, index) =>
             {
-                if (item is Label label && index < characters.Length) { label.text = characters[index].characterProperties.GetCharacterID(); }
+                if (item is Label label && index < characters.Count) { label.text = characters[index].characterProperties.GetCharacterID(); }
             };
             progressionEntries.itemsSource = characters;
         }
@@ -284,13 +283,52 @@ namespace Frankie.Stats.Editor
         private void ReloadProgression()
         {
             LDMLog.Info(LDMLogCategory.Stats, "Reloading progression.");
+            RedrawProgression();
+        }
+
+        internal void OnUndoRedoPerformed()
+        {
+            if (progression is null) { return; }
+            if (!undoSnapshot.HasChanged()) { return; }
+            RedrawProgression();
+        }
+
+        internal void RedrawProgression()
+        {
+            if (progressionEntries == null || characterStatPane == null) { return; } // CreateGUI has not yet run
             progressionEntries.Clear();
             characterStatPane.Clear();
-            if (progression == null) { return; }
+            if (progression == null)
+            {
+                progressionEntries.itemsSource = null;
+                selectedCharacters.Clear();
+                undoSnapshot.Clear();
+                return;
+            }
             
             progression.ForceBuildLookup();
             DrawCharacterNavigationPane();
+            ReselectCharacters();
             DrawCharacterStatPane();
+            undoSnapshot.Capture(progression);
+        }
+        
+        private void ReselectCharacters()
+        {
+            // Undo / reload re-deserializes the asset into new character instances ~ so we must match the selection back up by character
+            
+            var selectedCharacterProperties = new HashSet<CharacterProperties>(selectedCharacters.Select(character => character.characterProperties));
+            selectedCharacters.Clear();
+
+            var selectedIndices = new List<int>();
+            IReadOnlyList<Progression.ProgressionCharacter> characters = progression.GetCharacters();
+            for (int i = 0; i < characters.Count; i++)
+            {
+                if (!selectedCharacterProperties.Contains(characters[i].characterProperties)) { continue; }
+                selectedCharacters.Add(characters[i]);
+                selectedIndices.Add(i);
+            }
+            progressionEntries.SetSelectionWithoutNotify(selectedIndices);
         }
 
         private void ReconcileCharacterProperties(ClickEvent clickEvent)  { ReconcileCharacterProperties(); }
@@ -357,6 +395,7 @@ namespace Frankie.Stats.Editor
         {
             if (progression == null) { return; }
             progression.UpdateProgressionAsset(characterProperties, stat, value);
+            undoSnapshot.Capture(progression); // Own edit, already shown ~ only a later undo / redo of it should redraw
         }
 
         private void SimulateStats(StatCardBase statCard, Progression.ProgressionCharacter character, int simulatedLevel)

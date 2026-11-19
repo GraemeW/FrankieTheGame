@@ -60,13 +60,6 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
         #region PrivateMethods
         private Button FindButton(string text) => window.rootVisualElement.Query<Button>().Where(button => button.text == text).First();
-
-        private static void Click(Button button)
-        {
-            using NavigationSubmitEvent submitEvent = NavigationSubmitEvent.GetPooled();
-            submitEvent.target = button;
-            button.SendEvent(submitEvent);
-        }
         #endregion
 
         #region GUI
@@ -156,17 +149,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             window.SetRecipe(recipe);
 
-            Click(FindButton("Frame >"));
+            HeadlessEditorWindow.SendSubmit(FindButton("Frame >"));
             Assert.AreEqual(0.1f, window.GetTime(), 1e-5f, "frame >");
 
-            Click(FindButton("< Frame"));
+            HeadlessEditorWindow.SendSubmit(FindButton("< Frame"));
             Assert.AreEqual(0f, window.GetTime(), 1e-5f, "< frame");
 
             window.Seek(1f);
-            Click(FindButton("Restart"));
+            HeadlessEditorWindow.SendSubmit(FindButton("Restart"));
             Assert.AreEqual(0f, window.GetTime(), "restart");
 
-            Click(FindButton("Play"));
+            HeadlessEditorWindow.SendSubmit(FindButton("Play"));
             Assert.IsTrue(window.IsPlaying(), "play");
         }
 

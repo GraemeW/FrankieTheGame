@@ -155,13 +155,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             // Local Functions
             BattleEffectEntryRow FindRow(int rowIndex) => window.rootVisualElement.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
             
-            void ClickVisibility(BattleEffectEntryRow row)
-            {
-                using NavigationSubmitEvent clickEvent = NavigationSubmitEvent.GetPooled();
-                Button button = row.Q<Button>();
-                clickEvent.target = button;
-                button.SendEvent(clickEvent);
-            }
+            void ClickVisibility(BattleEffectEntryRow row) => HeadlessEditorWindow.SendSubmit(row.Q<Button>());
         }
 
         [Test]

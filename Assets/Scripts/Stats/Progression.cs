@@ -24,7 +24,7 @@ namespace Frankie.Stats
         [SerializeField] private float statCatchUpRatio = 0.35f;
         
         [Header("Primary Stat Sheets")]
-        [SerializeField] private ProgressionCharacter[] characters;
+        [SerializeField] private List<ProgressionCharacter> characters = new();
         [HideInInspector][SerializeField] private List<ProgressionLevelChart> levelAveragedCharts = new();
 
         // Constants & Static Variables
@@ -109,12 +109,7 @@ namespace Frankie.Stats
                     break;
                 }
 
-                if (!statFound)
-                {
-                    var newProgressionStat = new ProgressionStat { stat = updatedStat, value = newValue };
-                    Array.Resize(ref character.stats, character.stats.Length + 1);
-                    character.stats[^1] =  newProgressionStat;
-                }
+                if (!statFound) { character.stats.Add(new ProgressionStat { stat = updatedStat, value = newValue }); }
                 break;
             }
             EditorUtility.SetDirty(this);
@@ -131,12 +126,11 @@ namespace Frankie.Stats
             var character = new ProgressionCharacter
             {
                 characterProperties = characterProperties,
-                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = GetDefaultStatValue(stat) }).ToArray()
+                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = GetDefaultStatValue(stat) }).ToList()
             };
             
             Undo.RegisterCompleteObjectUndo(this, "Add to Progression");
-            Array.Resize(ref characters, characters.Length + 1);
-            characters[^1] = character;
+            characters.Add(character);
             EditorUtility.SetDirty(this);
             
             ForceBuildLookup();
@@ -145,12 +139,8 @@ namespace Frankie.Stats
         public void RemoveFromProgressionAsset(IEnumerable<CharacterProperties> charactersProperties)
         {
             Undo.RegisterCompleteObjectUndo(this, "Remove from Progression");
-            foreach (CharacterProperties characterProperties in charactersProperties)
-            {
-                var charactersVolatile = new List<ProgressionCharacter>(characters);
-                charactersVolatile.RemoveAll(x => x.characterProperties == characterProperties);
-                characters =  charactersVolatile.ToArray();
-            }
+            var charactersToRemove = new HashSet<CharacterProperties>(charactersProperties);
+            characters.RemoveAll(character => charactersToRemove.Contains(character.characterProperties));
             EditorUtility.SetDirty(this);
             
             ForceBuildLookup();
@@ -159,7 +149,7 @@ namespace Frankie.Stats
 #endif
         
         #region PublicMethods
-        public ProgressionCharacter[] GetCharacters() => characters;
+        public IReadOnlyList<ProgressionCharacter> GetCharacters() => characters;
 
         public bool HasProgression(CharacterProperties characterProperties)
         {
@@ -262,19 +252,16 @@ namespace Frankie.Stats
                 CharacterProperties characterProperties = characterEntry.Value;
                 var progressionLevelChart = new ProgressionLevelChart { characterProperties = characterProperties };
 
-                var averageLeveledStats = new List<ProgressionLeveledStats>();
                 Dictionary<int, Dictionary<Stat, float>> averagedLevelSheets = GetLevelAveragedSheets(characterProperties);
                 foreach (var averageLevelSheet in averagedLevelSheets)
                 {
-                    var averageLeveledStatsEntry = new ProgressionLeveledStats
+                    progressionLevelChart.leveledStats.Add(new ProgressionLeveledStats
                     {
                         level = averageLevelSheet.Key,
-                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToArray()
-                    };
-                    averageLeveledStats.Add(averageLeveledStatsEntry);
+                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToList()
+                    });
                 }
-                
-                progressionLevelChart.leveledStats = averageLeveledStats.ToArray();
+
                 levelAveragedCharts.Add(progressionLevelChart);
             }
             
@@ -393,7 +380,7 @@ namespace Frankie.Stats
         public class ProgressionCharacter
         {
             public CharacterProperties characterProperties;
-            public ProgressionStat[] stats;
+            public List<ProgressionStat> stats = new();
         }
 
         [Serializable]
@@ -407,14 +394,14 @@ namespace Frankie.Stats
         public class ProgressionLeveledStats
         {
             public int level;
-            public ProgressionStat[] progressionStats;
+            public List<ProgressionStat> progressionStats = new();
         }
 
         [Serializable]
         public class ProgressionLevelChart
         {
             public CharacterProperties characterProperties;
-            public ProgressionLeveledStats[] leveledStats;
+            public List<ProgressionLeveledStats> leveledStats = new();
         }
         #endregion
     }

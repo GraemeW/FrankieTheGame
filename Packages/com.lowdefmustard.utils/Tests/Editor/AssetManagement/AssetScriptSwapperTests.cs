@@ -42,6 +42,26 @@ namespace LowDefMustard.Utils.Tests.Editor
         }
 
         [Test]
+        public void SwapScriptInPlace_ScriptableObjectAsset_UpdatesEditorClassIdentifier()
+        {
+            var source = ScriptableObject.CreateInstance<SwapSourceAsset>();
+            string path = tempFolder.Path("Identifier.asset");
+            AssetDatabase.CreateAsset(source, path);
+
+            AssetScriptSwapper.SwapScriptInPlace<SwapTargetAsset>(source);
+
+            string fileText = System.IO.File.ReadAllText(path);
+            StringAssert.Contains($"m_EditorClassIdentifier: {AssetScriptSwapper.GetEditorClassIdentifier(typeof(SwapTargetAsset))}", fileText);
+            StringAssert.DoesNotContain(nameof(SwapSourceAsset), fileText);
+        }
+
+        [Test]
+        public void GetEditorClassIdentifier_MatchesUnityFormat()
+        {
+            Assert.AreEqual("LowDefMustard.Utils.Tests::LowDefMustard.Utils.Tests.SwapTargetAsset", AssetScriptSwapper.GetEditorClassIdentifier(typeof(SwapTargetAsset)));
+        }
+
+        [Test]
         public void SwapScriptInPlace_PrefabComponent_ReloadsAsTargetWithFields()
         {
             var gameObject = new GameObject("Swap");

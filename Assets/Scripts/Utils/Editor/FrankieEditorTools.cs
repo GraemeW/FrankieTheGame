@@ -19,7 +19,7 @@ namespace Frankie.Utils.Editor
         private const string _characterPropertiesFolderRef = "Assets/Game/OnLoadAssets/CharacterProperties";
         private const string _characterObjectsFolderRef = "Assets/Game/CharacterObjects";
         private const string _skillsFolderRef = "Assets/Game/OnLoadAssets/Skills";
-        private const string _skillTreesFolderRef = "Assets/Game/Combat/SkillTrees";
+        private const string _skillSetsFolderRef = "Assets/Game/Combat/SkillSets";
         private const string _battleActionsFolderRef = "Assets/Game/OnLoadAssets/BattleActions";
         private const string _battleActionPartsFolderRef = "Assets/Game/Combat/BattleActions";
         private const string _inventoryFolderRef = "Assets/Game/OnLoadAssets/Inventory";
@@ -69,8 +69,8 @@ namespace Frankie.Utils.Editor
         [MenuItem("Tools/Select/Combat/Skills", false, 6)]
         private static void SelectSkillsFolder() => OpenFolder(_skillsFolderRef);
 
-        [MenuItem("Tools/Select/Combat/SkillTrees", false, 7)]
-        private static void SelectSkillTreesFolder() => OpenFolder(_skillTreesFolderRef);
+        [MenuItem("Tools/Select/Combat/SkillSets", false, 7)]
+        private static void SelectSkillSetsFolder() => OpenFolder(_skillSetsFolderRef);
         
         [MenuItem("Tools/Select/Combat/BattleActions", false, 8)]
         private static void SelectBattleActions() => OpenFolder(_battleActionsFolderRef);

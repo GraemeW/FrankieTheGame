@@ -14,7 +14,7 @@ To easily spin up new scene, duplicate one of these scene files as the starting 
 
 *A Brief Note on Rooms*
 
-The key differentiator in interior vs. exterior is the use of the [Room](../Scripts/Zones/Room.cs) script.  Generally, a new game object is created for each room in the scene, and all world objects within that room (including NPCs) are childed to that room.  We can use this property to toggle rooms as Frankie travels between them using the standard [ZoneNode](../../Packages/com.lowdefmustard.zones/Runtime/ZoneNode.cs) functionality -- see:  `ToggleParentGameObjects()`
+The key differentiator in interior vs. exterior is the use of the [Room](../Scripts/Zones/Room.cs) script.  Generally, a new game object is created for each room in the scene, and all world objects within that room (including NPCs) are childed to that room.  We can use this property to toggle rooms as Frankie travels between them using the standard [ZoneHandler](../Scripts/Zones/ZoneHandler.cs) functionality -- see:  `ToggleRoomParent()` (which calls `Room.ToggleRoom()`)
 
 ### Scene-Unity Hook-Up
 

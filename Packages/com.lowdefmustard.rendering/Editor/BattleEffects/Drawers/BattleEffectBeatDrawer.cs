@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Rendering.Editor
 {
@@ -11,7 +12,7 @@ namespace LowDefMustard.Rendering.Editor
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            SerializedProperty beats = property.serializedObject.FindProperty(property.propertyPath[..property.propertyPath.LastIndexOf('.')]);
+            SerializedProperty beats = property.FindParentProperty();
             SerializedProperty pattern = beats.FindPropertyRelative(BattleEffectBeats.patternField);
             SerializedProperty patternRate = beats.FindPropertyRelative(BattleEffectBeats.patternRateField);
             SerializedProperty isInterpolated = beats.FindPropertyRelative(BattleEffectBeats.isInterpolatedField);

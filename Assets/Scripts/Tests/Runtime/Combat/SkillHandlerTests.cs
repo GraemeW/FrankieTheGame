@@ -11,27 +11,35 @@ namespace Frankie.Tests
     {
         // Tested:
         //  - SkillHandler.TryGetRandomSkill - exclusions, choose-from subset, AP filter, zero-weight / null entries skipped, no skill set
+        //  - Entry naming a missing skill (e.g. deleted) - never rolled, never shown, no throw
         //  - SkillHandler pool selection - slot fill order + count, no repeats, AP filter on roll, SetBranchOrSkill picks the slot without traversal
         //  - SkillHandler pool reroll - kept on reset (cancel), rerolled after own action or entering battle, kept after another's action
         // Not Tested:
         //  - Weight distribution - ProbabilityPairExtensions' own tests cover the roll
         //  - Unsubscribe on battle outro / abort - needs a staged battle state event
         //  - BattleAI / BattleAIPriority - need a live battle (targets, predicates)
-        // Note:  Play Mode, since SkillHandler only caches its CombatParticipant in Awake
+        // Notes:
+        //  - Play Mode, since SkillHandler only caches its CombatParticipant in Awake
+        //  - Pool entries resolve skills by name through the Skill addressables cache, so this uses project skills
 
         // Const Tunables
         private const int _rollRepeats = 25;
+        private const string _missingSkillName = "SkillHandlerTests_DeletedSkill";
 
         // State
         private readonly TestObjectTracker tracker = new();
         private CombatParticipant combatParticipant;
         private SkillHandler skillHandler;
         private SkillPool skillPool;
+        private Skill[] freeSkills;
+        private Skill unaffordable;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
+            freeSkills = CombatTestBuilders.LoadAddressableSkills(6, skill => skill.GetAPCost() <= 0f);
+            unaffordable = CombatTestBuilders.LoadAddressableSkills(1, skill => skill.GetAPCost() > 0f)[0]; // Participant has 0 AP
             skillPool = tracker.CreateSkillPool("SkillHandlerTests_Pool");
             skillHandler = tracker.BuildSkillHandler("SkillHandlerTests_Participant", skillPool);
             combatParticipant = skillHandler.GetComponent<CombatParticipant>();
@@ -68,8 +76,8 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_ExcludedSkill_NeverPicked()
         {
-            Skill skillA = tracker.CreateSkill("A");
-            Skill skillB = tracker.CreateSkill("B");
+            Skill skillA = freeSkills[0];
+            Skill skillB = freeSkills[1];
             skillPool.SetSkills(skillA, skillB);
 
             AssertAlwaysPicks(skillHandler, skillB, new List<Skill> { skillA }, false);
@@ -78,7 +86,7 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_AllExcluded_ReturnsFalse()
         {
-            Skill skillA = tracker.CreateSkill("A");
+            Skill skillA = freeSkills[0];
             skillPool.SetSkills(skillA);
 
             AssertNoPick(skillHandler, new List<Skill> { skillA }, false);
@@ -87,9 +95,9 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_ChooseFrom_LimitsToSubset()
         {
-            Skill skillA = tracker.CreateSkill("A");
-            Skill skillB = tracker.CreateSkill("B");
-            Skill skillC = tracker.CreateSkill("C");
+            Skill skillA = freeSkills[0];
+            Skill skillB = freeSkills[1];
+            Skill skillC = freeSkills[2];
             skillPool.SetSkills(skillA, skillB, skillC);
 
             AssertAlwaysPicks(skillHandler, skillC, new List<Skill>(), false, new[] { skillC });
@@ -98,7 +106,7 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_ChooseFromOutsideSet_ReturnsFalse()
         {
-            skillPool.SetSkills(tracker.CreateSkill("A"));
+            skillPool.SetSkills(freeSkills[0]);
 
             AssertNoPick(skillHandler, new List<Skill>(), false, new[] { tracker.CreateSkill("Elsewhere") });
         }
@@ -106,8 +114,8 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_FilterByAP_SkipsUnaffordable()
         {
-            Skill expensive = tracker.CreateSkill("Expensive", 5f);
-            Skill free = tracker.CreateSkill("Free");
+            Skill expensive = unaffordable;
+            Skill free = freeSkills[0];
             skillPool.SetSkills(expensive, free);
 
             AssertAlwaysPicks(skillHandler, free, new List<Skill>(), true);
@@ -117,8 +125,8 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_NoAPFilter_KeepsUnaffordable()
         {
-            Skill expensive = tracker.CreateSkill("Expensive", 5f);
-            Skill free = tracker.CreateSkill("Free");
+            Skill expensive = unaffordable;
+            Skill free = freeSkills[0];
             skillPool.SetSkills(expensive, free);
 
             AssertAlwaysPicks(skillHandler, expensive, new List<Skill> { free }, false);
@@ -127,11 +135,28 @@ namespace Frankie.Tests
         [Test]
         public void TryGetRandomSkill_ZeroWeightAndNullEntries_Skipped()
         {
-            Skill zeroWeight = tracker.CreateSkill("ZeroWeight");
-            Skill weighted = tracker.CreateSkill("Weighted");
+            Skill zeroWeight = freeSkills[0];
+            Skill weighted = freeSkills[1];
             skillPool.SetSkills((zeroWeight, 0), (null, 3), (weighted, 1));
 
             AssertAlwaysPicks(skillHandler, weighted, new List<Skill>(), false);
+        }
+
+        [Test]
+        public void TryGetRandomSkill_MissingSkillName_NeverPicked()
+        {
+            skillPool.SetSkills(freeSkills[0]);
+            skillPool.AddSkillName(_missingSkillName, 100);
+
+            AssertAlwaysPicks(skillHandler, freeSkills[0], new List<Skill>(), false);
+        }
+
+        [Test]
+        public void TryGetRandomSkill_OnlyMissingSkillNames_ReturnsFalse()
+        {
+            skillPool.AddSkillName(_missingSkillName, 1);
+
+            AssertNoPick(skillHandler, new List<Skill>(), true);
         }
 
         [Test]
@@ -146,8 +171,8 @@ namespace Frankie.Tests
         [Test]
         public void PoolSelection_FewerThanFourSkills_FillsInOrderAndLeavesRestEmpty()
         {
-            Skill skillA = tracker.CreateSkill("A");
-            Skill skillB = tracker.CreateSkill("B");
+            Skill skillA = freeSkills[0];
+            Skill skillB = freeSkills[1];
             skillPool.SetSkills(skillA, skillB);
 
             Skill[] selectionSkills = skillHandler.GetSelectionSkills();
@@ -160,7 +185,7 @@ namespace Frankie.Tests
         [Test]
         public void PoolSelection_MoreThanFourSkills_FillsFourDistinctFromPool()
         {
-            Skill[] skills = Enumerable.Range(0, 6).Select(index => tracker.CreateSkill($"Skill{index}")).ToArray();
+            Skill[] skills = freeSkills.ToArray();
             skillPool.SetSkills(skills);
 
             Skill[] selectionSkills = skillHandler.GetSelectionSkills();
@@ -173,8 +198,8 @@ namespace Frankie.Tests
         [Test]
         public void PoolSelection_RepeatedEntries_ShownOnce()
         {
-            Skill skillA = tracker.CreateSkill("A");
-            Skill skillB = tracker.CreateSkill("B");
+            Skill skillA = freeSkills[0];
+            Skill skillB = freeSkills[1];
             skillPool.SetSkills(skillA, skillA, skillB);
 
             Skill[] shown = Shown(skillHandler.GetSelectionSkills());
@@ -183,10 +208,19 @@ namespace Frankie.Tests
         }
 
         [Test]
+        public void PoolSelection_MissingSkillName_NotShown()
+        {
+            skillPool.SetSkills(freeSkills[0]);
+            skillPool.AddSkillName(_missingSkillName, 100);
+
+            CollectionAssert.AreEqual(new[] { freeSkills[0] }, Shown(skillHandler.GetSelectionSkills()));
+        }
+
+        [Test]
         public void PoolSelection_Roll_SkipsUnaffordable()
         {
-            Skill expensive = tracker.CreateSkill("Expensive", 5f);
-            Skill free = tracker.CreateSkill("Free");
+            Skill expensive = unaffordable;
+            Skill free = freeSkills[0];
             skillPool.SetSkills(expensive, free);
 
             CollectionAssert.AreEqual(new[] { free }, Shown(skillHandler.GetSelectionSkills()));
@@ -195,7 +229,7 @@ namespace Frankie.Tests
         [Test]
         public void PoolSelection_SetBranchOrSkill_SelectsSlotSkillWithoutTraversal()
         {
-            skillPool.SetSkills(tracker.CreateSkill("A"), tracker.CreateSkill("B"));
+            skillPool.SetSkills(freeSkills[0], freeSkills[1]);
             Skill[] selectionSkills = skillHandler.GetSelectionSkills();
 
             skillHandler.SetBranchOrSkill(SkillBranchMapping.Left, SkillFilterType.All);
@@ -209,7 +243,7 @@ namespace Frankie.Tests
         [Test]
         public void PoolSelection_SetBranchOrSkill_EmptySlotKeepsActiveSkill()
         {
-            skillPool.SetSkills(tracker.CreateSkill("A"));
+            skillPool.SetSkills(freeSkills[0]);
             Skill[] selectionSkills = skillHandler.GetSelectionSkills();
 
             skillHandler.SetBranchOrSkill(SkillBranchMapping.Up, SkillFilterType.All);
@@ -221,12 +255,12 @@ namespace Frankie.Tests
         [Test]
         public void PoolReroll_ResetWithoutAction_KeepsSlots()
         {
-            Skill skillA = tracker.CreateSkill("A");
-            Skill skillB = tracker.CreateSkill("B");
+            Skill skillA = freeSkills[0];
+            Skill skillB = freeSkills[1];
             skillPool.SetSkills(skillA, skillB);
             Skill[] firstRoll = skillHandler.GetSelectionSkills();
 
-            skillPool.SetSkills(tracker.CreateSkill("C"), tracker.CreateSkill("D"));
+            skillPool.SetSkills(freeSkills[2], freeSkills[3]);
             skillHandler.ResetSelection();
 
             CollectionAssert.AreEqual(firstRoll, skillHandler.GetSelectionSkills());
@@ -235,12 +269,12 @@ namespace Frankie.Tests
         [Test]
         public void PoolReroll_AfterOwnAction_RerollsOnNextReset()
         {
-            skillPool.SetSkills(tracker.CreateSkill("A"), tracker.CreateSkill("B"));
+            skillPool.SetSkills(freeSkills[0], freeSkills[1]);
             combatParticipant.SubscribeToBattleStateChanges(true);
             Skill[] firstRoll = skillHandler.GetSelectionSkills();
 
-            Skill skillC = tracker.CreateSkill("C");
-            Skill skillD = tracker.CreateSkill("D");
+            Skill skillC = freeSkills[2];
+            Skill skillD = freeSkills[3];
             skillPool.SetSkills(skillC, skillD);
             CombatTestBuilders.RaiseQueuedAction(combatParticipant);
             CollectionAssert.AreEqual(firstRoll, skillHandler.GetSelectionSkills(), "Slots should hold until the next reset");
@@ -252,12 +286,12 @@ namespace Frankie.Tests
         [Test]
         public void PoolReroll_AfterOtherParticipantAction_KeepsSlots()
         {
-            skillPool.SetSkills(tracker.CreateSkill("A"), tracker.CreateSkill("B"));
+            skillPool.SetSkills(freeSkills[0], freeSkills[1]);
             combatParticipant.SubscribeToBattleStateChanges(true);
             Skill[] firstRoll = skillHandler.GetSelectionSkills();
             CombatParticipant otherParticipant = tracker.BuildSkillHandler("SkillHandlerTests_Other", null).GetComponent<CombatParticipant>();
 
-            skillPool.SetSkills(tracker.CreateSkill("C"), tracker.CreateSkill("D"));
+            skillPool.SetSkills(freeSkills[2], freeSkills[3]);
             CombatTestBuilders.RaiseQueuedAction(otherParticipant);
             skillHandler.ResetSelection();
 
@@ -267,11 +301,11 @@ namespace Frankie.Tests
         [Test]
         public void PoolReroll_OnEnteringBattle_RerollsOnNextReset()
         {
-            skillPool.SetSkills(tracker.CreateSkill("A"), tracker.CreateSkill("B"));
+            skillPool.SetSkills(freeSkills[0], freeSkills[1]);
             skillHandler.GetSelectionSkills();
 
-            Skill skillC = tracker.CreateSkill("C");
-            Skill skillD = tracker.CreateSkill("D");
+            Skill skillC = freeSkills[2];
+            Skill skillD = freeSkills[3];
             skillPool.SetSkills(skillC, skillD);
             combatParticipant.SubscribeToBattleStateChanges(true);
             skillHandler.ResetSelection();

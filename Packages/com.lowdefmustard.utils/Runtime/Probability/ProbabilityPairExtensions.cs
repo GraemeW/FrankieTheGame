@@ -6,53 +6,70 @@ namespace LowDefMustard.Utils
 {
     public static class ProbabilityPairExtensions
     {
+        // Behavioural Notes:
+        //  - Entries w/ weight <= 0 never land
+        //  - An empty value (null / destroyed Unity object) keeps its weight:  landing on it picks nothing (false)
+        //      - To never land on empties, filter them out before rolling
+
         #region PublicMethods
         public static bool TryGetRandom<T>(this IEnumerable<IObjectProbabilityPair<T>> objectProbabilityPairs, out T result)
         {
-            return TryRoll(GetUsablePairs(objectProbabilityPairs), out result);
+            result = default;
+            List<IObjectProbabilityPair<T>> weightedPairs = GetWeightedPairs(objectProbabilityPairs);
+            if (!TryRoll(weightedPairs, out IObjectProbabilityPair<T> landedPair) || IsEmpty(landedPair.value)) { return false; }
+
+            result = landedPair.value;
+            return true;
         }
 
         public static bool TryGetRandom<T>(this IEnumerable<IObjectProbabilityPair<T>> objectProbabilityPairs, int count, out List<T> results)
         {
             // Without repeats:  once a value is picked, every entry holding it leaves the draw, so repeated entries only raise its odds
+            //  - Landing on an empty value picks nothing && takes the empties out of the draw (so up to count values still get picked)
             results = new List<T>();
-            List<IObjectProbabilityPair<T>> usablePairs = GetUsablePairs(objectProbabilityPairs);
-            while (results.Count < count && TryRoll(usablePairs, out T picked))
+            List<IObjectProbabilityPair<T>> weightedPairs = GetWeightedPairs(objectProbabilityPairs);
+            while (results.Count < count && TryRoll(weightedPairs, out IObjectProbabilityPair<T> landedPair))
             {
+                if (IsEmpty(landedPair.value))
+                {
+                    weightedPairs.RemoveAll(pair => IsEmpty(pair.value));
+                    continue;
+                }
+
+                T picked = landedPair.value;
                 results.Add(picked);
-                usablePairs.RemoveAll(pair => EqualityComparer<T>.Default.Equals(pair.value, picked));
+                weightedPairs.RemoveAll(pair => EqualityComparer<T>.Default.Equals(pair.value, picked));
             }
             return results.Count > 0;
+        }
+        
+        internal static bool IsEmpty<T>(T value)
+        {
+            // Empty = null or a destroyed Unity object ~ Equals catches the latter (== null misses on generic type T)
+            return value == null || value.Equals(null);
         }
         #endregion
 
         #region PrivateMethods
-        private static List<IObjectProbabilityPair<T>> GetUsablePairs<T>(IEnumerable<IObjectProbabilityPair<T>> objectProbabilityPairs)
+        private static List<IObjectProbabilityPair<T>> GetWeightedPairs<T>(IEnumerable<IObjectProbabilityPair<T>> objectProbabilityPairs)
         {
-            return objectProbabilityPairs != null ? objectProbabilityPairs.Where(IsUsable).ToList() : new List<IObjectProbabilityPair<T>>();
+            return objectProbabilityPairs != null ? objectProbabilityPairs.Where(pair => pair is { weight: > 0 }).ToList() : new List<IObjectProbabilityPair<T>>();
         }
-
-        private static bool IsUsable<T>(IObjectProbabilityPair<T> objectProbabilityPair)
+        
+        private static bool TryRoll<T>(List<IObjectProbabilityPair<T>> weightedPairs, out IObjectProbabilityPair<T> landedPair)
         {
-            if (objectProbabilityPair is not { weight: > 0 }) { return false; }
-            T value = objectProbabilityPair.value;
-            return value != null && !value.Equals(null); // Equals to catch destroyed Unity objects (!= null misses on generic type T)
-        }
+            landedPair = null;
+            if (weightedPairs.Count == 0) { return false; }
 
-        private static bool TryRoll<T>(List<IObjectProbabilityPair<T>> usablePairs, out T result)
-        {
-            result = default;
-            if (usablePairs.Count == 0) { return false; }
-
-            int totalWeight = usablePairs.Sum(pair => pair.weight);
+            int totalWeight = weightedPairs.Sum(pair => pair.weight);
             int randomRoll = Random.Range(0, totalWeight);
             int accumulatingWeight = 0;
-            foreach (IObjectProbabilityPair<T> pair in usablePairs)
+            foreach (IObjectProbabilityPair<T> pair in weightedPairs)
             {
                 accumulatingWeight += pair.weight;
                 if (randomRoll >= accumulatingWeight) { continue; }
-                
-                result = pair.value;
+
+                landedPair = pair;
                 return true;
             }
             return false;

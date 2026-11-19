@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5146a14932da3498c866bea642bb8a, type: 3}
   m_Name: BattleAI_RamenHeal-LowPartyHealth
   m_EditorClassIdentifier: 
-  skills:
-  - {fileID: 11400000, guid: 7c4fa1d6d3b32dc499d4bdc73ec7d46f, type: 2}
+  skillReferences:
+  - ShareWarmRamen
   skillCondition:
     and:
     - or:

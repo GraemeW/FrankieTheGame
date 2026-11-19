@@ -9,10 +9,13 @@ namespace Frankie.Combat
     public class BattleAIPriority : ScriptableObject
     {
         // Tunables
-        [SerializeField] private Skill[] skills; 
+        [SerializeField][SkillReference] private List<string> skillReferences = new(); // Skill names ~ resolved through the Skill addressables cache (same as SkillBranch)
         [SerializeField] private BattleAICondition skillCondition;
-        [SerializeField] private TargetPriority[] targetPriorities;
+        [SerializeField] private List<TargetPriority> targetPriorities = new();
         [SerializeField] private bool defaultToRandomTarget = false;
+
+        // Editor Field References
+        internal const string skillReferencesField = nameof(skillReferences);
 
         #region StaticMethods
         public static void SetRandomTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
@@ -28,16 +31,17 @@ namespace Frankie.Combat
         public bool TryGetSkill(BattleAI battleAI, SkillHandler skillHandler, List<Skill> skillsToExclude, bool filterByAP, out Skill skill)
         {
             skill = null;
-            if (skills == null || skills.Length == 0) { return false; }
+            if (skillReferences == null || skillReferences.Count == 0) { return false; }
             if (!skillCondition.Check(new[] { battleAI })) { return false; }
 
-            return skillHandler.TryGetRandomSkill(skillsToExclude, filterByAP, skills, out skill);
+            Skill[] skills = skillReferences.Select(Skill.GetSkillFromName).Where(resolvedSkill => resolvedSkill != null).ToArray();
+            return skills.Length > 0 && skillHandler.TryGetRandomSkill(skillsToExclude, filterByAP, skills, out skill);
         }
 
         public void SetTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
         {
             // Early exit (i.e. set with skill condition, but no specific target)
-            if (targetPriorities == null || targetPriorities.Length == 0)
+            if (targetPriorities == null || targetPriorities.Count == 0)
             {
                 if (defaultToRandomTarget) { SetRandomTarget(battleAI, battleActionData, skill); } 
                 return;

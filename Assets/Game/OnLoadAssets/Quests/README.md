@@ -7,9 +7,7 @@ Quests are simple scriptable objects with brief detail on tasks that Frankie may
 ### Make the Quest
 
 1. Navigate to this [Quests](./) directory (or any sub-directories within)
-2. Right click and select `Create` -> `Quests` -> `New Quest`
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Quests/NewQuestMenu.png" width="500">
+2. Right click and select `Create` -> `Essential` -> `New Quest`
 
 ### Configure the Quest
 
@@ -60,9 +58,7 @@ Then:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Quests/HipsterQuestPredicate.png" width="300">
 
-* , and the same predicate is used to modify the Hipster Office Worker's dialogue tree:
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Quests/HipsterDialogueVsQuestPredicate.png" width="500">
+* , and the same predicate can then be used to modify the Hipster Office Worker's dialogue tree
 
 *N.B.*
 * *Further detail on the predicate system is provided in [Predicates](../../Predicates/)*

@@ -7,7 +7,7 @@ namespace Frankie.Combat.Spawner
     public class SpawnConfigurationProbabilityPair : IObjectProbabilityPair<SpawnConfiguration>
     {
         [SerializeField] public SpawnConfiguration spawnConfiguration;
-        [SerializeField][Min(0)] public int probabilityWeight;
+        [SerializeField][ProbabilityWeight] public int probabilityWeight;
 
         public SpawnConfigurationProbabilityPair(SpawnConfiguration spawnConfiguration, int probabilityWeight)
         {

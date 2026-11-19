@@ -7,6 +7,7 @@ Save-data serialization, the `SaveableEntity`/`ISaveable` framework, and the `Sa
 - **Unity:** 6000.5+
 - **Dependencies:** 
   - `com.unity.nuget.newtonsoft-json` 3.2.2
+  - `com.lowdefmustard.utils` 0.1.0 (tests only ~ shared `HeadlessEditorWindow`)
 
 ## Installation
 
@@ -77,7 +78,7 @@ Access via `Tools > Save Editor`. Lets you inspect and directly edit the content
   - Additional SubCard views must be generated via `RegisterSubCard` extension hooks - see below.
 - **Sync status** — editing a field marks its sub-card (and rolls up to the entity card) "Volatile"/desynced (shown in a distinct color) until that entity is saved or the file is reloaded, so it's obvious what hasn't been persisted yet.
 - **`PriorityRegistry<T>`** — small ordered-rule matcher (`Register(predicate, priority)` / `GetPriority(item)`) used to sort both entity cards and sub-cards; unmatched items sort last (`int.MaxValue`).
-- **`SceneSelectorContext`** — passed to the optional `SaveEditor.SceneSelectorFactory` hook (see below) so a project can render its own "last saved scene" picker in place of the default read-only text field.
+- **`SceneSelectorContext`** — passed to the optional `SaveEditor.sceneSelectorFactory` hook (see below) so a project can render its own "last saved scene" picker in place of the default read-only text field.
 
 ### Extension Hooks
 
@@ -88,7 +89,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
   - Each project should assign its own adapter to `SaveFileManagerProvider.current` (typically via an `[InitializeOnLoad]` class) wrapping its actual save-slot manager.
 - **`SaveableSubCardData.RegisterSubCard<T>(...)` / `RegisterSubCardPriority(...)`** — register a custom `SaveableSubCardData` factory for a given `ISaveableBase` type, and/or a sort priority for it, so project-specific components get a purpose-built editor UI.
 - **`SaveableEntityCardData.RegisterEntityCardPriority(...)`** — sort priority for entity cards themselves (e.g. pinning a player/root entity to the top of the list).
-- **`SaveEditor.SceneSelectorFactory`** — optional `Func<SceneSelectorContext, VisualElement>` to replace the default read-only "last saved scene" field with a project-specific scene picker.
+- **`SaveEditor.sceneSelectorFactory`** — optional `Func<SceneSelectorContext, VisualElement>` to replace the default read-only "last saved scene" field with a project-specific scene picker.
 
 ## Design Notes
 
@@ -126,8 +127,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 | `LoadPriority`                     | N/A    | --                                     | Bare enum, nothing to test           |
 | `SceneSelectorContext`             | N/A    | --                                     | Trivial data holder, nothing to test |
 | `SaveableEntity`                   | Yes    | `SaveableEntityTests.cs`               |                                      |
-| `SavingSystem`                     | Yes    | `SavingSystemFileIOPocTests.cs`,       |                                      |
-| ^-                                 | Yes    | `SavingSystemFileOperationsTests.cs`   |                                      |
+| `SavingSystem`                     | Yes    | `SavingSystemFileOperationsTests.cs`   |                                      |
 | ^-                                 | Yes    | `SavingSystemStateHelpersTests.cs`     |                                      |
 | ^-                                 | Yes    | `SavingSystemSceneIntegrationTests.cs` |                                      |
 | `SaveableEntityCardData`           | Yes    | `SaveableEntityCardDataTests.cs`       |                                      |
@@ -138,7 +138,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 
 - `TestSaveableComponent.cs` -- scriptable `MonoBehaviour, ISaveableBase` test double
 - `TestGenericSaveable.cs` -- scriptable `ISaveable<T>` test double (plain C#, no `MonoBehaviour`)
-- `HeadlessEditorWindow.cs` -- attaches a `VisualElement` tree to an off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires
+- `HeadlessEditorWindow` (from `com.lowdefmustard.utils` test utilities) -- off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires (`CreateOffscreenWindow` / `ShowOffscreen`, `SendClick`, `Close` in TearDown)
   - unattached elements silently skip dispatch on `.value` assignment and `SendEvent`
 
 ### Design Notes (testability)

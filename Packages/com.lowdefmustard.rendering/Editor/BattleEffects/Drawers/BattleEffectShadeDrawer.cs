@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Rendering.Editor
 {
@@ -12,7 +13,7 @@ namespace LowDefMustard.Rendering.Editor
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             SerializedProperty enabledProperty = property.FindPropertyRelative(BattleEffectShade.isEnabledField);
-            SerializedProperty styleProperty = FindSiblingStyle(property);
+            SerializedProperty styleProperty = property.FindSiblingProperty(BattleEffectItem.styleField);
             SerializedProperty modeProperty = styleProperty?.FindPropertyRelative(BattleEffectStyle.modeField);
             SerializedProperty fromPaletteProperty = styleProperty?.FindPropertyRelative(BattleEffectStyle.isOutlineFromPaletteField);
             var shadeSection = new BattleEffectSection(property, () => enabledProperty.boolValue, section =>
@@ -30,13 +31,6 @@ namespace LowDefMustard.Rendering.Editor
             });
             if (styleProperty != null) { shadeSection.TrackAlso(styleProperty); }
             return shadeSection;
-        }
-
-        private static SerializedProperty FindSiblingStyle(SerializedProperty property)
-        {
-            int lastDot = property.propertyPath.LastIndexOf('.');
-            string stylePath = lastDot < 0 ? BattleEffectItem.styleField : $"{property.propertyPath[..lastDot]}.{BattleEffectItem.styleField}";
-            return property.serializedObject.FindProperty(stylePath);
         }
     }
 }

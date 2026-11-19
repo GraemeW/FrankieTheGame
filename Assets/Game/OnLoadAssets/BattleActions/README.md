@@ -14,9 +14,7 @@ _N.B.  This quick start guide provides a summary on creating new battle actions 
 
 1. Navigate to the owner's sub-directory:  `Skills/` or `ActionItems/` (named after the skill / item that uses it), or `MiscUtility/` for shared utility actions (e.g. `DoNothing`)
    * or, use `New Battle Action` in the [Battle Action Editor](#battle-action-editor)
-2. Right click and select `Create` -> `BattleAction` -> `New Battle Action`
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewBattleActionMenu.png" width="450">
+2. Right click and select `Create` -> `Combat` -> `BattleActions` -> `New Battle Action`
 
 ### Base Parameters
 
@@ -33,9 +31,7 @@ To make a new targeting strategy:
 
 1. Navigate to [Combat/BattleActions/TargetingStrategies](../../Combat/BattleActions/TargetingStrategies/)
    * depending on the complexity of the targeting strategy, navigate further to [SpecificTargeting](../../Combat/BattleActions/TargetingStrategies/SpecificTargeting/)
-2. Right click and select `Create` -> `BattleAction` -> `Targeting` -> `Single Target` (or the relevant targeting type)
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewTargetingMenu.png" width="550">
+2. Right click and select `Create` -> `Combat` -> `BattleActions` -> `Targeting` -> `Single Target` (or the relevant targeting type)
 
 The targeting strategy sets the rules on which target a skill **can** select, but the actual skill and target selection are done in combat via [SkillHandler](../../../Scripts/Combat/Skills/SkillHandler.cs) (for the PCs) or via the [BattleAI](../../../Scripts/Combat/BattleAI/BattleAI.cs) for the NPCs. 
 
@@ -73,9 +69,7 @@ The override to hit everything parameter will ignore the number of enemies to hi
 
 To make a new filtering strategy:
 1. Navigate to [Combat/BattleActions/FilteringStrategies](../../Combat/BattleActions/FilterStrategies/)
-2. Right click and select `Create` -> `BattleAction` -> `Filters` -> `Living` (or) `Character`
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewFilteringMenu.png" width="550">
+2. Right click and select `Create` -> `Combat` -> `BattleActions` -> `Filters` -> `Living` (or) `Character`
 
 Filter strategies derive from the [FilterStrategy](../../../Scripts/Combat/BattleAction/Filtering/FilterStrategy.cs) abstract class, and simply reduce an IEnumerable of Battle Entities based on some pre-defined logic.  As above, the most basic types of filtering are:
 * Living Filters: to select combat participants that are either alive or dead
@@ -90,9 +84,7 @@ Alternate filtering strategies may be envisioned and built up in the future to a
 To make a new effect strategy:
 1. Navigate to [Combat/BattleActions/EffectStrategies](../../Combat/BattleActions/EffectStrategies/)
    * depending on the complexity of the targeting strategy, navigate further to the relevant subfolder
-2. Right click and select `Create` -> `BattleAction` -> `Effects` -> `effect you desire`
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewEffectMenu.png" width="650">
+2. Right click and select `Create` -> `Combat` -> `BattleActions` -> `Effects` -> `effect you desire`
 
 Effect strategies derive from the [EffectStrategy](../../../Scripts/Combat/BattleAction/StandardEffects/EffectStrategy.cs) abstract class, which requires a method to initiate the effect and a callback for when the effect is finished.  
 

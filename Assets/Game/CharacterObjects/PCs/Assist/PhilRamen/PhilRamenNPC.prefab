@@ -280,6 +280,22 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: philRamenNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 4168981442677578573, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Size.x
+      value: 0.14365028
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168981442677578573, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Size.y
+      value: 0.080000214
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168981442677578573, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.000000016093257
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168981442677578573, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.009999999
+      objectReference: {fileID: 0}
     - target: {fileID: 5138105515040558530, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_IsActive
       value: 0

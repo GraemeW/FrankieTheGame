@@ -7,7 +7,7 @@ namespace Frankie.Inventory
     public class LootEntry : IObjectProbabilityPair<InventoryItem>
     {
         [SerializeField] public InventoryItem inventoryItem;
-        [SerializeField][Min(1)] public int probabilityWeight = 1;
+        [SerializeField][ProbabilityWeight(min: 1)] public int probabilityWeight = 1;
 
         public LootEntry(InventoryItem inventoryItem, int probabilityWeight)
         {

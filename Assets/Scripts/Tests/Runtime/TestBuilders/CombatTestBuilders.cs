@@ -50,12 +50,26 @@ namespace Frankie.Tests
             for (int i = 0; i < pairs.Length; i++)
             {
                 SerializedProperty element = skillProbabilityPairsProperty.GetArrayElementAtIndex(i);
-                element.FindPropertyRelative(SkillProbabilityPair.skillField).objectReferenceValue = pairs[i].skill;
+                Skill skill = pairs[i].skill;
+                if (skill != null) { Assert.AreSame(skill, Skill.GetSkillFromName(skill.name), $"Pool entries hold skill names ~ '{skill.name}' must resolve (use LoadAddressableSkills)"); }
+                element.FindPropertyRelative(SkillProbabilityPair.skillReferenceField).stringValue = skill != null ? skill.name : string.Empty;
                 element.FindPropertyRelative(SkillProbabilityPair.probabilityWeightField).intValue = pairs[i].probabilityWeight;
             }
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
         
+        // Raw name, resolvable or not (e.g. a deleted skill's) ~ appended as a new entry
+        public static void AddSkillName(this SkillPool skillPool, string skillName, int probabilityWeight)
+        {
+            using var serializedObject = new SerializedObject(skillPool);
+            SerializedProperty skillProbabilityPairsProperty = serializedObject.FindProperty(SkillPool.skillProbabilityPairsField);
+            skillProbabilityPairsProperty.arraySize++;
+            SerializedProperty element = skillProbabilityPairsProperty.GetArrayElementAtIndex(skillProbabilityPairsProperty.arraySize - 1);
+            element.FindPropertyRelative(SkillProbabilityPair.skillReferenceField).stringValue = skillName;
+            element.FindPropertyRelative(SkillProbabilityPair.probabilityWeightField).intValue = probabilityWeight;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+        }
+
         public static void SetSkills(this SkillPool skillPool, params Skill[] skills) => skillPool.SetSkills(skills.Select(skill => (skill, 1)).ToArray()); // Weight 1 each
         #endregion
 
@@ -79,6 +93,21 @@ namespace Frankie.Tests
             skillBranch.SetSkill(left?.name, SkillBranchMapping.Left);
             skillBranch.SetSkill(right?.name, SkillBranchMapping.Right);
             skillBranch.SetSkill(down?.name, SkillBranchMapping.Down);
+        }
+
+        // Raw name, resolvable or not (e.g. a deleted skill's) ~ SetSkill refuses unknown names
+        public static void SetSkillName(this SkillBranch skillBranch, SkillBranchMapping skillBranchMapping, string skillName)
+        {
+            string fieldName = skillBranchMapping switch
+            {
+                SkillBranchMapping.Up => SkillBranch.upSkillReferenceField,
+                SkillBranchMapping.Left => SkillBranch.leftSkillReferenceField,
+                SkillBranchMapping.Right => SkillBranch.rightSkillReferenceField,
+                _ => SkillBranch.downSkillReferenceField
+            };
+            using var serializedObject = new SerializedObject(skillBranch);
+            serializedObject.FindProperty(fieldName).stringValue = skillName;
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
         // Tree building records undo steps against throwaway objects ~ call in TearDown before DestroyAll

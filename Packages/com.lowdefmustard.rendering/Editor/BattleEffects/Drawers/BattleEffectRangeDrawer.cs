@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Rendering.Editor
 {
@@ -106,7 +107,7 @@ namespace LowDefMustard.Rendering.Editor
         {
             if (condition == null) { return; }
             
-            SerializedProperty controller = property.serializedObject.FindProperty($"{property.propertyPath[..(property.propertyPath.LastIndexOf('.') + 1)]}{condition.fieldName}");
+            SerializedProperty controller = property.FindSiblingProperty(condition.fieldName);
             RefreshLabels();
             row.TrackPropertyValue(controller, _ => RefreshLabels());
             return;

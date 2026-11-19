@@ -12,7 +12,7 @@ namespace Frankie.Combat
     public class SkillHandler : MonoBehaviour
     {
         // Tunables
-        [SerializeField] private SkillSet skillSet;
+        [SerializeField][Tooltip("SkillTree or SkillPool")] private SkillSet skillSet;
         [SerializeField][Min(0)] private float skillTreeLevelMultiplierForStatUnlock = 10f;
 
         // Editor Field References

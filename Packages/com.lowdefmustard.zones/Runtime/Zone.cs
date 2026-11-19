@@ -140,7 +140,7 @@ namespace LowDefMustard.Zones
         public bool IsZoneAudioLooping() => isZoneAudioLooping;
         public bool ShouldUpdateMap() => updateMap;
         public IEnumerable<ZoneNode> GetAllNodes() => zoneNodes;
-        public ZoneNode GetRootNode() => zoneNodes[0];
+        public ZoneNode GetRootNode() => zoneNodes.Count > 0 ? zoneNodes[0] : null; // New zones are empty until opened in the editor
         public static bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
         public ZoneNode GetNodeFromID(string zoneNodeName) => zoneNodes.FirstOrDefault(zoneNode => zoneNode.name == zoneNodeName);
         Enum ILocalizableCore.localizationTableTypeValue => LocalizableClassTableTypeRegistry.GetTableType(GetType());

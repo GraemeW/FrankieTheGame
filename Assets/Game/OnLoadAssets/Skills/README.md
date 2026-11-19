@@ -11,7 +11,7 @@ A high-level summary on Skills, Battle Actions and their overall role in the com
 ### Make the Skill
 
 1. Navigate to this [Skills](./) directory (or any sub-directories within)
-2. Right click and select `Create` -> `Skills` -> `New Skill`
+2. Right click and select `Create` -> `Combat` -> `Skills` -> `New Skill`
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Skills/NewSkillMenu.png" width="500">
 
@@ -27,7 +27,7 @@ Set:
 
 ## Skill - Stat Relevance
 
-As described in [Game/Combat](../../Combat/), a skill's [Stat](../../../Scripts/Stats/Stat.cs) parameter plays a key role in gating access to the next skill node in the character's [SkillTree](../../Combat/SkillTrees/).
+As described in [Game/Combat](../../Combat/), a skill's [Stat](../../../Scripts/Stats/Stat.cs) parameter plays a key role in gating access to the next skill node in the character's [SkillTree](../../Combat/SkillSets/).
 
 Access to a given skill node in the skill tree requires that `stat > n * statRequirement`, where:
 * `n` : refers to the node depth in the skill tree

@@ -15,6 +15,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         private bool attached;
         private Zone zone;
         private ZoneViewData zoneViewData;
+        private MultiZoneView multiZoneView;
+        private ZoneViewData unrelatedZoneViewData;
         private Object originalSelection;
 
         #region Setup
@@ -31,7 +33,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             Selection.activeObject = originalSelection;
             if (zone != null) { Object.DestroyImmediate(zone); }
-            if (zoneViewData != null) { Object.DestroyImmediate(zoneViewData); }
+            if (zoneViewData != null) { Undo.ClearUndo(zoneViewData); Object.DestroyImmediate(zoneViewData); }
+            if (unrelatedZoneViewData != null) { Undo.ClearUndo(unrelatedZoneViewData); Object.DestroyImmediate(unrelatedZoneViewData); }
+            if (multiZoneView != null) { Object.DestroyImmediate(multiZoneView); }
             if (viewer != null)
             {
                 if (attached) { HeadlessEditorWindow.Close(viewer); }
@@ -45,9 +49,52 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.position = new Rect(-10000, -10000, 400, 300);
             attached = true;
         }
+
+        private void ShowInMemoryView()
+        {
+            zoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();
+            multiZoneView = ScriptableObject.CreateInstance<MultiZoneView>();
+            multiZoneView.zoneViewDataSet.Add(zoneViewData);
+            viewer.activeMultiZoneView = multiZoneView;
+            viewer.CreateGUI();
+            viewer.isDraggingNodeLink = true; // Cleared by a rebuild ~ proxy for us to tell whether undo rebuilt the views
+        }
+
+        private static void RecordMove(ZoneViewData target, Vector2 newPosition)
+        {
+            Undo.IncrementCurrentGroup();
+            Undo.RecordObject(target, "MultiZoneViewerTests Move");
+            target.topLeftPosition = newPosition;
+            EditorUtility.SetDirty(target);
+            Undo.IncrementCurrentGroup();
+        }
         #endregion
 
         #region Tests
+        [Test]
+        public void Undo_ZoneViewMoved_RebuildsViews()
+        {
+            ShowInMemoryView();
+            RecordMove(zoneViewData, new Vector2(40f, 40f));
+
+            Undo.PerformUndo();
+
+            Assert.AreEqual(Vector2.zero, zoneViewData.topLeftPosition);
+            Assert.IsFalse(viewer.isDraggingNodeLink, "views rebuilt");
+        }
+
+        [Test]
+        public void Undo_UnrelatedObject_KeepsViews()
+        {
+            ShowInMemoryView();
+            unrelatedZoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();
+            RecordMove(unrelatedZoneViewData, new Vector2(40f, 40f));
+
+            Undo.PerformUndo();
+
+            Assert.IsTrue(viewer.isDraggingNodeLink, "views not rebuilt");
+        }
+
         [Test]
         public void CreateGUI_ActiveMultiZoneViewNull_BuildsToolbarAndCanvasWithoutLoadingAnything()
         {

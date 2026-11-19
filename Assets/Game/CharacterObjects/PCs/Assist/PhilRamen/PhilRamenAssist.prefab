@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: f5abe8ca6456a534baff8c9e02dcb4bf, type: 2}
+    - target: {fileID: 878355353725603674, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: usesAP
       value: 0
@@ -43,6 +47,22 @@ PrefabInstance:
     - target: {fileID: 6205572641082529027, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363073529246390527, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Size.x
+      value: 0.13442485
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363073529246390527, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Size.y
+      value: 0.05110656
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363073529246390527, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.004815683
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363073529246390527, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.02054171
       objectReference: {fileID: 0}
     - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: uniqueIdentifier

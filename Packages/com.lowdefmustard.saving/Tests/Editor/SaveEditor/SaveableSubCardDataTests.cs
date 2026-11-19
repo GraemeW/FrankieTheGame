@@ -1,7 +1,9 @@
 using LowDefMustard.Saving.Editor;
+using LowDefMustard.Utils.Tests;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace LowDefMustard.Saving.Tests.Editor
@@ -15,7 +17,7 @@ namespace LowDefMustard.Saving.Tests.Editor
     public class SaveableSubCardDataTests
     {
         // State
-        private HeadlessEditorWindow windowHelper;
+        private EditorWindow window;
         private static readonly Func<ISaveableBase, bool> _registryOnlyProbePriorityMatch = probe => probe is RegistryOnlyProbe;
         
         #region DataStructures
@@ -42,8 +44,8 @@ namespace LowDefMustard.Saving.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            windowHelper?.Close();
-            windowHelper = null;
+            HeadlessEditorWindow.Close(window);
+            window = null;
 
             SaveableSubCardData.UnregisterSubCard<RegistryOnlyProbe>();
             SaveableSubCardData.UnregisterSubCardPriority(_registryOnlyProbePriorityMatch);
@@ -118,8 +120,8 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleBoolSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, false));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindow();
-            windowHelper.Attach(outerBox);
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
+            window.rootVisualElement.Add(outerBox);
 
             Toggle toggle = outerBox.Query<Toggle>().First();
             Assert.IsNotNull(toggle);
@@ -156,8 +158,8 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleBoolSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, false));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindow();
-            windowHelper.Attach(outerBox);
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
+            window.rootVisualElement.Add(outerBox);
 
             int callCount = 0;
 
@@ -183,8 +185,8 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleFloatSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, 1.5f));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindow();
-            windowHelper.Attach(outerBox);
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
+            window.rootVisualElement.Add(outerBox);
 
             FloatField floatField = outerBox.Query<FloatField>().First();
             Assert.AreEqual(1.5f, floatField.value);
@@ -205,8 +207,8 @@ namespace LowDefMustard.Saving.Tests.Editor
             var subCard = new SimpleIntSaveableSubCard(testSaveable, new SaveState(LoadPriority.ObjectProperty, 3));
             var outerBox = new Box();
             subCard.DrawIntoSubCardView(outerBox);
-            windowHelper = new HeadlessEditorWindow();
-            windowHelper.Attach(outerBox);
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
+            window.rootVisualElement.Add(outerBox);
 
             IntegerField intField = outerBox.Query<IntegerField>().First();
             Assert.AreEqual(3, intField.value);

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5146a14932da3498c866bea642bb8a, type: 3}
   m_Name: BattleAI_RamenFightMaya
   m_EditorClassIdentifier: 
-  skills:
-  - {fileID: 11400000, guid: 5b719a435431e3a468df622230450ed6, type: 2}
+  skillReferences:
+  - SpillHotRamen
   skillCondition:
     and:
     - or:

@@ -47,7 +47,7 @@ Solid arrows are requests, and dotted arrows are the return to World (`EnterWorl
 ### How Each State Handles Requests
 
 `PlayerStateBase` supplies the defaults, and each state overrides only what differs. On terminology for the below table:
-* "Queue" means the request goes to [ActionMemory](#actionmemory--the-policy-queue) and replays after the next return to World
+* "Queue" means the request goes to [ActionMemory](#action-memory--policy-queue) and replays after the next return to World
 * "Ignore" means the request is dropped.
 
 | Current state ↓ / Request → | **World**                                  | **Transition**                                                         | **Combat**                                                               | **Dialogue**                           | **Trade**     | **Options**     | **Cutscene**                           |

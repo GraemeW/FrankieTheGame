@@ -87,10 +87,7 @@ namespace Frankie.Combat
 
         public static void BuildCacheIfEmpty()
         {
-            // In Unity Editor, force-build cache for quicker / simpler debug
-#if (!UNITY_EDITOR)
             if (_skillLookupCache != null) { return; }
-#endif
 
             _skillLookupCache = new Dictionary<string, Skill>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Skill), (Skill skill) =>

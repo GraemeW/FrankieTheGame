@@ -11,8 +11,10 @@ namespace Frankie.Tests
         //  - SkillHandler tree selection - root slots on first read, traversal into a child branch (active skill = slot's skill), leaf slot selects w/o traversal
         //  - Traversal blocked (selects slot's skill instead) - child locked by trait level, child w/ only unaffordable skills, dangling child branch reference
         //  - Unaffordable slot - hidden, neither traverses nor changes the active skill
+        //  - Slot naming a missing skill (e.g. deleted) - empty, neither traverses nor changes the active skill (its child branch becomes unreachable)
         //  - ResetSelection - back to root, active skill cleared;  first SetBranchOrSkill before any read only initializes
         //  - skillSelectionChanged - raised on each SetBranchOrSkill / ResetSelection
+        //  - Tree w/o branches (new, never opened in the editor) - no root, empty slots, selection a no-op
         // Not Tested:
         //  - Trait unlock against real stat values - BaseStats has no character properties here (0 in every stat), levels gate via the unlock multiplier
         //  - SkillFilterType other than All - only All is used by the UI
@@ -175,6 +177,21 @@ namespace Frankie.Tests
         }
 
         [Test]
+        public void TreeSelection_MissingSkillSlot_EmptyAndKeepsActiveSkill()
+        {
+            rootBranch.SetSkills(left: free[0]);
+            rootBranch.SetSkillName(SkillBranchMapping.Up, "SkillHandlerTreeSelectionTests_DeletedSkill");
+            CreateChild(rootBranch, SkillBranchMapping.Up).SetSkills(up: free[1]);
+            CollectionAssert.AreEqual(new[] { null, free[0], null, null }, skillHandler.GetSelectionSkills());
+
+            Select(SkillBranchMapping.Left);
+            Select(SkillBranchMapping.Up);
+
+            Assert.AreEqual(free[0], skillHandler.GetActiveSkill());
+            CollectionAssert.AreEqual(new[] { null, free[0], null, null }, skillHandler.GetSelectionSkills());
+        }
+
+        [Test]
         public void TreeSelection_ResetSelection_ReturnsToRootAndClearsActiveSkill()
         {
             rootBranch.SetSkills(up: free[0], left: free[1]);
@@ -200,6 +217,18 @@ namespace Frankie.Tests
             Assert.IsNull(skillHandler.GetActiveSkill());
             CollectionAssert.AreEqual(new[] { free[0], null, null, null }, skillHandler.GetSelectionSkills());
             Assert.AreEqual(1, selectionChangedCount);
+        }
+
+        [Test]
+        public void TreeSelection_TreeWithoutBranches_EmptySlotsAndNoSelection()
+        {
+            var branchlessTree = tracker.Create<SkillTree>("SkillHandlerTreeSelectionTests_BranchlessTree");
+            SkillHandler branchlessHandler = tracker.BuildSkillHandler("SkillHandlerTreeSelectionTests_BranchlessParticipant", branchlessTree);
+
+            Assert.IsNull(branchlessTree.GetRootSkillBranch());
+            CollectionAssert.AreEqual(new Skill[] { null, null, null, null }, branchlessHandler.GetSelectionSkills());
+            branchlessHandler.SetBranchOrSkill(SkillBranchMapping.Up, SkillFilterType.All);
+            Assert.IsNull(branchlessHandler.GetActiveSkill());
         }
         #endregion
     }

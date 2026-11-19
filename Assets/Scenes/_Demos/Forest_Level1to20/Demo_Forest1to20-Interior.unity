@@ -206838,7 +206838,7 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
-      propertyPath: minItems
+      propertyPath: minLootRolls
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
