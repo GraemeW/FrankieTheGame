@@ -93,10 +93,7 @@ namespace Frankie.Stats
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {
             GameObject character = SpawnCharacter(baseStats.GetCharacterProperties(), partyContainer);
-            if (character == null)
-            {
-                return null;
-            }
+            if (character == null) { return null; }
 
             // Pass stats back/forth NPC -> Character
             var characterBaseStats = character.GetComponent<BaseStats>();

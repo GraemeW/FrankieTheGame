@@ -12,9 +12,9 @@ namespace Frankie.Stats
     [RequireComponent(typeof(InactiveParty))]
     public class Party : PartyBehaviour, ISaveable<PartySaveData>
     {
-        // State
-        private readonly HashSet<CharacterProperties> unlockedCharacters = new();
-        private readonly Dictionary<CharacterProperties, SceneParentReferencePair> worldNPCLookup = new();
+        // State ~ keyed by character ID:  builds hold separate built-in + Addressables copies of each CharacterProperties
+        private readonly Dictionary<string, CharacterProperties> unlockedCharacters = new();
+        private readonly Dictionary<string, (CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCLookup = new();
 
         // Cached References
         private InactiveParty inactiveParty;
@@ -68,11 +68,7 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public IList<CharacterProperties> GetAvailableCharactersToAdd()
-        {
-            List<CharacterProperties> charactersInParty = members.Select(character => character.GetCharacterProperties()).ToList();
-            return unlockedCharacters.Except(charactersInParty).ToList();
-        }
+        public IList<CharacterProperties> GetAvailableCharactersToAdd() => unlockedCharacters.Values.Where(characterProperties => !HasMember(characterProperties)).ToList();
         #endregion
 
         #region PublicMethodsOther
@@ -118,10 +114,12 @@ namespace Frankie.Stats
             if (members.Count >= partyLimit) { return false; }
 
             CharacterNPCSwapper partyCharacter = characterNPCSwapper.SwapToCharacter(container);
+            if (partyCharacter == null) { return false; }
+            if (!AddToParty(partyCharacter.GetBaseStats())) { Destroy(partyCharacter.gameObject); return false; } // Keep the world NPC on failure
+
             UpdateWorldLookup(false, partyCharacter);
             Destroy(characterNPCSwapper.gameObject);
-
-            return AddToParty(partyCharacter.GetBaseStats());
+            return true;
         }
 
         public override bool AddToParty(CharacterProperties characterProperties)
@@ -129,11 +127,16 @@ namespace Frankie.Stats
             // For instantiation through other means (i.e. no character exists on screen)
             if (characterProperties == null) { return false; }
             if (members.Count >= partyLimit) { return false; }
+            if (HasMember(characterProperties)) { return false; }
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
-            if (characterObject == null) { return false; }
+            if (characterObject != null && characterObject.TryGetComponent(out BaseStats baseStats) && AddToParty(baseStats))
+            {
+                return true;
+            }
             
-            return AddToParty(characterObject.GetComponent<BaseStats>());
+            Destroy(characterObject);
+            return false;
         }
 
         public override bool RemoveFromParty(BaseStats character)
@@ -194,28 +197,32 @@ namespace Frankie.Stats
             if (characterNPCSwapper == null) { return; }
             
             CharacterProperties characterProperties = characterNPCSwapper.GetBaseStats().GetCharacterProperties();
+            if (characterProperties == null) { return; }
+            
             if (addToLookUp)
             {
                 string sceneReference = SceneManager.GetActiveScene().name;
                 string parentName = characterNPCSwapper.transform.parent != null ? characterNPCSwapper.transform.parent.gameObject.name : string.Empty; 
                 var sceneParentReferencePair = new SceneParentReferencePair(sceneReference, parentName);
                 
-                worldNPCLookup[characterProperties] = sceneParentReferencePair;
+                worldNPCLookup[characterProperties.GetCharacterID()] = (characterProperties, sceneParentReferencePair);
             }
             else
             {
-                worldNPCLookup.Remove(characterProperties);
+                worldNPCLookup.Remove(characterProperties.GetCharacterID());
             }
         }
         
         public void AddToUnlockedCharacters(CharacterProperties characterProperties) // Callable via Unity Events
         {
-            unlockedCharacters.Add(characterProperties);
+            if (characterProperties == null) { return; }
+            unlockedCharacters.TryAdd(characterProperties.GetCharacterID(), characterProperties);
         }
 
         public void RemoveFromUnlockedCharacters(CharacterProperties characterProperties) // Callable via Unity Events
         {
-            unlockedCharacters.Remove(characterProperties);
+            if (characterProperties == null) { return; }
+            unlockedCharacters.Remove(characterProperties.GetCharacterID());
         }
         #endregion
 
@@ -287,7 +294,7 @@ namespace Frankie.Stats
         {
             members ??= new List<BaseStats>();
             List<CharacterProperties> partyCharacters = members.Select(character => character.GetCharacterProperties()).ToList();
-            var partySaveData = new PartySaveData(partyCharacters, unlockedCharacters, worldNPCLookup);
+            var partySaveData = new PartySaveData(partyCharacters, unlockedCharacters.Values.ToHashSet(), worldNPCLookup.Values.ToDictionary(entry => entry.characterProperties, entry => entry.sceneParentReferencePair));
             return ManualGetStateFromData(partySaveData);
         }
 
@@ -385,14 +392,14 @@ namespace Frankie.Stats
             worldNPCLookup.Clear();
             if (localWorldNPCLookup == null) { return; }
             
-            foreach (var pair in localWorldNPCLookup.Where(pair => pair.Key != null)) { worldNPCLookup[pair.Key] = pair.Value; }
-            foreach (KeyValuePair<CharacterProperties, SceneParentReferencePair> worldNPCEntry in worldNPCLookup)
+            foreach (var pair in localWorldNPCLookup.Where(pair => pair.Key != null)) { worldNPCLookup[pair.Key.GetCharacterID()] = (pair.Key, pair.Value); }
+            foreach ((CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair) in worldNPCLookup.Values)
             {
-                if (worldNPCEntry.Value.sceneName != SceneManager.GetActiveScene().name) { continue; }
+                if (sceneParentReferencePair.sceneName != SceneManager.GetActiveScene().name) { continue; }
                     
-                GameObject parent = GameObject.Find(worldNPCEntry.Value.parentName);
+                GameObject parent = GameObject.Find(sceneParentReferencePair.parentName);
                 Transform parentTransform = parent != null ? parent.transform : null;
-                CharacterNPCSwapper.SpawnNPC(worldNPCEntry.Key, parentTransform);
+                CharacterNPCSwapper.SpawnNPC(characterProperties, parentTransform);
             }
         }
         #endregion

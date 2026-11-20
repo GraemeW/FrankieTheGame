@@ -16,6 +16,9 @@ namespace Frankie.Sound
         [SerializeField][Range(0f,2f)] private float additionalVolumeScaler = 1.0f;
         [SerializeField] private List<AudioClip> audioClips = new();
         [Tooltip("Pool for PlayClip - defaults to the attached AudioSource if empty")] [SerializeField] private List<AudioSource> audioSources = new();
+        
+        // Editor Field References
+        internal const string audioSourcesField = nameof(audioSources);
 
         // Const
         private const float _defaultVolume = 0.3f;
@@ -152,7 +155,8 @@ namespace Frankie.Sound
         {
             idleSource = null;
             // Avoid duplicate simultaneous clip plays (impact is otherwise LOUD)
-            if (pooledSources.Any(source => source.isPlaying && source.clip == audioClip)) { return false; }
+            // By name:  builds can hold separate built-in + Addressables copies of the same clip
+            if (pooledSources.Any(source => source.isPlaying && source.clip != null && source.clip.name == audioClip.name)) { return false; }
             idleSource = pooledSources.FirstOrDefault(source => !source.isPlaying);
             return idleSource != null;
         }

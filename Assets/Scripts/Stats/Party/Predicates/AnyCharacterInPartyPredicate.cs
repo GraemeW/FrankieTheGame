@@ -7,9 +7,14 @@ namespace Frankie.Stats
     [CreateAssetMenu(fileName = "New Any Character In Party Predicate", menuName = "Predicates/Party/Contains Any Character", order = 10)]
     public class AnyCharacterInPartyPredicate : PredicateParty
     {
+        // Tunables
         [SerializeField] private PartyBehaviourType partyBehaviourType = PartyBehaviourType.Party;
         [SerializeField] private List<CharacterProperties> charactersToMatch = new();
         
+        // Editor Field References
+        internal const string charactersToMatchField = nameof(charactersToMatch);
+        
+        // Public Methods
         public override bool? Evaluate(PartyBehaviour partyBehaviour)
         {
             if (!PartyBehaviour.IsPartyBehaviourType(partyBehaviour, partyBehaviourType)) { return null; }

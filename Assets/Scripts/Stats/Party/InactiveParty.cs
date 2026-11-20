@@ -8,8 +8,8 @@ namespace Frankie.Stats
 {
     public class InactiveParty : MonoBehaviour, ISaveable<HashSet<CharacterProperties>>
     {
-        // State
-        private readonly HashSet<CharacterProperties> inactiveCharacters = new();
+        // State ~ keyed by character ID:  builds hold separate built-in + Addressables copies of each CharacterProperties
+        private readonly HashSet<string> inactiveCharacterIDs = new();
 
         #region PublicMethods
         public void CaptureCharacterState(BaseStats character)
@@ -23,7 +23,7 @@ namespace Frankie.Stats
             if (characterProperties == null) { return; }
             
             SaveFileManager.AppendToSession(saveableEntity);
-            inactiveCharacters.Add(characterProperties);
+            inactiveCharacterIDs.Add(characterProperties.GetCharacterID());
         }
 
         public void RestoreCharacterState(BaseStats character)
@@ -32,27 +32,27 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            if (!inactiveCharacters.Contains(characterProperties)) { return; }
+            if (!inactiveCharacterIDs.Contains(characterProperties.GetCharacterID())) { return; }
 
             SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
             
             SaveFileManager.RestorePropertiesFromSession(saveableEntity);
-            inactiveCharacters.Remove(characterProperties);
+            inactiveCharacterIDs.Remove(characterProperties.GetCharacterID());
         }
         #endregion
 
         #region SaveSystem
         public bool IsCorePlayerState() => true;
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-        public SaveState CaptureState() => ManualGetStateFromData(inactiveCharacters);
+        public SaveState CaptureState() => new(GetLoadPriority(), new HashSet<string>(inactiveCharacterIDs));
 
         public void RestoreState(SaveState saveState)
         {
             if (!TryManualGetDataFromState(saveState, out HashSet<CharacterProperties> data)) { return; }
             foreach (CharacterProperties characterProperties in data)
             {
-                inactiveCharacters.Add(characterProperties);
+                inactiveCharacterIDs.Add(characterProperties.GetCharacterID());
             }
         }
         

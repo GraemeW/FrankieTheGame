@@ -47,27 +47,29 @@ namespace Frankie.Speech
         private List<DialogueNode> ResolveTargets(IEnumerable<string> nodeIDs, IEnumerable<IPredicateEvaluator> evaluators)
         {
             var resolvedNodes = new List<DialogueNode>();
-            AppendResolvedTargets(nodeIDs, evaluators.ToList(), resolvedNodes, new HashSet<DialogueConditionNode>());
+            AppendResolvedTargets(nodeIDs, evaluators.ToList(), resolvedNodes, new HashSet<string>());
             return resolvedNodes;
         }
 
-        private void AppendResolvedTargets(IEnumerable<string> nodeIDs, List<IPredicateEvaluator> evaluators, List<DialogueNode> resolvedNodes, HashSet<DialogueConditionNode> visitedConditionNodes)
+        private void AppendResolvedTargets(IEnumerable<string> nodeIDs, List<IPredicateEvaluator> evaluators, List<DialogueNode> resolvedNodes, HashSet<string> visitedNodeIDs)
         {
             // Condition nodes are transparent -> a passing one contributes its own targets in place
             if (nodeIDs == null) { return; }
             foreach (string nodeID in nodeIDs)
             {
+                if (!visitedNodeIDs.Add(nodeID)) { continue; }
+
                 DialogueNode dialogueNode = GetDialogueNodeFromID(nodeID);
                 if (dialogueNode != null)
                 {
-                    if (!resolvedNodes.Contains(dialogueNode)) { resolvedNodes.Add(dialogueNode); }
+                    resolvedNodes.Add(dialogueNode);
                     continue;
                 }
 
                 DialogueConditionNode conditionNode = GetConditionNodeFromID(nodeID);
-                if (conditionNode == null || !visitedConditionNodes.Add(conditionNode)) { continue; }
+                if (conditionNode == null) { continue; }
                 if (!conditionNode.CheckCondition(evaluators)) { continue; }
-                AppendResolvedTargets(conditionNode.GetChildren(), evaluators, resolvedNodes, visitedConditionNodes);
+                AppendResolvedTargets(conditionNode.GetChildren(), evaluators, resolvedNodes, visitedNodeIDs);
             }
         }
         #endregion

@@ -44,7 +44,7 @@ namespace Frankie.Quests
                     completedObjectives.Add(objective);
                     break;
                 case false when inCompletedObjectivesList:
-                    completedObjectives.Remove(objective);
+                    completedObjectives.RemoveAll(questObjective => questObjective.GetObjectiveID() == objective.GetObjectiveID());
                     break;
             }
         }

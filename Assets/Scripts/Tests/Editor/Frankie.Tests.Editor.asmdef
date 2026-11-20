@@ -10,6 +10,7 @@
         "LowDefMustard.Core",
         "LowDefMustard.GameStateModifiers",
         "LowDefMustard.Localization",
+        "LowDefMustard.Saving",
         "LowDefMustard.Utils",
         "LowDefMustard.Utils.Editor",
         "LowDefMustard.Utils.Tests",

@@ -9,6 +9,7 @@
         "LowDefMustard.Utils",
         "LowDefMustard.Utils.Tests",
         "LowDefMustard.Control",
+        "LowDefMustard.Saving",
         "LowDefMustard.Zones",
         "LowDefMustard.UIBox",
         "LowDefMustard.GameStateModifiers",

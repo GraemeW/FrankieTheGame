@@ -47,10 +47,11 @@ namespace Frankie.Stats
 
             CharacterNPCSwapper partyCharacter = characterNPCSwapper.SwapToCharacter(container);
             if (partyCharacter == null) { return false; }
-            
+            if (!AddToParty(partyCharacter.GetBaseStats())) { Destroy(partyCharacter.gameObject); return false; } // Keep the world NPC on failure
+
             party.UpdateWorldLookup(false, partyCharacter);
             Destroy(characterNPCSwapper.gameObject);
-            return AddToParty(partyCharacter.GetBaseStats());
+            return true;
         }
 
         public override bool AddToParty(CharacterProperties characterProperties)
@@ -58,12 +59,16 @@ namespace Frankie.Stats
             // For instantiation through other means (i.e. no character exists on screen)
             if (members.Count >= partyLimit) { return false; }
             if (characterProperties == null) { return false; } // Failsafe
+            if (HasMember(characterProperties)) { return false; }
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
-            if (characterObject == null) { return false; }
+            if (characterObject != null && characterObject.TryGetComponent(out BaseStats baseStats) && AddToParty(baseStats))
+            {
+                return true;
+            }
             
-            var character = characterObject.GetComponent<BaseStats>();
-            return AddToParty(character);
+            Destroy(characterObject); 
+            return false;
         }
 
         public override bool RemoveFromParty(BaseStats character)

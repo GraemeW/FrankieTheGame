@@ -8,6 +8,9 @@ namespace Frankie.Inventory
         // Tunables
         [SerializeField] private Transform attachedObjectsRoot;
         
+        // Editor Field References
+        internal const string attachedObjectsRootField = nameof(attachedObjectsRoot);
+        
         // Cached References
         private CharacterMoveLink characterMoveLink;
 

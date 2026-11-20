@@ -8,8 +8,13 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Is Character Dead Predicate", menuName = "Predicates/CombatParticipant/Is Character Dead", order = 10)]
     public class IsCharacterDeadPredicate : PredicateCombatParticipant
     {
+        // Tunables
         [SerializeField] private List<CharacterProperties> characters = new();
         
+        // Editor Field References
+        internal const string charactersField = nameof(characters);
+        
+        // Public Methods
         public override bool? Evaluate(CombatParticipant combatParticipant)
         {
             if (combatParticipant == null) { return null; }

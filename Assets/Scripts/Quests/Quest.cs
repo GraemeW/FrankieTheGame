@@ -34,6 +34,9 @@ namespace Frankie.Quests
         // Quest
         [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Quest>> _addressablesLoadHandle;
         [AutoStaticsCleanup] private static Dictionary<string, Quest> _questLookupCache;
+        
+        // Editor Field References
+        internal const string questObjectivesField = nameof(questObjectives);
 
         #region UnityMethods
         private void OnValidate()
