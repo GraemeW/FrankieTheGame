@@ -18,12 +18,6 @@ namespace Frankie.Tests.Editor
         // Not Tested:
         //  - Clicking "Open" - opens (docks) the Skill Set Editor window, so checked manually
 
-        // Data Structures
-        private class Host : ScriptableObject
-        {
-            public SkillSet skillSet;
-        }
-
         // State
         private readonly TestObjectTracker tracker = new();
         private Host host;
@@ -32,6 +26,12 @@ namespace Frankie.Tests.Editor
         private SkillTree skillTree;
         private SkillPool skillPool;
 
+        // Data Structures
+        private class Host : ScriptableObject
+        {
+            public SkillSet skillSet;
+        }
+        
         #region Setup
         [SetUp]
         public void SetUp()

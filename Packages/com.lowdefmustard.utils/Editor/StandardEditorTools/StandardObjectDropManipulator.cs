@@ -11,11 +11,13 @@ namespace LowDefMustard.Utils.Editor
         // State
         private readonly Func<T, bool> canAccept;
         private readonly Action<T> onDrop;
+        private readonly string highlightClass;
 
-        public StandardObjectDropManipulator(Func<T, bool> canAccept, Action<T> onDrop)
+        public StandardObjectDropManipulator(Func<T, bool> canAccept, Action<T> onDrop, string highlightClass = null)
         {
             this.canAccept = canAccept;
             this.onDrop = onDrop;
+            this.highlightClass = highlightClass; // opt-in (e.g. StandardBrownTheme.dropTargetClass) ~ null leaves the element's styling alone
         }
 
         protected override void RegisterCallbacksOnTarget()
@@ -32,7 +34,7 @@ namespace LowDefMustard.Utils.Editor
             target.UnregisterCallback<DragPerformEvent>(OnDragPerform, TrickleDown.TrickleDown);
             target.UnregisterCallback<DragLeaveEvent>(OnDragEnded);
             target.UnregisterCallback<DragExitedEvent>(OnDragEnded);
-            target.RemoveFromClassList(StandardBrownTheme.dropTargetClass);
+            SetHighlight(false);
         }
 
         private void OnDragUpdated(DragUpdatedEvent dragUpdatedEvent)
@@ -41,13 +43,13 @@ namespace LowDefMustard.Utils.Editor
 
             bool isDroppable = TryGetDroppable(DragAndDrop.objectReferences, canAccept, out _);
             DragAndDrop.visualMode = isDroppable ? DragAndDropVisualMode.Link : DragAndDropVisualMode.Rejected;
-            target.EnableInClassList(StandardBrownTheme.dropTargetClass, isDroppable);
+            SetHighlight(isDroppable);
             dragUpdatedEvent.StopPropagation();
         }
 
         private void OnDragPerform(DragPerformEvent dragPerformEvent)
         {
-            target.RemoveFromClassList(StandardBrownTheme.dropTargetClass);
+            SetHighlight(false);
             if (!TryGetDroppable(DragAndDrop.objectReferences, canAccept, out T droppable)) { return; }
 
             DragAndDrop.AcceptDrag();
@@ -55,7 +57,7 @@ namespace LowDefMustard.Utils.Editor
             onDrop?.Invoke(droppable);
         }
 
-        private void OnDragEnded(EventBase _) => target.RemoveFromClassList(StandardBrownTheme.dropTargetClass);
+        private void OnDragEnded(EventBase _) => SetHighlight(false);
         
         internal static bool TryGetDroppable(IReadOnlyList<Object> objectReferences, Func<T, bool> canAccept, out T droppable)
         {
@@ -72,6 +74,12 @@ namespace LowDefMustard.Utils.Editor
             if (objectReferences == null) { return false; }
             foreach (Object objectReference in objectReferences) { if (objectReference is T) { return true; } }
             return false;
+        }
+        
+        private void SetHighlight(bool isHighlighted)
+        {
+            if (string.IsNullOrEmpty(highlightClass)) { return; }
+            target.EnableInClassList(highlightClass, isHighlighted);
         }
     }
 }

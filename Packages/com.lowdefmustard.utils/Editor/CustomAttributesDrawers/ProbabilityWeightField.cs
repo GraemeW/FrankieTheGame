@@ -65,7 +65,7 @@ namespace LowDefMustard.Utils.Editor
         }
         #endregion
 
-        #region PrivateMethods
+        #region PrivateInternalMethods
         internal static string GetShareText(SerializedObject serializedObject, string weightPropertyPath, bool isEmptyValueSkipped, out bool isExcluded, out bool isEmpty, out string tooltip)
         {
             isExcluded = false;

@@ -48,7 +48,7 @@ namespace Frankie.Combat.Editor
         public static void AddSkillDropTarget(TextField skillField, Func<Skill, bool> isAssignable)
         {
             // Note:  drop writes the skill's name ~ lands through the field's own change handling (same path as typing)
-            skillField.AddManipulator(new StandardObjectDropManipulator<Skill>(isAssignable, droppedSkill => skillField.value = droppedSkill.name));
+            skillField.AddManipulator(new StandardObjectDropManipulator<Skill>(isAssignable, droppedSkill => skillField.value = droppedSkill.name, StandardBrownTheme.dropTargetClass));
         }
         #endregion
         

@@ -132,7 +132,7 @@ Reusable UI Toolkit building blocks for custom editor windows (node/graph canvas
 - **`StandardObjectDragManipulator`** — Starts an editor drag (`DragAndDrop`) of an asset from any element once the pointer moves past a small threshold; clicks below it pass through (e.g. a row's ping)
 - **`StandardObjectDropManipulator<T>`** — Accepts a dragged single `T` onto an element, e.g. to fill a text field with an asset's name
   - `canAccept` refuses some `T`s (rejected cursor, never accepted then discarded); drags without any `T` pass through to the element's own handling
-  - Highlights the element with `StandardBrownTheme.dropTargetClass` while an acceptable drag hovers it
+  - Optional `highlightClass` (default none) is added to the element while an acceptable drag hovers it, e.g. `StandardBrownTheme.dropTargetClass` in a Standard Brown window
 - **`AutocompleteDropdown`** — Suggestion list shown under a `TextField` while typing; `Attach(field, options)` hooks up any number of fields to one shared dropdown
   - Pass the full set of options:  matching is case-insensitive, listing options that start with the typed text first && then options containing it
   - Add it to the window root:  it positions itself in that space, so it stays unscaled over zoomed canvases.

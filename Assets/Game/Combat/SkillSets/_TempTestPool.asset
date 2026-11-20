@@ -17,7 +17,7 @@ MonoBehaviour:
     probabilityWeight: 3
   - skillReference: ShareWarmRamen
     probabilityWeight: 1
-  - skillReference: PiercingMonkChant
+  - skillReference: WarmMeal
     probabilityWeight: 3
   - skillReference: NerdSnipe
     probabilityWeight: 1

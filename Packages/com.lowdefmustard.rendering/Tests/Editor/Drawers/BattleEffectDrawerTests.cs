@@ -21,6 +21,12 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //      - this does NOT apply to [SerializeReference] parents (e.g. a shape)
         //      - the shape drawer + the recipe inspector's item / instance headers track the whole object instead
 
+        // State
+        private EditorWindow window;
+        private EditorWindow narrow;
+        private DrawerTarget target;
+        private SerializedObject serializedObject;
+
         // Data Structures
         private sealed class DrawerTarget : ScriptableObject
         {
@@ -37,13 +43,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             public BattleEffectOutlineEdgeGradient outlineEdgeGradient = new();
             [SerializeReference] public BattleEffectShape shape = new BattleEffectCircle();
         }
-
-        // State
-        private EditorWindow window;
-        private EditorWindow narrow;
-        private DrawerTarget target;
-        private SerializedObject serializedObject;
-
+        
         #region Setup
         [UnitySetUp]
         public IEnumerator SetUp()

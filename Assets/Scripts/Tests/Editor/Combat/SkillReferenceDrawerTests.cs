@@ -23,13 +23,6 @@ namespace Frankie.Tests.Editor
         // Not Tested:
         //  - Object picker window - standard ObjectField behaviour
 
-        // Data Structures
-        private class Host : ScriptableObject
-        {
-            [SkillReference] public string skillReference;
-            [SkillReference] public List<string> skillReferences = new();
-        }
-
         // State
         private readonly TestObjectTracker tracker = new();
         private Host host;
@@ -37,6 +30,13 @@ namespace Frankie.Tests.Editor
         private EditorWindow window;
         private Skill[] projectSkills;
 
+        // Data Structures
+        private class Host : ScriptableObject
+        {
+            [SkillReference] public string skillReference;
+            [SkillReference] public List<string> skillReferences = new();
+        }
+        
         #region Setup
         [SetUp]
         public void SetUp()
