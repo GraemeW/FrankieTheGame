@@ -31,11 +31,12 @@ namespace Frankie.Speech
 
         public void OverrideSpeakerNames(string playerName)
         {
-            foreach (DialogueNode dialogueNode in dialogueNodes)
+            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode != null))
             {
                 SpeakerType speakerType = dialogueNode.GetSpeakerType();
                 if (speakerType == SpeakerType.PlayerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.OverrideSpeakerName(playerName); }
                 else if (speakerType == SpeakerType.AISpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode)) { dialogueNode.OverrideSpeakerName(); }
+                else { dialogueNode.ClearSpeakerNameOverride(); }
             }
         }
         #endregion

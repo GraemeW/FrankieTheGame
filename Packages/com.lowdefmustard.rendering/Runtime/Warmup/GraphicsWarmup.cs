@@ -53,6 +53,7 @@ namespace LowDefMustard.Rendering
 
         private void Start()
         {
+            foreach (GraphicsWarmupEntry entry in entries) { entry?.LoadAddressableMaterial(); }
             if (preWarmCoroutine != null) { StopCoroutine(preWarmCoroutine); }
             preWarmCoroutine = StartCoroutine(mode == GraphicsWarmupMode.PreDraw ? PreDraw() : WarmUpCollection());
         }
@@ -76,6 +77,7 @@ namespace LowDefMustard.Rendering
             preDraw = null;
             
             warmupHandle.Complete();
+            foreach (GraphicsWarmupEntry entry in entries) { entry?.ReleaseAddressableMaterial(); }
             if (warmupCollection != null) { Destroy(warmupCollection); }
             if (sessionTrace != null) { Destroy(sessionTrace); }
         }

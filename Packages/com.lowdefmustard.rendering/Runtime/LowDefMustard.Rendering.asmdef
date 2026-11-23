@@ -4,7 +4,9 @@
   "references": [
     "LowDefMustard.Core",
     "Unity.Cinemachine",
-    "Unity.RenderPipelines.Universal.Runtime"
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.Addressables",
+    "Unity.ResourceManager"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

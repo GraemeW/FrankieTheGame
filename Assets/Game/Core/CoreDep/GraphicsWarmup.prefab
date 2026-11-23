@@ -48,71 +48,155 @@ MonoBehaviour:
   entries:
   - path: 2
     material: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 0}
     targetTexture: {fileID: 0}
   - path: 2
     material: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 0}
     targetTexture: {fileID: 8400000, guid: 8e0950af32c78c94ca431e24f3eced61, type: 2}
   - path: 2
     material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 0}
     targetTexture: {fileID: 0}
   - path: 3
     material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 0}
     targetTexture: {fileID: 0}
   - path: 0
-    material: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
+    material: {fileID: 0}
+    addressableMaterial:
+      m_AssetGUID: 8f746be12fe9f41a59274d73ae58a650
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: 29f2f069c930343eb83fa85896e1ad9c, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 1
     material: {fileID: 0}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 11400000, guid: 3e8cce2e8508e43958de7885e00dbb1b, type: 2}
     panelSettings: {fileID: 11400000, guid: 9d2e85dfed6c42488bf5c3d2109dae31, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: c95ecd05fdd444ed7b1f3824720f85b0, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: 336c743cf227e42abbda6c31dd121ab6, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: efc7bde02ee9e488696ad0d1d42689e0, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: 32b4c139a5c79ce46a7bfae5b269ac9b, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}
   - path: 0
     material: {fileID: 2100000, guid: fb208115c97366b45a5e7f13b5938d1a, type: 2}
+    addressableMaterial:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
     filter: {fileID: 0}
     panelSettings: {fileID: 11400000, guid: 8735a63b68784aa39b0f8157c6f77c29, type: 2}
     targetTexture: {fileID: 0}

@@ -59,7 +59,7 @@ namespace Frankie.Stats
         public SaveState ManualGetStateFromData(HashSet<CharacterProperties> data)
         {
             data ??= new HashSet<CharacterProperties>();
-            HashSet<string> partyNames = data.Select(character => character != null ? character.GetCharacterID() : string.Empty).ToHashSet();
+            HashSet<string> partyNames = CharacterProperties.GetCharacterIDs(data).ToHashSet();
             return new SaveState(GetLoadPriority(), partyNames);
         }
 
@@ -70,7 +70,7 @@ namespace Frankie.Stats
             if (saveState == null || !saveState.TryGetState(out List<string> partyNames)) { return true; }
             
             // Save Found Pass Back
-            data = partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
+            data = CharacterProperties.GetCharacterPropertiesFromNames(partyNames).ToHashSet();
             return true;
         }
         #endregion

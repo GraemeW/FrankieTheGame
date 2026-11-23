@@ -12,9 +12,9 @@ namespace Frankie.Stats
     [RequireComponent(typeof(InactiveParty))]
     public class Party : PartyBehaviour, ISaveable<PartySaveData>
     {
-        // State ~ keyed by character ID:  builds hold separate built-in + Addressables copies of each CharacterProperties
-        private readonly Dictionary<string, CharacterProperties> unlockedCharacters = new();
-        private readonly Dictionary<string, (CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCLookup = new();
+        // State
+        private readonly HashSet<string> unlockedCharacterIDs = new();
+        private readonly Dictionary<string, SceneParentReferencePair> worldNPCLookup = new();
 
         // Cached References
         private InactiveParty inactiveParty;
@@ -68,7 +68,7 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public IList<CharacterProperties> GetAvailableCharactersToAdd() => unlockedCharacters.Values.Where(characterProperties => !HasMember(characterProperties)).ToList();
+        public IList<CharacterProperties> GetAvailableCharactersToAdd() => CharacterProperties.GetCharacterPropertiesFromNames(unlockedCharacterIDs).Where(characterProperties => !HasMember(characterProperties)).ToList();
         #endregion
 
         #region PublicMethodsOther
@@ -205,7 +205,7 @@ namespace Frankie.Stats
                 string parentName = characterNPCSwapper.transform.parent != null ? characterNPCSwapper.transform.parent.gameObject.name : string.Empty; 
                 var sceneParentReferencePair = new SceneParentReferencePair(sceneReference, parentName);
                 
-                worldNPCLookup[characterProperties.GetCharacterID()] = (characterProperties, sceneParentReferencePair);
+                worldNPCLookup[characterProperties.GetCharacterID()] = sceneParentReferencePair;
             }
             else
             {
@@ -216,13 +216,13 @@ namespace Frankie.Stats
         public void AddToUnlockedCharacters(CharacterProperties characterProperties) // Callable via Unity Events
         {
             if (characterProperties == null) { return; }
-            unlockedCharacters.TryAdd(characterProperties.GetCharacterID(), characterProperties);
+            unlockedCharacterIDs.Add(characterProperties.GetCharacterID());
         }
 
         public void RemoveFromUnlockedCharacters(CharacterProperties characterProperties) // Callable via Unity Events
         {
             if (characterProperties == null) { return; }
-            unlockedCharacters.Remove(characterProperties.GetCharacterID());
+            unlockedCharacterIDs.Remove(characterProperties.GetCharacterID());
         }
         #endregion
 
@@ -293,33 +293,21 @@ namespace Frankie.Stats
         public SaveState CaptureState()
         {
             members ??= new List<BaseStats>();
-            List<CharacterProperties> partyCharacters = members.Select(character => character.GetCharacterProperties()).ToList();
-            var partySaveData = new PartySaveData(partyCharacters, unlockedCharacters.Values.ToHashSet(), worldNPCLookup.Values.ToDictionary(entry => entry.characterProperties, entry => entry.sceneParentReferencePair));
-            return ManualGetStateFromData(partySaveData);
+            List<string> partyCharacterNames = CharacterProperties.GetCharacterIDs(members.Select(character => character.GetCharacterProperties()));
+            var partySerializableSaveData = new PartySerializableSaveData(partyCharacterNames, unlockedCharacterIDs.ToList(), new Dictionary<string, SceneParentReferencePair>(worldNPCLookup));
+            return new SaveState(GetLoadPriority(), partySerializableSaveData);
         }
 
         public void RestoreState(SaveState saveState)
         {
-            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return; }
-            PartySaveData partySaveData = UnpackPartySerializableSaveData(partySerializableSaveData);
+            if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData) || partySerializableSaveData == null) { return; }
 
-            RestorePartyMembers(partySaveData.partyCharacters);
-            RestoreUnlockedCharacters(partySaveData.unlockedCharacters);
-            RestoreWorldNPCs(partySaveData.worldNPCLookup);
+            RestorePartyMembers(CharacterProperties.GetCharacterPropertiesFromNames(partySerializableSaveData.partyCharacterNames));
+            RestoreUnlockedCharacters(partySerializableSaveData.unlockedCharacterNames);
+            RestoreWorldNPCs(partySerializableSaveData.worldNPCNameLookup);
         }
         
-        public SaveState ManualGetStateFromData(PartySaveData data)
-        {
-            List<string> partyNames = data.GetPartyCharacterNames();
-            List<string> unlockedCharacterNames = data.GetUnlockedCharacterNames();
-            
-            Dictionary<CharacterProperties, SceneParentReferencePair> localNPCWorldLookup = data.worldNPCLookup;
-            var worldNPCNameLookup = new Dictionary<string, SceneParentReferencePair>();
-            foreach (KeyValuePair<CharacterProperties, SceneParentReferencePair> pair in localNPCWorldLookup) { worldNPCNameLookup[pair.Key.GetCharacterID()] = pair.Value; }
-            
-            var partySerializableSaveData = new PartySerializableSaveData(partyNames, unlockedCharacterNames, worldNPCNameLookup);
-            return new SaveState(GetLoadPriority(), partySerializableSaveData);
-        }
+        public SaveState ManualGetStateFromData(PartySaveData data) => new(GetLoadPriority(), data.ToSerializableSaveData());
 
         public bool TryManualGetDataFromState(SaveState saveState, out PartySaveData data)
         {
@@ -328,25 +316,8 @@ namespace Frankie.Stats
             if (saveState == null || !saveState.TryGetState(out PartySerializableSaveData partySerializableSaveData)) { return true; }
             
             // Save Found Pass Back
-            data = UnpackPartySerializableSaveData(partySerializableSaveData);
+            data = PartySaveData.FromSerializableSaveData(partySerializableSaveData);
             return true;
-        }
-        
-        private static PartySaveData UnpackPartySerializableSaveData(PartySerializableSaveData partySerializableSaveData)
-        {
-            if (partySerializableSaveData == null) { return new PartySaveData(); }
-            
-            List<CharacterProperties> localPartyCharacters = partySerializableSaveData.partyCharacterNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(characterProperties => characterProperties != null).ToList();
-            HashSet<CharacterProperties> localUnlockedCharacters = partySerializableSaveData.unlockedCharacterNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(unlockedCharacter => unlockedCharacter != null).ToHashSet();
-            var localWorldNPCLookup = new Dictionary<CharacterProperties, SceneParentReferencePair>();
-            foreach (KeyValuePair<string, SceneParentReferencePair> pair in partySerializableSaveData.worldNPCNameLookup)
-            {
-                CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(pair.Key);
-                if (characterProperties == null) { continue; }
-                localWorldNPCLookup[characterProperties] = pair.Value;
-            }
-            
-            return new PartySaveData(localPartyCharacters, localUnlockedCharacters, localWorldNPCLookup);
         }
 
         private void RestorePartyMembers(List<CharacterProperties> partyCharacters)
@@ -376,25 +347,25 @@ namespace Frankie.Stats
             TriggerMembersAltered();
         }
 
-        private void RestoreUnlockedCharacters(HashSet<CharacterProperties> localUnlockedCharacters)
+        private void RestoreUnlockedCharacters(List<string> unlockedCharacterNames)
         {
-            unlockedCharacters.Clear();
-            if (localUnlockedCharacters == null) { return; }
-            
-            foreach (CharacterProperties characterProperties in localUnlockedCharacters)
+            unlockedCharacterIDs.Clear();
+            foreach (CharacterProperties characterProperties in CharacterProperties.GetCharacterPropertiesFromNames(unlockedCharacterNames))
             {
                 AddToUnlockedCharacters(characterProperties);
             }
         }
 
-        private void RestoreWorldNPCs(Dictionary<CharacterProperties, SceneParentReferencePair> localWorldNPCLookup)
+        private void RestoreWorldNPCs(Dictionary<string, SceneParentReferencePair> worldNPCNameLookup)
         {
             worldNPCLookup.Clear();
-            if (localWorldNPCLookup == null) { return; }
+            if (worldNPCNameLookup == null) { return; }
             
-            foreach (var pair in localWorldNPCLookup.Where(pair => pair.Key != null)) { worldNPCLookup[pair.Key.GetCharacterID()] = (pair.Key, pair.Value); }
-            foreach ((CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair) in worldNPCLookup.Values)
+            foreach ((string characterID, SceneParentReferencePair sceneParentReferencePair) in worldNPCNameLookup)
             {
+                if (!CharacterProperties.TryGetCharacterPropertiesFromName(characterID, out CharacterProperties characterProperties)) { continue; }
+                
+                worldNPCLookup[characterID] = sceneParentReferencePair;
                 if (sceneParentReferencePair.sceneName != SceneManager.GetActiveScene().name) { continue; }
                     
                 GameObject parent = GameObject.Find(sceneParentReferencePair.parentName);

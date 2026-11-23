@@ -32,8 +32,16 @@ namespace Frankie.Tests
             partyObject.SetActive(false);
             var party = partyObject.AddComponent<Party>(); // Pulls in its required components (InactiveParty, PlayerMover, PlayerStateMachine)
 
-            SerializedFieldInjector.SetArray(party, Party.membersField, memberProperties.Select(member => (Object)BuildMember(partyObject.transform, member)).ToArray());
+            SerializedFieldInjector.SetArray(party, PartyBehaviour.membersField, memberProperties.Select(member => (Object)BuildMember(partyObject.transform, member)).ToArray());
             return party;
+        }
+
+        public static PartyAssist AddPartyAssist(this PartyBehaviour party, params CharacterProperties[] assistProperties)
+        {
+            // Same (inactive) party object ~ PartyAssist requires a Party
+            var partyAssist = party.gameObject.AddComponent<PartyAssist>();
+            SerializedFieldInjector.SetArray(partyAssist, PartyBehaviour.membersField, assistProperties.Select(member => (Object)BuildMember(party.transform, member)).ToArray());
+            return partyAssist;
         }
         #endregion
 

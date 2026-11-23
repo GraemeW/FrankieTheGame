@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -102,13 +103,28 @@ namespace Frankie.Stats
         #endregion
 
         #region AddressablesCaching
-        public static CharacterProperties GetCharacterPropertiesFromName(string name)
+        public static bool TryGetCharacterPropertiesFromName(string name, out CharacterProperties characterProperties)
         {
-            if (string.IsNullOrWhiteSpace(name)) { return null; }
-
-            BuildCacheIfEmpty();
-            return _characterLookupCache.GetValueOrDefault(name);
+            characterProperties = GetCharacterPropertiesFromName(name);
+            if (characterProperties != null) { return true; }
+            
+            LDMLog.Warning(LDMLogCategory.Stats, $"Character ID '{name}' isn't in the CharacterProperties cache. Skipping it.");
+            return false;
         }
+
+        public static List<CharacterProperties> GetCharacterPropertiesFromNames(IEnumerable<string> names)
+        {
+            var characters = new List<CharacterProperties>();
+            if (names == null) { return characters; }
+            
+            foreach (string name in names)
+            {
+                if (TryGetCharacterPropertiesFromName(name, out CharacterProperties characterProperties)) { characters.Add(characterProperties); }
+            }
+            return characters;
+        }
+
+        public static List<string> GetCharacterIDs(IEnumerable<CharacterProperties> characters) => characters?.Where(characterProperties => characterProperties != null).Select(characterProperties => characterProperties.GetCharacterID()).ToList() ?? new List<string>();
 
         public static Dictionary<string, CharacterProperties> GetCharacterPropertiesLookup()
         {
@@ -116,6 +132,14 @@ namespace Frankie.Stats
             return _characterLookupCache;
         }
 
+        internal static CharacterProperties GetCharacterPropertiesFromName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) { return null; }
+
+            BuildCacheIfEmpty();
+            return _characterLookupCache.GetValueOrDefault(name);
+        }
+        
         public static void BuildCacheIfEmpty(bool force = false)
         {
             if (_characterLookupCache == null || force)

@@ -33,12 +33,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Configurable
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c9eb74919f363694fbbb45aa77e99ec3
-    m_Address: Assets/Game/Sound/FrankieMusicMixer.mixer
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Configurable
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

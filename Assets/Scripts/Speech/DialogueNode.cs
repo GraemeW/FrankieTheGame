@@ -91,6 +91,12 @@ namespace Frankie.Speech
             isSpeakerOverridden = true;
             overriddenSpeakerName = CharacterProperties.GetCharacterDisplayName(characterProperties);
         }
+
+        public void ClearSpeakerNameOverride()
+        {
+            isSpeakerOverridden = false;
+            overriddenSpeakerName = "";
+        }
         #endregion
 
 #if UNITY_EDITOR
