@@ -18,8 +18,6 @@ namespace Frankie.Core.GameStateModifiers
         
         private static bool GetScenePath(string zoneName, out string scenePath)
         {
-            Zone.BuildCacheIfEmpty();
-            
             scenePath = string.Empty;
             Zone zone = Zone.GetFromName(zoneName);
             if (zone == null) { return false; }

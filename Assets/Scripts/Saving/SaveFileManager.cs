@@ -89,12 +89,13 @@ namespace Frankie.Saving
             if (sceneLoader == null) { LDMLog.Warning(LDMLogCategory.Saving, $"No scene loader found. Cannot continue from save '{saveName}'."); return; }
             sceneLoader.StartCoroutine(LoadFromSave(saveName));
             
-            SavingSystem.CopySaveToSession(saveName, _sessionFile);
+            SavingSystem.CopySaveToSession(saveName, _sessionFile, null);
         }
 
         public static void SaveSession()
         {
-            SavingSystem.Save(_sessionFile);
+            if (!SceneLoaderBase.TryGetCurrentSceneGuid(out string sceneGuid)) { return; }
+            SavingSystem.Save(_sessionFile, sceneGuid);
         }
 
         public static void AppendToSession(SaveableEntity saveableEntity)
@@ -121,9 +122,10 @@ namespace Frankie.Saving
         {
             string saveName = GetCurrentSaveName();
             if (string.IsNullOrEmpty(saveName)) { return; }
+            if (!SceneLoaderBase.TryGetCurrentSceneGuid(out string sceneGuid)) { return; }
             
             UpdateSavePrefs(saveName);
-            SavingSystem.CopySessionToSave(_sessionFile, saveName);
+            SavingSystem.CopySessionToSave(_sessionFile, saveName, sceneGuid);
             LDMLog.Important(LDMLogCategory.Saving, $"Saved the game to '{saveName}'.");
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
@@ -186,10 +188,10 @@ namespace Frankie.Saving
             PlayerPrefsController.SetCurrentSaveLeader(characterName, saveName);
             PlayerPrefsController.SetCurrentSaveLevel(level, saveName);
         }
-        
+
         private static IEnumerator LoadFromSave(string saveFile)
         {
-            yield return SavingSystem.LoadLastScene(saveFile);
+            yield return SavingSystem.LoadLastScene(saveFile, AddressableSceneLoader.LoadSceneAsync);
             SceneLoaderBase.SetCurrentZoneToCurrentScene();
             Fader.StartQuickSceneLoadFade();
         }

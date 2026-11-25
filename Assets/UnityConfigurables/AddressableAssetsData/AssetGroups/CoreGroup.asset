@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CoreGroup
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: CoreGroup
+  m_GUID: aadce26d35c594dedbd45fc67863072e
+  m_SerializeEntries:
+  - m_GUID: 2bb60d49ad0a94641b43059ea80bbe80
+    m_Address: Assets/z_Artwork/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31278335cb4a647febada5010337d2b4
+    m_Address: Assets/z_Artwork/Project
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82775baaf5f7d634d9e4d9c851e8d523
+    m_Address: Assets/Game/Sound
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fafc96103e5849078042b0d690fd5cd
+    m_Address: Assets/z_Artwork/Fonts
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac614a8f47f72bc41b3f961b1e12ff08
+    m_Address: Assets/Game/Controllers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0ac9df41ff47bd419105b5ed16bef34
+    m_Address: Assets/Game/Map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e509c5a62474da24db593b37d9b58bd3
+    m_Address: Assets/Game/Core
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e66f3874df4329447840fad796e695b3
+    m_Address: Assets/Game/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a3465a02fce42488f9e973daa96ee1b7, type: 2}
+    - {fileID: 11400000, guid: 9d50441a5d8d740dc9383cb924af1a22, type: 2}

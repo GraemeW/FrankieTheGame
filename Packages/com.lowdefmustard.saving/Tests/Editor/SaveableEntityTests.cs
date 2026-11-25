@@ -2,6 +2,7 @@ using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Saving.Tests.Editor
 {
@@ -11,20 +12,21 @@ namespace LowDefMustard.Saving.Tests.Editor
     
     public class SaveableEntityTests
     {
+        private readonly TestObjectTracker tracker = new();
         private GameObject testGameObject;
         private SaveableEntity entity;
 
         [SetUp]
         public void SetUp()
         {
-            testGameObject = new GameObject("SaveableEntityTestObject");
+            testGameObject = tracker.CreateGameObject("SaveableEntityTestObject");
             entity = testGameObject.AddComponent<SaveableEntity>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(testGameObject);
+            tracker.DestroyAll();
         }
 
         #region GetUniqueIdentifier

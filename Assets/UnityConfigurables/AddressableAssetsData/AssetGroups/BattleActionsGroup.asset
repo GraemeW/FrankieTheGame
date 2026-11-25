@@ -21,11 +21,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - BattleAction
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8f746be12fe9f41a59274d73ae58a650
-    m_Address: Assets/Game/VFX/Shaders/BattleEffectsEntities/BattleEffect.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

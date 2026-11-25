@@ -12,6 +12,7 @@ namespace LowDefMustard.Utils.Tests.Editor
     public class StandardBrownThemeTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
 
         // Setup
@@ -19,6 +20,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
+            tracker.DestroyAll();
         }
 
         // Private Methods
@@ -50,14 +52,13 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             var root = new VisualElement();
             StyleSheet theme = LoadThemeStyleSheet();
-            StyleSheet other = ScriptableObject.CreateInstance<StyleSheet>();
+            StyleSheet other = tracker.Create<StyleSheet>();
 
             StandardBrownTheme.Apply(root, theme, null, other);
 
             Assert.AreEqual(2, root.styleSheets.count);
             Assert.IsTrue(root.styleSheets.Contains(theme));
             Assert.IsTrue(root.styleSheets.Contains(other));
-            Object.DestroyImmediate(other);
         }
 
         [UnityTest]

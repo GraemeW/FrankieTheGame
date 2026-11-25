@@ -3,13 +3,14 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using System;
 using System.Text.RegularExpressions;
-using Object = UnityEngine.Object;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class SceneLoaderBaseGenericTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private GameObject loaderGameObject;
         private TestSceneLoader loader;
         private Zone zone;
@@ -43,11 +44,11 @@ namespace LowDefMustard.Zones.Tests.Editor
             originalDemoZoneOverrideProvider = SceneLoaderBase.demoZoneOverrideProvider;
             SceneLoaderBase.demoZoneOverrideProvider = null;
 
-            loaderGameObject = new GameObject("TestSceneLoader");
+            loaderGameObject = tracker.CreateGameObject("TestSceneLoader");
             loader = loaderGameObject.AddComponent<TestSceneLoader>();
 
             var lookup = new ZoneSceneTypeLookup<TestSceneType>();
-            zone = ScriptableObject.CreateInstance<Zone>();
+            zone = tracker.Create<Zone>();
             zone.preventLocalizationForTests = true;
             lookup.Set(TestSceneType.TestScene, zone);
             loader.zoneSceneTypeLookup = lookup;
@@ -61,8 +62,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneLoaderBase.isCurrentlyLoading = originalIsCurrentlyLoading;
             SceneLoaderBase<TestSceneType>.activeSceneLoader = originalActiveSceneLoader;
             SceneLoaderBase.demoZoneOverrideProvider = originalDemoZoneOverrideProvider;
-            if (loaderGameObject != null) { Object.DestroyImmediate(loaderGameObject); }
-            if (zone != null) { Object.DestroyImmediate(zone); }
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -113,7 +113,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void QueueScene_GameOverSceneTypeThatShouldNotSaveSession_PassesFalseToProvider()
         {
-            var gameOverLoaderGameObject = new GameObject("GameOverTestSceneLoader");
+            var gameOverLoaderGameObject = tracker.CreateGameObject("GameOverTestSceneLoader");
             var gameOverLoader = gameOverLoaderGameObject.AddComponent<GameOverTestSceneLoader>();
 
             var lookup = new ZoneSceneTypeLookup<TestSceneType>();
@@ -128,16 +128,14 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             bool checkValue = receivedSaveSession ?? true; // Opposite to test expect on null
             Assert.IsFalse(checkValue);
-
-            Object.DestroyImmediate(gameOverLoaderGameObject);
         }
 
         [Test]
         public void QueueScene_NewGameSceneTypeWithProvider_UsesProviderZone_SkipsLookup()
         {
-            var providerZone = ScriptableObject.CreateInstance<Zone>();
+            var providerZone = tracker.Create<Zone>();
             providerZone.preventLocalizationForTests = true;
-            var newGameLoaderGameObject = new GameObject("NewGameTestSceneLoader");
+            var newGameLoaderGameObject = tracker.CreateGameObject("NewGameTestSceneLoader");
             var newGameLoader = newGameLoaderGameObject.AddComponent<NewGameTestSceneLoader>();
             newGameLoader.zoneSceneTypeLookup = loader.zoneSceneTypeLookup; // has TestScene -> zone (the OTHER zone)
             SceneLoaderBase<TestSceneType>.activeSceneLoader = newGameLoader;
@@ -150,15 +148,12 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             Assert.AreSame(providerZone, receivedZone);
             Assert.AreNotSame(zone, receivedZone);
-
-            Object.DestroyImmediate(newGameLoaderGameObject);
-            Object.DestroyImmediate(providerZone);
         }
 
         [Test]
         public void QueueScene_NewGameSceneTypeWithProviderReturningNull_FallsBackToLookupZone()
         {
-            var newGameLoaderGameObject = new GameObject("NewGameTestSceneLoader");
+            var newGameLoaderGameObject = tracker.CreateGameObject("NewGameTestSceneLoader");
             var newGameLoader = newGameLoaderGameObject.AddComponent<NewGameTestSceneLoader>();
             newGameLoader.zoneSceneTypeLookup = loader.zoneSceneTypeLookup;
             SceneLoaderBase<TestSceneType>.activeSceneLoader = newGameLoader;
@@ -170,14 +165,12 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneLoaderBase<TestSceneType>.QueueScene(TestSceneType.TestScene, new SceneQueueData(true));
 
             Assert.AreSame(zone, receivedZone);
-
-            Object.DestroyImmediate(newGameLoaderGameObject);
         }
 
         [Test]
         public void QueueScene_NotNewGameSceneType_IgnoresProviderEvenIfSet()
         {
-            var providerZone = ScriptableObject.CreateInstance<Zone>();
+            var providerZone = tracker.Create<Zone>();
             providerZone.preventLocalizationForTests = true;
             SceneLoaderBase.demoZoneOverrideProvider = () => providerZone;
 
@@ -188,8 +181,6 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             Assert.AreSame(zone, receivedZone);
             Assert.AreNotSame(providerZone, receivedZone);
-
-            Object.DestroyImmediate(providerZone);
         }
         #endregion
     }

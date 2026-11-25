@@ -13,18 +13,19 @@ namespace LowDefMustard.Utils.Tests.Editor
             public int someValue = 5;
         }
 
+        private readonly TestObjectTracker tracker = new();
         private Host host;
 
         [SetUp]
         public void SetUp()
         {
-            host = ScriptableObject.CreateInstance<Host>();
+            host = tracker.Create<Host>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(host);
+            tracker.DestroyAll();
         }
 
         [Test]

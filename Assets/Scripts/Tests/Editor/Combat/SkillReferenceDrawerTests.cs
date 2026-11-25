@@ -54,8 +54,8 @@ namespace Frankie.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
-            serializedObject.Dispose();
-            Undo.ClearUndo(host);
+            serializedObject?.Dispose(); // Null if SetUp was skipped (e.g. built catalogue)
+            if (host != null) { Undo.ClearUndo(host); }
             tracker.DestroyAll();
         }
         #endregion

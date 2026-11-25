@@ -25,6 +25,7 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 651f6a80cb1b1bd40ab16e2d1e5f7eda, type: 3}
     sceneName: StartScreen
     scenePath: Assets/Scenes/StartScreen.unity
+    sceneGuid: 651f6a80cb1b1bd40ab16e2d1e5f7eda
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
   isZoneAudioLooping: 1

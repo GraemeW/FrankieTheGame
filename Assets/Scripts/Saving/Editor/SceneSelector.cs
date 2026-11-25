@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -25,8 +24,7 @@ namespace Frankie.Saving.Editor
         {
             var container = new VisualElement();
 
-            string currentLastScene = SavingSystem.ManualGetLastScene(context.SaveState);
-            Zone lastZone = Zone.GetFromName(currentLastScene);
+            Zone lastZone = Zone.GetFromSceneGuid(SavingSystem.ManualGetLastScene(context.SaveState)); // Saves store the scene GUID
 
             var zoneField = new ObjectField { objectType = typeof(Zone), value = lastZone, style = { width = _largeButtonWidth } };
             zoneField.SetEnabled(context.SaveState != null);
@@ -39,22 +37,16 @@ namespace Frankie.Saving.Editor
             zoneField.RegisterValueChangedCallback(changeEvent =>
             {
                 Zone testZone = changeEvent.newValue as Zone;
-                string testSceneName = string.Empty;
-                if (testZone != null)
+                if (testZone == null || !testZone.GetSceneReference().TryGetSceneGuid(out string testSceneGuid))
                 {
-                    SceneReference sceneReference = testZone.GetSceneReference();
-                    if (!string.IsNullOrEmpty(sceneReference.SceneName)) { testSceneName = sceneReference.SceneName; }
-                }
-
-                if (testSceneName == string.Empty)
-                {
+                    if (testZone != null) { LDMLog.Warning(LDMLogCategory.Saving, $"Zone '{testZone.name}' has no scene GUID, so it can't be the save's last scene. Re-link the zone's scene in the editor.", testZone); }
                     zoneField.SetValueWithoutNotify(changeEvent.previousValue as Zone);
                     return;
                 }
 
                 lastZone = testZone;
                 openSceneButton.SetEnabled(lastZone != null);
-                SavingSystem.ManualUpdateLastScene(context.SaveState, testSceneName);
+                SavingSystem.ManualUpdateLastScene(context.SaveState, testSceneGuid);
                 context.OnSceneDataChanged();
 
                 LDMLog.Warning(LDMLogCategory.Saving, $"Updated the save's last scene to '{lastZone}'. Check the player's saved position matches the new scene.");
@@ -63,10 +55,10 @@ namespace Frankie.Saving.Editor
             openSceneButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (lastZone == null) { return; }
-                if (SceneManager.GetActiveScene().name == lastZone.GetSceneReference().SceneName) { return; }
+                string scenePath = lastZone.GetSceneReference().TryGetSceneGuid(out string lastSceneGuid) ? AssetDatabase.GUIDToAssetPath(lastSceneGuid) : string.Empty;
+                if (SceneManager.GetActiveScene().path == scenePath) { return; }
                 if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
-                string scenePath = lastZone.GetSceneReference().GetScenePath();
                 if (string.IsNullOrEmpty(scenePath))
                 {
                     LDMLog.Warning(LDMLogCategory.Saving, $"No scene found for the save's last zone '{lastZone}'.");

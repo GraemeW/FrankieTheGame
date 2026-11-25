@@ -1,0 +1,453 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CharacterArtGroup
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: CharacterArtGroup
+  m_GUID: 6fd19b8f5d2984e11a3021da16b7189c
+  m_SerializeEntries:
+  - m_GUID: 02bffca341c91454bacf08dcb474f068
+    m_Address: Assets/Game/CharacterObjects/NPCs/OfficePeople/BroOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02fafcd2c0f6c1641b7d2b017225d9c8
+    m_Address: Assets/z_Artwork/PixelArt/CombatCharacters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 03640b02ea241f841b2f0b06d3457967
+    m_Address: Assets/Game/CharacterObjects/NPCs/OfficePeople/HipsterOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 076ed1773e91d0744a4c024bd1110a98
+    m_Address: Assets/Game/CharacterObjects/NPCs/OfficePeople/GenericOfficeWorkers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07aff6a8bd2d64ce4a87613d2fcfe521
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/ChurchOfHair/FlatMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a7689a1303004e4cbdab3dbf20fdaea
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GirlRedDressMartini
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c01231454a003e4f99c0f7e546f163d
+    m_Address: Assets/z_Artwork/PixelArt/PCs/Lucy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ec90edd5f5c0184ebadb8e4d6166390
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/GirlBlondHairPrettyDress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f90c674e039d994bb3734b8c97d2408
+    m_Address: Assets/Game/CharacterObjects/PCs/PhilToo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 11c96a84dd52c4e979b23b3ebf19efd8
+    m_Address: Assets/z_Artwork/PixelArt/CombatCharacters/ChurchOfHair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15b6d7c5e0ad06d4eb25ed1342f213fa
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GirlBlowingBubble
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1db28b8185487184eaf60e7a41a119da
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/OfficeWorkers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1dc040947faaa4a46aea5717125c85e6
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/GuyMidtownUniform
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e265192029d2417fae6b364f6af2252
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/ChurchOfHair/NewMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e8d380f02c8e473b89f489bc2914b4c
+    m_Address: Assets/Game/CharacterObjects/NPCs/Wildlife
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f833c1e8e53c884ca48b2f87cc108ef
+    m_Address: Assets/Game/CharacterObjects/NPCs/OfficePeople
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1faf5d48f11294e228278a450c20c97e
+    m_Address: Assets/Game/CharacterObjects/NPCs/Wildlife/Rock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 235f179f9e29fc14585cf359722447dc
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/GuyBaldBlackJacket
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2815fee18aa0e0343a2391c5df9dd599
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GuyGreenSweater
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28f6cb2f3d960bb4698eb704dc7d1b60
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GuyMidtownUniform
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c72f98668fdb2f45a639b9306b3f19c
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/NonBinaryMessyHair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3324e229d82516a458fc833a1acb8bbc
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/CoreCharacters/Ramen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 341e0e930d2658641a61751e628d59e0
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/NBMessyHair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e6730ae526197b44a7dd6460c2d918c
+    m_Address: Assets/z_Artwork/PixelArt/NPCs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e8564eab672f44ea9531b7e759bd6fe
+    m_Address: Assets/Game/CharacterObjects/NPCs/Wildlife/SongBird
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3edd9fb7e4a37460b9bc82335318b3bb
+    m_Address: Assets/z_Artwork/PixelArt/CombatCharacters/Office
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 483a52afce1882c40b53846fe3c51a74
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/GuyGreenSweater
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48745b002150d07428b66d4570037e48
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/MiscNPCs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a8250f31dbb545f996e419dc13155ce
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/Wildlife/Rock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5870be38e6954f14783541f88ba3646c
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/MiscNPCs/Horse
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 591bd26dec311e04793ec0772f12ffd5
+    m_Address: Assets/Game/CharacterObjects/PCs/Frankie
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59d93c9b99648426f80f787712d2d29e
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/ChurchOfHair/BeardedMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5cf302feaa70dea4f96245ba64ed1ed2
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/CoreCharacters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d1e3487cb7fbd34b83da94298f56d05
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GirlBlondHairPrettyDress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6127513f60bc74a33b58606cc06b9475
+    m_Address: Assets/Game/CharacterObjects/NPCs/ChurchOfHair/GuyNewMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 652d03053fee240e28b218e6ec903c23
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/Wildlife/Snail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67389e8cbebbb48468d06d688037a04e
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6cc962911e35f49f99ae524ab2cf6a8c
+    m_Address: Assets/z_Artwork/PixelArt/CombatCharacters/Doodle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 755052d4ffde043458bb0d9108d1b17f
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/Wildlife/Squirrel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7bb4b1a6ab70b5d4eb6e8483d43407f8
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/OfficeWorkers/SkilledOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ef14f280820c46f482489bf0e93a40a
+    m_Address: Assets/Game/CharacterObjects/NPCs/ChurchOfHair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f1676143a3dec9498751efda7077728
+    m_Address: Assets/Game/CharacterObjects/NPCs/MiscNPCs/Horse
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7fde79a03f41bff459a08c04ac85a202
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/OfficeWorkers/GeneralOfficeWorkers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85bca07e7a699364fb0701f44920aaf9
+    m_Address: Assets/Game/CharacterObjects/PCs/Assist
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86b1b7d4479aa2b4195ef17bbc4657a2
+    m_Address: Assets/z_Artwork/PixelArt/PCs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 871cb1cdeeae58f4a8bf0c29fe7d9ffa
+    m_Address: Assets/z_Artwork/PixelArt/PCs/Francis
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c699e29c7f7f4a85a1733a6cb19e486
+    m_Address: Assets/Game/CharacterObjects/NPCs/ChurchOfHair/GuyBaldMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f04059b8c39a3042977b10b9db1fe43
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/LadyBlowingBubble
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9005d3ed6668cd9458e6945e365fe346
+    m_Address: Assets/Game/CharacterObjects/NPCs/CoreCharacters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93fcbf315a6bd432b9e778857461b591
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/ChurchOfHair/BaldMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96299c5f68c5cbb4c93bb8006fe1e799
+    m_Address: Assets/Game/CharacterObjects/NPCs/MiscNPCs/Maya
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a8fef94064fd104ea9918020cfa6ac0
+    m_Address: Assets/Game/CharacterObjects/NPCs/OfficePeople/CleverOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9adb4b34a7a9cf74ebac4d41009d4dfd
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/LadySunbather
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b910702a62f74b2d9e483fc30820a6d
+    m_Address: Assets/Game/CharacterObjects/NPCs/MiscNPCs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cf649ad5912c4e2facff9672c842b51
+    m_Address: Assets/Game/CharacterObjects/NPCs/ChurchOfHair/GuyFlatMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e553369d5b60e446b70195e9860b3aa
+    m_Address: Assets/z_Artwork/PixelArt/PCs/Tilly
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ed01af5f4f0f194990f81e0c02268a8
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/OfficeWorkers/CleverOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a314f3ea082de6e45948b4be3c60136c
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GuyBaldBlackJacket
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6c9fa554b5512546a6eef2df52600b8
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/NHFishMan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9e36ffdde2938b43b0c9498bdc308e8
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/GirlSunbather
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9e833231a8ab4934ac078bc466e41ca
+    m_Address: Assets/z_Artwork/PixelArt/CombatCharacters/Wildlife
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab1fcaea488355443ac777e8cebe1d26
+    m_Address: Assets/Game/CharacterObjects/NPCs/MiscNPCs/Steve5000
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aca6104feca714220a596071adc15975
+    m_Address: Assets/Game/CharacterObjects/NPCs/Wildlife/Snail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5d46d3a7e48c4fec816a1575eca7750
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/Wildlife
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6ebc906364328b4295903c9055c03a2
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/OfficeWorkers/HipsterOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9060fae9c052f741aa5fb817cee48c8
+    m_Address: Assets/Game/CharacterObjects/PCs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb35fd350a5a31d47b6b3b5b87fcbcfe
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/LadyRedDressMartini
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdfb2cb3be63daa40b82f693bbaf4c6d
+    m_Address: Assets/z_Artwork/PixelArt/PCs/PhilToo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5af6de2585afd74892dcef56564734f
+    m_Address: Assets/Game/CharacterObjects/PCs/Tilly
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6017ea8a6edfcc48b3f2b855ce098e8
+    m_Address: Assets/Game/CharacterObjects/NPCs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca8e78ee9606b344ea0a3a172dd74399
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/CoreCharacters/HelpfulVole
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd185aae522784148a66505f18edc353
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/Wildlife/SongBird
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd5ab589bc7328e44938c3bb91d655c3
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/TrainConductor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d02beaa0b5b3548d5ae5dcd4c1a4c1ef
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/ChurchOfHair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d07fd0314a1063341a6ad802cfb69802
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/MiscNPCs/Steve5000
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0eb17b0fcc8c6f4b9cb0b910ff5fe2c
+    m_Address: Assets/Game/CharacterObjects/PCs/Lucy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1f0671da2e690142adc072abcaa0105
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9e3b86942fa3d744bc4aebd7d87121d
+    m_Address: Assets/Game/CharacterObjects/NPCs/OfficePeople/SkilledOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e337b0b05552b5c4ba4f2311f83c91f4
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/FishMan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e677e0027bd01dd40a58a505a0603e74
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/TownsPeople/BoyBaseballCap
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e788ae2a53a6ba1479b7a5882b32d835
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/MiscNPCs/Maya
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec045c0518b1da14d8d622cf15967857
+    m_Address: Assets/z_Artwork/PixelArt/NPCs/OfficeWorkers/BroOfficeWorker
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef01bd4727b261c4ba7d53d81d2f5359
+    m_Address: Assets/Game/CharacterObjects/NPCs/CoreCharacters/HelpfulVole
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f16d6d5d1237f41ed8907912193a1d29
+    m_Address: Assets/Game/CharacterObjects/NPCs/ChurchOfHair/GuyBeardedMonk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd0b1a9d0a40f7d44b13249f2dfca3fe
+    m_Address: Assets/Game/CharacterObjects/NPCs/Townspeople/BoyBaseballCap
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff9900f503054494fba88b5868e1cd47
+    m_Address: Assets/Game/CharacterObjects/NPCs/Wildlife/SquirrelGray
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ffb6633ff551c423e8410c55ae647623, type: 2}
+    - {fileID: 11400000, guid: 4df2b0334229d4f92882fc95a5eeff63, type: 2}

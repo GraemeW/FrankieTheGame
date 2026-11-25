@@ -43,7 +43,7 @@ namespace Frankie.Tests
 
         private WearablesLink BuildWearablesLink(out Transform attachedObjectsRoot)
         {
-            GameObject characterObject = tracker.Track(new GameObject("InventoryBuildCopyTests_Wearer"));
+            GameObject characterObject = tracker.CreateGameObject("InventoryBuildCopyTests_Wearer");
             characterObject.SetActive(false);
             attachedObjectsRoot = new GameObject("AttachedObjects").transform;
             attachedObjectsRoot.SetParent(characterObject.transform);
@@ -60,7 +60,7 @@ namespace Frankie.Tests
         {
             var item = LoadItem<InventoryItem>(_actionItemPath);
             InventoryItem itemBuildCopy = tracker.CreateBuildCopy(item);
-            var knapsack = tracker.Track(new GameObject("InventoryBuildCopyTests_Knapsack")).AddComponent<Knapsack>();
+            var knapsack = tracker.CreateComponent<Knapsack>("InventoryBuildCopyTests_Knapsack");
             Assert.IsTrue(knapsack.AddToFirstEmptySlot(item, false));
 
             Assert.IsTrue(knapsack.HasItem(itemBuildCopy));

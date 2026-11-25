@@ -217,6 +217,8 @@ namespace LowDefMustard.Control
         // Note:  Internal for test visibility
         internal void PollForReceivers(float deltaTime)
         {
+            if (destroyQueued) { return; }
+            
             timeSinceLastPolled += deltaTime;
             if (timeSinceLastPolled < listenerPollingInterval) { return; }
             timeSinceLastPolled = 0f;

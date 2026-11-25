@@ -17,6 +17,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         //  - Starting the drag past the threshold - DragAndDrop.StartDrag begins a real editor drag (not safe headless), so this is checked manually
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private VisualElement dragSource;
         private DragAsset dragAsset;
@@ -29,7 +30,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public IEnumerator SetUp()
         {
             HeadlessEditorWindow.EndObjectDrag();
-            dragAsset = ScriptableObject.CreateInstance<DragAsset>();
+            dragAsset = tracker.Create<DragAsset>();
 
             window = HeadlessEditorWindow.CreateOffscreenWindow();
             dragSource = new VisualElement { style = { width = 100f, height = 40f } };
@@ -42,7 +43,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             HeadlessEditorWindow.EndObjectDrag();
             HeadlessEditorWindow.Close(window);
-            if (dragAsset != null) { Object.DestroyImmediate(dragAsset); }
+            tracker.DestroyAll();
         }
         #endregion
 

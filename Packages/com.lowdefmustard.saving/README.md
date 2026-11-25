@@ -62,6 +62,9 @@ private void Update()
 Static entry point for all save/load I/O — file read/write (optionally AES-encrypted via `SymmetricEncryptor`, Newtonsoft-serialized), scene reload on load, and orchestrating capture/restore across every `SaveableEntity` in the scene:
 
 - **`Save`/`LoadLastScene`/`LoadWithinScene`/`Delete`/`ListSaves`** — top-level save-slot operations.
+  - the last scene is an opaque scene key (`lastScene`):  whatever the project's scene loader loads by (e.g. Frankie passes the scene GUID)
+  - `LoadLastScene(saveFile, loadScene)`:  hands the key to the project's loader, a `SceneLoadRoutine(sceneKey, onLoadComplete)`
+  - editor hooks (set by project editor code):  `editorIsSceneLoadable(key)` warns on unloadable manual edits, `editorGetActiveSceneKey()` gives the Save Editor the open scene's key
 - **`CopySessionToSave`/`CopySaveToSession`/`CopySaveToSave`/`Append`** — session-vs-persisted-save copying, and appending a single entity's state into a session file without a full save pass.
 - **`CopyCorePlayerStateToSave`** — captures only entities/components flagged `IsCorePlayerState()`. 
   - e.g. for a game-over save that shouldn't include full-world state like position

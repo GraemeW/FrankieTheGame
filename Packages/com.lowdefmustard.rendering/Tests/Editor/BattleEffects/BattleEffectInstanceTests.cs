@@ -1,12 +1,14 @@
 using NUnit.Framework;
 using UnityEngine;
 using static LowDefMustard.Rendering.Tests.Editor.BattleEffectTestData;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
     public class BattleEffectInstanceTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private BattleEffectRecipe parent;
         private BattleEffectRecipe child;
 
@@ -14,8 +16,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            parent = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            parent = tracker.Create<BattleEffectRecipe>();
+            child = tracker.Create<BattleEffectRecipe>();
             child.SetItems(new[] { CreateItem(new BattleEffectSegment(),
                 $"{{\"startTimeSeconds\":0.5,\"durationSeconds\":1,\"positionEU\":{{\"start\":{{\"x\":0.2,\"y\":0.3}},\"end\":{{\"x\":0.4,\"y\":0.6}}}},\"itemRotationDegrees\":{{\"start\":30,\"end\":30}},\"style\":{{\"colour\":{ToJson(Color.red)}}},\"stripes\":{{\"stripesPerEU\":10,\"angleDegrees\":90}}}}") });
         }
@@ -23,8 +25,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(parent);
-            Object.DestroyImmediate(child);
+            tracker.DestroyAll();
         }
         #endregion
 

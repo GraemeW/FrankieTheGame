@@ -8,6 +8,14 @@ namespace LowDefMustard.Utils.Tests.Editor
 {
     public class AddressablesCacheLogTests
     {
+        // State
+        private readonly TestObjectTracker tracker = new();
+
+        #region Setup
+        [TearDown]
+        public void TearDown() => tracker.DestroyAll();
+        #endregion
+
         [Test]
         public void LogBuild_LoadFailed_LogsError()
         {
@@ -32,14 +40,11 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void LogDuplicate_LogsErrorNamingBothAssets()
         {
-            var existing = new GameObject("Existing");
-            var incoming = new GameObject("Incoming");
+            GameObject existing = tracker.CreateGameObject("Existing");
+            GameObject incoming = tracker.CreateGameObject("Incoming");
 
             LogAssert.Expect(LogType.Error, new Regex(@"Duplicate Quest ID 'id-1' \('Existing' and 'Incoming'\)\. Overwriting the cached entry with 'Incoming'\.$"));
             AddressablesCacheLog.LogDuplicate(LDMLogCategory.Quests, "Quest", "id-1", existing, incoming);
-
-            Object.DestroyImmediate(existing);
-            Object.DestroyImmediate(incoming);
         }
     }
 }

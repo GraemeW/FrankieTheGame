@@ -4,8 +4,6 @@ using System.Globalization;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -30,7 +28,7 @@ namespace LowDefMustard.Zones
 
         // Const / Static UI Tunables
 #if UNITY_EDITOR
-        private static readonly Vector2 _defaultNodeOffset = new(100f, 25f);
+        [NoAutoStaticsCleanup] private static readonly Vector2 _defaultNodeOffset = new(100f, 25f);
         private const int _defaultNodeWidth = 350;
         private const int _defaultNodeHeight = 125;
         private const float _defaultZoneNodeGroupWidth = 250f;
@@ -47,67 +45,35 @@ namespace LowDefMustard.Zones
         private Dictionary<string, ZoneNode> nodeEditorLookup = new();
 #endif
 
-        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] internal static Dictionary<string, Zone> zoneLookupCache;
-        [AutoStaticsCleanup] internal static Dictionary<string, Zone> sceneReferenceCache;
+        [AutoStaticsCleanup] private static AddressablesLookupCache<Zone> _cache = new(LDMLogCategory.Zones, nameof(Zone), zone => zone.name, zone => zone.GetSceneReference().SceneName);
         
         #region AddressablesCaching
-        public static Zone GetFromName(string zoneName)
-        {
-            if (string.IsNullOrWhiteSpace(zoneName)) { return null; }
-            BuildCacheIfEmpty();
-            return zoneLookupCache.GetValueOrDefault(zoneName);
-        }
+        public static IAddressablesCacheLifecycle addressablesCache => _cache;
+        public static Zone GetFromName(string zoneName) => _cache.Get(zoneName);
 
-        public static Zone GetFromSceneReference(string sceneReference)
+        public static Zone GetFromSceneName(string sceneName)
         {
-            if (string.IsNullOrWhiteSpace(sceneReference)) { return null; }
+            if (string.IsNullOrWhiteSpace(sceneName)) { return null; }
 
-            BuildCacheIfEmpty();
-            Zone zone = sceneReferenceCache.GetValueOrDefault(sceneReference);
-            LDMLog.Info(LDMLogCategory.Zones, zone != null ? $"Found zone '{zone.name}' for scene '{sceneReference}'." : $"No zone found for scene '{sceneReference}'.");
+            Zone zone = _cache.GetBySecondaryKey(sceneName);
+            LDMLog.Info(LDMLogCategory.Zones, zone != null ? $"Found zone '{zone.name}' for scene '{sceneName}'." : $"No zone found for scene '{sceneName}'.");
             return zone;
         }
 
-        public static void BuildCacheIfEmpty()
+        public static Zone GetFromSceneGuid(string sceneGuid)
         {
-            if (zoneLookupCache is {Count : > 0} && sceneReferenceCache is { Count: > 0 }) { return; }
-            BuildZoneCache();
+            if (string.IsNullOrWhiteSpace(sceneGuid)) { return null; }
+
+            Zone zone = _cache.GetAll().Values.FirstOrDefault(candidate => candidate != null && candidate.GetSceneReference().TryGetSceneGuid(out string candidateSceneGuid) && candidateSceneGuid == sceneGuid);
+            LDMLog.Info(LDMLogCategory.Zones, zone != null ? $"Found zone '{zone.name}' for scene GUID '{sceneGuid}'." : $"No zone found for scene GUID '{sceneGuid}'.");
+            return zone;
         }
 
-        private static void BuildZoneCache()
-        {
-            zoneLookupCache = new Dictionary<string, Zone>();
-            sceneReferenceCache = new Dictionary<string, Zone>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) => AddZoneToCache(zone));
-            _addressablesLoadHandle.WaitForCompletion();
-            AddressablesCacheLog.LogBuild(LDMLogCategory.Zones, nameof(Zone), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, zoneLookupCache.Count);
-        }
-
-        internal static void AddZoneToCache(Zone zone)
-        {
-            if (zoneLookupCache.TryGetValue(zone.name, out Zone existingZone) || sceneReferenceCache.TryGetValue(zone.GetSceneReference().SceneName, out existingZone))
-            {
-                string duplicateID = zoneLookupCache.ContainsKey(zone.name) ? zone.name : zone.GetSceneReference().SceneName;
-                AddressablesCacheLog.LogDuplicate(LDMLogCategory.Zones, nameof(Zone), duplicateID, existingZone, zone);
-            }
-
-            zoneLookupCache[zone.name] = zone;
-            sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
-        }
-
-        public static void ReleaseCache()
-        {
-            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
-        }
-
-        public static void ResetCache()
-        {
-            ReleaseCache();
-            _addressablesLoadHandle = default;
-            zoneLookupCache = null;
-            sceneReferenceCache = null;
-        }
+        // Tests:  seed / inspect the lookups directly (a seeded lookup counts as built)
+        internal static Dictionary<string, Zone> zoneLookupCache => _cache.lookup;
+        internal static Dictionary<string, Zone> sceneNameCache => _cache.secondaryLookup;
+        internal static void SeedCache(Dictionary<string, Zone> zoneLookup, Dictionary<string, Zone> sceneLookup) => _cache.Seed(zoneLookup, sceneLookup);
+        internal static void AddZoneToCache(Zone zone) => _cache.Add(zone);
         #endregion
 
         #region UnityMethods
@@ -356,6 +322,7 @@ namespace LowDefMustard.Zones
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) == "") { return; }
 
+            sceneReference.SyncSceneGuidFromAsset();
             if (sceneReference.IsSet() && name != sceneReference.SceneName)
             {
                 LDMLog.Warning(LDMLogCategory.Zones, $"Zone name '{name}' does not match its scene '{sceneReference.SceneName}'. Use the Zone context menu > Match Zone Name to Scene.");

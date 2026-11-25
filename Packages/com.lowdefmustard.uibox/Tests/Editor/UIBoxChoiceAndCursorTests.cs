@@ -1,32 +1,26 @@
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Control;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.UIBox.Tests.Editor
 {
     public class UIBoxChoiceAndCursorTests
     {
         // State
-        private readonly List<GameObject> spawned = new();
+        private readonly TestObjectTracker tracker = new();
 
         // Setup
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawned.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
-            spawned.Clear();
+            tracker.DestroyAll();
         }
 
         #region PrivateMethods
         private TestUIBox CreateTestUIBox()
         {
-            var go = new GameObject("TestUIBox");
-            spawned.Add(go);
+            GameObject go = tracker.CreateGameObject("TestUIBox");
             return go.AddComponent<TestUIBox>();
         }
         #endregion
@@ -198,8 +192,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
         {
             TestUIBox testUIBox = CreateTestUIBox();
             testUIBox.publicHandleGlobalInput = false;
-            var controllerGo = new GameObject("Controller");
-            spawned.Add(controllerGo);
+            GameObject controllerGo = tracker.CreateGameObject("Controller");
             var controller = controllerGo.AddComponent<TestBaseController>();
 
             bool result = testUIBox.TrySetController(controller);

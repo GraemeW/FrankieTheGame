@@ -23,6 +23,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private const int _size = 32;
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private BattleEffectRecipe recipe;
         private BattleEffectFrameExporter exporter;
         private bool wasAsyncCompilationAllowed;
@@ -34,7 +35,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             wasAsyncCompilationAllowed = ShaderUtil.allowAsyncCompilation;
             ShaderUtil.allowAsyncCompilation = false;
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            recipe = tracker.Create<BattleEffectRecipe>();
             isFinished = false;
         }
 
@@ -44,7 +45,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             exporter?.Cancel();
             exporter = null;
             ShaderUtil.allowAsyncCompilation = wasAsyncCompilationAllowed;
-            Object.DestroyImmediate(recipe);
+            tracker.DestroyAll();
             if (Directory.Exists(_folder)) { Directory.Delete(_folder, true); }
         }
         #endregion

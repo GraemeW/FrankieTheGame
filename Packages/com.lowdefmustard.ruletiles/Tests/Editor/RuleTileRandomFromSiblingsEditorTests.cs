@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.RuleTiles.Tests.Editor
 {
@@ -14,6 +15,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         //  - Label text + tooltip content - copy only, nothing behavioural
 
         // State
+        private readonly TestObjectTracker tracker = new();
         // ReSharper disable once InconsistentNaming - match internal unity fields
         private RuleTileRandomFromSiblings m_Tile;
         // ReSharper disable once InconsistentNaming - match internal unity fields
@@ -23,15 +25,15 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            m_Tile = ScriptableObject.CreateInstance<RuleTileRandomFromSiblings>();
+            m_Tile = tracker.Create<RuleTileRandomFromSiblings>();
             m_Editor = UnityEditor.Editor.CreateEditor(m_Tile);
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(m_Editor);
-            Object.DestroyImmediate(m_Tile);
+            Object.DestroyImmediate(m_Editor); // Before its target
+            tracker.DestroyAll();
         }
         #endregion
 

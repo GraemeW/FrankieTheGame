@@ -23,7 +23,7 @@ namespace Frankie.Tests
         public static BaseStats BuildCharacter(this TestObjectTracker tracker, CharacterProperties characterProperties, Transform parent = null)
         {
             // Inactive until configured ~ BaseStats.Awake reads the injected character properties
-            GameObject characterObject = tracker.Track(new GameObject(characterProperties.name));
+            GameObject characterObject = tracker.CreateGameObject(characterProperties.name);
             characterObject.SetActive(false);
             characterObject.transform.SetParent(parent);
             var baseStats = characterObject.AddComponent<BaseStats>();

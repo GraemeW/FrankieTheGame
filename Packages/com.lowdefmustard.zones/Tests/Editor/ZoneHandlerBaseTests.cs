@@ -1,11 +1,13 @@
 using NUnit.Framework;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneHandlerBaseTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private GameObject handlerGameObject;
         private GameObject warpGameObject;
         private ZoneNode zoneNode;
@@ -14,9 +16,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (handlerGameObject != null) { Object.DestroyImmediate(handlerGameObject); }
-            if (warpGameObject != null) { Object.DestroyImmediate(warpGameObject); }
-            if (zoneNode != null) { Object.DestroyImmediate(zoneNode); }
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -24,7 +24,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void GetWarpPosition_NoWarpTransform_ReturnsOwnTransformPosition()
         {
-            handlerGameObject = new GameObject("Handler") { transform = { position = new Vector3(1f, 2f, 3f) } };
+            handlerGameObject = tracker.Track(new GameObject("Handler") { transform = { position = new Vector3(1f, 2f, 3f) } });
             var handler = handlerGameObject.AddComponent<ZoneHandlerBase>();
 
             Assert.AreEqual(new Vector3(1f, 2f, 3f), handler.GetWarpPosition());
@@ -33,10 +33,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void GetWarpPosition_WithWarpTransform_ReturnsWarpTransformPosition()
         {
-            handlerGameObject = new GameObject("Handler") { transform = { position = new Vector3(1f, 2f, 3f) } };
+            handlerGameObject = tracker.Track(new GameObject("Handler") { transform = { position = new Vector3(1f, 2f, 3f) } });
             var handler = handlerGameObject.AddComponent<ZoneHandlerBase>();
 
-            warpGameObject = new GameObject("Warp") { transform = { position = new Vector3(9f, 8f, 7f) } };
+            warpGameObject = tracker.Track(new GameObject("Warp") { transform = { position = new Vector3(9f, 8f, 7f) } });
             handler.warpTransform = warpGameObject.transform;
 
             Assert.AreEqual(new Vector3(9f, 8f, 7f), handler.GetWarpPosition());
@@ -45,9 +45,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void GetZoneNode_ReturnsSeededNode()
         {
-            handlerGameObject = new GameObject("Handler");
+            handlerGameObject = tracker.CreateGameObject("Handler");
             var handler = handlerGameObject.AddComponent<ZoneHandlerBase>();
-            zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
+            zoneNode = tracker.Create<ZoneNode>();
             zoneNode.preventLocalizationForTests = true;
             handler.zoneNode = zoneNode;
 

@@ -4,9 +4,7 @@
   "references": [
     "LowDefMustard.Core",
     "LowDefMustard.Rendering",
-    "LowDefMustard.Utils.Editor",
-    "Unity.Addressables",
-    "Unity.ResourceManager"
+    "LowDefMustard.Utils.Editor"
   ],
   "includePlatforms": [
     "Editor"

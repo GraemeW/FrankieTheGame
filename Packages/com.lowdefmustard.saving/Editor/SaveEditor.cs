@@ -420,12 +420,12 @@ namespace LowDefMustard.Saving.Editor
         
         private void SetLastSceneToCurrent()
         {
-            string sceneName = SceneManager.GetActiveScene().name;
-            if (string.IsNullOrEmpty(sceneName)) { return; }
-            if (sceneName == SavingSystem.ManualGetLastScene(cachedFullSaveState)) { return; }
+            string sceneKey = SavingSystem.editorGetActiveSceneKey?.Invoke() ?? SceneManager.GetActiveScene().name;
+            if (string.IsNullOrWhiteSpace(sceneKey)) { return; }
+            if (sceneKey == SavingSystem.ManualGetLastScene(cachedFullSaveState)) { return; }
             
-            LDMLog.Info(LDMLogCategory.Saving, $"Updated the save's last scene to '{sceneName}'.");
-            SavingSystem.ManualUpdateLastScene(cachedFullSaveState, sceneName);
+            LDMLog.Info(LDMLogCategory.Saving, $"Updated the save's last scene to '{SceneManager.GetActiveScene().name}' ({sceneKey}).");
+            SavingSystem.ManualUpdateLastScene(cachedFullSaveState, sceneKey);
             SavingSystem.ManualSave(SaveFileManagerProvider.current.GetCurrentSaveName(), cachedFullSaveState);
             
             DrawSceneSelectBox();

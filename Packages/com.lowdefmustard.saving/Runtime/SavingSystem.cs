@@ -1,15 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using LowDefMustard.Core;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Saving
 {
@@ -17,11 +16,19 @@ namespace LowDefMustard.Saving
     {
         // Constants
         private const string _saveFileExtension = ".sav";
-        private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
+        private const string _saveLastScene = "lastScene";
         private const bool _encryptionEnabled = true;
 
+        // Editor Hooks
+#if UNITY_EDITOR
+        [NoAutoStaticsCleanup] public static Func<string, bool> editorIsSceneLoadable; // Set by the project's editor code, e.g. against its scene load mechanism (Addressables)
+        [NoAutoStaticsCleanup] public static Func<string> editorGetActiveSceneKey; // Set by the project's editor code ~ the active scene's key, for the Save Editor
+#endif
+
         #region DataStructures
-        [System.Serializable]
+        public delegate IEnumerator SceneLoadRoutine(string sceneKey, Action<bool> onLoadComplete);
+        
+        [Serializable]
         private class SaveSuper
         {
             public bool encryptionEnabled;
@@ -71,21 +78,28 @@ namespace LowDefMustard.Saving
         #endregion
         
         #region PublicMethods
-        public static IEnumerator LoadLastScene(string saveFile)
+        public static IEnumerator LoadLastScene(string saveFile, SceneLoadRoutine loadScene)
         {
+            if (loadScene == null) { LDMLog.Error(LDMLogCategory.Saving, $"No scene loader given to load save '{saveFile}'. Ignoring the request."); yield break; }
+            
             JObject state = LoadFile(saveFile);
-            string sceneName = SceneManager.GetActiveScene().name;
-            if (state.ContainsKey(_saveLastSceneBuildIndex))
+            string sceneKey = ManualGetLastScene(state);
+            if (string.IsNullOrWhiteSpace(sceneKey))
             {
-                string trySceneName = state[_saveLastSceneBuildIndex]?.ToObject<string>();
-                if (!string.IsNullOrWhiteSpace(trySceneName)) { sceneName = trySceneName; }
+                LDMLog.Warning(LDMLogCategory.Saving, $"Save '{saveFile}' has no last scene, so its state wasn't restored. Staying in the current scene.");
+                yield break;
             }
 
-            yield return SceneManager.LoadSceneAsync(sceneName); 
-                // Note:  will throw scene existence error if saved scene name does not exist
-                // i.e. scene name changes -> will corrupt save on those scenes -- so don't do it, or prepare for consequences
+            var isLoaded = false;
+            yield return loadScene(sceneKey, result => isLoaded = result); // Note:  fails if the saved scene no longer exists (e.g. deleted)
+            if (!isLoaded)
+            {
+                LDMLog.Warning(LDMLogCategory.Saving, $"Save '{saveFile}' couldn't load its scene ('{sceneKey}'), so its state wasn't restored. Staying in the current scene.");
+                yield break;
+            }
+
             RestoreState(state);
-            LDMLog.Important(LDMLogCategory.Saving, $"Loaded save '{saveFile}' (scene: '{sceneName}').");
+            LDMLog.Important(LDMLogCategory.Saving, $"Loaded save '{saveFile}' (scene: '{sceneKey}').");
         }
 
         public static void LoadWithinScene(string saveFile)
@@ -94,24 +108,24 @@ namespace LowDefMustard.Saving
             RestoreState(state);
         }
 
-        public static void Save(string saveFile)
+        public static void Save(string saveFile, string sceneKey = null)
         {
             JObject state = LoadFile(saveFile);
-            CaptureState(state);
+            CaptureState(state, sceneKey);
             SaveFile(saveFile, state);
         }
 
-        public static void CopySessionToSave(string sessionFile, string saveFile)
+        public static void CopySessionToSave(string sessionFile, string saveFile, string sceneKey) // null sceneKey -> keeps current save scene
         {
             JObject state = LoadFile(sessionFile);
-            CaptureState(state);
+            CaptureState(state, sceneKey);
             SaveFile(saveFile, state);
         }
 
-        public static void CopySaveToSession(string saveFile, string sessionFile)
+        public static void CopySaveToSession(string saveFile, string sessionFile, string sceneKey) // null sceneKey -> keeps current save scene
         {
             JObject state = LoadFile(saveFile);
-            CaptureState(state);
+            CaptureState(state, sceneKey);
             SaveFile(sessionFile, state);
         }
 
@@ -132,7 +146,7 @@ namespace LowDefMustard.Saving
         public static void CopyCorePlayerStateToSave(string saveFile)
         {
             JObject state = LoadFile(saveFile);
-            CaptureState(state, true);
+            CaptureState(state, null, true);
             SaveFile(saveFile, state);
         }
 
@@ -145,19 +159,16 @@ namespace LowDefMustard.Saving
         public static string ManualGetLastScene(JObject state)
         {
             if (state == null) { return string.Empty; }
-            return state.ContainsKey(_saveLastSceneBuildIndex) ? state[_saveLastSceneBuildIndex]?.ToObject<string>() : string.Empty;
+            return state.ContainsKey(_saveLastScene) ? state[_saveLastScene]?.ToObject<string>() : string.Empty;
         }
 
-        public static void ManualUpdateLastScene(JObject state, string sceneName)
+        public static void ManualUpdateLastScene(JObject state, string sceneKey)
         {
+            if (string.IsNullOrEmpty(sceneKey)) { LDMLog.Warning(LDMLogCategory.Saving, "Invalid sceneKey (null or empty).  Skipping manual update."); return; }
 #if UNITY_EDITOR
-            if (!EditorBuildSettings.scenes.Any(scene => scene.path.Contains(sceneName)))
-            {
-                LDMLog.Warning(LDMLogCategory.Saving, $"Last scene set to '{sceneName}', but it is not in the build profile. The save may not load correctly.");
-            }
+            if (editorIsSceneLoadable != null && !editorIsSceneLoadable(sceneKey)) { LDMLog.Warning(LDMLogCategory.Saving, $"Last scene set to '{sceneKey}', but it can't be loaded by that key at runtime. The save may not load correctly."); }
 #endif
-
-            state[_saveLastSceneBuildIndex] = sceneName;
+            state[_saveLastScene] = sceneKey;
         }
 
         public static void ManualAddOverWriteToState(JObject state, JToken stateToAdd, string uniqueIdentifier)
@@ -228,7 +239,7 @@ namespace LowDefMustard.Saving
             }
         }
 
-        private static void CaptureState(JObject state, bool onlyCorePlayerState = false)
+        private static void CaptureState(JObject state, string sceneKey, bool onlyCorePlayerState = false)
         {
             foreach (SaveableEntity saveable in GetValidSaveableEntities())
             {
@@ -237,7 +248,7 @@ namespace LowDefMustard.Saving
                 state[saveable.GetUniqueIdentifier()] = updatedTokenState;
             }
 
-            if (!onlyCorePlayerState) { state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name; }
+            if (!onlyCorePlayerState && !string.IsNullOrWhiteSpace(sceneKey)) { state[_saveLastScene] = sceneKey; } // Blank keeps the existing last scene
         }
 
         private static void CaptureIndividualState(JObject state, SaveableEntity saveable)

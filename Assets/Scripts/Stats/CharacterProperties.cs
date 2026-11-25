@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -34,8 +32,7 @@ namespace Frankie.Stats
         
         // Static State
         [AutoStaticsCleanup] private static readonly Dictionary<string, string> _personalizedNameLookup = new();
-        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] private static Dictionary<string, CharacterProperties> _characterLookupCache;
+        [AutoStaticsCleanup] private static AddressablesLookupCache<CharacterProperties> _cache = new(LDMLogCategory.Stats, nameof(CharacterProperties), characterProperties => characterProperties.GetCharacterID());
 
         #region StaticMethods
         public static bool AreCharacterPropertiesMatched(CharacterProperties entryA, CharacterProperties entryB)
@@ -103,6 +100,10 @@ namespace Frankie.Stats
         #endregion
 
         #region AddressablesCaching
+        public static IAddressablesCacheLifecycle addressablesCache => _cache;
+        public static IReadOnlyDictionary<string, CharacterProperties> GetCharacterPropertiesLookup() => _cache.GetAll();
+        internal static CharacterProperties GetCharacterPropertiesFromName(string name) => _cache.Get(name);
+        
         public static bool TryGetCharacterPropertiesFromName(string name, out CharacterProperties characterProperties)
         {
             characterProperties = GetCharacterPropertiesFromName(name);
@@ -125,57 +126,6 @@ namespace Frankie.Stats
         }
 
         public static List<string> GetCharacterIDs(IEnumerable<CharacterProperties> characters) => characters?.Where(characterProperties => characterProperties != null).Select(characterProperties => characterProperties.GetCharacterID()).ToList() ?? new List<string>();
-
-        public static Dictionary<string, CharacterProperties> GetCharacterPropertiesLookup()
-        {
-            BuildCacheIfEmpty();
-            return _characterLookupCache;
-        }
-
-        internal static CharacterProperties GetCharacterPropertiesFromName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) { return null; }
-
-            BuildCacheIfEmpty();
-            return _characterLookupCache.GetValueOrDefault(name);
-        }
-        
-        public static void BuildCacheIfEmpty(bool force = false)
-        {
-            if (_characterLookupCache == null || force)
-            {
-                BuildCharacterPropertiesCache();
-            }
-        }
-
-        private static void BuildCharacterPropertiesCache()
-        {
-            _characterLookupCache = new Dictionary<string, CharacterProperties>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(CharacterProperties), (CharacterProperties characterProperties) =>
-            {
-                if (_characterLookupCache.TryGetValue(characterProperties.GetCharacterID(), out CharacterProperties matchedProperties))
-                {
-                    AddressablesCacheLog.LogDuplicate(LDMLogCategory.Stats, nameof(CharacterProperties), characterProperties.GetCharacterID(), matchedProperties, characterProperties);
-                }
-
-                _characterLookupCache[characterProperties.GetCharacterID()] = characterProperties;
-            }
-            );
-            _addressablesLoadHandle.WaitForCompletion();
-            AddressablesCacheLog.LogBuild(LDMLogCategory.Stats, nameof(CharacterProperties), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _characterLookupCache.Count);
-        }
-
-        public static void ReleaseCache()
-        {
-            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
-        }
-
-        public static void ResetCache()
-        {
-            ReleaseCache();
-            _addressablesLoadHandle = default;
-            _characterLookupCache = null;
-        }
         #endregion
     }
 }

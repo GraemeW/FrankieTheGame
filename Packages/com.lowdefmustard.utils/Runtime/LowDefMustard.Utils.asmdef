@@ -2,7 +2,9 @@
   "name": "LowDefMustard.Utils",
   "rootNamespace": "LowDefMustard.Utils",
   "references": [
-    "LowDefMustard.Core"
+    "LowDefMustard.Core",
+    "Unity.Addressables",
+    "Unity.ResourceManager"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

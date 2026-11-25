@@ -130,6 +130,7 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 0011512185daf894d9a465659975d19d, type: 3}
     sceneName: Prim
     scenePath: Assets/Scenes/Prim.unity
+    sceneGuid: 0011512185daf894d9a465659975d19d
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   isZoneAudioLooping: 1

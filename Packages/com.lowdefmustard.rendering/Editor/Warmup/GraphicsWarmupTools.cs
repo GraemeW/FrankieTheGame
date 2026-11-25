@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using LowDefMustard.Core;
@@ -149,7 +148,7 @@ namespace LowDefMustard.Rendering.Editor
             var coveredMaterials = new HashSet<Material>();
             foreach (GraphicsWarmupEntry entry in entries.Where(entry => entry != null))
             {
-                if (entry.GetEditorMaterial() != null) { coveredMaterials.Add(entry.GetEditorMaterial()); }
+                if (entry.GetMaterial() != null) { coveredMaterials.Add(entry.GetMaterial()); }
                 if (entry.GetFilter() == null || entry.GetFilter().passes == null) { continue; }
                 foreach (PostProcessingPass pass in entry.GetFilter().passes) { if (pass.material != null) { coveredMaterials.Add(pass.material); } }
             }
@@ -160,8 +159,8 @@ namespace LowDefMustard.Rendering.Editor
         {
             // i.e. the standard binding:  the panel settings the folder's existing UI Toolkit material entries are drawn on
             return entries
-                .Where(entry => entry != null && entry.GetPath() == GraphicsWarmupPath.UIToolkitMaterial && entry.GetEditorMaterial() != null && entry.GetPanelSettings() != null)
-                .Where(entry => AssetDatabase.GetAssetPath(entry.GetEditorMaterial()).StartsWith(folder))
+                .Where(entry => entry != null && entry.GetPath() == GraphicsWarmupPath.UIToolkitMaterial && entry.GetMaterial() != null && entry.GetPanelSettings() != null)
+                .Where(entry => AssetDatabase.GetAssetPath(entry.GetMaterial()).StartsWith(folder))
                 .Select(entry => entry.GetPanelSettings())
                 .FirstOrDefault();
         }
@@ -173,7 +172,6 @@ namespace LowDefMustard.Rendering.Editor
             SerializedProperty entryProperty = entriesProperty.GetArrayElementAtIndex(index);
             entryProperty.FindPropertyRelative(GraphicsWarmupEntry.pathField).enumValueIndex = (int)GraphicsWarmupPath.UIToolkitMaterial;
             entryProperty.FindPropertyRelative(GraphicsWarmupEntry.materialField).objectReferenceValue = material;
-            entryProperty.FindPropertyRelative(GraphicsWarmupEntry.addressableMaterialField).boxedValue = new AssetReferenceT<Material>(string.Empty); // Inserted elements copy the last entry
             entryProperty.FindPropertyRelative(GraphicsWarmupEntry.filterField).objectReferenceValue = null;
             entryProperty.FindPropertyRelative(GraphicsWarmupEntry.panelSettingsField).objectReferenceValue = panelSettings;
             entryProperty.FindPropertyRelative(GraphicsWarmupEntry.targetTextureField).objectReferenceValue = null;

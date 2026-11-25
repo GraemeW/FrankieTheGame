@@ -4,6 +4,7 @@ using LowDefMustard.Zones.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
@@ -13,6 +14,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class MultiZoneViewerNodeDotLinkTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private MultiZoneViewer viewer;
         private MultiZoneView multiZoneView;
         private Zone zoneA;
@@ -23,7 +25,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         private ZoneViewData zoneViewDataB;
         private Object originalSelection;
         private Dictionary<string, Zone> originalZoneLookupCache;
-        private Dictionary<string, Zone> originalSceneReferenceCache;
+        private Dictionary<string, Zone> originalSceneNameCache;
 
         #region Setup
         [SetUp]
@@ -31,7 +33,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             originalSelection = Selection.activeObject;
             originalZoneLookupCache = Zone.zoneLookupCache;
-            originalSceneReferenceCache = Zone.sceneReferenceCache;
+            originalSceneNameCache = Zone.sceneNameCache;
 
             viewer = ScriptableObject.CreateInstance<MultiZoneViewer>();
             viewer.CreateGUI(); // activeMultiZoneView is still null here, so this only builds toolbar/canvas/layers
@@ -40,8 +42,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             zoneB = CreateZoneWithRootNode("ZoneB");
             nodeA = zoneA.GetRootNode();
             nodeB = zoneB.GetRootNode();
-            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "ZoneA", zoneA }, { "ZoneB", zoneB } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone> { { "ZoneA", zoneA }, { "ZoneB", zoneB } };
+            Zone.SeedCache(new Dictionary<string, Zone> { { "ZoneA", zoneA }, { "ZoneB", zoneB } }, new Dictionary<string, Zone> { { "ZoneA", zoneA }, { "ZoneB", zoneB } });
 
             zoneViewDataA = MakeZoneViewData("ZoneA", new Vector2(0f, 0f), nodeA.GetNodeID());
             zoneViewDataB = MakeZoneViewData("ZoneB", new Vector2(500f, 0f), nodeB.GetNodeID());
@@ -51,7 +52,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             viewer.zoneViewLookup["ZoneB"] = viewer.zoneViews[1];
             viewer.RefreshNodeDots();
 
-            multiZoneView = ScriptableObject.CreateInstance<MultiZoneView>();
+            multiZoneView = tracker.Create<MultiZoneView>();
             viewer.activeMultiZoneView = multiZoneView;
         }
 
@@ -59,34 +60,27 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             Selection.activeObject = originalSelection;
-            Zone.zoneLookupCache = originalZoneLookupCache;
-            Zone.sceneReferenceCache = originalSceneReferenceCache;
+            Zone.SeedCache(originalZoneLookupCache, originalSceneNameCache);
 
-            Object.DestroyImmediate(multiZoneView);
-            Object.DestroyImmediate(zoneViewDataA);
-            Object.DestroyImmediate(zoneViewDataB);
-            foreach (ZoneNode node in zoneA.GetAllNodes()) { Object.DestroyImmediate(node); }
-            foreach (ZoneNode node in zoneB.GetAllNodes()) { Object.DestroyImmediate(node); }
-            Object.DestroyImmediate(zoneA);
-            Object.DestroyImmediate(zoneB);
+            foreach (ZoneNode node in zoneA.GetAllNodes().Concat(zoneB.GetAllNodes())) { Object.DestroyImmediate(node); } // The zones' own nodes ~ before the zones go
+            tracker.DestroyAll();
             Object.DestroyImmediate(viewer);
         }
         #endregion
 
         #region PrivateMethods
-        private static Zone CreateZoneWithRootNode(string zoneName)
+        private Zone CreateZoneWithRootNode(string zoneName)
         {
-            var zone = ScriptableObject.CreateInstance<Zone>();
+            var zone = tracker.Create<Zone>(zoneName);
             zone.preventLocalizationForTests = true;
-            zone.name = zoneName;
             zone.CreateRootNodeIfMissing();
             zone.GetRootNode().preventLocalizationForTests = true;
             return zone;
         }
 
-        private static ZoneViewData MakeZoneViewData(string zoneName, Vector2 topLeftPosition, string nodeID)
+        private ZoneViewData MakeZoneViewData(string zoneName, Vector2 topLeftPosition, string nodeID)
         {
-            var zoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();
+            var zoneViewData = tracker.Create<ZoneViewData>();
             zoneViewData.Setup(zoneName, $"Assets/{zoneName}.unity", "snap.png", new Vector2(100f, 100f), topLeftPosition);
             zoneViewData.SetZoneNodeData(new List<ZoneNodeData> { new(nodeID, new Vector2(0.5f, 0.5f)) });
             return zoneViewData;

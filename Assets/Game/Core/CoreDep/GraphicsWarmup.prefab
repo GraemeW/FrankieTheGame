@@ -91,9 +91,9 @@ MonoBehaviour:
     panelSettings: {fileID: 0}
     targetTexture: {fileID: 0}
   - path: 0
-    material: {fileID: 0}
+    material: {fileID: 2100000, guid: 8f746be12fe9f41a59274d73ae58a650, type: 2}
     addressableMaterial:
-      m_AssetGUID: 8f746be12fe9f41a59274d73ae58a650
+      m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: WorldSharedGroup
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: WorldSharedGroup
+  m_GUID: a688e170f9ce347e68e715cae683c2d4
+  m_SerializeEntries:
+  - m_GUID: 36315fa6a6d3c481191dc58c85836049
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e05df1f7f7933b4c807c94bfd296cd1
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/SystemImages
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70aeb7f8f83364364b4164877b177a4c
+    m_Address: Assets/Game/Tilemaps/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd0a1a3bed6034d5b9b596e7f8a243d6
+    m_Address: Assets/Game/WorldObjects/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4cdaa971556be42c587d85fcc0786bb9, type: 2}
+    - {fileID: 11400000, guid: 4d162d32647a5401d8956d70c1b19566, type: 2}

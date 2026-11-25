@@ -19,6 +19,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         }
 
         private EditorWindow window;
+        private readonly TestObjectTracker tracker = new();
         private TestGraphNode node;
         private Object previousSelection;
 
@@ -33,14 +34,14 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             Selection.activeObject = previousSelection;
             HeadlessEditorWindow.Close(window);
-            if (node != null) { Object.DestroyImmediate(node); }
+            tracker.DestroyAll();
         }
 
         [Test]
         public void AddManipulator_SetsTarget_NoPanelRequired()
         {
             var element = new VisualElement();
-            node = ScriptableObject.CreateInstance<TestGraphNode>();
+            node = tracker.Create<TestGraphNode>();
             var manipulator = new StandardNodeDragManipulator(element, node, null, null, () => 1f);
 
             element.AddManipulator(manipulator);
@@ -53,7 +54,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             window = HeadlessEditorWindow.CreateOffscreenWindow();
             var nodeElement = new VisualElement();
             window.rootVisualElement.Add(nodeElement);
-            node = ScriptableObject.CreateInstance<TestGraphNode>();
+            node = tracker.Create<TestGraphNode>();
             var manipulator = new StandardNodeDragManipulator(nodeElement, node, onLive, onComplete, zoomProvider ?? (() => 1f));
             window.rootVisualElement.AddManipulator(manipulator);
             return (manipulator, nodeElement);

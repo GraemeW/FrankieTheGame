@@ -4,6 +4,7 @@ using LowDefMustard.Control;
 using LowDefMustard.Zones;
 using Frankie.Menu.UI;
 using Frankie.Zones;
+using Frankie.Utils.Addressables;
 
 namespace Frankie.Control
 {
@@ -66,11 +67,14 @@ namespace Frankie.Control
 
         private IEnumerator SplashSequence()
         {
-            // Note:  Each start/restart moves on to the next stage, so skipping is a restart
-            while (splashScreen != null && splashScreen.TryShowNextStage())
+            AddressablesLoader.StartAllCacheBuilds(); // Safety check ~ POR path is the AddressablesLoader singleton's Awake (no-op if already started)
+            while (splashScreen != null)
             {
+                if (splashScreen.IsShowingLastStage()) { yield return new WaitUntil(AddressablesLoader.AreAllCachesReady); }
+                if (!splashScreen.TryShowNextStage()) { break; }
                 yield return new WaitForSeconds(splashDelayTime);
             }
+            if (splashScreen == null) { yield return new WaitUntil(AddressablesLoader.AreAllCachesReady); }
             splashSequence = null;
             KickOffNextScene();
         }

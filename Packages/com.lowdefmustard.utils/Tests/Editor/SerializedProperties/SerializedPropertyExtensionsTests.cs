@@ -4,7 +4,6 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using LowDefMustard.Utils.Editor;
-using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Utils.Tests.Editor
 {
@@ -18,6 +17,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         // Not Tested: Managed references
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private Host host;
         private SerializedObject serializedObject;
 
@@ -44,7 +44,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            host = ScriptableObject.CreateInstance<Host>();
+            host = tracker.Create<Host>();
             host.inners.Add(new Inner());
             host.inners.Add(new Inner());
             host.inners.Add(new Inner());
@@ -59,7 +59,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void TearDown()
         {
             serializedObject?.Dispose();
-            Object.DestroyImmediate(host);
+            tracker.DestroyAll();
         }
         #endregion
 

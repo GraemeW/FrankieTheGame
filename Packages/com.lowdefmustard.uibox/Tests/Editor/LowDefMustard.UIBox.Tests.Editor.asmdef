@@ -7,7 +7,8 @@
     "LowDefMustard.UIBox",
     "LowDefMustard.UIBox.Tests",
     "LowDefMustard.Control",
-    "LowDefMustard.Utils"
+    "LowDefMustard.Utils",
+    "LowDefMustard.Utils.Tests"
   ],
   "includePlatforms": [
     "Editor"

@@ -20,11 +20,19 @@ namespace LowDefMustard.Zones
 
         [SerializeField] private string sceneName;
         [SerializeField] internal string scenePath;
+        [SerializeField] internal string sceneGuid; // Runtime scene key ~ survives renames + moves (Addressables loads by it)
+
+        // Field References (e.g. SceneReferencePropertyDrawer)
+        internal const string sceneAssetField = nameof(sceneAsset);
+        internal const string sceneNameField = nameof(sceneName);
+        internal const string scenePathField = nameof(scenePath);
+        internal const string sceneGuidField = nameof(sceneGuid);
 
         public SceneReference(string sceneName)
         {
             sceneAsset = null;
             scenePath = null;
+            sceneGuid = null;
             this.sceneName = sceneName;
         }
 
@@ -37,6 +45,7 @@ namespace LowDefMustard.Zones
                 if (string.Equals(sceneName, value)) return;
                 sceneAsset = null;
                 scenePath = null;
+                sceneGuid = null;
                 sceneName = value;
             }
         }
@@ -55,6 +64,21 @@ namespace LowDefMustard.Zones
             return string.Empty;
         }
         
+        public bool TryGetSceneGuid(out string guid)
+        {
+            guid = string.IsNullOrWhiteSpace(sceneGuid) ? null : sceneGuid;
+            return guid != null;
+        }
+
+#if UNITY_EDITOR
+        internal void SyncSceneGuidFromAsset()
+        {
+            if (sceneAsset == null) { return; }
+            string assetGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(sceneAsset));
+            if (!string.IsNullOrEmpty(assetGuid)) { sceneGuid = assetGuid; }
+        }
+#endif
+
         public static implicit operator string(SceneReference? sceneReference)
         {
             return sceneReference?.sceneName;

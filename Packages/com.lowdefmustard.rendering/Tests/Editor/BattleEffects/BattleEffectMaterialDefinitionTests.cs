@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using LowDefMustard.Rendering.Editor;
 using static LowDefMustard.Rendering.Tests.Editor.BattleEffectTestData;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
     public class BattleEffectMaterialDefinitionTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private Material material;
         private BattleEffectRecipe recipe;
 
@@ -17,8 +19,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            material = RenderingTestMaterials.CreatePropertiesMaterial();
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            material = tracker.Track(RenderingTestMaterials.CreatePropertiesMaterial());
+            recipe = tracker.Create<BattleEffectRecipe>();
             JsonUtility.FromJsonOverwrite("{\"frameRate\":12,\"scaleRatio\":2,\"edgeSoftnessPixels\":1.5,\"glowWidthEU\":0.1}", recipe);
             recipe.SetItems(new[] { CreateItem(new BattleEffectCircle()), CreateItem(new BattleEffectDiamond()) });
         }
@@ -27,8 +29,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void TearDown()
         {
             BattleEffectPreviewVisibility.ShowAll(recipe);
-            if (recipe != null) { Object.DestroyImmediate(recipe); }
-            Object.DestroyImmediate(material);
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -61,7 +62,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void RecipeApplyTo_Filtered_SkipsHiddenEntries_AndLeavesTheCachedBake()
         {
-            var child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            BattleEffectRecipe child = tracker.Create<BattleEffectRecipe>();
             child.SetItems(new[] { CreateItem(new BattleEffectCircle()), CreateItem(new BattleEffectCircle()) });
             recipe.SetInstances(new[] { new BattleEffectInstance(child, 0f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
             Texture2D filteredTexture = recipe.CreateDataTexture("Test");
@@ -79,7 +80,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
                 recipe.ApplyTo(ref materialDefinition, BattleEffectFit.AspectFit, filteredTexture, (_, _, isInstance) => isInstance);
                 Assert.AreEqual(2f, materialDefinition.GetFloat("_ItemCount"), "a hidden instance drops all its items");
             }
-            finally { Object.DestroyImmediate(filteredTexture); Object.DestroyImmediate(child); }
+            finally { Object.DestroyImmediate(filteredTexture); }
         }
 
         [Test]
@@ -173,7 +174,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void ShowAllRecipes_ClearsEveryRecipe_AndRaisesChangedForEach()
         {
-            var other = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            BattleEffectRecipe other = tracker.Create<BattleEffectRecipe>();
             var changedRecipes = new List<BattleEffectRecipe>();
             void HandleChanged(BattleEffectRecipe changedRecipe) => changedRecipes.Add(changedRecipe);
             try
@@ -191,7 +192,6 @@ namespace LowDefMustard.Rendering.Tests.Editor
             {
                 BattleEffectPreviewVisibility.changed -= HandleChanged;
                 BattleEffectPreviewVisibility.ShowAll(other);
-                Object.DestroyImmediate(other);
             }
         }
 

@@ -52,25 +52,52 @@ namespace LowDefMustard.Zones
         #region GettersSetters
         public static Zone GetCurrentZone()
         {
-            if (currentZone == null) { currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name); }
+            if (currentZone == null) { currentZone = Zone.GetFromSceneName(SceneManager.GetActiveScene().name); }
             return currentZone;
         }
         
-        internal static void SetLastZone()
-        {
-            lastZone = currentZone;
-            leavingZone?.Invoke(lastZone);
-        }
-
         internal static void SetCurrentZone(Zone zone)
         {
             currentZone = zone;
             zoneUpdated?.Invoke(currentZone);
         }
+
+        internal static void SetLastZone()
+        {
+            lastZone = currentZone;
+            leavingZone?.Invoke(lastZone);
+        }
         
         public static void SetCurrentZoneToCurrentScene()
         {
-            SetCurrentZone(Zone.GetFromSceneReference(SceneManager.GetActiveScene().name));
+            SetCurrentZone(Zone.GetFromSceneName(SceneManager.GetActiveScene().name));
+        }
+        
+        public static bool TryGetCurrentSceneGuid(out string sceneGuid)
+        {
+            Zone zone = GetCurrentZone();
+            if (zone != null) { zone.GetSceneReference().TryGetSceneGuid(out sceneGuid); }
+            else
+            {
+#if UNITY_EDITOR
+                // Editor-only fallback for zone-less scenes (e.g. debug scenes)
+                sceneGuid = UnityEditor.AssetDatabase.AssetPathToGUID(SceneManager.GetActiveScene().path);
+#else
+                sceneGuid = null;
+#endif
+            }
+            if (!string.IsNullOrWhiteSpace(sceneGuid)) { return true; }
+            
+            LDMLog.Warning(LDMLogCategory.Zones, "Couldn't find the current scene's GUID.");
+            sceneGuid = null;
+            return false;
+        }
+        
+        private static bool TryGetZoneSceneGuid(Zone zone, out string sceneGuid)
+        {
+            if (zone.GetSceneReference().TryGetSceneGuid(out sceneGuid)) { return true; }
+            LDMLog.Warning(LDMLogCategory.Zones, $"Zone '{zone.name}' has no scene GUID, so its scene can't load. Staying in the current scene. Re-link the zone's scene in the editor.", zone);
+            return false;
         }
         #endregion
         
@@ -79,13 +106,14 @@ namespace LowDefMustard.Zones
         {
             if (zone == null) { LDMLog.Error(LDMLogCategory.Zones, "Cannot load a scene for a null zone. Ignoring the request."); yield break; }
             if (isCurrentlyLoading) { LDMLog.Info(LDMLogCategory.Zones, $"Already loading a scene. Ignoring the request to load zone '{zone.name}'."); yield break; }
+            if (!TryGetZoneSceneGuid(zone, out string sceneGuid)) { yield break; }
             
             isCurrentlyLoading = true;
-            SetLastZone();
-            yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
-            SetCurrentZone(zone);
+            SetLastZone(); // Before the load ~ leavingZone listeners need the old scene (e.g. MapCamera)
+            bool isLoaded = false;
+            yield return AddressableSceneLoader.LoadSceneAsync(sceneGuid, result => isLoaded = result);
             isCurrentlyLoading = false;
-            LDMLog.Important(LDMLogCategory.Zones, $"Loaded zone '{zone.name}'.");
+            TryCompleteZoneLoad(zone, isLoaded);
         }
         
         public static void QueueDelayedDestroy(IList<GameObject> entries)
@@ -102,17 +130,30 @@ namespace LowDefMustard.Zones
         #endregion
         
         #region PrivateMethods
-        protected static IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback)
+        protected static IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback) // Note:  skips sceneLoadedCallback on fail
         {
             if (zone == null) { yield break; }
+            if (!TryGetZoneSceneGuid(zone, out string sceneGuid)) { yield break; }
 
             isCurrentlyLoading = true;
             yield return new WaitForSeconds(delayTime);
-            yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
-            SetCurrentZone(zone);
+            var isLoaded = false;
+            yield return AddressableSceneLoader.LoadSceneAsync(sceneGuid, result => isLoaded = result);
             isCurrentlyLoading = false;
-            LDMLog.Important(LDMLogCategory.Zones, $"Loaded zone '{zone.name}'.");
+            if (!TryCompleteZoneLoad(zone, isLoaded)) { yield break; }
             sceneLoadedCallback?.Invoke();
+        }
+
+        private static bool TryCompleteZoneLoad(Zone zone, bool isLoaded)
+        {
+            if (!isLoaded)
+            {
+                LDMLog.Warning(LDMLogCategory.Zones, $"Zone '{zone.name}' didn't load - staying in the current scene.", zone);
+                return false;
+            }
+            SetCurrentZone(zone);
+            LDMLog.Important(LDMLogCategory.Zones, $"Loaded zone '{zone.name}'.");
+            return true;
         }
 
         private void StartDelayedDestroy(IList<GameObject> entries)

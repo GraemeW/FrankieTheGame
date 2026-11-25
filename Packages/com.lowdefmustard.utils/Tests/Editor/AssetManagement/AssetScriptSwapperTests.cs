@@ -12,6 +12,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         // Not Tested:  ConfirmInPlace (not interesting ~ modal dialogue only)
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private TempAssetFolder tempFolder;
 
         #region Setup
@@ -19,7 +20,11 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void SetUp() => tempFolder = new TempAssetFolder(nameof(AssetScriptSwapperTests));
 
         [TearDown]
-        public void TearDown() => tempFolder.Dispose();
+        public void TearDown()
+        {
+            tracker.DestroyAll();
+            tempFolder.Dispose();
+        }
         #endregion
 
         #region Tests
@@ -89,9 +94,8 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void SwapScriptInPlace_NonPersistentObject_Throws()
         {
-            var source = ScriptableObject.CreateInstance<SwapSourceAsset>();
-            try { Assert.Throws<ArgumentException>(() => AssetScriptSwapper.SwapScriptInPlace<SwapTargetAsset>(source)); }
-            finally { Object.DestroyImmediate(source); }
+            var source = tracker.Create<SwapSourceAsset>();
+            Assert.Throws<ArgumentException>(() => AssetScriptSwapper.SwapScriptInPlace<SwapTargetAsset>(source));
         }
         #endregion
     }

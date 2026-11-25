@@ -24,6 +24,7 @@ namespace Frankie.Tests
         // Existing project skills - req'd for methods that resolve skills by name through the Skill addressables cache
         public static Skill[] LoadAddressableSkills(int count, Func<Skill, bool> match = null)
         {
+            AddressablesTestCatalogue.IgnoreUnlessAssetDatabaseCatalog(); // Compares each project skill with the cache's copy
             Skill[] skills = AssetDatabase.FindAssets($"t:{nameof(Skill)}")
                 .Select(guid => AssetDatabase.LoadAssetAtPath<Skill>(AssetDatabase.GUIDToAssetPath(guid)))
                 .Where(skill => skill != null && Skill.GetSkillFromName(skill.name) == skill && (match == null || match(skill)))
@@ -123,7 +124,7 @@ namespace Frankie.Tests
         public static SkillHandler BuildSkillHandler(this TestObjectTracker tracker, string participantName, SkillSet skillSet)
         {
             // Inactive until the skill set is injected to ensure Awake / OnEnable see the configured handler
-            GameObject participantObject = tracker.Track(new GameObject(participantName));
+            GameObject participantObject = tracker.CreateGameObject(participantName);
             participantObject.SetActive(false);
             participantObject.AddComponent<CombatParticipant>(); // Pulls in BaseStats ~ no character properties, so 0 AP and 0 in every stat (traits pass at tree level 0 only, unless the unlock multiplier is 0)
             var skillHandler = participantObject.AddComponent<SkillHandler>();

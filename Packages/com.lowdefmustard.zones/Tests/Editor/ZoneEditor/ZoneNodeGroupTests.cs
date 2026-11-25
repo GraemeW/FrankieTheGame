@@ -1,22 +1,20 @@
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneNodeGroupTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private Zone zone;
-        private readonly List<ZoneNode> createdNodes = new();
 
         #region Setup
         [TearDown]
         public void TearDown()
         {
-            foreach (ZoneNode node in createdNodes) { Object.DestroyImmediate(node); }
-            createdNodes.Clear();
-            if (zone != null) { Object.DestroyImmediate(zone); }
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -84,11 +82,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void RecomputeGroupRect_SingleContainedNode_ProducesPaddedBounds()
         {
-            zone = ScriptableObject.CreateInstance<Zone>();
+            zone = tracker.Create<Zone>();
             zone.preventLocalizationForTests = true;
             zone.CreateRootNodeIfMissing();
             ZoneNode rootNode = zone.GetRootNode();
-            createdNodes.Add(rootNode);
+            tracker.Track(rootNode);
 
             var group = new ZoneNodeGroup("SomeZone");
             group.AddNodeID(rootNode.GetNodeID());

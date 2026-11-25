@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Utils.Tests
 {
@@ -7,13 +9,16 @@ namespace LowDefMustard.Utils.Tests
     {
         private readonly List<Object> trackedObjects = new();
 
-        public T Create<T>(string objectName) where T : ScriptableObject
+        public T Create<T>(string objectName = null) where T : ScriptableObject
         {
             var createdObject = ScriptableObject.CreateInstance<T>();
-            createdObject.name = objectName;
+            if (objectName != null) { createdObject.name = objectName; } // null keeps CreateInstance's blank name
             trackedObjects.Add(createdObject);
             return createdObject;
         }
+
+        public GameObject CreateGameObject(string objectName, params Type[] components) => Track(new GameObject(objectName, components));
+        public T CreateComponent<T>(string objectName) where T : Component => CreateGameObject(objectName).AddComponent<T>();
 
         public T Track<T>(T trackedObject) where T : Object
         {

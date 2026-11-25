@@ -1,12 +1,14 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneNodeTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private ZoneNode node;
         private ZoneNode otherNode;
 
@@ -14,8 +16,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (node != null) { Object.DestroyImmediate(node); }
-            if (otherNode != null) { Object.DestroyImmediate(otherNode); }
+            tracker.DestroyAll();
         }
         #endregion
         
@@ -24,12 +25,12 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             if (isOtherNode)
             {
-                otherNode = ScriptableObject.CreateInstance<ZoneNode>();
+                otherNode = tracker.Create<ZoneNode>();
                 otherNode.preventLocalizationForTests = true;
                 return otherNode;
             }
 
-            node = ScriptableObject.CreateInstance<ZoneNode>();
+            node = tracker.Create<ZoneNode>();
             node.preventLocalizationForTests = true;
             return node;
         }

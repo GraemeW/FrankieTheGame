@@ -74,9 +74,20 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
 
 ### Addressables (`Runtime/Addressables` + `Editor/Addressables`)
 
-- **`IAddressablesCache`** — Convention interface for Addressables-backed caches
-  - implementers supply static `BuildCacheIfEmpty()`, `ReleaseCache()` and `ResetCache()` (the latter releasing + dropping the lookup so the next lookup rebuilds) 
-  - effectively placeholders until static abstracts are available (Unity7 / CoreCLR)
+- **`IAddressablesCache`** — Marker interface for the type that owns an Addressables-backed cache (label == class name by default)
+  - Contract:  one public static `IAddressablesCacheLifecycle` property, backed by an `[AutoStaticsCleanup]` `AddressablesLookupCache<T>` field
+  - Note:  since we don't have static abstract members until ≥C# 11 (Unity 7 / CoreCLR) ~ `AddressablesCacheOwners` finds the cache by reflection, and tests enforce the contract on every owner (TBU pending)
+- **`AddressablesLookupCache<T>`** — The cache itself:  every asset under one label, keyed by ID (+ an optional secondary key, e.g. `Zone` by scene name)
+  - On Cache Building:
+    - `StartBuild()` loads async (e.g. behind a splash screen)
+    - lookups (`Get` / `GetBySecondaryKey` / `GetAll`) complete synchronously on demand
+  - Notable Behaviour:
+    - logs duplicate IDs + the build result (`AddressablesCacheLog`)
+    - an asset with a blank ID warns + is skipped, while the rest still load
+    - will never block during an Addressables scene load (`AddressablesSceneLoadState`) ~ `WaitForCompletion` during a scene load deadlocks the scene load in builds, so log an error instead
+  - `Seed(...)` replaces the lookups directly for tests
+- **`IAddressablesCacheLifecycle`** — external (outside cache) visibility ~ `StartBuild`, `BuildIfEmpty`, `IsReady`, `Release`, `Reset` (release + drop the lookups so the next lookup rebuilds)
+- **`AddressablesCacheOwners`** (editor) — Finds `IAddressablesCache` owners (`GetOwnerTypes`) and their caches (`GetCache`)
 - **`AddressablesCacheInvalidator`** (editor, `AssetPostprocessor`) — Keeps caches current in edit mode ~ they'd otherwise only rebuild on a domain reload
   - an imported, moved or deleted asset resets the cache owned by its type (specifically, the type that introduces `IAddressablesCache`, e.g. `InventoryItem` for a `KeyItem`)
   - skipped in Play mode ~ `[AutoStaticsCleanup]` already resets the caches on entry
@@ -186,7 +197,8 @@ Shared Test Builders live in `Tests/Runtime/TestBuilders/` (same namespace):
 * `ConditionBuilder`
 * `EvaluatorBuilder`
 * `TestObjectTracker`:
-  * `Create<T>(name)` makes a tracked ScriptableObject
+  * `Create<T>(name = null)`: a tracked ScriptableObject
+  * `CreateGameObject(name, components...)` / `CreateComponent<T>(name)`: a tracked GameObject (or a new one's added component)
   * `Track(obj)` adopts any other `UnityEngine.Object` (e.g. a `new GameObject(...)`)
   * `DestroyAll()` in TearDown cleans them up (skipping any already destroyed)
 
@@ -215,6 +227,8 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
   * `SendSubmit`: presses a `Button` via `NavigationSubmitEvent` (no pointer position needed)
   * `BeginObjectDrag(objects...)` + `SendDragUpdated` / `SendDragPerform` / `SendDragLeave`: synthetic editor drags (`DragAndDrop.objectReferences` set without a live drag) ~ `EndObjectDrag()` in TearDown
   * `DropObjects(target, objects...)`: whole drop in one call (begin → updated → perform)
+* `AddressablesTestCatalog.IgnoreUnlessAssetDatabaseCatalog()`: allows us to skip a test that may compare project assets with what Addressables loads, when on a built catalogue (i.e. Addressables -> Play Mode Script:  Use Existing Build)
+  * TearDowns must tolerate a skipped SetUp (null fields)
 * `TestAssemblyCheck.IsTestAssemblyType(type)`: true for types in a test assembly (`.Tests` / `.Tests.Editor` naming, or an NUnit reference)
 
 ### Coverage at a glance
@@ -263,7 +277,9 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | `Condition` / `Disjunction` / `PredicateWrapper`       | Yes      | `ConditionTests.cs`                                           | See `Runtime/Predicates/README.md` for the full CNF/evaluation semantics this suite covers                                                           |
 | `IObjectProbabilityPair<T>`                            | Indirect | `ProbabilityPairExtensionsTests.cs` (via a test double)       | No concrete implementation; covariance checked                                                                                                       |
 | `ProbabilityPairExtensions.TryGetRandom(...)`          | Yes      | `ProbabilityPairExtensionsTests.cs`                           |                                                                                                                                                      |
-| `IAddressablesCache`                                   | No       | —                                                             | No concrete implementation                                                                                                                           |
+| `IAddressablesCache`                                   | Indirect | `AddressablesCacheInvalidatorTests.cs`                        | Marker ~ contract is checked on every owner outside test assemblies                                                                                  |
+| `AddressablesLookupCache<T>`                           | Partial  | `AddressablesLookupCacheTests.cs`                             | Load (`StartBuild` / `BuildIfEmpty` / `IsReady`) is covered by consumers' cache tests                                                                |
+| `AddressablesCacheOwners`                              | Yes      | `AddressablesCacheInvalidatorTests.cs`                        |                                                                                                                                                      |
 | `AddressablesCacheInvalidator`                         | Partial  | `AddressablesCacheInvalidatorTests.cs`                        | `OnPostprocessAllAssets` needs real imports ~ verified live (quest / key item reimports reset only their own cache)                                  |
 | `AssetScriptSwapper`                                   | Yes      | `AssetScriptSwapperTests.cs`                                  | `ConfirmInPlace` (modal dialogue) skipped (not interesting)                                                                                          |
 | `SerializedFieldUtility`                               | Partial  | `SerializedFieldUtilityTests.cs`                              | Unity's own edge cases (generic `[Serializable]` instances, depth limit) not mirrored                                                                |

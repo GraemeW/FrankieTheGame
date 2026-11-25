@@ -3,7 +3,6 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEditor.SceneManagement;
 using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
@@ -15,33 +14,25 @@ namespace LowDefMustard.Zones.Tests.Editor
         private const float _tolerance = 0.0001f;
 
         // State
-        private readonly List<Zone> createdZones = new();
-        private readonly List<ZoneNode> createdNodes = new();
-        private readonly List<GameObject> spawnedObjects = new();
+        private readonly TestObjectTracker tracker = new();
         private Dictionary<string, Zone> originalZoneLookupCache;
-        private Dictionary<string, Zone> originalSceneReferenceCache;
+        private Dictionary<string, Zone> originalSceneNameCache;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
             originalZoneLookupCache = Zone.zoneLookupCache;
-            originalSceneReferenceCache = Zone.sceneReferenceCache;
+            originalSceneNameCache = Zone.sceneNameCache;
             SceneTestUtility.ResetToEmptyScene();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Zone.zoneLookupCache = originalZoneLookupCache;
-            Zone.sceneReferenceCache = originalSceneReferenceCache;
+            Zone.SeedCache(originalZoneLookupCache, originalSceneNameCache);
             
-            foreach (Zone zone in createdZones.Where(zone => zone != null)) { Object.DestroyImmediate(zone); }
-            createdZones.Clear();
-            foreach (GameObject spawnedObject in spawnedObjects.Where(spawnedObject => spawnedObject != null)) { Object.DestroyImmediate(spawnedObject); }
-            spawnedObjects.Clear();
-            foreach (ZoneNode node in createdNodes.Where(node => node != null)) { Object.DestroyImmediate(node); }
-            createdNodes.Clear();
+            tracker.DestroyAll();
         }
         #endregion
         
@@ -49,17 +40,15 @@ namespace LowDefMustard.Zones.Tests.Editor
         // sceneName null leaves the zone's SceneReference unset
         private Zone CreateZone(string zoneName, string sceneName)
         {
-            var zone = ScriptableObject.CreateInstance<Zone>();
+            var zone = tracker.Create<Zone>(zoneName);
             zone.preventLocalizationForTests = true;
-            zone.name = zoneName;
             if (sceneName != null) { zone.sceneReference = sceneName; }
-            createdZones.Add(zone);
             return zone;
         }
         
         private ZoneNode CreateNode(string zoneName, string nodeName)
         {
-            var node = ScriptableObject.CreateInstance<ZoneNode>();
+            var node = tracker.Create<ZoneNode>();
             node.preventLocalizationForTests = true;
             node.hideFlags = HideFlags.HideAndDontSave; // Keeps it alive across any scene transition
             
@@ -67,14 +56,12 @@ namespace LowDefMustard.Zones.Tests.Editor
             node.SetZoneName(zoneName);
             node.SetNodeID(nodeName); // Need to set ID/name manually when creating instance
             LogAssert.ignoreFailingMessages = false;
-            createdNodes.Add(node);
             return node;
         }
         
         private ZoneHandlerBase CreateHandler(string objectName, Vector3 position, ZoneNode node, bool active = true)
         {
-            var handlerObject = new GameObject(objectName) { transform = { position = position } };
-            spawnedObjects.Add(handlerObject);
+            GameObject handlerObject = tracker.Track(new GameObject(objectName) { transform = { position = position } });
 
             var handler = handlerObject.AddComponent<ZoneHandlerBase>();
             handler.zoneNode = node;
@@ -84,12 +71,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         
         private static void SeedZoneCache(params Zone[] zones)
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.SeedCache(new Dictionary<string, Zone>(), new Dictionary<string, Zone>());
             foreach (Zone zone in zones)
             {
                 Zone.zoneLookupCache[zone.name] = zone;
-                Zone.sceneReferenceCache[zone.name] = zone; // Keyed by zone name, since a zone with no scene reference has no usable scene key
+                Zone.sceneNameCache[zone.name] = zone; // Keyed by zone name, since a zone with no scene reference has no usable scene key
             }
         }
 
@@ -159,7 +145,6 @@ namespace LowDefMustard.Zones.Tests.Editor
             ZoneNode liveNode = CreateNode("ZoneA", "liveNode");
             ZoneNode destroyedNode = CreateNode("ZoneA", "destroyedNode");
             Object.DestroyImmediate(destroyedNode);
-            createdNodes.Remove(destroyedNode);
 
             var handlerData = new List<ZoneHandlerNodeData>
             {
@@ -317,8 +302,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             ZoneNode node = CreateNode("ZoneA", "nodeA");
             ZoneHandlerBase handler = CreateHandler("HandlerA", new Vector3(3f, 4f, 5f), node);
-            var warpObject = new GameObject("Warp") { transform = { position = new Vector3(9f, 8f, 7f) } };
-            spawnedObjects.Add(warpObject);
+            GameObject warpObject = tracker.Track(new GameObject("Warp") { transform = { position = new Vector3(9f, 8f, 7f) } });
             handler.warpTransform = warpObject.transform;
 
             List<ZoneHandlerNodeData> result = ZoneHandlerConduit.BuildZoneHandlerNodeData();

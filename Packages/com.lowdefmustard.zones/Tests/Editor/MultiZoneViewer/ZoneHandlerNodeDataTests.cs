@@ -1,26 +1,28 @@
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Zones.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneHandlerNodeDataTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private ZoneNode zoneNode;
 
         // Setup
         [SetUp]
         public void SetUp()
         {
-            zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
+            zoneNode = tracker.Create<ZoneNode>();
             zoneNode.preventLocalizationForTests = true;
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(zoneNode);
+            tracker.DestroyAll();
         }
 
         // Tests

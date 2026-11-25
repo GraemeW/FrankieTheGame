@@ -1,12 +1,14 @@
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Zones.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneViewTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private ZoneViewData zoneViewData;
         private Texture2D texture;
 
@@ -14,15 +16,14 @@ namespace LowDefMustard.Zones.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            zoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();
-            texture = new Texture2D(1, 1);
+            zoneViewData = tracker.Create<ZoneViewData>();
+            texture = tracker.Track(new Texture2D(1, 1));
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(zoneViewData);
-            Object.DestroyImmediate(texture);
+            tracker.DestroyAll();
         }
 
         // Tests

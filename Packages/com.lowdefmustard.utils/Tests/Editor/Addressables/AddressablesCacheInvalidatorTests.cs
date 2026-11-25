@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UnityEditor;
+using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Utils.Tests.Editor
 {
     public class AddressablesCacheInvalidatorTests
     {
-        // Covers which caches an asset change resets, and that every cache owner can be reset
-        // Not covered:  OnPostprocessAllAssets itself (needs real asset imports) ~ verified live via a quest reimport
+        // Covers which caches an asset change resets, finding an owner's cache, and the IAddressablesCache contract on every owner
+        // Not covered:  OnPostprocessAllAssets itself (needs asset imports) ~ verified manually
 
         #region DataStructures
         private class OwnerA { }
@@ -17,17 +19,33 @@ namespace LowDefMustard.Utils.Tests.Editor
         private class OwnerB { }
         private class Unrelated { }
 
-        private sealed class ResettableCache : IAddressablesCache
+        private sealed class CountingCache : IAddressablesCacheLifecycle
         {
-            public static int resetCount;
-            public static void ResetCache() => resetCount++;
+            public int resetCount;
+            public void StartBuild() { }
+            public void BuildIfEmpty() { }
+            public bool IsReady() => true;
+            public void Release() { }
+            public void Reset() => resetCount++;
         }
 
-        private sealed class NonResettableCache : IAddressablesCache { }
+        private sealed class CacheOwner : IAddressablesCache
+        {
+            [NoAutoStaticsCleanup] public static readonly CountingCache cache = new();
+            public static IAddressablesCacheLifecycle addressablesCache => cache;
+        }
+
+        private sealed class OwnerWithoutCache : IAddressablesCache { }
+
+        private sealed class OwnerWithTwoCaches : IAddressablesCache
+        {
+            public static IAddressablesCacheLifecycle firstCache => CacheOwner.cache;
+            public static IAddressablesCacheLifecycle secondCache => CacheOwner.cache;
+        }
         #endregion
 
         #region GetCacheOwnersToReset
-        private static readonly Type[] _owners = { typeof(OwnerA), typeof(OwnerB) };
+        [NoAutoStaticsCleanup] private static readonly Type[] _owners = { typeof(OwnerA), typeof(OwnerB) };
 
         [Test]
         public void GetCacheOwnersToReset_ResetAll_ReturnsEveryOwner()
@@ -48,37 +66,54 @@ namespace LowDefMustard.Utils.Tests.Editor
         }
         #endregion
 
-        #region ResetMethod
+        #region AddressablesCacheOwners
         [Test]
-        public void GetResetMethod_DeclaredStaticReset_IsFoundAndInvocable()
+        public void GetCache_OneCacheProperty_ReturnsItsCache()
         {
-            ResettableCache.resetCount = 0;
+            int resetCount = CacheOwner.cache.resetCount; // Note:  Asset changes reset it too (an unrecorded deletion resets every owner)
 
-            AddressablesCacheInvalidator.GetResetMethod(typeof(ResettableCache)).Invoke(null, null);
+            AddressablesCacheOwners.GetCache(typeof(CacheOwner)).Reset();
 
-            Assert.AreEqual(1, ResettableCache.resetCount);
+            Assert.AreSame(CacheOwner.cache, AddressablesCacheOwners.GetCache(typeof(CacheOwner)));
+            Assert.AreEqual(resetCount + 1, CacheOwner.cache.resetCount);
         }
 
         [Test]
-        public void GetResetMethod_NotDeclared_ReturnsNull()
+        public void GetCache_NoCacheProperty_ReturnsNull()
         {
-            Assert.IsNull(AddressablesCacheInvalidator.GetResetMethod(typeof(NonResettableCache)));
+            Assert.IsNull(AddressablesCacheOwners.GetCache(typeof(OwnerWithoutCache)));
         }
 
         [Test]
-        public void CacheOwnerTypes_OutsideTestAssemblies_AllDeclareResetCache()
+        public void GetCache_TwoCacheProperties_ReturnsNull()
         {
-            // TypeCache spans every loaded assembly -> also checks consumers' caches
-            List<Type> owners = AddressablesCacheInvalidator.GetCacheOwnerTypes().Where(type => !TestAssemblyCheck.IsTestAssemblyType(type)).ToList();
-
-            List<string> missingReset = owners.Where(owner => AddressablesCacheInvalidator.GetResetMethod(owner) == null).Select(owner => owner.FullName).ToList();
-            CollectionAssert.IsEmpty(missingReset, "IAddressablesCache owners need a public static ResetCache()");
+            Assert.IsNull(AddressablesCacheOwners.GetCache(typeof(OwnerWithTwoCaches)));
         }
 
         [Test]
-        public void CacheOwnerTypes_ExcludeSubclassesOfAnOwner()
+        public void OwnerTypes_OutsideTestAssemblies_EachExposeOneCache()
         {
-            Assert.IsTrue(AddressablesCacheInvalidator.GetCacheOwnerTypes().All(owner => owner.BaseType == null || !typeof(IAddressablesCache).IsAssignableFrom(owner.BaseType)));
+            // The IAddressablesCache contract ~ TypeCache spans every loaded assembly -> also checks consumers' caches
+            List<Type> owners = AddressablesCacheOwners.GetOwnerTypes().Where(type => !TestAssemblyCheck.IsTestAssemblyType(type)).ToList();
+
+            List<string> brokenOwners = owners.Where(owner => AddressablesCacheOwners.GetCacheProperties(owner).Count != 1 || AddressablesCacheOwners.GetCache(owner) == null).Select(owner => owner.FullName).ToList();
+            CollectionAssert.IsEmpty(brokenOwners, "IAddressablesCache owners need exactly one public static IAddressablesCacheLifecycle property, returning their cache");
+        }
+
+        [Test]
+        public void OwnerTypes_SubclassesOfAnOwner_DeclareNoCacheOfTheirOwn()
+        {
+            List<string> subclassesWithCaches = TypeCache.GetTypesDerivedFrom<IAddressablesCache>()
+                .Where(type => type.BaseType != null && typeof(IAddressablesCache).IsAssignableFrom(type.BaseType) && !TestAssemblyCheck.IsTestAssemblyType(type))
+                .Where(type => AddressablesCacheOwners.GetCacheProperties(type).Count > 0)
+                .Select(type => type.FullName).ToList();
+            CollectionAssert.IsEmpty(subclassesWithCaches, "Subclasses share their base type's cache");
+        }
+
+        [Test]
+        public void OwnerTypes_ExcludeSubclassesOfAnOwner()
+        {
+            Assert.IsTrue(AddressablesCacheOwners.GetOwnerTypes().All(owner => owner.BaseType == null || !typeof(IAddressablesCache).IsAssignableFrom(owner.BaseType)));
         }
         #endregion
     }

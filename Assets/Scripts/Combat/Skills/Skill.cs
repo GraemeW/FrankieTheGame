@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -31,8 +29,7 @@ namespace Frankie.Combat
         [HideInInspector][SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }
         
-        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Skill>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] private static Dictionary<string, Skill> _skillLookupCache;
+        [AutoStaticsCleanup] private static AddressablesLookupCache<Skill> _cache = new(LDMLogCategory.Combat, nameof(Skill), skill => skill.name);
 
         // NOTE:
         // Skill necessarily uses name as id -- i.e. use .name for lookups
@@ -78,39 +75,8 @@ namespace Frankie.Combat
         #endregion
         
         #region AddressablesCaching
-        public static Skill GetSkillFromName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) { return null; }
-            BuildCacheIfEmpty();
-            return _skillLookupCache.GetValueOrDefault(name);
-        }
-
-        public static void BuildCacheIfEmpty()
-        {
-            if (_skillLookupCache != null) { return; }
-
-            _skillLookupCache = new Dictionary<string, Skill>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Skill), (Skill skill) =>
-                {
-                    if (_skillLookupCache.TryGetValue(skill.name, out Skill value)) { AddressablesCacheLog.LogDuplicate(LDMLogCategory.Combat, nameof(Skill), skill.name, value, skill); }
-                    _skillLookupCache[skill.name] = skill;
-                }
-            );
-            _addressablesLoadHandle.WaitForCompletion();
-            AddressablesCacheLog.LogBuild(LDMLogCategory.Combat, nameof(Skill), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _skillLookupCache.Count);
-        }
-
-        public static void ReleaseCache()
-        {
-            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
-        }
-
-        public static void ResetCache()
-        {
-            ReleaseCache();
-            _addressablesLoadHandle = default;
-            _skillLookupCache = null;
-        }
+        public static IAddressablesCacheLifecycle addressablesCache => _cache;
+        public static Skill GetSkillFromName(string name) => _cache.Get(name);
         #endregion
     }
 }

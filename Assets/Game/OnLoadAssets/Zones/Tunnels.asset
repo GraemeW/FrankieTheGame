@@ -25,6 +25,7 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: eccdfd585cec2fe4881a93b6d688f3c7, type: 3}
     sceneName: Tunnels
     scenePath: Assets/Scenes/Tunnels.unity
+    sceneGuid: eccdfd585cec2fe4881a93b6d688f3c7
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
   isZoneAudioLooping: 1

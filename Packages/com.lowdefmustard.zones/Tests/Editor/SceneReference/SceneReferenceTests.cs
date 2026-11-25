@@ -14,6 +14,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     {
         // Const Tunables
         [NoAutoStaticsCleanup] private static readonly Regex _noPathWarning = new(@"Scene path for '.*' is not configured\. Re-link the scene reference in the editor\.$");
+        private const string _sceneGuid = "0123456789abcdef0123456789abcdef";
 
         // State
         private TempAssetFolder tempFolder;
@@ -83,6 +84,40 @@ namespace LowDefMustard.Zones.Tests.Editor
 
             LogAssert.Expect(LogType.Warning, _noPathWarning);
             Assert.AreEqual(string.Empty, reference.GetScenePath());
+        }
+
+        [Test]
+        public void TryGetSceneGuid_StoredGuid_ReturnsIt()
+        {
+            var reference = new SceneReference("MyScene") { sceneGuid = _sceneGuid };
+
+            Assert.IsTrue(reference.TryGetSceneGuid(out string guid));
+            Assert.AreEqual(_sceneGuid, guid);
+        }
+
+        [Test]
+        public void SceneNameSetter_DifferentValue_ClearsStoredGuid()
+        {
+            var reference = new SceneReference("MyScene") { sceneGuid = _sceneGuid };
+
+            reference.SceneName = "OtherScene";
+
+            Assert.IsFalse(reference.TryGetSceneGuid(out string guid));
+            Assert.IsNull(guid);
+        }
+
+        [Test]
+        public void TryGetSceneGuid_NotStored_ReturnsFalse_EvenWithSceneAsset()
+        {
+            // No editor fallback:  builds only have the stored GUID, so a missing one shows in the editor too
+            tempFolder = new TempAssetFolder(nameof(SceneReferenceTests));
+            Scene scratchScene = SceneTestUtility.CreateSavedScene(tempFolder, "ScratchTest_SceneReferenceGetSceneGuid");
+            string scratchScenePath = scratchScene.path;
+            EditorSceneManager.CloseScene(scratchScene, true);
+            var reference = new SceneReference("MyScene") { sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scratchScenePath) };
+
+            Assert.IsFalse(reference.TryGetSceneGuid(out string guid));
+            Assert.IsNull(guid);
         }
 
         [Test]

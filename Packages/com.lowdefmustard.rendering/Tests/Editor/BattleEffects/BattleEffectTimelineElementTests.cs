@@ -19,6 +19,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //  - Child 0 is the overall row ~ GetRow skips it
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private BattleEffectRecipe recipe;
         private BattleEffectTimelineElement timeline;
 
@@ -26,7 +27,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            recipe = tracker.Create<BattleEffectRecipe>();
             recipe.SetItems(new[]
             {
                 CreateItem(new BattleEffectCircle(), "{\"label\":\"Pop\",\"startTimeSeconds\":0,\"durationSeconds\":1}"),
@@ -40,7 +41,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void TearDown()
         {
             BattleEffectPreviewVisibility.ShowAll(recipe);
-            Object.DestroyImmediate(recipe);
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -52,11 +53,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private BattleEffectRecipe CreateInstancedRecipe(out BattleEffectRecipe grandchild)
         {
             // The setup recipe + an instance (offset 2s) of a child w/ one item (0.5 -> 1s) + its own instance (offset 0.25s) of a grandchild
-            grandchild = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            grandchild.name = "Grandchild";
+            grandchild = tracker.Create<BattleEffectRecipe>("Grandchild");
             grandchild.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"label\":\"Spark\",\"startTimeSeconds\":0,\"durationSeconds\":0.5}") });
-            var child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            child.name = "Child";
+            var child = tracker.Create<BattleEffectRecipe>("Child");
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"label\":\"Ring\",\"startTimeSeconds\":0.5,\"durationSeconds\":0.5}") });
             child.SetInstances(new[] { new BattleEffectInstance(grandchild, 0.25f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
             recipe.SetInstances(new[] { new BattleEffectInstance(child, 2f, true, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
@@ -154,64 +153,51 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Refresh_Instance_AddsACollapsedHeaderSpanningItsItems()
         {
-            BattleEffectRecipe child = CreateInstancedRecipe(out BattleEffectRecipe grandchild);
-            try
-            {
-                timeline.Refresh(recipe, 0f, 4f);
+            CreateInstancedRecipe(out _);
+            timeline.Refresh(recipe, 0f, 4f);
 
-                Assert.AreEqual(5, timeline.childCount, "overall row + 2 item rows + 1 header + playhead");
-                Assert.AreEqual("+ Child", GetRow(2).Q<Label>().text, "unlabelled instances use the recipe's name");
-                VisualElement headerBar = GetBar(GetRow(2));
-                Assert.AreEqual(2.25f / 4f * 100f, headerBar.style.left.value.value, 1e-3f, "from the grandchild's spark (2 + 0.25 + 0)");
-                Assert.AreEqual(0.75f / 4f * 100f, headerBar.style.width.value.value, 1e-3f, "to the ring's end (2 + 1)");
-            }
-            finally { Object.DestroyImmediate(child); Object.DestroyImmediate(grandchild); }
+            Assert.AreEqual(5, timeline.childCount, "overall row + 2 item rows + 1 header + playhead");
+            Assert.AreEqual("+ Child", GetRow(2).Q<Label>().text, "unlabelled instances use the recipe's name");
+            VisualElement headerBar = GetBar(GetRow(2));
+            Assert.AreEqual(2.25f / 4f * 100f, headerBar.style.left.value.value, 1e-3f, "from the grandchild's spark (2 + 0.25 + 0)");
+            Assert.AreEqual(0.75f / 4f * 100f, headerBar.style.width.value.value, 1e-3f, "to the ring's end (2 + 1)");
         }
 
         [Test]
         public void TryToggleRow_Header_ExpandsItsReTimedItemsThenCollapses()
         {
-            BattleEffectRecipe child = CreateInstancedRecipe(out BattleEffectRecipe grandchild);
-            try
-            {
-                timeline.Refresh(recipe, 0f, 4f);
+            CreateInstancedRecipe(out _);
+            timeline.Refresh(recipe, 0f, 4f);
 
-                Assert.IsTrue(timeline.TryToggleRow(2));
-                Assert.AreEqual(7, timeline.childCount, "+ the grandchild's header + the ring");
-                Assert.AreEqual("- Child", GetRow(2).Q<Label>().text);
-                Assert.AreEqual("+ Grandchild", GetRow(3).Q<Label>().text, "nested instances start collapsed + sort by start (2.25s)");
-                Label ringLabel = GetRow(4).Q<Label>();
-                Assert.AreEqual("Ring", ringLabel.text);
-                Assert.Greater(ringLabel.style.paddingLeft.value.value, 0f, "indented");
-                Assert.AreEqual(2.5f / 4f * 100f, GetBar(GetRow(4)).style.left.value.value, 1e-3f, "re-timed by the offset");
+            Assert.IsTrue(timeline.TryToggleRow(2));
+            Assert.AreEqual(7, timeline.childCount, "+ the grandchild's header + the ring");
+            Assert.AreEqual("- Child", GetRow(2).Q<Label>().text);
+            Assert.AreEqual("+ Grandchild", GetRow(3).Q<Label>().text, "nested instances start collapsed + sort by start (2.25s)");
+            Label ringLabel = GetRow(4).Q<Label>();
+            Assert.AreEqual("Ring", ringLabel.text);
+            Assert.Greater(ringLabel.style.paddingLeft.value.value, 0f, "indented");
+            Assert.AreEqual(2.5f / 4f * 100f, GetBar(GetRow(4)).style.left.value.value, 1e-3f, "re-timed by the offset");
 
-                Assert.IsTrue(timeline.TryToggleRow(3));
-                Assert.AreEqual("Spark", GetRow(4).Q<Label>().text, "the grandchild's rows stay under its header");
-                Assert.AreEqual(2.25f / 4f * 100f, GetBar(GetRow(4)).style.left.value.value, 1e-3f, "both offsets");
-                Assert.AreEqual("Ring", GetRow(5).Q<Label>().text);
+            Assert.IsTrue(timeline.TryToggleRow(3));
+            Assert.AreEqual("Spark", GetRow(4).Q<Label>().text, "the grandchild's rows stay under its header");
+            Assert.AreEqual(2.25f / 4f * 100f, GetBar(GetRow(4)).style.left.value.value, 1e-3f, "both offsets");
+            Assert.AreEqual("Ring", GetRow(5).Q<Label>().text);
 
-                Assert.IsTrue(timeline.TryToggleRow(2));
-                Assert.AreEqual(5, timeline.childCount, "collapsed again");
-            }
-            finally { Object.DestroyImmediate(child); Object.DestroyImmediate(grandchild); }
+            Assert.IsTrue(timeline.TryToggleRow(2));
+            Assert.AreEqual(5, timeline.childCount, "collapsed again");
         }
 
         [Test]
         public void Refresh_Instance_SortsAmongTheItemsByStartTime()
         {
-            var child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            child.name = "Child";
+            var child = tracker.Create<BattleEffectRecipe>("Child");
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0,\"durationSeconds\":0.25}") });
             recipe.SetInstances(new[] { new BattleEffectInstance(child, 0.5f, false, false, Vector2.one, Vector2.zero, new BattleEffectColourSwap[0]) });
-            try
-            {
-                timeline.Refresh(recipe, 0f, 2f);
+            timeline.Refresh(recipe, 0f, 2f);
 
-                Assert.AreEqual("Pop", GetRow(0).Q<Label>().text, "0s");
-                Assert.AreEqual("+ Child", GetRow(1).Q<Label>().text, "0.5s");
-                Assert.AreEqual("Item 2", GetRow(2).Q<Label>().text, "1s");
-            }
-            finally { Object.DestroyImmediate(child); }
+            Assert.AreEqual("Pop", GetRow(0).Q<Label>().text, "0s");
+            Assert.AreEqual("+ Child", GetRow(1).Q<Label>().text, "0.5s");
+            Assert.AreEqual("Item 2", GetRow(2).Q<Label>().text, "1s");
         }
 
         [Test]
@@ -255,16 +241,12 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Refresh_OverallRow_FlattensCollapsedInstances()
         {
-            BattleEffectRecipe child = CreateInstancedRecipe(out BattleEffectRecipe grandchild);
-            try
-            {
-                timeline.Refresh(recipe, 0f, 4f);
+            CreateInstancedRecipe(out _);
+            timeline.Refresh(recipe, 0f, 4f);
 
-                Assert.AreEqual(2, GetOverallTrack().childCount, "0 -> 2s, then the spark + ring (2.25 -> 3s)");
-                Assert.AreEqual(2.25f / 4f * 100f, GetOverallTrack().ElementAt(1).style.left.value.value, 1e-3f);
-                Assert.AreEqual(0.75f / 4f * 100f, GetOverallTrack().ElementAt(1).style.width.value.value, 1e-3f);
-            }
-            finally { Object.DestroyImmediate(child); Object.DestroyImmediate(grandchild); }
+            Assert.AreEqual(2, GetOverallTrack().childCount, "0 -> 2s, then the spark + ring (2.25 -> 3s)");
+            Assert.AreEqual(2.25f / 4f * 100f, GetOverallTrack().ElementAt(1).style.left.value.value, 1e-3f);
+            Assert.AreEqual(0.75f / 4f * 100f, GetOverallTrack().ElementAt(1).style.width.value.value, 1e-3f);
         }
 
         [Test]
@@ -328,18 +310,14 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [Test]
         public void Refresh_HiddenInstance_GreysItsExpandedRows()
         {
-            BattleEffectRecipe child = CreateInstancedRecipe(out BattleEffectRecipe grandchild);
-            try
-            {
-                BattleEffectPreviewVisibility.SetHidden(recipe, BattleEffectEntryId.Instance(0), true);
-                timeline.MarkRowsStale();
-                timeline.Refresh(recipe, 0f, 4f);
-                Assert.IsTrue(timeline.TryToggleRow(2));
+            CreateInstancedRecipe(out _);
+            BattleEffectPreviewVisibility.SetHidden(recipe, BattleEffectEntryId.Instance(0), true);
+            timeline.MarkRowsStale();
+            timeline.Refresh(recipe, 0f, 4f);
+            Assert.IsTrue(timeline.TryToggleRow(2));
 
-                Assert.AreEqual(BattleEffectEntryColours.hidden, GetBar(GetRow(4)).style.backgroundColor.value, "Ring, under the hidden instance");
-                Assert.AreEqual(1, GetOverallTrack().childCount, "the instance's items drop out");
-            }
-            finally { Object.DestroyImmediate(child); Object.DestroyImmediate(grandchild); }
+            Assert.AreEqual(BattleEffectEntryColours.hidden, GetBar(GetRow(4)).style.backgroundColor.value, "Ring, under the hidden instance");
+            Assert.AreEqual(1, GetOverallTrack().childCount, "the instance's items drop out");
         }
 
         [Test]

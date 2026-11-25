@@ -26,6 +26,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private const float _endTailSeconds = 0.25f;
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private BattleEffectPreviewWindow window;
         private BattleEffectRecipe recipe;
 
@@ -33,8 +34,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnitySetUp]
         public IEnumerator SetUp()
         {
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            recipe.name = _recipeName;
+            recipe = tracker.Create<BattleEffectRecipe>(_recipeName);
             JsonUtility.FromJsonOverwrite("{\"frameRate\":10}", recipe);
             recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":1}") });
 
@@ -50,7 +50,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
-            Object.DestroyImmediate(recipe);
+            tracker.DestroyAll();
             foreach (string folder in new[] { _referenceFolder, Path.Combine("Temp/BattleEffectPreview", _recipeName) })
             {
                 if (Directory.Exists(folder)) { Directory.Delete(folder, true); }

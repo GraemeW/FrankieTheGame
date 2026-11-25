@@ -2,27 +2,29 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private Zone zone;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
-            zone = ScriptableObject.CreateInstance<Zone>();
+            zone = tracker.Create<Zone>();
             zone.preventLocalizationForTests = true;
         }
 
         [TearDown]
         public void TearDown()
         {
-            foreach (ZoneNode node in zone.GetAllNodes()) { Object.DestroyImmediate(node); }
-            Object.DestroyImmediate(zone);
+            foreach (ZoneNode node in zone.GetAllNodes()) { Object.DestroyImmediate(node); } // The zone's own nodes ~ before the zone goes
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -100,34 +102,25 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             zone.CreateRootNodeIfMissing();
             ZoneNode root = zone.GetRootNode();
-            var unrelated = ScriptableObject.CreateInstance<ZoneNode>();
+            var unrelated = tracker.Create<ZoneNode>("unrelated");
             unrelated.preventLocalizationForTests = true;
-            unrelated.name = "unrelated";
 
             Assert.IsFalse(Zone.IsRelated(root, unrelated));
-
-            Object.DestroyImmediate(unrelated);
         }
 
         [Test]
         public void ToggleRelation_AddsThenRemovesRelation()
         {
-            var parent = ScriptableObject.CreateInstance<ZoneNode>();
+            var parent = tracker.Create<ZoneNode>("parent");
             parent.preventLocalizationForTests = true;
-            var child = ScriptableObject.CreateInstance<ZoneNode>();
+            var child = tracker.Create<ZoneNode>("child");
             child.preventLocalizationForTests = true;
-            
-            parent.name = "parent";
-            child.name = "child";
 
             zone.ToggleRelation(parent, child);
             Assert.IsTrue(Zone.IsRelated(parent, child));
 
             zone.ToggleRelation(parent, child);
             Assert.IsFalse(Zone.IsRelated(parent, child));
-
-            Object.DestroyImmediate(parent);
-            Object.DestroyImmediate(child);
         }
 
         [Test]

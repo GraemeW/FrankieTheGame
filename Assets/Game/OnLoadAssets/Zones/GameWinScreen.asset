@@ -25,6 +25,7 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: e494b574f37534540b7b1adee3863d96, type: 3}
     sceneName: GameWinScreen
     scenePath: Assets/Scenes/GameWinScreen.unity
+    sceneGuid: e494b574f37534540b7b1adee3863d96
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 11384817f7314df46b0a2628844ada59, type: 3}
   isZoneAudioLooping: 1

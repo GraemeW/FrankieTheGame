@@ -12,6 +12,12 @@ namespace LowDefMustard.Utils
         }
 
         [HideInCallstack]
+        public static void LogMissingKey(LDMLogCategory category, string label, Object asset)
+        {
+            LDMLog.Warning(category, $"'{asset.name}' has no {label} ID. Skipping it -> lookups won't find it.", asset);
+        }
+
+        [HideInCallstack]
         public static void LogBuild(LDMLogCategory category, string label, bool isLoadSucceeded, int count)
         {
             if (!isLoadSucceeded) { LDMLog.Error(category, $"Failed to load '{label}' assets from Addressables. Lookups will return nothing."); }

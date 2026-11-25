@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -28,7 +27,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         private TestDrawerTarget target;
         private SerializedObject serializedObject;
         private DrawerElements builtElements;
-        private readonly List<Object> createdPrefabObjects = new();
+        private readonly TestObjectTracker tracker = new();
         private TempAssetFolder prefabFolder;
 
         #region DataStructures
@@ -85,7 +84,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         public void SetUp()
         {
             window = HeadlessEditorWindow.CreateOffscreenWindow(400f, 400f);
-            target = ScriptableObject.CreateInstance<TestDrawerTarget>();
+            target = tracker.Create<TestDrawerTarget>();
         }
 
         [TearDown]
@@ -93,10 +92,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         {
             HeadlessEditorWindow.Close(window);
             builtElements = default;
-            if (target != null) { Object.DestroyImmediate(target); }
-            
-            foreach (Object createdObject in createdPrefabObjects.Where(createdObject => createdObject != null)) { Object.DestroyImmediate(createdObject); }
-            createdPrefabObjects.Clear();
+            tracker.DestroyAll();
             
             prefabFolder?.Dispose();
             prefabFolder = null;
@@ -134,8 +130,7 @@ namespace LowDefMustard.Localization.Tests.Editor
             Object.DestroyImmediate(sourceGameObject);
             Assert.IsNotNull(prefabAsset, "Failed to save the test prefab asset");
 
-            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefabAsset);
-            createdPrefabObjects.Add(instance);
+            var instance = tracker.Track((GameObject)PrefabUtility.InstantiatePrefab(prefabAsset));
             var instanceComponent = instance.GetComponent<TestDrawerPrefabTarget>();
             return (instance, instanceComponent);
         }

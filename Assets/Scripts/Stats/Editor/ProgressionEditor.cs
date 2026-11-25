@@ -336,24 +336,41 @@ namespace Frankie.Stats.Editor
         {
             if (progression == null) { return; }
             LDMLog.Info(LDMLogCategory.Stats, "Adding progression entries for any missing character properties.");
-            CharacterProperties.BuildCacheIfEmpty(true);
+            CharacterProperties.addressablesCache.Reset();
             
-            var characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
+            var progressionCharacterIDs = new HashSet<string>();
             foreach (Progression.ProgressionCharacter character in progression.GetCharacters())
             {
                 if (character.characterProperties == null) { continue; }
-                characterPropertiesCrossReference[character.characterProperties] = true;
+                progressionCharacterIDs.Add(character.characterProperties.GetCharacterID());
             }
 
-            foreach (var entry in CharacterProperties.GetCharacterPropertiesLookup()
-                         .Where(entry => !characterPropertiesCrossReference.ContainsKey(entry.Value)))
+            foreach (var entry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => !progressionCharacterIDs.Contains(entry.Key)))
             {
                 if (!entry.Value.HasProgressionStats()) { continue; }
-                
-                LDMLog.Info(LDMLogCategory.Stats, $"Adding a progression entry for '{entry.Value.name}'.", entry.Value);
-                progression.AddToProgressionAsset(entry.Value);
+                if (!TryGetProjectAsset(entry.Value, out CharacterProperties projectCharacterProperties))
+                {
+                    LDMLog.Warning(LDMLogCategory.Stats, $"Couldn't find the project asset for character '{entry.Key}', so it wasn't added to the progression.");
+                    continue;
+                }
+
+                LDMLog.Info(LDMLogCategory.Stats, $"Adding a progression entry for '{projectCharacterProperties.name}'.", projectCharacterProperties);
+                progression.AddToProgressionAsset(projectCharacterProperties);
             }
             ReloadProgression();
+        }
+
+        private static bool TryGetProjectAsset(CharacterProperties characterProperties, out CharacterProperties projectCharacterProperties)
+        {
+            // Reconcile project asset from Addressables catalogue (i.e. built in the CharacterProperties Lookup)
+            projectCharacterProperties = !string.IsNullOrEmpty(AssetDatabase.GetAssetPath(characterProperties)) ? characterProperties : null;
+            if (projectCharacterProperties != null) { return true; }
+
+            string characterID = characterProperties.GetCharacterID();
+            projectCharacterProperties = AssetDatabase.FindAssets($"t:{nameof(CharacterProperties)} {characterID}")
+                .Select(guid => AssetDatabase.LoadAssetAtPath<CharacterProperties>(AssetDatabase.GUIDToAssetPath(guid)))
+                .FirstOrDefault(candidate => candidate != null && candidate.GetCharacterID() == characterID);
+            return projectCharacterProperties != null;
         }
         
         private void RebuildLevelCharts(ClickEvent clickEvent) { RebuildLevelCharts(); }

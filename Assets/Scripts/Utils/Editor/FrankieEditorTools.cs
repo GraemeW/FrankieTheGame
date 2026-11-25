@@ -24,6 +24,7 @@ namespace Frankie.Utils.Editor
         private const string _battleActionPartsFolderRef = "Assets/Game/Combat/BattleActions";
         private const string _inventoryFolderRef = "Assets/Game/OnLoadAssets/Inventory";
         private const string _questsFolderRef = "Assets/Game/OnLoadAssets/Quests";
+        private const string _bootstrapSceneRef = "Assets/Scenes/Bootstrap.unity";
         private const string _startSceneRef = "Assets/Scenes/StartScreen.unity";
         private const string _debugSceneRef = "Assets/Scenes/_Debug/TEST_BattleRoyale.unity";
         private const string _debugPrefabRef = "Assets/Game/Core/CoreDep/Debugger.prefab";
@@ -35,7 +36,13 @@ namespace Frankie.Utils.Editor
             EditorSceneManager.OpenScene(_debugSceneRef);
         }
         
-        [MenuItem("Tools/Open/Start Scene", false, 2)]
+        [MenuItem("Tools/Open/Bootstrap Scene", false, 2)]
+        private static void OpenBootstrapScene()
+        {
+            EditorSceneManager.OpenScene(_bootstrapSceneRef);
+        }
+        
+        [MenuItem("Tools/Open/Start Scene", false, 3)]
         private static void OpenStartScene()
         {
             EditorSceneManager.OpenScene(_startSceneRef);

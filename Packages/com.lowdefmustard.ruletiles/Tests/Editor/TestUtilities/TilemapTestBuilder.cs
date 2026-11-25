@@ -22,7 +22,7 @@ namespace LowDefMustard.RuleTiles.Tests.Editor
         {
             // Note:  grid root is tracked -> destroying it takes the child Tilemap with it
             
-            GameObject grid = tracker.Track(new GameObject(nameof(Grid), typeof(Grid)));
+            GameObject grid = tracker.CreateGameObject(nameof(Grid), typeof(Grid));
             var tilemapObject = new GameObject(nameof(Tilemap), typeof(Tilemap));
             tilemapObject.transform.SetParent(grid.transform);
             return tilemapObject.GetComponent<Tilemap>();

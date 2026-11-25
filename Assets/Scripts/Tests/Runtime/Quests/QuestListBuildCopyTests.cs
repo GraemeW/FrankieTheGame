@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System.Linq;
 using NUnit.Framework;
-using UnityEngine;
 using LowDefMustard.Utils.Tests;
 using Frankie.Quests;
 
@@ -25,7 +24,7 @@ namespace Frankie.Tests
         [SetUp]
         public void SetUp()
         {
-            questList = tracker.Track(new GameObject("QuestListBuildCopyTests_QuestList")).AddComponent<QuestList>();
+            questList = tracker.CreateComponent<QuestList>("QuestListBuildCopyTests_QuestList");
             quest = tracker.CreateQuest("QuestListBuildCopyTests_Quest", 1);
         }
 

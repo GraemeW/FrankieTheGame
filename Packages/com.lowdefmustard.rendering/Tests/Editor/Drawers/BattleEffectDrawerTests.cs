@@ -22,6 +22,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //      - the shape drawer + the recipe inspector's item / instance headers track the whole object instead
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private EditorWindow narrow;
         private DrawerTarget target;
@@ -49,7 +50,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator SetUp()
         {
             window = HeadlessEditorWindow.CreateOffscreenWindow(600f, 800f);
-            target = ScriptableObject.CreateInstance<DrawerTarget>();
+            target = tracker.Create<DrawerTarget>();
             serializedObject = new SerializedObject(target);
             yield return RebuildInspector();
         }
@@ -59,7 +60,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             HeadlessEditorWindow.Close(window);
             HeadlessEditorWindow.Close(narrow);
-            Object.DestroyImmediate(target);
+            tracker.DestroyAll();
             window = null;
             narrow = null;
         }
@@ -90,9 +91,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator TrackPropertyValue_Parent_FiresOnAChildEdit([Values(nameof(DrawerTarget.altColours), nameof(DrawerTarget.floatRange))] string parentName)
         {
             bool isFired = false;
-            var tracker = new VisualElement();
-            window.rootVisualElement.Add(tracker);
-            tracker.TrackPropertyValue(serializedObject.FindProperty(parentName), _ => isFired = true);
+            var trackingElement = new VisualElement();
+            window.rootVisualElement.Add(trackingElement);
+            trackingElement.TrackPropertyValue(serializedObject.FindProperty(parentName), _ => isFired = true);
             yield return HeadlessEditorWindow.Settle();
             isFired = false;
 
@@ -108,10 +109,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator TrackPropertyValue_Parent_IgnoresASiblingsEdit()
         {
             bool isFired = false;
-            var tracker = new VisualElement();
-            window.rootVisualElement.Add(tracker);
-            tracker.TrackPropertyValue(serializedObject.FindProperty(nameof(DrawerTarget.altColours)), _ => isFired = true);
-            yield return HeadlessEditorWindow.Settle(); // Settle first:  an edit before the tracker's baseline would also never fire (would pass for wrong reason)
+            var trackingElement = new VisualElement();
+            window.rootVisualElement.Add(trackingElement);
+            trackingElement.TrackPropertyValue(serializedObject.FindProperty(nameof(DrawerTarget.altColours)), _ => isFired = true);
+            yield return HeadlessEditorWindow.Settle(); // Settle first:  an edit before the tracking element's baseline would also never fire (would pass for wrong reason)
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 2;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();

@@ -60,6 +60,7 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 06f2222db45582245bb1d6aa64044d8e, type: 3}
     sceneName: Proper
     scenePath: Assets/Scenes/Proper.unity
+    sceneGuid: 06f2222db45582245bb1d6aa64044d8e
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
   isZoneAudioLooping: 1

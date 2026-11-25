@@ -1,12 +1,14 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
     public class ShaderPropertyRefsTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private GameObject rendererObject;
         private SpriteRenderer spriteRenderer;
         private Material material;
@@ -16,18 +18,16 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            rendererObject = new GameObject("_TEMP_ShaderPropertyRefsTests");
+            rendererObject = tracker.CreateGameObject("_TEMP_ShaderPropertyRefsTests");
             spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
-            material = RenderingTestMaterials.CreatePropertiesMaterial();
-            texture = new Texture2D(2, 2);
+            material = tracker.Track(RenderingTestMaterials.CreatePropertiesMaterial());
+            texture = tracker.Track(new Texture2D(2, 2));
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(rendererObject);
-            Object.DestroyImmediate(material);
-            Object.DestroyImmediate(texture);
+            tracker.DestroyAll();
         }
         #endregion
 

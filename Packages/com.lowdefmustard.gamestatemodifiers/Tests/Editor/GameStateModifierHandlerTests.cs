@@ -134,7 +134,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void MakeLinkedHandlerRecord_WithParent_ParentObjectNameReflectsParentTransform()
         {
-            var parentObject = tracker.Track(new GameObject("ParentObject"));
+            var parentObject = tracker.CreateGameObject("ParentObject");
             gameObject.transform.SetParent(parentObject.transform);
 
             LinkedHandlerRecord linkData = ((IGameStateModifierHandler)handler).MakeLinkedHandlerRecord();

@@ -1,26 +1,25 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace LowDefMustard.Utils.Tests.Editor
 {
     public class ConditionTests
     {
+        private readonly TestObjectTracker tracker = new();
         private TestPredicate predicateA;
         private TestPredicate predicateB;
 
         [SetUp]
         public void SetUp()
         {
-            predicateA = ScriptableObject.CreateInstance<TestPredicate>();
-            predicateB = ScriptableObject.CreateInstance<TestPredicate>();
+            predicateA = tracker.Create<TestPredicate>();
+            predicateB = tracker.Create<TestPredicate>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(predicateA);
-            Object.DestroyImmediate(predicateB);
+            tracker.DestroyAll();
         }
 
         [Test]

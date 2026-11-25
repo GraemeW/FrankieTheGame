@@ -12,6 +12,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class ZoneGraphViewTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private Zone zone;
         private ZoneGraphView graphView;
@@ -20,7 +21,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            zone = ScriptableObject.CreateInstance<Zone>();
+            zone = tracker.Create<Zone>();
             zone.preventLocalizationForTests = true;
             graphView = new ZoneGraphView();
         }
@@ -29,8 +30,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
-            foreach (ZoneNode node in zone.GetAllNodes()) { Object.DestroyImmediate(node); }
-            Object.DestroyImmediate(zone);
+            foreach (ZoneNode node in zone.GetAllNodes()) { Object.DestroyImmediate(node); } // The zone's own nodes ~ before the zone goes
+            tracker.DestroyAll();
         }
 
         private void Attach()

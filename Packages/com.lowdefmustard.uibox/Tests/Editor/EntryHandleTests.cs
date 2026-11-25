@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Control;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.UIBox.Tests.Editor
 {
@@ -13,24 +13,19 @@ namespace LowDefMustard.UIBox.Tests.Editor
         //  - what is under test is the handle logic (choose / highlight / value / removal) and the state it writes to its model
         
         // State
-        private readonly List<GameObject> spawned = new();
+        private readonly TestObjectTracker tracker = new();
 
         // Setup
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawned.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
-            spawned.Clear();
+            tracker.DestroyAll();
         }
 
         #region PrivateMethods
         private UIToolkitMenuView CreateView()
         {
-            var go = new GameObject("View");
-            spawned.Add(go);
+            GameObject go = tracker.CreateGameObject("View");
             return go.AddComponent<UIToolkitMenuView>();
         }
         #endregion
@@ -138,8 +133,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
         [Test]
         public void Box_AddNonDestroyChoiceOption_AddsViewChoiceThatRunsActionAndRaisesItemSelected()
         {
-            var go = new GameObject("Box");
-            spawned.Add(go);
+            GameObject go = tracker.CreateGameObject("Box");
             go.AddComponent<UIToolkitMenuView>();
             var testUIBox = go.AddComponent<TestUIBox>();
             int chosenCount = 0;
@@ -161,8 +155,7 @@ namespace LowDefMustard.UIBox.Tests.Editor
         [Test]
         public void Box_AddChoiceOption_WithoutView_ReturnsNullAndAddsNothing()
         {
-            var go = new GameObject("Box");
-            spawned.Add(go);
+            GameObject go = tracker.CreateGameObject("Box");
             var testUIBox = go.AddComponent<TestUIBox>();
 
             IUIChoice choice = testUIBox.PublicAddChoiceOption("Choice", null);

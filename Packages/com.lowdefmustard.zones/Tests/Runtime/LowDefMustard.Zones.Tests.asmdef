@@ -10,6 +10,7 @@
     "LowDefMustard.Localization",
     "Unity.Addressables",
     "Unity.ResourceManager",
+    "Unity.Addressables.Editor",
     "Unity.Localization"
   ],
   "includePlatforms": [],

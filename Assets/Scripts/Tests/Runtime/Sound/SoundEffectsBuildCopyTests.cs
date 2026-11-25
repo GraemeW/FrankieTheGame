@@ -34,7 +34,7 @@ namespace Frankie.Tests
         [UnitySetUp]
         public IEnumerator SetUp()
         {
-            GameObject soundObject = tracker.Track(new GameObject("SoundEffectsBuildCopyTests_SoundEffects"));
+            GameObject soundObject = tracker.CreateGameObject("SoundEffectsBuildCopyTests_SoundEffects");
             soundObject.SetActive(false);
             firstSource = soundObject.AddComponent<AudioSource>();
             secondSource = soundObject.AddComponent<AudioSource>();

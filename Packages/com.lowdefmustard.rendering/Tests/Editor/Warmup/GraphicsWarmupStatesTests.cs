@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
     public class GraphicsWarmupStatesTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private Material material;
         private PanelSettings panelSettings;
         private GraphicsStateCollection collection;
@@ -18,16 +20,15 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            material = RenderingTestMaterials.CreatePropertiesMaterial();
-            panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
+            material = tracker.Track(RenderingTestMaterials.CreatePropertiesMaterial());
+            panelSettings = tracker.Create<PanelSettings>();
         }
 
         [TearDown]
         public void TearDown()
         {
             if (collection != null) { Object.DestroyImmediate(collection); }
-            Object.DestroyImmediate(panelSettings);
-            Object.DestroyImmediate(material);
+            tracker.DestroyAll();
         }
         #endregion
         

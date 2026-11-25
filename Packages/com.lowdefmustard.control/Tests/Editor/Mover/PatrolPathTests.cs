@@ -1,36 +1,26 @@
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Control.Tests.Editor
 {
     public class PatrolPathTests
     {
         // State
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
 
         #region Setup
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawnedGameObjects.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
-
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region PrivateMethods
-        private GameObject CreateGameObject()
-        {
-            var go = new GameObject("PatrolPathTests_Target");
-            spawnedGameObjects.Add(go);
-            return go;
-        }
+        private GameObject CreateGameObject() => tracker.CreateGameObject("PatrolPathTests_Target");
 
         private PatrolPathWaypoint CreateWaypoint(WaypointType waypointType = WaypointType.Move)
         {

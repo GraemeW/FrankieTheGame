@@ -12,6 +12,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class ZoneNodeViewTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private ZoneNode zoneNode;
         private Zone zone;
@@ -21,11 +22,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            zone = ScriptableObject.CreateInstance<Zone>();
+            zone = tracker.Create<Zone>();
             zone.preventLocalizationForTests = true;
-            zoneNode = ScriptableObject.CreateInstance<ZoneNode>();
+            zoneNode = tracker.Create<ZoneNode>("node-1");
             zoneNode.preventLocalizationForTests = true;
-            zoneNode.name = "node-1";
             graphView = new TestZoneGraphView();
         }
 
@@ -33,8 +33,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
-            Object.DestroyImmediate(zoneNode);
-            Object.DestroyImmediate(zone);
+            tracker.DestroyAll();
         }
         #endregion
         
@@ -133,10 +132,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void RefreshLinkButton_LinkingFromUnrelatedNode_ShowsChildText()
         {
-            var otherNode = ScriptableObject.CreateInstance<ZoneNode>();
+            var otherNode = tracker.Create<ZoneNode>("other-node");
             otherNode.preventLocalizationForTests = true;
             
-            otherNode.name = "other-node";
             graphView.isLinking = true;
             graphView.linkingParentNode = otherNode;
             var view = new ZoneNodeView(zoneNode, zone, graphView);
@@ -144,17 +142,14 @@ namespace LowDefMustard.Zones.Tests.Editor
             view.RefreshLinkButton();
 
             Assert.AreEqual("child", QueryLinkButton(view).text);
-
-            Object.DestroyImmediate(otherNode);
         }
 
         [Test]
         public void RefreshLinkButton_LinkingFromRelatedNode_ShowsUnlinkText()
         {
-            var parentNode = ScriptableObject.CreateInstance<ZoneNode>();
+            var parentNode = tracker.Create<ZoneNode>("parent-node");
             parentNode.preventLocalizationForTests = true;
             
-            parentNode.name = "parent-node";
             parentNode.AddChild(zoneNode.GetNodeID());
             graphView.isLinking = true;
             graphView.linkingParentNode = parentNode;
@@ -163,8 +158,6 @@ namespace LowDefMustard.Zones.Tests.Editor
             view.RefreshLinkButton();
 
             Assert.AreEqual("unlink", QueryLinkButton(view).text);
-
-            Object.DestroyImmediate(parentNode);
         }
 
         [Test]
@@ -209,10 +202,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         [UnityTest]
         public IEnumerator LinkButtonClick_LinkingFromOtherNode_CallsCompleteLinking()
         {
-            var otherNode = ScriptableObject.CreateInstance<ZoneNode>();
+            var otherNode = tracker.Create<ZoneNode>("other-node");
             otherNode.preventLocalizationForTests = true;
             
-            otherNode.name = "other-node";
             graphView.isLinking = true;
             graphView.linkingParentNode = otherNode;
             (_, Button linkButton, _, _) = CreateAttachedView();
@@ -222,8 +214,6 @@ namespace LowDefMustard.Zones.Tests.Editor
             yield return null;
 
             Assert.AreSame(zoneNode, graphView.completeLinkingNode);
-
-            Object.DestroyImmediate(otherNode);
         }
 
         [UnityTest]

@@ -29,7 +29,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         private SaveEditor window;
         private ISaveFileManagerAdapter originalAdapter;
         private TestSaveFileManagerAdapter testAdapter;
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
         
         #region DataStructures
         // Marker component for SaveEditor's "skip entities nested under a group root" filtering
@@ -51,11 +51,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             HeadlessEditorWindow.Close(window);
             SaveFileManagerProvider.current = originalAdapter;
 
-            foreach (GameObject gameObject in spawnedGameObjects.Where(gameObject => gameObject != null))
-            {
-                Object.DestroyImmediate(gameObject);
-            }
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
 
             string path = Path.Combine(Application.persistentDataPath, _tempSaveFile + ".sav");
             if (File.Exists(path)) { File.Delete(path); }
@@ -75,13 +71,12 @@ namespace LowDefMustard.Saving.Tests.Editor
 
         private (GameObject gameObject, SaveableEntity entity, TestSaveableComponent component) SpawnSaveableEntity(string name, object captureValue)
         {
-            var gameObject = new GameObject(name);
+            GameObject gameObject = tracker.CreateGameObject(name);
             var entity = gameObject.AddComponent<SaveableEntity>();
             var component = gameObject.AddComponent<TestSaveableComponent>();
             component.captureStateReturns = captureValue;
             component.loadPriority = LoadPriority.ObjectProperty;
 
-            spawnedGameObjects.Add(gameObject);
             return (gameObject, entity, component);
         }
         #endregion
@@ -252,15 +247,13 @@ namespace LowDefMustard.Saving.Tests.Editor
         [Test]
         public void LoadSceneDataButton_EntityUnderGroupRoot_IsExcluded()
         {
-            var groupRootGameObject = new GameObject("GroupRoot");
+            GameObject groupRootGameObject = tracker.CreateGameObject("GroupRoot");
             groupRootGameObject.AddComponent<TestSaveableGroupRoot>();
-            spawnedGameObjects.Add(groupRootGameObject);
 
-            var nestedGameObject = new GameObject("NestedEntity");
+            var nestedGameObject = new GameObject("NestedEntity"); // Destroyed with its parent
             nestedGameObject.transform.SetParent(groupRootGameObject.transform);
             var nestedEntity = nestedGameObject.AddComponent<SaveableEntity>();
             nestedGameObject.AddComponent<TestSaveableComponent>().captureStateReturns = "nested";
-            spawnedGameObjects.Add(nestedGameObject);
 
             (_, SaveableEntity standaloneEntity, _) = SpawnSaveableEntity("StandaloneEntity", "standalone");
 

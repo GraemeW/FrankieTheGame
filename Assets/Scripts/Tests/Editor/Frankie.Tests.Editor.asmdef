@@ -14,7 +14,11 @@
         "LowDefMustard.Utils",
         "LowDefMustard.Utils.Editor",
         "LowDefMustard.Utils.Tests",
-        "Unity.Localization"
+        "LowDefMustard.Zones",
+        "LowDefMustard.Zones.Editor",
+        "Unity.Addressables.Editor",
+        "Unity.Localization",
+        "Unity.Localization.Editor"
     ],
     "includePlatforms": [
         "Editor"

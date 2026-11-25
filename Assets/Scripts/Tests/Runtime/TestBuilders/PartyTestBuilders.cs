@@ -28,7 +28,7 @@ namespace Frankie.Tests
         public static PartyBehaviour BuildParty(this TestObjectTracker tracker, params CharacterProperties[] memberProperties)
         {
             // Inactive ~ party components stay inert (no Awake / Start), members are children so they go with the party
-            GameObject partyObject = tracker.Track(new GameObject("Party"));
+            GameObject partyObject = tracker.CreateGameObject("Party");
             partyObject.SetActive(false);
             var party = partyObject.AddComponent<Party>(); // Pulls in its required components (InactiveParty, PlayerMover, PlayerStateMachine)
 

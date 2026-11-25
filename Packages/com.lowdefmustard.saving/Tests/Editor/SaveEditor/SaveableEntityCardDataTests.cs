@@ -23,7 +23,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         private const string _tempSaveFile = "_TEMP_SaveableEntityCardDataSave_SafeToDelete";
         
         // State
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         
         #region DataStructures
@@ -79,21 +79,12 @@ namespace LowDefMustard.Saving.Tests.Editor
             SaveableSubCardData.UnregisterSubCard<TestPlayerMoverSaveableComponent>();
         }
 
-        private GameObject NewGameObject(string name)
-        {
-            var gameObject = new GameObject(name);
-            spawnedGameObjects.Add(gameObject);
-            return gameObject;
-        }
+        private GameObject NewGameObject(string name) => tracker.CreateGameObject(name);
 
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject gameObject in spawnedGameObjects.Where(gameObject => gameObject != null))
-            {
-                Object.DestroyImmediate(gameObject);
-            }
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
 
             HeadlessEditorWindow.Close(window);
             window = null;

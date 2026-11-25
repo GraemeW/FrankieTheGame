@@ -100,6 +100,7 @@ namespace Frankie.Tests.Editor
         [Test]
         public void GetAvailableCharactersToAdd_MemberUnlockedAsBuildCopy_IsSkipped()
         {
+            AddressablesTestCatalogue.IgnoreUnlessAssetDatabaseCatalog(); // Expects the project asset back from the CharacterProperties cache
             party.AddToUnlockedCharacters(leaderBuildCopy);
             party.AddToUnlockedCharacters(otherCharacter);
 

@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System.Linq;
 using NUnit.Framework;
-using UnityEngine;
 using LowDefMustard.Utils.Tests;
 using Frankie.Combat;
 using Frankie.Stats;
@@ -55,7 +54,7 @@ namespace Frankie.Tests
         #region Helpers
         private BattleAI BuildBattleAI(bool targetIsAlly)
         {
-            BattleAI battleAI = tracker.Track(new GameObject("CombatBuildCopyTests_BattleAI")).AddComponent<BattleAI>();
+            BattleAI battleAI = tracker.CreateComponent<BattleAI>("CombatBuildCopyTests_BattleAI");
             var targetEntity = new BattleEntity(targetBuildCopyCombatant);
             var otherEntity = new BattleEntity(otherCombatant);
             battleAI.GetLocalAllies().Add(targetIsAlly ? targetEntity : otherEntity);

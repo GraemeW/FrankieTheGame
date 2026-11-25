@@ -1,8 +1,7 @@
-using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Localization.Tests.Editor
 {
@@ -12,7 +11,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         private const string _hexSuffixPattern = "[0-9a-f]{1,8}";
 
         // State
-        private System.Collections.Generic.List<Object> createdObjects;
+        private readonly TestObjectTracker tracker = new();
 
         #region DataStructures
         private class TestScriptableObject : ScriptableObject { }
@@ -22,36 +21,19 @@ namespace LowDefMustard.Localization.Tests.Editor
         #endregion
 
         #region Setup
-        [SetUp]
-        public void SetUp()
-        {
-            createdObjects = new System.Collections.Generic.List<Object>();
-        }
-
         [TearDown]
-        public void TearDown()
-        {
-            foreach (Object createdObject in createdObjects.Where(createdObject => createdObject != null))
-            {
-                Object.DestroyImmediate(createdObject);
-            }
-        }
+        public void TearDown() => tracker.DestroyAll();
         #endregion
 
         #region PrivateMethods
         private GameObject CreateGameObject(string name)
         {
-            var gameObject = new GameObject(name);
-            createdObjects.Add(gameObject);
-            return gameObject;
+            return tracker.CreateGameObject(name);
         }
 
         private TestScriptableObject CreateScriptableObject(string name)
         {
-            var scriptableObject = ScriptableObject.CreateInstance<TestScriptableObject>();
-            scriptableObject.name = name;
-            createdObjects.Add(scriptableObject);
-            return scriptableObject;
+            return tracker.Create<TestScriptableObject>(name);
         }
         
         private static void AssertMatchesPrefixAndHexSuffix(string key, string expectedPrefix)

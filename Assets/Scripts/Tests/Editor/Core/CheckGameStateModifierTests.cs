@@ -22,7 +22,6 @@ namespace Frankie.Tests.Editor
         // State
         private readonly TestObjectTracker tracker = new();
         private Scene previewScene;
-        private GameObject loadedSceneObject;
 
         #region Setup
         [SetUp]
@@ -35,7 +34,6 @@ namespace Frankie.Tests.Editor
         public void TearDown()
         {
             SceneTestUtility.ClosePreviewScene(previewScene);
-            if (loadedSceneObject != null) { Object.DestroyImmediate(loadedSceneObject); }
             tracker.DestroyAll();
         }
         #endregion
@@ -75,7 +73,7 @@ namespace Frankie.Tests.Editor
         [UnityTest]
         public IEnumerator ToggleChildren_StartInEditMode_LeavesChildrenUntouched()
         {
-            var checkObject = loadedSceneObject = new GameObject("CheckGameStateModifierTests_Toggle");
+            GameObject checkObject = tracker.CreateGameObject("CheckGameStateModifierTests_Toggle");
             var child = new GameObject("Child");
             child.transform.SetParent(checkObject.transform);
             checkObject.SetActive(false); // hook up before Start can run

@@ -22,9 +22,8 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ### Core Data Model (`Runtime`)
 
-- **`SceneReference`** — Serializable struct pairing a `SceneAsset` reference (editor-only) with a plain `sceneName`/`scenePath`, so a build can resolve scenes by name even where a live `SceneAsset` reference isn't available
 - **`Zone`** (`ScriptableObject`, `Zone/New Zone`) — One `Zone` asset per scene: a `SceneReference`, display name (`[SimpleLocalizedString]`), zone audio, and a tree of `ZoneNode`s 
-  - Implements `IAddressablesCache` (Addressables-backed static lookup by name or by scene reference, same convention as `com.lowdefmustard.utils`) and `ILocalizable` (aggregates its own and every child node's localization entries)
+  - Implements `IAddressablesCache` (an `AddressablesLookupCache<Zone>` keyed by name, with the scene name as its secondary key ~ see `com.lowdefmustard.utils`) and `ILocalizable` (aggregates its own and every child node's localization entries)
   - Editor-only methods (`#if UNITY_EDITOR`) manage node/group creation, deletion, ID renaming (with matching localization-key rename), and parent/child relations — all routed through `Undo`
 - **`ZoneNode`** (`ScriptableObject`, implements `IStandardGraphNode` from `com.lowdefmustard.utils`) — A node within a zone's graph: localized display name, a `condition` (a `com.lowdefmustard.utils` `Condition`/`Predicate` gate), a `rect` for editor canvas position, and two distinct relations:
   - **`children`** — in-zone tree structure (a list of sibling `ZoneNode` IDs within the *same* `Zone`), drawn as edges by `ZoneEditor`
@@ -33,6 +32,8 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 - **`ZoneNodeGroup`** — Editor-only visual grouping box within a zone's node graph (not a gameplay concept) — a named `Rect` that auto-recomputes its bounds to encapsulate whichever `ZoneNode`s are dragged into/out of it
 - **`ZoneHandlerBase`** — `MonoBehaviour` placed on an actual in-scene `GameObject`, bridging a `ZoneNode` (editor-only graph data) to a real warp/entry position (`warpTransform`, falling back to the handler's own transform)
   - `MultiZoneViewer` crawls `ZoneHandlerBase` entities to find cross-zone links and plot node positions on the map
+- **`SceneReference`** — Serializable struct pairing a `SceneAsset` reference (editor-only) with a plain `sceneName`/`scenePath`/`sceneGuid`, so a build can resolve scenes where a live `SceneAsset` reference isn't available
+  - `TryGetSceneGuid(out guid)`:  the runtime scene key ~ `AddressableSceneLoader` loads by it and saves store it
 
 ### Transitions (`Runtime/Transitions`)
 
@@ -66,6 +67,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 ### Editor Tooling — Shared (`Editor`)
 
 - **`SceneReferencePropertyDrawer`** — Standard drag-and-drop `SceneAsset` field for `SceneReference` (with an "X" to clear), matching Unity's typical scene-reference inspector pattern
+  - keeps `sceneGuid` in sync with the scene asset (fills a missing / stale one on open) and relinks a lost asset by GUID, then path, then name
 - **`ZoneTools.OpenSceneAndAct`** — Prompts to save any modified scenes, opens the target `Zone`'s scene, then invokes a callback once open
   - e.g. used by `ZoneNodeView`'s "select ref" button to locate and select the matching `ZoneHandlerBase` GameObject in-scene
 
@@ -126,10 +128,10 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | Category                                                                                                            | Tested / Total   | Notes                                                                            |
 |---------------------------------------------------------------------------------------------------------------------|:----------------:|----------------------------------------------------------------------------------|
 | Trivial data holders (`SceneQueueData`, `FaderEventTriggers<T>`, `ZoneNodeData`, `ZoneHandlerNodeData`, `ZoneView`) |       5/5        |                                                                                  |
-| `SceneReference`                                                                                                    |       9/9        |                                                                                  |
+| `SceneReference`                                                                                                    |      12/12       |                                                                                  |
 | `Zone` core (getters, node/group CRUD, localization entries, `UpdateGroupsForNodeMove`)                             |      10/11       | `ForceUpdateZoneNameToMatchScene` skipped                                        |
-| `Zone.OnBeforeSerialize`                                                                                            |       2/2        |                                                                                  |
-| `Zone` Addressables cache (`GetFromName`/`GetFromSceneReference`/`BuildCacheIfEmpty`/`AddZoneToCache`)              |       4/4        |                                                                                  |
+| `Zone.OnBeforeSerialize`                                                                                            |       3/3        |                                                                                  |
+| `Zone` Addressables cache (`GetFromName`/`GetFromSceneName`/`GetFromSceneGuid`/`BuildIfEmpty`/`AddZoneToCache`)     |       5/5        |                                                                                  |
 | `ZoneNode`                                                                                                          |      10/12       | `CheckCondition` delegation and `GetDisplayName`'s localized value tests skipped |
 | `ZoneNodeGroup`                                                                                                     |       5/6        | `Zone.GetFromName` lookup branch skipped (`cachedZone` always pre-seeded)        |
 | `ZoneHandlerBase`                                                                                                   |       3/3        |                                                                                  |
