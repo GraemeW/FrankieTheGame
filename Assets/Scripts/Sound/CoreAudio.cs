@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using Unity.Scripting.LifecycleManagement;
+using LowDefMustard.Utils;
 using Frankie.Saving;
 
 namespace Frankie.Sound
@@ -101,10 +102,10 @@ namespace Frankie.Sound
             _backgroundMusicInstance.RefreshVolume();
         }
 
-        public static bool OverrideBackgroundMusic(AudioClip audioClip)
+        public static bool OverrideBackgroundMusic(AssetReferenceAudioClip overrideAudio)
         {
-            if (!DoesBackgroundMusicExist() || audioClip == null) { return false; }
-            return _backgroundMusicInstance.OverrideMusic(audioClip);
+            if (!DoesBackgroundMusicExist()) { return false; }
+            return _backgroundMusicInstance.OverrideMusic(overrideAudio);
         }
 
         public static void StopOverrideBackgroundMusic()

@@ -95,6 +95,13 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
   - `GetTypes(deletedPaths, out hasUnrecordedAssetDeletion)` lets postprocessors react to deletions by type
   - records only live until the next editor update ~ the deletion's postprocessors run synchronously within the delete
 - **`AddressablesCacheLog`** — Shared build/duplicate cache log messages
+- **`SwappableAssetHandle<T>`** — One current asset, swapped by loading its replacement through an `AssetReferenceT<T>`
+  - `TryLoad(reference)` starts the load (`current` is its handle);  a null / unset reference loads nothing + keeps the current asset
+  - a replaced handle stays loaded until `ReleaseReplaced()` ~ i.e. until the caller is off it (releasing a streamed clip mid-play otherwise cuts it);  `ReleaseAll()` on teardown
+  - `RetireCurrent()` when done with the current asset (e.g. an override ending) ~ released same way as / with the replaced ones
+- **`AssetReference*` types (`Runtime/Addressables/AssetReferences`)** — Concrete `AssetReferenceT<T>` subclasses for the asset types Addressables doesn't ship one for
+  - `AssetReferenceAudioClip`
+  - Use Addressables' own where one exists (e.g. `AssetReferenceGameObject`, `AssetReferenceSprite`)
 
 ### Asset Script Swap (`Editor/AssetManagement`)
 
@@ -239,7 +246,7 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | Custom Attribute Drawers       | 4     |   4†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered                      |
 | Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                                                |
 | Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                                      |
-| Addressables                   | 2     |   1    | `AddressablesCacheInvalidator` covered (mapping, reset lookup, every real owner resettable)                |
+| Addressables                   | 4     |   2    | `AddressablesCacheInvalidator` covered (mapping, reset lookup, every real owner resettable)                |
 | Asset Script Swap              | 1     |   1    | `ConfirmInPlace` is a modal dialogue only                                                                  |
 | Serialized Property Extensions | 1     |   1    |                                                                                                            |
 | Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                                      |
@@ -281,6 +288,8 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | `AddressablesLookupCache<T>`                           | Partial  | `AddressablesLookupCacheTests.cs`                             | Load (`StartBuild` / `BuildIfEmpty` / `IsReady`) is covered by consumers' cache tests                                                                |
 | `AddressablesCacheOwners`                              | Yes      | `AddressablesCacheInvalidatorTests.cs`                        |                                                                                                                                                      |
 | `AddressablesCacheInvalidator`                         | Partial  | `AddressablesCacheInvalidatorTests.cs`                        | `OnPostprocessAllAssets` needs real imports ~ verified live (quest / key item reimports reset only their own cache)                                  |
+| `SwappableAssetHandle<T>`                              | Yes      | `SwappableAssetHandleTests.cs`                                | Loads the project's own AudioClip entries ~ skips with fewer than two                                                                                |
+| `AssetReferenceAudioClip`                              | Indirect | `ZoneTests.cs` (zones)                                        | Serializable `AssetReferenceT<AudioClip>` ~ no logic of its own / nothing to test                                                                    |
 | `AssetScriptSwapper`                                   | Yes      | `AssetScriptSwapperTests.cs`                                  | `ConfirmInPlace` (modal dialogue) skipped (not interesting)                                                                                          |
 | `SerializedFieldUtility`                               | Partial  | `SerializedFieldUtilityTests.cs`                              | Unity's own edge cases (generic `[Serializable]` instances, depth limit) not mirrored                                                                |
 | `SerializedPropertyExtensions`                         | Yes      | `SerializedPropertyExtensionsTests.cs`                        |                                                                                                                                                      |

@@ -1944,7 +1944,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 0}
+  overrideAudio:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 0
 --- !u!114 &1327623718
 MonoBehaviour:
@@ -2235,7 +2240,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 0}
+  overrideAudio:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 0
 --- !u!114 &1435170804
 MonoBehaviour:
@@ -2680,7 +2690,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 0}
+  overrideAudio:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 0
 --- !u!114 &1584137192
 MonoBehaviour:

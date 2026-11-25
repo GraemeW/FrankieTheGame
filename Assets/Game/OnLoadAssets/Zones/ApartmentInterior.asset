@@ -281,7 +281,12 @@ MonoBehaviour:
     scenePath: Assets/Scenes/ApartmentInterior.unity
     sceneGuid: 52222d36ecfd3de48ba0a6a7086a4d38
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
+  zoneAudio:
+    m_AssetGUID: aa55708dfcc59db408b6c7ff1281c67e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: ApartmentInterior
   zoneNodes:

@@ -62,7 +62,12 @@ MonoBehaviour:
     scenePath: Assets/Scenes/Subway.unity
     sceneGuid: 1adce6d662c0b0b47abecc5d8e178aab
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
+  zoneAudio:
+    m_AssetGUID: 02a1d586795fd324280aca37a80a748c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: Subway
   zoneNodes:

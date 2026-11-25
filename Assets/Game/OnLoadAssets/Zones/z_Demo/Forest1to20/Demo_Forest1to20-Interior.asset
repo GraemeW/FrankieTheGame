@@ -747,7 +747,12 @@ MonoBehaviour:
     scenePath: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
     sceneGuid: 459a7e37de9764a9dbcd64b0f6164578
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: d4e4bde858823b94c9912bb9d8201687, type: 3}
+  zoneAudio:
+    m_AssetGUID: d4e4bde858823b94c9912bb9d8201687
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: Demo_Forest1to20-Interior
   zoneNodes:

@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using LowDefMustard.Core;
+using LowDefMustard.Utils;
 using LowDefMustard.Zones;
 using Frankie.Saving;
 using Frankie.Combat;
@@ -13,6 +15,11 @@ namespace Frankie.Sound
     [RequireComponent(typeof(AudioSource))]
     public class BackgroundMusic : MonoBehaviour
     {
+        // Notes:
+        //  - Zone music loads through Addressables on each zone change (during the fade-out), so only the playing tracks stay resident
+        //  - Override music loads the same way, on its own handle (released once the source is back on world music)
+        //  - The replaced track's handle is released once the audio source has swapped off it ~ i.e. to avoid cutting off a streamed clip
+
         // Tunables
         [Header("Main Behaviour Configurables")]
         [SerializeField][Range(0f, 1.0f)] private float volume = 0.4f;
@@ -21,7 +28,8 @@ namespace Frankie.Sound
         [SerializeField] private AudioClip levelUpAudio;
 
         // State
-        private AudioClip currentWorldMusic;
+        private readonly SwappableAssetHandle<AudioClip> worldMusicHandle = new();
+        private readonly SwappableAssetHandle<AudioClip> overrideMusicHandle = new();
         private bool isWorldMusicLooping = true;
         private float worldMusicTimeIndex = 0f;
 
@@ -86,6 +94,8 @@ namespace Frankie.Sound
         private void OnDestroy()
         {
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+            worldMusicHandle.ReleaseAll();
+            overrideMusicHandle.ReleaseAll();
         }
         #endregion
 
@@ -107,21 +117,40 @@ namespace Frankie.Sound
             if (audioClip == null) { yield break; }
             
             yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, 0f);
+            yield return SwapAndFadeIn(audioClip, isLooping, timeIndex);
+        }
+
+        private IEnumerator TransitionToWorldMusic(float timeIndex = 0f, bool immediate = false)
+        {
+            yield return TransitionToLoadedMusic(worldMusicHandle.current, isWorldMusicLooping, timeIndex, immediate);
+        }
+
+        private IEnumerator TransitionToLoadedMusic(AsyncOperationHandle<AudioClip> musicLoad, bool isLooping, float timeIndex = 0f, bool immediate = false)
+        {
+            if (!musicLoad.IsValid()) { yield break; }
+            
+            if (!immediate) { yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, 0f); } // Track's load started in TryLoad (ConfigureNewWorldAudio / OverrideMusic), so it runs alongside the fade-out
+            yield return musicLoad; // Expected complete by this point
+            if (musicLoad.Status != AsyncOperationStatus.Succeeded || musicLoad.Result == null)
+            {
+                LDMLog.Warning(LDMLogCategory.Sound, $"Couldn't load the music ({musicLoad.OperationException?.Message}). Check it's an Addressables entry.", this);
+                yield break;
+            }
+            yield return SwapAndFadeIn(musicLoad.Result, isLooping, timeIndex);
+        }
+
+        private IEnumerator SwapAndFadeIn(AudioClip audioClip, bool isLooping, float timeIndex)
+        {
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.loop = isLooping;
             audioSource.time = Mathf.Clamp(timeIndex, 0f, audioClip.length - 0.01f);
             audioSource.Play();
-            yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, volume);
-        }
-
-        private IEnumerator TransitionToAudioImmediate(AudioClip audioClip, bool isLooping)
-        {
-            audioSource.Stop();
-            audioSource.clip = audioClip;
-            audioSource.loop = isLooping;
-            audioSource.time = 0f;
-            audioSource.Play();
+            
+            // Off the old tracks now
+            worldMusicHandle.ReleaseReplaced();
+            overrideMusicHandle.ReleaseReplaced();
+            
             yield return StartFade(audioSource.outputAudioMixerGroup, _mixerVolumeReference, musicFadeDuration, volume);
         }
         #endregion
@@ -166,20 +195,19 @@ namespace Frankie.Sound
             ConfigureNewWorldAudio(zone.GetZoneAudio(), zone.IsZoneAudioLooping());
         }
 
-        private void ConfigureNewWorldAudio(AudioClip audioClip, bool isLooping, bool immediate = false)
+        private void ConfigureNewWorldAudio(AssetReferenceAudioClip zoneAudio, bool isLooping, bool immediate = false)
         {
-            if (audioClip == null) { return; }
-            currentWorldMusic = audioClip;
+            if (!worldMusicHandle.TryLoad(zoneAudio)) { return; } // No zone music ~ keep what's playing
             isWorldMusicLooping = isLooping;
             
-            if (BackgroundMusicOverride.TryGetOverrideAudio(out AudioClip overrideAudio))
+            if (BackgroundMusicOverride.TryGetOverrideAudio(out AssetReferenceAudioClip overrideAudio))
             {
                 OverrideMusic(overrideAudio);
                 return;
             }
             
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
-            musicFadeCoroutine = StartCoroutine(immediate ? TransitionToAudioImmediate(audioClip, isLooping) : TransitionToAudio(audioClip, isLooping));
+            musicFadeCoroutine = StartCoroutine(TransitionToWorldMusic(0f, immediate));
         }
         #endregion
 
@@ -207,32 +235,33 @@ namespace Frankie.Sound
         {
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
             
-            if (BackgroundMusicOverride.TryGetOverrideAudio(out AudioClip overrideAudio))
+            if (BackgroundMusicOverride.TryGetOverrideAudio(out AssetReferenceAudioClip overrideAudio))
             {
                 OverrideMusic(overrideAudio);
                 return;
             }
             
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
-            musicFadeCoroutine = StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
+            musicFadeCoroutine = StartCoroutine(TransitionToWorldMusic(worldMusicTimeIndex));
         }
         #endregion
 
         #region MusicOverrides
-        public bool OverrideMusic(AudioClip audioClip)
+        public bool OverrideMusic(AssetReferenceAudioClip overrideAudio)
         {
-            if (audioClip == null) { return false; }
+            if (!overrideMusicHandle.TryLoad(overrideAudio)) { return false; }
             worldMusicTimeIndex = audioSource.time;
             
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
-            musicFadeCoroutine = StartCoroutine(TransitionToAudio(audioClip, true));
+            musicFadeCoroutine = StartCoroutine(TransitionToLoadedMusic(overrideMusicHandle.current, true));
             return true;
         }
 
         public void StopOverrideMusic()
         {
+            overrideMusicHandle.RetireCurrent(); // Released once the source is back on world music
             if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
-            musicFadeCoroutine = StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
+            musicFadeCoroutine = StartCoroutine(TransitionToWorldMusic(worldMusicTimeIndex));
         }
         #endregion
     }

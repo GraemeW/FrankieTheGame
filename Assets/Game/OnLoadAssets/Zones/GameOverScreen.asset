@@ -27,7 +27,12 @@ MonoBehaviour:
     scenePath: Assets/Scenes/GameOverScreen.unity
     sceneGuid: c904f3148156b38488efe90bfa1101b6
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: 5f5f2bd17ac13e04c8d5da1b8b92ab19, type: 3}
+  zoneAudio:
+    m_AssetGUID: 5f5f2bd17ac13e04c8d5da1b8b92ab19
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: GameOverScreen
   zoneNodes:

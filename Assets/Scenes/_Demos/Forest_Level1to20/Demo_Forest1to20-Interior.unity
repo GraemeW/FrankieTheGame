@@ -32655,9 +32655,9 @@ PrefabInstance:
       value: 48c50517-104d-4f61-9927-f246c72d82f0
       objectReference: {fileID: 0}
     - target: {fileID: -5930686527299018591, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
+      propertyPath: overrideAudio.m_AssetGUID
+      value: 02a1d586795fd324280aca37a80a748c
+      objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnAwake
       value: 0
@@ -206858,10 +206858,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
-      propertyPath: lootEntries.Array.data[0].probabilityWeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: lootEntries.Array.data[0].inventoryItem
       value: 
       objectReference: {fileID: 11400000, guid: acec52c8feb0f43c2bc042fd53e19922, type: 2}
@@ -206872,6 +206868,10 @@ PrefabInstance:
     - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: 'backingGameStateModifierGUIDs.Array.data[0]'
       value: 4b5e0149-6399-45f9-81cc-1e36fdf1366c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: lootEntries.Array.data[0].probabilityWeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6135419693849823282, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
@@ -245443,11 +245443,15 @@ PrefabInstance:
       value: 254bb669-d723-4868-8851-72ea05b47358
       objectReference: {fileID: 0}
     - target: {fileID: -5930686527299018591, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
+      propertyPath: overrideAudio.m_AssetGUID
+      value: aa55708dfcc59db408b6c7ff1281c67e
+      objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
+      propertyPath: disableOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 148458644925075774, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -272492,9 +272496,9 @@ PrefabInstance:
       value: f3d479c4-d1ce-465d-9f9c-6606f9db7e8f
       objectReference: {fileID: 0}
     - target: {fileID: -5930686527299018591, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
+      propertyPath: overrideAudio.m_AssetGUID
+      value: 3dc90c61b4c6f654e8835404e763733e
+      objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnAwake
       value: 0

@@ -3,13 +3,14 @@ using System.Linq;
 using UnityEngine;
 using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Saving;
+using LowDefMustard.Utils;
 
 namespace Frankie.Sound
 {
     public partial class BackgroundMusicOverride : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
-        [SerializeField] private AudioClip audioClip;
+        [SerializeField] private AssetReferenceAudioClip overrideAudio; // Loaded on demand (BackgroundMusic)
         [SerializeField] [Tooltip("All overrides take priority over Zone music, Room setting: 1, others >")] private int priority = 0;
 
         // State
@@ -49,16 +50,16 @@ namespace Frankie.Sound
             return highestPriorityOverride != null;
         }
 
-        public static bool TryGetOverrideAudio(out AudioClip audioClip)
+        public static bool TryGetOverrideAudio(out AssetReferenceAudioClip overrideAudio)
         {
-            audioClip = null;
+            overrideAudio = null;
             for (int i =  0; i < _backgroundMusicOverrides.Count; i++)
             {
                 if (!TryGetHighestPriorityActiveOverride(out BackgroundMusicOverride backgroundMusicOverride)) { return false; }
 
                 if (backgroundMusicOverride.HasAudioOverride())
                 {
-                    audioClip = backgroundMusicOverride.GetAudioClip();
+                    overrideAudio = backgroundMusicOverride.GetOverrideAudio();
                     return true;
                 }
                 
@@ -83,7 +84,7 @@ namespace Frankie.Sound
         #endregion
 
         #region PublicMethods
-        public bool HasAudioOverride() => audioClip != null;
+        public bool HasAudioOverride() => overrideAudio != null && overrideAudio.RuntimeKeyIsValid();
 
         public void ToggleOverride() // Callable via Unity Events
         {
@@ -92,7 +93,7 @@ namespace Frankie.Sound
         
         public void TriggerOverride(bool enable)  // Callable via Unity Events
         {
-            if (!CoreAudio.DoesBackgroundMusicExist() || audioClip == null) { return; }
+            if (!CoreAudio.DoesBackgroundMusicExist() || !HasAudioOverride()) { return; }
             if (enable && _currentBackgroundMusicOverride == this) { return; }
 
             if (enable)
@@ -100,7 +101,7 @@ namespace Frankie.Sound
                 isOverrideActive = true;
                 if (_currentBackgroundMusicOverride != null && priority < _currentBackgroundMusicOverride.GetPriority()) { return; }
                 
-                if (CoreAudio.OverrideBackgroundMusic(audioClip))
+                if (CoreAudio.OverrideBackgroundMusic(overrideAudio))
                 {
                     _currentBackgroundMusicOverride = this;
                 }
@@ -124,7 +125,7 @@ namespace Frankie.Sound
         #endregion
 
         #region PrivateMethods
-        private AudioClip GetAudioClip() => audioClip;
+        private AssetReferenceAudioClip GetOverrideAudio() => overrideAudio;
         private int GetPriority() => priority;
         #endregion
 

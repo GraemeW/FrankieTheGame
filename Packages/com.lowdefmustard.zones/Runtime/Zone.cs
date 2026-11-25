@@ -23,7 +23,7 @@ namespace LowDefMustard.Zones
         [SerializeField][SimpleLocalizedString(false)] private LocalizedString localizedDisplayName;
         [SerializeField] internal SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
-        [SerializeField] internal AudioClip zoneAudio;
+        [SerializeField] internal AssetReferenceAudioClip zoneAudio; // Loaded on demand (BackgroundMusic)
         [SerializeField] private bool isZoneAudioLooping = true;
 
         // Const / Static UI Tunables
@@ -102,7 +102,7 @@ namespace LowDefMustard.Zones
 
         #region Getters
         public SceneReference GetSceneReference() => sceneReference;
-        public AudioClip GetZoneAudio() => zoneAudio;
+        public AssetReferenceAudioClip GetZoneAudio() => zoneAudio;
         public bool IsZoneAudioLooping() => isZoneAudioLooping;
         public bool ShouldUpdateMap() => updateMap;
         public IEnumerable<ZoneNode> GetAllNodes() => zoneNodes;

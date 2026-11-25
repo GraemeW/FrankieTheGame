@@ -62,7 +62,12 @@ MonoBehaviour:
     scenePath: Assets/Scenes/PortaBank.unity
     sceneGuid: bd5507673954fb8449f66ea595f9f98e
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
+  zoneAudio:
+    m_AssetGUID: d765a3c4e7ca20440a6992d69af9c87d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: PortaBank
   zoneNodes:

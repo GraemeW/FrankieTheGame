@@ -27,7 +27,12 @@ MonoBehaviour:
     scenePath: Assets/Scenes/StartScreen.unity
     sceneGuid: 651f6a80cb1b1bd40ab16e2d1e5f7eda
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
+  zoneAudio:
+    m_AssetGUID: ba92d5d763b7df04d8fc87688acc6a05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: StartScreen
   zoneNodes:

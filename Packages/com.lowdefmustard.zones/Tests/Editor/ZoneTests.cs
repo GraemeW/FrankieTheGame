@@ -2,6 +2,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils;
 using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -50,14 +51,12 @@ namespace LowDefMustard.Zones.Tests.Editor
         }
 
         [Test]
-        public void GetZoneAudio_ReturnsSeededClip()
+        public void GetZoneAudio_ReturnsSeededReference()
         {
-            var clip = AudioClip.Create("TestClip", 1, 1, 44100, false);
-            zone.zoneAudio = clip;
+            var zoneAudio = new AssetReferenceAudioClip("0123456789abcdef0123456789abcdef");
+            zone.zoneAudio = zoneAudio;
 
-            Assert.AreSame(clip, zone.GetZoneAudio());
-
-            Object.DestroyImmediate(clip);
+            Assert.AreSame(zoneAudio, zone.GetZoneAudio());
         }
 
         [Test]
