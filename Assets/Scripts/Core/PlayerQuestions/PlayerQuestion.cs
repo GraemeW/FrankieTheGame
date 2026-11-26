@@ -26,7 +26,7 @@ namespace Frankie.Core
         public string iCachedName { get => cachedName; set => cachedName = value; }
         
         // Getters
-        public GameObject GetCharacterPrefab() => questionType == PlayerQuestionType.CharacterName && optionalCharacterProperties != null ? optionalCharacterProperties.GetCharacterPrefab() : null;
+        public CharacterProperties GetCharacterProperties() => questionType == PlayerQuestionType.CharacterName ? optionalCharacterProperties : null;
 
         // Dialogue Variable
         public string GetDialogueVariable(DialogueVariableContext context)

@@ -21,8 +21,18 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  characterPrefab: {fileID: 2703242439715805379, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
-  characterNPCPrefab: {fileID: 0}
+  characterPrefab:
+    m_AssetGUID: 852bb4720b42aaa4b846a5fbce95061c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  characterNPCPrefab:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 1
   cachedName: Frankie

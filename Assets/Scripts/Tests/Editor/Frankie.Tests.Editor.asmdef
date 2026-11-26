@@ -16,7 +16,9 @@
         "LowDefMustard.Utils.Tests",
         "LowDefMustard.Zones",
         "LowDefMustard.Zones.Editor",
+        "Unity.Addressables",
         "Unity.Addressables.Editor",
+        "Unity.ResourceManager",
         "Unity.Localization",
         "Unity.Localization.Editor"
     ],

@@ -61,7 +61,7 @@ namespace LowDefMustard.Saving
 
                 SaveState saveState = saveable.CaptureState();
                 if (saveState == null) { continue; }
-                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState); // Type ToString does not require CultureInvariant
+                updatedTokenState[GetStateKey(saveable)] = JToken.FromObject(saveState);
             }
 
             return !updatedTokenState.IsNullOrEmpty();
@@ -89,12 +89,14 @@ namespace LowDefMustard.Saving
         }
         #endregion
 
-        #region PrivateMethods
+        #region PrivateInternalMethods
+        internal static string GetStateKey(ISaveableBase saveable) => saveable.GetType().ToString(); // Type ToString does not require CultureInvariant
+
         private static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
         {
             foreach (ISaveableBase saveable in saveableEntries)
             {
-                var typeString = saveable.GetType().ToString(); // Type ToString does not require CultureInvariant
+                string typeString = GetStateKey(saveable);
                 if (!stateDictionary.ContainsKey(typeString)) { continue; }
                 var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
                 if (saveState == null) { continue; }

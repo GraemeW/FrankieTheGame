@@ -60,11 +60,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f56c7119035d34e5693663362606a247
-    m_Address: Assets/Game/CharacterObjects/README.md
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fe719e05456814308a146e143c88f354
     m_Address: Assets/Game/CharacterObjects/NPCs/_AnimatorControllers
     m_ReadOnly: 0

@@ -70,6 +70,7 @@ Static entry point for all save/load I/O — file read/write (optionally AES-enc
   - e.g. for a game-over save that shouldn't include full-world state like position
 - Restore runs in three passes per `RestoreState`: all entities' `ObjectInstantiation`-priority state, then all `ObjectProperty`-priority state, then `ApplyFinishingTouches()` on everything — see `LoadPriority` above.
 - `Manual*` methods (`ManualGetFullState`, `ManualSave`, `ManualUpdateLastScene`, `ManualAddOverWriteToState`, ...) expose the same primitives `SaveEditor` needs to mutate a save file directly, without going through a live scene load/save cycle.
+- `TryManualGetData(fullState, saveable, out T data)` reads one `ISaveable<T>` component's saved data from a `ManualGetFullState` result, without restoring it.
 
 ### Save Editor (`Editor/SaveEditor.cs` + supporting types)
 

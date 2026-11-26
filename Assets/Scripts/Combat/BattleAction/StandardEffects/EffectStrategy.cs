@@ -15,7 +15,7 @@ namespace Frankie.Combat
         public const string effectGUIDField = nameof(effectGUID);
         
         // Abstract Methods
-        public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);
+        public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType); // Note:  sender is non-null + alive on entry (BattleAction.Use guards it);  the sequence runs on the sender, so it stops if the sender is destroyed / disabled
 
         // Unity Methods
         private void OnValidate()

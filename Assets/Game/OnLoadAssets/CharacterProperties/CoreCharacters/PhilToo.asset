@@ -21,8 +21,18 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  characterPrefab: {fileID: 4745303905440842220, guid: f7bc15bcf0fc2e24f985d49404913f24, type: 3}
-  characterNPCPrefab: {fileID: 565694158762715577, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+  characterPrefab:
+    m_AssetGUID: f7bc15bcf0fc2e24f985d49404913f24
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  characterNPCPrefab:
+    m_AssetGUID: bacc30e7b6274514fa44ffc73b87b908
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 1
   cachedName: PhilToo

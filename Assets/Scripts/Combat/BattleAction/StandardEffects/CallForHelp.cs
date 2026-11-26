@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using LowDefMustard.Utils;
 using Frankie.Combat.Spawner;
@@ -33,8 +34,13 @@ namespace Frankie.Combat
                 yield break;
             }
 
+            List<CharacterProperties> friends = SpawnConfiguration.GetEnemies(spawnConfiguration.enemyConfigurations, spawnConfiguration.maxQuantity).ToList();
+            yield return CharacterPrefabCache.Preload(friends);
+            
+            if (battleController == null || sender == null) { yield break; } // Verify no change to battle state during cache preload 
+
             bool friendFound = false;
-            foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(spawnConfiguration.enemyConfigurations, spawnConfiguration.maxQuantity))
+            foreach (CharacterProperties characterProperties in friends)
             {
                 GameObject enemyPrefab = characterProperties.GetCharacterNPCPrefab();
                 if (enemyPrefab == null || !enemyPrefab.TryGetComponent(out CombatParticipant enemyPrefabParticipant)) { continue; }

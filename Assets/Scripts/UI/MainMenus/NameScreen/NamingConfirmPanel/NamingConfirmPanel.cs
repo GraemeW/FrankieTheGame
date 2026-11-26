@@ -8,6 +8,7 @@ using LowDefMustard.UIBox;
 using LowDefMustard.Localization;
 using Frankie.Core;
 using Frankie.Speech.UI;
+using Frankie.Stats;
 using Frankie.Utils.UI;
 using Frankie.Utils.Localization;
 
@@ -133,7 +134,8 @@ namespace Frankie.Menu.UI
                 switch (answer.question.questionType)
                 {
                     case PlayerQuestionType.CharacterName:
-                        characterCards.Add(new ConfirmCharacterCard(answer.answer, CreateCharacterSprite(answer.question.GetCharacterPrefab())));
+                        CharacterProperties characterProperties = answer.question.GetCharacterProperties();
+                        characterCards.Add(new ConfirmCharacterCard(answer.answer, CreateCharacterSprite(characterProperties != null ? characterProperties.GetCharacterPrefab() : null)));
                         break;
                     case PlayerQuestionType.FavouriteFood:
                     case PlayerQuestionType.FavouriteThing:

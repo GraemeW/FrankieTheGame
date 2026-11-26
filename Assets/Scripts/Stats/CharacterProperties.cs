@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -18,13 +19,17 @@ namespace Frankie.Stats
     {
         // Properties
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedDisplayName;
-        [SerializeField] private GameObject characterPrefab;
-        [SerializeField] private GameObject characterNPCPrefab;
+        [SerializeField] private AssetReferenceGameObject characterPrefab; // Loaded on demand (via CharacterPrefabCache)
+        [SerializeField] private AssetReferenceGameObject characterNPCPrefab;
         [SerializeField] private bool hasProgressionStats = true;
         [SerializeField] private bool incrementsStatsOnLevelUp = false;
         
         // Const
         private const string _errName = "???";
+        
+        // Field References
+        internal const string characterPrefabField = nameof(characterPrefab);
+        internal const string characterNPCPrefabField = nameof(characterNPCPrefab);
         
         // Local State
         [HideInInspector][SerializeField] private string cachedName;
@@ -70,10 +75,19 @@ namespace Frankie.Stats
         // Previously scoped separate GUID for this, found it overkill ++ hindered look-up functionality
         
         private string GetStandardCharacterDisplayName() => localizedDisplayName.GetSafeLocalizedString();
-        public GameObject GetCharacterPrefab() => characterPrefab;
-        public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
+        public GameObject GetCharacterPrefab() => GetPrefab(CharacterPrefabType.Character);
+        public GameObject GetCharacterNPCPrefab() => GetPrefab(CharacterPrefabType.NPC);
+        public AssetReferenceGameObject GetCharacterPrefabReference(CharacterPrefabType prefabType) => prefabType == CharacterPrefabType.NPC ? characterNPCPrefab : characterPrefab;
         public bool HasProgressionStats() => hasProgressionStats;
         public bool ShouldIncrementsStatsOnLevelUp() => incrementsStatsOnLevelUp;
+
+        private GameObject GetPrefab(CharacterPrefabType prefabType)
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) { return GetCharacterPrefabReference(prefabType)?.editorAsset; } // Editor tooling reads the project prefab directly
+#endif
+            return CharacterPrefabCache.TryGetPrefab(this, prefabType, out GameObject prefab) ? prefab : null;
+        }
         #endregion
         
         #region DialogueVariable

@@ -52,7 +52,7 @@ namespace Frankie.Combat
             }
             
             IList<BattleEntity> recipients = battleActionData.GetTargets();
-            sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP, finished));
+            sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP), finished);
             return true;
         }
 
@@ -64,7 +64,7 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateMethods
-        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, bool useAP, Action finished)
+        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, bool useAP)
         {
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
@@ -74,7 +74,6 @@ namespace Frankie.Combat
             
             sender.SetCooldown(cooldown);
             if (useAP) { sender.AdjustAP(-apCost); }
-            finished?.Invoke();
         }
         #endregion
     }

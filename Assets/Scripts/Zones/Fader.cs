@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using LowDefMustard.UIBox;
 using LowDefMustard.Rendering;
@@ -40,6 +41,7 @@ namespace Frankie.Zones
         protected override TransitionType GetSceneLoadTransitionType() => TransitionType.Zone;
         protected override void TriggerSave() => SaveFileManager.SaveSession();
         protected override void TriggerLoad() => SaveFileManager.LoadSession();
+        protected override IEnumerator PrepareLoadedScene() => SaveFileManager.PreloadCharactersForLoadedScene();
 
         protected override bool PreFadeSetup(TransitionType transitionType)
         {

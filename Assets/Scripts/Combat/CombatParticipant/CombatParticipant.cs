@@ -68,6 +68,7 @@ namespace Frankie.Combat
         private float cooldownTimer;
         private float cooldownStore;
         private Coroutine battleActionCoroutine;
+        private Action battleActionFinished;
         
         private float targetHP = 1f;
         private float deltaHPTimeFraction;
@@ -157,7 +158,7 @@ namespace Frankie.Combat
         {
             baseStats.onLevelUp -= ParseLevelUpMessage;
             if (equipment != null) { equipment.equipmentUpdated -= ReconcileHPAP; }
-            if (battleActionCoroutine != null) { StopCoroutine(battleActionCoroutine); }
+            StopBattleActionCoroutine();
         }
 
         private void Update()
@@ -223,9 +224,15 @@ namespace Frankie.Combat
         public float GetHP() => currentHP.value;
         public float GetAP() => usesAP ? currentAP.value : Mathf.Infinity;
         public bool HasAP(float points) => GetAP() >= points;
+        public bool CheckIfDead() // Called via Unity Events
+        {
+            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && !isDead.value) { DeclareDead(); }
+            return isDead.value;
+        }
         #endregion
 
-        #region PublicUtility
+        #region PublicBattleHandling
+        public string GetCannotFightMessage() => string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), GetCombatName());
         public void SubscribeToBattleStateChanges(bool enable)
         {
             if (enable)
@@ -241,18 +248,65 @@ namespace Frankie.Combat
             if (!shouldDestroySelfOnDeath) { return; }
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(SelfDestroyOnBattleComplete);
         }
-
-        public string GetCannotFightMessage() => string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), GetCombatName());
-        
-        public bool CheckIfDead() // Called via Unity Events
+        public void StartBattleActionCoroutine(IEnumerator coroutine, Action finished)
         {
-            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && !isDead.value)
-            {
-                DeclareDead();
-            }
-            return isDead.value;
+            StopBattleActionCoroutine();
+            battleActionFinished = finished;
+            battleActionCoroutine = StartCoroutine(AppendBattleActionCoroutineClear(coroutine));
+        }
+        #endregion
+
+        #region StateUpdates
+        public void SubscribeToStateUpdates(StateEvent handler)
+        {
+            // Note:  Obviously do NOT double subscribe to both CombatParticipant and BattleEventBus
+            // UI subscribers should instead use CombatParticipantModel as properties can be handled by UIToolkit directly
+            if (stateListeners.Contains(handler)) { return; }
+
+            stateListeners.Add(handler);
+            stateAltered += handler;
         }
 
+        public void UnsubscribeToStateUpdates(StateEvent handler)
+        {
+            stateListeners.Remove(handler);
+            stateAltered -= handler;
+        }
+
+        public void AnnounceStateUpdate(StateAlteredInfo stateAlteredInfo)
+        {
+            if (stateAlteredInfo == null) { return; }
+
+            stateAltered?.Invoke(stateAlteredInfo);
+            BattleEventBus<StateAlteredInfo>.Raise(stateAlteredInfo); // Separate announce for generic BattleEventBus subscribers
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType)
+        {
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, float points)
+        {
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, points);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
+        {
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, persistentStatus);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, Stat stat, float points)
+        {
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, stat, points);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+        #endregion
+        
+        #region PublicCooldown
         public void InitializeCooldown(bool isPlayer, bool? isBattleAdvantage)
         {
             cooldownStore = 0.0f;
@@ -280,13 +334,9 @@ namespace Frankie.Combat
             cooldownStore += cooldownRunFailAdder;
             ReconcileCooldownStore();
         }
+        #endregion
 
-        public void StartBattleActionCoroutine(IEnumerator coroutine)
-        {
-            if (battleActionCoroutine != null) { StopCoroutine(battleActionCoroutine); }
-            battleActionCoroutine = StartCoroutine(AppendBattleActionCoroutineClear(coroutine));
-        }
-
+        #region PublicPointsAdjustment
         public void AdjustHP(float points)
         {
             AdjustHPQuietly(points);
@@ -363,63 +413,7 @@ namespace Frankie.Combat
         }
         #endregion
 
-        #region StateUpdates
-        public void SubscribeToStateUpdates(StateEvent handler)
-        {
-            // Note:  Obviously do NOT double subscribe to both CombatParticipant and BattleEventBus
-            // UI subscribers should instead use CombatParticipantModel as properties can be handled by UIToolkit directly
-            if (stateListeners.Contains(handler)) { return; }
-
-            stateListeners.Add(handler);
-            stateAltered += handler;
-        }
-
-        public void UnsubscribeToStateUpdates(StateEvent handler)
-        {
-            stateListeners.Remove(handler);
-            stateAltered -= handler;
-        }
-
-        public void AnnounceStateUpdate(StateAlteredInfo stateAlteredInfo)
-        {
-            if (stateAlteredInfo == null) { return; }
-
-            stateAltered?.Invoke(stateAlteredInfo);
-            BattleEventBus<StateAlteredInfo>.Raise(stateAlteredInfo); // Separate announce for generic BattleEventBus subscribers
-        }
-
-        public void AnnounceStateUpdate(StateAlteredType stateAlteredType)
-        {
-            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType);
-            AnnounceStateUpdate(stateAlteredInfo);
-        }
-
-        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, float points)
-        {
-            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, points);
-            AnnounceStateUpdate(stateAlteredInfo);
-        }
-
-        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
-        {
-            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, persistentStatus);
-            AnnounceStateUpdate(stateAlteredInfo);
-        }
-
-        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, Stat stat, float points)
-        {
-            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, stat, points);
-            AnnounceStateUpdate(stateAlteredInfo);
-        }
-        #endregion
-
-        #region PrivateUtility
-        private IEnumerator AppendBattleActionCoroutineClear(IEnumerator coroutine)
-        {
-            yield return coroutine;
-            battleActionCoroutine = null;
-        }
-        
+        #region PrivateBattleHandling
         private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
         {
             // Note:  Order of operations matters here since SetCombatActive also modifies isHealthRollActive
@@ -433,11 +427,7 @@ namespace Frankie.Combat
                 if (targetHP < currentHP.value) { targetHP = currentHP.value; }
                 isHealthRollActive = true;
             }
-            if (battleAborted && battleActionCoroutine != null)
-            {
-                StopCoroutine(battleActionCoroutine);
-                battleActionCoroutine = null;
-            }
+            if (battleAborted) { StopBattleActionCoroutine(); }
         }
         
         private void SetCombatActive(bool enable)
@@ -455,57 +445,45 @@ namespace Frankie.Combat
             }
         }
         
-        private void DeclareDead()
+        private IEnumerator AppendBattleActionCoroutineClear(IEnumerator coroutine)
         {
-            currentHP.value = 0f;
-            targetHP = 0f;
-            isDead.value = true;
-            
-            if (shouldSaveStateOnDeath && TryGetComponent(out SaveableEntity saveableEntity))
-            {
-                SaveFileManager.AppendToSession(saveableEntity);
-            }
-            if (!isDestructionTriggeredBySave) { onDeathEvent?.Invoke(); }
+            yield return coroutine;
+            battleActionCoroutine = null;
+            InvokeBattleActionFinished();
+        }
 
-            AnnounceStateUpdate(StateAlteredType.Dead);
+        private void StopBattleActionCoroutine()
+        {
+            if (battleActionCoroutine != null) { StopCoroutine(battleActionCoroutine); }
+            battleActionCoroutine = null;
+            InvokeBattleActionFinished();
+        }
+
+        private void InvokeBattleActionFinished()
+        {
+            Action finished = battleActionFinished;
+            battleActionFinished = null; // Clear before the call, so a callback that starts another action can't re-fire it
+            finished?.Invoke();
         }
         
-        private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
+        private void ParseLevelUpMessage(BaseStats passBaseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
-            if (battleStateChangedEvent.battleState != BattleState.Complete) { return; }
-            
-            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
-            Destroy(gameObject);
-        }
-
-        private float GetHoldOnModifiedHP(float unsafeHP)
-        {
-            // Trigger when taking a hit when last HP (prior targetHP) was > holdOnHP,
-            // and after hit will now be < 0f (fatal)
-            if (targetHP > holdOnHP && unsafeHP < 0f)
+            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
             {
-                float roll = UnityEngine.Random.value;
-                if (roll < GetCalculatedStat(CalculatedStat.HoldOnChance))
+                switch (entry.Key)
                 {
-                    unsafeHP = holdOnHP;
+                    case Stat.HP:
+                        AdjustHPQuietly(entry.Value);
+                        break;
+                    case Stat.AP:
+                        AdjustAPQuietly(entry.Value);
+                        break;
                 }
             }
-            return unsafeHP;
         }
+        #endregion
         
-        private void UpdateDamageDelayedHealth()
-        {
-            if (!isHealthRollActive) { return; }
-            if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
-            {
-                deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
-                float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
-                currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
-
-                AnnounceStateUpdate(StateAlteredType.AdjustHPNonSpecific);
-            }
-        }
-
+        #region PrivateCooldown
         private void UpdateCooldown()
         {
             if (!IsInCooldown()) { return; }
@@ -543,21 +521,58 @@ namespace Frankie.Combat
                 else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
             }
         }
+        #endregion
         
-        private void ParseLevelUpMessage(BaseStats passBaseStats, int level, Dictionary<Stat, float> levelUpSheet)
+        #region PrivatePointsAdjustment
+        private void UpdateDamageDelayedHealth()
         {
-            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
+            if (!isHealthRollActive) { return; }
+            if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
             {
-                switch (entry.Key)
+                deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
+                float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
+                currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
+
+                AnnounceStateUpdate(StateAlteredType.AdjustHPNonSpecific);
+            }
+        }
+        
+        private float GetHoldOnModifiedHP(float unsafeHP)
+        {
+            // Trigger when taking a hit when last HP (prior targetHP) was > holdOnHP,
+            // and after hit will now be < 0f (fatal)
+            if (targetHP > holdOnHP && unsafeHP < 0f)
+            {
+                float roll = UnityEngine.Random.value;
+                if (roll < GetCalculatedStat(CalculatedStat.HoldOnChance))
                 {
-                    case Stat.HP:
-                        AdjustHPQuietly(entry.Value);
-                        break;
-                    case Stat.AP:
-                        AdjustAPQuietly(entry.Value);
-                        break;
+                    unsafeHP = holdOnHP;
                 }
             }
+            return unsafeHP;
+        }
+        
+        private void DeclareDead()
+        {
+            currentHP.value = 0f;
+            targetHP = 0f;
+            isDead.value = true;
+            
+            if (shouldSaveStateOnDeath && TryGetComponent(out SaveableEntity saveableEntity))
+            {
+                SaveFileManager.AppendToSession(saveableEntity);
+            }
+            if (!isDestructionTriggeredBySave) { onDeathEvent?.Invoke(); }
+
+            AnnounceStateUpdate(StateAlteredType.Dead);
+        }
+        
+        private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            if (battleStateChangedEvent.battleState != BattleState.Complete) { return; }
+            
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
+            Destroy(gameObject);
         }
 
         private void ReconcileHPAP(EquipableItemBase equipableItem)

@@ -26,6 +26,7 @@ namespace Frankie.Utils.Addressables
             if (!isSingleton) { return; }
             
             foreach (IAddressablesCacheLifecycle cache in GetCaches()) { cache.Release(); }
+            CharacterPrefabCache.ReleaseAll();
         }
         #endregion
 

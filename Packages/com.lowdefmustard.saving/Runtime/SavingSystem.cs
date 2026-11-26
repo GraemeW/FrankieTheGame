@@ -69,11 +69,17 @@ namespace LowDefMustard.Saving
         
         public static JObject ManualGetFullState(string saveFile) => LoadFile(saveFile);
 
-        public static JToken ManualGetStateEntityToken(string saveFile, SaveableEntity saveableEntity)
+        public static JToken ManualGetStateEntityToken(string saveFile, SaveableEntity saveableEntity) => GetStateEntityToken(LoadFile(saveFile), saveableEntity);
+
+        public static bool TryManualGetData<T>(JObject fullState, ISaveable<T> saveable, out T data)
         {
-            JObject fullState = LoadFile(saveFile);
-            string id = saveableEntity.GetUniqueIdentifier();
-            return fullState.TryGetValue(id, out JToken value) ? value : null;
+            // fullState from ManualGetFullState ~ load the file once for several reads
+            data = default;
+            if (fullState == null || saveable is not Component component || !component.TryGetComponent(out SaveableEntity saveableEntity)) { return false; } // ISaveable -> associated component -> attached SaveableEntity
+            if (!SaveableEntity.TryGetStateDictionary(GetStateEntityToken(fullState, saveableEntity), out JObject stateDictionary)) { return false; } // SaveableEntity -> entity's state dictionary
+
+            var saveState = stateDictionary[SaveableEntity.GetStateKey(saveable)]?.ToObject<SaveState>(); // entity's state dictionary -> specific state for the ISaveable
+            return saveState != null && saveable.TryManualGetDataFromState(saveState, out data) && data != null;
         }
         #endregion
         
@@ -185,6 +191,11 @@ namespace LowDefMustard.Saving
         #endregion
 
         #region PrivateMethods
+        private static JToken GetStateEntityToken(JObject fullState, SaveableEntity saveableEntity)
+        {
+            return fullState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken value) ? value : null;
+        }
+
         private static JObject LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);

@@ -77,6 +77,8 @@ namespace Frankie.Saving
             SavingSystem.LoadWithinScene(_sessionFile);
         }
 
+        public static IEnumerator PreloadCharactersForLoadedScene() => CharacterPrefabScenePreload.PreloadForLoadedScene(_sessionFile);
+
         public static void Continue()
         {
             string saveName = GetCurrentSaveName();
@@ -191,9 +193,21 @@ namespace Frankie.Saving
 
         private static IEnumerator LoadFromSave(string saveFile)
         {
-            yield return SavingSystem.LoadLastScene(saveFile, AddressableSceneLoader.LoadSceneAsync);
+            yield return SavingSystem.LoadLastScene(saveFile, LoadSceneAndPreloadCharacters);
             SceneLoaderBase.SetCurrentZoneToCurrentScene();
             Fader.StartQuickSceneLoadFade();
+            yield break;
+
+            
+            // Local Functions
+            IEnumerator LoadSceneAndPreloadCharacters(string sceneKey, Action<bool> onLoadComplete)
+            {
+                // Preload before LoadLastScene restores the save ~ its restore spawns the party
+                var isLoaded = false;
+                yield return AddressableSceneLoader.LoadSceneAsync(sceneKey, result => isLoaded = result);
+                if (isLoaded) { yield return CharacterPrefabScenePreload.PreloadForLoadedScene(saveFile); }
+                onLoadComplete?.Invoke(isLoaded);
+            }
         }
         #endregion
     }

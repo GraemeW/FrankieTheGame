@@ -115,8 +115,8 @@ $RECYCLE.BIN/
 
 # Unity Additional
 UIElementsSchema
-Assets/UnityConfigurables/AddressableAssetsData/link.xml
-Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
+Assets/AddressableAssetsData/link.xml
+Assets/AddressableAssetsData/link.xml.meta
 
 # Other Ignores
 .DS_Store

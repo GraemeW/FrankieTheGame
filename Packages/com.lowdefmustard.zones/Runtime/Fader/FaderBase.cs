@@ -205,6 +205,7 @@ namespace LowDefMustard.Zones
         protected abstract void TriggerLoad();
         
         protected virtual bool PreFadeSetup(TTransitionType transitionType) => true;
+        protected virtual IEnumerator PrepareLoadedScene() { yield break; } // After the scene loads, before its session restore ~ use to preload what the scene + restore will spawn (behind the fade)
         
         private IEnumerator StandardFade(TTransitionType transitionType, FaderEventTriggers<TTransitionType> faderEventTriggers)
         {
@@ -220,6 +221,7 @@ namespace LowDefMustard.Zones
             if (shouldSaveSession) { TriggerSave(); }
             
             yield return SceneLoaderBase.LoadNewSceneAsync(zone);
+            yield return PrepareLoadedScene();
             
             if (shouldSaveSession) { TriggerLoad(); }
             yield return QueueFadeExit(GetSceneLoadTransitionType(), faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);

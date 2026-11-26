@@ -50,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2527b5e9eae6544f1b57a687a71fcb4a
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/OutdoorExteriorVehicles-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 262df3d3fbf0bab4a82c13d7aae8afa6
     m_Address: Assets/Game/WorldObjects/_Paths
     m_ReadOnly: 0
@@ -75,6 +80,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36315fa6a6d3c481191dc58c85836049
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37cfca287501044ceaacc8444f556252
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/Buildings_IsoOther-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 392bf617678390347878218085f901b5
     m_Address: Assets/Game/WorldObjects/_ZoneNodes
     m_ReadOnly: 0
@@ -82,6 +97,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 402fc56c60be8b246831ba5c1d6c0b5a
     m_Address: Assets/Game/WorldObjects/Signs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 418a426e214c943f2ae2f2dbc338a979
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/Buildings_PortaBank-Atlas.spriteatlasv2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -160,6 +180,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 923401224ea6c44d0969a5863e420c44
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/ShopsPortaBank-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 987c8d55697a1eb4c8af378996fa253c
     m_Address: Assets/Game/WorldObjects/_Spawners
     m_ReadOnly: 0
@@ -167,6 +192,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9c2cfc63ceb79074da75babb9e907393
     m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Buildings/IsoStandard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f9719347f3464f4aa95ebe83e3b2843
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/Buildings_IsoStandard-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a24558d4774b146328fad329c0b86bd2
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/DoorsWindowsSigns-Atlas.spriteatlasv2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -237,6 +272,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5a1254caa843b24f8147db08ff0ee2a
     m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/FallFair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6ac2ab0ad47b461ea755a1d7a4e6439
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/HouseOfficeChurch-Atlas.spriteatlasv2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

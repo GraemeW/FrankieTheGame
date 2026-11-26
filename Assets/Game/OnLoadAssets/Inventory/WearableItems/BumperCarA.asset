@@ -41,7 +41,12 @@ MonoBehaviour:
     maxValue: 150
   condition:
     and: []
-  wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}
+  wearablePrefab:
+    m_AssetGUID: 2c8781e0f4e13814e80ef8437afd668c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   shouldColliderMatchPlayer: 1
   references:
     version: 2

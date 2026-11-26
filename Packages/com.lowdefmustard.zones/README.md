@@ -40,6 +40,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 - **`FaderBase<TTransitionType>`** (abstract, `TTransitionType : struct, Enum`) — Base class for a project's screen-fade/transition-type `MonoBehaviour`, found via a `"Fader"` tag and exposed through static entry points (`StartStandardFade`, `StartBlipFade`, `StartSceneLoadFade`, `StartQuickSceneLoadFade`) so any code can trigger a fade without holding a reference
   - `TTransitionType` is the project's own transition-type enum (e.g. distinguishing a plain UI fade from a scene-load fade), letting per-type timing/behaviour vary
   - Scene-load fades apply an extra `zoneFadeTimerMultiplier` and call abstract `TriggerSave`/`TriggerLoad` hooks around the load — intended to be wired to a save system such as `com.lowdefmustard.saving`
+  - virtual `PrepareLoadedScene()` (coroutine) runs after the scene loaded, but before `TriggerLoad`, and still behind the fade ~ use this to preload what the restore + scene will spawn
   - View-agnostic: the base steps a fade alpha over the fade time and hands it to the subclass via the abstract `SetOverlayAlpha(transitionType, alpha)` (with `ResetOverlays` to hide everything)
     - Notably, this means the overlay can be any UI implementation
     - `IsSkipFade`/`TransitionUsesStandaloneFadeControl` + `TriggerStandaloneFadeIn`/`Out`/`Cleanup` let a subclass substitute a fully custom visual for specific transition types 

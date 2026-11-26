@@ -97,7 +97,7 @@ namespace LowDefMustard.Utils
             if (IsReady()) { return; }
             if (AddressablesSceneLoadState.isLoadingScene)
             {
-                LDMLog.Error(category, $"The '{label}' cache was read during a scene load, before it finished loading. Waiting would deadlock the scene load, so lookups may miss. Read it after the scene loads (Start), or warm it up before loading scenes.");
+                LDMLog.Warning(category, $"The '{label}' cache was read during a scene load, before it finished loading. Waiting would deadlock the scene load, so lookups may miss. Read it after the scene loads (Start), or warm it up before loading scenes.");
                 return;
             }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Frankie.Inventory
 {
@@ -7,12 +8,15 @@ namespace Frankie.Inventory
     {
         // Tunables
         [Header("Wearable Item Properties - Note:  EquipLocation = Other")]
-        [SerializeField] private Wearable wearablePrefab;
+        [SerializeField] private AssetReferenceGameObject wearablePrefab; // Wearable prefab, loaded on demand (via WearablesLink)
         [SerializeField] private bool shouldColliderMatchPlayer = true;
+
+        // Field References
+        internal const string wearablePrefabField = nameof(wearablePrefab);
 
         // Getters
         public bool ShouldColliderMatchPlayer() => shouldColliderMatchPlayer;
-        public Wearable GetWearablePrefab() => wearablePrefab;
         public override EquipLocation GetEquipLocation() => EquipLocation.Other;
+        public AssetReferenceGameObject GetWearablePrefab() => wearablePrefab;
     }
 }

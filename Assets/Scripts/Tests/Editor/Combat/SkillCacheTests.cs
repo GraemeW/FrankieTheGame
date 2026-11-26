@@ -14,7 +14,7 @@ namespace Frankie.Tests.Editor
         //  - GetSkillFromName - builds the cache once, later lookups reuse it (e.g. a drop target's accept check on every drag update)
         //  - Reset - next lookup rebuilds
         //  - StartBuild - async start, the next lookup completes it (one build), IsReady follows
-        //  - A lookup during an Addressables scene load, before the build finishes - errors without blocking (WaitForCompletion there deadlocks builds)
+        //  - A lookup during an Addressables scene load, before the build finishes - warns without blocking (WaitForCompletion there deadlocks builds)
         // Not Tested:
         //  - Reset on Skill import / move / delete - AddressablesCacheInvalidatorTests covers the invalidator
         // Note:  Detects builds by the cache's build log (Info)
@@ -84,7 +84,7 @@ namespace Frankie.Tests.Editor
         }
 
         [Test]
-        public void Lookup_DuringSceneLoadBeforeBuildFinishes_LogsErrorWithoutBlocking()
+        public void Lookup_DuringSceneLoadBeforeBuildFinishes_LogsWarningWithoutBlocking()
         {
             Skill skill = LoadAnySkill();
             Skill.addressablesCache.Reset();
@@ -92,7 +92,7 @@ namespace Frankie.Tests.Editor
             if (Skill.addressablesCache.IsReady()) { Assert.Inconclusive("The Skill label load finished synchronously, so there is no in-flight build to guard"); }
 
             AddressablesSceneLoadState.isLoadingScene = true;
-            LogAssert.Expect(LogType.Error, _sceneLoadReadLog);
+            LogAssert.Expect(LogType.Warning, _sceneLoadReadLog);
             Skill.addressablesCache.BuildIfEmpty();
             Assert.IsFalse(Skill.addressablesCache.IsReady());
 

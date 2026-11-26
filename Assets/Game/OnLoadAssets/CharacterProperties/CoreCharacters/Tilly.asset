@@ -21,8 +21,18 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  characterPrefab: {fileID: 6731012523550855050, guid: 0556de498fd05e247980b8376415a392, type: 3}
-  characterNPCPrefab: {fileID: 2398833644461657395, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
+  characterPrefab:
+    m_AssetGUID: 0556de498fd05e247980b8376415a392
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  characterNPCPrefab:
+    m_AssetGUID: cf0c598dcc5acb140ad2c34c48d6aa9c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 1
   cachedName: Tilly

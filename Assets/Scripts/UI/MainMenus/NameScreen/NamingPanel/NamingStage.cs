@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using LowDefMustard.UIBox;
+using Frankie.Stats;
 using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
@@ -36,9 +37,9 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region PublicMethods
-        public void ShowCharacter(GameObject characterPrefab) // Null:  the stage is left empty
+        public void ShowCharacter(CharacterProperties characterProperties) // Null:  the stage is left empty
         {
-            RestartRoutine(SwapCharacter(characterPrefab));
+            RestartRoutine(SwapCharacter(characterProperties));
         }
 
         public void ClearCharacter(bool walkOff, Action onCleared)
@@ -64,9 +65,11 @@ namespace Frankie.Menu.UI
             activeRoutine = null;
         }
 
-        private IEnumerator SwapCharacter(GameObject characterPrefab)
+        private IEnumerator SwapCharacter(CharacterProperties characterProperties)
         {
             yield return WalkOff();
+            if (characterProperties != null) { yield return CharacterPrefabCache.Preload(new[] { characterProperties }); } // Should be done already (via NameScreenOrchestrator preload)
+            GameObject characterPrefab = characterProperties != null ? characterProperties.GetCharacterPrefab() : null;
             if (!AnimatorSpriteSource.TryCreate(characterPrefab, transform, out characterSource)) { yield break; }
 
             characterHandle = new WalkingSpriteHandle(menuView, characterSource.spriteModel, typeof(NamingStageElement), 1f);

@@ -21,8 +21,18 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  characterPrefab: {fileID: 0}
-  characterNPCPrefab: {fileID: 1239876797498881853, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+  characterPrefab:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  characterNPCPrefab:
+    m_AssetGUID: 68fc39e15d6aac647a45438aaa59a974
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
   cachedName: Steve5000

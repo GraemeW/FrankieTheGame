@@ -10,6 +10,16 @@ namespace Frankie.Combat.Spawner
         [SerializeField][Tooltip("Will force to not exceed this amount, clips as iterating")] public int maxQuantity;
         [NonReorderable][SerializeField] public EnemyConfiguration[] enemyConfigurations;
 
+        public static IEnumerable<CharacterProperties> GetPossibleEnemies(EnemyConfiguration[] enemyConfigurations)
+        {
+            if (enemyConfigurations == null) { yield break; }
+            foreach (EnemyConfiguration enemyConfiguration in enemyConfigurations)
+            {
+                if (enemyConfiguration.characterProperties == null || enemyConfiguration.maximum <= 0) { continue; }
+                yield return enemyConfiguration.characterProperties;
+            }
+        }
+
         public static IEnumerable<CharacterProperties> GetEnemies(EnemyConfiguration[] enemyConfigurations, int maxQuantity)
         {
             if (enemyConfigurations == null) { yield break; }

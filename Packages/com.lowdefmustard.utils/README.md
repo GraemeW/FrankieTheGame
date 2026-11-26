@@ -84,17 +84,19 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
   - Notable Behaviour:
     - logs duplicate IDs + the build result (`AddressablesCacheLog`)
     - an asset with a blank ID warns + is skipped, while the rest still load
-    - will never block during an Addressables scene load (`AddressablesSceneLoadState`) ~ `WaitForCompletion` during a scene load deadlocks the scene load in builds, so log an error instead
+    - will never block during an Addressables scene load (by `AddressablesSceneLoadState`) ~ `WaitForCompletion` during a scene load deadlocks the scene load in builds, so log a warning && continues without load instead
   - `Seed(...)` replaces the lookups directly for tests
 - **`IAddressablesCacheLifecycle`** — external (outside cache) visibility ~ `StartBuild`, `BuildIfEmpty`, `IsReady`, `Release`, `Reset` (release + drop the lookups so the next lookup rebuilds)
 - **`AddressablesCacheOwners`** (editor) — Finds `IAddressablesCache` owners (`GetOwnerTypes`) and their caches (`GetCache`)
 - **`AddressablesCacheInvalidator`** (editor, `AssetPostprocessor`) — Keeps caches current in edit mode ~ they'd otherwise only rebuild on a domain reload
   - an imported, moved or deleted asset resets the cache owned by its type (specifically, the type that introduces `IAddressablesCache`, e.g. `InventoryItem` for a `KeyItem`)
   - skipped in Play mode ~ `[AutoStaticsCleanup]` already resets the caches on entry
-- **`DeletedAssetTypes`** (editor, `Editor/AssetManagement`) — implements `AssetModificationProcessor` to record the main asset types of assets deleted inside the editor just before deletion 
-  - `GetTypes(deletedPaths, out hasUnrecordedAssetDeletion)` lets postprocessors react to deletions by type
-  - records only live until the next editor update ~ the deletion's postprocessors run synchronously within the delete
-- **`AddressablesCacheLog`** — Shared build/duplicate cache log messages
+- **`AddressablesKeyedAssetCache<TOwner, TSlot, TAsset>`** — Owners' `AssetReference`s loaded on demand, one per owner per `TSlot` value (e.g. a character's prefabs, a worn item's prefab)
+  - constructed with the owner's key (`Func<TOwner, string>`) and its reference per slot (`Func<TOwner, TSlot, AssetReference>`)
+    - `TSlot` is an enum ~ every value is a slot - use `SingleAssetSlot` for one-reference owners
+  - keyed by owner key + slot (or - not by reference) ~ a build copy of an owner hits the same entry
+  - `StartPreload` / `StartLoad` (non-blocking, safe during a scene load), `Preload` (coroutine), `IsReady`, `IsRequested`, `TryGet` (synchronous), `Release(owner)` / `ReleaseAllExcept` / `ReleaseAll`
+  - a lookup still loading waits;  one never requested is a miss ~ loads synchronously (Warning), except during a scene load (Warning, no asset ~ as determined by `AddressablesSceneLoadState`)
 - **`SwappableAssetHandle<T>`** — One current asset, swapped by loading its replacement through an `AssetReferenceT<T>`
   - `TryLoad(reference)` starts the load (`current` is its handle);  a null / unset reference loads nothing + keeps the current asset
   - a replaced handle stays loaded until `ReleaseReplaced()` ~ i.e. until the caller is off it (releasing a streamed clip mid-play otherwise cuts it);  `ReleaseAll()` on teardown
@@ -102,9 +104,13 @@ A small serializable boolean-expression system for data-driven conditions (e.g. 
 - **`AssetReference*` types (`Runtime/Addressables/AssetReferences`)** — Concrete `AssetReferenceT<T>` subclasses for the asset types Addressables doesn't ship one for
   - `AssetReferenceAudioClip`
   - Use Addressables' own where one exists (e.g. `AssetReferenceGameObject`, `AssetReferenceSprite`)
+- **`AddressablesCacheLog`** — Shared build/duplicate cache log messages
 
 ### Asset Script Swap (`Editor/AssetManagement`)
 
+- **`DeletedAssetTypes`** (editor, `Editor/AssetManagement`) — implements `AssetModificationProcessor` to record the main asset types of assets deleted inside the editor just before deletion 
+  - `GetTypes(deletedPaths, out hasUnrecordedAssetDeletion)` lets postprocessors react to deletions by type
+  - records only live until the next editor update ~ the deletion's postprocessors run synchronously within the delete
 - **`AssetScriptSwapper.SwapScriptInPlace<TTarget>(source)`** — Rewrites a persistent object's own `m_Script` to `TTarget`'s script (same file, same GUID/fileID), then force-reimports it
   - Works on `ScriptableObject` assets and `MonoBehaviour`s on prefab assets && throws for scene/non-persistent objects or a `ScriptableObject` <-> `MonoBehaviour` swap
   - Fields carry over by name ~ unmatched fields take their defaults and leftover YAML is dropped on the next save, so it's safest when `TTarget` derives from the source type
@@ -246,7 +252,7 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | Custom Attribute Drawers       | 4     |   4†   | `[RestrictedEnum(...)]`'s live interaction and prefab-override visuals aren't covered                      |
 | Predicates                     | 3     |   3*   | `Predicate`/`IPredicateEvaluator` only exercised indirectly                                                |
 | Probability                    | 2     |   2*   | `IObjectProbabilityPair<T>` only exercised indirectly                                                      |
-| Addressables                   | 4     |   2    | `AddressablesCacheInvalidator` covered (mapping, reset lookup, every real owner resettable)                |
+| Addressables                   | 6     |   3    | `AddressablesCacheInvalidator` covered (mapping, reset lookup, every real owner resettable)                |
 | Asset Script Swap              | 1     |   1    | `ConfirmInPlace` is a modal dialogue only                                                                  |
 | Serialized Property Extensions | 1     |   1    |                                                                                                            |
 | Editor State Check             | 1     |   1†   | Partial — 6 of 8 internal guard clauses are reachable                                                      |
@@ -289,6 +295,8 @@ Test utilities (`AssetTestUtility`, `SerializedFieldInjector`, `HeadlessEditorWi
 | `AddressablesCacheOwners`                              | Yes      | `AddressablesCacheInvalidatorTests.cs`                        |                                                                                                                                                      |
 | `AddressablesCacheInvalidator`                         | Partial  | `AddressablesCacheInvalidatorTests.cs`                        | `OnPostprocessAllAssets` needs real imports ~ verified live (quest / key item reimports reset only their own cache)                                  |
 | `SwappableAssetHandle<T>`                              | Yes      | `SwappableAssetHandleTests.cs`                                | Loads the project's own AudioClip entries ~ skips with fewer than two                                                                                |
+| `AddressablesKeyedAssetCache<TOwner, TSlot, TAsset>`   | Yes      | `AddressablesKeyedAssetCacheTests.cs`                         | Loads the project's own AudioClip entries ~ skips with fewer than two;  scene-load guard not reachable                                               |
+| `SingleAssetSlot`                                      | Indirect | `InventoryBuildCopyTests.cs` (Frankie, WearablesLink)         |                                                                                                                                                      |
 | `AssetReferenceAudioClip`                              | Indirect | `ZoneTests.cs` (zones)                                        | Serializable `AssetReferenceT<AudioClip>` ~ no logic of its own / nothing to test                                                                    |
 | `AssetScriptSwapper`                                   | Yes      | `AssetScriptSwapperTests.cs`                                  | `ConfirmInPlace` (modal dialogue) skipped (not interesting)                                                                                          |
 | `SerializedFieldUtility`                               | Partial  | `SerializedFieldUtilityTests.cs`                              | Unity's own edge cases (generic `[Serializable]` instances, depth limit) not mirrored                                                                |
