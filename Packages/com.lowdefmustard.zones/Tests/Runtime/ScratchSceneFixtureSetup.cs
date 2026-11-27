@@ -39,6 +39,7 @@ namespace LowDefMustard.Zones.Tests
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
             AddressableAssetGroup group = settings.FindGroup(_scratchGroupName);
             if (group != null) { settings.RemoveGroup(group); }
+            AssetDatabase.SaveAssetIfDirty(settings); // RemoveGroup only dirties the settings ~ unsaved, its group list keeps the deleted group's GUID
 
             AssetDatabase.DeleteAsset(scratchScenePath);
             AssetDatabase.Refresh();

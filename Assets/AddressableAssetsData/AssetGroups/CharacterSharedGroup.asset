@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41e772d0f3e3d6d499c7091581954c19
+    m_Address: Assets/Game/CharacterObjects/Wearables/WearableRoot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 53771d00282eaa34ba616b313732c1b7
     m_Address: Assets/Game/CharacterObjects/PCs/CharacterNPC.prefab
     m_ReadOnly: 0
@@ -47,11 +52,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b7a9dd0ae7553974a94c4a2b6d9bfb74
     m_Address: Assets/Game/CharacterObjects/DummyAnimations
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c3de28b6b52e6104f9bdb6555abeb0cf
-    m_Address: Assets/Game/CharacterObjects/Wearables
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

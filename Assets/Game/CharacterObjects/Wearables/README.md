@@ -16,3 +16,5 @@ By default, this prefab includes:
 * Two childed game objects with sprite renderers:
   * CharacterBackground: for any sprite elements that appear behind the character
   * CharacterForeground: for any sprite elements that appear in front of the character
+
+Addressables: Ensure that each new wearable has its own folder and add that folder as an entry in `WearablesGroup` (pack separately), so equipping one only loads that wearable's bundle.
