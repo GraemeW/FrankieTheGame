@@ -13,10 +13,6 @@ PrefabInstance:
       value: SimpleNodePersistentSoundNoInteract
       objectReference: {fileID: 0}
     - target: {fileID: 6503261025470102001, guid: b088bfeac2e40814a9c9c19c8da3f9fd, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6503261025470102001, guid: b088bfeac2e40814a9c9c19c8da3f9fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}

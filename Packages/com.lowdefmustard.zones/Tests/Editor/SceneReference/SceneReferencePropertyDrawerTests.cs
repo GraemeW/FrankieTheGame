@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
@@ -33,7 +32,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         private SceneAsset alphaScene;
         private SceneAsset alphaExtendedScene;
         private SceneAsset betaScene;
-        private readonly List<GameObject> spawnedObjects = new();
+        private readonly TestObjectTracker tracker = new();
         private readonly List<SerializedObject> serializedObjects = new();
         private EditorWindow window;
 
@@ -52,14 +51,14 @@ namespace LowDefMustard.Zones.Tests.Editor
             betaScene = CreateSceneAsset(betaPath);
             CreateSceneAsset($"{tempFolder.CreateSubfolder("Dup1")}/{_dupName}.unity");
             CreateSceneAsset($"{tempFolder.CreateSubfolder("Dup2")}/{_dupName}.unity");
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open
+            SceneTestUtility.ResetToEmptyScene();
             AssetDatabase.Refresh();
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
         }
 
@@ -69,11 +68,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             HeadlessEditorWindow.Close(window);
             foreach (SerializedObject serializedObject in serializedObjects) { serializedObject.Dispose(); }
             serializedObjects.Clear();
-            foreach (GameObject spawnedObject in spawnedObjects)
-            {
-                if (spawnedObject != null) { Object.DestroyImmediate(spawnedObject); }
-            }
-            spawnedObjects.Clear();
+            tracker.DestroyAll();
             AssetDatabase.DeleteAsset(prefabPath);
         }
         #endregion
@@ -81,17 +76,14 @@ namespace LowDefMustard.Zones.Tests.Editor
         #region PrivateMethods
         private static SceneAsset CreateSceneAsset(string path)
         {
-            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scene, path);
+            SceneTestUtility.CreateSavedScene(path);
             AssetDatabase.ImportAsset(path);
             return AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
         }
 
         private SceneReferenceHost CreateHost(SceneAsset sceneAsset, string sceneName, string scenePath)
         {
-            var hostObject = new GameObject("SceneReferenceHost");
-            spawnedObjects.Add(hostObject);
-
+            GameObject hostObject = tracker.CreateGameObject("SceneReferenceHost");
             var host = hostObject.AddComponent<SceneReferenceHost>();
             host.sceneReference = new SceneReference(sceneName) { sceneAsset = sceneAsset, scenePath = scenePath };
             return host;
@@ -118,6 +110,8 @@ namespace LowDefMustard.Zones.Tests.Editor
             else { Assert.AreEqual(expectedAsset, host.sceneReference.sceneAsset); }
             Assert.AreEqual(expectedName, host.sceneReference.SceneName);
             Assert.AreEqual(expectedPath, host.sceneReference.scenePath);
+            string expectedGuid = expectedAsset != null ? AssetDatabase.AssetPathToGUID(expectedPath) : string.Empty;
+            Assert.AreEqual(expectedGuid, host.sceneReference.sceneGuid ?? string.Empty, "sceneGuid should follow the scene asset");
         }
 
         private static Regex RepairedLog(string path) => new(_zonesLogPrefix + "Repaired scene reference for .* \\(path: '" + Regex.Escape(path) + "'\\)\\.$");
@@ -201,6 +195,31 @@ namespace LowDefMustard.Zones.Tests.Editor
         #endregion
 
         #region RelinkTests
+        [Test]
+        public void CreatePropertyGUI_SceneAssetWithStaleGuid_ResyncsGuidWithoutLog()
+        {
+            SceneReferenceHost host = CreateHost(alphaScene, _alphaName, alphaPath);
+            host.sceneReference.sceneGuid = AssetDatabase.AssetPathToGUID(betaPath);
+
+            BuildDrawerUI(GetSceneReferenceProperty(host));
+
+            AssertReference(host, alphaScene, _alphaName, alphaPath);
+            LogAssert.NoUnexpectedReceived();
+        }
+
+        [Test]
+        public void CreatePropertyGUI_NullAssetWithValidGuidButStaleNameAndPath_ReLinksByGuid()
+        {
+            // e.g. the scene was renamed / moved:  the GUID still finds it
+            SceneReferenceHost host = CreateHost(null, "StaleName", _missingPath);
+            host.sceneReference.sceneGuid = AssetDatabase.AssetPathToGUID(betaPath);
+
+            LogAssert.Expect(LogType.Log, RepairedLog(betaPath));
+            BuildDrawerUI(GetSceneReferenceProperty(host));
+
+            AssertReference(host, betaScene, _betaName, betaPath);
+        }
+
         [Test]
         public void CreatePropertyGUI_NullAssetWithValidPath_ReLinksAssetAndResyncsNameAndPath()
         {
@@ -301,8 +320,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             SceneReferenceHost prefabSource = CreateHost(null, _alphaName, alphaPath);
             GameObject prefabAsset = PrefabUtility.SaveAsPrefabAsset(prefabSource.gameObject, prefabPath);
-            var instanceObject = (GameObject)PrefabUtility.InstantiatePrefab(prefabAsset);
-            spawnedObjects.Add(instanceObject);
+            var instanceObject = tracker.Track((GameObject)PrefabUtility.InstantiatePrefab(prefabAsset));
             var instanceHost = instanceObject.GetComponent<SceneReferenceHost>();
 
             BuildDrawerUI(GetSceneReferenceProperty(instanceHost));
@@ -415,7 +433,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             // Changed through a second SerializedObject, like an inspector elsewhere editing the same object
             var otherSerializedObject = new SerializedObject(host);
             serializedObjects.Add(otherSerializedObject);
-            otherSerializedObject.FindProperty("sceneReference.sceneAsset").objectReferenceValue = betaScene;
+            otherSerializedObject.FindProperty($"{nameof(SceneReferenceHost.sceneReference)}.{nameof(SceneReference.sceneAsset)}").objectReferenceValue = betaScene;
             otherSerializedObject.ApplyModifiedPropertiesWithoutUndo();
 
             // Property tracking polls on the editor's schedule, so wait (bounded) rather than assuming a frame count

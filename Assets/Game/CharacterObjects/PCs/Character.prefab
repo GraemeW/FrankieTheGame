@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9500bc738f48a9b40a11b28b434aa2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillTree: {fileID: 0}
+  skillSet: {fileID: 0}
   skillTreeLevelMultiplierForStatUnlock: 20
 --- !u!114 &-8535015448183063659
 MonoBehaviour:
@@ -534,10 +534,6 @@ PrefabInstance:
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_TagString
       value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_LocalPosition.x

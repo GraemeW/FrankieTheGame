@@ -3,7 +3,9 @@
   "rootNamespace": "LowDefMustard.Utils.Editor",
   "references": [
     "LowDefMustard.Core",
-    "LowDefMustard.Utils"
+    "LowDefMustard.Utils",
+    "Unity.Addressables",
+    "Unity.Addressables.Editor"
   ],
   "includePlatforms": [
     "Editor"

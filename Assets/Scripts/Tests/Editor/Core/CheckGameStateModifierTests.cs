@@ -2,7 +2,6 @@ using System.Collections;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -23,20 +22,18 @@ namespace Frankie.Tests.Editor
         // State
         private readonly TestObjectTracker tracker = new();
         private Scene previewScene;
-        private GameObject loadedSceneObject;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
-            previewScene = EditorSceneManager.NewPreviewScene();
+            previewScene = SceneTestUtility.CreatePreviewScene();
         }
 
         [TearDown]
         public void TearDown()
         {
-            EditorSceneManager.ClosePreviewScene(previewScene);
-            if (loadedSceneObject != null) { Object.DestroyImmediate(loadedSceneObject); }
+            SceneTestUtility.ClosePreviewScene(previewScene);
             tracker.DestroyAll();
         }
         #endregion
@@ -44,9 +41,7 @@ namespace Frankie.Tests.Editor
         #region Helpers
         private T AddToPreviewScene<T>() where T : Component
         {
-            var gameObject = new GameObject($"CheckGameStateModifierTests_{typeof(T).Name}");
-            SceneManager.MoveGameObjectToScene(gameObject, previewScene);
-            return gameObject.AddComponent<T>();
+            return SceneTestUtility.CreateComponentInScene<T>(previewScene, $"CheckGameStateModifierTests_{typeof(T).Name}");
         }
 
         private HasQuestPredicate CreateHasQuestPredicate(Quest quest)
@@ -78,7 +73,7 @@ namespace Frankie.Tests.Editor
         [UnityTest]
         public IEnumerator ToggleChildren_StartInEditMode_LeavesChildrenUntouched()
         {
-            var checkObject = loadedSceneObject = new GameObject("CheckGameStateModifierTests_Toggle");
+            GameObject checkObject = tracker.CreateGameObject("CheckGameStateModifierTests_Toggle");
             var child = new GameObject("Child");
             child.transform.SetParent(checkObject.transform);
             checkObject.SetActive(false); // hook up before Start can run

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
@@ -6,7 +7,7 @@ using Frankie.Core;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(BaseStats))]
-    public class CharacterNPCSwapper : MonoBehaviour, ISaveableBase
+    public class CharacterNPCSwapper : MonoBehaviour, ISaveableBase, ICharacterPrefabUser
     {
         // Cached References
         private BaseStats baseStats;
@@ -28,16 +29,10 @@ namespace Frankie.Stats
 
         public static GameObject SpawnCharacter(CharacterProperties characterProperties, Transform partyTransform)
         {
-            if (characterProperties == null || partyTransform == null)
-            {
-                return null;
-            }
+            if (characterProperties == null || partyTransform == null) { return null; }
 
             GameObject characterPrefab = characterProperties.GetCharacterPrefab();
-            if (characterPrefab == null)
-            {
-                return null;
-            }
+            if (characterPrefab == null) { return null; }
 
             GameObject character = Instantiate(characterPrefab, partyTransform);
             return character;
@@ -45,16 +40,10 @@ namespace Frankie.Stats
 
         public static GameObject SpawnNPC(CharacterProperties characterProperties, Transform worldContainer)
         {
-            if (characterProperties == null)
-            {
-                return null;
-            }
+            if (characterProperties == null) { return null; }
 
             GameObject characterNPCPrefab = characterProperties.GetCharacterNPCPrefab();
-            if (characterNPCPrefab == null)
-            {
-                return null;
-            }
+            if (characterNPCPrefab == null) { return null; }
 
             GameObject characterNPC = worldContainer != null ? Instantiate(characterNPCPrefab, worldContainer) : Instantiate(characterNPCPrefab);
             return characterNPC;
@@ -72,6 +61,7 @@ namespace Frankie.Stats
         {
             party.ForceInit();
             partyAssist.ForceInit();
+            CharacterPrefabCache.StartPreload(GetCharactersToPreload()); // In case the scene skipped the transition preload (e.g. a no-fade load)
         }
 
         private void OnEnable()
@@ -90,13 +80,16 @@ namespace Frankie.Stats
         #region PublicMethods
         public BaseStats GetBaseStats() => baseStats;
 
+        public IEnumerable<CharacterProperties> GetCharactersToPreload()
+        {
+            CharacterProperties characterProperties = baseStats != null ? baseStats.GetCharacterProperties() : GetComponent<BaseStats>().GetCharacterProperties(); // fallback to account for before Awake when gathered from an inactive room
+            if (characterProperties != null) { yield return characterProperties; }
+        }
+
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {
             GameObject character = SpawnCharacter(baseStats.GetCharacterProperties(), partyContainer);
-            if (character == null)
-            {
-                return null;
-            }
+            if (character == null) { return null; }
 
             // Pass stats back/forth NPC -> Character
             var characterBaseStats = character.GetComponent<BaseStats>();
@@ -109,10 +102,7 @@ namespace Frankie.Stats
         public CharacterNPCSwapper SwapToNPC(Transform worldContainer)
         {
             GameObject characterNPC = SpawnNPC(baseStats.GetCharacterProperties(), worldContainer);
-            if (characterNPC == null)
-            {
-                return null;
-            }
+            if (characterNPC == null) { return null; }
 
             // Pass stats back/forth Character -> NPC
             var characterNPCBaseStats = characterNPC.GetComponent<BaseStats>();

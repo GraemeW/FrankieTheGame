@@ -1,42 +1,32 @@
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Control.Tests.Editor
 {
     public class PatrolPathTests
     {
         // State
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
 
         #region Setup
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawnedGameObjects.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
-
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region PrivateMethods
-        private GameObject CreateGameObject()
-        {
-            var go = new GameObject("PatrolPathTests_Target");
-            spawnedGameObjects.Add(go);
-            return go;
-        }
+        private GameObject CreateGameObject() => tracker.CreateGameObject("PatrolPathTests_Target");
 
         private PatrolPathWaypoint CreateWaypoint(WaypointType waypointType = WaypointType.Move)
         {
             var waypoint = CreateGameObject().AddComponent<PatrolPathWaypoint>();
             var serializedWaypoint = new SerializedObject(waypoint);
-            serializedWaypoint.FindProperty("waypointType").enumValueIndex = (int)waypointType;
+            serializedWaypoint.FindProperty(PatrolPathWaypoint.waypointTypeField).enumValueIndex = (int)waypointType;
             serializedWaypoint.ApplyModifiedPropertiesWithoutUndo();
             return waypoint;
         }
@@ -48,11 +38,11 @@ namespace LowDefMustard.Control.Tests.Editor
             for (int i = 0; i < waypointCount; i++) { waypoints[i] = CreateWaypoint(); }
 
             var serializedPatrolPath = new SerializedObject(patrolPath);
-            SerializedProperty waypointsProperty = serializedPatrolPath.FindProperty("waypoints");
+            SerializedProperty waypointsProperty = serializedPatrolPath.FindProperty(PatrolPath.waypointsField);
             waypointsProperty.arraySize = waypointCount;
             for (int i = 0; i < waypointCount; i++) { waypointsProperty.GetArrayElementAtIndex(i).objectReferenceValue = waypoints[i]; }
-            serializedPatrolPath.FindProperty("looping").boolValue = looping;
-            serializedPatrolPath.FindProperty("returnToFirstWaypoint").boolValue = returnToFirstWaypoint;
+            serializedPatrolPath.FindProperty(PatrolPath.loopingField).boolValue = looping;
+            serializedPatrolPath.FindProperty(PatrolPath.returnToFirstWaypointField).boolValue = returnToFirstWaypoint;
             serializedPatrolPath.ApplyModifiedPropertiesWithoutUndo();
 
             return patrolPath;

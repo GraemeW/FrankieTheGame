@@ -26,6 +26,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //  - Timeline order:  Short, Long, Child instance, Late
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private BattleEffectRecipe recipe;
         private BattleEffectRecipe child;
@@ -35,10 +36,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnitySetUp]
         public IEnumerator SetUp()
         {
-            child = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            child.name = "Child";
+            child = tracker.Create<BattleEffectRecipe>("Child");
             child.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0,\"durationSeconds\":0.25}") });
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            recipe = tracker.Create<BattleEffectRecipe>();
             recipe.SetItems(new[]
             {
                 CreateItem(new BattleEffectCircle(), "{\"label\":\"Late\",\"startTimeSeconds\":1,\"durationSeconds\":1,\"style\":{\"mode\":0}}"),
@@ -61,9 +61,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
             HeadlessEditorWindow.Close(window);
             BattleEffectPreviewVisibility.ShowAll(recipe);
             Undo.ClearUndo(recipe);
-            Object.DestroyImmediate(editor);
-            Object.DestroyImmediate(recipe);
-            Object.DestroyImmediate(child);
+            Object.DestroyImmediate(editor); // Before its target
+            tracker.DestroyAll();
             window = null;
         }
         #endregion
@@ -155,13 +154,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             // Local Functions
             BattleEffectEntryRow FindRow(int rowIndex) => window.rootVisualElement.Query<BattleEffectEntryRow>().Where(row => row.rowIndex == rowIndex).First();
             
-            void ClickVisibility(BattleEffectEntryRow row)
-            {
-                using NavigationSubmitEvent clickEvent = NavigationSubmitEvent.GetPooled();
-                Button button = row.Q<Button>();
-                clickEvent.target = button;
-                button.SendEvent(clickEvent);
-            }
+            void ClickVisibility(BattleEffectEntryRow row) => HeadlessEditorWindow.SendSubmit(row.Q<Button>());
         }
 
         [Test]
@@ -482,7 +475,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             Assert.AreEqual(0.5f, pasted.GetStartOffset(), 1e-5f);
             SerializedProperty swaps = InstanceProperty(1).FindPropertyRelative(BattleEffectInstance.colourSwapsField);
             Assert.AreEqual(2, swaps.arraySize);
-            Assert.AreEqual(Color.blue, (Color)swaps.GetArrayElementAtIndex(1).FindPropertyRelative("to").colorValue);
+            Assert.AreEqual(Color.blue, (Color)swaps.GetArrayElementAtIndex(1).FindPropertyRelative(BattleEffectColourSwap.toField).colorValue);
         }
 
         [Test]

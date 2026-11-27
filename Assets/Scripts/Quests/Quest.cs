@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Unity.Scripting.LifecycleManagement;
@@ -32,8 +30,10 @@ namespace Frankie.Quests
         [HideInInspector][SerializeField] private List<QuestObjective> questObjectives = new();
         private Dictionary<string, QuestObjective> objectiveNameEditorLookup = new();
         // Quest
-        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<Quest>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] private static Dictionary<string, Quest> _questLookupCache;
+        [AutoStaticsCleanup] private static AddressablesLookupCache<Quest> _cache = new(LDMLogCategory.Quests, nameof(Quest), quest => quest.guid);
+        
+        // Editor Field References
+        internal const string questObjectivesField = nameof(questObjectives);
 
         #region UnityMethods
         private void OnValidate()
@@ -149,47 +149,8 @@ namespace Frankie.Quests
 #endif
 
         #region AddressablesCaching
-        public static Quest GetFromID(string questID)
-        {
-            if (string.IsNullOrWhiteSpace(questID)) { return null; }
-            
-            BuildCacheIfEmpty();
-            return _questLookupCache.GetValueOrDefault(questID);
-        }
-
-        public static void BuildCacheIfEmpty()
-        {
-            if (_questLookupCache != null) { return; }
-            BuildQuestCache();
-        }
-
-        private static void BuildQuestCache()
-        {
-            _questLookupCache = new Dictionary<string, Quest>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Quest), (Quest quest) =>
-                {
-                    if (_questLookupCache.TryGetValue(quest.guid, out Quest tryQuest))
-                    {
-                        AddressablesCacheLog.LogDuplicate(LDMLogCategory.Quests, nameof(Quest), quest.guid, tryQuest, quest);
-                    }
-                    _questLookupCache[quest.guid] = quest;
-                }
-            );
-            _addressablesLoadHandle.WaitForCompletion();
-            AddressablesCacheLog.LogBuild(LDMLogCategory.Quests, nameof(Quest), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _questLookupCache.Count);
-        }
-
-        public static void ReleaseCache()
-        {
-            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
-        }
-
-        public static void ResetCache()
-        {
-            ReleaseCache();
-            _addressablesLoadHandle = default;
-            _questLookupCache = null;
-        }
+        public static IAddressablesCacheLifecycle addressablesCache => _cache;
+        public static Quest GetFromID(string questID) => _cache.Get(questID);
         #endregion
     }
 }

@@ -21,8 +21,18 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  characterPrefab: {fileID: 0}
-  characterNPCPrefab: {fileID: 7988433422054701046, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
+  characterPrefab:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  characterNPCPrefab:
+    m_AssetGUID: a302ff6507ed14488bebd51f773a7426
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
   cachedName: SongBird

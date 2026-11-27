@@ -10,6 +10,9 @@ namespace Frankie.Stats
         [Tooltip("0 = party leader ~ clamped: <0 -> leader, >end -> last member")]
         [SerializeField] private int partyIndex = 0;
 
+        // Editor Field References
+        internal const string partyIndexField = nameof(partyIndex);
+
         // Dialogue Variable
         public string GetDialogueVariable(DialogueVariableContext context)
         {

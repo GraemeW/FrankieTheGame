@@ -9,51 +9,15 @@ namespace Frankie.Combat
     public class BattleAIPriority : ScriptableObject
     {
         // Tunables
-        [SerializeField] private Skill[] skills; 
+        [SerializeField][SkillReference] private List<string> skillReferences = new(); // Skill names ~ resolved through the Skill addressables cache (same as SkillBranch)
         [SerializeField] private BattleAICondition skillCondition;
-        [SerializeField] private TargetPriority[] targetPriorities;
+        [SerializeField] private List<TargetPriority> targetPriorities = new();
         [SerializeField] private bool defaultToRandomTarget = false;
 
+        // Editor Field References
+        internal const string skillReferencesField = nameof(skillReferences);
+
         #region StaticMethods
-        public static Skill GetRandomSkill(SkillHandler skillHandler, List<Skill> skillsToExclude, float probabilityToTraverseSkillTree)
-        {
-            if (skillHandler == null || !skillHandler.HasSkillTree()) { return null; }
-
-            // Simple implementation -- choose at random
-            List<SkillBranchMapping> availableBranches = skillHandler.GetAvailableBranchMappings();
-            int branchCount = availableBranches.Count;
-
-            if (branchCount > 0)
-            {
-                int branchIndex = Random.Range(0, branchCount);
-                float traverseChance = Random.Range(0f, 1f);
-                if (probabilityToTraverseSkillTree >= traverseChance)
-                {
-                    SkillBranchMapping skillBranchMapping = availableBranches[branchIndex];
-
-                    // Check if skills will exist on traversing
-                    var pathSkills = new List<Skill>();
-                    skillHandler.GetPathSkills(skillBranchMapping, ref pathSkills);
-                    List<Skill> filteredPathSkills = pathSkills.Except(skillsToExclude).ToList();
-
-                    if (filteredPathSkills.Count > 0)
-                    {
-                        // Walk to next branch, recurse through tree
-                        skillHandler.SetBranch(skillBranchMapping, SkillFilterType.None);
-                        return GetRandomSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree);
-                    }
-                }
-            }
-
-            // Otherwise just select skill from existing options
-            List<Skill> skillOptions = skillHandler.GetUnfilteredSkills().Except(skillsToExclude).ToList();
-            int skillCount = skillOptions.Count;
-            if (skillCount == 0) { return null; }
-
-            int skillIndex = Random.Range(0, skillCount);
-            return skillOptions[skillIndex];
-        }
-
         public static void SetRandomTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
         {
             // Randomize input combat participants selections
@@ -64,31 +28,20 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicMethods
-        public Skill GetSkill(BattleAI battleAI, SkillHandler skillHandler, List<Skill> skillsToExclude)
+        public bool TryGetSkill(BattleAI battleAI, SkillHandler skillHandler, List<Skill> skillsToExclude, bool filterByAP, out Skill skill)
         {
-            if (skills == null || skills.Length == 0) { return null; }
+            skill = null;
+            if (skillReferences == null || skillReferences.Count == 0) { return false; }
+            if (!skillCondition.Check(new[] { battleAI })) { return false; }
 
-            // Get skills on the combat participant, intersect to skills under consideration
-            skillHandler.GetAvailableBranchMappings();
-            List<Skill> skillOptions = skillHandler.GetUnfilteredSkills().Except(skillsToExclude).Intersect(skills).ToList();
-            int skillCount = skillOptions.Count;
-            if (skillCount == 0) { return null; }
-
-            // Check if condition defined viable to pull from subset skill
-            bool? skillConditionMet = skillCondition.Check(new[] { battleAI });
-
-            if (skillConditionMet == true)
-            {
-                int randomSelector = Random.Range(0, skillOptions.Count);
-                return skillOptions[randomSelector];
-            }
-            return null;
+            Skill[] skills = skillReferences.Select(Skill.GetSkillFromName).Where(resolvedSkill => resolvedSkill != null).ToArray();
+            return skills.Length > 0 && skillHandler.TryGetRandomSkill(skillsToExclude, filterByAP, skills, out skill);
         }
 
         public void SetTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
         {
             // Early exit (i.e. set with skill condition, but no specific target)
-            if (targetPriorities == null || targetPriorities.Length == 0)
+            if (targetPriorities == null || targetPriorities.Count == 0)
             {
                 if (defaultToRandomTarget) { SetRandomTarget(battleAI, battleActionData, skill); } 
                 return;

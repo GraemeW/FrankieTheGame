@@ -7,6 +7,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
     public class BattleEntryShaderControlTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private GameObject controlObject;
         private BattleEntryShaderControl battleEntryShaderControl;
         private Material material;
@@ -15,8 +16,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            material = RenderingTestMaterials.CreatePropertiesMaterial();
-            controlObject = new GameObject("_TEMP_BattleEntryShaderControlTests");
+            material = tracker.Track(RenderingTestMaterials.CreatePropertiesMaterial());
+            controlObject = tracker.CreateGameObject("_TEMP_BattleEntryShaderControlTests");
             battleEntryShaderControl = controlObject.AddComponent<BattleEntryShaderControl>();
             SerializedFieldInjector.Set(battleEntryShaderControl, BattleEntryShaderControl.battleEntryMaterialField, material);
         }
@@ -24,8 +25,8 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(controlObject);
-            Object.DestroyImmediate(material);
+            Object.DestroyImmediate(controlObject); // Before its material
+            tracker.DestroyAll();
         }
         #endregion
 

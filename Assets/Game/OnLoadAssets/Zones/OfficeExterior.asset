@@ -130,8 +130,14 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 12f7e76c252184d49b8c69c04f2c8c3e, type: 3}
     sceneName: OfficeExterior
     scenePath: Assets/Scenes/OfficeExterior.unity
+    sceneGuid: 12f7e76c252184d49b8c69c04f2c8c3e
   updateMap: 1
-  zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
+  zoneAudio:
+    m_AssetGUID: 840503d4a3e71484a94da9a50830ba88
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: OfficeExterior
   zoneNodes:

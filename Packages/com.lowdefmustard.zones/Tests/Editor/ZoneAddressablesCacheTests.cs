@@ -3,40 +3,37 @@ using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneAddressablesCacheTests
     {
         // State
-        private readonly List<Zone> createdZones = new();
+        private readonly TestObjectTracker tracker = new();
         private Dictionary<string, Zone> originalZoneLookupCache;
-        private Dictionary<string, Zone> originalSceneReferenceCache;
+        private Dictionary<string, Zone> originalSceneNameCache;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
             originalZoneLookupCache = Zone.zoneLookupCache;
-            originalSceneReferenceCache = Zone.sceneReferenceCache;
+            originalSceneNameCache = Zone.sceneNameCache;
         }
 
         [TearDown]
         public void TearDown()
         {
-            Zone.zoneLookupCache = originalZoneLookupCache;
-            Zone.sceneReferenceCache = originalSceneReferenceCache;
-            foreach (Zone zone in createdZones) { Object.DestroyImmediate(zone); }
-            createdZones.Clear();
+            Zone.SeedCache(originalZoneLookupCache, originalSceneNameCache);
+            tracker.DestroyAll();
         }
 
         private Zone CreateZone(string zoneName, string sceneName)
         {
-            var zone = ScriptableObject.CreateInstance<Zone>();
+            var zone = tracker.Create<Zone>(zoneName);
             zone.preventLocalizationForTests = true;
-            zone.name = zoneName;
             zone.sceneReference = sceneName;
-            createdZones.Add(zone);
             return zone;
         }
         #endregion
@@ -46,8 +43,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void GetFromName_ReturnsSeededZone_WithoutBuildingCache()
         {
             Zone zoneA = CreateZone("ZoneA", "SceneA");
-            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "ZoneA", zoneA } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone> { { "SceneA", zoneA } };
+            Zone.SeedCache(new Dictionary<string, Zone> { { "ZoneA", zoneA } }, new Dictionary<string, Zone> { { "SceneA", zoneA } });
 
             Assert.AreSame(zoneA, Zone.GetFromName("ZoneA"));
         }
@@ -55,54 +51,74 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void GetFromName_UnknownName_ReturnsNull()
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "EmptyZone", null } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone> { { "EmptyScene", null } };
+            Zone.SeedCache(new Dictionary<string, Zone> { { "EmptyZone", null } }, new Dictionary<string, Zone> { { "EmptyScene", null } });
 
             Assert.IsNull(Zone.GetFromName("Missing"));
         }
 
         [Test]
-        public void GetFromSceneReference_ReturnsSeededZone()
+        public void GetFromSceneName_ReturnsSeededZone()
         {
             Zone zoneA = CreateZone("ZoneA", "SceneA");
-            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "ZoneA", zoneA } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone> { { "SceneA", zoneA } };
+            Zone.SeedCache(new Dictionary<string, Zone> { { "ZoneA", zoneA } }, new Dictionary<string, Zone> { { "SceneA", zoneA } });
 
-            Assert.AreSame(zoneA, Zone.GetFromSceneReference("SceneA"));
+            Assert.AreSame(zoneA, Zone.GetFromSceneName("SceneA"));
         }
 
         [Test]
-        public void BuildCacheIfEmpty_AlreadyBuilt_LeavesCacheUntouched()
+        public void GetFromSceneGuid_MatchingGuid_ReturnsThatZone()
+        {
+            Zone zoneA = CreateZone("ZoneA", "SceneA");
+            Zone zoneB = CreateZone("ZoneB", "SceneB");
+            zoneA.sceneReference.sceneGuid = "guid-a";
+            zoneB.sceneReference.sceneGuid = "guid-b";
+            Zone.SeedCache(new Dictionary<string, Zone> { { "ZoneA", zoneA }, { "ZoneB", zoneB } }, new Dictionary<string, Zone> { { "SceneA", zoneA }, { "SceneB", zoneB } });
+
+            Assert.AreSame(zoneB, Zone.GetFromSceneGuid("guid-b"));
+        }
+
+        [TestCase(null)]
+        [TestCase(" ")]
+        [TestCase("guid-missing")]
+        public void GetFromSceneGuid_BlankOrUnknownGuid_ReturnsNull(string sceneGuid)
+        {
+            Zone zoneA = CreateZone("ZoneA", "SceneA"); // No stored GUID ~ never matches
+            Zone zoneB = CreateZone("ZoneB", "SceneB");
+            zoneB.sceneReference.sceneGuid = "guid-b";
+            Zone.SeedCache(new Dictionary<string, Zone> { { "ZoneA", zoneA }, { "ZoneB", zoneB } }, new Dictionary<string, Zone> { { "SceneA", zoneA }, { "SceneB", zoneB } });
+
+            Assert.IsNull(Zone.GetFromSceneGuid(sceneGuid));
+        }
+
+        [Test]
+        public void BuildIfEmpty_AlreadySeeded_LeavesCacheUntouched()
         {
             var seededCache = new Dictionary<string, Zone> { { "ZoneA", null } };
-            Zone.zoneLookupCache = seededCache;
-            Zone.sceneReferenceCache = seededCache;
+            Zone.SeedCache(seededCache, seededCache);
 
-            Zone.BuildCacheIfEmpty();
+            Zone.addressablesCache.BuildIfEmpty();
 
-            // If BuildZoneCache had actually run, sceneReferenceCache would be a new dictionary
-            Assert.AreSame(seededCache, Zone.sceneReferenceCache);
+            // If BuildZoneCache had actually run, sceneNameCache would be a new dictionary
+            Assert.AreSame(seededCache, Zone.sceneNameCache);
             Assert.AreSame(seededCache, Zone.zoneLookupCache);
         }
 
         [Test]
         public void AddZoneToCache_AddsToBothLookups()
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.SeedCache(new Dictionary<string, Zone>(), new Dictionary<string, Zone>());
             Zone zoneA = CreateZone("ZoneA", "SceneA");
 
             Zone.AddZoneToCache(zoneA);
 
             Assert.AreSame(zoneA, Zone.zoneLookupCache["ZoneA"]);
-            Assert.AreSame(zoneA, Zone.sceneReferenceCache["SceneA"]);
+            Assert.AreSame(zoneA, Zone.sceneNameCache["SceneA"]);
         }
 
         [Test]
         public void AddZoneToCache_DuplicateZoneName_LogsErrorAndOverwrites()
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.SeedCache(new Dictionary<string, Zone>(), new Dictionary<string, Zone>());
             Zone firstZone = CreateZone("Dup", "SceneA");
             Zone secondZone = CreateZone("Dup", "SceneB");
 
@@ -117,8 +133,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void AddZoneToCache_DuplicateSceneName_LogsErrorAndOverwrites()
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.SeedCache(new Dictionary<string, Zone>(), new Dictionary<string, Zone>());
             Zone firstZone = CreateZone("ZoneA", "SharedScene");
             Zone secondZone = CreateZone("ZoneB", "SharedScene");
 
@@ -127,7 +142,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             LogAssert.Expect(LogType.Error, new Regex(@"\[Zones\]\S* Duplicate Zone ID "));
             Zone.AddZoneToCache(secondZone);
 
-            Assert.AreSame(secondZone, Zone.sceneReferenceCache["SharedScene"]);
+            Assert.AreSame(secondZone, Zone.sceneNameCache["SharedScene"]);
         }
         #endregion
     }

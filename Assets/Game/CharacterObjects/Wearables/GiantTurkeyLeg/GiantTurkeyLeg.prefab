@@ -16,26 +16,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 0ba8d8b1c846cbb4e8bf06267d38b8cc, type: 2}
-    - target: {fileID: 1927827449376671123, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 9f95ecc2165ea4f4a884676d4d7fbe60, type: 2}
-    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: wearableItem
-      value: 
-      objectReference: {fileID: 11400000, guid: 278eeab29a5e2584187c2f34e578cf25, type: 2}
-    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: baseStatModifiers.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: baseStatModifiers.Array.data[0].maxValue
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: baseStatModifiers.Array.data[0].minValue
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 2936467026885796938, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_Size.x
       value: 0.74
@@ -46,10 +26,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2936467026885796938, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3696881123632575220, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3696881123632575220, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
@@ -92,10 +68,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4054485302031693437, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: e3f91fc777404784297ecde9de8f14d1, type: 2}
     - target: {fileID: 7985907480482996339, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_Size.x
       value: 0.36

@@ -170,11 +170,11 @@ namespace LowDefMustard.Rendering.Editor
             int index = entriesProperty.arraySize;
             entriesProperty.InsertArrayElementAtIndex(index);
             SerializedProperty entryProperty = entriesProperty.GetArrayElementAtIndex(index);
-            entryProperty.FindPropertyRelative("path").enumValueIndex = (int)GraphicsWarmupPath.UIToolkitMaterial;
-            entryProperty.FindPropertyRelative("material").objectReferenceValue = material;
-            entryProperty.FindPropertyRelative("filter").objectReferenceValue = null;
-            entryProperty.FindPropertyRelative("panelSettings").objectReferenceValue = panelSettings;
-            entryProperty.FindPropertyRelative("targetTexture").objectReferenceValue = null;
+            entryProperty.FindPropertyRelative(GraphicsWarmupEntry.pathField).enumValueIndex = (int)GraphicsWarmupPath.UIToolkitMaterial;
+            entryProperty.FindPropertyRelative(GraphicsWarmupEntry.materialField).objectReferenceValue = material;
+            entryProperty.FindPropertyRelative(GraphicsWarmupEntry.filterField).objectReferenceValue = null;
+            entryProperty.FindPropertyRelative(GraphicsWarmupEntry.panelSettingsField).objectReferenceValue = panelSettings;
+            entryProperty.FindPropertyRelative(GraphicsWarmupEntry.targetTextureField).objectReferenceValue = null;
         }
 
         private static bool TryLoadTrace(out string path, out GraphicsStateCollection trace)

@@ -12,7 +12,7 @@ namespace Frankie.Combat
         
         // Tunables
         [SerializeField] private float actionQueuePollingPeriod = 0.1f;
-        [SerializeField][Range(0, 1)] private float probabilityToTraverseSkillTree = 0.8f;
+        [Tooltip("Off by default so an enemy never runs out of skills")] [SerializeField] private bool filterSkillsByAP = false;
         [SerializeField] private bool useRandomSelectionOnNoPriorities = true;
         [SerializeField] private BattleAIPriority[] battleAIPriorities;
 
@@ -105,9 +105,7 @@ namespace Frankie.Combat
             localAllies = new List<BattleEntity>(cachedAllies);
             localFoes = new List<BattleEntity>(cachedFoes);
                 
-            Skill skill = GetSkill(out BattleAIPriority battleAIPriority);
-            if (skill == null) { return; }
-            if (battleAIPriority == null && !useRandomSelectionOnNoPriorities) { return; } // Edge case, should be caught by above -- do nothing if no smarter AIs available
+            if (!TryGetSkill(out Skill skill, out BattleAIPriority battleAIPriority)) { return; }
 
             var battleActionData = new BattleActionData(combatParticipant);
             if (battleAIPriority != null)
@@ -133,32 +131,26 @@ namespace Frankie.Combat
             }
         }
 
-        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority)
+        private bool TryGetSkill(out Skill skill, out BattleAIPriority chosenBattleAIPriority)
         {
-            Skill skill = null;
             if (battleAIPriorities != null)
             {
                 foreach (BattleAIPriority battleAIPriority in battleAIPriorities)
                 {
-                    skill = battleAIPriority.GetSkill(this, skillHandler, skillsToExclude);
+                    if (!battleAIPriority.TryGetSkill(this, skillHandler, skillsToExclude, filterSkillsByAP, out skill)) { continue; }
                     chosenBattleAIPriority = battleAIPriority;
-                    if (skill != null) { return skill; }
+                    return true;
                 }
             }
 
-            if (useRandomSelectionOnNoPriorities)
-            {
-                // Default behaviour -- choose at random, no battle AI priority selected
-                if (skill == null) { skill = BattleAIPriority.GetRandomSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree); }
-            }
+            // Default behaviour -- choose at random, no battle AI priority selected
             chosenBattleAIPriority = null;
-
-            return skill;
+            skill = null;
+            return useRandomSelectionOnNoPriorities && skillHandler.TryGetRandomSkill(skillsToExclude, filterSkillsByAP, out skill);
         }
 
         private void ClearSelectionMemory()
         {
-            skillHandler.ResetCurrentBranch();
             localAllies.Clear();
             localFoes.Clear();
         }

@@ -19,7 +19,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         private Zone zone;
         private TempAssetFolder tempFolder;
         private Dictionary<string, Zone> originalZoneLookupCache;
-        private Dictionary<string, Zone> originalSceneReferenceCache;
+        private Dictionary<string, Zone> originalSceneNameCache;
 
         #region Setup
         [SetUp]
@@ -32,18 +32,17 @@ namespace LowDefMustard.Zones.Tests.Editor
             zone.preventLocalizationForTests = true;
             zone.hideFlags = HideFlags.HideAndDontSave; // Loading a scene can unload loose unreferenced objects (so HideAndDontSave to keep it alive across)
             originalZoneLookupCache = Zone.zoneLookupCache;
-            originalSceneReferenceCache = Zone.sceneReferenceCache;
+            originalSceneNameCache = Zone.sceneNameCache;
         }
 
         [TearDown]
         public void TearDown()
         {
-            Zone.zoneLookupCache = originalZoneLookupCache;
-            Zone.sceneReferenceCache = originalSceneReferenceCache;
+            Zone.SeedCache(originalZoneLookupCache, originalSceneNameCache);
             Object.DestroyImmediate(zone);
 
             if (tempFolder == null) { return; }
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
             tempFolder = null;
         }
@@ -53,9 +52,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         private SceneAsset CreateScratchSceneAsset()
         {
             tempFolder = new TempAssetFolder(nameof(ZoneToolsTests));
-            string scratchScenePath = tempFolder.Path($"{_scratchSceneName}.unity");
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            Scene scratchScene = SceneTestUtility.CreateSavedScene(tempFolder, _scratchSceneName);
+            string scratchScenePath = scratchScene.path;
             EditorSceneManager.CloseScene(scratchScene, true);
             return AssetDatabase.LoadAssetAtPath<SceneAsset>(scratchScenePath);
         }
@@ -103,8 +101,7 @@ namespace LowDefMustard.Zones.Tests.Editor
             SceneAsset sceneAsset = CreateScratchSceneAsset();
             zone.name = "ZoneA";
             zone.sceneReference = new SceneReference(_scratchSceneName) { sceneAsset = sceneAsset };
-            Zone.zoneLookupCache = new Dictionary<string, Zone> { { "ZoneA", zone } };
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>() { { _scratchSceneName, zone } };
+            Zone.SeedCache(new Dictionary<string, Zone> { { "ZoneA", zone } }, new Dictionary<string, Zone>() { { _scratchSceneName, zone } });
 
             bool invoked = false;
             ZoneTools.OpenSceneAndAct("ZoneA", () => invoked = true, suppressDialogs: true);

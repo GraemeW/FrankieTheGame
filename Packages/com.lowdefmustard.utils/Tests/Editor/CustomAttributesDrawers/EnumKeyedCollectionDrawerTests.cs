@@ -4,7 +4,6 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Utils.Tests.Editor
@@ -60,13 +59,10 @@ namespace LowDefMustard.Utils.Tests.Editor
             [EnumKeyedCollection] public WrongListNameStub stub = new();
         }
 
-        private ScriptableObject createdInstance;
+        private readonly TestObjectTracker tracker = new();
 
         [TearDown]
-        public void TearDown()
-        {
-            if (createdInstance != null) { Object.DestroyImmediate(createdInstance); }
-        }
+        public void TearDown() => tracker.DestroyAll();
 
         [Test]
         public void CreatePropertyGUI_ValidField_ReturnsFoldoutWithOneFieldPerEnumValue()
@@ -107,7 +103,7 @@ namespace LowDefMustard.Utils.Tests.Editor
 
             // Re-fetch from a fresh SerializedObject to confirm ApplyModifiedProperties actually landed // not just an in-memory boxedValue mutation
             var reread = new SerializedObject(host).FindProperty(nameof(ValidHost.values));
-            var entries = reread.FindPropertyRelative("entries");
+            var entries = reread.FindPropertyRelative(((IEnumKeyedCollection)host.values).GetListName());
             Assert.AreEqual(3, entries.arraySize);
         }
 
@@ -155,9 +151,7 @@ namespace LowDefMustard.Utils.Tests.Editor
 
         private T CreateHost<T>() where T : ScriptableObject
         {
-            var instance = ScriptableObject.CreateInstance<T>();
-            createdInstance = instance;
-            return instance;
+            return tracker.Create<T>();
         }
     }
 }

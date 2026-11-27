@@ -19,7 +19,7 @@ namespace LowDefMustard.Utils.Tests
         private const float _offScreen = -10000f;
         private const int _settleTicks = 2;
 
-        #region PublicMethods
+        #region WindowElementCreation
         public static EditorWindow CreateOffscreenWindow(float width = 200f, float height = 200f) => ShowOffscreen(ScriptableObject.CreateInstance<EditorWindow>(), width, height);
         
         public static T ShowOffscreen<T>(T window, float width = 200f, float height = 200f) where T : EditorWindow
@@ -38,7 +38,7 @@ namespace LowDefMustard.Utils.Tests
         
         public static IEnumerator Settle()
         {
-            for (int i = 0; i < _settleTicks; i++) { yield return null; }
+            yield return TestWait.Frames(_settleTicks);
         }
 
         public static void Close(EditorWindow window)
@@ -49,7 +49,9 @@ namespace LowDefMustard.Utils.Tests
             capturing?.ReleaseMouse();
             window.Close();
         }
+        #endregion
 
+        #region ClickEvents
         public static void SendMouseDown(VisualElement target, Vector2 position, int button = 0, bool altKey = false, int clickCount = 1)
         {
             using MouseDownEvent mouseDownEvent = MouseDownEvent.GetPooled(new Event { type = EventType.MouseDown, mousePosition = position, button = button, clickCount = clickCount, modifiers = altKey ? EventModifiers.Alt : EventModifiers.None });
@@ -79,6 +81,35 @@ namespace LowDefMustard.Utils.Tests
             clickEvent.target = target;
             target.SendEvent(clickEvent);
         }
+
+        public static void SendSubmit(VisualElement target) // Useful to press a Button (its clickable acts on submit) ~ no pointer position / panel layout needed
+        {
+            using NavigationSubmitEvent submitEvent = NavigationSubmitEvent.GetPooled();
+            submitEvent.target = target;
+            target.SendEvent(submitEvent);
+        }
+        #endregion
+
+        #region DragAndDropEvents
+        public static void BeginObjectDrag(params Object[] objectReferences)
+        {
+            DragAndDrop.PrepareStartDrag();
+            DragAndDrop.objectReferences = objectReferences;
+        }
+
+        public static void EndObjectDrag() => DragAndDrop.PrepareStartDrag();
+
+        public static void SendDragUpdated(VisualElement target) => SendDragEvent(DragUpdatedEvent.GetPooled(MakeDragEvent(EventType.DragUpdated, target)), target);
+        public static void SendDragPerform(VisualElement target) => SendDragEvent(DragPerformEvent.GetPooled(MakeDragEvent(EventType.DragPerform, target)), target);
+        public static void SendDragLeave(VisualElement target) => SendDragEvent(DragLeaveEvent.GetPooled(MakeDragEvent(EventType.DragUpdated, target)), target);
+
+        public static void DropObjects(VisualElement target, params Object[] objectReferences)
+        {
+            // Note: EndObjectDrag() still required in TearDown
+            BeginObjectDrag(objectReferences);
+            SendDragUpdated(target);
+            SendDragPerform(target);
+        }
         #endregion
 
         #region PrivateMethods
@@ -88,6 +119,17 @@ namespace LowDefMustard.Utils.Tests
 
             VisualElement root = window.rootVisualElement;
             return root.panel != null && root.layout.width > 0f && !float.IsNaN(root.layout.width);
+        }
+
+        private static Event MakeDragEvent(EventType eventType, VisualElement target) => new() { type = eventType, mousePosition = target.worldBound.center };
+
+        private static void SendDragEvent(EventBase dragEvent, VisualElement target)
+        {
+            using (dragEvent)
+            {
+                dragEvent.target = target;
+                target.SendEvent(dragEvent);
+            }
         }
         #endregion
     }

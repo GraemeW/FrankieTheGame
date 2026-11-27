@@ -11,6 +11,9 @@ namespace LowDefMustard.Control
         // Tunables
         [SerializeField] private float listenerPollingInterval = 0.1f;
         
+        // Editor Field References
+        internal const string listenerPollingIntervalField = nameof(listenerPollingInterval);
+
         // State
         protected float timeSinceLastPolled = 0f;
         protected bool destroyQueued = false;
@@ -214,6 +217,8 @@ namespace LowDefMustard.Control
         // Note:  Internal for test visibility
         internal void PollForReceivers(float deltaTime)
         {
+            if (destroyQueued) { return; }
+            
             timeSinceLastPolled += deltaTime;
             if (timeSinceLastPolled < listenerPollingInterval) { return; }
             timeSinceLastPolled = 0f;

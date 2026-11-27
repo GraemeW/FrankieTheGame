@@ -29,6 +29,7 @@ namespace Frankie.Menu.UI
 
         #region PublicMethods
         public float GetFadeSeconds() => stageFadeSeconds;
+        public bool IsShowingLastStage() => splashModel.shownStage != SplashStage.None && splashModel.shownStage.NextClamped() == SplashStage.Finished;
         
         public bool TryShowNextStage() // False:  no stages left (the last stage fades out over fadeSeconds)
         {

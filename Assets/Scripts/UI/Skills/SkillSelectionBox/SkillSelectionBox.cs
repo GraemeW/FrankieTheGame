@@ -194,7 +194,7 @@ namespace Frankie.Combat.UI
             SetVisible(true);
             skillSelectionModel.characterName = selectedCharacter.GetCombatName();
             ObserveSkillHandler(selectedSkillHandler);
-            selectedSkillHandler.ResetCurrentBranch();
+            selectedSkillHandler.ResetSelection();
             RefreshSkillDisplay();
         }
 
@@ -236,7 +236,7 @@ namespace Frankie.Combat.UI
 
         protected void ResetSkillHandler()
         {
-            if (selectedSkillHandler != null) { selectedSkillHandler.ResetCurrentBranch(); }
+            if (selectedSkillHandler != null) { selectedSkillHandler.ResetSelection(); }
         }
         #endregion
     }

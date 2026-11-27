@@ -26,6 +26,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private const float _endTailSeconds = 0.25f;
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private BattleEffectPreviewWindow window;
         private BattleEffectRecipe recipe;
 
@@ -33,8 +34,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         [UnitySetUp]
         public IEnumerator SetUp()
         {
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
-            recipe.name = _recipeName;
+            recipe = tracker.Create<BattleEffectRecipe>(_recipeName);
             JsonUtility.FromJsonOverwrite("{\"frameRate\":10}", recipe);
             recipe.SetItems(new[] { CreateItem(new BattleEffectCircle(), "{\"startTimeSeconds\":0.5,\"durationSeconds\":1}") });
 
@@ -50,7 +50,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
-            Object.DestroyImmediate(recipe);
+            tracker.DestroyAll();
             foreach (string folder in new[] { _referenceFolder, Path.Combine("Temp/BattleEffectPreview", _recipeName) })
             {
                 if (Directory.Exists(folder)) { Directory.Delete(folder, true); }
@@ -60,13 +60,6 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
         #region PrivateMethods
         private Button FindButton(string text) => window.rootVisualElement.Query<Button>().Where(button => button.text == text).First();
-
-        private static void Click(Button button)
-        {
-            using NavigationSubmitEvent submitEvent = NavigationSubmitEvent.GetPooled();
-            submitEvent.target = button;
-            button.SendEvent(submitEvent);
-        }
         #endregion
 
         #region GUI
@@ -156,17 +149,17 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             window.SetRecipe(recipe);
 
-            Click(FindButton("Frame >"));
+            HeadlessEditorWindow.SendSubmit(FindButton("Frame >"));
             Assert.AreEqual(0.1f, window.GetTime(), 1e-5f, "frame >");
 
-            Click(FindButton("< Frame"));
+            HeadlessEditorWindow.SendSubmit(FindButton("< Frame"));
             Assert.AreEqual(0f, window.GetTime(), 1e-5f, "< frame");
 
             window.Seek(1f);
-            Click(FindButton("Restart"));
+            HeadlessEditorWindow.SendSubmit(FindButton("Restart"));
             Assert.AreEqual(0f, window.GetTime(), "restart");
 
-            Click(FindButton("Play"));
+            HeadlessEditorWindow.SendSubmit(FindButton("Play"));
             Assert.IsTrue(window.IsPlaying(), "play");
         }
 

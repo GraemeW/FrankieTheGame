@@ -24,7 +24,7 @@ namespace Frankie.Stats
         [SerializeField] private float statCatchUpRatio = 0.35f;
         
         [Header("Primary Stat Sheets")]
-        [SerializeField] private ProgressionCharacter[] characters;
+        [SerializeField] private List<ProgressionCharacter> characters = new();
         [HideInInspector][SerializeField] private List<ProgressionLevelChart> levelAveragedCharts = new();
 
         // Constants & Static Variables
@@ -37,13 +37,13 @@ namespace Frankie.Stats
             new[]{0.0f, 0.6f, 1.0f, 1.25f, 1.5f} // Multiplier
         };
         
-        // State
-        private Dictionary<CharacterProperties, Dictionary<Stat, float>> characterStatLookup;
-        private Dictionary<CharacterProperties, Dictionary<int, Dictionary<Stat, float>>> levelAveragedChartLookup;
-        
+        // State ~ Keyed by character ID:  builds hold separate built-in + Addressables copies of each CharacterProperties
+        private Dictionary<string, Dictionary<Stat, float>> characterStatLookup;
+        private Dictionary<string, Dictionary<int, Dictionary<Stat, float>>> levelAveragedChartLookup;
+
         #region StaticMethods
         public static int GetMaxLevel() => _maxLevel;
-        
+
         private static float GetDefaultStatValue(Stat stat)
         {
             return stat switch
@@ -82,7 +82,7 @@ namespace Frankie.Stats
         #region EditorMethods
         public void ForceBuildLookup()
         {
-            BuildLookup(true);
+            BuildCharacterStatLookup(true);
         }
 
         public void ForceInitializeLevelCharts()
@@ -109,21 +109,15 @@ namespace Frankie.Stats
                     break;
                 }
 
-                if (!statFound)
-                {
-                    var newProgressionStat = new ProgressionStat { stat = updatedStat, value = newValue };
-                    Array.Resize(ref character.stats, character.stats.Length + 1);
-                    character.stats[^1] =  newProgressionStat;
-                }
+                if (!statFound) { character.stats.Add(new ProgressionStat { stat = updatedStat, value = newValue }); }
                 break;
             }
             EditorUtility.SetDirty(this);
 
-            if (characterFound)
-            {
-                // Update dictionary to avoid need to rebuild entire dict on every update
-                characterStatLookup[characterProperties][updatedStat] = newValue;
-            }
+            // Update dictionary to avoid need to rebuild entire dict on every update
+            if (!characterFound || !TryGetCharacterLookupKey(characterProperties, out string characterLookupKey)) { return; }
+            BuildCharacterStatLookup();
+            characterStatLookup[characterLookupKey][updatedStat] = newValue;
         }
 
         public void AddToProgressionAsset(CharacterProperties characterProperties)
@@ -131,12 +125,11 @@ namespace Frankie.Stats
             var character = new ProgressionCharacter
             {
                 characterProperties = characterProperties,
-                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = GetDefaultStatValue(stat) }).ToArray()
+                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = GetDefaultStatValue(stat) }).ToList()
             };
             
             Undo.RegisterCompleteObjectUndo(this, "Add to Progression");
-            Array.Resize(ref characters, characters.Length + 1);
-            characters[^1] = character;
+            characters.Add(character);
             EditorUtility.SetDirty(this);
             
             ForceBuildLookup();
@@ -145,12 +138,8 @@ namespace Frankie.Stats
         public void RemoveFromProgressionAsset(IEnumerable<CharacterProperties> charactersProperties)
         {
             Undo.RegisterCompleteObjectUndo(this, "Remove from Progression");
-            foreach (CharacterProperties characterProperties in charactersProperties)
-            {
-                var charactersVolatile = new List<ProgressionCharacter>(characters);
-                charactersVolatile.RemoveAll(x => x.characterProperties == characterProperties);
-                characters =  charactersVolatile.ToArray();
-            }
+            var charactersToRemove = new HashSet<CharacterProperties>(charactersProperties);
+            characters.RemoveAll(character => charactersToRemove.Contains(character.characterProperties));
             EditorUtility.SetDirty(this);
             
             ForceBuildLookup();
@@ -159,25 +148,28 @@ namespace Frankie.Stats
 #endif
         
         #region PublicMethods
-        public ProgressionCharacter[] GetCharacters() => characters;
+        public IReadOnlyList<ProgressionCharacter> GetCharacters() => characters;
 
         public bool HasProgression(CharacterProperties characterProperties)
         {
-            BuildLookup();
-            return characterStatLookup.ContainsKey(characterProperties);
+            if (!TryGetCharacterLookupKey(characterProperties, out string characterLookupKey)) { return false; }
+            BuildCharacterStatLookup();
+            return characterStatLookup.ContainsKey(characterLookupKey);
         }
         
         public float GetStat(Stat stat, CharacterProperties characterProperties)
         {
-            BuildLookup();
-            return characterStatLookup[characterProperties][stat];
+            if (!TryGetCharacterLookupKey(characterProperties, out string characterLookupKey)) { return defaultStatValueIfMissing; }
+            BuildCharacterStatLookup();
+            return characterStatLookup[characterLookupKey][stat];
         }
 
         public Dictionary<Stat, float> GetStatSheet(CharacterProperties characterProperties)
         {
-            BuildLookup();
             var statSheet = new Dictionary<Stat, float>();
-            Dictionary<Stat, float> statBook = characterStatLookup[characterProperties];
+            if (!TryGetCharacterLookupKey(characterProperties, out string characterLookupKey)) { return statSheet; }
+            BuildCharacterStatLookup();
+            Dictionary<Stat, float> statBook = characterStatLookup[characterLookupKey];
             foreach (Stat stat in statBook.Keys)
             {
                 statSheet[stat] = GetStat(stat, characterProperties);
@@ -187,6 +179,7 @@ namespace Frankie.Stats
         
         public Dictionary<Stat, float> GetLevelUpSheet(CharacterProperties characterProperties, int currentLevel, Dictionary<Stat, float> activeStatSheet)
         {
+            if (!TryGetCharacterLookupKey(characterProperties, out _)) { return new Dictionary<Stat, float>(); }
             InitializeLevelAveragedCharts();
             Dictionary<Stat, float> levelUpSheet = GetStandardLevelUpSheet(characterProperties, currentLevel, activeStatSheet);
             if (currentLevel % statCatchUpLevelMod != 0 || !IsLevelAveragedChartLookupSet()) { return levelUpSheet; }
@@ -196,22 +189,33 @@ namespace Frankie.Stats
 
         public Dictionary<Stat, float> GetLevelAveragedStatSheet(CharacterProperties characterProperties, int currentLevel)
         {
+            if (!TryGetCharacterLookupKey(characterProperties, out string characterLookupKey)) { return null; }
             InitializeLevelAveragedCharts();
             if (!IsLevelAveragedChartLookupSet()) { return null; }
             
-            Dictionary<int, Dictionary<Stat, float>> averagedLevelUpSheets = levelAveragedChartLookup.GetValueOrDefault(characterProperties);
+            Dictionary<int, Dictionary<Stat, float>> averagedLevelUpSheets = levelAveragedChartLookup.GetValueOrDefault(characterLookupKey);
             return averagedLevelUpSheets?.GetValueOrDefault(currentLevel);
         }
         #endregion
         
         #region PrivateMethods
-        private void BuildLookup(bool forceBuild = false)
+        private bool TryGetCharacterLookupKey(CharacterProperties characterProperties, out string characterLookupKey)
+        {
+            characterLookupKey = characterProperties != null ? characterProperties.GetCharacterID() : null;
+            if (!string.IsNullOrWhiteSpace(characterLookupKey)) { return true; }
+
+            LDMLog.Warning(LDMLogCategory.Stats, $"Character properties are missing or have no character ID. Skipping their progression lookup on '{name}'.", this);
+            return false;
+        }
+
+        private void BuildCharacterStatLookup(bool forceBuild = false)
         {
             if (characterStatLookup != null && !forceBuild) { return; }
-            characterStatLookup = new Dictionary<CharacterProperties, Dictionary<Stat, float>>();
+            characterStatLookup = new Dictionary<string, Dictionary<Stat, float>>();
 
             foreach (ProgressionCharacter character in characters)
             {
+                if (!TryGetCharacterLookupKey(character.characterProperties, out string characterLookupKey)) { continue; }
                 var statDictionary = new Dictionary<Stat, float>();
 
                 foreach (Stat stat in Enum.GetValues(typeof(Stat)))
@@ -226,7 +230,7 @@ namespace Frankie.Stats
                     }
                     if (!foundStat) { statDictionary[stat] = defaultStatValueIfMissing; }
                 }
-                characterStatLookup[character.characterProperties] = statDictionary;
+                characterStatLookup[characterLookupKey] = statDictionary;
             }
         }
         
@@ -234,7 +238,9 @@ namespace Frankie.Stats
         
         private bool HasLevelAveragedChart(CharacterProperties characterProperties, int currentLevel, out  Dictionary<Stat, float> levelAverageStatSheet)
         {
-            Dictionary<int, Dictionary<Stat, float>> levelAverageStatSheets = levelAveragedChartLookup.GetValueOrDefault(characterProperties);
+            levelAverageStatSheet = null;
+            if (!TryGetCharacterLookupKey(characterProperties, out string characterLookupKey)) { return false; }
+            Dictionary<int, Dictionary<Stat, float>> levelAverageStatSheets = levelAveragedChartLookup.GetValueOrDefault(characterLookupKey);
             levelAverageStatSheet = levelAverageStatSheets?.GetValueOrDefault(currentLevel);
             return levelAverageStatSheet != null;
         }
@@ -262,19 +268,16 @@ namespace Frankie.Stats
                 CharacterProperties characterProperties = characterEntry.Value;
                 var progressionLevelChart = new ProgressionLevelChart { characterProperties = characterProperties };
 
-                var averageLeveledStats = new List<ProgressionLeveledStats>();
                 Dictionary<int, Dictionary<Stat, float>> averagedLevelSheets = GetLevelAveragedSheets(characterProperties);
                 foreach (var averageLevelSheet in averagedLevelSheets)
                 {
-                    var averageLeveledStatsEntry = new ProgressionLeveledStats
+                    progressionLevelChart.leveledStats.Add(new ProgressionLeveledStats
                     {
                         level = averageLevelSheet.Key,
-                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToArray()
-                    };
-                    averageLeveledStats.Add(averageLeveledStatsEntry);
+                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToList()
+                    });
                 }
-                
-                progressionLevelChart.leveledStats = averageLeveledStats.ToArray();
+
                 levelAveragedCharts.Add(progressionLevelChart);
             }
             
@@ -288,12 +291,10 @@ namespace Frankie.Stats
             if (levelAveragedChartLookup != null && !forceBuild) { return; }
             if (levelAveragedCharts == null || levelAveragedCharts.Count == 0) { return; }
 
-            levelAveragedChartLookup = new Dictionary<CharacterProperties, Dictionary<int, Dictionary<Stat, float>>>();
-            
+            levelAveragedChartLookup = new Dictionary<string, Dictionary<int, Dictionary<Stat, float>>>();
             foreach (ProgressionLevelChart levelChart in levelAveragedCharts)
             {
-                CharacterProperties characterProperties = levelChart.characterProperties;
-                if (characterProperties == null || levelChart.leveledStats == null) { continue; }
+                if (levelChart.leveledStats == null || !TryGetCharacterLookupKey(levelChart.characterProperties, out string characterLookupKey)) { continue; }
                 
                 var statsSheets = new Dictionary<int, Dictionary<Stat, float>>();
                 foreach (ProgressionLeveledStats progressionLeveledStats in levelChart.leveledStats)
@@ -308,7 +309,7 @@ namespace Frankie.Stats
                     }
                     statsSheets[level] = statsSheet;
                 }
-                levelAveragedChartLookup[characterProperties] = statsSheets;
+                levelAveragedChartLookup[characterLookupKey] = statsSheets;
             }
         }
         
@@ -393,7 +394,7 @@ namespace Frankie.Stats
         public class ProgressionCharacter
         {
             public CharacterProperties characterProperties;
-            public ProgressionStat[] stats;
+            public List<ProgressionStat> stats = new();
         }
 
         [Serializable]
@@ -407,14 +408,14 @@ namespace Frankie.Stats
         public class ProgressionLeveledStats
         {
             public int level;
-            public ProgressionStat[] progressionStats;
+            public List<ProgressionStat> progressionStats = new();
         }
 
         [Serializable]
         public class ProgressionLevelChart
         {
             public CharacterProperties characterProperties;
-            public ProgressionLeveledStats[] leveledStats;
+            public List<ProgressionLeveledStats> leveledStats = new();
         }
         #endregion
     }

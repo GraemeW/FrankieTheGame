@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +20,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         private const string _scratchTableName = "ScratchTest_Deletion_SafeToDelete";
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
 
-        private readonly List<Object> createdObjects = new();
+        private readonly TestObjectTracker tracker = new();
         private TempAssetFolder prefabFolder;
 
         #region DataStructures
@@ -69,11 +68,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            foreach (Object createdObject in createdObjects.Where(createdObject => createdObject != null))
-            {
-                Object.DestroyImmediate(createdObject);
-            }
-            createdObjects.Clear();
+            tracker.DestroyAll();
 
             prefabFolder?.Dispose();
             prefabFolder = null;
@@ -83,9 +78,8 @@ namespace LowDefMustard.Localization.Tests.Editor
         #region PrivateMethods
         private TestDeletionLocalizableTarget CreateScriptableObjectTarget()
         {
-            var target = ScriptableObject.CreateInstance<TestDeletionLocalizableTarget>();
+            var target = tracker.Create<TestDeletionLocalizableTarget>();
             target.tableTypeOverride = TestTableType.ScratchAssetDeletion;
-            createdObjects.Add(target);
             return target;
         }
         #endregion
@@ -135,8 +129,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         public void OnBeforeDestroyedInEditor_MonoBehaviourNotPartOfAPrefabInstance_RemovesEveryStandardEntry()
         {
             TestLocalizationTool.AddUpdateEnglishEntry(TestTableType.ScratchAssetDeletion, "Deletion.MB.Key", "Value");
-            var gameObject = new GameObject("DeletionTestTarget");
-            createdObjects.Add(gameObject);
+            GameObject gameObject = tracker.CreateGameObject("DeletionTestTarget");
             TestDeletionLocalizableMonoBehaviour target = gameObject.AddComponent<TestDeletionLocalizableMonoBehaviour>();
             target.entriesToReturn = new List<TableEntryReference> { "Deletion.MB.Key" };
 
@@ -161,8 +154,7 @@ namespace LowDefMustard.Localization.Tests.Editor
             Assert.IsNotNull(prefabAsset, "Failed to save the test prefab asset");
 
             // Instantiate it and give the INSTANCE an extra entry the prefab source doesn't have
-            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefabAsset);
-            createdObjects.Add(instance);
+            var instance = tracker.Track((GameObject)PrefabUtility.InstantiatePrefab(prefabAsset));
             TestDeletionPrefabLocalizable instanceComponent = instance.GetComponent<TestDeletionPrefabLocalizable>();
             instanceComponent.extraKeys = new List<string> { "Deletion.Prefab.InstanceOnly" };
 

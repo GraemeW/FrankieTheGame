@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using LowDefMustard.Utils.Tests;
@@ -26,10 +25,9 @@ namespace Frankie.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            previewScene = EditorSceneManager.NewPreviewScene();
-            shopObject = new GameObject("TradeMemoryTests_Shop");
-            SceneManager.MoveGameObjectToScene(shopObject, previewScene);
-            shop = shopObject.AddComponent<Shop>();
+            previewScene = SceneTestUtility.CreatePreviewScene();
+            shop = SceneTestUtility.CreateComponentInScene<Shop>(previewScene, "TradeMemoryTests_Shop");
+            shopObject = shop.gameObject;
 
             tradeMemory = new TradeMemory { tradeData = new TradeData(ShopType.Both) };
             shopInstantiations = 0;
@@ -40,7 +38,7 @@ namespace Frankie.Tests.Editor
         public void TearDown()
         {
             if (shopObject != null) { Object.DestroyImmediate(shopObject); }
-            EditorSceneManager.ClosePreviewScene(previewScene);
+            SceneTestUtility.ClosePreviewScene(previewScene);
             tracker.DestroyAll();
         }
         #endregion

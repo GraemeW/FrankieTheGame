@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Core;
 using LowDefMustard.Utils;
@@ -24,51 +22,14 @@ namespace Frankie.Combat
         // Editor Field References
         public const string targetingStrategyField = nameof(targetingStrategy);
         public const string effectStrategiesField = nameof(effectStrategies);
+        internal const string apCostField = nameof(apCost);
 
         // State
-        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<BattleAction>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] private static Dictionary<string, BattleAction> _battleActionLookupCache;
+        [AutoStaticsCleanup] private static AddressablesLookupCache<BattleAction> _cache = new(LDMLogCategory.Combat, nameof(BattleAction), battleAction => battleAction.name);
 
         #region AddressablesCaching
-        public static BattleAction GetBattleActionFromName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) { return null; }
-            BuildCacheIfEmpty();
-            return _battleActionLookupCache.GetValueOrDefault(name);
-        }
-
-        public static void BuildCacheIfEmpty()
-        {
-            if (_battleActionLookupCache == null)
-            {
-                BuildBattleActionCache();
-            }
-        }
-
-        private static void BuildBattleActionCache()
-        {
-            _battleActionLookupCache = new Dictionary<string, BattleAction>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(BattleAction), (BattleAction battleAction) =>
-            {
-                if (_battleActionLookupCache.TryGetValue(battleAction.name, out BattleAction value)) { AddressablesCacheLog.LogDuplicate(LDMLogCategory.Combat, nameof(BattleAction), battleAction.name, value, battleAction); }
-                _battleActionLookupCache[battleAction.name] = battleAction;
-            }
-            );
-            _addressablesLoadHandle.WaitForCompletion();
-            AddressablesCacheLog.LogBuild(LDMLogCategory.Combat, nameof(BattleAction), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _battleActionLookupCache.Count);
-        }
-
-        public static void ReleaseCache()
-        {
-            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
-        }
-
-        public static void ResetCache()
-        {
-            ReleaseCache();
-            _addressablesLoadHandle = default;
-            _battleActionLookupCache = null;
-        }
+        public static IAddressablesCacheLifecycle addressablesCache => _cache;
+        public static BattleAction GetBattleActionFromName(string name) => _cache.Get(name);
         #endregion
 
         #region PublicMethods
@@ -91,8 +52,7 @@ namespace Frankie.Combat
             }
             
             IList<BattleEntity> recipients = battleActionData.GetTargets();
-            sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP, finished));
-            return true;
+            return sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP), finished);
         }
 
         public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
@@ -103,7 +63,7 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateMethods
-        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, bool useAP, Action finished)
+        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, bool useAP)
         {
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
@@ -113,7 +73,6 @@ namespace Frankie.Combat
             
             sender.SetCooldown(cooldown);
             if (useAP) { sender.AdjustAP(-apCost); }
-            finished?.Invoke();
         }
         #endregion
     }

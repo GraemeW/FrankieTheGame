@@ -2865,10 +2865,6 @@ PrefabInstance:
       value: TEMP-IceCabinet
       objectReference: {fileID: 0}
     - target: {fileID: 8110672953395402400, guid: 5b506601a3824f349944b614a4a1f188, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8110672953395402400, guid: 5b506601a3824f349944b614a4a1f188, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.3134868
       objectReference: {fileID: 0}
@@ -2985,10 +2981,6 @@ PrefabInstance:
       propertyPath: zoneNode
       value: 
       objectReference: {fileID: 5391617951486560325, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
-    - target: {fileID: 3434223177376390289, guid: c8fc25e263d6e454dbd0319927d639b6, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 3434223177376390289, guid: c8fc25e263d6e454dbd0319927d639b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -3601,10 +3593,6 @@ PrefabInstance:
       value: TunnelLamp (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.849999
       objectReference: {fileID: 0}
@@ -3732,10 +3720,6 @@ PrefabInstance:
     - target: {fileID: 3243576137044866227, guid: 7940e3f11399b604d9cab2695e87052d, type: 3}
       propertyPath: m_Name
       value: TunnelFan (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 7940e3f11399b604d9cab2695e87052d, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 7940e3f11399b604d9cab2695e87052d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3997,10 +3981,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2493431226626694537, guid: 2e5428a5f6c552344abc04af79678367, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2493431226626694537, guid: 2e5428a5f6c552344abc04af79678367, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
       objectReference: {fileID: 0}
@@ -4184,10 +4164,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4706909343520928391, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706909343520928391, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4231,14 +4207,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Core
       objectReference: {fileID: 0}
-    - target: {fileID: 4706909344313486960, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706909344313486973, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1659071565}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4290,10 +4258,6 @@ PrefabInstance:
       value: 692f158f-4468-48a8-a792-48bbe93dd7d8
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkMessage
-      value: '{0} found a bumper car?'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
       value: 4767071324856320
       objectReference: {fileID: 0}
@@ -4340,10 +4304,6 @@ PrefabInstance:
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name
       value: CheckWithMessage
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4394,10 +4354,6 @@ PrefabInstance:
     - target: {fileID: 3243576137044866227, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_Name
       value: TunnelLamp (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4460,10 +4416,6 @@ PrefabInstance:
     - target: {fileID: 3243576137044866227, guid: 7940e3f11399b604d9cab2695e87052d, type: 3}
       propertyPath: m_Name
       value: TunnelFan
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 7940e3f11399b604d9cab2695e87052d, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 7940e3f11399b604d9cab2695e87052d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4611,10 +4563,6 @@ PrefabInstance:
       value: TunnelLamp (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.85
       objectReference: {fileID: 0}
@@ -4675,10 +4623,6 @@ PrefabInstance:
     - target: {fileID: 3243576137044866227, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_Name
       value: TunnelLamp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7035,18 +6979,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6748405756017321318, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756017321318, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_Lens.m_SensorSize.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756017321318, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6748405756017321319, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.48999998
@@ -7054,14 +6986,6 @@ PrefabInstance:
     - target: {fileID: 6748405756017321319, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.83
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756017321321, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_BoundingShape2D
-      value: 
-      objectReference: {fileID: 1290031700}
-    - target: {fileID: 6748405756206951134, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756206951134, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7111,22 +7035,6 @@ PrefabInstance:
       propertyPath: m_AnimatedTarget
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6748405756242056591, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_ChildCameras.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756263700700, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756263700700, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_Lens.m_SensorSize.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756263700700, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 2.7
-      objectReference: {fileID: 0}
     - target: {fileID: 6748405756263700701, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.48999998
@@ -7135,10 +7043,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.83
       objectReference: {fileID: 0}
-    - target: {fileID: 6748405756263700703, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_BoundingShape2D
-      value: 
-      objectReference: {fileID: 1290031700}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
       value: 2.4
@@ -7159,11 +7063,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 159737238}
   m_SourcePrefab: {fileID: 100100000, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
---- !u!20 &1659071565 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-  m_PrefabInstance: {fileID: 1659071564}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1659630051
 GameObject:
   m_ObjectHideFlags: 0
@@ -7224,10 +7123,6 @@ PrefabInstance:
     - target: {fileID: 2493431226626694536, guid: 2e5428a5f6c552344abc04af79678367, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2493431226626694537, guid: 2e5428a5f6c552344abc04af79678367, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2493431226626694537, guid: 2e5428a5f6c552344abc04af79678367, type: 3}
       propertyPath: m_LocalScale.x
@@ -7296,10 +7191,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.650606
       objectReference: {fileID: 0}
@@ -7359,10 +7250,6 @@ PrefabInstance:
     - target: {fileID: 3243576137044866227, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_Name
       value: TunnelLamp (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3243576137044866236, guid: 74229a7bad01bc74dbc90967893ce048, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7619,10 +7506,6 @@ PrefabInstance:
     - target: {fileID: 1579152662188315412, guid: b154c143507d39043aee8b06afb74cbc, type: 3}
       propertyPath: m_Name
       value: TunnelRight
-      objectReference: {fileID: 0}
-    - target: {fileID: 1579152662188315415, guid: b154c143507d39043aee8b06afb74cbc, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1579152662188315415, guid: b154c143507d39043aee8b06afb74cbc, type: 3}
       propertyPath: m_LocalPosition.x

@@ -15,6 +15,7 @@
     --theme-accent: #C9A47A;
     --theme-text: #E2D6C6;
     --theme-dim-text: #A8977F;
+    --theme-placeholder-text: #7A6148;
     --theme-divider: #1C1712;
     --theme-input-background: #211B16;
     --theme-input-border: #5A4836;
@@ -42,6 +43,7 @@
     --theme-input-background: #18140F;
     --theme-input-border: #4F3F2C;
     --theme-input-border-hover: #8A6D2B;
+    --theme-placeholder-text: #6E5530;
     --theme-button-background: #3E2E1C;
     --theme-button-background-hover: #4E3A22;
     --theme-button-background-pressed: #604628;
@@ -141,6 +143,10 @@
     border-color: var(--theme-input-border);
 }
 
+.standard-brown-theme .unity-base-text-field__input--placeholder > .unity-text-element {
+    color: var(--theme-placeholder-text);
+}
+
 .standard-brown-theme .unity-base-popup-field__input {
     background-color: var(--theme-button-background);
     border-color: var(--theme-button-border);
@@ -238,4 +244,12 @@
 
 .standard-brown-theme .unity-two-pane-split-view__dragline-anchor {
     background-color: var(--theme-divider);
+}
+
+/* Drop targets:  deliberately last to ensure a field's hover / focus input rules (same specificity) never win over the highlight */
+
+.standard-brown-theme .standard-brown-theme__drop-target,
+.standard-brown-theme .unity-base-field.standard-brown-theme__drop-target > .unity-base-field__input {
+    background-color: var(--theme-selected);
+    border-color: var(--theme-accent);
 }

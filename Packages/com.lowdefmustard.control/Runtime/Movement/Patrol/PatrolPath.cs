@@ -18,6 +18,11 @@ namespace LowDefMustard.Control
         [SerializeField] private float deselectAlpha = 0.3f;
 #endif
 
+        // Editor Field References
+        internal const string waypointsField = nameof(waypoints);
+        internal const string loopingField = nameof(looping);
+        internal const string returnToFirstWaypointField = nameof(returnToFirstWaypoint);
+
         // State
         private bool loopedOnce = false;
         private int incrementDirection = 1;

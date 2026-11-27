@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CharacterSharedGroup
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: CharacterSharedGroup
+  m_GUID: 6c901644bf8cb4dd8a7f40fee750fc93
+  m_SerializeEntries:
+  - m_GUID: 1b473d8838e3d4d4c99f7ff6e30d07df
+    m_Address: Assets/Game/CharacterObjects/NPCs/NonPlayableCharacter.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53771d00282eaa34ba616b313732c1b7
+    m_Address: Assets/Game/CharacterObjects/PCs/CharacterNPC.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 642f368b5c5a9aa4e8085d198f472588
+    m_Address: Assets/Game/CharacterObjects/PCs/PCAnimatorController.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d544ce8c0b2cd34badc52fee9ceccf9
+    m_Address: Assets/Game/CharacterObjects/Progression.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 706863cf805d548dc8e455de404a2383
+    m_Address: Assets/Game/CharacterObjects/Movement
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3d57c5ca0835dc44b0b91ac427342b7
+    m_Address: Assets/Game/CharacterObjects/PCs/Character.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7a9dd0ae7553974a94c4a2b6d9bfb74
+    m_Address: Assets/Game/CharacterObjects/DummyAnimations
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3de28b6b52e6104f9bdb6555abeb0cf
+    m_Address: Assets/Game/CharacterObjects/Wearables
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4be3ce2d5464c3498c884ae5d9223d4
+    m_Address: Assets/Game/CharacterObjects/NPCs/NPCCombatReady.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe719e05456814308a146e143c88f354
+    m_Address: Assets/Game/CharacterObjects/NPCs/_AnimatorControllers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a4b40b0164ef848a1a788618634a4e0c, type: 2}
+    - {fileID: 11400000, guid: bc949b808e21b4984832cec71647ee5f, type: 2}

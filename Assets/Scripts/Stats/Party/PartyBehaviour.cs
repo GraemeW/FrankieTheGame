@@ -19,6 +19,10 @@ namespace Frankie.Stats
         [SerializeField] protected Transform container;
         [SerializeField] protected int partyOffset = 16;
         
+        // Editor Field References
+        internal const string membersField = nameof(members);
+        internal const string containerField = nameof(container);
+
         // Static
         private const int _initialOffset = 0;
         private const string _errName = "???";
@@ -86,6 +90,7 @@ namespace Frankie.Stats
         protected virtual int GetInitialPartyOffset() => _initialOffset;
         protected virtual bool ShouldSkipFirstEntryOffset() => true;
         protected bool HasMember(BaseStats member) => HasMember(member.GetCharacterProperties());
+        protected bool HasMember(CharacterProperties matchCharacterProperties) => members.Any(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
 
         public void SubscribeToMembersAlteredUpdates(bool enable, Action<PartyAlteredData> onMembersAltered)
         {
@@ -164,11 +169,6 @@ namespace Frankie.Stats
         #endregion
         
         #region PrivateMethods
-        private bool HasMember(CharacterProperties matchCharacterProperties)
-        {
-            return members.Any(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
-        }
-        
         private void UpdatePartyPositions(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
         {
             int characterIndex = 0;

@@ -422,8 +422,14 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 813f104c01953014ba595875d499ada2, type: 3}
     sceneName: OfficeInterior
     scenePath: Assets/Scenes/OfficeInterior.unity
+    sceneGuid: 813f104c01953014ba595875d499ada2
   updateMap: 0
-  zoneAudio: {fileID: 8300000, guid: c797fa32c25f2a745a9645e37347fe95, type: 3}
+  zoneAudio:
+    m_AssetGUID: c797fa32c25f2a745a9645e37347fe95
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   isZoneAudioLooping: 1
   cachedName: OfficeInterior
   zoneNodes:

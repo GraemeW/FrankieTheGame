@@ -21,21 +21,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: lootEntries.Array.data[0].probability
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: lootEntries.Array.data[1].probability
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[0].inventoryItem
       value: 
       objectReference: {fileID: 11400000, guid: 192c078e096f74eaeab7ab1e879839fe, type: 2}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: lootEntries.Array.data[1].inventoryItem
-      value: 
-      objectReference: {fileID: 11400000, guid: 192c078e096f74eaeab7ab1e879839fe, type: 2}
+      propertyPath: lootEntries.Array.data[0].probabilityWeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
@@ -53,10 +45,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: battleStartCooldown
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 336c743cf227e42abbda6c31dd121ab6, type: 2}
@@ -64,10 +52,6 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: e8d7da9abe7a67441a53059945b64540, type: 3}
-    - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: defaultLevel
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
@@ -144,42 +128,18 @@ PrefabInstance:
       propertyPath: willDestroyIfInvisible
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4997636843526921919, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: destroyOnInvisible
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5402722561389270067, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: movementSpeed
-      value: 1.35
       objectReference: {fileID: 0}
     - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movementConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: 260efa291934a4b27a60b6e8bb7fe8d3, type: 2}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 61328d2cbe74ba947b0d0b6db6c8e609, type: 2}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.x
-      value: 0.18933992
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.y
-      value: 0.067669354
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.0006252304
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.03057136
-      objectReference: {fileID: 0}
     - target: {fileID: 8221616244123265642, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x
       value: 0.19139202
@@ -195,10 +155,6 @@ PrefabInstance:
     - target: {fileID: 8221616244123265642, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Offset.y
       value: 0.034330096
-      objectReference: {fileID: 0}
-    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: despawnOnInvisible
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

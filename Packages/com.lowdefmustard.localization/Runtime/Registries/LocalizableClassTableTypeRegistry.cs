@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
-using UnityEngine;
 using LowDefMustard.Core;
 
 namespace LowDefMustard.Localization

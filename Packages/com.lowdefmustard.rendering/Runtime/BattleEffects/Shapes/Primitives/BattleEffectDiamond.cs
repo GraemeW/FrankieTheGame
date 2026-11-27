@@ -13,6 +13,9 @@ namespace LowDefMustard.Rendering
 
         [SerializeField][Tooltip("Height / width (1 = square diamond)")] private BattleEffectFloatRange aspectRatio = new(1f);
 
+        // Editor Field References
+        internal const string aspectRatioField = nameof(aspectRatio);
+
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {
             parameters[0] = aspectRatio;

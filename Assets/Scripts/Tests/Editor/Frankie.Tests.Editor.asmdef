@@ -10,10 +10,17 @@
         "LowDefMustard.Core",
         "LowDefMustard.GameStateModifiers",
         "LowDefMustard.Localization",
+        "LowDefMustard.Saving",
         "LowDefMustard.Utils",
         "LowDefMustard.Utils.Editor",
         "LowDefMustard.Utils.Tests",
-        "Unity.Localization"
+        "LowDefMustard.Zones",
+        "LowDefMustard.Zones.Editor",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager",
+        "Unity.Localization",
+        "Unity.Localization.Editor"
     ],
     "includePlatforms": [
         "Editor"

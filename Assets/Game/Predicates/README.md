@@ -35,14 +35,12 @@ Expanding on existing integrations is relatively trivial by defining new concret
 1. Navigate to the relevant sub-folder from within this [Predicates](./) directory
 2. Right click and select `Create` -> `Predicates` -> …`desired sub-predicate`…
 
-<img src="../../../InfoTools/Documentation/Game/Predicates/NewPredicateMenu.png" width="500">
-
 #### Configure:  AI Conversant
 
-To configure the `ConversantCheckCount` SO, set:
+To configure the `ConversantCheckCountPredicate` SO, set:
 * `Check Count`:  to the number of times the conversant has spoken to the player
-* `IsEqual`:  true if the criteria should be met exactly
-* , otherwise `IsGreater`:  
+* `Is Equal`:  true if the criteria should be met exactly
+* , otherwise `Is Greater`:  
   * true if # interactions > `Check Count`
   * false if # interactions < `Check Count`
 
@@ -64,25 +62,26 @@ For example, see below to check if the character of interest is [PhilToo](../OnL
 #### Configure:  BaseStats - CharacterStatExceedsValue
 
 Set:
-* `Character`:  to the desired [CharacterProperties](../OnLoadAssets/CharacterProperties/)
 * `Stat`:  to the desired [Stat](../../Scripts/Stats/Stat.cs)
 * `Value`:  to the value to check the character's stat against
   * Note:  returns true for >= `Value`
 
-For example, see below to check if Frankie has a Beauty stat greater than or equal to 20:
+There is no character field:  the stat is checked on whichever character(s) evaluate the condition (e.g. the character equipping an item).
+
+For example, see below to check for a Beauty stat greater than or equal to 20:
 
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureBaseStatsHitSpec.png" width="300">
 
 #### Configure:  CombatParticipant
 
-To configure the `IsCharacterDead` SO, set:
+To configure the `IsCharacterDeadPredicate` SO, set:
 * `Characters`:  to the desired [CharacterProperties](../OnLoadAssets/CharacterProperties/)
 
 For example, see below to check if [Horse](../OnLoadAssets/CharacterProperties/MiscNPCs/Horse.asset) is dead:
 
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureCombatParticipant.png" width="300">
 
-*Note: the `IsAnyoneAlive` and `IsAnyoneDead` predicates do not need to be configured, as they operate without input variables*
+*Note: the `IsAnyoneAlivePredicate` and `IsAnyoneDeadPredicate` predicates do not need to be configured, as they operate without input variables*
 
 #### Configure:  Knapsack - Has Item
 
@@ -97,7 +96,8 @@ For example, see below to check if the [KeyCardToOffice](../OnLoadAssets/Invento
 
 #### Configure:  Party
 
-To configure either of the `ContainsAnyCharacter` or `IsLeader` SOs, set:
+To configure either of the `AnyCharacterInPartyPredicate` or `CharacterIsLeaderPredicate` SOs, set:
+* `Party Behaviour Type`:  `Party` (main party) or `PartyAssist` (assist characters)
 * `Characters To Match`: to the desired [CharacterProperties](../OnLoadAssets/CharacterProperties/)
 
 For example, see below to check if [Frankie](../OnLoadAssets/CharacterProperties/CoreCharacters/Frankie.asset) is in the party:
@@ -108,10 +108,11 @@ For example, see below to check if [Frankie](../OnLoadAssets/CharacterProperties
 
 #### Configure QuestList
 
-To configure either of the `QuestObjectiveCompleted` or `QuestCompleted` SOs, set:
+To configure the `QuestCompletedPredicate` SO, set:
 * `Quest`: to the desired [Quest](../OnLoadAssets/Quests/)
-* `Objective`: to the desired `QuestObjective` (childed to the Quest)
-  * Note:  leave this parameter blank for `QuestCompleted`
+
+To configure the `QuestObjectiveCompletedPredicate` SO, set:
+* `Objective`: to the desired `QuestObjective` (childed to its [Quest](../OnLoadAssets/Quests/))
 
 For example, see below to check if the objective `HorseReceivedTheDocuments` has been completed for the quest [OfficeInteriorHorse](../OnLoadAssets/Quests/z_Demo-Office/Demo_Office-InteriorHorse.asset):
 

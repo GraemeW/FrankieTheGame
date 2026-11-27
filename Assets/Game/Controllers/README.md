@@ -54,7 +54,7 @@ When the [PlayerStateMachine](../../Scripts/Core/PlayerStateMachine.cs) hears `B
   * *this allows us to paint a battle transition screen via [Fader](../Core/CoreDep/Fader/Fader.prefab)*
 * then from [TransitionState](../../Scripts/Core/PlayerStateMachine/PlayerStates/TransitionState.cs) to [WorldState](../../Scripts/Core/PlayerStateMachine/PlayerStates/WorldState.cs)
 
-, and trigger `QueueExitCombat()` in kind, which destroys the current BattleController.
+, and once the exit fade completes, the [BattleController](../../Scripts/Control/Controllers/BattleController.cs) retires itself (`Retire()` on `BattleFadePhase.ExitComplete`).
 
 #### DialogueController
 

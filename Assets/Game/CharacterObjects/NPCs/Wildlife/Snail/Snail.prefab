@@ -113,33 +113,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: movementSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movementConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: 1b1a2d1d2ea814a16ba72ac6452fdf22, type: 2}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 1dbb1e366346b48f7b7b740b8068aac7, type: 2}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.x
-      value: 0.19198063
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.y
-      value: 0.073937096
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.00033788383
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.038683694
-      objectReference: {fileID: 0}
     - target: {fileID: 8221616244123265642, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x
       value: 0.19317386

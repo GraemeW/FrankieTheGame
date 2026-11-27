@@ -9,7 +9,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 726526304575199942, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 8a7974b17a9108d4099768e6738be133, type: 2}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
@@ -28,29 +28,9 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: 5672edad250b6ee49ae04c2bb733e5b7, type: 3}
-    - target: {fileID: 5469981059178528012, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_Size.x
-      value: 0.19355626
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469981059178528012, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_Size.y
-      value: 0.08740465
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469981059178528012, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.01663553
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469981059178528012, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.08534566
-      objectReference: {fileID: 0}
     - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: uniqueIdentifier
       value: lucy
-      objectReference: {fileID: 0}
-    - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: defaultLevel
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: characterProperties
@@ -68,10 +48,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 890b5ce96353ccd4ba111f61f8c722aa, type: 2}
-    - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

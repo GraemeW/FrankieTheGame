@@ -14,5 +14,10 @@ namespace LowDefMustard.Utils.Tests
             double deadline = Time.realtimeSinceStartupAsDouble + timeoutSeconds;
             while (!condition() && Time.realtimeSinceStartupAsDouble < deadline) { yield return null; }
         }
+
+        public static IEnumerator Frames(int frames)
+        {
+            for (int frame = 0; frame < frames; frame++) { yield return null; }
+        }
     }
 }

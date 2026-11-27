@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "com.lowdefmustard.core": "0.1.0",
+    "com.lowdefmustard.utils": "0.1.0",
     "com.unity.nuget.newtonsoft-json": "3.2.2"
   }
 }

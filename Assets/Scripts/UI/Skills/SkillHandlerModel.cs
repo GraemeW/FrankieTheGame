@@ -85,9 +85,9 @@ namespace Frankie.Combat.UI
 
         private void Refresh()
         {
-            if (skillHandler == null || !skillHandler.HasSkillTree()) { return; }
+            if (skillHandler == null || !skillHandler.HasSkillSet()) { return; }
 
-            skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
+            skillHandler.GetSkillsForCurrentSelection(out Skill up, out Skill left, out Skill right, out Skill down);
             upSkill = up;
             leftSkill = left;
             rightSkill = right;

@@ -2,12 +2,14 @@ using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.GameStateModifiers.Tests.Editor
 {
     public class GameStateModifierTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private TestGameStateModifier modifier;
         private GameStateModifier.HasScenePathDelegate originalScenePathProvider;
 
@@ -15,7 +17,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            modifier = ScriptableObject.CreateInstance<TestGameStateModifier>();
+            modifier = tracker.Create<TestGameStateModifier>();
             originalScenePathProvider = GameStateModifier.scenePathProvider;
         }
 
@@ -23,7 +25,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         public void TearDown()
         {
             GameStateModifier.scenePathProvider = originalScenePathProvider;
-            Object.DestroyImmediate(modifier);
+            tracker.DestroyAll();
         }
         #endregion
 

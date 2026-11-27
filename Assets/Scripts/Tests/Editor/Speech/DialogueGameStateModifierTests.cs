@@ -1,6 +1,5 @@
 using System.Linq;
 using NUnit.Framework;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using LowDefMustard.GameStateModifiers;
@@ -29,17 +28,16 @@ namespace Frankie.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            previewScene = EditorSceneManager.NewPreviewScene();
-            conversantObject = new GameObject("DialogueGameStateModifierTests_Conversant");
-            SceneManager.MoveGameObjectToScene(conversantObject, previewScene);
-            conversant = conversantObject.AddComponent<AIConversant>();
+            previewScene = SceneTestUtility.CreatePreviewScene();
+            conversant = SceneTestUtility.CreateComponentInScene<AIConversant>(previewScene, "DialogueGameStateModifierTests_Conversant");
+            conversantObject = conversant.gameObject;
         }
 
         [TearDown]
         public void TearDown()
         {
             if (conversantObject != null) { Object.DestroyImmediate(conversantObject); }
-            EditorSceneManager.ClosePreviewScene(previewScene);
+            SceneTestUtility.ClosePreviewScene(previewScene);
             tracker.DestroyAll();
         }
         #endregion
@@ -106,7 +104,7 @@ namespace Frankie.Tests.Editor
             var keyItem = tracker.Create<KeyItem>("KeyItem");
             var actionItem = tracker.Create<ActionItem>("ActionItem");
             var hasItemPredicate = tracker.Create<HasItemPredicate>("HasItem");
-            SerializedFieldInjector.SetArray(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, actionItem, null);
+            SerializedFieldInjector.SetArray<InventoryItem>(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, actionItem, null);
             SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, tracker.CreateGatedDialogue(When(hasItemPredicate)));
 
             CollectionAssert.AreEqual(new GameStateModifier[] { keyItem }, conversant.GetGameStateModifiers().ToList());

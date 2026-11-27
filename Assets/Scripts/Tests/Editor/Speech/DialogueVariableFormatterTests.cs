@@ -126,16 +126,11 @@ namespace Frankie.Tests.Editor
         [Test]
         public void Format_PassesContextToVariable()
         {
-            var conversantObject = new GameObject("Conversant");
-            try
-            {
-                var conversant = conversantObject.AddComponent<AIConversant>();
-                DialogueVariableFormatter.Format("{0}", new ScriptableObject[] { alpha }, new DialogueVariableContext(null, conversant));
-                Assert.IsTrue(alpha.lastContext.TryGetConversant(out AIConversant passedConversant));
-                Assert.AreSame(conversant, passedConversant);
-                Assert.IsFalse(alpha.lastContext.TryGetParty(out _));
-            }
-            finally { Object.DestroyImmediate(conversantObject); }
+            var conversant = tracker.CreateComponent<AIConversant>("Conversant");
+            DialogueVariableFormatter.Format("{0}", new ScriptableObject[] { alpha }, new DialogueVariableContext(null, conversant));
+            Assert.IsTrue(alpha.lastContext.TryGetConversant(out AIConversant passedConversant));
+            Assert.AreSame(conversant, passedConversant);
+            Assert.IsFalse(alpha.lastContext.TryGetParty(out _));
         }
 
         [Test]

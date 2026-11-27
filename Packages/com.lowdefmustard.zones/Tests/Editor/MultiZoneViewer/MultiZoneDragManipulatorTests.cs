@@ -12,6 +12,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class MultiZoneDragManipulatorTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private ZoneViewData zoneViewData;
         private Texture2D texture;
@@ -22,8 +23,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
-            if (zoneViewData != null) { Object.DestroyImmediate(zoneViewData); }
-            if (texture != null) { Object.DestroyImmediate(texture); }
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -32,8 +32,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             window = HeadlessEditorWindow.CreateOffscreenWindow();
 
-            zoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();
-            texture = new Texture2D(1, 1);
+            zoneViewData = tracker.Create<ZoneViewData>();
+            texture = tracker.Track(new Texture2D(1, 1));
             zoneView = new ZoneView(zoneViewData, texture, Vector2.zero, Vector2.zero);
 
             var nodeElement = new VisualElement();
@@ -49,7 +49,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void AddManipulator_SetsTarget_NoPanelRequired()
         {
             var element = new VisualElement();
-            zoneViewData = ScriptableObject.CreateInstance<ZoneViewData>();
+            zoneViewData = tracker.Create<ZoneViewData>();
             zoneView = new ZoneView(zoneViewData, null, Vector2.zero, Vector2.zero);
             var manipulator = new MultiZoneDragManipulator(zoneView, new VisualElement(), null, null);
 

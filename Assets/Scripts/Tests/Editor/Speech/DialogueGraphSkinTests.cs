@@ -54,7 +54,7 @@ namespace Frankie.Tests.Editor
             // Production applies the skin from a delayCall, which doesn't run reliably while Unity is unfocused
             DialogueGraphWindowSkin.Apply(((IGraphWindow)window).Graph);
             yield return TestWait.Until(() => window.rootVisualElement.Query(className: "ge-block-node").ToList().Count == 2 && window.rootVisualElement.Query(className: "ge-node").ToList().All(HasLayout), _timeoutSeconds);
-            for (int i = 0; i < 5; i++) { yield return null; }
+            yield return TestWait.Frames(5);
         }
 
         [TearDown]

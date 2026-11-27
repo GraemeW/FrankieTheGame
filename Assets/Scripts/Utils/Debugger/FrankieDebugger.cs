@@ -205,7 +205,8 @@ namespace Frankie.Utils
             if (!TryGetPlayerStateMachine(out PlayerStateMachine playerStateMachine)) { return; }
             if (!TryGetDebugZoneNode(out ZoneNode zoneNode)) { return; }
 
-            if (debugZone == SceneLoaderBase.GetCurrentZone())
+            Zone currentZone = SceneLoaderBase.GetCurrentZone();
+            if (currentZone != null && debugZone.name == currentZone.name)
             {
                 // Same scene:  plain warp, no transition
                 if (playerStateMachine.GetPlayerStateType() != PlayerStateType.InWorld) { LDMLog.Warning(LDMLogCategory.Zones, "Debugger: a same-zone warp needs the player in World.", this); return; }

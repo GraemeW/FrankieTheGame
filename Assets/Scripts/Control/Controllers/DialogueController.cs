@@ -306,7 +306,7 @@ namespace Frankie.Speech
                 {
                     List<DialogueNode> currentOptions = GetChoices().ToList();
 
-                    if (!currentOptions.Contains(highlightedNode))
+                    if (!currentOptions.Any(option => DialogueNode.AreNodesMatched(option, highlightedNode)))
                     {
                         SetHighlightedNodeToDefault(controllerInputType);
                     }
@@ -353,7 +353,9 @@ namespace Frankie.Speech
 
         private void HighlightNextNode(List<DialogueNode> currentOptions, ControllerInputType controllerInputType)
         {
-            int choiceIndex = currentOptions.IndexOf(highlightedNode);
+            int choiceIndex = currentOptions.FindIndex(option => DialogueNode.AreNodesMatched(option, highlightedNode));
+            if (choiceIndex < 0) { return; }
+            
             switch (controllerInputType)
             {
                 case ControllerInputType.NavigateRight:
@@ -380,7 +382,7 @@ namespace Frankie.Speech
 
         private void SetCurrentNode(DialogueNode dialogueNode, bool withTriggers = true)
         {
-            if (currentNode == dialogueNode) { return; }
+            if (DialogueNode.AreNodesMatched(currentNode, dialogueNode, true)) { return; }
 
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeExit, currentNode); }
             currentNode = dialogueNode;

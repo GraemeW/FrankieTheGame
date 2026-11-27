@@ -115,8 +115,8 @@ $RECYCLE.BIN/
 
 # Unity Additional
 UIElementsSchema
-Assets/UnityConfigurables/AddressableAssetsData/link.xml
-Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
+Assets/AddressableAssetsData/link.xml
+Assets/AddressableAssetsData/link.xml.meta
 
 # Other Ignores
 .DS_Store
@@ -124,6 +124,7 @@ Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
 __pycache__/
 Assets/z_MadeAssets/
 Assets/z_ImportedAssets/
+Assets/z_Artwork
 /MultiZoneViewer/
 InfoTools/Instructions/
 InfoTools/PyTools/ImagePreImportTool/Input/

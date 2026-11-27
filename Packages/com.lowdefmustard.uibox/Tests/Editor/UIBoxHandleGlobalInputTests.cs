@@ -1,34 +1,26 @@
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Control;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.UIBox.Tests.Editor
 {
     public class UIBoxHandleGlobalInputTests
     {
         // State
-        private List<GameObject> spawned;
+        private readonly TestObjectTracker tracker = new();
 
         // Setup
-        [SetUp]
-        public void SetUp() => spawned = new List<GameObject>();
-
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawned.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
+            tracker.DestroyAll();
         }
 
         #region PrivateMethods
         private TestUIBox CreateTestUIBox()
         {
-            var go = new GameObject("TestUIBox");
-            spawned.Add(go);
+            GameObject go = tracker.CreateGameObject("TestUIBox");
             return go.AddComponent<TestUIBox>();
         }
         #endregion

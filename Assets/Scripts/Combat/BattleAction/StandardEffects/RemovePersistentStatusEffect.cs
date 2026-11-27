@@ -19,6 +19,7 @@ namespace Frankie.Combat
         {
             if (!removePersistentRecurring && !removePersistentStatModifier) { yield break; }
             if (recipients == null) { yield break; }
+            int maxEffectsToRemove = numberOfEffectsToRemove == 0 ? int.MaxValue : numberOfEffectsToRemove;
 
             foreach (BattleEntity recipient in recipients)
             {
@@ -29,11 +30,10 @@ namespace Frankie.Combat
                 if (persistentStatuses.Count == 0) { continue; }
                 persistentStatuses.Shuffle();
 
-                if (numberOfEffectsToRemove == 0) { numberOfEffectsToRemove = int.MaxValue; }
                 int i = 0;
                 foreach (PersistentStatus persistentStatus in persistentStatuses)
                 {
-                    if (i >= numberOfEffectsToRemove) { break; }
+                    if (i >= maxEffectsToRemove) { break; }
 
                     Destroy(persistentStatus);
                     i++;

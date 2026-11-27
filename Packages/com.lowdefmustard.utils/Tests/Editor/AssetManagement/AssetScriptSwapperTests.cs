@@ -12,6 +12,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         // Not Tested:  ConfirmInPlace (not interesting ~ modal dialogue only)
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private TempAssetFolder tempFolder;
 
         #region Setup
@@ -19,7 +20,11 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void SetUp() => tempFolder = new TempAssetFolder(nameof(AssetScriptSwapperTests));
 
         [TearDown]
-        public void TearDown() => tempFolder.Dispose();
+        public void TearDown()
+        {
+            tracker.DestroyAll();
+            tempFolder.Dispose();
+        }
         #endregion
 
         #region Tests
@@ -39,6 +44,26 @@ namespace LowDefMustard.Utils.Tests.Editor
             Assert.IsNotNull(reloaded, "expected the same-path asset to now load as SwapTargetAsset");
             Assert.AreEqual(7, reloaded.sharedValue);
             Assert.AreEqual(0.5f, reloaded.addedValue, "a field missing from the YAML should take its default");
+        }
+
+        [Test]
+        public void SwapScriptInPlace_ScriptableObjectAsset_UpdatesEditorClassIdentifier()
+        {
+            var source = ScriptableObject.CreateInstance<SwapSourceAsset>();
+            string path = tempFolder.Path("Identifier.asset");
+            AssetDatabase.CreateAsset(source, path);
+
+            AssetScriptSwapper.SwapScriptInPlace<SwapTargetAsset>(source);
+
+            string fileText = System.IO.File.ReadAllText(path);
+            StringAssert.Contains($"m_EditorClassIdentifier: {AssetScriptSwapper.GetEditorClassIdentifier(typeof(SwapTargetAsset))}", fileText);
+            StringAssert.DoesNotContain(nameof(SwapSourceAsset), fileText);
+        }
+
+        [Test]
+        public void GetEditorClassIdentifier_MatchesUnityFormat()
+        {
+            Assert.AreEqual("LowDefMustard.Utils.Tests::LowDefMustard.Utils.Tests.SwapTargetAsset", AssetScriptSwapper.GetEditorClassIdentifier(typeof(SwapTargetAsset)));
         }
 
         [Test]
@@ -69,9 +94,8 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void SwapScriptInPlace_NonPersistentObject_Throws()
         {
-            var source = ScriptableObject.CreateInstance<SwapSourceAsset>();
-            try { Assert.Throws<ArgumentException>(() => AssetScriptSwapper.SwapScriptInPlace<SwapTargetAsset>(source)); }
-            finally { Object.DestroyImmediate(source); }
+            var source = tracker.Create<SwapSourceAsset>();
+            Assert.Throws<ArgumentException>(() => AssetScriptSwapper.SwapScriptInPlace<SwapTargetAsset>(source));
         }
         #endregion
     }

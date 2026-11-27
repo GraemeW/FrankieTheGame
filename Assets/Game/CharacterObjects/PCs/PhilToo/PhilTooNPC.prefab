@@ -8,10 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2189069832891847419, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: resetPositionOnEnable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3268347881354742002, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -24,10 +20,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 9e32dd7d457e3b149953a785a864203b, type: 2}
-    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -73,10 +65,6 @@ PrefabInstance:
       value: PhilTooNPC
       objectReference: {fileID: 0}
     - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: defaultLevel
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: characterProperties
       value: 
       objectReference: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
@@ -92,16 +80,8 @@ PrefabInstance:
       propertyPath: combatSprite
       value: 
       objectReference: {fileID: 21300000, guid: d8df5b128d1a22547b290dda471c94c1, type: 3}
-    - target: {fileID: 5735266784123818870, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: canBeShoutedAt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5735266784123818870, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: willDestroySelfOnDeath
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6188215296675846516, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: 2aa082baee61f2c4eaabf42f5711a6c0, type: 2}
     m_RemovedComponents: []

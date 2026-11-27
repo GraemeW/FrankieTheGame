@@ -19,7 +19,7 @@ namespace Frankie.Speech
         private DialogueController dialogueController;
         private PlayerStateMachine playerStateMachine;
 
-        // Data Structures
+        #region DataStructures
         [System.Serializable]
         public struct DialogueTriggeredEvent
         {
@@ -31,15 +31,9 @@ namespace Frankie.Speech
         public class UnityEventWithCallingController : UnityEvent<PlayerStateMachine>
         {
         }
+        #endregion
 
-        // Internal for test visibility
-        internal void ConfigureTrigger(DialogueUpdateType setDialogueUpdateType, UnityAction<PlayerStateMachine> action)
-        {
-            dialogueUpdateType = setDialogueUpdateType;
-            dialogueTriggeredEvent.onTriggerEvent ??= new UnityEventWithCallingController();
-            dialogueTriggeredEvent.onTriggerEvent.AddListener(action);
-        }
-
+        #region PublicMethods
         public void Setup(DialogueController setDialogueController, PlayerStateMachine setPlayerStateMachine)
         {
             playerStateMachine = setPlayerStateMachine;
@@ -47,7 +41,9 @@ namespace Frankie.Speech
             queuedTrigger = false; // Reset state on new conversation (avoids triggering on unrelated nodes on subsequent conversations)
             setDialogueController.dialogueUpdated += Trigger;
         }
-
+        #endregion
+        
+        #region PrivateInternalMethods
         private void Trigger(DialogueUpdateType triggerDialogueUpdateType, DialogueNode dialogueNode)
         {
             if (triggerDialogueUpdateType == DialogueUpdateType.DialogueComplete)
@@ -63,7 +59,7 @@ namespace Frankie.Speech
 
         private bool HandleNodeEntryExit(DialogueUpdateType checkDialogueUpdateType, DialogueNode dialogueNode)
         {
-            if (checkDialogueUpdateType is not (DialogueUpdateType.DialogueNodeEntry or DialogueUpdateType.DialogueNodeExit) || (triggerNode == null || triggerNode != dialogueNode))  { return false; }
+            if (checkDialogueUpdateType is not (DialogueUpdateType.DialogueNodeEntry or DialogueUpdateType.DialogueNodeExit) || !DialogueNode.AreNodesMatched(triggerNode, dialogueNode)) { return false; }
             
             if (dialogueTriggeredEvent.triggerImmediate)
             {
@@ -83,5 +79,21 @@ namespace Frankie.Speech
             dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateMachine);
             return true;
         }
+        
+        // Note:  Internal methods for test visibility
+        internal void ConfigureTrigger(DialogueUpdateType setDialogueUpdateType, DialogueNode setTriggerNode, bool setTriggerImmediate, UnityAction<PlayerStateMachine> action)
+        {
+            triggerNode = setTriggerNode;
+            dialogueTriggeredEvent.triggerImmediate = setTriggerImmediate;
+            ConfigureTrigger(setDialogueUpdateType, action);
+        }
+        
+        internal void ConfigureTrigger(DialogueUpdateType setDialogueUpdateType, UnityAction<PlayerStateMachine> action)
+        {
+            dialogueUpdateType = setDialogueUpdateType;
+            dialogueTriggeredEvent.onTriggerEvent ??= new UnityEventWithCallingController();
+            dialogueTriggeredEvent.onTriggerEvent.AddListener(action);
+        }
+        #endregion
     }
 }

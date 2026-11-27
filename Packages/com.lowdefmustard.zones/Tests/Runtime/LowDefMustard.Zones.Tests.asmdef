@@ -6,9 +6,11 @@
     "UnityEngine.TestRunner",
     "LowDefMustard.Zones",
     "LowDefMustard.Utils",
+    "LowDefMustard.Utils.Tests",
     "LowDefMustard.Localization",
     "Unity.Addressables",
     "Unity.ResourceManager",
+    "Unity.Addressables.Editor",
     "Unity.Localization"
   ],
   "includePlatforms": [],

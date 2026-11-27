@@ -181,7 +181,7 @@ namespace Frankie.Menu.UI
 
             nameInput.Clear();
             dontCareCycle.SetAnswers(question.localizedDontCareAnswers);
-            namingStage.ShowCharacter(question.GetCharacterPrefab());
+            namingStage.ShowCharacter(question.GetCharacterProperties());
             if (questionTextScan == null) { return; }
             questionTextScan.ClearOldDialogue();
             questionTextScan.Setup(question.localizedQuestion.GetSafeLocalizedString());

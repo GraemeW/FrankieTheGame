@@ -38,7 +38,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            asset = ScriptableObject.CreateInstance<TestGameStateModifier>();
+            asset = tracker.Create<TestGameStateModifier>();
             editorInstance = UnityEditor.Editor.CreateEditor(asset);
             gameStateModifierEditor = editorInstance as GameStateModifierEditor;
             Assert.IsNotNull(gameStateModifierEditor); // sanity check the [CustomEditor] resolved as expected
@@ -54,8 +54,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         {
             foreach (string handlerTypeLabel in _testHandlerTypeLabels) { SessionState.EraseBool(GameStateModifierEditor.groupFoldoutStateKeyStem + handlerTypeLabel); }
             HeadlessEditorWindow.Close(window);
-            Object.DestroyImmediate(editorInstance);
-            Object.DestroyImmediate(asset);
+            Object.DestroyImmediate(editorInstance); // Before its target
             tracker.DestroyAll();
         }
         #endregion
@@ -391,8 +390,8 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void IsNameMatch_SameNameDifferentParent_ReturnsFalse()
         {
-            var parent = tracker.Track(new GameObject("ParentA"));
-            var child = tracker.Track(new GameObject("Handler"));
+            var parent = tracker.CreateGameObject("ParentA");
+            var child = tracker.CreateGameObject("Handler");
             child.transform.SetParent(parent.transform);
             Assert.IsTrue(GameStateModifierEditor.IsNameMatch(child, "Handler", "ParentA"));
             Assert.IsFalse(GameStateModifierEditor.IsNameMatch(child, "Handler", "ParentB"));
@@ -401,7 +400,7 @@ namespace LowDefMustard.GameStateModifiers.Tests.Editor
         [Test]
         public void IsNameMatch_NoParent_MatchesEmptyOrNullParentName()
         {
-            var handlerObject = tracker.Track(new GameObject("Handler"));
+            var handlerObject = tracker.CreateGameObject("Handler");
             Assert.IsTrue(GameStateModifierEditor.IsNameMatch(handlerObject, "Handler", ""));
             Assert.IsTrue(GameStateModifierEditor.IsNameMatch(handlerObject, "Handler", null));
             Assert.IsFalse(GameStateModifierEditor.IsNameMatch(handlerObject, "Other", ""));

@@ -2,38 +2,36 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Zones.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class MultiZoneViewTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private MultiZoneView multiZoneView;
-        private readonly List<ZoneViewData> createdZoneViewData = new();
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
-            multiZoneView = ScriptableObject.CreateInstance<MultiZoneView>();
+            multiZoneView = tracker.Create<MultiZoneView>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            foreach (ZoneViewData data in createdZoneViewData) { Object.DestroyImmediate(data); }
-            createdZoneViewData.Clear();
-            Object.DestroyImmediate(multiZoneView);
+            tracker.DestroyAll();
         }
         #endregion
 
         #region PrivateMethods
         private ZoneViewData AddExistingZoneViewData(string zoneName, string scenePath, Vector2 dimensions, Vector2 topLeftPosition)
         {
-            var data = ScriptableObject.CreateInstance<ZoneViewData>();
+            var data = tracker.Create<ZoneViewData>();
             data.Setup(zoneName, scenePath, "OldSnapshot.png", dimensions, topLeftPosition);
             multiZoneView.zoneViewDataSet.Add(data);
-            createdZoneViewData.Add(data);
             return data;
         }
         #endregion

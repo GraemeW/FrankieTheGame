@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -123,8 +122,10 @@ namespace LowDefMustard.GameStateModifiers
 
         internal LinkedHandlerRecord MakeLinkedHandlerRecord()
         {
-            // Note: Must ensure zoneName == sceneName
-            string zoneName = SceneManager.GetActiveScene().name;
+            // Note:
+            //  - Must ensure zoneName == sceneName
+            //  - We deliberately use the handler's own scene instead of active scene (additively opened scenes would otherwise record the active scene)
+            string zoneName = gameObject.scene.name;
             string gameObjectName = gameObject != null ? gameObject.name : "";
             string parentObjectName = gameObject.transform.parent != null ? gameObject.transform.parent.name : "";
             if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }

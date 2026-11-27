@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using LowDefMustard.Utils.Tests;
 using Frankie.Stats;
-using Object = UnityEngine.Object;
 
 namespace Frankie.Tests
 {
@@ -13,10 +12,6 @@ namespace Frankie.Tests
     {
         // Note:  Objects are owned by the tracker, so destroy via its DestroyAll in TearDown
         // Editor-only:  character assets load through AssetDatabase, serialized fields set through SerializedFieldInjector
-
-        // Const Tunables
-        private const string _partyMembersField = "members";
-        private const string _characterPropertiesField = "characterProperties";
 
         #region PublicMethods
         public static CharacterProperties LoadCharacter(string characterName)
@@ -32,12 +27,20 @@ namespace Frankie.Tests
         public static PartyBehaviour BuildParty(this TestObjectTracker tracker, params CharacterProperties[] memberProperties)
         {
             // Inactive ~ party components stay inert (no Awake / Start), members are children so they go with the party
-            GameObject partyObject = tracker.Track(new GameObject("Party"));
+            GameObject partyObject = tracker.CreateGameObject("Party");
             partyObject.SetActive(false);
             var party = partyObject.AddComponent<Party>(); // Pulls in its required components (InactiveParty, PlayerMover, PlayerStateMachine)
 
-            SerializedFieldInjector.SetArray(party, _partyMembersField, memberProperties.Select(member => (Object)BuildMember(partyObject.transform, member)).ToArray());
+            SerializedFieldInjector.SetArray(party, PartyBehaviour.membersField, memberProperties.Select(member => BuildMember(partyObject.transform, member)).ToArray());
             return party;
+        }
+
+        public static PartyAssist AddPartyAssist(this PartyBehaviour party, params CharacterProperties[] assistProperties)
+        {
+            // Same (inactive) party object ~ PartyAssist requires a Party
+            var partyAssist = party.gameObject.AddComponent<PartyAssist>();
+            SerializedFieldInjector.SetArray(partyAssist, PartyBehaviour.membersField, assistProperties.Select(member => BuildMember(party.transform, member)).ToArray());
+            return partyAssist;
         }
         #endregion
 
@@ -47,7 +50,7 @@ namespace Frankie.Tests
             var memberObject = new GameObject(characterProperties.name);
             memberObject.transform.SetParent(party);
             var baseStats = memberObject.AddComponent<BaseStats>();
-            SerializedFieldInjector.Set(baseStats, _characterPropertiesField, characterProperties);
+            SerializedFieldInjector.Set(baseStats, BaseStats.characterPropertiesField, characterProperties);
             return baseStats;
         }
         #endregion

@@ -1,9 +1,7 @@
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEditor.SceneManagement;
+using LowDefMustard.Utils.Tests;
 using LowDefMustard.Zones.Editor;
 
 namespace LowDefMustard.Zones.Tests.Editor
@@ -14,11 +12,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         private const float _tolerance = 0.01f;
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private MultiZoneViewer viewer;
-        private GameObject cameraGameObject;
-        private Texture2D resultTexture;
         private MultiZoneView multiZoneView;
-        private readonly List<GameObject> spawnedObjects = new();
         private Tile spawnedTile;
         private bool spawnedScratchScene;
 
@@ -32,20 +28,13 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (resultTexture != null) { Object.DestroyImmediate(resultTexture); }
-            if (cameraGameObject != null) { Object.DestroyImmediate(cameraGameObject); }
-            if (multiZoneView != null) { Object.DestroyImmediate(multiZoneView); }
-            foreach (GameObject spawnedObject in spawnedObjects.Where(spawnedObject => spawnedObject != null))
-            {
-                Object.DestroyImmediate(spawnedObject);
-            }
-            if (spawnedTile != null) { Object.DestroyImmediate(spawnedTile); }
+            tracker.DestroyAll();
             Object.DestroyImmediate(viewer);
 
             // Discards the scratch scene (and anything left in it) by replacing it with a fresh one
             if (spawnedScratchScene)
             {
-                EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                SceneTestUtility.ResetToEmptyScene();
                 spawnedScratchScene = false;
             }
         }
@@ -67,18 +56,15 @@ namespace LowDefMustard.Zones.Tests.Editor
 
         private GameObject CreateCube(Vector3 position)
         {
-            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            spawnedObjects.Add(cube);
-            
+            GameObject cube = tracker.Track(GameObject.CreatePrimitive(PrimitiveType.Cube));
             cube.transform.position = position;
             return cube;
         }
 
         private Tilemap CreateTilemap(Vector3 gridPosition, string suffix = "")
         {
-            var gridGameObject = new GameObject($"Grid{suffix}", typeof(Grid));
-            spawnedObjects.Add(gridGameObject);
-            
+            GameObject gridGameObject = tracker.CreateGameObject($"Grid{suffix}", typeof(Grid));
+
             var tilemapGameObject = new GameObject($"Tilemap{suffix}", typeof(Tilemap), typeof(TilemapRenderer));
             tilemapGameObject.transform.SetParent(gridGameObject.transform);
             gridGameObject.transform.position = gridPosition; // Must be done after tilemap added to shift tilemap with the grid
@@ -91,10 +77,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CameraClick_ReturnsTextureWithRequestedDimensions()
         {
-            cameraGameObject = new GameObject("Cam", typeof(Camera));
-            var camera = cameraGameObject.GetComponent<Camera>();
+            var camera = tracker.CreateComponent<Camera>("Cam");
 
-            resultTexture = MultiZoneViewer.CameraClick(camera, new Vector2(64, 48));
+            Texture2D resultTexture = tracker.Track(MultiZoneViewer.CameraClick(camera, new Vector2(64, 48)));
 
             Assert.AreEqual(64, resultTexture.width);
             Assert.AreEqual(48, resultTexture.height);
@@ -129,8 +114,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void PositionCameraToFrameScene_CentersCameraAndSetsOrthoSize()
         {
-            cameraGameObject = new GameObject("Cam", typeof(Camera));
-            var camera = cameraGameObject.GetComponent<Camera>();
+            var camera = tracker.CreateComponent<Camera>("Cam");
             camera.transform.position = new Vector3(0f, 0f, -10f);
             var zoneBounds = new Bounds(new Vector3(5f, 7f, 0f), new Vector3(20f, 20f, 0f));
 
@@ -145,7 +129,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         {
             viewer.activeMultiZoneView = null;
 
-            resultTexture = viewer.CaptureZone(new Bounds(Vector3.zero, Vector3.one));
+            Texture2D resultTexture = tracker.Track(viewer.CaptureZone(new Bounds(Vector3.zero, Vector3.one)));
 
             Assert.IsNull(resultTexture);
         }
@@ -153,13 +137,13 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CaptureZone_WithMainCamera_ReturnsRenderedTexture()
         {
-            multiZoneView = ScriptableObject.CreateInstance<MultiZoneView>();
+            multiZoneView = tracker.Create<MultiZoneView>();
             viewer.activeMultiZoneView = multiZoneView;
 
-            cameraGameObject = new GameObject("MainCam", typeof(Camera)) { tag = "MainCamera" };
+            tracker.Track(new GameObject("MainCam", typeof(Camera)) { tag = "MainCamera" });
 
             var zoneBounds = new Bounds(new Vector3(5f, 7f, 0f), new Vector3(20f, 20f, 0f));
-            resultTexture = viewer.CaptureZone(zoneBounds);
+            Texture2D resultTexture = tracker.Track(viewer.CaptureZone(zoneBounds));
 
             Assert.IsNotNull(resultTexture);
             Assert.AreEqual(1920, resultTexture.width);
@@ -169,7 +153,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CalculateZoneBounds_WithRenderers_EncapsulatesAllRendererBounds()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             spawnedScratchScene = true;
 
             CreateCube(Vector3.zero);
@@ -188,12 +172,12 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CalculateZoneBounds_WithSingleTilemap_UsesCompressedCellBoundsInWorldSpace()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             spawnedScratchScene = true;
 
             Tilemap tilemap = CreateTilemap(Vector3.zero);
 
-            spawnedTile = ScriptableObject.CreateInstance<Tile>();
+            spawnedTile = tracker.Create<Tile>();
             tilemap.SetTile(new Vector3Int(0, 0, 0), spawnedTile);
             tilemap.SetTile(new Vector3Int(3, 2, 0), spawnedTile);
             tilemap.CompressBounds();
@@ -211,9 +195,9 @@ namespace LowDefMustard.Zones.Tests.Editor
         [Test]
         public void CalculateZoneBounds_WithMultipleTilemaps_EncapsulatesAllTilemapBounds()
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SceneTestUtility.ResetToEmptyScene();
             spawnedScratchScene = true;
-            spawnedTile = ScriptableObject.CreateInstance<Tile>();
+            spawnedTile = tracker.Create<Tile>();
 
             // Tilemap A: a single tilemap spanning cells (0,0) to (3,2), at the world origin
             Tilemap tilemapA = CreateTilemap(Vector3.zero, "A");

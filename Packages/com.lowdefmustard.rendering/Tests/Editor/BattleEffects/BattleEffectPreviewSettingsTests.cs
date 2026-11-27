@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using LowDefMustard.Rendering.Editor;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Rendering.Tests.Editor
 {
@@ -14,6 +15,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         private const string _testPresetName = "_TEMP_TestPreset_SafeToDelete";
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private List<BattleEffectPreviewSize> registeredPresets;
         private BattleEffectRecipe recipe;
 
@@ -22,14 +24,14 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public void SetUp()
         {
             registeredPresets = BattleEffectPreviewSizes.GetPresets().ToList();
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            recipe = tracker.Create<BattleEffectRecipe>();
             JsonUtility.FromJsonOverwrite("{\"frameRate\":12}", recipe);
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(recipe);
+            tracker.DestroyAll();
             foreach (BattleEffectPreviewSize preset in BattleEffectPreviewSizes.GetPresets().ToList()) { BattleEffectPreviewSizes.Unregister(preset.name); }
             if (registeredPresets.SequenceEqual(BattleEffectPreviewSizes.GetPresets())) { return; } // Nothing was registered (only the default was listed)
             foreach (BattleEffectPreviewSize preset in registeredPresets) { BattleEffectPreviewSizes.Register(preset.name, preset.size); }

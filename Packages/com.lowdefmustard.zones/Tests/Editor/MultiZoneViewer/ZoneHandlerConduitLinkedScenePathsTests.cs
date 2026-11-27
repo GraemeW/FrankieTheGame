@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using Unity.Scripting.LifecycleManagement;
 using LowDefMustard.Utils.Tests;
@@ -24,23 +22,21 @@ namespace LowDefMustard.Zones.Tests.Editor
         private TempAssetFolder tempFolder;
         private string scratchScenePath;
         private Zone rootZone;
-        private readonly List<Zone> createdZones = new();
+        private readonly TestObjectTracker tracker = new();
         private Dictionary<string, Zone> originalZoneLookupCache;
-        private Dictionary<string, Zone> originalSceneReferenceCache;
+        private Dictionary<string, Zone> originalSceneNameCache;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
             originalZoneLookupCache = Zone.zoneLookupCache;
-            originalSceneReferenceCache = Zone.sceneReferenceCache;
+            originalSceneNameCache = Zone.sceneNameCache;
             
             tempFolder = new TempAssetFolder(nameof(ZoneHandlerConduitLinkedScenePathsTests));
-            scratchScenePath = tempFolder.Path($"{_scratchSceneName}.unity");
-            Scene scratchScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            EditorSceneManager.SaveScene(scratchScene, scratchScenePath);
+            scratchScenePath = SceneTestUtility.CreateSavedScene(tempFolder, _scratchSceneName).path;
 
-            rootZone = ScriptableObject.CreateInstance<Zone>();
+            rootZone = tracker.Create<Zone>();
             rootZone.preventLocalizationForTests = true;
             rootZone.hideFlags = HideFlags.HideAndDontSave;
             rootZone.sceneReference = _scratchSceneName;
@@ -50,14 +46,10 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            Zone.zoneLookupCache = originalZoneLookupCache;
-            Zone.sceneReferenceCache = originalSceneReferenceCache;
+            Zone.SeedCache(originalZoneLookupCache, originalSceneNameCache);
             
-            Object.DestroyImmediate(rootZone);
-            foreach (Zone zone in createdZones) { Object.DestroyImmediate(zone); }
-            createdZones.Clear();
-            
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); // Nothing scratch left open when deleting
+            tracker.DestroyAll();
+            SceneTestUtility.ResetToEmptyScene();
             tempFolder.Dispose();
         }
         #endregion
@@ -93,38 +85,36 @@ namespace LowDefMustard.Zones.Tests.Editor
         // Saves a scene with one ZoneHandlerBase per node (call after the nodes' links are set and SaveAssets has run)
         private static void CreateSceneWithHandlers(string scenePath, params ZoneNode[] handlerNodes)
         {
-            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            foreach (ZoneNode node in handlerNodes)
+            SceneTestUtility.CreateSavedScene(scenePath, populate: _ =>
             {
-                var handlerObject = new GameObject($"Handler_{node.GetNodeID()}");
-                handlerObject.AddComponent<ZoneHandlerBase>().zoneNode = node;
-            }
-            EditorSceneManager.SaveScene(scene, scenePath);
+                foreach (ZoneNode node in handlerNodes)
+                {
+                    var handlerObject = new GameObject($"Handler_{node.GetNodeID()}");
+                    handlerObject.AddComponent<ZoneHandlerBase>().zoneNode = node;
+                }
+            });
         }
         
         private Zone CreateZone(string zoneName, string scenePath) // Note: scenePath null leaves the zone's SceneReference unset
         {
-            var zone = ScriptableObject.CreateInstance<Zone>();
+            var zone = tracker.Create<Zone>(zoneName);
             zone.preventLocalizationForTests = true;
             zone.hideFlags = HideFlags.HideAndDontSave; // Opening scenes can unload loose unreferenced objects
-            zone.name = zoneName;
             if (scenePath != null)
             {
                 zone.sceneReference = Path.GetFileNameWithoutExtension(scenePath);
                 zone.sceneReference.scenePath = scenePath;
             }
-            createdZones.Add(zone);
             return zone;
         }
 
         private static void SeedZoneCache(params Zone[] zones)
         {
-            Zone.zoneLookupCache = new Dictionary<string, Zone>();
-            Zone.sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone.SeedCache(new Dictionary<string, Zone>(), new Dictionary<string, Zone>());
             foreach (Zone zone in zones)
             {
                 Zone.zoneLookupCache[zone.name] = zone;
-                Zone.sceneReferenceCache[zone.name] = zone; // Keyed by zone name, since a zone with no scene reference has no usable scene key
+                Zone.sceneNameCache[zone.name] = zone; // Keyed by zone name, since a zone with no scene reference has no usable scene key
             }
         }
 

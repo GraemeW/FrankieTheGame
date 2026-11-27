@@ -1,8 +1,10 @@
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LowDefMustard.Localization;
+using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Zones.Editor
 {
@@ -16,6 +18,7 @@ namespace LowDefMustard.Zones.Editor
 
         // State
         internal Zone selectedZone;
+        private readonly UndoChangeSnapshot undoSnapshot = new();
         internal ZoneGraphView zoneGraphView;
         internal Label headerLabel;
         internal Label noZoneMessage;
@@ -47,13 +50,20 @@ namespace LowDefMustard.Zones.Editor
         private void OnEnable()
         {
             LocalizationLocale.TriggerLocalizationSettingsInitialization();
+            EditorApplication.projectChanged -= OnProjectChanged;
             Selection.selectionChanged -= OnSelectionChanged;
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+            
+            EditorApplication.projectChanged += OnProjectChanged;
             Selection.selectionChanged += OnSelectionChanged;
+            Undo.undoRedoPerformed += OnUndoRedoPerformed;
         }
 
         private void OnDisable()
         {
+            EditorApplication.projectChanged -= OnProjectChanged;
             Selection.selectionChanged -= OnSelectionChanged;
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
         }
         #endregion
 
@@ -92,10 +102,16 @@ namespace LowDefMustard.Zones.Editor
             zoneGraphView.style.display = hasZone ? DisplayStyle.Flex : DisplayStyle.None;
             addGroupButton.SetEnabled(hasZone);
 
-            if (!hasZone) { return; }
+            if (!hasZone)
+            {
+                zoneGraphView.SetZone(null); // Drop the node views ~ a deleted zone's nodes are destroyed
+                undoSnapshot.Clear();
+                return;
+            }
 
             headerLabel.text = selectedZone.name;
             zoneGraphView.SetZone(selectedZone);
+            undoSnapshot.Capture(selectedZone.GetAllNodes().Prepend<Object>(selectedZone));
         }
         #endregion
 
@@ -106,7 +122,8 @@ namespace LowDefMustard.Zones.Editor
             {
                 case Zone zone:
                 {
-                    if (zone == null) { return; }
+                    if (zone == null || zone == selectedZone) { return; } // Same zone reselected (e.g. undo restoring the selection) ~ views already current
+                    zone.CreateRootNodeIfMissing(); // Every path in (open, selection) ~ a new zone has no nodes yet
                     selectedZone = zone;
                     RefreshFromSelection();
                     break;
@@ -127,8 +144,23 @@ namespace LowDefMustard.Zones.Editor
                     break;
                 }
             }
-
         }
+
+        internal void OnProjectChanged()
+        {
+            if (!IsSelectedZoneDeleted()) { return; }
+            selectedZone = null;
+            RefreshFromSelection();
+        }
+
+        internal void OnUndoRedoPerformed()
+        {
+            if (!undoSnapshot.HasChanged()) { return; }
+            if (IsSelectedZoneDeleted()) { selectedZone = null; }
+            RefreshFromSelection(); // Rebuilds node + group views ~ undo can add, remove or move nodes and groups
+        }
+        
+        private bool IsSelectedZoneDeleted() => selectedZone is not null && selectedZone == null; // Destroyed but still referenced (e.g. the asset was deleted while shown) ~ Unity-null, though type checks still match
         #endregion
         
         #region StaticUIBuilders

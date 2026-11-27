@@ -11,6 +11,7 @@ using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using LowDefMustard.Core;
+using LowDefMustard.Utils.Editor;
 
 namespace LowDefMustard.Zones.Editor
 {
@@ -99,6 +100,7 @@ namespace LowDefMustard.Zones.Editor
         // Node Dot State
         internal readonly List<(string zoneName, string zoneNodeID, Rect canvasRect)> nodeDotElements = new();
         internal bool isDraggingNodeLink;
+        private readonly UndoChangeSnapshot undoSnapshot = new();
         private (string zoneName, string zoneNodeID) activeDragSource;
         private Vector2 dragStartCanvasPosition;
         private Vector2 dragCurrentCanvasPosition;
@@ -228,7 +230,14 @@ namespace LowDefMustard.Zones.Editor
         internal void OnUndoRedoPerformed()
         {
             if (!isToolAvailable) { return; }
+            if (!undoSnapshot.HasChanged()) { return; }
             RefreshZoneViews(false);
+        }
+
+        private void CaptureUndoSnapshot()
+        {
+            if (activeMultiZoneView == null) { undoSnapshot.Clear(); return; }
+            undoSnapshot.Capture(activeMultiZoneView.zoneViewDataSet.Prepend<Object>(activeMultiZoneView)); // Moves + links record on the view data ~ link edits on zones land in the same undo step
         }
 
         private void SubscribeToSelectionChanged(bool enable)
@@ -518,6 +527,7 @@ namespace LowDefMustard.Zones.Editor
                 AddZoneViewElement(zoneView);
             }
             RefreshNodeDots();
+            CaptureUndoSnapshot();
         }
         
         private void AddZoneViewElement(ZoneView zoneView)
@@ -547,6 +557,7 @@ namespace LowDefMustard.Zones.Editor
             void OnZoneViewDragComplete()
             {
                 SaveMultiZoneViewAsset(activeMultiZoneView, "Move Zone View");
+                CaptureUndoSnapshot(); // Own edit, already shown ~ only a later undo / redo of it should rebuild
             }
             void OnDraggedCurveRepaint()
             {
@@ -723,6 +734,7 @@ namespace LowDefMustard.Zones.Editor
             LDMLog.Info(LDMLogCategory.Zones, $"Linked zone node '{sourceZoneNodeID}' in '{sourceZoneName}' to '{targetZoneNodeID}' in '{targetZoneName}'.");
 
             RefreshNodeDots();
+            CaptureUndoSnapshot();
         }
 
         private void TryClearZoneNodeLink(string zoneName, string zoneNodeID)
@@ -743,6 +755,7 @@ namespace LowDefMustard.Zones.Editor
             }
             
             RefreshNodeDots();
+            CaptureUndoSnapshot();
         }
         #endregion
         

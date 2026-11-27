@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Control.Tests
 {
@@ -24,7 +25,7 @@ namespace LowDefMustard.Control.Tests
     {
         // State
         private readonly List<GameObject> spawnedGameObjects = new();
-        private readonly List<MovementConfiguration> spawnedConfigurations = new();
+        private readonly TestObjectTracker tracker = new();
         private TestMover lastCreatedMover;
         private Rigidbody2D lastCreatedRigidBody;
 
@@ -52,26 +53,21 @@ namespace LowDefMustard.Control.Tests
             {
                 Object.Destroy(go);
             }
-            foreach (MovementConfiguration config in spawnedConfigurations.Where(config => config != null))
-            {
-                Object.Destroy(config);
-            }
             spawnedGameObjects.Clear();
-            spawnedConfigurations.Clear();
             yield return null; // let queued destruction actually take effect before the next test
+            tracker.DestroyAll(); // After the movers are gone ~ immediate destroy would pull their configuration out from under them
         }
         #endregion
 
         #region PrivateMethods
         private MovementConfiguration CreateMovementConfiguration(MovementStyle movementStyle, bool usingPathFinding, float baseMovementSpeed, float warpDelay = 1.25f, float warpPostTargetDelay = 0.25f)
         {
-            var config = ScriptableObject.CreateInstance<MovementConfiguration>();
+            var config = tracker.Create<MovementConfiguration>();
             config.movementStyle = movementStyle;
             config.usingPathFinding = usingPathFinding;
             config.baseMovementSpeed = baseMovementSpeed;
             config.warpDelay = warpDelay;
             config.warpPostTargetDelay = warpPostTargetDelay;
-            spawnedConfigurations.Add(config);
             return config;
         }
 

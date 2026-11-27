@@ -13,9 +13,7 @@ Naturally it should be understood that any time a new Scene is created, a new Zo
 ### Make the Zone
 
 1. Navigate to this [Zones](./) directory (or any subdirectories within)
-2. Right click and select `Create` -> `Zones` -> `New Zone`
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/NewZoneMenu.png" width="500">
+2. Right click and select `Create` -> `Essential` -> `New Zone`
 
 ### Make the Scene
 

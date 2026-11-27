@@ -11,6 +11,10 @@ namespace Frankie.Combat
         // Tunables
         [SerializeField] private List<CharacterProperties> characterPropertiesToFilter = new();
         [SerializeField] private bool negate = false;
+        
+        // Editor Field References
+        internal const string characterPropertiesToFilterField = nameof(characterPropertiesToFilter);
+        internal const string negateField = nameof(negate);
 
         // Public Methods
         public override IEnumerable<BattleEntity> Filter(IEnumerable<BattleEntity> objectsToFilter)

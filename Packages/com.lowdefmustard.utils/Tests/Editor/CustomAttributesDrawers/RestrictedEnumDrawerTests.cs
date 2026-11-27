@@ -38,6 +38,7 @@ namespace LowDefMustard.Utils.Tests.Editor
             public List<SampleEnum> enumList = new() { SampleEnum.Beta };
         }
 
+        private readonly TestObjectTracker tracker = new();
         private Host host;
         private FieldInfo plainEnumFieldInfo;
         private FieldInfo enumListFieldInfo;
@@ -45,7 +46,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            host = ScriptableObject.CreateInstance<Host>();
+            host = tracker.Create<Host>();
             plainEnumFieldInfo = typeof(Host).GetField(nameof(Host.plainEnum), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             enumListFieldInfo = typeof(Host).GetField(nameof(Host.enumList), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
@@ -53,7 +54,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(host);
+            tracker.DestroyAll();
         }
 
         [Test]

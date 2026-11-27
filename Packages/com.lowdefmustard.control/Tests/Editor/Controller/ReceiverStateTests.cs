@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Control.Tests.Editor
 {
@@ -13,7 +11,7 @@ namespace LowDefMustard.Control.Tests.Editor
     public class ReceiverStateTests
     {
         // State
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
 
         #region DataStructures
         private class FakeInputReceiver : IInputReceiver
@@ -35,21 +33,15 @@ namespace LowDefMustard.Control.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawnedGameObjects.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
-
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region PrivateMethods
         private GameObject CreateGameObject(bool active)
         {
-            var go = new GameObject("ReceiverStateTests_Target");
+            GameObject go = tracker.CreateGameObject("ReceiverStateTests_Target");
             go.SetActive(active);
-            spawnedGameObjects.Add(go);
             return go;
         }
         #endregion

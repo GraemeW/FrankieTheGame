@@ -31,14 +31,28 @@ namespace Frankie.Stats
             worldNPCLookup = new Dictionary<CharacterProperties, SceneParentReferencePair>();
         }
 
-        public List<string> GetPartyCharacterNames()
+        public static PartySaveData FromSerializableSaveData(PartySerializableSaveData partySerializableSaveData)
         {
-            return partyCharacters.Select(partyCharacter => partyCharacter != null ? partyCharacter.GetCharacterID() : string.Empty).ToList();
+            if (partySerializableSaveData == null) { return new PartySaveData(); }
+            
+            var worldNPCLookup = new Dictionary<CharacterProperties, SceneParentReferencePair>();
+            foreach ((string characterID, SceneParentReferencePair sceneParentReferencePair) in partySerializableSaveData.worldNPCNameLookup ?? new Dictionary<string, SceneParentReferencePair>())
+            {
+                if (CharacterProperties.TryGetCharacterPropertiesFromName(characterID, out CharacterProperties characterProperties)) { worldNPCLookup[characterProperties] = sceneParentReferencePair; }
+            }
+            
+            return new PartySaveData(CharacterProperties.GetCharacterPropertiesFromNames(partySerializableSaveData.partyCharacterNames), CharacterProperties.GetCharacterPropertiesFromNames(partySerializableSaveData.unlockedCharacterNames).ToHashSet(), worldNPCLookup);
         }
 
-        public List<string> GetUnlockedCharacterNames()
+        public PartySerializableSaveData ToSerializableSaveData()
         {
-            return unlockedCharacters.Select(character => character != null ? character.GetCharacterID() : string.Empty).ToList();
+            var worldNPCNameLookup = new Dictionary<string, SceneParentReferencePair>();
+            foreach ((CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair) in worldNPCLookup)
+            {
+                if (characterProperties != null) { worldNPCNameLookup[characterProperties.GetCharacterID()] = sceneParentReferencePair; }
+            }
+            
+            return new PartySerializableSaveData(CharacterProperties.GetCharacterIDs(partyCharacters), CharacterProperties.GetCharacterIDs(unlockedCharacters), worldNPCNameLookup);
         }
     }
 }

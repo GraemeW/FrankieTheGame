@@ -21,7 +21,9 @@ namespace Frankie.Control
         [SerializeField] private float npcGoodAwayCone = 150f;
         [SerializeField] private float npcBadLookCone = 60f;
         [SerializeField] private float playerBadAwayCone = 120f;
-
+        [Header("Collision Events")]
+        public CollisionEvent collidedWithPlayer;
+        
         // State
         private bool collisionsActive = true;
         private bool collisionsOverriddenToEnterCombat = false;
@@ -32,9 +34,6 @@ namespace Frankie.Control
         private CombatParticipant combatParticipant;
         private NPCStateHandler npcStateHandler;
         private NPCMover npcMover;
-
-        // Events
-        public CollisionEvent collidedWithPlayer;
 
         // Data Structures
         [System.Serializable]

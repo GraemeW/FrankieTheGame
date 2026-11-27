@@ -1,4 +1,5 @@
 using LowDefMustard.Saving.Editor;
+using LowDefMustard.Utils.Tests;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         private SaveEditor window;
         private ISaveFileManagerAdapter originalAdapter;
         private TestSaveFileManagerAdapter testAdapter;
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
         
         #region DataStructures
         // Marker component for SaveEditor's "skip entities nested under a group root" filtering
@@ -47,14 +48,10 @@ namespace LowDefMustard.Saving.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (window != null) { window.Close(); }
+            HeadlessEditorWindow.Close(window);
             SaveFileManagerProvider.current = originalAdapter;
 
-            foreach (GameObject gameObject in spawnedGameObjects.Where(gameObject => gameObject != null))
-            {
-                Object.DestroyImmediate(gameObject);
-            }
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
 
             string path = Path.Combine(Application.persistentDataPath, _tempSaveFile + ".sav");
             if (File.Exists(path)) { File.Delete(path); }
@@ -64,17 +61,8 @@ namespace LowDefMustard.Saving.Tests.Editor
         #region PrivateUtility
         private SaveEditor OpenWindow()
         {
-            window = ScriptableObject.CreateInstance<SaveEditor>();
-            window.ShowUtility();
-            window.position = new Rect(-10000, -10000, 800, 600);
+            window = HeadlessEditorWindow.ShowOffscreen(ScriptableObject.CreateInstance<SaveEditor>(), 800f, 600f);
             return window;
-        }
-
-        private static void Click(Button button)
-        {
-            using ClickEvent clickEvent = ClickEvent.GetPooled();
-            clickEvent.target = button;
-            button.SendEvent(clickEvent);
         }
 
         private static Button FindButton(VisualElement root, string text) => root.Query<Button>().ToList().First(button => button.text == text);
@@ -83,13 +71,12 @@ namespace LowDefMustard.Saving.Tests.Editor
 
         private (GameObject gameObject, SaveableEntity entity, TestSaveableComponent component) SpawnSaveableEntity(string name, object captureValue)
         {
-            var gameObject = new GameObject(name);
+            GameObject gameObject = tracker.CreateGameObject(name);
             var entity = gameObject.AddComponent<SaveableEntity>();
             var component = gameObject.AddComponent<TestSaveableComponent>();
             component.captureStateReturns = captureValue;
             component.loadPriority = LoadPriority.ObjectProperty;
 
-            spawnedGameObjects.Add(gameObject);
             return (gameObject, entity, component);
         }
         #endregion
@@ -126,7 +113,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.saves["Save1"] = ("Hero", 5);
             VisualElement root = OpenWindow().rootVisualElement;
 
-            Click(FindButton(root, "Rename Save"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Rename Save"));
 
             Assert.IsTrue(testAdapter.saves.ContainsKey("Save1_Dupe"));
             Assert.IsFalse(testAdapter.saves.ContainsKey("Save1"));
@@ -140,7 +127,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.saves["Save1"] = ("Hero", 5);
             VisualElement root = OpenWindow().rootVisualElement;
 
-            Click(FindButton(root, "Duplicate Save"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Duplicate Save"));
 
             Assert.IsTrue(testAdapter.saves.ContainsKey("Save1"));
             Assert.IsTrue(testAdapter.saves.ContainsKey("Save1_Dupe"));
@@ -154,7 +141,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.saves["Save1"] = ("Hero", 5);
             VisualElement root = OpenWindow().rootVisualElement;
 
-            Click(FindButton(root, "Delete Save"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Delete Save"));
 
             Assert.IsFalse(testAdapter.saves.ContainsKey("Save1"));
         }
@@ -195,7 +182,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             VisualElement root = OpenWindow().rootVisualElement;
             root.Query<ListView>().First().SetSelection(0);
 
-            Click(FindButton(root, "Set To Current"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Set To Current"));
 
             Assert.AreEqual("Alpha", testAdapter.currentSaveName);
         }
@@ -207,7 +194,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             VisualElement root = OpenWindow().rootVisualElement;
             root.Query<ListView>().First().SetSelection(0);
 
-            Click(FindButton(root, "Copy To Next Open"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Copy To Next Open"));
 
             Assert.IsTrue(testAdapter.saves.ContainsKey("Save0"));
             Assert.AreEqual(("A", 1), testAdapter.saves["Save0"]);
@@ -220,7 +207,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             VisualElement root = OpenWindow().rootVisualElement;
             root.Query<ListView>().First().SetSelection(0);
 
-            Click(FindButton(root, "Delete Selected"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Delete Selected"));
 
             Assert.IsFalse(testAdapter.saves.ContainsKey("Alpha"));
         }
@@ -234,7 +221,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             VisualElement root = OpenWindow().rootVisualElement;
 
             LogAssert.Expect(LogType.Warning, new Regex(@"Save file '.*' not found\.$"));
-            Click(FindButton(root, "Load Scene Data"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Load Scene Data"));
 
             CollectionAssert.Contains(AllLabelText(root), "Status:  Unloaded");
         }
@@ -250,7 +237,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.saves[_tempSaveFile] = ("Hero", 3);
             VisualElement root = OpenWindow().rootVisualElement;
 
-            Click(FindButton(root, "Load Scene Data"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Load Scene Data"));
 
             CollectionAssert.Contains(AllLabelText(root), "Status:  Loaded");
             CollectionAssert.Contains(AllLabelText(root), "GameObject:  SavedEntity");
@@ -260,15 +247,13 @@ namespace LowDefMustard.Saving.Tests.Editor
         [Test]
         public void LoadSceneDataButton_EntityUnderGroupRoot_IsExcluded()
         {
-            var groupRootGameObject = new GameObject("GroupRoot");
+            GameObject groupRootGameObject = tracker.CreateGameObject("GroupRoot");
             groupRootGameObject.AddComponent<TestSaveableGroupRoot>();
-            spawnedGameObjects.Add(groupRootGameObject);
 
-            var nestedGameObject = new GameObject("NestedEntity");
+            var nestedGameObject = new GameObject("NestedEntity"); // Destroyed with its parent
             nestedGameObject.transform.SetParent(groupRootGameObject.transform);
             var nestedEntity = nestedGameObject.AddComponent<SaveableEntity>();
             nestedGameObject.AddComponent<TestSaveableComponent>().captureStateReturns = "nested";
-            spawnedGameObjects.Add(nestedGameObject);
 
             (_, SaveableEntity standaloneEntity, _) = SpawnSaveableEntity("StandaloneEntity", "standalone");
 
@@ -283,7 +268,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.saves[_tempSaveFile] = ("Hero", 1);
             VisualElement root = OpenWindow().rootVisualElement;
 
-            Click(FindButton(root, "Load Scene Data"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Load Scene Data"));
 
             var labels = AllLabelText(root).ToList();
             CollectionAssert.Contains(labels, "GameObject:  StandaloneEntity");
@@ -302,9 +287,9 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.currentSaveName = _tempSaveFile;
             testAdapter.saves[_tempSaveFile] = ("Hero", 3);
             VisualElement root = OpenWindow().rootVisualElement;
-            Click(FindButton(root, "Load Scene Data"));
+            HeadlessEditorWindow.SendClick(FindButton(root, "Load Scene Data"));
 
-            Assert.DoesNotThrow(() => Click(FindButton(root, "Apply All Data")));
+            Assert.DoesNotThrow(() => HeadlessEditorWindow.SendClick(FindButton(root, "Apply All Data")));
 
             JObject savedState = SavingSystem.ManualGetFullState(_tempSaveFile);
             Assert.IsTrue(savedState.ContainsKey(entity.GetUniqueIdentifier()));
@@ -335,7 +320,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.currentSaveName = _tempSaveFile;
             testAdapter.saves[_tempSaveFile] = ("Hero", 3);
             var openedWindow = OpenWindow();
-            Click(FindButton(openedWindow.rootVisualElement, "Load Scene Data"));
+            HeadlessEditorWindow.SendClick(FindButton(openedWindow.rootVisualElement, "Load Scene Data"));
 
             openedWindow.OnFocus();
 
@@ -353,7 +338,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             testAdapter.currentSaveName = _tempSaveFile;
             testAdapter.saves[_tempSaveFile] = ("Hero", 3);
             var openedWindow = OpenWindow();
-            Click(FindButton(openedWindow.rootVisualElement, "Load Scene Data"));
+            HeadlessEditorWindow.SendClick(FindButton(openedWindow.rootVisualElement, "Load Scene Data"));
             Assert.IsTrue(openedWindow.saveControlBoxLoaded); // precondition - confirms it was actually loaded first
 
             openedWindow.OnSceneOpened(default, OpenSceneMode.Single);

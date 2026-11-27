@@ -23,8 +23,8 @@ namespace LowDefMustard.Saving
         // State
         private bool forcePreventSave = false;
         
-        // Constants
-        private const string _uniquePropertyRef = "uniqueIdentifier";
+        // Editor Field References
+        internal const string uniqueIdentifierField = nameof(uniqueIdentifier);
         
         #region PublicPropertyMethods
         public string GetUniqueIdentifier()
@@ -61,7 +61,7 @@ namespace LowDefMustard.Saving
 
                 SaveState saveState = saveable.CaptureState();
                 if (saveState == null) { continue; }
-                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState); // Type ToString does not require CultureInvariant
+                updatedTokenState[GetStateKey(saveable)] = JToken.FromObject(saveState);
             }
 
             return !updatedTokenState.IsNullOrEmpty();
@@ -89,12 +89,14 @@ namespace LowDefMustard.Saving
         }
         #endregion
 
-        #region PrivateMethods
+        #region PrivateInternalMethods
+        internal static string GetStateKey(ISaveableBase saveable) => saveable.GetType().ToString(); // Type ToString does not require CultureInvariant
+
         private static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
         {
             foreach (ISaveableBase saveable in saveableEntries)
             {
-                var typeString = saveable.GetType().ToString(); // Type ToString does not require CultureInvariant
+                string typeString = GetStateKey(saveable);
                 if (!stateDictionary.ContainsKey(typeString)) { continue; }
                 var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
                 if (saveState == null) { continue; }
@@ -120,7 +122,7 @@ namespace LowDefMustard.Saving
             if (StageUtility.GetStage(gameObject) != StageUtility.GetMainStage()) { return; }
 
             var serializedObject = new SerializedObject(this);
-            SerializedProperty property = serializedObject.FindProperty(_uniquePropertyRef);
+            SerializedProperty property = serializedObject.FindProperty(uniqueIdentifierField);
 
             if (string.IsNullOrWhiteSpace(uniqueIdentifier) || !IsUnique(property.stringValue))
             {

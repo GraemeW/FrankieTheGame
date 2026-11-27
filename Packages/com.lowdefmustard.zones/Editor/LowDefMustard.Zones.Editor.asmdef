@@ -7,7 +7,8 @@
     "LowDefMustard.Utils",
     "LowDefMustard.Utils.Editor",
     "LowDefMustard.Localization",
-    "Unity.Localization"
+    "Unity.Localization",
+    "Unity.Addressables.Editor"
   ],
   "includePlatforms": [
     "Editor"

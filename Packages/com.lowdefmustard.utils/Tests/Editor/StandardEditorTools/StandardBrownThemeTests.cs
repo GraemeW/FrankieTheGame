@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using LowDefMustard.Utils.Editor;
 
@@ -10,6 +12,7 @@ namespace LowDefMustard.Utils.Tests.Editor
     public class StandardBrownThemeTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
 
         // Setup
@@ -17,6 +20,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
+            tracker.DestroyAll();
         }
 
         // Private Methods
@@ -48,14 +52,28 @@ namespace LowDefMustard.Utils.Tests.Editor
         {
             var root = new VisualElement();
             StyleSheet theme = LoadThemeStyleSheet();
-            StyleSheet other = ScriptableObject.CreateInstance<StyleSheet>();
+            StyleSheet other = tracker.Create<StyleSheet>();
 
             StandardBrownTheme.Apply(root, theme, null, other);
 
             Assert.AreEqual(2, root.styleSheets.count);
             Assert.IsTrue(root.styleSheets.Contains(theme));
             Assert.IsTrue(root.styleSheets.Contains(other));
-            Object.DestroyImmediate(other);
+        }
+
+        [UnityTest]
+        public IEnumerator Placeholder_UsesThemePlaceholderColour()
+        {
+            window = HeadlessEditorWindow.CreateOffscreenWindow();
+            StandardBrownTheme.Apply(window.rootVisualElement, LoadThemeStyleSheet());
+            var textField = new TextField();
+            textField.textEdition.placeholder = "placeholder";
+            window.rootVisualElement.Add(textField);
+            yield return HeadlessEditorWindow.WaitUntilSettled(window);
+            yield return HeadlessEditorWindow.Settle();
+
+            var textElement = textField.Q<TextElement>();
+            Assert.AreEqual((Color)new Color32(0x7A, 0x61, 0x48, 0xFF), textElement.resolvedStyle.color);
         }
 
         [Test]

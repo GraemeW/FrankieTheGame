@@ -44,7 +44,7 @@ See the [Skills](../OnLoadAssets/Skills/) directory in [OnLoadAssets](../OnLoadA
 3. boolean toggles for:
      * droppable - i.e. can it be removed from inventory
      * consumable - i.e. does it disappear after use
-4. a price, for purchase in [shops](../../Scripts/Inventory/Shop.cs)
+4. a price, for purchase in [shops](../../Scripts/Inventory/ShopsBanks/Shop.cs)
 
 <img src="../../../InfoTools/Documentation/Game/Combat/InventoryItemExample.png" width="350">
 
@@ -54,23 +54,19 @@ See the [Inventory](../OnLoadAssets/Inventory/) directory in [OnLoadAssets](../O
 
 ### Skill Tree Construction
 
-Skills are arranged in nodes, in positions:  up, down, left, right.
-
-<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreeRootNode.png" width="200">
-
-As discussed in [Skills](#skills) above, each skill has a paired [stat](../../Scripts/Stats/Stat.cs).  As a character's relevant stat increases, they unlock branches to new nodes, and thus, new skills.  The starting skill node is referred to as the 'Root Node', and the full set of interlinked nodes defines the Skill Tree.
-
-<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreeBranched.png" width="400">
-
-See the [SkillTrees](./SkillTrees/) directory for further detail, including a quick-start guide to make new skill tree scriptable objects.
+See the [SkillSets](./SkillSets/) README for further detail, including a quick-start guide to make new skill tree scriptable objects.
 
 ### Skill Tree Navigation
+
+Skills are arranged in nodes, in positions:  up, down, left, right.  
+
+As discussed in [Skills](#skills) above, each skill has a paired [stat](../../Scripts/Stats/Stat.cs).  As a character's relevant stat increases, they unlock branches to new nodes, and thus, new skills.  The starting skill node is referred to as the 'Root Node', and the full set of interlinked nodes defines the Skill Tree.
 
 In order to select individual skills, the player inputs a combination of directional commands to navigate through the skill tree.  Stronger skills are buried further in the skill tree, and so require a longer sequence of directional inputs.  
 
 This is illustrated below:
 
-<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreePathExample.png" width="600">
+<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreePathExample.png" width="800">
 
 For example:
 * To access 'Gentle Praise', the player hits:  Up->Select
@@ -83,9 +79,15 @@ For example:
 
 *N.B.  A character's stats can be modified during combat (e.g. due to status effects) -- thus granting or blocking a character's access to skills, nodes and entire sections of the skill tree.*
 
+## Skill Pools
+
+NPCs generally use a skill pool (rather than a skill tree), which is simply a flat list of skills, each with a probability weight.  A skill's weight sets how often it's picked relative to the others (e.g. a skill at weight 2 is picked twice as often as one at weight 1).
+
+See the [SkillSets](./SkillSets/) README for a quick-start guide to make new skill pool scriptable objects.
+
 ## Battle AI
 
-Enemy NPCs navigate through the skill tree system using a bespoke AI system, where an arbitrary number of AI priorities can be placed in preference sequence.
+Enemy NPCs pick skills from their skill pool using a bespoke AI system, where an arbitrary number of AI priorities can be placed in preference sequence.
 
 AI priorities consist of:
 * a list of skills
@@ -97,5 +99,5 @@ AI priorities consist of:
 See the [BattleAI](./BattleAI/) directory for further detail, including a quick-start guide to make new AI  priority scriptable objects.
 
 *N.B. In the absence of AI priorities:*
-* *skills are chosen at random, with a pre-defined probability to traverse deeper into the skill tree*
+* *skills are chosen at random, weighted by their skill pool probability weights*
 * *targets are chosen at random*

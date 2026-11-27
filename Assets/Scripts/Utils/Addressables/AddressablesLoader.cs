@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using LowDefMustard.Utils;
 using LowDefMustard.Zones;
 using Frankie.Combat;
 using Frankie.Inventory;
@@ -16,35 +18,46 @@ namespace Frankie.Utils.Addressables
         private void Awake()
         {
             VerifySingleton();
-
-            BattleAction.BuildCacheIfEmpty();
-            CharacterProperties.BuildCacheIfEmpty();
-            InventoryItem.BuildCacheIfEmpty();
-            Quest.BuildCacheIfEmpty();
-            Skill.BuildCacheIfEmpty();
-            Zone.BuildCacheIfEmpty();
+            StartAllCacheBuilds(); // Async ~ never block here: this Awake can run inside a scene load (see AddressablesLookupCache)
         }
 
         private void OnDestroy()
         {
             if (!isSingleton) { return; }
             
-            BattleAction.ReleaseCache();
-            CharacterProperties.ReleaseCache();
-            InventoryItem.ReleaseCache();
-            Quest.ReleaseCache();
-            Skill.ReleaseCache();
-            Zone.ReleaseCache();
+            foreach (IAddressablesCacheLifecycle cache in GetCaches()) { cache.Release(); }
+            CharacterPrefabCache.ReleaseAll();
         }
+        #endregion
+
+        #region PublicMethods
+        public static void StartAllCacheBuilds()
+        {
+            foreach (IAddressablesCacheLifecycle cache in GetCaches()) { cache.StartBuild(); }
+        }
+
+        public static bool AreAllCachesReady() => GetCaches().All(cache => cache.IsReady());
+        
+        internal static IAddressablesCacheLifecycle[] GetCaches() => new[]
+        {
+            // Every IAddressablesCache owner's cache ~ AddressablesLoaderTests checks none missing
+            // Note:  Built per call, the owners' caches are replaced on each Play mode entry ([AutoStaticsCleanup])
+            
+            BattleAction.addressablesCache,
+            CharacterProperties.addressablesCache,
+            InventoryItem.addressablesCache,
+            Quest.addressablesCache,
+            Skill.addressablesCache,
+            Zone.addressablesCache
+        };
         #endregion
 
         #region PrivateMethods
         private void VerifySingleton()
         {
-            // Singleton through standard approach -- do not use persistent object spawner for addressables loader
-            // i.e. want assets loaded in Awake
-            int numberOfPlayers = FindObjectsByType<AddressablesLoader>().Length;
-            if (numberOfPlayers > 1)
+            // Singleton through standard approach: do not use persistent object spawner for addressables loader (want assets loaded in Awake)
+            int numberOfAddressablesLoaders = FindObjectsByType<AddressablesLoader>().Length;
+            if (numberOfAddressablesLoaders > 1)
             {
                 isSingleton = false;
                 gameObject.SetActive(false);

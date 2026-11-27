@@ -15,10 +15,6 @@ namespace LowDefMustard.Zones.Editor
         private const float _statusIndicatorDiameter = 10f;
 
         // Constants
-        private const string _propertySceneAsset = "sceneAsset";
-        private const string _propertySceneName = "sceneName";
-        private const string _propertyScenePath = "scenePath";
-
         private static readonly Color _statusGreen = Color.lightGreen;
         private static readonly Color _statusOrange = Color.darkOrange;
         private static readonly Color _statusRed = Color.softRed;
@@ -26,13 +22,15 @@ namespace LowDefMustard.Zones.Editor
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            // Pull out relevant properties
-            SerializedProperty sceneAssetProperty = property.FindPropertyRelative(_propertySceneAsset);
-            SerializedProperty sceneNameProperty = property.FindPropertyRelative(_propertySceneName);
-            SerializedProperty scenePathProperty = property.FindPropertyRelative(_propertyScenePath);
+            SerializedProperty sceneAssetProperty = property.FindPropertyRelative(SceneReference.sceneAssetField);
+            SerializedProperty sceneNameProperty = property.FindPropertyRelative(SceneReference.sceneNameField);
+            SerializedProperty scenePathProperty = property.FindPropertyRelative(SceneReference.scenePathField);
+            SerializedProperty sceneGuidProperty = property.FindPropertyRelative(SceneReference.sceneGuidField);
+            var properties = new SceneProperties(sceneAssetProperty, sceneNameProperty, scenePathProperty, sceneGuidProperty);
 
             // Safety against loss of Scene reference - should then rebind via Path/Name (stable references)
-            TryRelinkSceneAsset(sceneAssetProperty, sceneNameProperty, scenePathProperty);
+            TryRelinkSceneAsset(properties);
+            TrySyncSceneGuid(properties);
 
             // Build UI
             var root = new VisualElement { style = { flexDirection = FlexDirection.Row } };
@@ -48,13 +46,13 @@ namespace LowDefMustard.Zones.Editor
 
             // Callbacks
             // Note:  field deliberately not bound due to potential for quirky Unity overwrites
-            assetField.RegisterValueChangedCallback(evt => ApplyScene(sceneAssetProperty, sceneNameProperty, scenePathProperty, evt.newValue as SceneAsset));
+            assetField.RegisterValueChangedCallback(evt => ApplyScene(properties, evt.newValue as SceneAsset));
             root.TrackSerializedObjectValue(sceneAssetProperty.serializedObject, _ => Refresh());
             Refresh();
 
             clearButton.RegisterCallback<ClickEvent>(_ =>
             {
-                ApplyScene(sceneAssetProperty, sceneNameProperty, scenePathProperty, null);
+                ApplyScene(properties, null);
                 Refresh();
             });
 
@@ -66,51 +64,75 @@ namespace LowDefMustard.Zones.Editor
             {
                 assetField.showMixedValue = sceneAssetProperty.hasMultipleDifferentValues;
                 assetField.SetValueWithoutNotify(sceneAssetProperty.objectReferenceValue);
-                RefreshStatusIndicator(statusIndicator, sceneAssetProperty, sceneNameProperty, scenePathProperty);
+                RefreshStatusIndicator(statusIndicator, properties);
             }
         }
 
         #region PrivateHelpers
-        private static void ApplyScene(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty, SceneAsset scene, bool recordUndo = true)
+        private static void ApplyScene(SceneProperties properties, SceneAsset scene, bool recordUndo = true)
         {
             string sceneName = scene != null ? scene.name : string.Empty;
             string scenePath = scene != null ? AssetDatabase.GetAssetPath(scene) : string.Empty;
+            string sceneGuid = scene != null ? AssetDatabase.AssetPathToGUID(scenePath) : string.Empty;
 
-            bool isUnchanged = !assetProperty.hasMultipleDifferentValues && assetProperty.objectReferenceValue == scene && sceneNameProperty.stringValue == sceneName && scenePathProperty.stringValue == scenePath;
+            bool isUnchanged = !properties.asset.hasMultipleDifferentValues && properties.asset.objectReferenceValue == scene
+                && properties.name.stringValue == sceneName && properties.path.stringValue == scenePath && properties.guid.stringValue == sceneGuid;
             if (isUnchanged) { return; }
 
-            assetProperty.objectReferenceValue = scene;
-            sceneNameProperty.stringValue = sceneName;
-            scenePathProperty.stringValue = scenePath;
+            properties.asset.objectReferenceValue = scene;
+            properties.name.stringValue = sceneName;
+            properties.path.stringValue = scenePath;
+            properties.guid.stringValue = sceneGuid;
 
-            if (recordUndo) { assetProperty.serializedObject.ApplyModifiedProperties(); }
-            else { assetProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo(); }
+            if (recordUndo) { properties.asset.serializedObject.ApplyModifiedProperties(); }
+            else { properties.asset.serializedObject.ApplyModifiedPropertiesWithoutUndo(); }
         }
 
-        private static void TryRelinkSceneAsset(SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty)
+        private static void TryRelinkSceneAsset(SceneProperties properties)
         {
+            SerializedProperty assetProperty = properties.asset;
             SerializedObject serializedObject = assetProperty.serializedObject;
             if (assetProperty.objectReferenceValue != null) { return; } // Scene reference already exists
             if (serializedObject.isEditingMultipleObjects) { return; } // Multi-selection would copy one target's match onto all the others
             if (PrefabUtility.IsPartOfPrefabInstance(serializedObject.targetObject)) { return; } // Instances would gain an override instead of the prefab asset being healed
 
-            string sceneName = sceneNameProperty.stringValue;
-            string scenePath = scenePathProperty.stringValue;
-            if (string.IsNullOrWhiteSpace(sceneName) && string.IsNullOrWhiteSpace(scenePath)) { return; } // Never set, nothing to repair
+            string sceneName = properties.name.stringValue;
+            string scenePath = properties.path.stringValue;
+            string sceneGuid = properties.guid.stringValue;
+            if (string.IsNullOrWhiteSpace(sceneName) && string.IsNullOrWhiteSpace(scenePath) && string.IsNullOrWhiteSpace(sceneGuid)) { return; } // Never set, nothing to repair
 
-            SceneAsset scene = FindSceneAsset(scenePath, sceneName);
+            SceneAsset scene = FindSceneAsset(sceneGuid, scenePath, sceneName);
             if (scene == null)
             {
                 LDMLog.Warning(LDMLogCategory.Zones, $"Could not repair scene reference for '{assetProperty.displayName}' (path: '{scenePath}', name: '{sceneName}'). Re-link it manually.");
                 return;
             }
 
-            ApplyScene(assetProperty, sceneNameProperty, scenePathProperty, scene, recordUndo: false);
+            ApplyScene(properties, scene, recordUndo: false);
             LDMLog.Info(LDMLogCategory.Zones, $"Repaired scene reference for '{assetProperty.displayName}' (path: '{AssetDatabase.GetAssetPath(scene)}').", assetProperty.serializedObject.targetObject);
         }
-
-        private static SceneAsset FindSceneAsset(string scenePath, string sceneName)
+        
+        private static void TrySyncSceneGuid(SceneProperties properties)
         {
+            // Fills a missing / stale GUID
+            if (properties.asset.hasMultipleDifferentValues || PrefabUtility.IsPartOfPrefabInstance(properties.asset.serializedObject.targetObject)) { return; }
+            if (properties.asset.objectReferenceValue is not SceneAsset scene) { return; }
+
+            string sceneGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(scene));
+            if (properties.guid.stringValue == sceneGuid) { return; }
+            properties.guid.stringValue = sceneGuid;
+            properties.asset.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static SceneAsset FindSceneAsset(string sceneGuid, string scenePath, string sceneName)
+        {
+            // Try by GUID
+            if (!string.IsNullOrWhiteSpace(sceneGuid))
+            {
+                var sceneByGuid = AssetDatabase.LoadAssetAtPath<SceneAsset>(AssetDatabase.GUIDToAssetPath(sceneGuid));
+                if (sceneByGuid != null) { return sceneByGuid; }
+            }
+
             // Try by Path
             if (!string.IsNullOrWhiteSpace(scenePath))
             {
@@ -136,13 +158,14 @@ namespace LowDefMustard.Zones.Editor
             return match;
         }
         
-        private static void RefreshStatusIndicator(VisualElement indicator, SerializedProperty assetProperty, SerializedProperty sceneNameProperty, SerializedProperty scenePathProperty)
+        private static void RefreshStatusIndicator(VisualElement indicator, SceneProperties properties)
         {
-            if (assetProperty.hasMultipleDifferentValues || sceneNameProperty.hasMultipleDifferentValues || scenePathProperty.hasMultipleDifferentValues) { SetStatus(indicator, _statusGray, "Multiple values"); return; }
+            if (properties.asset.hasMultipleDifferentValues || properties.name.hasMultipleDifferentValues || properties.path.hasMultipleDifferentValues || properties.guid.hasMultipleDifferentValues) { SetStatus(indicator, _statusGray, "Multiple values"); return; }
 
-            var scene = assetProperty.objectReferenceValue as SceneAsset;
-            string sceneName = sceneNameProperty.stringValue;
-            string scenePath = scenePathProperty.stringValue;
+            var scene = properties.asset.objectReferenceValue as SceneAsset;
+            string sceneName = properties.name.stringValue;
+            string scenePath = properties.path.stringValue;
+            string sceneGuid = properties.guid.stringValue;
             bool nameOrPathSet = !string.IsNullOrWhiteSpace(sceneName) || !string.IsNullOrWhiteSpace(scenePath);
 
             if (scene == null)
@@ -152,9 +175,10 @@ namespace LowDefMustard.Zones.Editor
                 return;
             }
 
-            bool matches = scene.name == sceneName && AssetDatabase.GetAssetPath(scene) == scenePath;
-            if (matches) { SetStatus(indicator, _statusGreen, $"Scene configured with {sceneName} : {scenePath}"); }
-            else { SetStatus(indicator, _statusRed, $"Inconsistent scene reference - actual {scene.name} vs. expected {sceneName} : {scenePath}"); }
+            bool matches = scene.name == sceneName && AssetDatabase.GetAssetPath(scene) == scenePath && AssetDatabase.AssetPathToGUID(scenePath) == sceneGuid;
+            if (!matches) { SetStatus(indicator, _statusRed, $"Inconsistent scene reference - actual {scene.name} vs. expected {sceneName} : {scenePath}"); }
+            else if (!AddressableSceneEntries.IsLoadableScene(sceneGuid)) { SetStatus(indicator, _statusOrange, $"Scene {sceneName} isn't loadable by GUID (an Addressables scene entry in a group with Include GUIDs in Catalog), so it can't load at runtime"); }
+            else { SetStatus(indicator, _statusGreen, $"Scene configured with {sceneName} : {scenePath}"); }
         }
 
         private static void SetStatus(VisualElement indicator, Color color, string tooltip)

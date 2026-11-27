@@ -17,7 +17,6 @@ namespace Frankie.Speech.Editor
         //  - Picker -> picker popup ~ incl. `None` row, click to set field (via onPick), search focused on open
         
         // Const Tunables
-        private const float _dragThreshold = 4f;
         private const long _rebuildDelayMs = 300;
         
         private const string _searchPlaceholder = "Search dialogue variables";
@@ -42,8 +41,6 @@ namespace Frankie.Speech.Editor
         private readonly Action<ScriptableObject> onPick;
         private List<DialogueVariableCatalogEntry> entries = new();
         private IVisualElementScheduledItem pendingRebuild;
-        private ScriptableObject pendingDragVariable;
-        private Vector2 pendingDragStart;
 
         // Constructor
         private DialogueVariablesPanel(DialogueVariablesPanelMode mode, VisualElement windowRoot, Action<ScriptableObject> onPick)
@@ -138,14 +135,7 @@ namespace Frankie.Speech.Editor
             if (showTypeLabel) { row.Add(new Label(entry.typeLabel) { style = { color = _typeLabelColour, marginLeft = 4f } }); } // show subtype label on multi-inherited
             if (mode != DialogueVariablesPanelMode.Overlay) { return row; }
 
-            row.RegisterCallback<PointerDownEvent>(pointerDownEvent =>
-            {
-                if (pointerDownEvent.button != 0) { return; }
-                pendingDragVariable = variable;
-                pendingDragStart = pointerDownEvent.position;
-            });
-            row.RegisterCallback<PointerMoveEvent>(TryStartDrag);
-            row.RegisterCallback<PointerUpEvent>(_ => pendingDragVariable = null);
+            row.AddManipulator(new StandardObjectDragManipulator(() => variable));
             row.RegisterCallback<ClickEvent>(clickEvent => { if (clickEvent.clickCount == 2) { EditorGUIUtility.PingObject(variable); } });
             return row;
         }
@@ -160,17 +150,6 @@ namespace Frankie.Speech.Editor
             row.AddToClassList(StandardBrownTheme.rowClass);
             row.RegisterCallback<ClickEvent>(clickEvent => { if (clickEvent.button == 0) { onPick?.Invoke(variable); } });
             return row;
-        }
-        
-        private void TryStartDrag(PointerMoveEvent pointerMoveEvent)
-        {
-            if (pendingDragVariable == null || (pointerMoveEvent.pressedButtons & 1) == 0) { return; }
-            if (Vector2.Distance(pendingDragStart, pointerMoveEvent.position) < _dragThreshold) { return; }
-
-            DragAndDrop.PrepareStartDrag();
-            DragAndDrop.objectReferences = new UnityEngine.Object[] { pendingDragVariable };
-            DragAndDrop.StartDrag(pendingDragVariable.name);
-            pendingDragVariable = null;
         }
         #endregion
         

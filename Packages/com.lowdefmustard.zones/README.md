@@ -22,9 +22,8 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 
 ### Core Data Model (`Runtime`)
 
-- **`SceneReference`** — Serializable struct pairing a `SceneAsset` reference (editor-only) with a plain `sceneName`/`scenePath`, so a build can resolve scenes by name even where a live `SceneAsset` reference isn't available
 - **`Zone`** (`ScriptableObject`, `Zone/New Zone`) — One `Zone` asset per scene: a `SceneReference`, display name (`[SimpleLocalizedString]`), zone audio, and a tree of `ZoneNode`s 
-  - Implements `IAddressablesCache` (Addressables-backed static lookup by name or by scene reference, same convention as `com.lowdefmustard.utils`) and `ILocalizable` (aggregates its own and every child node's localization entries)
+  - Implements `IAddressablesCache` (an `AddressablesLookupCache<Zone>` keyed by name, with the scene name as its secondary key ~ see `com.lowdefmustard.utils`) and `ILocalizable` (aggregates its own and every child node's localization entries)
   - Editor-only methods (`#if UNITY_EDITOR`) manage node/group creation, deletion, ID renaming (with matching localization-key rename), and parent/child relations — all routed through `Undo`
 - **`ZoneNode`** (`ScriptableObject`, implements `IStandardGraphNode` from `com.lowdefmustard.utils`) — A node within a zone's graph: localized display name, a `condition` (a `com.lowdefmustard.utils` `Condition`/`Predicate` gate), a `rect` for editor canvas position, and two distinct relations:
   - **`children`** — in-zone tree structure (a list of sibling `ZoneNode` IDs within the *same* `Zone`), drawn as edges by `ZoneEditor`
@@ -33,12 +32,15 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 - **`ZoneNodeGroup`** — Editor-only visual grouping box within a zone's node graph (not a gameplay concept) — a named `Rect` that auto-recomputes its bounds to encapsulate whichever `ZoneNode`s are dragged into/out of it
 - **`ZoneHandlerBase`** — `MonoBehaviour` placed on an actual in-scene `GameObject`, bridging a `ZoneNode` (editor-only graph data) to a real warp/entry position (`warpTransform`, falling back to the handler's own transform)
   - `MultiZoneViewer` crawls `ZoneHandlerBase` entities to find cross-zone links and plot node positions on the map
+- **`SceneReference`** — Serializable struct pairing a `SceneAsset` reference (editor-only) with a plain `sceneName`/`scenePath`/`sceneGuid`, so a build can resolve scenes where a live `SceneAsset` reference isn't available
+  - `TryGetSceneGuid(out guid)`:  the runtime scene key ~ `AddressableSceneLoader` loads by it and saves store it
 
 ### Transitions (`Runtime/Transitions`)
 
 - **`FaderBase<TTransitionType>`** (abstract, `TTransitionType : struct, Enum`) — Base class for a project's screen-fade/transition-type `MonoBehaviour`, found via a `"Fader"` tag and exposed through static entry points (`StartStandardFade`, `StartBlipFade`, `StartSceneLoadFade`, `StartQuickSceneLoadFade`) so any code can trigger a fade without holding a reference
   - `TTransitionType` is the project's own transition-type enum (e.g. distinguishing a plain UI fade from a scene-load fade), letting per-type timing/behaviour vary
   - Scene-load fades apply an extra `zoneFadeTimerMultiplier` and call abstract `TriggerSave`/`TriggerLoad` hooks around the load — intended to be wired to a save system such as `com.lowdefmustard.saving`
+  - virtual `PrepareLoadedScene()` (coroutine) runs after the scene loaded, but before `TriggerLoad`, and still behind the fade ~ use this to preload what the restore + scene will spawn
   - View-agnostic: the base steps a fade alpha over the fade time and hands it to the subclass via the abstract `SetOverlayAlpha(transitionType, alpha)` (with `ResetOverlays` to hide everything)
     - Notably, this means the overlay can be any UI implementation
     - `IsSkipFade`/`TransitionUsesStandaloneFadeControl` + `TriggerStandaloneFadeIn`/`Out`/`Cleanup` let a subclass substitute a fully custom visual for specific transition types 
@@ -59,13 +61,14 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
     - an `[EnumKeyedCollection]`-drawn `ZoneSceneTypeLookup<TSceneType>` mapping each `TSceneType` value to a `Zone`
     - `QueueScene`/`StartLoadScene` to enable loading in a new scene using the aforementioned `TSceneType`
     - hooks for a concrete project subclass to classify its own enum (`IsNewGameSceneType`, `IsGameOverSceneType`, `ShouldSaveSessionOnGameOver`)
-    - hooks to resolve the target `Zone` via `DemoZoneOverrideProvider`
+    - hooks to resolve the target `Zone` via `demoZoneOverrideProvider`
 - **`ZoneSceneTypeLookup<TSceneType>`** — Thin `EnumKeyedCollection<TSceneType, Zone>` subclass (see `com.lowdefmustard.utils`) used as `SceneLoaderBase<TSceneType>`'s scene-queue-to-`Zone` map
 - **`SceneQueueData`** — Plain data (delay, completion callback, whether to use the fader) passed to `SceneLoaderBase<TSceneType>.QueueScene`
 
 ### Editor Tooling — Shared (`Editor`)
 
 - **`SceneReferencePropertyDrawer`** — Standard drag-and-drop `SceneAsset` field for `SceneReference` (with an "X" to clear), matching Unity's typical scene-reference inspector pattern
+  - keeps `sceneGuid` in sync with the scene asset (fills a missing / stale one on open) and relinks a lost asset by GUID, then path, then name
 - **`ZoneTools.OpenSceneAndAct`** — Prompts to save any modified scenes, opens the target `Zone`'s scene, then invokes a callback once open
   - e.g. used by `ZoneNodeView`'s "select ref" button to locate and select the matching `ZoneHandlerBase` GameObject in-scene
 
@@ -126,10 +129,10 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | Category                                                                                                            | Tested / Total   | Notes                                                                            |
 |---------------------------------------------------------------------------------------------------------------------|:----------------:|----------------------------------------------------------------------------------|
 | Trivial data holders (`SceneQueueData`, `FaderEventTriggers<T>`, `ZoneNodeData`, `ZoneHandlerNodeData`, `ZoneView`) |       5/5        |                                                                                  |
-| `SceneReference`                                                                                                    |       9/9        |                                                                                  |
+| `SceneReference`                                                                                                    |      12/12       |                                                                                  |
 | `Zone` core (getters, node/group CRUD, localization entries, `UpdateGroupsForNodeMove`)                             |      10/11       | `ForceUpdateZoneNameToMatchScene` skipped                                        |
-| `Zone.OnBeforeSerialize`                                                                                            |       2/2        |                                                                                  |
-| `Zone` Addressables cache (`GetFromName`/`GetFromSceneReference`/`BuildCacheIfEmpty`/`AddZoneToCache`)              |       4/4        |                                                                                  |
+| `Zone.OnBeforeSerialize`                                                                                            |       3/3        |                                                                                  |
+| `Zone` Addressables cache (`GetFromName`/`GetFromSceneName`/`GetFromSceneGuid`/`BuildIfEmpty`/`AddZoneToCache`)     |       5/5        |                                                                                  |
 | `ZoneNode`                                                                                                          |      10/12       | `CheckCondition` delegation and `GetDisplayName`'s localized value tests skipped |
 | `ZoneNodeGroup`                                                                                                     |       5/6        | `Zone.GetFromName` lookup branch skipped (`cachedZone` always pre-seeded)        |
 | `ZoneHandlerBase`                                                                                                   |       3/3        |                                                                                  |
@@ -164,7 +167,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | `SceneLoaderBase`                                          | Partial  | `SceneLoaderBaseTests.cs`, `SceneLoaderBaseDelayedDestroyTests.cs`, `SceneLoaderBaseLoadNewSceneAsyncTests.cs`                                                                 | Non-fader path triggers scene-load coroutine w/ side-effects; `GetCurrentZone`'s cache-miss falls through to same Addressables path as `Zone` |
 | `SceneLoaderBase<TSceneType>`                              | Yes      | `SceneLoaderBaseGenericTests.cs`                                                                                                                                               |                                                                                                                                               |
 | `FaderBase<TTransitionType>`                               | Partial  | `FaderBaseTests.cs`                                                                                                                                                            | `StartSceneLoadFade`/`StartQuickSceneLoadFade` both drive `SceneLoaderBase.LoadNewSceneAsync` (already tested)                                |
-| `ZoneHandlerConduit`                                       | Yes      | `ZoneHandlerConduitTests.cs`, `ZoneHandlerConduitSceneScanTests.cs`, `ZoneHandlerConduitLinkedScenePathsTests.cs`                                                              |                                                                                                                                               |
+| `ZoneHandlerConduit`                                       | Yes      | `ZoneHandlerConduitTests.cs` (incl. scene scan), `ZoneHandlerConduitLinkedScenePathsTests.cs`                                                                                  |                                                                                                                                               |
 | `ZoneTools`                                                | Yes      | `ZoneToolsTests.cs`                                                                                                                                                            |                                                                                                                                               |
 | `MultiZoneView`                                            | Yes      | `MultiZoneViewTests.cs`, `MultiZoneViewCreateNewEntryTests.cs`                                                                                                                 |                                                                                                                                               |
 | `ZoneViewData`                                             | Yes      | `ZoneViewDataTests.cs`                                                                                                                                                         |                                                                                                                                               |
@@ -178,7 +181,7 @@ Add via the Unity Package Manager using a Git URL (adjust to your repo/path), or
 | `ZoneEditor`                                               | Partial  | `ZoneEditorTests.cs`                                                                                                                                                           | `ShowEditorWindow`/`[OnOpenAsset]` open a separate window                                                                                     |
 | `MultiZoneDragManipulator` / `MultiZonePanManipulator`     | Yes      | `MultiZoneDragManipulatorTests.cs`, `MultiZonePanManipulatorTests.cs`,                                                                                                         |                                                                                                                                               |
 | `ZoneNodeLinkManipulator` / `ZoneNodeGroupDragManipulator` | Yes      | `ZoneNodeLinkManipulatorTests.cs`, `ZoneNodeGroupDragManipulatorTests.cs`                                                                                                      |                                                                                                                                               |
-| `MultiZoneViewer`                                          | Partial  | `MultiZoneViewerCaptureTests.cs`, `MultiZoneViewerTests.cs`, `MultiZoneViewerNodeDotLinkTests.cs`, `MultiZoneViewerSnapshotTests.cs`, `MultiZoneViewerParametersPanelTests.cs` | `CaptureAllZones` skipped (covered via other tests)                                                                                            |
+| `MultiZoneViewer`                                          | Partial  | `MultiZoneViewerCaptureTests.cs`, `MultiZoneViewerTests.cs`, `MultiZoneViewerNodeDotLinkTests.cs`, `MultiZoneViewerSnapshotTests.cs`, `MultiZoneViewerParametersPanelTests.cs` | `CaptureAllZones` skipped (covered via other tests)                                                                                           |
 | `SceneReferencePropertyDrawer`                             | Yes      | `SceneReferencePropertyDrawerTests.cs`                                                                                                                                         |                                                                                                                                               |
 
 ## License

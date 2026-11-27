@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbb5d3d73f674ac0bbdca30ef1b3534, type: 3}
+  m_Name: _TempTestPool
+  m_EditorClassIdentifier: Frankie::Frankie.Combat.SkillPool
+  skillProbabilityPairs:
+  - skillReference: ColdMonkBrew
+    probabilityWeight: 3
+  - skillReference: ShareWarmRamen
+    probabilityWeight: 1
+  - skillReference: WarmMeal
+    probabilityWeight: 3
+  - skillReference: NerdSnipe
+    probabilityWeight: 1
+  - skillReference: NerdOut
+    probabilityWeight: 1

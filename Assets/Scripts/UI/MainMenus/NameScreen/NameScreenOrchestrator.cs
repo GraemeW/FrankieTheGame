@@ -18,7 +18,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Menu.UI
 {
-    public class NameScreenOrchestrator : MonoBehaviour, ILocalizable
+    public class NameScreenOrchestrator : MonoBehaviour, ILocalizable, ICharacterPrefabUser
     {
         [Header("Controller")]
         [SerializeField] private MainMenuController mainMenuController;
@@ -55,9 +55,16 @@ namespace Frankie.Menu.UI
         {
             SetState(NameScreenState.Intro);
         }
+
+        private void Start()
+        {
+            CharacterPrefabCache.StartPreload(GetCharactersToPreload()); // The questions' characters ~ ready by the time each question shows them
+        }
         #endregion
         
         #region PublicMethods
+        public IEnumerable<CharacterProperties> GetCharactersToPreload() => questions.Where(question => question != null).Select(question => question.GetCharacterProperties()).Where(characterProperties => characterProperties != null);
+
         public bool TryGetController(out BaseController controller)
         {
             controller = mainMenuController;

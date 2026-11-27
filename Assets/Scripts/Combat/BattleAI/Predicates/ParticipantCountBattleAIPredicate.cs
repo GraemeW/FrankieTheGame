@@ -12,13 +12,13 @@ namespace Frankie.Combat
 
         public override bool? Evaluate(BattleAI battleAI)
         {
-            countThreshold = Mathf.Max(countThreshold, 0);
-            
+            int minimumCount = Mathf.Max(countThreshold, 0);
+
             int participantCount = 0;
             if (countLocalAllies) { participantCount += battleAI.GetLocalAllies().Count(x => !x.combatParticipant.IsDead()); }
             if (countLocalFoes) { participantCount += battleAI.GetLocalFoes().Count(x => !x.combatParticipant.IsDead()); }
 
-            return participantCount >= countThreshold;
+            return participantCount >= minimumCount;
         }
     }
 }

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TestTools;
+using LowDefMustard.Utils.Tests;
 using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Control.Tests.Editor
@@ -15,7 +16,7 @@ namespace LowDefMustard.Control.Tests.Editor
     public class ControllerReceiverStackTests
     {
         // State
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
 
         #region DataStructures
         // Fuller double vs. ReceiverStateTests' - tracks call history and captures the OnReceiverModified callback so tests can invoke it directly
@@ -71,21 +72,15 @@ namespace LowDefMustard.Control.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject go in spawnedGameObjects.Where(go => go != null))
-            {
-                Object.DestroyImmediate(go);
-            }
-
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
         }
         #endregion
 
         #region PrivateMethods
         private GameObject CreateGameObject(bool active = true)
         {
-            var go = new GameObject("ControllerReceiverStackTests_Target");
+            GameObject go = tracker.CreateGameObject("ControllerReceiverStackTests_Target");
             go.SetActive(active);
-            spawnedGameObjects.Add(go);
             return go;
         }
 
@@ -95,7 +90,7 @@ namespace LowDefMustard.Control.Tests.Editor
             var controller = go.AddComponent<TestController>();
             // Force a known polling interval rather than depending on the production default staying 0.1f
             var serializedController = new SerializedObject(controller);
-            serializedController.FindProperty("listenerPollingInterval").floatValue = 0.1f;
+            serializedController.FindProperty(BaseController.listenerPollingIntervalField).floatValue = 0.1f;
             serializedController.ApplyModifiedPropertiesWithoutUndo();
             return controller;
         }
@@ -387,6 +382,22 @@ namespace LowDefMustard.Control.Tests.Editor
             controller.PollForReceivers(0.2f);
 
             Assert.That(controller.onNoReceiversIdentifiedCalled, Is.False);
+        }
+
+        [Test]
+        public void PollForReceivers_DestroyAlreadyQueued_DoesNotTriggerOrWarn()
+        {
+            TestController controller = CreateController();
+            controller.shouldDestroyForNoReceiversValue = true;
+            var fake1 = new FakeInputReceiver(CreateGameObject());
+            controller.AddInputReceiver(fake1, null);
+            fake1.receiverModifiedCallback(ReceiverModifiedType.ClientExit, new ReceiverModifiedData(fake1));
+            Assert.That(controller.destroyQueuedValue, Is.True);
+
+            controller.PollForReceivers(0.2f);
+
+            Assert.That(controller.onNoReceiversIdentifiedCalled, Is.False);
+            LogAssert.NoUnexpectedReceived();
         }
         #endregion
     }

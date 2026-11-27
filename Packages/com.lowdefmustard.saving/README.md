@@ -7,6 +7,7 @@ Save-data serialization, the `SaveableEntity`/`ISaveable` framework, and the `Sa
 - **Unity:** 6000.5+
 - **Dependencies:** 
   - `com.unity.nuget.newtonsoft-json` 3.2.2
+  - `com.lowdefmustard.utils` 0.1.0 (tests only ~ shared `HeadlessEditorWindow`)
 
 ## Installation
 
@@ -61,11 +62,15 @@ private void Update()
 Static entry point for all save/load I/O — file read/write (optionally AES-encrypted via `SymmetricEncryptor`, Newtonsoft-serialized), scene reload on load, and orchestrating capture/restore across every `SaveableEntity` in the scene:
 
 - **`Save`/`LoadLastScene`/`LoadWithinScene`/`Delete`/`ListSaves`** — top-level save-slot operations.
+  - the last scene is an opaque scene key (`lastScene`):  whatever the project's scene loader loads by (e.g. Frankie passes the scene GUID)
+  - `LoadLastScene(saveFile, loadScene)`:  hands the key to the project's loader, a `SceneLoadRoutine(sceneKey, onLoadComplete)`
+  - editor hooks (set by project editor code):  `editorIsSceneLoadable(key)` warns on unloadable manual edits, `editorGetActiveSceneKey()` gives the Save Editor the open scene's key
 - **`CopySessionToSave`/`CopySaveToSession`/`CopySaveToSave`/`Append`** — session-vs-persisted-save copying, and appending a single entity's state into a session file without a full save pass.
 - **`CopyCorePlayerStateToSave`** — captures only entities/components flagged `IsCorePlayerState()`. 
   - e.g. for a game-over save that shouldn't include full-world state like position
 - Restore runs in three passes per `RestoreState`: all entities' `ObjectInstantiation`-priority state, then all `ObjectProperty`-priority state, then `ApplyFinishingTouches()` on everything — see `LoadPriority` above.
 - `Manual*` methods (`ManualGetFullState`, `ManualSave`, `ManualUpdateLastScene`, `ManualAddOverWriteToState`, ...) expose the same primitives `SaveEditor` needs to mutate a save file directly, without going through a live scene load/save cycle.
+- `TryManualGetData(fullState, saveable, out T data)` reads one `ISaveable<T>` component's saved data from a `ManualGetFullState` result, without restoring it.
 
 ### Save Editor (`Editor/SaveEditor.cs` + supporting types)
 
@@ -77,7 +82,7 @@ Access via `Tools > Save Editor`. Lets you inspect and directly edit the content
   - Additional SubCard views must be generated via `RegisterSubCard` extension hooks - see below.
 - **Sync status** — editing a field marks its sub-card (and rolls up to the entity card) "Volatile"/desynced (shown in a distinct color) until that entity is saved or the file is reloaded, so it's obvious what hasn't been persisted yet.
 - **`PriorityRegistry<T>`** — small ordered-rule matcher (`Register(predicate, priority)` / `GetPriority(item)`) used to sort both entity cards and sub-cards; unmatched items sort last (`int.MaxValue`).
-- **`SceneSelectorContext`** — passed to the optional `SaveEditor.SceneSelectorFactory` hook (see below) so a project can render its own "last saved scene" picker in place of the default read-only text field.
+- **`SceneSelectorContext`** — passed to the optional `SaveEditor.sceneSelectorFactory` hook (see below) so a project can render its own "last saved scene" picker in place of the default read-only text field.
 
 ### Extension Hooks
 
@@ -88,7 +93,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
   - Each project should assign its own adapter to `SaveFileManagerProvider.current` (typically via an `[InitializeOnLoad]` class) wrapping its actual save-slot manager.
 - **`SaveableSubCardData.RegisterSubCard<T>(...)` / `RegisterSubCardPriority(...)`** — register a custom `SaveableSubCardData` factory for a given `ISaveableBase` type, and/or a sort priority for it, so project-specific components get a purpose-built editor UI.
 - **`SaveableEntityCardData.RegisterEntityCardPriority(...)`** — sort priority for entity cards themselves (e.g. pinning a player/root entity to the top of the list).
-- **`SaveEditor.SceneSelectorFactory`** — optional `Func<SceneSelectorContext, VisualElement>` to replace the default read-only "last saved scene" field with a project-specific scene picker.
+- **`SaveEditor.sceneSelectorFactory`** — optional `Func<SceneSelectorContext, VisualElement>` to replace the default read-only "last saved scene" field with a project-specific scene picker.
 
 ## Design Notes
 
@@ -126,8 +131,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 | `LoadPriority`                     | N/A    | --                                     | Bare enum, nothing to test           |
 | `SceneSelectorContext`             | N/A    | --                                     | Trivial data holder, nothing to test |
 | `SaveableEntity`                   | Yes    | `SaveableEntityTests.cs`               |                                      |
-| `SavingSystem`                     | Yes    | `SavingSystemFileIOPocTests.cs`,       |                                      |
-| ^-                                 | Yes    | `SavingSystemFileOperationsTests.cs`   |                                      |
+| `SavingSystem`                     | Yes    | `SavingSystemFileOperationsTests.cs`   |                                      |
 | ^-                                 | Yes    | `SavingSystemStateHelpersTests.cs`     |                                      |
 | ^-                                 | Yes    | `SavingSystemSceneIntegrationTests.cs` |                                      |
 | `SaveableEntityCardData`           | Yes    | `SaveableEntityCardDataTests.cs`       |                                      |
@@ -138,7 +142,7 @@ The package ships no project-specific save-slot logic or game-data knowledge —
 
 - `TestSaveableComponent.cs` -- scriptable `MonoBehaviour, ISaveableBase` test double
 - `TestGenericSaveable.cs` -- scriptable `ISaveable<T>` test double (plain C#, no `MonoBehaviour`)
-- `HeadlessEditorWindow.cs` -- attaches a `VisualElement` tree to an off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires
+- `HeadlessEditorWindow` (from `com.lowdefmustard.utils` test utilities) -- off-screen `EditorWindow` so `RegisterValueChangedCallback`/`ClickEvent` dispatch fires (`CreateOffscreenWindow` / `ShowOffscreen`, `SendClick`, `Close` in TearDown)
   - unattached elements silently skip dispatch on `.value` assignment and `SendEvent`
 
 ### Design Notes (testability)

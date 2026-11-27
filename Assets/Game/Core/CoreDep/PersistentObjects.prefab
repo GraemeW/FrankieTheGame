@@ -95,10 +95,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 5309234070201104608}
     m_Modifications:
     - target: {fileID: 7709559905993237072, guid: a0e12772b2f2fb04c9e3da7def5a1070, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7709559905993237072, guid: a0e12772b2f2fb04c9e3da7def5a1070, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -165,10 +161,6 @@ PrefabInstance:
       value: MapCamera
       objectReference: {fileID: 0}
     - target: {fileID: 2978751928550116830, guid: 0b05880436c040c4094508809c945da0, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2978751928550116830, guid: 0b05880436c040c4094508809c945da0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -233,10 +225,6 @@ PrefabInstance:
     - target: {fileID: 8352346107065619432, guid: b9a8b8ba02a1eb741922544531ce6419, type: 3}
       propertyPath: m_Name
       value: SceneLoader
-      objectReference: {fileID: 0}
-    - target: {fileID: 8736134526423809368, guid: b9a8b8ba02a1eb741922544531ce6419, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8736134526423809368, guid: b9a8b8ba02a1eb741922544531ce6419, type: 3}
       propertyPath: m_LocalPosition.x
@@ -312,10 +300,6 @@ PrefabInstance:
       value: Fader
       objectReference: {fileID: 0}
     - target: {fileID: 6387763646033685171, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6387763646033685171, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -359,10 +343,6 @@ PrefabInstance:
       propertyPath: sceneLoader
       value: 
       objectReference: {fileID: 8940246336571395123}
-    - target: {fileID: 8756463170632450072, guid: 04c64b1281395e44b9adba88b9bb3819, type: 3}
-      propertyPath: battleCanvas
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -384,10 +364,6 @@ PrefabInstance:
     - target: {fileID: 3729942619152717829, guid: ee817a0b61ec55040a17d2dea8059e9d, type: 3}
       propertyPath: m_Name
       value: Debugger
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370198193004912914, guid: ee817a0b61ec55040a17d2dea8059e9d, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6370198193004912914, guid: ee817a0b61ec55040a17d2dea8059e9d, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,0 +1,298 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: WorldArtGroup
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: WorldArtGroup
+  m_GUID: 62052994a5913428caf8191613a38a6b
+  m_SerializeEntries:
+  - m_GUID: 0465d1436450348068949b7ca65d3026
+    m_Address: Assets/Game/WorldObjects/ItemCashAndShopEntities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0539731ec5bcf4abc8b096509f5c2b29
+    m_Address: Assets/Game/WorldObjects/Exterior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 070e53e003c4f4ff5a0d27f67b74295c
+    m_Address: Assets/Game/Tilemaps/ExteriorTrees
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b4f6318a1eaa6d44830bab2d645a96f
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Office
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1aba52f9ff7ee47e092453171b749373
+    m_Address: Assets/Game/WorldObjects/TriggersTogglers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1bae265d17b25ee4bab3d95dafd80845
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Church
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1de41a1bc4ead464aadb7d363ac99ad3
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Tilemaps/Exterior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2527b5e9eae6544f1b57a687a71fcb4a
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/OutdoorExteriorVehicles-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 262df3d3fbf0bab4a82c13d7aae8afa6
+    m_Address: Assets/Game/WorldObjects/_Paths
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 267f1487d260b4701855735e90594fb4
+    m_Address: Assets/Game/WorldObjects/_ExteriorWorld
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a25b4e63e06dfa47b1dd1430b4754e6
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Tilemaps/Interior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f0e0eab41861744592dfcd8ef3509b4
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/TreesBushesFlowers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3492a3748cc956945a3539a747f389f8
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Vehicles
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36315fa6a6d3c481191dc58c85836049
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37cfca287501044ceaacc8444f556252
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/Buildings_IsoOther-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 392bf617678390347878218085f901b5
+    m_Address: Assets/Game/WorldObjects/_ZoneNodes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 402fc56c60be8b246831ba5c1d6c0b5a
+    m_Address: Assets/Game/WorldObjects/Signs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 418a426e214c943f2ae2f2dbc338a979
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/Buildings_PortaBank-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43595f24495794ae2b0e1468ede46259
+    m_Address: Assets/z_Artwork/Backgrounds
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 457c51c5c0ff21e4d94d9f9dcc3ccf1c
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Outdoor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 493fd42fcdd12462f9b0c923496d0884
+    m_Address: Assets/Game/Tilemaps/InteriorHouseOffice
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e9a0ab93c480674f8027853c1705727
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/PortaBank
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51697bd84b5164340960d484b0a2c021
+    m_Address: Assets/Game/WorldObjects
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 517c5b888835e4cb486b1138e1fa9b10
+    m_Address: Assets/Game/Tilemaps/ExteriorCity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53de7aaa7dddd4446aa804e9e3b93a14
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Presents
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54779cb63880d3d4a90ccbdc925d0588
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Windows
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bd93c72a45111549bea60bd27a5835c
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/PostersPaintingsSigns
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60a970af2e8e9884194a1fe9817c302d
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/SubwayTunnels
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67dd009ff33884e40a8d5c149470729b
+    m_Address: Assets/Game/WorldObjects/_InteriorRooms
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68aab340c38222842a04981612e8c13c
+    m_Address: Assets/Game/VFX/Particles
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7805bf0aed2e66c41a12402e8c591be7
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Buildings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82847c9b6ac014b4e988f65a531dc616
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Buildings/IsoFront
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8abd01ea320f20d4d917ebc8212938f6
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Household
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 923401224ea6c44d0969a5863e420c44
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/ShopsPortaBank-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 987c8d55697a1eb4c8af378996fa253c
+    m_Address: Assets/Game/WorldObjects/_Spawners
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c2cfc63ceb79074da75babb9e907393
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Buildings/IsoStandard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f9719347f3464f4aa95ebe83e3b2843
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/Buildings_IsoStandard-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a24558d4774b146328fad329c0b86bd2
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/DoorsWindowsSigns-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2fbab2142db04037a52b450c65d7f1b
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Buildings/PortaBank
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4c15fac9ff29d14faf00e6af85b859d
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/DoorsStairs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2a7655089e564de89410a0a0b5ad90e
+    m_Address: Assets/Game/WorldObjects/Buildings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bccd4df303d97c84b8ba67aea6414756
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Bathroom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2881f10bc5710b4697117ba0e9b6e48
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Tilemaps
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4418729ec05f4c34ba857a0ff5d9bc0
+    m_Address: Assets/Game/Tilemaps/ExteriorLandscape
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9ea099d053f2544dafa038aa7d5f9f0
+    m_Address: Assets/Game/WorldObjects/SavePoints
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3d7aaa106b124cbbb812372922870d2
+    m_Address: Assets/Game/Tilemaps/InteriorTunnelSubwaySewers
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4dbaf6efdb4345ed896ec57807401f4
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/Buildings/IsoAngled
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d77bcd485b8d145f3ba9e5178aee182b
+    m_Address: Assets/Game/WorldObjects/Interior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7fb09ce057b84f799090cad76ad9bcd
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Shops
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ddac8b56f47eb28488f43d79d46988de
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/Kitchen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e11a4011e622c1e46bdc988ce8969168
+    m_Address: Assets/Game/Tilemaps
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5a1254caa843b24f8147db08ff0ee2a
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects/FallFair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6ac2ab0ad47b461ea755a1d7a4e6439
+    m_Address: Assets/Game/WorldObjects/SpriteAtlases/HouseOfficeChurch-Atlas.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f59fefd5e9d8d498a9a010d7b6330f70
+    m_Address: Assets/Game/WorldObjects/Doors
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5e40c3bf29d05f45b05b946bb86f873
+    m_Address: Assets/z_Artwork/PixelArt/WorldArtwork/WorldObjects
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3fc188b4eccd0415d8e1baccd6711fb8, type: 2}
+    - {fileID: 11400000, guid: f40a72f922aed45b5b135bccd1032c37, type: 2}

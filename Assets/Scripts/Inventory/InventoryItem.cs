@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -25,8 +23,7 @@ namespace Frankie.Inventory
         // State
         [HideInInspector] [SerializeField] private string cachedName;
         public string iCachedName { get => cachedName; set => cachedName = value; }
-        [AutoStaticsCleanup] private static AsyncOperationHandle<IList<InventoryItem>> _addressablesLoadHandle;
-        [AutoStaticsCleanup] private static Dictionary<string, InventoryItem> _itemLookupCache;
+        [AutoStaticsCleanup] private static AddressablesLookupCache<InventoryItem> _cache = new(LDMLogCategory.Inventory, nameof(InventoryItem), inventoryItem => inventoryItem.guid);
 
         #region Getters
         public string GetDisplayName() => localizedDisplayName.GetLocalizedString();
@@ -61,50 +58,8 @@ namespace Frankie.Inventory
         #endregion
 
         #region AddressablesCaching
-        public static InventoryItem GetFromID(string itemID)
-        {
-            if (string.IsNullOrWhiteSpace(itemID)) { return null; }
-
-            BuildCacheIfEmpty();
-            return _itemLookupCache.GetValueOrDefault(itemID);
-        }
-
-        public static void BuildCacheIfEmpty()
-        {
-            if (_itemLookupCache == null)
-            {
-                BuildInventoryItemCache();
-            }
-        }
-
-        private static void BuildInventoryItemCache()
-        {
-            _itemLookupCache = new Dictionary<string, InventoryItem>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(InventoryItem), (InventoryItem inventoryItem) =>
-                {
-                    if (_itemLookupCache.TryGetValue(inventoryItem.guid, out InventoryItem matchInventoryItem))
-                    {
-                        AddressablesCacheLog.LogDuplicate(LDMLogCategory.Inventory, nameof(InventoryItem), inventoryItem.guid, matchInventoryItem, inventoryItem);
-                    }
-
-                    _itemLookupCache[inventoryItem.guid] = inventoryItem;
-                }
-            );
-            _addressablesLoadHandle.WaitForCompletion();
-            AddressablesCacheLog.LogBuild(LDMLogCategory.Inventory, nameof(InventoryItem), _addressablesLoadHandle.Status == AsyncOperationStatus.Succeeded, _itemLookupCache.Count);
-        }
-
-        public static void ReleaseCache()
-        {
-            if (_addressablesLoadHandle.IsValid()) { Addressables.Release(_addressablesLoadHandle); }
-        }
-
-        public static void ResetCache()
-        {
-            ReleaseCache();
-            _addressablesLoadHandle = default;
-            _itemLookupCache = null;
-        }
+        public static IAddressablesCacheLifecycle addressablesCache => _cache;
+        public static InventoryItem GetFromID(string itemID) => _cache.Get(itemID);
         #endregion
     }
 }

@@ -22,6 +22,12 @@ namespace LowDefMustard.Rendering
         [SerializeField][Tooltip("Pulse only:  the bumps' share of each wavelength (the line fills the rest)")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Pulse)] private BattleEffectFloatRange dutyFraction = new(0.5f);
         [SerializeField][Tooltip("Pulse only:  bumps per wavelength, back to back across the duty (e.g. 2 = a double bump)")][BattleEffectShownWhen(nameof(waveform), (int)BattleEffectWaveform.Pulse)][Min(1)] private int bumps = 1;
 
+        // Editor Field References
+        internal const string wavelengthSUField = nameof(wavelengthSU);
+        internal const string waveformField = nameof(waveform);
+        internal const string plateauFractionField = nameof(plateauFraction);
+        internal const string dutyFractionField = nameof(dutyFraction);
+
         public override void GetParameters(BattleEffectFloatRange[] parameters)
         {
             parameters[0] = halfLengthSU;

@@ -12,6 +12,7 @@ namespace LowDefMustard.Zones.Tests.Editor
     public class ZoneNodeGroupViewTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private EditorWindow window;
         private ZoneNodeGroup group;
         private TestZoneGraphView graphView;
@@ -28,6 +29,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         public void TearDown()
         {
             HeadlessEditorWindow.Close(window);
+            tracker.DestroyAll();
         }
         #endregion
 
@@ -175,12 +177,11 @@ namespace LowDefMustard.Zones.Tests.Editor
         [UnityTest]
         public IEnumerator HeaderDrag_MovesContainedNodeViews()
         {
-            var nestedNode = ScriptableObject.CreateInstance<ZoneNode>();
+            var nestedNode = tracker.Create<ZoneNode>("nested-node");
             nestedNode.preventLocalizationForTests = true;
-            nestedNode.name = "nested-node";
             nestedNode.SetPosition(new Vector2(100f, 100f));
             
-            var throwawayZone = ScriptableObject.CreateInstance<Zone>();
+            var throwawayZone = tracker.Create<Zone>();
             throwawayZone.preventLocalizationForTests = true;
             
             var nestedNodeView = new ZoneNodeView(nestedNode, throwawayZone, new TestZoneGraphView());
@@ -195,9 +196,6 @@ namespace LowDefMustard.Zones.Tests.Editor
             HeadlessEditorWindow.SendMouseDrag(header, header.worldBound.center + new Vector2(5, 7), delta: new Vector2(5, 7));
 
             Assert.AreEqual(new Vector2(105f, 107f), nestedNode.GetPosition());
-
-            Object.DestroyImmediate(nestedNode);
-            Object.DestroyImmediate(throwawayZone);
         }
         #endregion
     }

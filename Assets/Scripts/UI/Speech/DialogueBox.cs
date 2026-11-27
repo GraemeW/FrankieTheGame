@@ -12,7 +12,7 @@ namespace Frankie.Speech.UI
         [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
         
         // State
-        private readonly Dictionary<DialogueNode, ChoiceEntryHandle> choiceEntries = new();
+        private readonly Dictionary<string, ChoiceEntryHandle> choiceEntries = new(); // Keyed by node ID
         
         // Cached References
         protected DialogueController dialogueController;
@@ -156,16 +156,17 @@ namespace Frankie.Speech.UI
         private void AddChoice(DialogueNode choiceNode, string choiceText)
         {
             ChoiceEntryHandle choiceEntry = textScanView.CreateChoiceEntry(choiceText, () => Choose(choiceNode.GetNodeID()), true);
-            choiceEntries[choiceNode] = choiceEntry;
+            choiceEntries[choiceNode.GetNodeID()] = choiceEntry;
             QueueChoiceForPrinting(choiceEntry);
         }
 
         private void HighlightChoice(DialogueNode dialogueNodeToHighlight)
         {
-            foreach ((DialogueNode choiceNode, ChoiceEntryHandle choiceEntry) in choiceEntries)
+            string highlightNodeID = dialogueNodeToHighlight != null ? dialogueNodeToHighlight.GetNodeID() : null;
+            foreach ((string choiceNodeID, ChoiceEntryHandle choiceEntry) in choiceEntries)
             {
                 if (!choiceEntry.isAlive) { continue; }
-                choiceEntry.Highlight(choiceNode == dialogueNodeToHighlight);
+                choiceEntry.Highlight(choiceNodeID == highlightNodeID);
             }
             if (dialogueNodeToHighlight != null) { TriggerChoiceModified(ReceiverModifiedType.ItemHighlighted); }
         }

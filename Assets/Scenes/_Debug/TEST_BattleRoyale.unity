@@ -245,7 +245,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
+  overrideAudio:
+    m_AssetGUID: ba92d5d763b7df04d8fc87688acc6a05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 2
 --- !u!1001 &26638102
 PrefabInstance:
@@ -836,7 +841,7 @@ MonoBehaviour:
       - minimum: 30
         maximum: 30
         characterProperties: {fileID: 11400000, guid: e8ff4cd776c66f64b9f1e1196ef13434, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &154474404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26879,11 +26884,11 @@ PrefabInstance:
       value: c6c08bb4-926b-4a67-ac5a-358a735a30b1
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
-      propertyPath: maxItems
+      propertyPath: maxLootRolls
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
-      propertyPath: minItems
+      propertyPath: minLootRolls
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
@@ -26903,13 +26908,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
-      propertyPath: lootEntries.Array.data[0].probability
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: lootEntries.Array.data[0].inventoryItem
       value: 
       objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: lootEntries.Array.data[0].probabilityWeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7222611955684808543, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: willForceCombat
       value: 0
@@ -27138,7 +27143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
+  overrideAudio:
+    m_AssetGUID: 3dc90c61b4c6f654e8835404e763733e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 9
 --- !u!1001 &310047734
 PrefabInstance:
@@ -27434,7 +27444,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: 5f5f2bd17ac13e04c8d5da1b8b92ab19, type: 3}
+  overrideAudio:
+    m_AssetGUID: 5f5f2bd17ac13e04c8d5da1b8b92ab19
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 12
 --- !u!1 &400526011
 GameObject:
@@ -27646,9 +27661,9 @@ PrefabInstance:
       value: 4e507da1-6c73-4058-af27-c635a11a5c19
       objectReference: {fileID: 0}
     - target: {fileID: -5930686527299018591, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
+      propertyPath: overrideAudio.m_AssetGUID
+      value: d765a3c4e7ca20440a6992d69af9c87d
+      objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
       value: 1
@@ -37463,7 +37478,7 @@ MonoBehaviour:
       - minimum: 1
         maximum: 2
         characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!4 &575512101
 Transform:
   m_ObjectHideFlags: 0
@@ -38511,7 +38526,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: aacc40c19a73d174baf7f1f4b432fdf9, type: 3}
+  overrideAudio:
+    m_AssetGUID: aacc40c19a73d174baf7f1f4b432fdf9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 6
 --- !u!1001 &745985010
 PrefabInstance:
@@ -40326,7 +40346,7 @@ MonoBehaviour:
       - minimum: 3
         maximum: 6
         characterProperties: {fileID: 11400000, guid: b5a9ff0e2cddb41b9b8ba2dc6d5d6c09, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1 &1040580542
 GameObject:
   m_ObjectHideFlags: 0
@@ -40485,7 +40505,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: 160c3bae65edac34886e05ee6ee70ca6, type: 3}
+  overrideAudio:
+    m_AssetGUID: 160c3bae65edac34886e05ee6ee70ca6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 4
 --- !u!1001 &1059383746
 PrefabInstance:
@@ -42369,7 +42394,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: d4e4bde858823b94c9912bb9d8201687, type: 3}
+  overrideAudio:
+    m_AssetGUID: d4e4bde858823b94c9912bb9d8201687
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 5
 --- !u!1 &1296138769
 GameObject:
@@ -42436,7 +42466,7 @@ MonoBehaviour:
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 848ffc904de8f48259f1f9d33b5645ba, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &1316242314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42624,7 +42654,7 @@ MonoBehaviour:
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 1
+    probabilityWeight: 1
 --- !u!1001 &1364202614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43490,7 +43520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 266049365449688310, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_ColliderPaths.Array.size
@@ -75972,7 +76002,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: 11384817f7314df46b0a2628844ada59, type: 3}
+  overrideAudio:
+    m_AssetGUID: 11384817f7314df46b0a2628844ada59
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 11
 --- !u!1001 &1499569626
 PrefabInstance:
@@ -76100,7 +76135,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
+  overrideAudio:
+    m_AssetGUID: d765a3c4e7ca20440a6992d69af9c87d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 7
 --- !u!1 &1510938666 stripped
 GameObject:
@@ -76446,7 +76486,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
+  overrideAudio:
+    m_AssetGUID: 02a1d586795fd324280aca37a80a748c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 1
 --- !u!1001 &1610807695
 PrefabInstance:
@@ -76842,7 +76887,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: c797fa32c25f2a745a9645e37347fe95, type: 3}
+  overrideAudio:
+    m_AssetGUID: c797fa32c25f2a745a9645e37347fe95
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 10
 --- !u!1001 &1659071564
 PrefabInstance:
@@ -77619,7 +77669,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
+  overrideAudio:
+    m_AssetGUID: ba92d5d763b7df04d8fc87688acc6a05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 3
 --- !u!1001 &1833604245
 PrefabInstance:
@@ -77893,7 +77948,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Frankie::Frankie.Sound.BackgroundMusicOverride
-  audioClip: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
+  overrideAudio:
+    m_AssetGUID: 840503d4a3e71484a94da9a50830ba88
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   priority: 8
 --- !u!1001 &1896104852
 PrefabInstance:
@@ -78784,7 +78844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 266049365449688310, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size

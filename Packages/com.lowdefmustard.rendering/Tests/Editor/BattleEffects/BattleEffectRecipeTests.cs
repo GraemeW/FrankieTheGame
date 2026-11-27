@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 using static LowDefMustard.Rendering.Tests.Editor.BattleEffectTestData;
 
 namespace LowDefMustard.Rendering.Tests.Editor
@@ -11,19 +12,20 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //  - ValidateShapes is called directly (it normally runs from OnValidate on inspector edits)
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private BattleEffectRecipe recipe;
 
         #region Setup
         [SetUp]
         public void SetUp()
         {
-            recipe = ScriptableObject.CreateInstance<BattleEffectRecipe>();
+            recipe = tracker.Create<BattleEffectRecipe>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(recipe);
+            tracker.DestroyAll();
         }
         #endregion
 

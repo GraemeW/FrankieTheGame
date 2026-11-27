@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Object = UnityEngine.Object;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Localization.Tests.Editor
 {
@@ -16,6 +16,7 @@ namespace LowDefMustard.Localization.Tests.Editor
         private const string _scratchTablePath = "Assets/Localization/Table_" + _scratchTableName;
 
         // State
+        private readonly TestObjectTracker tracker = new();
         private TestLocalizableTarget testLocalizableTarget;
 
         #region DataStructures
@@ -54,15 +55,14 @@ namespace LowDefMustard.Localization.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (testLocalizableTarget != null) { Object.DestroyImmediate(testLocalizableTarget); }
+            tracker.DestroyAll();
         }
         #endregion
 
         #region PrivateMethods
         private TestLocalizableTarget CreateTarget(string targetName)
         {
-            testLocalizableTarget = ScriptableObject.CreateInstance<TestLocalizableTarget>();
-            testLocalizableTarget.name = targetName;
+            testLocalizableTarget = tracker.Create<TestLocalizableTarget>(targetName);
             return testLocalizableTarget;
         }
         #endregion

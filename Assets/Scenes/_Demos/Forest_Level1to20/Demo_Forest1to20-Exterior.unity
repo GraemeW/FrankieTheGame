@@ -956,11 +956,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -2948,11 +2948,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -3160,11 +3160,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -4267,11 +4267,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -4401,11 +4401,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -6116,11 +6116,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -6664,11 +6664,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -7068,11 +7068,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -8461,11 +8461,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -8591,11 +8591,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -10523,11 +10523,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -11818,11 +11818,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -14723,11 +14723,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -15919,11 +15919,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -33160,11 +33160,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -33334,11 +33334,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -33828,11 +33828,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -34040,11 +34040,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -34818,11 +34818,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -41082,11 +41082,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -44162,11 +44162,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -44620,11 +44620,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -45072,11 +45072,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -47110,11 +47110,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -64851,11 +64851,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -65873,11 +65873,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -67608,11 +67608,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -68180,11 +68180,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -88518,11 +88518,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -90412,11 +90412,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -90816,11 +90816,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -90950,11 +90950,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -92182,11 +92182,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -93142,11 +93142,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -95624,11 +95624,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -96672,11 +96672,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -97666,11 +97666,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -228014,11 +228014,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -235512,11 +235512,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -235646,11 +235646,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -236263,11 +236263,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -236870,11 +236870,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -237922,11 +237922,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -336595,11 +336595,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -336963,11 +336963,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
@@ -337351,11 +337351,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[0].probability
+      propertyPath: spawnConfigurations.Array.data[0].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}
-      propertyPath: spawnConfigurations.Array.data[1].probability
+      propertyPath: spawnConfigurations.Array.data[1].probabilityWeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6252286779186856054, guid: 7e844887d4a559a4080e822980f907f9, type: 3}

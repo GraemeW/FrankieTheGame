@@ -7,6 +7,7 @@ namespace LowDefMustard.Utils.Tests.Editor
     public class GamePropertiesTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private GameProperties gameProperties;
 
         // Setup
@@ -19,7 +20,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            if (gameProperties != null) { Object.DestroyImmediate(gameProperties); }
+            tracker.DestroyAll();
             GameProperties.ClearCache();
         }
 
@@ -27,7 +28,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         private static void SetArtPixelsPerUnit(GameProperties target, float artPixelsPerUnit)
         {
             var serializedObject = new SerializedObject(target);
-            serializedObject.FindProperty("artPixelsPerUnit").floatValue = artPixelsPerUnit;
+            serializedObject.FindProperty(GameProperties.artPixelsPerUnitField).floatValue = artPixelsPerUnit;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
         
@@ -41,7 +42,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void GetArtPixelsPerUnit_DestroyedInstance_ReturnsDefault()
         {
-            gameProperties = ScriptableObject.CreateInstance<GameProperties>();
+            gameProperties = tracker.Create<GameProperties>();
             SetArtPixelsPerUnit(gameProperties, 32f);
             Object.DestroyImmediate(gameProperties);
 
@@ -51,7 +52,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void GetArtPixelsPerUnit_NewInstance_ReturnsDefault()
         {
-            gameProperties = ScriptableObject.CreateInstance<GameProperties>();
+            gameProperties = tracker.Create<GameProperties>();
 
             Assert.That(GameProperties.GetArtPixelsPerUnit(gameProperties), Is.EqualTo(100f));
         }
@@ -59,7 +60,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void GetArtPixelsPerUnit_ConfiguredInstance_ReturnsInstanceValue()
         {
-            gameProperties = ScriptableObject.CreateInstance<GameProperties>();
+            gameProperties = tracker.Create<GameProperties>();
             SetArtPixelsPerUnit(gameProperties, 32f);
 
             Assert.That(GameProperties.GetArtPixelsPerUnit(gameProperties), Is.EqualTo(32f));
@@ -68,7 +69,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         [Test]
         public void GetArtPixelsPerUnit_AfterFirstRead_ReturnsCachedValue()
         {
-            gameProperties = ScriptableObject.CreateInstance<GameProperties>();
+            gameProperties = tracker.Create<GameProperties>();
             SetArtPixelsPerUnit(gameProperties, 32f);
             GameProperties.GetArtPixelsPerUnit(gameProperties);
 
@@ -79,7 +80,7 @@ namespace LowDefMustard.Utils.Tests.Editor
         public void GetArtPixelsPerUnit_NullInstance_DoesNotPopulateCache()
         {
             GameProperties.GetArtPixelsPerUnit(null);
-            gameProperties = ScriptableObject.CreateInstance<GameProperties>();
+            gameProperties = tracker.Create<GameProperties>();
             SetArtPixelsPerUnit(gameProperties, 32f);
 
             Assert.That(GameProperties.GetArtPixelsPerUnit(gameProperties), Is.EqualTo(32f));

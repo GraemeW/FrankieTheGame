@@ -16,7 +16,7 @@ namespace LowDefMustard.Utils.Tests
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        public static void SetArray(Object target, string fieldName, params Object[] values)
+        public static void SetArray<T>(Object target, string fieldName, params T[] values) where T : Object
         {
             using var serializedObject = new SerializedObject(target);
             SerializedProperty property = GetProperty(serializedObject, target, fieldName);

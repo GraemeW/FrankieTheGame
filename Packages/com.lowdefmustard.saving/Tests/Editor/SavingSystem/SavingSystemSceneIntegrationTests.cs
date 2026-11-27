@@ -4,17 +4,16 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using Object = UnityEngine.Object;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Saving.Tests.Editor
 {
     // Covered:
     //  - SavingSystem's methods that depend on GetValidSaveableEntities (live scene scan) and/or file I/O, using TestSaveableComponent on real GameObjects
     // Not Covered:
-    //  - LoadLastScene: calls SceneManager.LoadSceneAsync, which switches the active scene (heavier PlayMode/[UnityTest]-style test)
+    //  - LoadLastScene: its loader switches the active scene (heavier PlayMode/[UnityTest]-style test) ~ loader handoff covered in SavingSystemSceneLoadTests
     //  - GetValidSaveableEntities: scans the whole loaded scene, not just this test's own GameObjects (high likelihood for pollution/side effects)
     //    - vs. every test here, which creates its entities in [SetUp] and destroys them in [TearDown]
     public class SavingSystemSceneIntegrationTests
@@ -22,10 +21,10 @@ namespace LowDefMustard.Saving.Tests.Editor
         // Static/Const Tunables
         private const string _tempSaveFileA = "_TEMP_SavingSystemSceneA_SafeToDelete";
         private const string _tempSaveFileB = "_TEMP_SavingSystemSceneB_SafeToDelete";
-        private const string _uniqueIdentifierRef = "uniqueIdentifier";
+        private const string _sceneKey = "SavingSystemSceneIntegrationTests_SceneKey";
 
         // State
-        private readonly List<GameObject> spawnedGameObjects = new();
+        private readonly TestObjectTracker tracker = new();
         private static string PathFor(string saveFile) => Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         
         #region DataStructures
@@ -39,14 +38,13 @@ namespace LowDefMustard.Saving.Tests.Editor
         
         private (GameObject gameObject, SaveableEntity entity, TestSaveableComponent component) SpawnSaveableEntity(string name, object captureValue, LoadPriority loadPriority = LoadPriority.ObjectProperty, bool isCorePlayerState = false)
         {
-            var gameObject = new GameObject(name);
+            GameObject gameObject = tracker.CreateGameObject(name);
             var entity = gameObject.AddComponent<SaveableEntity>();
             var component = gameObject.AddComponent<TestSaveableComponent>();
             component.captureStateReturns = captureValue;
             component.loadPriority = loadPriority;
             component.isCorePlayerState = isCorePlayerState;
 
-            spawnedGameObjects.Add(gameObject);
             return (gameObject, entity, component);
         }
         
@@ -55,7 +53,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         private static void ForceUniqueIdentifier(SaveableEntity entity, string id)
         {
             var serializedEntity = new SerializedObject(entity);
-            serializedEntity.FindProperty(_uniqueIdentifierRef).stringValue = id;
+            serializedEntity.FindProperty(SaveableEntity.uniqueIdentifierField).stringValue = id;
             serializedEntity.ApplyModifiedPropertiesWithoutUndo();
         }
         #endregion
@@ -64,11 +62,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            foreach (GameObject gameObject in spawnedGameObjects.Where(gameObject => gameObject != null))
-            {
-                Object.DestroyImmediate(gameObject);
-            }
-            spawnedGameObjects.Clear();
+            tracker.DestroyAll();
 
             foreach (string saveFile in new[] { _tempSaveFileA, _tempSaveFileB })
             {
@@ -106,15 +100,26 @@ namespace LowDefMustard.Saving.Tests.Editor
 
         #region Save / LoadWithinScene
         [Test]
-        public void Save_WritesEntityStateAndLastScene()
+        public void Save_WritesEntityStateAndSceneKeyAsLastScene()
         {
             (_, SaveableEntity entity, _) = SpawnSaveableEntity("Player", "value1");
 
-            SavingSystem.Save(_tempSaveFileA);
+            SavingSystem.Save(_tempSaveFileA, _sceneKey);
 
             JObject fullState = SavingSystem.ManualGetFullState(_tempSaveFileA);
             Assert.IsTrue(fullState.ContainsKey(entity.GetUniqueIdentifier()));
-            Assert.AreEqual(SceneManager.GetActiveScene().name, SavingSystem.ManualGetLastScene(fullState));
+            Assert.AreEqual(_sceneKey, SavingSystem.ManualGetLastScene(fullState));
+        }
+
+        [Test]
+        public void Save_BlankSceneKey_KeepsExistingLastScene()
+        {
+            SpawnSaveableEntity("Player", "value1");
+            SavingSystem.Save(_tempSaveFileA, _sceneKey);
+
+            SavingSystem.Save(_tempSaveFileA, " ");
+
+            Assert.AreEqual(_sceneKey, SavingSystem.ManualGetLastScene(SavingSystem.ManualGetFullState(_tempSaveFileA)));
         }
 
         [Test]
@@ -152,8 +157,7 @@ namespace LowDefMustard.Saving.Tests.Editor
 
             instantiator.onObjectInstantiationRestore = () =>
             {
-                var spawnedGameObject = new GameObject("SpawnedDuringInstantiation");
-                spawnedGameObjects.Add(spawnedGameObject);
+                GameObject spawnedGameObject = tracker.CreateGameObject("SpawnedDuringInstantiation");
                 var spawnedEntity = spawnedGameObject.AddComponent<SaveableEntity>();
                 spawnedComponent = spawnedGameObject.AddComponent<TestSaveableComponent>();
                 spawnedComponent.loadPriority = LoadPriority.ObjectProperty;
@@ -216,7 +220,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         {
             (_, SaveableEntity entity, _) = SpawnSaveableEntity("Player", "value1");
 
-            SavingSystem.CopySessionToSave(_tempSaveFileA, _tempSaveFileB);
+            SavingSystem.CopySessionToSave(_tempSaveFileA, _tempSaveFileB, null);
 
             JObject savedState = SavingSystem.ManualGetFullState(_tempSaveFileB);
             Assert.IsTrue(savedState.ContainsKey(entity.GetUniqueIdentifier()));
@@ -227,7 +231,7 @@ namespace LowDefMustard.Saving.Tests.Editor
         {
             (_, SaveableEntity entity, _) = SpawnSaveableEntity("Player", "value1");
 
-            SavingSystem.CopySaveToSession(_tempSaveFileA, _tempSaveFileB);
+            SavingSystem.CopySaveToSession(_tempSaveFileA, _tempSaveFileB, null);
 
             JObject sessionState = SavingSystem.ManualGetFullState(_tempSaveFileB);
             Assert.IsTrue(sessionState.ContainsKey(entity.GetUniqueIdentifier()));
@@ -245,7 +249,7 @@ namespace LowDefMustard.Saving.Tests.Editor
             Assert.IsTrue(savedState.ContainsKey(coreEntity.GetUniqueIdentifier()));
             Assert.IsFalse(savedState.ContainsKey(nonCoreEntity.GetUniqueIdentifier()));
             // onlyCorePlayerState skips the last-scene stamp entirely - see SavingSystem.CaptureState
-            Assert.IsFalse(savedState.ContainsKey("lastSceneBuildIndex"));
+            Assert.IsFalse(savedState.ContainsKey("lastScene"));
         }
         #endregion
 

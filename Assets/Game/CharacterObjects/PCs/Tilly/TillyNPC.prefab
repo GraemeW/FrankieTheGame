@@ -8,10 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2189069832891847419, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: resetPositionOnEnable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3268347881354742002, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -24,10 +20,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 01a2211fc60211442be1c0e2c051bc1d, type: 2}
-    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -73,10 +65,6 @@ PrefabInstance:
       value: TillyNPC
       objectReference: {fileID: 0}
     - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: defaultLevel
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: characterProperties
       value: 
       objectReference: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
@@ -88,14 +76,6 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: tillyNPC
       objectReference: {fileID: 0}
-    - target: {fileID: 3812642534766768824, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: characterPrefab
-      value: 
-      objectReference: {fileID: 6731012523550855050, guid: 0556de498fd05e247980b8376415a392, type: 3}
-    - target: {fileID: 3812642534766768824, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: characterNPCPrefab
-      value: 
-      objectReference: {fileID: 2398833644461657395}
     - target: {fileID: 5380918446169795178, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: combatAudio
       value: 
@@ -112,16 +92,8 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: 41424f7724fba0546a4b8136d5cf6080, type: 3}
-    - target: {fileID: 5735266784123818870, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: canBeShoutedAt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5735266784123818870, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: willDestroySelfOnDeath
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6188215296675846516, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: b0900cf41680b4840bc54d87b0be59b1, type: 2}
     m_RemovedComponents: []
@@ -129,8 +101,3 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
---- !u!1 &2398833644461657395 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3268347881412759662, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-  m_PrefabInstance: {fileID: 869721847798078813}
-  m_PrefabAsset: {fileID: 0}

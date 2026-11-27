@@ -21,17 +21,17 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: lootEntries.Array.data[0].probability
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: lootEntries.Array.data[1].probability
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[1].inventoryItem
       value: 
       objectReference: {fileID: 11400000, guid: 584dcaaeab1944aa898017ba70d712f3, type: 2}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.data[0].probabilityWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.data[1].probabilityWeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
@@ -129,33 +129,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: movementSpeed
-      value: 1.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movementConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: 260efa291934a4b27a60b6e8bb7fe8d3, type: 2}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: skillTree
+      propertyPath: skillSet
       value: 
       objectReference: {fileID: 11400000, guid: bedaa658b28aa48f48bea8c8c93225c1, type: 2}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.x
-      value: 0.22516486
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Size.y
-      value: 0.07942664
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.0051534027
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.042357888
-      objectReference: {fileID: 0}
     - target: {fileID: 8221616244123265642, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x
       value: 0.21617916

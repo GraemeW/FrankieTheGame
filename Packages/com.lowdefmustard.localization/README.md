@@ -216,7 +216,7 @@ Since each closed `LocalizationToolBase<TTableType>`/`ILocalizableBase<TTableTyp
 
 ### Testing Notes
 
-`LocalizationToolBase<T>`/`ILocalizableBase<T>`'s static state is per closed generic type, so tests use their own dummy `TestTableType` enum + `TestLocalizationTool : LocalizationToolBase<TestTableType>` alias (`Tests/Editor/TestLocalizationDoubles.cs`) to fully isolate from any real project's `LocalizationTableType`.
+`LocalizationToolBase<T>`/`ILocalizableBase<T>`'s static state is per closed generic type, so tests use their own dummy `TestTableType` enum + `TestLocalizationTool : LocalizationToolBase<TestTableType>` alias (`Tests/Runtime/TestTableType.cs` + `Tests/Editor/TestLocalizationTool.cs`) to fully isolate from any real project's `LocalizationTableType`.
 
 ### Assemblies
 

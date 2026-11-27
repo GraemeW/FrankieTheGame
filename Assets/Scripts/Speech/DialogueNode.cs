@@ -30,6 +30,16 @@ namespace Frankie.Speech
         private bool isSpeakerOverridden = false;
         private string overriddenSpeakerName = "";
 
+        #region StaticMethods
+        public static bool AreNodesMatched(DialogueNode entryA, DialogueNode entryB, bool matchIfBothNull = false)
+        {
+            // By node ID:  builds can hold separate built-in + Addressables copies of the same dialogue
+            if (entryA == null && entryB == null) { return matchIfBothNull; }
+            if (entryA == null || entryB == null || string.IsNullOrEmpty(entryA.GetNodeID())) { return false; }
+            return entryA.GetNodeID() == entryB.GetNodeID();
+        }
+        #endregion
+
         #region Getters
         public string GetNodeID() => nodeID;
         public List<string> GetChildren() => children;
@@ -80,6 +90,12 @@ namespace Frankie.Speech
             if (characterProperties == null) { return; }
             isSpeakerOverridden = true;
             overriddenSpeakerName = CharacterProperties.GetCharacterDisplayName(characterProperties);
+        }
+
+        public void ClearSpeakerNameOverride()
+        {
+            isSpeakerOverridden = false;
+            overriddenSpeakerName = "";
         }
         #endregion
 

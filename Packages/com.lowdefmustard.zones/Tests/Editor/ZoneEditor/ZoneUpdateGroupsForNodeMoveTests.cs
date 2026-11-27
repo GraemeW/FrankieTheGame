@@ -1,11 +1,13 @@
 using NUnit.Framework;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.Zones.Tests.Editor
 {
     public class ZoneUpdateGroupsForNodeMoveTests
     {
         // State
+        private readonly TestObjectTracker tracker = new();
         private Zone zone;
         private ZoneNode node;
 
@@ -13,7 +15,7 @@ namespace LowDefMustard.Zones.Tests.Editor
         [SetUp]
         public void SetUp()
         {
-            zone = ScriptableObject.CreateInstance<Zone>();
+            zone = tracker.Create<Zone>();
             zone.preventLocalizationForTests = true;
             zone.CreateRootNodeIfMissing();
             node = zone.GetRootNode();
@@ -22,8 +24,8 @@ namespace LowDefMustard.Zones.Tests.Editor
         [TearDown]
         public void TearDown()
         {
-            foreach (ZoneNode zoneNode in zone.GetAllNodes()) { Object.DestroyImmediate(zoneNode); }
-            Object.DestroyImmediate(zone);
+            foreach (ZoneNode zoneNode in zone.GetAllNodes()) { Object.DestroyImmediate(zoneNode); } // The zone's own nodes ~ before the zone goes
+            tracker.DestroyAll();
         }
         #endregion
 

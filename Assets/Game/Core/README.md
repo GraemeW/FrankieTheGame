@@ -80,8 +80,8 @@ The [Player](./Player.prefab) includes a number of important game/control compon
   * [PartyAssist](../../Scripts/Stats/Party/PartyAssist.cs):  handles add/remove for 'assisting' characters (i.e. not official party members)
   * [PartyKnapsackConduit](../../Scripts/Stats/Party/PartyKnapsackConduit.cs):  single entry point for caching and accessing party knapsack data
   * [PartyCombatConduit](../../Scripts/Stats/Party/PartyCombatConduit.cs):  single entry point for caching and accessing party combat data
-* [Wallet](../../Scripts/Inventory/Wallet.cs):  add/remove funds to the player & queries for associated wallet state
-* [Shopper](../../Scripts/Inventory/Shopper.cs):  interfacing with [Shops](../../Scripts/Inventory/Shop.cs) to purchase/sell [items](../OnLoadAssets/Inventory/)
+* [Wallet](../../Scripts/Inventory/Wallet/Wallet.cs):  add/remove funds to the player & queries for associated wallet state
+* [Shopper](../../Scripts/Inventory/ShopsBanks/Shopper.cs):  interfacing with [Shops](../../Scripts/Inventory/ShopsBanks/Shop.cs) to purchase/sell [items](../OnLoadAssets/Inventory/)
 * [QuestList](../../Scripts/Quests/QuestList.cs):  add/remove quests, complete quest objectives/disburse rewards & queries for associated quest state
 * [SaveableEntity](../../../Packages/com.lowdefmustard.saving/Runtime/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
 

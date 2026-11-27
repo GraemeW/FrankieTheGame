@@ -64,10 +64,10 @@ MonoBehaviour:
         m_LocalSubgraphs: []
         m_LastKnownBounds:
           serializedVersion: 2
-          x: -434.5
+          x: -435
           y: -38
-          width: 2477
-          height: 689.5
+          width: 2456
+          height: 690
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 5843318400836163184
@@ -1280,7 +1280,7 @@ MonoBehaviour:
         stashedVariables:
         - {fileID: 11400000, guid: bda28b23c0f4943479f0ba05c1e4dda6, type: 2}
         - {fileID: 11400000, guid: 3f9e00d0eed804ae699e389aea1d2032, type: 2}
-        - {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+        - {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
     - rid: 1508179340161712175
       type: {class: EnumConstant, ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
@@ -1724,4 +1724,4 @@ MonoBehaviour:
     - rid: 1508179542372778926
       type: {class: 'Constant`1[[UnityEngine.ScriptableObject, UnityEngine.CoreModule]]', ns: Unity.GraphToolkit.Editor, asm: UnityEditor.GraphToolkitModule}
       data:
-        m_Value: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+        m_Value: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}

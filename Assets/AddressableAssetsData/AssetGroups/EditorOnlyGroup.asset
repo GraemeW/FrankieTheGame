@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: EditorOnlyGroup
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: EditorOnlyGroup
+  m_GUID: 51bb4c8a6b8e64695ae4e97b0d532d61
+  m_SerializeEntries:
+  - m_GUID: 120d5010677847e7aa6f8bb4b4a69a27
+    m_Address: Assets/z_Artwork/Music/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1805a5bd7ba954936af375bf91c59dc5
+    m_Address: Assets/Game/Combat/BattleActions/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c75b0690211445339208ab44825a4a4
+    m_Address: Assets/Game/Core/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c8807cdc2b574bc1b887aacfbf59511
+    m_Address: Assets/Game/OnLoadAssets/BattleActions/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38a1f169ce3304c48b45dee1e0821a1b
+    m_Address: Assets/Game/Combat/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42557827f81ae474fb47259a902fa310
+    m_Address: Assets/Game/Controllers/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5338a1358f3bf46b885fc67f2b7178d2
+    m_Address: Assets/Game/CharacterObjects/Wearables/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5992700cb5a954d3ebf7a1b404dfbb25
+    m_Address: Assets/Game/OnLoadAssets/Inventory/WearableItems/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64e9a01e74efa470dbbf16a3a821c003
+    m_Address: Assets/Game/OnLoadAssets/Skills/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f5b421b287df4039b00776eb4171424
+    m_Address: Assets/Game/UI/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70aeb7f8f83364364b4164877b177a4c
+    m_Address: Assets/Game/Tilemaps/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 838652dec222242e0adc9faf46392f70
+    m_Address: Assets/Game/OnLoadAssets/CharacterProperties/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 874d4b194a9d04e5a82fc04f625fd8df
+    m_Address: Assets/Game/OnLoadAssets/Quests/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89bed263bb131435b9a98697bd848847
+    m_Address: Assets/Game/OnLoadAssets/Inventory/EquipableItems/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d5de05e91b8540ffba15e98ea8d4d8b
+    m_Address: Assets/Game/VFX/Shaders/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dfd4f3ae2c054255adbc55d4be43a69
+    m_Address: Assets/Game/Checks/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0434aeea07f14b2e814f78c0b23821e
+    m_Address: Assets/Game/Combat/BattleAI/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: beedd3c6a228942bbb7a1abde4b618f8
+    m_Address: Assets/Game/OnLoadAssets/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf9a3034e82e7459681c7071e033de2f
+    m_Address: Assets/Game/OnLoadAssets/Inventory/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c74c3451e25684a68a0fe06b07b85e6f
+    m_Address: Assets/Game/Predicates/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c78c726a8f6e84d6fa7600e7ea64c22e
+    m_Address: Assets/Game/Sound/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca7d96c37d21949ef87986501053d5d8
+    m_Address: Assets/Game/OnLoadAssets/Zones/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccd2ec118c36944279ce699ad0e50bdc
+    m_Address: Assets/Game/Speech/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d957c9876e61e49ef9c36b6d87c4c14c
+    m_Address: Assets/Game/VFX/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db354f5aef90b4699a610aec2f557ac6
+    m_Address: Assets/Game/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd0a1a3bed6034d5b9b596e7f8a243d6
+    m_Address: Assets/Game/WorldObjects/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e42308f2505fb45b685f9d5dcb63e4d0
+    m_Address: Assets/Game/OnLoadAssets/Inventory/KeyItems/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e47062d43374a42f6abdaf18e643996b
+    m_Address: Assets/Game/Combat/SkillSets/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef5da648f985847bb93b020293d1e033
+    m_Address: Assets/Game/OnLoadAssets/Inventory/ActionItems/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f56c7119035d34e5693663362606a247
+    m_Address: Assets/Game/CharacterObjects/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa7f3e427cb724260a476d3c6235ca00
+    m_Address: Assets/Game/Map/README.md
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b919fe3dd285540c0af1aa4e522cf05f, type: 2}
+    - {fileID: 11400000, guid: db12501d8cb9047249b8539bcfe52db1, type: 2}

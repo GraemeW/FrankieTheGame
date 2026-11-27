@@ -10,6 +10,7 @@ namespace LowDefMustard.Utils.Editor
     {
         // Const
         private const string _scriptReference = "m_Script";
+        private const string _editorClassIdentifierReference = "m_EditorClassIdentifier";
 
         // Public Methods
         public static bool ConfirmInPlace(string title, int count, string fromTypeName, string toTypeName)
@@ -34,6 +35,8 @@ namespace LowDefMustard.Utils.Editor
 
             var serializedObject = new SerializedObject(source);
             serializedObject.FindProperty(_scriptReference).objectReferenceValue = targetScript;
+            SerializedProperty editorClassIdentifier = serializedObject.FindProperty(_editorClassIdentifierReference);
+            if (editorClassIdentifier != null) { editorClassIdentifier.stringValue = GetEditorClassIdentifier(targetType); } // Never refreshed by Unity (not even a reserialize) ~ would keep naming the old type
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
             AssetDatabase.SaveAssets();
@@ -41,6 +44,7 @@ namespace LowDefMustard.Utils.Editor
         }
 
         // Private Methods
+        internal static string GetEditorClassIdentifier(Type type) => $"{type.Assembly.GetName().Name}::{type.FullName}";
         private static MonoScript FindScript(Type type) => MonoImporter.GetAllRuntimeMonoScripts().FirstOrDefault(script => script != null && script.GetClass() == type);
     }
 }

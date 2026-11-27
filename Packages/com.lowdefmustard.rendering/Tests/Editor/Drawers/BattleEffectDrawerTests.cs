@@ -21,6 +21,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
         //      - this does NOT apply to [SerializeReference] parents (e.g. a shape)
         //      - the shape drawer + the recipe inspector's item / instance headers track the whole object instead
 
+        // State
+        private readonly TestObjectTracker tracker = new();
+        private EditorWindow window;
+        private EditorWindow narrow;
+        private DrawerTarget target;
+        private SerializedObject serializedObject;
+
         // Data Structures
         private sealed class DrawerTarget : ScriptableObject
         {
@@ -37,19 +44,13 @@ namespace LowDefMustard.Rendering.Tests.Editor
             public BattleEffectOutlineEdgeGradient outlineEdgeGradient = new();
             [SerializeReference] public BattleEffectShape shape = new BattleEffectCircle();
         }
-
-        // State
-        private EditorWindow window;
-        private EditorWindow narrow;
-        private DrawerTarget target;
-        private SerializedObject serializedObject;
-
+        
         #region Setup
         [UnitySetUp]
         public IEnumerator SetUp()
         {
             window = HeadlessEditorWindow.CreateOffscreenWindow(600f, 800f);
-            target = ScriptableObject.CreateInstance<DrawerTarget>();
+            target = tracker.Create<DrawerTarget>();
             serializedObject = new SerializedObject(target);
             yield return RebuildInspector();
         }
@@ -59,7 +60,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             HeadlessEditorWindow.Close(window);
             HeadlessEditorWindow.Close(narrow);
-            Object.DestroyImmediate(target);
+            tracker.DestroyAll();
             window = null;
             narrow = null;
         }
@@ -90,9 +91,9 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator TrackPropertyValue_Parent_FiresOnAChildEdit([Values(nameof(DrawerTarget.altColours), nameof(DrawerTarget.floatRange))] string parentName)
         {
             bool isFired = false;
-            var tracker = new VisualElement();
-            window.rootVisualElement.Add(tracker);
-            tracker.TrackPropertyValue(serializedObject.FindProperty(parentName), _ => isFired = true);
+            var trackingElement = new VisualElement();
+            window.rootVisualElement.Add(trackingElement);
+            trackingElement.TrackPropertyValue(serializedObject.FindProperty(parentName), _ => isFired = true);
             yield return HeadlessEditorWindow.Settle();
             isFired = false;
 
@@ -108,10 +109,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
         public IEnumerator TrackPropertyValue_Parent_IgnoresASiblingsEdit()
         {
             bool isFired = false;
-            var tracker = new VisualElement();
-            window.rootVisualElement.Add(tracker);
-            tracker.TrackPropertyValue(serializedObject.FindProperty(nameof(DrawerTarget.altColours)), _ => isFired = true);
-            yield return HeadlessEditorWindow.Settle(); // Settle first:  an edit before the tracker's baseline would also never fire (would pass for wrong reason)
+            var trackingElement = new VisualElement();
+            window.rootVisualElement.Add(trackingElement);
+            trackingElement.TrackPropertyValue(serializedObject.FindProperty(nameof(DrawerTarget.altColours)), _ => isFired = true);
+            yield return HeadlessEditorWindow.Settle(); // Settle first:  an edit before the tracking element's baseline would also never fire (would pass for wrong reason)
 
             serializedObject.FindProperty($"{nameof(DrawerTarget.beats)}.{BattleEffectBeats.countField}").intValue = 2;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -195,7 +196,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             });
             Assert.IsTrue(inputs is { Count: > 0 }, "Range inputs never laid out");
 
-            for (int frame = 0; frame < 20; frame++) { yield return null; } // Layout settles over a few updates
+            yield return TestWait.Frames(20); // Layout settles over a few updates
             float rowEdge = narrow.rootVisualElement.worldBound.xMax;
             foreach (VisualElement input in inputs)
             {
@@ -482,10 +483,10 @@ namespace LowDefMustard.Rendering.Tests.Editor
             DropdownField typeField = window.rootVisualElement.Query<DropdownField>().Where(field => field.label == "Shape").First();
 
             typeField.value = "Diamond";
-            yield return TestWait.Until(() => FindPropertyField("shape.aspectRatio") != null);
+            yield return TestWait.Until(() => FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectDiamond.aspectRatioField}") != null);
 
             Assert.IsInstanceOf<BattleEffectDiamond>(target.shape);
-            Assert.IsNotNull(FindPropertyField("shape.aspectRatio"), "diamond settings shown");
+            Assert.IsNotNull(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectDiamond.aspectRatioField}"), "diamond settings shown");
         }
 
         [UnityTest]
@@ -499,7 +500,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             yield return TestWait.Until(() => typeField.value == "Squiggle");
 
             Assert.AreEqual("Squiggle", typeField.value);
-            Assert.IsNotNull(FindPropertyField("shape.wavelengthSU"), "squiggle settings shown");
+            Assert.IsNotNull(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.wavelengthSUField}"), "squiggle settings shown");
         }
 
         [UnityTest]
@@ -507,23 +508,23 @@ namespace LowDefMustard.Rendering.Tests.Editor
         {
             serializedObject.FindProperty(nameof(DrawerTarget.shape)).managedReferenceValue = new BattleEffectSquiggle();
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return TestWait.Until(() => FindPropertyField("shape.plateauFraction") != null);
-            PropertyField plateauField = FindPropertyField("shape.plateauFraction");
+            yield return TestWait.Until(() => FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.plateauFractionField}") != null);
+            PropertyField plateauField = FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.plateauFractionField}");
             Assert.IsFalse(IsShown(plateauField), "sine");
 
-            serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Trapezoid;
+            serializedObject.FindProperty($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.waveformField}").intValue = (int)BattleEffectWaveform.Trapezoid;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
             yield return TestWait.Until(() => IsShown(plateauField));
 
             Assert.IsTrue(IsShown(plateauField), "trapezoid");
-            Assert.IsFalse(IsShown(FindPropertyField("shape.dutyFraction")), "duty:  pulse only");
+            Assert.IsFalse(IsShown(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.dutyFractionField}")), "duty:  pulse only");
 
-            serializedObject.FindProperty("shape.waveform").intValue = (int)BattleEffectWaveform.Pulse;
+            serializedObject.FindProperty($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.waveformField}").intValue = (int)BattleEffectWaveform.Pulse;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
-            yield return TestWait.Until(() => IsShown(FindPropertyField("shape.dutyFraction")));
+            yield return TestWait.Until(() => IsShown(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.dutyFractionField}")));
 
             Assert.IsTrue(IsShown(plateauField), "pulse plateau");
-            Assert.IsTrue(IsShown(FindPropertyField("shape.dutyFraction")), "pulse duty");
+            Assert.IsTrue(IsShown(FindPropertyField($"{nameof(DrawerTarget.shape)}.{BattleEffectSquiggle.dutyFractionField}")), "pulse duty");
         }
         #endregion
     }

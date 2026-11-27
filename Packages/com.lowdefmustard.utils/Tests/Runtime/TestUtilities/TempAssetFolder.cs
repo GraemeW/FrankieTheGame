@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace LowDefMustard.Utils.Tests
 {
@@ -36,6 +37,13 @@ namespace LowDefMustard.Utils.Tests
         {
             AssetDatabase.CreateFolder(folderPath, subfolderName);
             return Path(subfolderName);
+        }
+
+        public T CreateAsset<T>(string assetName, string subfolderName = null) where T : ScriptableObject
+        {
+            var asset = ScriptableObject.CreateInstance<T>();
+            AssetDatabase.CreateAsset(asset, Path(subfolderName == null ? $"{assetName}.asset" : $"{subfolderName}/{assetName}.asset"));
+            return asset;
         }
 
         public void Dispose()
