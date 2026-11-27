@@ -38,7 +38,7 @@ namespace LowDefMustard.Utils.Tests
         
         public static IEnumerator Settle()
         {
-            for (int i = 0; i < _settleTicks; i++) { yield return null; }
+            yield return TestWait.Frames(_settleTicks);
         }
 
         public static void Close(EditorWindow window)

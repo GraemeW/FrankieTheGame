@@ -13,7 +13,7 @@ namespace Frankie.Tests
     {
         // Tested:
         //  - Knapsack - HasItem / FindSlotWithItem / RemoveItem match a build copy of a held item (by GUID)
-        //  - WearablesLink - a build copy of a worn item isn't worn twice, and removing it takes off the original
+        //  - WearablesLink - a build copy of a worn item isn't worn twice (incl. while the original's prefab is still loading), and removing it takes off the original
         // Not Tested:
         //  - Equipment - looks items up through Knapsack.HasItem (covered above) and keys by EquipLocation
         // Note:  Uses project items (read-only);  play mode for Knapsack.Awake + real Destroy
@@ -21,6 +21,7 @@ namespace Frankie.Tests
         // Const (note that paths are necessarily string ref and brittle, must be updated w/ project layout/re-configuration)
         private const string _actionItemPath = "Assets/Game/OnLoadAssets/Inventory/ActionItems/ChocolateCheeseCurds.asset";
         private const string _wearableItemPath = "Assets/Game/OnLoadAssets/Inventory/WearableItems/GiantTurkeyLeg.asset";
+        private const float _wearableLoadTimeoutSeconds = 5f;
 
         // State
         private readonly TestObjectTracker tracker = new();
@@ -77,7 +78,8 @@ namespace Frankie.Tests
             WearablesLink wearablesLink = BuildWearablesLink(out Transform attachedObjectsRoot);
 
             wearablesLink.SpawnWearable(wearableItem);
-            wearablesLink.SpawnWearable(wearableBuildCopy);
+            wearablesLink.SpawnWearable(wearableBuildCopy); // While the original's prefab may still be loading
+            yield return TestWait.Until(() => attachedObjectsRoot.childCount > 0, _wearableLoadTimeoutSeconds); // Wearable prefabs load through Addressables
             yield return null;
             Assert.AreEqual(1, attachedObjectsRoot.childCount, "Build copy was worn as a second wearable");
 

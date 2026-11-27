@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LowDefMustard.Utils.Tests;
 
 namespace LowDefMustard.UIBox.Tests
 {
@@ -73,7 +74,7 @@ namespace LowDefMustard.UIBox.Tests
 
         protected static IEnumerator Settle()
         {
-            for (int frame = 0; frame < _settleFrames; frame++) { yield return null; }
+            yield return TestWait.Frames(_settleFrames);
         }
 
         protected static VisualElement GetLoadedRoot(Component panelComponent)

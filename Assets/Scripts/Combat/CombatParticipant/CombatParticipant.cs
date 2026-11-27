@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using LowDefMustard.Core;
 using LowDefMustard.Saving;
 using LowDefMustard.Utils;
 using LowDefMustard.Localization;
@@ -158,7 +159,7 @@ namespace Frankie.Combat
         {
             baseStats.onLevelUp -= ParseLevelUpMessage;
             if (equipment != null) { equipment.equipmentUpdated -= ReconcileHPAP; }
-            StopBattleActionCoroutine();
+            InterruptBattleActionCoroutine();
         }
 
         private void Update()
@@ -248,11 +249,20 @@ namespace Frankie.Combat
             if (!shouldDestroySelfOnDeath) { return; }
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(SelfDestroyOnBattleComplete);
         }
-        public void StartBattleActionCoroutine(IEnumerator coroutine, Action finished)
+        public bool StartBattleActionCoroutine(IEnumerator coroutine, Action finished)
         {
+            if (!isActiveAndEnabled)
+            {
+                LDMLog.Warning(LDMLogCategory.Combat, $"Battle action for '{name}' dropped ~  combatParticipant is inactive.", this);
+                ReleasePausedCooldown();
+                finished?.Invoke();
+                return false;
+            }
+
             StopBattleActionCoroutine();
             battleActionFinished = finished;
             battleActionCoroutine = StartCoroutine(AppendBattleActionCoroutineClear(coroutine));
+            return true;
         }
         #endregion
 
@@ -459,6 +469,15 @@ namespace Frankie.Combat
             InvokeBattleActionFinished();
         }
 
+        private void InterruptBattleActionCoroutine()
+        {
+            bool wasInProgress = battleActionCoroutine != null;
+            if (wasInProgress) { StopCoroutine(battleActionCoroutine); }
+            battleActionCoroutine = null;
+            if (wasInProgress) { ReleasePausedCooldown(); }
+            InvokeBattleActionFinished();
+        }
+
         private void InvokeBattleActionFinished()
         {
             Action finished = battleActionFinished;
@@ -484,6 +503,8 @@ namespace Frankie.Combat
         #endregion
         
         #region PrivateCooldown
+        private void ReleasePausedCooldown() { if (inCombat) { SetCooldown(0f); } }
+        
         private void UpdateCooldown()
         {
             if (!IsInCooldown()) { return; }

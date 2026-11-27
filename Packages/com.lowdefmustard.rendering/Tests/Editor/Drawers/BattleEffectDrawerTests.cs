@@ -196,7 +196,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
             });
             Assert.IsTrue(inputs is { Count: > 0 }, "Range inputs never laid out");
 
-            for (int frame = 0; frame < 20; frame++) { yield return null; } // Layout settles over a few updates
+            yield return TestWait.Frames(20); // Layout settles over a few updates
             float rowEdge = narrow.rootVisualElement.worldBound.xMax;
             foreach (VisualElement input in inputs)
             {

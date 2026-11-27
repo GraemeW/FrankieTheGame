@@ -86,7 +86,7 @@ namespace Frankie.Tests.Editor
         {
             var keyItem = tracker.Create<KeyItem>("KeyItem");
             var hasItemPredicate = tracker.Create<HasItemPredicate>("HasItem");
-            SerializedFieldInjector.SetArray(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, tracker.Create<ActionItem>("ActionItem"), null);
+            SerializedFieldInjector.SetArray<InventoryItem>(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, tracker.Create<ActionItem>("ActionItem"), null);
             SetCondition(When(hasItemPredicate));
 
             CollectionAssert.AreEqual(new GameStateModifier[] { keyItem }, toggler.GetGameStateModifiers().ToList());

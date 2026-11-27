@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "LowDefMustard.UIBox",
         "LowDefMustard.Control",
-        "LowDefMustard.Utils"
+        "LowDefMustard.Utils",
+        "LowDefMustard.Utils.Tests"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

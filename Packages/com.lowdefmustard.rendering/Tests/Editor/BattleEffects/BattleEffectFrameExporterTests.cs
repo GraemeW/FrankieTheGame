@@ -163,7 +163,7 @@ namespace LowDefMustard.Rendering.Tests.Editor
 
             exporter.Cancel();
             exporter = null;
-            for (int i = 0; i < 30; i++) { yield return null; }
+            yield return TestWait.Frames(30);
 
             Assert.IsFalse(isFinished);
             Assert.AreEqual(0, Directory.GetFiles(_folder, "frame_*.png").Length);

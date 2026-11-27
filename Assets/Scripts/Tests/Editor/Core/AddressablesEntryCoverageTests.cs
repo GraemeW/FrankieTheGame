@@ -5,6 +5,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 
 namespace Frankie.Tests.Editor
 {
@@ -12,15 +13,18 @@ namespace Frankie.Tests.Editor
     {
         // Tested:
         //  - Every authored asset (Game + z_Artwork) is addressable, explicitly or through a folder entry
-        //  - Per-file folders (music):  every file has its own entry (one bundle per track)
+        //  - Per-file folders (music, world object sprite atlases):  every file has its own entry (one bundle per track / atlas, so a scene loads only its own)
         //  - Split folders (per character / family / tileset / object family):  every subfolder + loose file has its own entry
+        //  - README Docs:  each has its own entry in the editor-only group (Include in Build off) ~ so folder entries skip them && they stay out of the build
         // Note:  Validates project data ~ a failure lists what needs an entry, not a code bug
         // Note:  Missed files are still addressable through their parent's catch-all folder entry (no duplicate), just bundled together (these flag a coarser bundle, not a broken build)
 
         // Const (note that paths/names are necessarily string ref and brittle, must be updated w/ project layout/re-configuration)
+        private const string _editorOnlyGroupName = "EditorOnlyGroup";
+        private const string _readmeExtension = ".md";
         private static readonly string[] _authoredRoots = { "Assets/Game", "Assets/z_Artwork" };
         private static readonly string[] _unaddressableExtensions = { ".cs", ".md", ".asmref", ".asmdef" };
-        private const string _perFileRoot = "Assets/z_Artwork/Music";
+        private static readonly string[] _perFileRoots = { "Assets/z_Artwork/Music", "Assets/Game/WorldObjects/SpriteAtlases" };
         private static readonly string[] _splitFolders =
         {
             "Assets/z_Artwork/PixelArt/PCs",
@@ -46,7 +50,7 @@ namespace Frankie.Tests.Editor
 
         private static bool HasOwnEntry(AddressableAssetSettings settings, string path) => settings.FindAssetEntry(AssetDatabase.AssetPathToGUID(path)) != null;
 
-        private static IEnumerable<string> GetLooseFiles(string folder) => Directory.GetFiles(folder).Where(file => !file.EndsWith(".meta") && !Path.GetFileName(file).StartsWith(".")).Select(file => file.Replace('\\', '/'));
+        private static IEnumerable<string> GetLooseFiles(string folder) => Directory.GetFiles(folder).Where(file => !file.EndsWith(".meta") && !Path.GetFileName(file).StartsWith(".") && !_unaddressableExtensions.Contains(Path.GetExtension(file))).Select(file => file.Replace('\\', '/'));
 
         private static IEnumerable<string> GetSubfolders(string folder) => Directory.GetDirectories(folder).Select(directory => directory.Replace('\\', '/'));
 
@@ -74,11 +78,12 @@ namespace Frankie.Tests.Editor
         public void PerFileFolders_EveryFileHasOwnEntry()
         {
             AddressableAssetSettings settings = GetSettings();
-            List<string> misses = GetSubfolders(_perFileRoot).Prepend(_perFileRoot)
+            List<string> misses = _perFileRoots
+                .SelectMany(perFileRoot => GetSubfolders(perFileRoot).Prepend(perFileRoot))
                 .SelectMany(GetLooseFiles)
                 .Where(path => !HasOwnEntry(settings, path))
                 .ToList();
-            AssertNoMisses(misses, $"Files under '{_perFileRoot}' without their own entry (bundled in their folder's catch-all)");
+            AssertNoMisses(misses, "Files in per-file folders without their own entry (bundled in their folder's catch-all)");
         }
 
         [Test]
@@ -92,6 +97,28 @@ namespace Frankie.Tests.Editor
                 .Distinct()
                 .ToList();
             AssertNoMisses(misses, "Subfolders / files in split folders without their own entry (bundled in their parent's catch-all)");
+        }
+
+        [Test]
+        public void Readmes_HaveOwnEntryInEditorOnlyGroup()
+        {
+            AddressableAssetSettings settings = GetSettings();
+            AddressableAssetGroup editorOnlyGroup = settings.FindGroup(_editorOnlyGroupName);
+            Assert.IsNotNull(editorOnlyGroup, $"No '{_editorOnlyGroupName}' Addressables group found");
+            BundledAssetGroupSchema bundledSchema = editorOnlyGroup.GetSchema<BundledAssetGroupSchema>();
+            Assert.IsTrue(bundledSchema != null && !bundledSchema.IncludeInBuild, $"'{_editorOnlyGroupName}' must have Include in Build off");
+
+            List<string> misses = AssetDatabase.FindAssets(string.Empty, _authoredRoots)
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Distinct()
+                .Where(path => string.Equals(Path.GetExtension(path), _readmeExtension, System.StringComparison.OrdinalIgnoreCase))
+                .Where(path =>
+                {
+                    AddressableAssetEntry entry = settings.FindAssetEntry(AssetDatabase.AssetPathToGUID(path));
+                    return entry == null || entry.parentGroup != editorOnlyGroup;
+                })
+                .ToList();
+            AssertNoMisses(misses, $"README Docs without their own entry in '{_editorOnlyGroupName}' (packed into the game's bundles through a folder entry)");
         }
         #endregion
     }

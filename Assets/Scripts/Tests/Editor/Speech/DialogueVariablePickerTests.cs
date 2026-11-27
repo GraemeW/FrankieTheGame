@@ -61,7 +61,7 @@ namespace Frankie.Tests.Editor
             Assert.IsNotNull(window, "Dialogue graph window didn't open");
             DialogueGraphWindowSkin.Apply(((IGraphWindow)window).Graph);
             yield return TestWait.Until(() => GetVariableFields().Count == 1, _timeoutSeconds);
-            for (int i = 0; i < 5; i++) { yield return null; } // Allow Graph Toolkit's warning markers attach ~ closing first will throw inside Graph Toolkit
+            yield return TestWait.Frames(5); // Allow Graph Toolkit's warning markers attach ~ closing first will throw inside Graph Toolkit
         }
 
         [TearDown]
@@ -171,7 +171,7 @@ namespace Frankie.Tests.Editor
             {
                 yield return null;
                 root.Query<Foldout>().ForEach(foldout => foldout.value = true);
-                for (int i = 0; i < 3; i++) { yield return null; } // Layout settles over a few frames
+                yield return TestWait.Frames(3); // Layout settles over a few frames
 
                 ScrollView scrollView = root.Q<ScrollView>();
                 Assert.AreEqual(picker.GetWindowSize().y, root.layout.height, 0.5f, "Popup keeps its fixed height");

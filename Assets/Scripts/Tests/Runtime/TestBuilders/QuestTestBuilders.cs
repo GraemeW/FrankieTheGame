@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using LowDefMustard.Utils.Tests;
 using Frankie.Quests;
-using Object = UnityEngine.Object;
 
 namespace Frankie.Tests
 {
@@ -18,7 +17,7 @@ namespace Frankie.Tests
         {
             var quest = tracker.Create<Quest>(questName);
             QuestObjective[] questObjectives = Enumerable.Range(0, objectiveCount).Select(index => tracker.CreateObjective($"{questName}_Objective{index}")).ToArray();
-            SerializedFieldInjector.SetArray(quest, Quest.questObjectivesField, questObjectives.Cast<Object>().ToArray()); // Serializing also assigns the quest's GUID
+            SerializedFieldInjector.SetArray(quest, Quest.questObjectivesField, questObjectives); // Serializing also assigns the quest's GUID
             return quest;
         }
         #endregion

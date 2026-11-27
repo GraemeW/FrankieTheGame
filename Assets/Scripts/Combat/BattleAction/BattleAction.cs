@@ -52,8 +52,7 @@ namespace Frankie.Combat
             }
             
             IList<BattleEntity> recipients = battleActionData.GetTargets();
-            sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP), finished);
-            return true;
+            return sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP), finished);
         }
 
         public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)

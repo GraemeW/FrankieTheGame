@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using LowDefMustard.Utils.Tests;
 using Frankie.Combat;
 using Frankie.Core;
 using Frankie.Speech;
@@ -49,6 +50,7 @@ namespace Frankie.Tests
             spawnedObjects.Clear();
             foreach (DialogueController dialogueController in Object.FindObjectsByType<DialogueController>()) { Object.Destroy(dialogueController.gameObject); }
             foreach (BattleController battleController in Object.FindObjectsByType<BattleController>()) { Object.Destroy(battleController.gameObject); }
+            CombatTestBuilders.ResetBattleEventBus(); // Destroying a controller skips BattleTornDown
             observedStates.Clear();
             yield return null;
         }
@@ -65,7 +67,7 @@ namespace Frankie.Tests
 
         public static IEnumerator Settle(int frames = _settleFrames)
         {
-            for (int i = 0; i < frames; i++) { yield return null; }
+            yield return TestWait.Frames(frames);
         }
 
         private GameObject Spawn(string prefabPath)

@@ -104,7 +104,7 @@ namespace Frankie.Tests.Editor
             var keyItem = tracker.Create<KeyItem>("KeyItem");
             var actionItem = tracker.Create<ActionItem>("ActionItem");
             var hasItemPredicate = tracker.Create<HasItemPredicate>("HasItem");
-            SerializedFieldInjector.SetArray(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, actionItem, null);
+            SerializedFieldInjector.SetArray<InventoryItem>(hasItemPredicate, HasItemPredicate.inventoryItemsField, keyItem, actionItem, null);
             SerializedFieldInjector.Set(conversant, AIConversant.dialogueField, tracker.CreateGatedDialogue(When(hasItemPredicate)));
 
             CollectionAssert.AreEqual(new GameStateModifier[] { keyItem }, conversant.GetGameStateModifiers().ToList());

@@ -105,7 +105,7 @@ namespace Frankie.Tests.Editor
         private static IEnumerator WaitForDeferredFix()
         {
             // The processor defers through delayCall ~ let a few editor updates run
-            for (int i = 0; i < 5; i++) { yield return null; }
+            yield return TestWait.Frames(5);
         }
         #endregion
 

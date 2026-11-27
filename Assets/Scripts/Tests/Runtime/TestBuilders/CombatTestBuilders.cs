@@ -14,7 +14,7 @@ namespace Frankie.Tests
         #region Skills
         public static Skill CreateSkill(this TestObjectTracker tracker, string skillName, float apCost = 0f)
         {
-            var battleAction = tracker.Create<BattleAction>($"{skillName}_Action");
+            BattleAction battleAction = tracker.CreateBattleAction($"{skillName}_Action");
             SerializedFieldInjector.SetValue(battleAction, BattleAction.apCostField, apCost);
             var skill = tracker.Create<Skill>(skillName);
             SerializedFieldInjector.Set(skill, Skill.battleActionField, battleAction);
@@ -31,6 +31,29 @@ namespace Frankie.Tests
                 .Take(count).ToArray();
             Assert.AreEqual(count, skills.Length, $"Needs {count} addressable project skills");
             return skills;
+        }
+        #endregion
+
+        #region BattleActions
+        public static BattleAction CreateBattleAction(this TestObjectTracker tracker, string actionName, params EffectStrategy[] effects)
+        {
+            var battleAction = tracker.Create<BattleAction>(actionName);
+            if (effects.Length > 0) { SerializedFieldInjector.SetArray(battleAction, BattleAction.effectStrategiesField, effects); }
+            return battleAction;
+        }
+
+        public static TestYieldingEffect CreateYieldingEffect(this TestObjectTracker tracker, string effectName, int framesToYield)
+        {
+            var effect = tracker.Create<TestYieldingEffect>(effectName);
+            effect.framesToYield = framesToYield;
+            return effect;
+        }
+
+        public static BattleActionData CreateSelfTargetedActionData(CombatParticipant sender)
+        {
+            var battleActionData = new BattleActionData(sender);
+            battleActionData.SetTargets(new BattleEntity(sender));
+            return battleActionData;
         }
         #endregion
 
@@ -137,6 +160,28 @@ namespace Frankie.Tests
         {
             skillHandler.GetSkillsForCurrentSelection(out Skill up, out Skill left, out Skill right, out Skill down);
             return new[] { up, left, right, down };
+        }
+        #endregion
+
+        #region BattleState
+        public static void EnterCombat(this CombatParticipant combatParticipant, float hp = 10f)
+        {
+            combatParticipant.Revive(hp, false); // Revive first since a bare participant has 0 HP
+            combatParticipant.SubscribeToBattleStateChanges(true);
+            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(BattleState.Combat, BattleOutcome.Undetermined, Array.Empty<BattleEntity>(), Array.Empty<BattleEntity>()));
+            Assert.IsTrue(combatParticipant.IsInCombat(), $"{combatParticipant.name} did not enter combat");
+        }
+        
+        public static void LeaveCombat(this CombatParticipant combatParticipant)
+        {
+            if (combatParticipant != null) { combatParticipant.SubscribeToBattleStateChanges(false); }
+            ResetBattleEventBus();
+        }
+        
+        public static void ResetBattleEventBus()
+        {
+            if (BattleEventBus.inBattle) { BattleEventBus.SetInBattle(false); }
+            else { BattleEventBus.SetBattleState(BattleState.Inactive); }
         }
         #endregion
 
