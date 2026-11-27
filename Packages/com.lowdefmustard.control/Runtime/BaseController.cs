@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using LowDefMustard.Core;
+using Object = UnityEngine.Object;
 
 namespace LowDefMustard.Control
 {
@@ -228,8 +229,24 @@ namespace LowDefMustard.Control
 
             OnNoReceiversIdentified();
             
-            LDMLog.Warning(LDMLogCategory.Control, $"Controller '{gameObject.name}' has no active input receivers. Queuing it for destroy.", gameObject);
+            LDMLog.Warning(LDMLogCategory.Control, $"Controller '{gameObject.name}' has no active input receivers. Queuing it for destroy. {DescribeReceiverState()}", gameObject);
             destroyQueued = true;
+        }
+
+        private string DescribeReceiverState()
+        {
+            string receivers = activeInputReceivers.Count == 0 ? "none" : string.Join(", ", activeInputReceivers.Select(DescribeReceiver));
+            int liveControllerCount = FindObjectsByType(GetType(), FindObjectsInactive.Include).Length;
+            return $"Tracked receivers: {receivers}. Live '{GetType().Name}' controllers: {liveControllerCount}.";
+        }
+
+        private static string DescribeReceiver(ActiveInputReceiver activeInputReceiver)
+        {
+            IInputReceiver inputReceiver = activeInputReceiver.inputReceiver;
+            if (inputReceiver == null || (inputReceiver is Object receiverObject && receiverObject == null)) { return "<destroyed>"; }
+            GameObject receiverGameObject = inputReceiver.gameObject;
+            string activeInHierarchy = receiverGameObject != null ? receiverGameObject.activeInHierarchy.ToString() : "<no GameObject>";
+            return $"'{(receiverGameObject != null ? receiverGameObject.name : inputReceiver.GetType().Name)}' (tracked enabled: {activeInputReceiver.isGameObjectEnabled}, active in hierarchy: {activeInHierarchy})";
         }
         #endregion
     }

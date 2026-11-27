@@ -208,7 +208,7 @@ namespace Frankie.Tests
             rig.playerStateMachine.EnterDialogue(conversant, tracker.CreateSingleLineDialogue());
             yield return PlayerStateRig.Settle();
 
-            LogAssert.Expect(LogType.Warning, new Regex(@"has no active input receivers\. Queuing it for destroy\.$"));
+            LogAssert.Expect(LogType.Warning, new Regex(@"has no active input receivers\. Queuing it for destroy\."));
             Object.FindAnyObjectByType<DialogueBox>().gameObject.SetActive(false);
             yield return TestWait.Until(() => DialogueController.FindDialogueController() == null, PlayerStateRig.waitTimeoutSeconds);
             yield return PlayerStateRig.Settle();

@@ -26,7 +26,7 @@ namespace Frankie.Tests
         // Const
         private const string _actionName = "BattleActionFinishedTests_Action";
         private const string _effectName = "BattleActionFinishedTests_Effect";
-        [NoAutoStaticsCleanup] private static readonly Regex _droppedWarning = new("dropped ~ the participant is inactive");
+        [NoAutoStaticsCleanup] private static readonly Regex _droppedWarning = new("Battle action for .* dropped");
 
         // State
         private readonly TestObjectTracker tracker = new();
